@@ -1,0 +1,7 @@
+[submodule "rtl/cva6"]
+	path = rtl/cva6
+	url = git@github.com:NayCheno/cva6.git
+	branch = rvmt
+[submodule "vendor/vivado-boards"]
+	path = vendor/vivado-boards
+	url = https://github.com/Digilent/vivado-boards

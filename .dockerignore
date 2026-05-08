@@ -1,0 +1,9 @@
+.git
+**/.git
+**/build
+**/src
+**/xsim.dir
+**/*.wdb
+**/*.jou
+**/*.log
+results

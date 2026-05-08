@@ -1,0 +1,25 @@
+services:
+  cva6-toolchain:
+    build:
+      context: .
+      dockerfile: docker/toolchain/Dockerfile
+    image: rv-maltrace/cva6-toolchain:ubuntu24.04
+    working_dir: /workspace/rv-maltrace
+    volumes:
+      - .:/workspace/rv-maltrace
+      - cva6_toolchain_src:/opt/cva6-toolchain/src
+      - cva6_toolchain_build:/opt/cva6-toolchain/build
+      - cva6_toolchain_install:/opt/riscv
+    environment:
+      TOOLCHAIN_CONFIG: ${TOOLCHAIN_CONFIG:-gcc-13.1.0-baremetal}
+      NUM_JOBS: ${NUM_JOBS:-8}
+      FORCE_REBUILD: ${FORCE_REBUILD:-0}
+      RISCV: /opt/riscv
+      SRC_DIR: /opt/cva6-toolchain/src
+      BUILD_DIR: /opt/cva6-toolchain/build
+    command: bash docker/toolchain/build-cva6-toolchain.sh
+
+volumes:
+  cva6_toolchain_src:
+  cva6_toolchain_build:
+  cva6_toolchain_install:

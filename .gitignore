@@ -1,0 +1,132 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+*~
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Python / uv
+.venv/
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+dist/
+build/
+*.egg-info/
+
+# Local environment
+.env
+.env.*
+!.env.example
+.rvmt/
+
+# Logs
+*.log
+*.out
+*.err
+*.trace
+transcript
+
+# Docker / local compose overrides
+docker-compose.override.yml
+compose.override.yml
+
+# Vivado / Xilinx
+.Xil/
+*.jou
+*.str
+*.xpr
+*.cache/
+*.hw/
+*.ip_user_files/
+*.runs/
+*.sim/
+*.srcs/
+*.gen/
+*.mif
+*.bit
+*.bin
+*.mcs
+*.ltx
+*.dcp
+*.rpt
+*.sdf
+*.wdb
+xsim.dir/
+vivado*.log
+vivado*.jou
+vivado*.str
+dfx_runtime.txt
+
+# HDL simulation waves / coverage
+*.vcd
+*.fst
+*.fsdb
+*.vpd
+*.wlf
+*.ucdb
+covhtmlreport/
+work/
+work-*/
+
+# Project results
+results/
+
+# CVA6 generated artifacts in the submodule working tree
+rtl/cva6/Bender.lock
+rtl/cva6/Bender.local
+rtl/cva6/.bender/
+rtl/cva6/tools/
+rtl/cva6/tmp*/
+rtl/cva6/work-dpi/
+rtl/cva6/work-ver/
+rtl/cva6/work-*/
+rtl/cva6/stdout/
+rtl/cva6/install/
+rtl/cva6/xrun_results/
+rtl/cva6/src/moore.sv
+rtl/cva6/core/include/hwconfig_config_pkg.sv
+rtl/cva6/config/gen_from_riscv_config/hwconfig/linker/link.ld
+rtl/cva6/config/gen_from_riscv_config/hwconfig/spike/spike.yaml
+
+# CVA6 toolchain-builder source/build caches if someone runs it in-place.
+rtl/cva6/util/toolchain-builder/src/
+rtl/cva6/util/toolchain-builder/build/
+
+# CVA6 FPGA flow outputs.
+rtl/cva6/corev_apu/fpga/work-fpga/
+rtl/cva6/corev_apu/fpga/reports/
+rtl/cva6/corev_apu/fpga/scripts/add_sources.tcl
+rtl/cva6/corev_apu/fpga/ariane.cache/
+rtl/cva6/corev_apu/fpga/ariane.hw/
+rtl/cva6/corev_apu/fpga/ariane.ip_user_files/
+rtl/cva6/corev_apu/fpga/ariane.runs/
+rtl/cva6/corev_apu/fpga/ariane.sim/
+rtl/cva6/corev_apu/fpga/ariane.srcs/
+rtl/cva6/corev_apu/fpga/ariane.gen/
+rtl/cva6/corev_apu/fpga/ariane.xpr
+rtl/cva6/corev_apu/fpga/vivado*.log
+rtl/cva6/corev_apu/fpga/vivado*.jou
+rtl/cva6/corev_apu/fpga/vivado*.str
+
+# CVA6 bootrom intermediate files. Keep generated bootrom_*.sv trackable.
+rtl/cva6/corev_apu/fpga/src/bootrom/*.o
+rtl/cva6/corev_apu/fpga/src/bootrom/*.elf
+rtl/cva6/corev_apu/fpga/src/bootrom/*.bin
+rtl/cva6/corev_apu/fpga/src/bootrom/*.img
+rtl/cva6/corev_apu/fpga/src/bootrom/*.dtb
+rtl/cva6/corev_apu/fpga/src/bootrom/*.dts
+
+# Local completion files are user-specific.
+scripts/completions/
