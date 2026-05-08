@@ -92,3 +92,12 @@ with no ready/stall/backpressure ports exposed by trace RTL.
 Phase 3.3 resource reporting is generated in `docs/resource_report.md` from the
 existing Genesys 2 routed utilization/timing reports plus the latest
 `results/vivado_sim/summary.json` drop statistics.
+
+Phase 4.1 baseline board preflight passes via
+`uv run python tools/check_board_baseline.py`. The check confirms the local
+Vivado simulation summary is PASS, the existing Genesys 2 baseline bitstream,
+flash image, checkpoint, GUI project, route/timing reports, board files,
+active constraints, DDR/clock IP artifacts, and UART source path are present.
+It also parses the baseline `check_timing` report and records the known open
+constraint warnings as WARN rows. It does not replace physical board
+clock/reset, UART, or bare-metal runtime observation.

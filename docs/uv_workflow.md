@@ -14,6 +14,7 @@ uv run rvmt sim:summary
 uv run rvmt baremetal:build
 uv run rvmt bitstream:build
 uv run rvmt vivado:project
+uv run python tools/check_board_baseline.py
 ```
 
 Slash groups are expanded, so this runs the long build sequence:
@@ -207,6 +208,25 @@ uv run python tools/generate_resource_report.py --self-test
 ```
 
 The generated report is `docs/resource_report.md`.
+
+## Board Baseline Preflight
+
+Phase 4.1 checks the local Genesys 2 baseline evidence before physical board
+bring-up. The preflight verifies the Vivado simulation summary, baseline
+bitstream/flash/checkpoint/project artifacts, route/timing reports, Genesys 2
+board files, active reset/clock/UART constraints, and active DDR/clock/UART
+source paths:
+
+```powershell
+uv run python tools/check_board_baseline.py
+uv run python tools/check_board_baseline.py --self-test
+```
+
+This is a repository-local artifact gate. Physical clock/reset, UART, and
+bare-metal runtime observations are still recorded in `docs/board_bringup.md`.
+The current baseline also parses `ariane.check_timing.rpt` and reports known
+open constraint warnings as WARN rows instead of treating report presence as a
+clean timing-constraint pass.
 
 ## Trace Compression Prototype
 
