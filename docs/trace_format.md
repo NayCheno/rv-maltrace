@@ -90,3 +90,33 @@ default configuration passes all events.
 | `enable_drop` | Emit `DROP` events for queue overflow accounting. |
 | `pc_filter_enable`, `pc_start`, `pc_end` | When enabled, pass only packets with `pc_start <= pc <= pc_end`. |
 | `priv_filter_enable`, `priv_mask` | When enabled, pass only packets whose `priv` bit is set in `priv_mask`. |
+
+## Compressed Trace Prototype
+
+`tools/compress_trace.py` provides the Phase 2 packet compression prototype for
+simulation traces. It keeps JSONL as the carrier for easy inspection, but each
+record uses a variable payload shape:
+
+```json
+{"header":{"version":1,"seq":0,"evt":"BRANCH","cycle_delta":4,"pc_delta":"0x80000220","payload_len":57},"payload":{"instr":"0x00050863","taken":true,"target_delta":"0x10"}}
+```
+
+Compression rules:
+
+- `cycle_delta` is relative to the previous emitted event cycle.
+- `pc_delta` is relative to the previous emitted event PC and may be negative;
+  it is omitted for events such as `MARKER` and `DROP` that do not carry `pc`.
+- Branch and jump targets are stored as `target_delta` relative to the event PC.
+- Event-specific fields stay in `payload`; unchanged context fields are omitted
+  from `payload.ctx` and reconstructed by the decompressor.
+- `payload_len` is the byte length of the canonical JSON payload used by this
+  prototype, not a final hardware wire encoding.
+
+The prototype supports round-trip checking:
+
+```powershell
+uv run python tools/compress_trace.py results/vivado_sim/rvfi_adapter/trace.jsonl --out results/vivado_sim/rvfi_adapter/trace.compact.jsonl --stats
+uv run python tools/compress_trace.py results/vivado_sim/rvfi_adapter/trace.compact.jsonl --decompress --out results/vivado_sim/rvfi_adapter/trace.roundtrip.jsonl
+uv run python tools/compress_trace.py results/vivado_sim/rvfi_adapter/trace.jsonl --check-roundtrip --stats
+uv run python tools/compress_trace.py sim/golden/compression_edges.trace.jsonl --check-roundtrip --stats
+```

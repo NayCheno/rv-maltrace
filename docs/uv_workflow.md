@@ -166,3 +166,15 @@ trace-enabled and no-trace snapshots, and publishes
 The full `ariane_testharness` SoC path still hits a Vivado v2025.2 simulator
 kernel fatal in upstream CVA6 AXI demux logic, so the direct-core matrix is the
 current local full-core execution gate.
+
+## Trace Compression Prototype
+
+Phase 2 keeps compression as an offline simulation artifact until the packet
+format is stable. Compress and round-trip a trace with:
+
+```powershell
+uv run python tools/compress_trace.py results/vivado_sim/rvfi_adapter/trace.jsonl --out results/vivado_sim/rvfi_adapter/trace.compact.jsonl --stats
+uv run python tools/compress_trace.py results/vivado_sim/rvfi_adapter/trace.compact.jsonl --decompress --out results/vivado_sim/rvfi_adapter/trace.roundtrip.jsonl
+uv run python tools/compress_trace.py results/vivado_sim/rvfi_adapter/trace.jsonl --check-roundtrip --stats
+uv run python tools/compress_trace.py sim/golden/compression_edges.trace.jsonl --check-roundtrip --stats
+```

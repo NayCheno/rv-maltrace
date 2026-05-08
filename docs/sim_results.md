@@ -67,3 +67,9 @@ filtering, queue/drop behavior, and the CVA6 RVFI adapter. The `cva6_*` rows are
 real CVA6 core execution tests with trace-on/no-trace final-result matching, but
 they intentionally avoid the full SoC harness while the upstream AXI xbar
 runtime blocker remains open.
+
+Phase 2 packet compression is currently an offline prototype. On 2026-05-08,
+`tools/compress_trace.py --check-roundtrip` passed for the `rvfi_adapter` JSONL
+trace and `sim/golden/compression_edges.trace.jsonl`, covering cycle deltas, PC
+deltas, event-specific payloads, context deltas, SATP-to-CSR context handling,
+and no-PC MARKER/DROP records.
