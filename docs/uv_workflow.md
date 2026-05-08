@@ -156,9 +156,9 @@ uv run rvmt tasks:list
 ```
 
 `sim:cva6-smoke` uses the configured Vivado installation and writes its working
-tree under `build/cva6_xsim_smoke`. On the current Vivado v2025.2 baseline the
-HDL compile and elaboration pass, while the runtime is blocked by a simulator
-kernel fatal in upstream CVA6 AXI demux logic before the smoke program retires.
-The blocked run publishes `results/vivado_sim/cva6_smoke/run.log`,
-`xsim.log`, an empty `trace.jsonl`, and a `[BLOCKED]` `compare.log` for
-`sim:summary`.
+tree under `build/cva6_xsim_smoke`. It instantiates the CVA6 core directly with a
+simple AXI memory, boots a minimal DRAM image, and publishes
+`results/vivado_sim/cva6_smoke/{trace.jsonl,compare.log,run.log,xsim.log}`. The
+full `ariane_testharness` SoC path still hits a Vivado v2025.2 simulator kernel
+fatal in upstream CVA6 AXI demux logic, so the direct-core smoke is the current
+local full-core execution gate.

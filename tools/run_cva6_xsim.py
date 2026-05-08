@@ -8,7 +8,7 @@ import sys
 from pathlib import Path
 
 
-TOP = "tb_cva6_xsim_smoke"
+TOP = "tb_cva6_direct_xsim_smoke"
 SNAPSHOT = f"{TOP}_snap"
 XSIM_FATAL_PATTERNS = [
     "FATAL_ERROR:",
@@ -301,6 +301,7 @@ def cva6_sources(root: Path, cva6_root: Path) -> list[Path]:
         matched = glob_rel(cva6_root, pattern)
         sources[insert:insert] = matched
         insert += len(matched)
+    sources.append(root / "sim" / "tb" / "tb_cva6_direct_xsim_smoke.sv")
     sources.append(root / "sim" / "tb" / "tb_cva6_xsim_smoke.sv")
     return sources
 

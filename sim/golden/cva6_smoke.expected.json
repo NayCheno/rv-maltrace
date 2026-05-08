@@ -1,7 +1,7 @@
 {
   "test": "cva6_smoke",
   "summary_optional": true,
-  "summary_note": "Vivado v2025.2 reaches CVA6 xsim elaboration but hits a simulator kernel fatal in upstream axi_demux.sv before this trace can be produced.",
+  "summary_note": "Direct-core CVA6 xsim smoke; optional for sim:trace-unit because it is run separately by sim:cva6-smoke.",
   "min_counts": {
     "RETIRE": 3
   },
