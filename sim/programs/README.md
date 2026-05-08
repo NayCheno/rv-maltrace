@@ -5,10 +5,12 @@ current `tb_trace_top_unit` regression does not instantiate CVA6 or execute
 these binaries; it directly drives the logical trace inputs to verify the tap
 RTL first.
 
-`sim/programs/cva6_smoke/cva6_smoke.mem` is a minimal hand-encoded DRAM image
-for `tb_cva6_xsim_smoke`. It performs a tohost store after a few retired
-instructions so the full CVA6 xsim flow can prove the trace hook is receiving
-real committed RVFI events once the local Vivado runtime blocker is resolved.
+`sim/programs/cva6_*/cva6_*.mem` are minimal hand-encoded DRAM images for the
+direct-core CVA6 xsim matrix. They cover smoke, taken branch, jump, ecall,
+illegal-instruction trap, and ebreak trap behavior, and each program reaches the
+tohost store after the expected committed events have been observed. The older
+full `ariane_testharness` smoke path remains available for the SoC harness once
+the local Vivado runtime blocker is resolved.
 
 Runtime files under `sim/programs/common/` provide:
 

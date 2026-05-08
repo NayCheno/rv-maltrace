@@ -14,6 +14,14 @@ XSIM_FATAL_PATTERNS = [
     "FATAL_ERROR:",
     "Vivado Simulator kernel has discovered an exceptional condition",
 ]
+CVA6_XSIM_TESTS = [
+    ("cva6_smoke", "cva6_smoke/cva6_smoke.mem", "cva6_smoke.expected.json"),
+    ("cva6_branch", "cva6_branch/cva6_branch.mem", "cva6_branch.expected.json"),
+    ("cva6_jump", "cva6_jump/cva6_jump.mem", "cva6_jump.expected.json"),
+    ("cva6_ecall", "cva6_ecall/cva6_ecall.mem", "cva6_ecall.expected.json"),
+    ("cva6_trap_illegal", "cva6_trap_illegal/cva6_trap_illegal.mem", "cva6_trap_illegal.expected.json"),
+    ("cva6_ebreak", "cva6_ebreak/cva6_ebreak.mem", "cva6_ebreak.expected.json"),
+]
 
 
 ARIANE_PKG = [
@@ -242,6 +250,12 @@ def publish_artifacts(
     copy_if_exists(work_dir / "xsim.log", result_dir / "xsim.log")
 
 
+def reset_result_dir(path: Path) -> None:
+    if path.exists():
+        shutil.rmtree(path)
+    path.mkdir(parents=True)
+
+
 def flatten_core_flist(root: Path, cva6_root: Path, work_dir: Path, env: dict[str, str], dry_run: bool) -> tuple[list[Path], list[Path]]:
     flat = work_dir / "Flist.cva6.flat"
     source_file = work_dir / "Flist.cva6.sources"
@@ -317,7 +331,7 @@ def build(root: Path, args: argparse.Namespace) -> None:
     cva6_root = (root / args.cva6).resolve()
     work_dir = (root / args.work_dir).resolve()
     vivado_bin = Path(args.vivado_bin).resolve() if args.vivado_bin else None
-    result_dir = (root / "results" / "vivado_sim" / "cva6_smoke").resolve()
+    result_root = (root / "results" / "vivado_sim").resolve()
 
     env = os.environ.copy()
     env["CVA6_REPO_DIR"] = as_posix(cva6_root)
@@ -343,9 +357,13 @@ def build(root: Path, args: argparse.Namespace) -> None:
     if args.dry_run:
         return
 
-    work_result_dir = work_dir / "results" / "vivado_sim" / "smoke"
-    work_result_dir.mkdir(parents=True, exist_ok=True)
-    shutil.copyfile(root / "sim" / "programs" / "cva6_smoke" / "cva6_smoke.mem", work_dir / "cva6_smoke.mem")
+    work_result_root = work_dir / "results" / "vivado_sim"
+    work_result_root.mkdir(parents=True, exist_ok=True)
+    if result_root.exists():
+        for test_name, _, _ in CVA6_XSIM_TESTS:
+            stale_result = result_root / test_name
+            if stale_result.exists():
+                shutil.rmtree(stale_result)
     pkg_file = work_dir / "ariane_pkg.files"
     src_file = work_dir / "src.files"
     vhdl_file = work_dir / "uart_vhdl.files"
@@ -394,54 +412,63 @@ def build(root: Path, args: argparse.Namespace) -> None:
         log=log,
         dry_run=False,
     )
-    xsim_cmd = [xsim, SNAPSHOT]
-    if args.disable_circular_dependency_check:
-        xsim_cmd.append("--disable_circular_dependency_check")
-    xsim_cmd.append("--runall")
-    try:
-        run(
-            xsim_cmd,
-            cwd=work_dir,
-            env=env,
-            log=log,
-            dry_run=False,
-            timeout=args.run_timeout_seconds,
-            fatal_patterns=XSIM_FATAL_PATTERNS,
-            fatal_message="Vivado xsim kernel fatal during CVA6 smoke run.",
-        )
-    except RuntimeError as exc:
-        message = str(exc).splitlines()[0]
-        status = "BLOCKED" if "kernel fatal" in message.lower() else "FAIL"
-        publish_artifacts(
-            work_dir=work_dir,
-            work_result_dir=work_result_dir,
-            result_dir=result_dir,
-            log=log,
-            compare_message=f"[{status}] {message}\n",
-        )
-        raise
+    for test_name, mem_rel, expected_name in CVA6_XSIM_TESTS:
+        mem_src = root / "sim" / "programs" / mem_rel
+        local_mem = work_dir / "cva6_program.mem"
+        work_result_dir = work_result_root / "smoke"
+        result_dir = result_root / test_name
+        reset_result_dir(work_result_dir)
+        reset_result_dir(result_dir)
+        shutil.copyfile(mem_src, local_mem)
 
-    try:
-        run(
-            [
-                sys.executable,
-                as_posix(root / "tools" / "compare_trace.py"),
-                "--trace",
-                as_posix(work_result_dir / "trace.jsonl"),
-                "--expected",
-                as_posix(root / "sim" / "golden" / "cva6_smoke.expected.json"),
-                "--log",
-                as_posix(work_result_dir / "compare.log"),
-            ],
-            cwd=root,
-            env=env,
-            log=log,
-            dry_run=False,
-        )
-    except RuntimeError:
+        xsim_cmd = [xsim, SNAPSHOT]
+        if args.disable_circular_dependency_check:
+            xsim_cmd.append("--disable_circular_dependency_check")
+        xsim_cmd.append("--runall")
+        try:
+            run(
+                xsim_cmd,
+                cwd=work_dir,
+                env=env,
+                log=log,
+                dry_run=False,
+                timeout=args.run_timeout_seconds,
+                fatal_patterns=XSIM_FATAL_PATTERNS,
+                fatal_message=f"Vivado xsim kernel fatal during {test_name} run.",
+            )
+        except RuntimeError as exc:
+            message = str(exc).splitlines()[0]
+            status = "BLOCKED" if "kernel fatal" in message.lower() else "FAIL"
+            publish_artifacts(
+                work_dir=work_dir,
+                work_result_dir=work_result_dir,
+                result_dir=result_dir,
+                log=log,
+                compare_message=f"[{status}] {message}\n",
+            )
+            raise
+
+        try:
+            run(
+                [
+                    sys.executable,
+                    as_posix(root / "tools" / "compare_trace.py"),
+                    "--trace",
+                    as_posix(work_result_dir / "trace.jsonl"),
+                    "--expected",
+                    as_posix(root / "sim" / "golden" / expected_name),
+                    "--log",
+                    as_posix(work_result_dir / "compare.log"),
+                ],
+                cwd=root,
+                env=env,
+                log=log,
+                dry_run=False,
+            )
+        except RuntimeError:
+            publish_artifacts(work_dir=work_dir, work_result_dir=work_result_dir, result_dir=result_dir, log=log)
+            raise
         publish_artifacts(work_dir=work_dir, work_result_dir=work_result_dir, result_dir=result_dir, log=log)
-        raise
-    publish_artifacts(work_dir=work_dir, work_result_dir=work_result_dir, result_dir=result_dir, log=log)
 
 
 def main(argv: list[str] | None = None) -> int:

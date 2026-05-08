@@ -1,0 +1,18 @@
+{
+  "test": "cva6_ebreak",
+  "summary_optional": true,
+  "summary_note": "Direct-core CVA6 ebreak trap program; optional for sim:trace-unit because it is run separately by sim:cva6-smoke.",
+  "min_counts": {
+    "TRAP": 1
+  },
+  "forbidden_events": [
+    "DROP"
+  ],
+  "required_events": [
+    {
+      "evt": "TRAP",
+      "pc": "0x0000000080000010",
+      "cause": "0x0000000000000003"
+    }
+  ]
+}

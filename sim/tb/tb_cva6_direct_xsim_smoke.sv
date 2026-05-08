@@ -6,7 +6,7 @@ module tb_cva6_direct_xsim_smoke;
   import ariane_pkg::*;
 
 `ifndef RVMT_CVA6_MAX_CYCLES
-`define RVMT_CVA6_MAX_CYCLES 50000
+`define RVMT_CVA6_MAX_CYCLES 5000
 `endif
 
   localparam config_pkg::cva6_cfg_t CVA6Cfg = build_config_pkg::build_config(cva6_config_pkg::cva6_cfg);
@@ -199,10 +199,10 @@ module tb_cva6_direct_xsim_smoke;
 
   initial begin
     if (!$value$plusargs("SMOKE_MEM=%s", smoke_mem)) begin
-      smoke_mem = "cva6_smoke.mem";
+      smoke_mem = "cva6_program.mem";
     end
-    $display("[rvmt] Preloading direct CVA6 smoke image: %s", smoke_mem);
-    $readmemh(smoke_mem, i_sram.gen_cut[0].i_tc_sram_wrapper.i_tc_sram.init_val, 0, 1);
+    $display("[rvmt] Preloading direct CVA6 program image: %s", smoke_mem);
+    $readmemh(smoke_mem, i_sram.gen_cut[0].i_tc_sram_wrapper.i_tc_sram.init_val);
   end
 
   initial begin

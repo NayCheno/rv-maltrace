@@ -1,0 +1,27 @@
+{
+  "test": "cva6_ecall",
+  "summary_optional": true,
+  "summary_note": "Direct-core CVA6 ecall/trap program; optional for sim:trace-unit because it is run separately by sim:cva6-smoke.",
+  "min_counts": {
+    "ECALL": 1,
+    "TRAP": 1
+  },
+  "forbidden_events": [
+    "DROP"
+  ],
+  "required_events": [
+    {
+      "evt": "ECALL",
+      "pc": "0x0000000080000024",
+      "a7": "0x0000000000000040",
+      "a0": "0x0000000000000001",
+      "a1": "0x0000000080001000",
+      "a2": "0x0000000000000005"
+    },
+    {
+      "evt": "TRAP",
+      "pc": "0x0000000080000024",
+      "cause": "0x000000000000000b"
+    }
+  ]
+}

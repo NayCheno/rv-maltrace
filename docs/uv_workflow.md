@@ -85,7 +85,7 @@ vivado:project    Generate build/vivado/<board>-<target>/project/ariane.xpr for 
 bitstream:build   Run CVA6 make fpga with Windows Vivado.
 bitstream:collect Copy existing CVA6 FPGA outputs into build/vivado/<board>-<target>.
 sim:trace-unit    Run the trace_top unit regression in Vivado xsim and compare JSONL output.
-sim:cva6-smoke    Compile/elaborate the CVA6 xsim smoke test and run the minimal trace-enabled program.
+sim:cva6-smoke    Compile/elaborate the direct CVA6 xsim testbench and run the trace-enabled matrix.
 sim:summary       Summarize results/vivado_sim into a table and summary.json.
 baremetal:build   Build all sim/programs bare-metal ELF/dump/bin artifacts when the RISC-V toolchain is available.
 config:show       Print resolved configuration.
@@ -157,8 +157,9 @@ uv run rvmt tasks:list
 
 `sim:cva6-smoke` uses the configured Vivado installation and writes its working
 tree under `build/cva6_xsim_smoke`. It instantiates the CVA6 core directly with a
-simple AXI memory, boots a minimal DRAM image, and publishes
-`results/vivado_sim/cva6_smoke/{trace.jsonl,compare.log,run.log,xsim.log}`. The
-full `ariane_testharness` SoC path still hits a Vivado v2025.2 simulator kernel
-fatal in upstream CVA6 AXI demux logic, so the direct-core smoke is the current
-local full-core execution gate.
+simple AXI memory, boots six minimal DRAM images (`cva6_smoke`, `cva6_branch`,
+`cva6_jump`, `cva6_ecall`, `cva6_trap_illegal`, and `cva6_ebreak`), and publishes
+`results/vivado_sim/cva6_*/{trace.jsonl,compare.log,run.log,xsim.log}`. The full
+`ariane_testharness` SoC path still hits a Vivado v2025.2 simulator kernel fatal
+in upstream CVA6 AXI demux logic, so the direct-core matrix is the current local
+full-core execution gate.

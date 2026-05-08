@@ -1,0 +1,19 @@
+{
+  "test": "cva6_jump",
+  "summary_optional": true,
+  "summary_note": "Direct-core CVA6 jump program; optional for sim:trace-unit because it is run separately by sim:cva6-smoke.",
+  "min_counts": {
+    "RETIRE": 4,
+    "JUMP": 1
+  },
+  "forbidden_events": [
+    "DROP"
+  ],
+  "required_events": [
+    {
+      "evt": "JUMP",
+      "pc": "0x0000000080000004",
+      "target": "0x000000008000000c"
+    }
+  ]
+}
