@@ -88,3 +88,7 @@ Phase 3.2 timing-principle check records trace as a sideband-only path:
 `trace_top` and `cva6_rvfi_trace_adapter` default to a one-cycle input snapshot
 before decode/packet formatting, and `tools/check_timing_principles.py` passes
 with no ready/stall/backpressure ports exposed by trace RTL.
+
+Phase 3.3 resource reporting is generated in `docs/resource_report.md` from the
+existing Genesys 2 routed utilization/timing reports plus the latest
+`results/vivado_sim/summary.json` drop statistics.

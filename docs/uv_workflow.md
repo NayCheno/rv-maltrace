@@ -196,6 +196,18 @@ uv run python tools/check_timing_principles.py
 uv run python tools/check_timing_principles.py --self-test
 ```
 
+## Resource Report
+
+Phase 3.3 resource reporting is generated from the existing Genesys 2 Vivado
+reports plus the latest trace simulation summary:
+
+```powershell
+uv run python tools/generate_resource_report.py
+uv run python tools/generate_resource_report.py --self-test
+```
+
+The generated report is `docs/resource_report.md`.
+
 ## Trace Compression Prototype
 
 Phase 2 keeps compression as an offline simulation artifact until the packet
