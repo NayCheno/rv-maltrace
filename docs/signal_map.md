@@ -46,8 +46,12 @@ trace tap. Signal paths are based on the local CVA6 checkout locked in
 ## Integration Notes
 
 - The MVP trace RTL is written as a sideband tap and does not alter CVA6 state.
-- `RV_MALTRACE_TRACE=1` enables the simulation-only CVA6 RVFI hook in
-  `corev_apu/tb/ariane_testharness.sv`; default CVA6 flows remain unchanged.
+- `sim:cva6-smoke` currently runs the direct-core CVA6 xsim matrix through
+  `sim/tb/tb_cva6_direct_xsim_smoke.sv`, `cva6_rvfi`, the RVFI trace adapter,
+  and `tb_trace_sink`.
+- `RV_MALTRACE_TRACE=1` also enables the simulation-only CVA6 RVFI hook in
+  `corev_apu/tb/ariane_testharness.sv`; that full SoC harness path remains
+  blocked locally by the Vivado v2025.2 `axi_demux.sv` runtime fatal.
 - The synthetic testbench still drives logical tap signals directly. The
   `rvfi_adapter` regression separately checks the CVA6 RVFI committed-stream
   translation, including dual commit ports and compressed control flow.

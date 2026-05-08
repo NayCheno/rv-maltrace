@@ -48,6 +48,9 @@ module tb_trace_sink
     );
 
     unique case (packet.evt)
+      EVT_RETIRE: begin
+        $fwrite(trace_fd, ",\"priv\":\"%s\"", priv_name(packet.priv));
+      end
       EVT_BRANCH: begin
         $fwrite(trace_fd, ",\"taken\":%s,\"target\":\"0x%016h\"", packet.taken ? "true" : "false", packet.target);
       end
