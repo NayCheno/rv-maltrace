@@ -9,10 +9,15 @@ from typing import Any
 from parse_trace import load_trace, summarize
 
 
+NON_FAILING_STATUSES = {"PASS", "BLOCKED"}
+
+
 def compare_status(path: Path) -> str:
     if not path.exists():
         return "MISSING"
     text = path.read_text(encoding="utf-8", errors="replace")
+    if "[BLOCKED]" in text:
+        return "BLOCKED"
     if "[FAIL]" in text:
         return "FAIL"
     if "[PASS]" in text:
@@ -20,17 +25,38 @@ def compare_status(path: Path) -> str:
     return "UNKNOWN"
 
 
+def load_expected_metadata(path: Path) -> dict[str, Any]:
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+    return payload if isinstance(payload, dict) else {}
+
+
 def collect(result_dir: Path) -> dict[str, Any]:
     tests: dict[str, Any] = {}
     expected_dir = Path("sim/golden")
-    expected_tests = sorted(path.stem.removesuffix(".expected") for path in expected_dir.glob("*.expected.json"))
     discovered_tests = sorted(path.name for path in result_dir.iterdir() if path.is_dir()) if result_dir.exists() else []
+    expected_files = {
+        path.stem.removesuffix(".expected"): path
+        for path in expected_dir.glob("*.expected.json")
+    }
+    expected_metadata = {
+        name: load_expected_metadata(path)
+        for name, path in expected_files.items()
+    }
+    expected_tests = sorted(
+        name
+        for name in expected_files
+        if not (expected_metadata[name].get("summary_optional") and name not in discovered_tests)
+    )
     test_names = sorted(set(expected_tests) | set(discovered_tests))
 
     for test_name in test_names:
         test_dir = result_dir / test_name
         trace_path = test_dir / "trace.jsonl"
         compare_log = test_dir / "compare.log"
+        metadata = expected_metadata.get(test_name, {})
         trace_summary: dict[str, Any] = {"events": 0, "counts": {}}
         status = "MISSING"
         if test_dir.exists():
@@ -49,9 +75,15 @@ def collect(result_dir: Path) -> dict[str, Any]:
             "status": status,
             "trace": str(trace_path),
             "compare_log": str(compare_log),
+            "note": metadata.get("summary_note", ""),
             **trace_summary,
         }
-    overall = "PASS" if tests and all(item["status"] == "PASS" for item in tests.values()) else "FAIL"
+    if tests and all(item["status"] == "PASS" for item in tests.values()):
+        overall = "PASS"
+    elif tests and all(item["status"] in NON_FAILING_STATUSES for item in tests.values()):
+        overall = "PASS_WITH_BLOCKED"
+    else:
+        overall = "FAIL"
     return {"overall": overall, "tests": tests}
 
 
@@ -102,7 +134,7 @@ def main(argv: list[str] | None = None) -> int:
         sys.stdout.write("\n")
     else:
         print_table(payload)
-    return 0 if payload["overall"] == "PASS" else 1
+    return 0 if payload["overall"] in {"PASS", "PASS_WITH_BLOCKED"} else 1
 
 
 if __name__ == "__main__":

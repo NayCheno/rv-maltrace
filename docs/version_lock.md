@@ -45,7 +45,7 @@ hardware behavior tracing MVP.
 - Latest locked implementation commit: `cb31781c33107098b582dc32b51f46f3ba98b5ce`.
 - Trace unit testbench: `sim/tb/tb_trace_top_unit.sv`.
 - CVA6 RVFI adapter testbench: `sim/tb/tb_cva6_rvfi_trace_adapter.sv`.
-- Future full CVA6 execution testbench: TODO, planned path `sim/tb/tb_cva6_trace_top.sv`.
+- CVA6 xsim smoke testbench: `sim/tb/tb_cva6_xsim_smoke.sv`.
 - Trace sink: `sim/tb/tb_trace_sink.sv`.
 - Scoreboard: `sim/tb/tb_trace_scoreboard.sv`.
 

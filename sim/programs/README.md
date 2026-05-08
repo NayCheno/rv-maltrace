@@ -1,9 +1,14 @@
 # Bare-metal Program Seeds
 
-These programs are the Phase 1C source seeds for the future CVA6 execution
-testbench. The current `tb_trace_top_unit` regression does not instantiate CVA6
-or execute these binaries; it directly drives the logical trace inputs to verify
-the tap RTL first.
+These programs are the Phase 1C source seeds for CVA6 execution tests. The
+current `tb_trace_top_unit` regression does not instantiate CVA6 or execute
+these binaries; it directly drives the logical trace inputs to verify the tap
+RTL first.
+
+`sim/programs/cva6_smoke/cva6_smoke.mem` is a minimal hand-encoded DRAM image
+for `tb_cva6_xsim_smoke`. It performs a tohost store after a few retired
+instructions so the full CVA6 xsim flow can prove the trace hook is receiving
+real committed RVFI events once the local Vivado runtime blocker is resolved.
 
 Runtime files under `sim/programs/common/` provide:
 

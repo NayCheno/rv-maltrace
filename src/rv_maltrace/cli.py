@@ -44,6 +44,9 @@ TASK_ALIASES = {
     "sim:unit": "sim:trace-unit",
     "sim:trace": "sim:trace-unit",
     "sim:trace-unit": "sim:trace-unit",
+    "sim:cva6": "sim:cva6-smoke",
+    "sim:cva6-xsim": "sim:cva6-smoke",
+    "sim:cva6-smoke": "sim:cva6-smoke",
     "sim:summary": "sim:summary",
     "summary": "sim:summary",
     "baremetal": "baremetal:build",
@@ -70,6 +73,7 @@ DISPLAY_TASKS = [
     "bitstream:build",
     "bitstream:collect",
     "sim:trace-unit",
+    "sim:cva6-smoke",
     "sim:summary",
     "baremetal:build",
     "config:show",
@@ -1102,6 +1106,36 @@ def task_sim_trace_unit(root: Path, config: dict, env: dict[str, str], dry_run: 
         task_sim_summary(root, env, dry_run=False)
 
 
+def task_sim_cva6_smoke(root: Path, config: dict, env: dict[str, str], dry_run: bool) -> None:
+    vivado = resolve_vivado(config)
+    env = prepend_env_path(env, Path(vivado).parent)
+    try:
+        run(
+            [
+                sys.executable,
+                "tools/run_cva6_xsim.py",
+                "--vivado-bin",
+                str(Path(vivado).parent),
+                "--cva6",
+                str(config.get("cva6_dir", "rtl/cva6")),
+                "--target",
+                str(config.get("target", "cv64a6_imafdc_sv39")),
+                "--work-dir",
+                str(Path(str(config.get("build_dir", "build"))) / "cva6_xsim_smoke"),
+                *(("--dry-run",) if dry_run else ()),
+            ],
+            cwd=root,
+            env=env,
+            dry_run=False,
+        )
+    except TaskError:
+        if not dry_run:
+            task_sim_summary(root, env, dry_run=False)
+        raise
+    if not dry_run:
+        task_sim_summary(root, env, dry_run=False)
+
+
 def task_sim_summary(root: Path, env: dict[str, str], dry_run: bool) -> None:
     run(
         [
@@ -1245,7 +1279,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         nargs="*",
         help=(
             "Tasks to run. Supports docker:build, toolchain:build, bootrom:build, "
-            "vivado:check, bitstream:build, sim:trace-unit, baremetal:build, "
+            "vivado:check, bitstream:build, sim:trace-unit, sim:cva6-smoke, baremetal:build, "
             "config:show, completion:powershell. Slash groups such as "
             "tool/bootrom are expanded."
         ),
@@ -1291,6 +1325,8 @@ def main(argv: list[str] | None = None) -> int:
                 task_bitstream_collect(root, config, args.dry_run)
             elif task == "sim:trace-unit":
                 task_sim_trace_unit(root, config, env, args.dry_run)
+            elif task == "sim:cva6-smoke":
+                task_sim_cva6_smoke(root, config, env, args.dry_run)
             elif task == "sim:summary":
                 task_sim_summary(root, env, args.dry_run)
             elif task == "baremetal:build":

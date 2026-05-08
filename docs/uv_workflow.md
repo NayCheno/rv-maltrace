@@ -9,6 +9,7 @@ uv run rvmt toolchain:build
 uv run rvmt bootrom:build
 uv run rvmt vivado:check
 uv run rvmt sim:trace-unit
+uv run rvmt sim:cva6-smoke
 uv run rvmt sim:summary
 uv run rvmt baremetal:build
 uv run rvmt bitstream:build
@@ -84,6 +85,7 @@ vivado:project    Generate build/vivado/<board>-<target>/project/ariane.xpr for 
 bitstream:build   Run CVA6 make fpga with Windows Vivado.
 bitstream:collect Copy existing CVA6 FPGA outputs into build/vivado/<board>-<target>.
 sim:trace-unit    Run the trace_top unit regression in Vivado xsim and compare JSONL output.
+sim:cva6-smoke    Compile/elaborate the CVA6 xsim smoke test and run the minimal trace-enabled program.
 sim:summary       Summarize results/vivado_sim into a table and summary.json.
 baremetal:build   Build all sim/programs bare-metal ELF/dump/bin artifacts when the RISC-V toolchain is available.
 config:show       Print resolved configuration.
@@ -99,6 +101,7 @@ bootrom -> bootrom:build
 bitstream/fpga -> bitstream:build
 vivado:xpr -> vivado:project
 sim/sim:unit/sim:trace -> sim:trace-unit
+sim:cva6/sim:cva6-xsim -> sim:cva6-smoke
 summary -> sim:summary
 baremetal/programs -> baremetal:build
 ```
@@ -151,3 +154,11 @@ List task names:
 ```powershell
 uv run rvmt tasks:list
 ```
+
+`sim:cva6-smoke` uses the configured Vivado installation and writes its working
+tree under `build/cva6_xsim_smoke`. On the current Vivado v2025.2 baseline the
+HDL compile and elaboration pass, while the runtime is blocked by a simulator
+kernel fatal in upstream CVA6 AXI demux logic before the smoke program retires.
+The blocked run publishes `results/vivado_sim/cva6_smoke/run.log`,
+`xsim.log`, an empty `trace.jsonl`, and a `[BLOCKED]` `compare.log` for
+`sim:summary`.
