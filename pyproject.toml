@@ -48,6 +48,7 @@ xlen = 64
 riscv_placeholder = "/tmp/riscv-placeholder"
 
 toolchain_config = "gcc-13.1.0-baremetal"
+baremetal_tool_prefix = "riscv-none-elf-"
 num_jobs = 8
 
 [tool.rv-maltrace.env]

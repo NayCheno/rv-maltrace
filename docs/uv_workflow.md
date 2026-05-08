@@ -43,6 +43,8 @@ board = "genesys2"
 # xilinx_board = "digilentinc.com:genesys2:part0:1.1"
 target = "cv64a6_imafdc_sv39"
 xlen = 64
+toolchain_config = "gcc-13.1.0-baremetal"
+baremetal_tool_prefix = "riscv-none-elf-"
 num_jobs = 8
 ```
 

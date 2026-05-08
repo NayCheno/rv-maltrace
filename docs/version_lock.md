@@ -26,12 +26,17 @@ hardware behavior tracing MVP.
 
 ## RISC-V Toolchain
 
-- Expected compiler: `riscv64-unknown-elf-gcc`
-- Expected objdump: `riscv64-unknown-elf-objdump`
-- Local compiler version: TODO, `riscv64-unknown-elf-gcc` is not currently visible from the Windows shell PATH.
-- Local objdump version: TODO, `riscv64-unknown-elf-objdump` is not currently visible from the Windows shell PATH.
+- Expected compiler: `riscv-none-elf-gcc`
+- Expected objdump: `riscv-none-elf-objdump`
+- Expected objcopy: `riscv-none-elf-objcopy`
+- Bare-metal build prefix: `riscv-none-elf-`
 - Docker toolchain config: `gcc-13.1.0-baremetal`
+- Docker build script: `docker/toolchain/build-cva6-toolchain.sh`
 - Docker service: `cva6-toolchain`
+- Binutils source: `https://sourceware.org/git/binutils-gdb.git`, ref `binutils-2_40`.
+- GCC source: `https://github.com/gcc-mirror/gcc.git`, ref `releases/gcc-13.1.0`.
+- Newlib source: `https://sourceware.org/git/newlib-cygwin.git`, ref `newlib-4.3.0`.
+- Local Windows PATH check: `riscv-none-elf-gcc`, `riscv-none-elf-objdump`, and `riscv-none-elf-objcopy` are not visible from the Windows shell PATH on 2026-05-08; use Docker or prepend the installed toolchain `bin` directory.
 
 ## Bare-metal Runtime
 

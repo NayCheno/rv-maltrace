@@ -1151,9 +1151,10 @@ def task_sim_summary(root: Path, env: dict[str, str], dry_run: bool) -> None:
     )
 
 
-def task_baremetal_build(root: Path, env: dict[str, str], dry_run: bool) -> None:
+def task_baremetal_build(root: Path, config: dict, env: dict[str, str], dry_run: bool) -> None:
+    tool_prefix = str(config.get("baremetal_tool_prefix", "riscv-none-elf-"))
     run(
-        [sys.executable, "tools/build_baremetal.py", "--all"],
+        [sys.executable, "tools/build_baremetal.py", "--all", "--tool-prefix", tool_prefix],
         cwd=root,
         env=env,
         dry_run=dry_run,
@@ -1183,6 +1184,7 @@ def show_config(root: Path, config: dict) -> None:
     print(f"target              = {config.get('target', 'cv64a6_imafdc_sv39')}")
     print(f"xlen                = {config.get('xlen', 64)}")
     print(f"toolchain_config    = {config.get('toolchain_config', 'gcc-13.1.0-baremetal')}")
+    print(f"baremetal_tool_prefix = {config.get('baremetal_tool_prefix', 'riscv-none-elf-')}")
     print(f"num_jobs            = {config.get('num_jobs', 8)}")
 
 
@@ -1330,7 +1332,7 @@ def main(argv: list[str] | None = None) -> int:
             elif task == "sim:summary":
                 task_sim_summary(root, env, args.dry_run)
             elif task == "baremetal:build":
-                task_baremetal_build(root, env, args.dry_run)
+                task_baremetal_build(root, config, env, args.dry_run)
             else:
                 raise TaskError(f"Unhandled task: {task}")
     except TaskError as exc:

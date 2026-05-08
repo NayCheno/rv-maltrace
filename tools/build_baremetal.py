@@ -10,6 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PROGRAMS_DIR = ROOT / "sim" / "programs"
 COMMON_DIR = PROGRAMS_DIR / "common"
+DEFAULT_TOOL_PREFIX = "riscv-none-elf-"
 
 
 def discover_programs() -> list[str]:
@@ -87,7 +88,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--all", action="store_true", help="Build every program under sim/programs.")
     parser.add_argument("--program", action="append", default=[], help="Program name to build. May be repeated.")
     parser.add_argument("--out-dir", type=Path, default=ROOT / "build" / "baremetal")
-    parser.add_argument("--tool-prefix", default="riscv64-unknown-elf-")
+    parser.add_argument("--tool-prefix", default=DEFAULT_TOOL_PREFIX)
     parser.add_argument("--cflag", action="append", default=[])
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(argv)

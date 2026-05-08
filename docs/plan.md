@@ -153,8 +153,8 @@ docs/version_lock.md
 - Simulator: xsim
 
 ## Toolchain
-- riscv64-unknown-elf-gcc: <version>
-- objdump: <version>
+- riscv-none-elf-gcc: <version>
+- riscv-none-elf-objdump: <version>
 ```
 
 ## 0.2 建议项目目录
