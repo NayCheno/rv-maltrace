@@ -63,6 +63,14 @@ def compare(events: list[dict[str, Any]], expected: dict[str, Any]) -> tuple[boo
         else:
             messages.append(f"[PASS] {evt}: count {actual} >= {minimum}")
 
+    for evt, exact in expected.get("exact_counts", {}).items():
+        actual = counts.get(str(evt), 0)
+        if actual != int(exact):
+            ok = False
+            messages.append(f"[FAIL] {evt}: expected exactly {exact}, got {actual}")
+        else:
+            messages.append(f"[PASS] {evt}: count {actual} == {exact}")
+
     for evt in expected.get("forbidden_events", []):
         actual = counts.get(str(evt), 0)
         if actual:

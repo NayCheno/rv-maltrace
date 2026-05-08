@@ -19,8 +19,7 @@ proc rvmt_run_cmd {cmd} {
   return 0
 }
 
-proc rvmt_run_xsim {test_name} {
-  set top tb_trace_top_unit
+proc rvmt_run_xsim_top {test_name top} {
   set snap ${top}_snap
   set result_dir [file normalize "results/vivado_sim/${test_name}"]
   file mkdir $result_dir
@@ -52,6 +51,10 @@ proc rvmt_run_xsim {test_name} {
   set expected [file normalize "sim/golden/${test_name}.expected.json"]
   set trace [file join $result_dir trace.jsonl]
   return [rvmt_run_cmd [list $python tools/compare_trace.py --trace $trace --expected $expected --log [file join $result_dir compare.log]]]
+}
+
+proc rvmt_run_xsim {test_name} {
+  return [rvmt_run_xsim_top $test_name tb_trace_top_unit]
 }
 
 if {![info exists ::rvmt_run_xsim_library_only]} {

@@ -1,0 +1,35 @@
+{
+  "mode": "rvfi_adapter",
+  "test": "rvfi_adapter",
+  "exact_counts": {
+    "RETIRE": 4,
+    "BRANCH": 1,
+    "JUMP": 1,
+    "ECALL": 1,
+    "TRAP": 2
+  },
+  "forbidden_events": ["DROP"],
+  "required_events": [
+    {
+      "evt": "ECALL",
+      "pc": "0x0000000080000004",
+      "a0": "0x0000000000000001"
+    },
+    {
+      "evt": "TRAP",
+      "pc": "0x0000000080000010",
+      "cause": "0x0000000000000002"
+    },
+    {
+      "evt": "BRANCH",
+      "pc": "0x0000000080000020",
+      "taken": true,
+      "target": "0x0000000080000024"
+    },
+    {
+      "evt": "JUMP",
+      "pc": "0x0000000080000030",
+      "target": "0x0000000080000034"
+    }
+  ]
+}
