@@ -2,7 +2,8 @@ module trace_top
   import trace_pkg::*;
 #(
     parameter int WB_PORTS = 1,
-    parameter int EVENT_QUEUE_DEPTH = 8
+    parameter int EVENT_QUEUE_DEPTH = 8,
+    parameter int PIPELINE_INPUTS = 1
 ) (
     input  logic                      clk_i,
     input  logic                      rst_ni,
@@ -51,6 +52,41 @@ module trace_top
 );
 
   logic [63:0] cycle_q;
+  logic [63:0] sample_cycle;
+  logic        commit_valid_s;
+  logic [63:0] commit_pc_s;
+  logic [31:0] commit_instr_s;
+  logic [63:0] next_pc_s;
+  logic        jalr_target_valid_s;
+  logic [63:0] jalr_target_s;
+  logic        commit_exception_s;
+  logic        commit_kill_s;
+  logic [WB_PORTS-1:0]       wb_valid_s;
+  logic [WB_PORTS-1:0]       wb_kill_s;
+  logic [WB_PORTS-1:0][4:0]  wb_rd_s;
+  logic [WB_PORTS-1:0][63:0] wb_data_s;
+  logic        trap_valid_s;
+  logic [63:0] trap_pc_s;
+  logic [63:0] trap_cause_s;
+  logic [63:0] trap_tval_s;
+  logic        csr_valid_s;
+  logic [11:0] csr_addr_s;
+  logic [63:0] csr_wdata_s;
+  logic [1:0]  priv_lvl_s;
+  logic [63:0] satp_s;
+  logic        trace_enable_retire_s;
+  logic        trace_enable_branch_s;
+  logic        trace_enable_jump_s;
+  logic        trace_enable_syscall_s;
+  logic        trace_enable_trap_s;
+  logic        trace_enable_context_s;
+  logic        trace_enable_marker_s;
+  logic        trace_enable_drop_s;
+  logic        trace_pc_filter_enable_s;
+  logic [63:0] trace_pc_start_s;
+  logic [63:0] trace_pc_end_s;
+  logic        trace_priv_filter_enable_s;
+  logic [3:0]  trace_priv_mask_s;
   logic [7:0][63:0] args;
 
   logic retire_valid;
@@ -92,6 +128,122 @@ module trace_top
   logic [QUEUE_COUNT_WIDTH-1:0] pending_count_q;
   logic [QUEUE_COUNT_WIDTH-1:0] pending_count_n;
 
+  generate
+    if (PIPELINE_INPUTS != 0) begin : g_input_pipeline
+      always_ff @(posedge clk_i or negedge rst_ni) begin
+        if (!rst_ni) begin
+          sample_cycle <= 64'd0;
+          commit_valid_s <= 1'b0;
+          commit_pc_s <= 64'd0;
+          commit_instr_s <= 32'd0;
+          next_pc_s <= 64'd0;
+          jalr_target_valid_s <= 1'b0;
+          jalr_target_s <= 64'd0;
+          commit_exception_s <= 1'b0;
+          commit_kill_s <= 1'b0;
+          wb_valid_s <= '0;
+          wb_kill_s <= '0;
+          wb_rd_s <= '0;
+          wb_data_s <= '0;
+          trap_valid_s <= 1'b0;
+          trap_pc_s <= 64'd0;
+          trap_cause_s <= 64'd0;
+          trap_tval_s <= 64'd0;
+          csr_valid_s <= 1'b0;
+          csr_addr_s <= 12'd0;
+          csr_wdata_s <= 64'd0;
+          priv_lvl_s <= TRACE_PRIV_M;
+          satp_s <= 64'd0;
+          trace_enable_retire_s <= 1'b0;
+          trace_enable_branch_s <= 1'b0;
+          trace_enable_jump_s <= 1'b0;
+          trace_enable_syscall_s <= 1'b0;
+          trace_enable_trap_s <= 1'b0;
+          trace_enable_context_s <= 1'b0;
+          trace_enable_marker_s <= 1'b0;
+          trace_enable_drop_s <= 1'b0;
+          trace_pc_filter_enable_s <= 1'b0;
+          trace_pc_start_s <= 64'd0;
+          trace_pc_end_s <= 64'd0;
+          trace_priv_filter_enable_s <= 1'b0;
+          trace_priv_mask_s <= 4'hf;
+        end else begin
+          sample_cycle <= cycle_q;
+          commit_valid_s <= commit_valid_i;
+          commit_pc_s <= commit_pc_i;
+          commit_instr_s <= commit_instr_i;
+          next_pc_s <= next_pc_i;
+          jalr_target_valid_s <= jalr_target_valid_i;
+          jalr_target_s <= jalr_target_i;
+          commit_exception_s <= commit_exception_i;
+          commit_kill_s <= commit_kill_i;
+          wb_valid_s <= wb_valid_i;
+          wb_kill_s <= wb_kill_i;
+          wb_rd_s <= wb_rd_i;
+          wb_data_s <= wb_data_i;
+          trap_valid_s <= trap_valid_i;
+          trap_pc_s <= trap_pc_i;
+          trap_cause_s <= trap_cause_i;
+          trap_tval_s <= trap_tval_i;
+          csr_valid_s <= csr_valid_i;
+          csr_addr_s <= csr_addr_i;
+          csr_wdata_s <= csr_wdata_i;
+          priv_lvl_s <= priv_lvl_i;
+          satp_s <= satp_i;
+          trace_enable_retire_s <= trace_enable_retire_i;
+          trace_enable_branch_s <= trace_enable_branch_i;
+          trace_enable_jump_s <= trace_enable_jump_i;
+          trace_enable_syscall_s <= trace_enable_syscall_i;
+          trace_enable_trap_s <= trace_enable_trap_i;
+          trace_enable_context_s <= trace_enable_context_i;
+          trace_enable_marker_s <= trace_enable_marker_i;
+          trace_enable_drop_s <= trace_enable_drop_i;
+          trace_pc_filter_enable_s <= trace_pc_filter_enable_i;
+          trace_pc_start_s <= trace_pc_start_i;
+          trace_pc_end_s <= trace_pc_end_i;
+          trace_priv_filter_enable_s <= trace_priv_filter_enable_i;
+          trace_priv_mask_s <= trace_priv_mask_i;
+        end
+      end
+    end else begin : g_no_input_pipeline
+      assign sample_cycle = cycle_q;
+      assign commit_valid_s = commit_valid_i;
+      assign commit_pc_s = commit_pc_i;
+      assign commit_instr_s = commit_instr_i;
+      assign next_pc_s = next_pc_i;
+      assign jalr_target_valid_s = jalr_target_valid_i;
+      assign jalr_target_s = jalr_target_i;
+      assign commit_exception_s = commit_exception_i;
+      assign commit_kill_s = commit_kill_i;
+      assign wb_valid_s = wb_valid_i;
+      assign wb_kill_s = wb_kill_i;
+      assign wb_rd_s = wb_rd_i;
+      assign wb_data_s = wb_data_i;
+      assign trap_valid_s = trap_valid_i;
+      assign trap_pc_s = trap_pc_i;
+      assign trap_cause_s = trap_cause_i;
+      assign trap_tval_s = trap_tval_i;
+      assign csr_valid_s = csr_valid_i;
+      assign csr_addr_s = csr_addr_i;
+      assign csr_wdata_s = csr_wdata_i;
+      assign priv_lvl_s = priv_lvl_i;
+      assign satp_s = satp_i;
+      assign trace_enable_retire_s = trace_enable_retire_i;
+      assign trace_enable_branch_s = trace_enable_branch_i;
+      assign trace_enable_jump_s = trace_enable_jump_i;
+      assign trace_enable_syscall_s = trace_enable_syscall_i;
+      assign trace_enable_trap_s = trace_enable_trap_i;
+      assign trace_enable_context_s = trace_enable_context_i;
+      assign trace_enable_marker_s = trace_enable_marker_i;
+      assign trace_enable_drop_s = trace_enable_drop_i;
+      assign trace_pc_filter_enable_s = trace_pc_filter_enable_i;
+      assign trace_pc_start_s = trace_pc_start_i;
+      assign trace_pc_end_s = trace_pc_end_i;
+      assign trace_priv_filter_enable_s = trace_priv_filter_enable_i;
+      assign trace_priv_mask_s = trace_priv_mask_i;
+    end
+  endgenerate
+
   always_ff @(posedge clk_i or negedge rst_ni) begin
     if (!rst_ni) begin
       cycle_q <= 64'd0;
@@ -114,24 +266,24 @@ module trace_top
   ) i_arg_shadow (
       .clk_i,
       .rst_ni,
-      .wb_valid_i,
-      .wb_kill_i,
-      .wb_rd_i,
-      .wb_data_i,
+      .wb_valid_i(wb_valid_s),
+      .wb_kill_i(wb_kill_s),
+      .wb_rd_i(wb_rd_s),
+      .wb_data_i(wb_data_s),
       .args_o(args)
   );
 
   retire_tap i_retire_tap (
       .clk_i,
       .rst_ni,
-      .cycle_i(cycle_q),
-      .commit_valid_i,
-      .commit_pc_i,
-      .commit_instr_i,
-      .commit_exception_i,
-      .commit_kill_i,
-      .priv_lvl_i,
-      .satp_i,
+      .cycle_i(sample_cycle),
+      .commit_valid_i(commit_valid_s),
+      .commit_pc_i(commit_pc_s),
+      .commit_instr_i(commit_instr_s),
+      .commit_exception_i(commit_exception_s),
+      .commit_kill_i(commit_kill_s),
+      .priv_lvl_i(priv_lvl_s),
+      .satp_i(satp_s),
       .trace_valid_o(retire_valid),
       .trace_packet_o(retire_packet)
   );
@@ -139,17 +291,17 @@ module trace_top
   branch_tap i_branch_tap (
       .clk_i,
       .rst_ni,
-      .cycle_i(cycle_q),
-      .commit_valid_i,
-      .commit_pc_i,
-      .commit_instr_i,
-      .next_pc_i,
-      .jalr_target_valid_i,
-      .jalr_target_i,
-      .commit_exception_i,
-      .commit_kill_i,
-      .priv_lvl_i,
-      .satp_i,
+      .cycle_i(sample_cycle),
+      .commit_valid_i(commit_valid_s),
+      .commit_pc_i(commit_pc_s),
+      .commit_instr_i(commit_instr_s),
+      .next_pc_i(next_pc_s),
+      .jalr_target_valid_i(jalr_target_valid_s),
+      .jalr_target_i(jalr_target_s),
+      .commit_exception_i(commit_exception_s),
+      .commit_kill_i(commit_kill_s),
+      .priv_lvl_i(priv_lvl_s),
+      .satp_i(satp_s),
       .trace_valid_o(branch_valid),
       .trace_packet_o(branch_packet)
   );
@@ -157,14 +309,14 @@ module trace_top
   syscall_tap i_syscall_tap (
       .clk_i,
       .rst_ni,
-      .cycle_i(cycle_q),
-      .commit_valid_i,
-      .commit_pc_i,
-      .commit_instr_i,
-      .commit_exception_i,
-      .commit_kill_i,
-      .priv_lvl_i,
-      .satp_i,
+      .cycle_i(sample_cycle),
+      .commit_valid_i(commit_valid_s),
+      .commit_pc_i(commit_pc_s),
+      .commit_instr_i(commit_instr_s),
+      .commit_exception_i(commit_exception_s),
+      .commit_kill_i(commit_kill_s),
+      .priv_lvl_i(priv_lvl_s),
+      .satp_i(satp_s),
       .args_i(args),
       .trace_valid_o(syscall_valid),
       .trace_packet_o(syscall_packet)
@@ -173,13 +325,13 @@ module trace_top
   trap_tap i_trap_tap (
       .clk_i,
       .rst_ni,
-      .cycle_i(cycle_q),
-      .trap_valid_i,
-      .trap_pc_i,
-      .trap_cause_i,
-      .trap_tval_i,
-      .priv_lvl_i,
-      .satp_i,
+      .cycle_i(sample_cycle),
+      .trap_valid_i(trap_valid_s),
+      .trap_pc_i(trap_pc_s),
+      .trap_cause_i(trap_cause_s),
+      .trap_tval_i(trap_tval_s),
+      .priv_lvl_i(priv_lvl_s),
+      .satp_i(satp_s),
       .trace_valid_o(trap_valid),
       .trace_packet_o(trap_packet)
   );
@@ -187,19 +339,19 @@ module trace_top
   context_tap i_context_tap (
       .clk_i,
       .rst_ni,
-      .cycle_i(cycle_q),
-      .commit_valid_i,
-      .commit_pc_i,
-      .commit_instr_i,
-      .commit_exception_i,
-      .commit_kill_i,
-      .trap_valid_i,
-      .trap_pc_i,
-      .csr_valid_i,
-      .csr_addr_i,
-      .csr_wdata_i,
-      .priv_lvl_i,
-      .satp_i,
+      .cycle_i(sample_cycle),
+      .commit_valid_i(commit_valid_s),
+      .commit_pc_i(commit_pc_s),
+      .commit_instr_i(commit_instr_s),
+      .commit_exception_i(commit_exception_s),
+      .commit_kill_i(commit_kill_s),
+      .trap_valid_i(trap_valid_s),
+      .trap_pc_i(trap_pc_s),
+      .csr_valid_i(csr_valid_s),
+      .csr_addr_i(csr_addr_s),
+      .csr_wdata_i(csr_wdata_s),
+      .priv_lvl_i(priv_lvl_s),
+      .satp_i(satp_s),
       .trace_valid_o(context_valid),
       .trace_packet_o(context_packet)
   );
@@ -207,19 +359,19 @@ module trace_top
   trace_filter i_retire_filter (
       .trace_valid_i(retire_valid),
       .trace_packet_i(retire_packet),
-      .enable_retire_i(trace_enable_retire_i),
-      .enable_branch_i(trace_enable_branch_i),
-      .enable_jump_i(trace_enable_jump_i),
-      .enable_syscall_i(trace_enable_syscall_i),
-      .enable_trap_i(trace_enable_trap_i),
-      .enable_context_i(trace_enable_context_i),
-      .enable_marker_i(trace_enable_marker_i),
-      .enable_drop_i(trace_enable_drop_i),
-      .pc_filter_enable_i(trace_pc_filter_enable_i),
-      .pc_start_i(trace_pc_start_i),
-      .pc_end_i(trace_pc_end_i),
-      .priv_filter_enable_i(trace_priv_filter_enable_i),
-      .priv_mask_i(trace_priv_mask_i),
+      .enable_retire_i(trace_enable_retire_s),
+      .enable_branch_i(trace_enable_branch_s),
+      .enable_jump_i(trace_enable_jump_s),
+      .enable_syscall_i(trace_enable_syscall_s),
+      .enable_trap_i(trace_enable_trap_s),
+      .enable_context_i(trace_enable_context_s),
+      .enable_marker_i(trace_enable_marker_s),
+      .enable_drop_i(trace_enable_drop_s),
+      .pc_filter_enable_i(trace_pc_filter_enable_s),
+      .pc_start_i(trace_pc_start_s),
+      .pc_end_i(trace_pc_end_s),
+      .priv_filter_enable_i(trace_priv_filter_enable_s),
+      .priv_mask_i(trace_priv_mask_s),
       .trace_valid_o(filtered_retire_valid),
       .trace_packet_o(filtered_retire_packet)
   );
@@ -227,19 +379,19 @@ module trace_top
   trace_filter i_branch_filter (
       .trace_valid_i(branch_valid),
       .trace_packet_i(branch_packet),
-      .enable_retire_i(trace_enable_retire_i),
-      .enable_branch_i(trace_enable_branch_i),
-      .enable_jump_i(trace_enable_jump_i),
-      .enable_syscall_i(trace_enable_syscall_i),
-      .enable_trap_i(trace_enable_trap_i),
-      .enable_context_i(trace_enable_context_i),
-      .enable_marker_i(trace_enable_marker_i),
-      .enable_drop_i(trace_enable_drop_i),
-      .pc_filter_enable_i(trace_pc_filter_enable_i),
-      .pc_start_i(trace_pc_start_i),
-      .pc_end_i(trace_pc_end_i),
-      .priv_filter_enable_i(trace_priv_filter_enable_i),
-      .priv_mask_i(trace_priv_mask_i),
+      .enable_retire_i(trace_enable_retire_s),
+      .enable_branch_i(trace_enable_branch_s),
+      .enable_jump_i(trace_enable_jump_s),
+      .enable_syscall_i(trace_enable_syscall_s),
+      .enable_trap_i(trace_enable_trap_s),
+      .enable_context_i(trace_enable_context_s),
+      .enable_marker_i(trace_enable_marker_s),
+      .enable_drop_i(trace_enable_drop_s),
+      .pc_filter_enable_i(trace_pc_filter_enable_s),
+      .pc_start_i(trace_pc_start_s),
+      .pc_end_i(trace_pc_end_s),
+      .priv_filter_enable_i(trace_priv_filter_enable_s),
+      .priv_mask_i(trace_priv_mask_s),
       .trace_valid_o(filtered_branch_valid),
       .trace_packet_o(filtered_branch_packet)
   );
@@ -247,19 +399,19 @@ module trace_top
   trace_filter i_syscall_filter (
       .trace_valid_i(syscall_valid),
       .trace_packet_i(syscall_packet),
-      .enable_retire_i(trace_enable_retire_i),
-      .enable_branch_i(trace_enable_branch_i),
-      .enable_jump_i(trace_enable_jump_i),
-      .enable_syscall_i(trace_enable_syscall_i),
-      .enable_trap_i(trace_enable_trap_i),
-      .enable_context_i(trace_enable_context_i),
-      .enable_marker_i(trace_enable_marker_i),
-      .enable_drop_i(trace_enable_drop_i),
-      .pc_filter_enable_i(trace_pc_filter_enable_i),
-      .pc_start_i(trace_pc_start_i),
-      .pc_end_i(trace_pc_end_i),
-      .priv_filter_enable_i(trace_priv_filter_enable_i),
-      .priv_mask_i(trace_priv_mask_i),
+      .enable_retire_i(trace_enable_retire_s),
+      .enable_branch_i(trace_enable_branch_s),
+      .enable_jump_i(trace_enable_jump_s),
+      .enable_syscall_i(trace_enable_syscall_s),
+      .enable_trap_i(trace_enable_trap_s),
+      .enable_context_i(trace_enable_context_s),
+      .enable_marker_i(trace_enable_marker_s),
+      .enable_drop_i(trace_enable_drop_s),
+      .pc_filter_enable_i(trace_pc_filter_enable_s),
+      .pc_start_i(trace_pc_start_s),
+      .pc_end_i(trace_pc_end_s),
+      .priv_filter_enable_i(trace_priv_filter_enable_s),
+      .priv_mask_i(trace_priv_mask_s),
       .trace_valid_o(filtered_syscall_valid),
       .trace_packet_o(filtered_syscall_packet)
   );
@@ -267,19 +419,19 @@ module trace_top
   trace_filter i_trap_filter (
       .trace_valid_i(trap_valid),
       .trace_packet_i(trap_packet),
-      .enable_retire_i(trace_enable_retire_i),
-      .enable_branch_i(trace_enable_branch_i),
-      .enable_jump_i(trace_enable_jump_i),
-      .enable_syscall_i(trace_enable_syscall_i),
-      .enable_trap_i(trace_enable_trap_i),
-      .enable_context_i(trace_enable_context_i),
-      .enable_marker_i(trace_enable_marker_i),
-      .enable_drop_i(trace_enable_drop_i),
-      .pc_filter_enable_i(trace_pc_filter_enable_i),
-      .pc_start_i(trace_pc_start_i),
-      .pc_end_i(trace_pc_end_i),
-      .priv_filter_enable_i(trace_priv_filter_enable_i),
-      .priv_mask_i(trace_priv_mask_i),
+      .enable_retire_i(trace_enable_retire_s),
+      .enable_branch_i(trace_enable_branch_s),
+      .enable_jump_i(trace_enable_jump_s),
+      .enable_syscall_i(trace_enable_syscall_s),
+      .enable_trap_i(trace_enable_trap_s),
+      .enable_context_i(trace_enable_context_s),
+      .enable_marker_i(trace_enable_marker_s),
+      .enable_drop_i(trace_enable_drop_s),
+      .pc_filter_enable_i(trace_pc_filter_enable_s),
+      .pc_start_i(trace_pc_start_s),
+      .pc_end_i(trace_pc_end_s),
+      .priv_filter_enable_i(trace_priv_filter_enable_s),
+      .priv_mask_i(trace_priv_mask_s),
       .trace_valid_o(filtered_trap_valid),
       .trace_packet_o(filtered_trap_packet)
   );
@@ -287,19 +439,19 @@ module trace_top
   trace_filter i_context_filter (
       .trace_valid_i(context_valid),
       .trace_packet_i(context_packet),
-      .enable_retire_i(trace_enable_retire_i),
-      .enable_branch_i(trace_enable_branch_i),
-      .enable_jump_i(trace_enable_jump_i),
-      .enable_syscall_i(trace_enable_syscall_i),
-      .enable_trap_i(trace_enable_trap_i),
-      .enable_context_i(trace_enable_context_i),
-      .enable_marker_i(trace_enable_marker_i),
-      .enable_drop_i(trace_enable_drop_i),
-      .pc_filter_enable_i(trace_pc_filter_enable_i),
-      .pc_start_i(trace_pc_start_i),
-      .pc_end_i(trace_pc_end_i),
-      .priv_filter_enable_i(trace_priv_filter_enable_i),
-      .priv_mask_i(trace_priv_mask_i),
+      .enable_retire_i(trace_enable_retire_s),
+      .enable_branch_i(trace_enable_branch_s),
+      .enable_jump_i(trace_enable_jump_s),
+      .enable_syscall_i(trace_enable_syscall_s),
+      .enable_trap_i(trace_enable_trap_s),
+      .enable_context_i(trace_enable_context_s),
+      .enable_marker_i(trace_enable_marker_s),
+      .enable_drop_i(trace_enable_drop_s),
+      .pc_filter_enable_i(trace_pc_filter_enable_s),
+      .pc_start_i(trace_pc_start_s),
+      .pc_end_i(trace_pc_end_s),
+      .priv_filter_enable_i(trace_priv_filter_enable_s),
+      .priv_mask_i(trace_priv_mask_s),
       .trace_valid_o(filtered_context_valid),
       .trace_packet_o(filtered_context_packet)
   );
@@ -327,8 +479,8 @@ module trace_top
     drop_output = 1'b0;
 
     if (drop_count_q != 64'd0 && !drop_defer_q) begin
-      trace_valid_o  = trace_enable_drop_i;
-      trace_packet_o = trace_enable_drop_i ? drop_packet : trace_null_packet();
+      trace_valid_o  = trace_enable_drop_s;
+      trace_packet_o = trace_enable_drop_s ? drop_packet : trace_null_packet();
       drop_output    = 1'b1;
     end else if (pending_count_q != '0) begin
       trace_valid_o  = 1'b1;

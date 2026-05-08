@@ -83,3 +83,8 @@ Phase 3.1 source-boundary check separates synthesizable trace RTL
 (`sim/vivado/trace_sim.f`). `tools/check_trace_boundary.py` passes on the split
 and scans the RTL list for simulation-only constructs; its `--self-test` path
 checks negative coverage for file IO, `initial`, assertion, and delay constructs.
+
+Phase 3.2 timing-principle check records trace as a sideband-only path:
+`trace_top` and `cva6_rvfi_trace_adapter` default to a one-cycle input snapshot
+before decode/packet formatting, and `tools/check_timing_principles.py` passes
+with no ready/stall/backpressure ports exposed by trace RTL.

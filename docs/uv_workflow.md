@@ -184,6 +184,18 @@ uv run python tools/check_trace_boundary.py
 uv run python tools/check_trace_boundary.py --self-test
 ```
 
+## Trace Timing Principles
+
+Phase 3.2 keeps trace logic sideband-only. `trace_top` and
+`cva6_rvfi_trace_adapter` default to a one-cycle input snapshot before complex
+decode and packet formatting, and the trace RTL must not expose ready/stall
+interfaces that could backpressure the core.
+
+```powershell
+uv run python tools/check_timing_principles.py
+uv run python tools/check_timing_principles.py --self-test
+```
+
 ## Trace Compression Prototype
 
 Phase 2 keeps compression as an offline simulation artifact until the packet
