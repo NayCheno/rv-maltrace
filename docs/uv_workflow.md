@@ -23,6 +23,7 @@ uv run python tools/check_board_trace_minimal.py
 uv run python tools/check_board_trace_programs.py
 uv run python tools/check_linux_behavior_principles.py
 uv run python tools/check_linux_benign_dataset.py
+uv run python tools/check_linux_malware_like_dataset.py
 ```
 
 Slash groups are expanded, so this runs the long build sequence:
@@ -342,6 +343,19 @@ disabled by default unless a planned target network setup is available.
 ```powershell
 uv run python tools/check_linux_benign_dataset.py
 uv run python tools/check_linux_benign_dataset.py --self-test
+```
+
+## Linux Malware-like Synthetic Dataset
+
+Phase 6.3 is tracked in `docs/linux_malware_like_dataset.md` and
+`experiments/linux_behavior/malware_like/manifest.json`. The synthetic set
+covers file scanning, batch open/read/write, self-copy simulation, abnormal
+syscall sequences, illegal-instruction trap behavior, and process creation
+chains. It does not include real malware.
+
+```powershell
+uv run python tools/check_linux_malware_like_dataset.py
+uv run python tools/check_linux_malware_like_dataset.py --self-test
 ```
 
 ## Trace Compression Prototype
