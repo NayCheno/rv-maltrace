@@ -20,6 +20,7 @@ uv run python tools/check_bringup_runbook.py
 uv run python tools/check_baseline_pass_criteria.py
 uv run python tools/check_trace_export_decision.py
 uv run python tools/check_board_trace_minimal.py
+uv run python tools/check_board_trace_programs.py
 ```
 
 Slash groups are expanded, so this runs the long build sequence:
@@ -303,6 +304,18 @@ The `board_minimal` trace-unit regression exercises the profile wiring.
 ```powershell
 uv run python tools/check_board_trace_minimal.py
 uv run python tools/check_board_trace_minimal.py --self-test
+```
+
+## Board Trace Validation Programs
+
+Phase 5.3 is tracked in `docs/board_trace_validation.md` and
+`board/trace_validation/manifest.json`. The first board validation set is:
+hello/write, file open/read/write/close, fork/exec/wait, and illegal instruction
+trap.
+
+```powershell
+uv run python tools/check_board_trace_programs.py
+uv run python tools/check_board_trace_programs.py --self-test
 ```
 
 ## Trace Compression Prototype

@@ -1,0 +1,21 @@
+#include <signal.h>
+#include <sys/syscall.h>
+#include <unistd.h>
+
+static void handle_sigill(int signum) {
+  (void)signum;
+  static const char message[] = "caught SIGILL\n";
+  syscall(SYS_write, STDOUT_FILENO, message, sizeof(message) - 1);
+  _exit(0);
+}
+
+int main(void) {
+  struct sigaction action;
+  action.sa_handler = handle_sigill;
+  sigemptyset(&action.sa_mask);
+  action.sa_flags = 0;
+  sigaction(SIGILL, &action, NULL);
+
+  __asm__ volatile(".word 0xffffffff");
+  return 1;
+}

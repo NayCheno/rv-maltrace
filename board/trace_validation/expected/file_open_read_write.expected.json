@@ -1,0 +1,38 @@
+{
+  "program": "file_open_read_write",
+  "mode": "linux_user",
+  "status": "TODO(BOARD)",
+  "required_syscalls": [
+    {
+      "name": "openat",
+      "number": 56
+    },
+    {
+      "name": "write",
+      "number": 64
+    },
+    {
+      "name": "close",
+      "number": 57
+    },
+    {
+      "name": "openat",
+      "number": 56
+    },
+    {
+      "name": "read",
+      "number": 63
+    },
+    {
+      "name": "write",
+      "number": 64
+    },
+    {
+      "name": "close",
+      "number": 57
+    }
+  ],
+  "required_events": ["ECALL"],
+  "forbidden_events": ["RETIRE"],
+  "evidence_dir": "02_file_open_read_write"
+}

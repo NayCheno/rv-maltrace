@@ -1,0 +1,14 @@
+{
+  "program": "hello_write",
+  "mode": "linux_user",
+  "status": "TODO(BOARD)",
+  "required_syscalls": [
+    {
+      "name": "write",
+      "number": 64
+    }
+  ],
+  "required_events": ["ECALL"],
+  "forbidden_events": ["RETIRE"],
+  "evidence_dir": "01_hello_write"
+}

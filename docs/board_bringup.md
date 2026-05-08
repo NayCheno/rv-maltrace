@@ -68,9 +68,12 @@ Phase 4.4 is tracked in `docs/baseline_pass_criteria.md`. Current status:
 Phase 5.1 export choice is recorded in `docs/trace_export_decision.md`.
 Phase 5.2 first-board event policy is recorded in `docs/board_trace_minimal.md`
 and driven by `rtl/trace/trace_board_minimal_top.sv`.
+Phase 5.3 validation programs are recorded in
+`docs/board_trace_validation.md` and `board/trace_validation/manifest.json`.
 
 1. Keep full retire disabled by default.
 2. Enable syscall, trap, context, and branch events first.
 3. Use drop mode before any lossless backpressure mode.
 4. Export the first hardware trace through BRAM ring buffer plus ILA/JTAG dump.
-5. Compare hardware trace event shape against Vivado simulation JSONL.
+5. Run hello, file open/read/write, fork/exec, and illegal-instruction validation programs.
+6. Compare hardware trace event shape against Vivado simulation JSONL.

@@ -1,0 +1,14 @@
+{
+  "program": "illegal_instruction",
+  "mode": "linux_user",
+  "status": "TODO(BOARD)",
+  "required_syscalls": [
+    {
+      "name": "write",
+      "number": 64
+    }
+  ],
+  "required_events": ["TRAP"],
+  "forbidden_events": ["RETIRE"],
+  "evidence_dir": "04_illegal_instruction"
+}

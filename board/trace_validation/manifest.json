@@ -1,0 +1,35 @@
+{
+  "phase": "5.3",
+  "status": "TODO(BOARD)",
+  "evidence_root": "results/board/genesys2_trace_validation/<run-id>",
+  "programs": [
+    {
+      "id": "hello_write",
+      "source": "board/trace_validation/programs/hello_write.c",
+      "expected": "board/trace_validation/expected/hello_write.expected.json",
+      "evidence_dir": "01_hello_write",
+      "expected_summary": "write syscall"
+    },
+    {
+      "id": "file_open_read_write",
+      "source": "board/trace_validation/programs/file_open_read_write.c",
+      "expected": "board/trace_validation/expected/file_open_read_write.expected.json",
+      "evidence_dir": "02_file_open_read_write",
+      "expected_summary": "create fixture, then openat/read/write/close syscalls"
+    },
+    {
+      "id": "fork_exec",
+      "source": "board/trace_validation/programs/fork_exec.c",
+      "expected": "board/trace_validation/expected/fork_exec.expected.json",
+      "evidence_dir": "03_fork_exec",
+      "expected_summary": "clone/execve/wait4 syscalls"
+    },
+    {
+      "id": "illegal_instruction",
+      "source": "board/trace_validation/programs/illegal_instruction.c",
+      "expected": "board/trace_validation/expected/illegal_instruction.expected.json",
+      "evidence_dir": "04_illegal_instruction",
+      "expected_summary": "trap event"
+    }
+  ]
+}

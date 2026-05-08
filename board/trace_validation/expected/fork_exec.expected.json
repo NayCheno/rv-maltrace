@@ -1,0 +1,22 @@
+{
+  "program": "fork_exec",
+  "mode": "linux_user",
+  "status": "TODO(BOARD)",
+  "required_syscalls": [
+    {
+      "name": "clone",
+      "number": 220
+    },
+    {
+      "name": "execve",
+      "number": 221
+    },
+    {
+      "name": "wait4",
+      "number": 260
+    }
+  ],
+  "required_events": ["ECALL", "PRIV"],
+  "forbidden_events": ["RETIRE"],
+  "evidence_dir": "03_fork_exec"
+}
