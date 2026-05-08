@@ -43,6 +43,33 @@ module tb_trace_top_unit
   logic [63:0] trace_pc_end;
   logic trace_priv_filter_enable;
   logic [3:0] trace_priv_mask;
+  logic board_minimal_profile_active;
+  logic board_trace_enable_retire;
+  logic board_trace_enable_branch;
+  logic board_trace_enable_jump;
+  logic board_trace_enable_syscall;
+  logic board_trace_enable_trap;
+  logic board_trace_enable_context;
+  logic board_trace_enable_marker;
+  logic board_trace_enable_drop;
+  logic board_trace_pc_filter_enable;
+  logic [63:0] board_trace_pc_start;
+  logic [63:0] board_trace_pc_end;
+  logic board_trace_priv_filter_enable;
+  logic [3:0] board_trace_priv_mask;
+  logic trace_enable_retire_to_dut;
+  logic trace_enable_branch_to_dut;
+  logic trace_enable_jump_to_dut;
+  logic trace_enable_syscall_to_dut;
+  logic trace_enable_trap_to_dut;
+  logic trace_enable_context_to_dut;
+  logic trace_enable_marker_to_dut;
+  logic trace_enable_drop_to_dut;
+  logic trace_pc_filter_enable_to_dut;
+  logic [63:0] trace_pc_start_to_dut;
+  logic [63:0] trace_pc_end_to_dut;
+  logic trace_priv_filter_enable_to_dut;
+  logic [3:0] trace_priv_mask_to_dut;
 
   logic trace_valid;
   trace_packet_t trace_packet;
@@ -54,6 +81,36 @@ module tb_trace_top_unit
   logic [63:0] mem_rdata;
   logic finish;
   logic pass;
+
+  trace_board_minimal_ctrl board_minimal_profile (
+      .trace_enable_retire_o(board_trace_enable_retire),
+      .trace_enable_branch_o(board_trace_enable_branch),
+      .trace_enable_jump_o(board_trace_enable_jump),
+      .trace_enable_syscall_o(board_trace_enable_syscall),
+      .trace_enable_trap_o(board_trace_enable_trap),
+      .trace_enable_context_o(board_trace_enable_context),
+      .trace_enable_marker_o(board_trace_enable_marker),
+      .trace_enable_drop_o(board_trace_enable_drop),
+      .trace_pc_filter_enable_o(board_trace_pc_filter_enable),
+      .trace_pc_start_o(board_trace_pc_start),
+      .trace_pc_end_o(board_trace_pc_end),
+      .trace_priv_filter_enable_o(board_trace_priv_filter_enable),
+      .trace_priv_mask_o(board_trace_priv_mask)
+  );
+
+  assign trace_enable_retire_to_dut = board_minimal_profile_active ? board_trace_enable_retire : trace_enable_retire;
+  assign trace_enable_branch_to_dut = board_minimal_profile_active ? board_trace_enable_branch : trace_enable_branch;
+  assign trace_enable_jump_to_dut = board_minimal_profile_active ? board_trace_enable_jump : trace_enable_jump;
+  assign trace_enable_syscall_to_dut = board_minimal_profile_active ? board_trace_enable_syscall : trace_enable_syscall;
+  assign trace_enable_trap_to_dut = board_minimal_profile_active ? board_trace_enable_trap : trace_enable_trap;
+  assign trace_enable_context_to_dut = board_minimal_profile_active ? board_trace_enable_context : trace_enable_context;
+  assign trace_enable_marker_to_dut = board_minimal_profile_active ? board_trace_enable_marker : trace_enable_marker;
+  assign trace_enable_drop_to_dut = board_minimal_profile_active ? board_trace_enable_drop : trace_enable_drop;
+  assign trace_pc_filter_enable_to_dut = board_minimal_profile_active ? board_trace_pc_filter_enable : trace_pc_filter_enable;
+  assign trace_pc_start_to_dut = board_minimal_profile_active ? board_trace_pc_start : trace_pc_start;
+  assign trace_pc_end_to_dut = board_minimal_profile_active ? board_trace_pc_end : trace_pc_end;
+  assign trace_priv_filter_enable_to_dut = board_minimal_profile_active ? board_trace_priv_filter_enable : trace_priv_filter_enable;
+  assign trace_priv_mask_to_dut = board_minimal_profile_active ? board_trace_priv_mask : trace_priv_mask;
 
   trace_top #(
       .WB_PORTS(1),
@@ -82,19 +139,19 @@ module tb_trace_top_unit
       .csr_wdata_i(csr_wdata),
       .priv_lvl_i(priv_lvl),
       .satp_i(satp),
-      .trace_enable_retire_i(trace_enable_retire),
-      .trace_enable_branch_i(trace_enable_branch),
-      .trace_enable_jump_i(trace_enable_jump),
-      .trace_enable_syscall_i(trace_enable_syscall),
-      .trace_enable_trap_i(trace_enable_trap),
-      .trace_enable_context_i(trace_enable_context),
-      .trace_enable_marker_i(trace_enable_marker),
-      .trace_enable_drop_i(trace_enable_drop),
-      .trace_pc_filter_enable_i(trace_pc_filter_enable),
-      .trace_pc_start_i(trace_pc_start),
-      .trace_pc_end_i(trace_pc_end),
-      .trace_priv_filter_enable_i(trace_priv_filter_enable),
-      .trace_priv_mask_i(trace_priv_mask),
+      .trace_enable_retire_i(trace_enable_retire_to_dut),
+      .trace_enable_branch_i(trace_enable_branch_to_dut),
+      .trace_enable_jump_i(trace_enable_jump_to_dut),
+      .trace_enable_syscall_i(trace_enable_syscall_to_dut),
+      .trace_enable_trap_i(trace_enable_trap_to_dut),
+      .trace_enable_context_i(trace_enable_context_to_dut),
+      .trace_enable_marker_i(trace_enable_marker_to_dut),
+      .trace_enable_drop_i(trace_enable_drop_to_dut),
+      .trace_pc_filter_enable_i(trace_pc_filter_enable_to_dut),
+      .trace_pc_start_i(trace_pc_start_to_dut),
+      .trace_pc_end_i(trace_pc_end_to_dut),
+      .trace_priv_filter_enable_i(trace_priv_filter_enable_to_dut),
+      .trace_priv_mask_i(trace_priv_mask_to_dut),
       .trace_valid_o(trace_valid),
       .trace_packet_o(trace_packet)
   );
@@ -142,6 +199,7 @@ module tb_trace_top_unit
       trace_enable_context     = 1'b1;
       trace_enable_marker      = 1'b1;
       trace_enable_drop        = 1'b1;
+      board_minimal_profile_active = 1'b0;
       trace_pc_filter_enable   = 1'b0;
       trace_pc_start           = 64'd0;
       trace_pc_end             = 64'hffff_ffff_ffff_ffff;
@@ -375,6 +433,33 @@ module tb_trace_top_unit
     end
   endtask
 
+  task automatic run_board_minimal();
+    begin
+      board_minimal_profile_active = 1'b1;
+
+      commit_instr_event(64'h8000_0300, 32'h0000_0013, 64'h8000_0304);
+      commit_instr_event(64'h8000_0310, 32'h0100_00ef, 64'h8000_0320);
+
+      commit_instr_event(64'h8000_0320, 32'h0005_0863, 64'h8000_0330);
+
+      write_arg(5'd17, 64'd64);
+      write_arg(5'd10, 64'd1);
+      commit_valid     = 1'b1;
+      commit_exception = 1'b1;
+      commit_pc        = 64'h8000_0340;
+      commit_instr     = 32'h0000_0073;
+      trap_valid       = 1'b1;
+      trap_pc          = 64'h8000_0340;
+      trap_cause       = 64'd11;
+      trap_tval        = 64'd0;
+      tick();
+
+      priv_lvl = TRACE_PRIV_S;
+      commit_instr_event(64'h8000_0350, 32'h0000_0013, 64'h8000_0354);
+      finish_test();
+    end
+  endtask
+
   initial begin
     if (!$value$plusargs("TEST_NAME=%s", test_name)) begin
       test_name = "smoke";
@@ -402,6 +487,7 @@ module tb_trace_top_unit
     else if (test_name == "context") run_context();
     else if (test_name == "backpressure") run_backpressure();
     else if (test_name == "filter") run_filter();
+    else if (test_name == "board_minimal") run_board_minimal();
     else $fatal(1, "Unknown TEST_NAME=%s", test_name);
   end
 

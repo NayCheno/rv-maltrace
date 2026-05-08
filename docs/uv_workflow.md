@@ -19,6 +19,7 @@ uv run python tools/check_vivado_authorization.py
 uv run python tools/check_bringup_runbook.py
 uv run python tools/check_baseline_pass_criteria.py
 uv run python tools/check_trace_export_decision.py
+uv run python tools/check_board_trace_minimal.py
 ```
 
 Slash groups are expanded, so this runs the long build sequence:
@@ -290,6 +291,18 @@ DMA/Ethernet streaming are deferred.
 ```powershell
 uv run python tools/check_trace_export_decision.py
 uv run python tools/check_trace_export_decision.py --self-test
+```
+
+## Board Trace Minimal Policy
+
+Phase 5.2 is tracked in `docs/board_trace_minimal.md`. The first board trace
+wrapper is `rtl/trace/trace_board_minimal_top.sv`: full retire, jump, and marker
+events stay off; syscall, trap, context, branch, and drop accounting stay on.
+The `board_minimal` trace-unit regression exercises the profile wiring.
+
+```powershell
+uv run python tools/check_board_trace_minimal.py
+uv run python tools/check_board_trace_minimal.py --self-test
 ```
 
 ## Trace Compression Prototype

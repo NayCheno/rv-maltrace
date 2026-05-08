@@ -1,0 +1,35 @@
+{
+  "test": "board_minimal",
+  "mode": "trace_unit",
+  "exact_counts": {
+    "BRANCH": 1,
+    "ECALL": 1,
+    "TRAP": 1,
+    "PRIV": 1
+  },
+  "forbidden_events": ["RETIRE", "JUMP", "MARKER"],
+  "required_events": [
+    {
+      "evt": "BRANCH",
+      "pc": "0x0000000080000320",
+      "taken": true,
+      "target": "0x0000000080000330"
+    },
+    {
+      "evt": "ECALL",
+      "pc": "0x0000000080000340",
+      "a7": "0x0000000000000040",
+      "a0": "0x0000000000000001"
+    },
+    {
+      "evt": "TRAP",
+      "pc": "0x0000000080000340",
+      "cause": "0x000000000000000b"
+    },
+    {
+      "evt": "PRIV",
+      "pc": "0x0000000080000350",
+      "new_priv": "S"
+    }
+  ]
+}
