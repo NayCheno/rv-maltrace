@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -37,6 +38,8 @@ TASK_ALIASES = {
     "fpga:build": "bitstream:build",
     "vivado": "vivado:check",
     "vivado:check": "vivado:check",
+    "vivado:project": "vivado:project",
+    "vivado:xpr": "vivado:project",
     "config": "config:show",
     "config:show": "config:show",
     "tasks": "tasks:list",
@@ -53,6 +56,7 @@ DISPLAY_TASKS = [
     "toolchain:build",
     "bootrom:build",
     "vivado:check",
+    "vivado:project",
     "bitstream:build",
     "bitstream:collect",
     "config:show",
@@ -289,6 +293,17 @@ def vivado_artifact_dir(root: Path, config: dict) -> Path:
     board = safe_artifact_segment(str(config.get("board", "genesys2")))
     target = safe_artifact_segment(str(config.get("target", "cv64a6_imafdc_sv39")))
     return build_dir / "vivado" / f"{board}-{target}"
+
+
+def vivado_project_dir(root: Path, config: dict) -> Path:
+    override = config.get("vivado_project_dir")
+    if override:
+        return configured_path(root, str(override))
+    return vivado_artifact_dir(root, config) / "project"
+
+
+def vivado_project_xpr(root: Path, config: dict) -> Path:
+    return vivado_project_dir(root, config) / "ariane.xpr"
 
 
 def makefile_relative_path(path: Path, start: Path) -> str:
@@ -667,8 +682,163 @@ def task_bootrom_build(root: Path, config: dict, env: dict[str, str], dry_run: b
     )
 
 
-def tcl_braced(value: str) -> str:
-    return "{" + value.replace("\\", "/").replace("}", "\\}") + "}"
+def tcl_braced(value: str | os.PathLike[str]) -> str:
+    return "{" + as_posix_path(value).replace("}", "\\}") + "}"
+
+
+def tcl_list(values: Iterable[str | os.PathLike[str]]) -> str:
+    return "[list " + " ".join(tcl_braced(as_posix_path(value)) for value in values) + "]"
+
+
+def normalize_vivado_source_path(fpga_dir: Path, repo_root: Path, value: str) -> Path:
+    raw = value.strip().replace("\\", "/")
+    lower = raw.lower()
+    if lower.startswith("/r/"):
+        return repo_root / raw[3:]
+    if lower.startswith("r:/"):
+        return repo_root / raw[3:]
+
+    drive_slash = re.match(r"^/([a-zA-Z])/(.*)$", raw)
+    if drive_slash:
+        return Path(f"{drive_slash.group(1).upper()}:/{drive_slash.group(2)}")
+
+    if re.match(r"^[a-zA-Z]:/", raw):
+        return Path(raw)
+
+    return fpga_dir / raw
+
+
+def parse_vivado_add_sources(fpga_dir: Path, repo_root: Path, add_sources: Path) -> tuple[dict[str, list[Path]], list[str]]:
+    grouped: dict[str, list[Path]] = {"VHDL": [], "Verilog": [], "SystemVerilog": []}
+    missing: list[str] = []
+    seen: set[str] = set()
+
+    for line in add_sources.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        file_type = ""
+        payload = ""
+        match = re.fullmatch(r"read_vhdl\s+\{(.*)\}", line)
+        if match:
+            file_type = "VHDL"
+            payload = match.group(1)
+        else:
+            match = re.fullmatch(r"read_verilog\s+-sv\s+\{(.*)\}", line)
+            if match:
+                file_type = "SystemVerilog"
+                payload = match.group(1)
+            else:
+                match = re.fullmatch(r"read_verilog\s+\{(.*)\}", line)
+                if match:
+                    file_type = "Verilog"
+                    payload = match.group(1)
+
+        if not file_type:
+            continue
+
+        for raw in payload.split():
+            source = normalize_vivado_source_path(fpga_dir, repo_root, raw)
+            key = normalize_windows_path(source)
+            if key in seen:
+                continue
+            seen.add(key)
+            if source.exists():
+                grouped[file_type].append(source)
+            else:
+                missing.append(raw)
+
+    return grouped, missing
+
+
+def board_constraint_and_header_files(fpga_dir: Path, cva6_dir: Path, board: str) -> tuple[list[Path], list[Path]]:
+    board_map = {
+        "genesys2": "genesysii",
+        "kc705": "kc705",
+        "vc707": "vc707",
+        "nexys_video": "nexys_video",
+    }
+    board_file = board_map.get(board)
+    constraints = [fpga_dir / "constraints" / "ariane.xdc"]
+    headers = [cva6_dir / "vendor" / "pulp-platform" / "common_cells" / "include" / "common_cells" / "registers.svh"]
+    if board_file:
+        constraints.insert(0, fpga_dir / "constraints" / f"{board_file if board_file != 'genesysii' else 'genesys-2'}.xdc")
+        headers.insert(0, fpga_dir / "src" / f"{board_file}.svh")
+    return constraints, headers
+
+
+def include_dirs(fpga_dir: Path, cva6_dir: Path) -> list[Path]:
+    return [
+        fpga_dir / "src" / "axi_sd_bridge" / "include",
+        cva6_dir / "vendor" / "pulp-platform" / "common_cells" / "include",
+        cva6_dir / "vendor" / "pulp-platform" / "axi" / "include",
+        cva6_dir / "core" / "cache_subsystem" / "hpdcache" / "rtl" / "include",
+        cva6_dir / "corev_apu" / "register_interface" / "include",
+        cva6_dir / "corev_apu" / "instr_tracing" / "ITI" / "include",
+        cva6_dir / "core" / "include",
+    ]
+
+
+def vivado_project_import_script(root: Path, config: dict, project_dir: Path) -> tuple[str, int, int]:
+    cva6_dir = configured_path(root, str(config.get("cva6_dir", "rtl/cva6")), must_exist=True)
+    fpga_dir = cva6_dir / "corev_apu" / "fpga"
+    add_sources = fpga_dir / "scripts" / "add_sources.tcl"
+    if not add_sources.exists():
+        raise TaskError(f"Missing source list: {add_sources}. Run 'uv run rvmt bitstream:build' first.")
+
+    grouped, missing = parse_vivado_add_sources(fpga_dir, root, add_sources)
+    board = str(config.get("board", "genesys2"))
+    constraints, headers = board_constraint_and_header_files(fpga_dir, cva6_dir, board)
+    constraints = [path for path in constraints if path.exists()]
+    headers = [path for path in headers if path.exists()]
+    ip_files = sorted(fpga_dir.glob("xilinx/*/*.srcs/sources_1/ip/*/*.xci"))
+    source_count = sum(len(files) for files in grouped.values()) + len(headers) + len(ip_files)
+
+    repo_paths = vivado_board_repo_paths(root, config)
+    repo_line = f"set_param board.repoPaths {tcl_list(repo_paths)}" if repo_paths else ""
+    xpart, xboard = xilinx_settings(config)
+    script = f"""
+set rvmt_source_count 0
+set rvmt_constraint_count 0
+{repo_line}
+file mkdir {tcl_braced(project_dir)}
+create_project ariane {tcl_braced(project_dir)} -force -part {tcl_braced(xpart)}
+set_property board_part {tcl_braced(xboard)} [current_project]
+
+proc rvmt_add_files {{files file_type fileset}} {{
+  if {{[llength $files] == 0}} {{
+    return
+  }}
+  add_files -fileset $fileset -norecurse $files
+  if {{$file_type ne ""}} {{
+    foreach file $files {{
+      set objects [get_files -quiet [file normalize $file]]
+      if {{[llength $objects] > 0}} {{
+        set_property file_type $file_type $objects
+      }}
+    }}
+  }}
+}}
+
+rvmt_add_files {tcl_list(grouped["VHDL"])} VHDL sources_1
+rvmt_add_files {tcl_list(grouped["Verilog"])} Verilog sources_1
+rvmt_add_files {tcl_list(grouped["SystemVerilog"])} SystemVerilog sources_1
+rvmt_add_files {tcl_list(headers)} {{Verilog Header}} sources_1
+foreach file {tcl_list(headers)} {{
+  set objects [get_files -quiet [file normalize $file]]
+  if {{[llength $objects] > 0}} {{
+    set_property is_global_include true $objects
+  }}
+}}
+rvmt_add_files {tcl_list(ip_files)} "" sources_1
+rvmt_add_files {tcl_list(constraints)} "" constrs_1
+
+set_property include_dirs {tcl_list(include_dirs(fpga_dir, cva6_dir))} [get_filesets sources_1]
+set_property top ariane_xilinx [get_filesets sources_1]
+update_compile_order -fileset sources_1
+puts "RVMT_PROJECT_SOURCES=[llength [get_files -quiet -of_objects [get_filesets sources_1]]]"
+puts "RVMT_PROJECT_CONSTRAINTS=[llength [get_files -quiet -of_objects [get_filesets constrs_1]]]"
+close_project
+"""
+    return script, source_count, len(missing)
 
 
 def task_vivado_check(root: Path, config: dict, env: dict[str, str], dry_run: bool) -> None:
@@ -753,6 +923,59 @@ def task_vivado_check(root: Path, config: dict, env: dict[str, str], dry_run: bo
         raise TaskError(f"Vivado preflight failed with exit code {completed.returncode}")
 
 
+def task_vivado_project(root: Path, config: dict, env: dict[str, str], dry_run: bool) -> None:
+    vivado = resolve_vivado(config)
+    cva6_dir = configured_path(root, str(config.get("cva6_dir", "rtl/cva6")), must_exist=not dry_run)
+    fpga_dir = cva6_dir / "corev_apu" / "fpga"
+    project_dir = vivado_project_dir(root, config)
+    xpr = vivado_project_xpr(root, config)
+    if dry_run:
+        print(f"+ {quote_for_display(vivado)} -mode batch -source <vivado-project-import.tcl> # {xpr}")
+        return
+
+    project_dir.mkdir(parents=True, exist_ok=True)
+    script, expected_sources, missing_sources = vivado_project_import_script(root, config, project_dir)
+    with tempfile.NamedTemporaryFile("w", encoding="utf-8", suffix=".tcl", delete=False) as tcl_file:
+        tcl_file.write(script)
+        tcl_path = Path(tcl_file.name)
+
+    cmd = [vivado, "-mode", "batch", "-nojournal", "-nolog", "-notrace", "-source", str(tcl_path)]
+    print("+ " + " ".join(quote_for_display(part) for part in cmd))
+    try:
+        completed = subprocess.run(
+            cmd,
+            cwd=str(root),
+            env=prepend_env_path(env, Path(vivado).parent),
+            capture_output=True,
+            encoding="utf-8",
+            errors="replace",
+        )
+    finally:
+        try:
+            tcl_path.unlink()
+        except OSError:
+            pass
+
+    output = "\n".join(part for part in (completed.stdout, completed.stderr) if part)
+    markers = [line.strip() for line in output.splitlines() if line.startswith("RVMT_")]
+    for marker in markers:
+        print(marker.replace("RVMT_PROJECT_SOURCES=", "Vivado project sources: ").replace(
+            "RVMT_PROJECT_CONSTRAINTS=", "Vivado project constraints: "
+        ))
+
+    if completed.returncode:
+        details = "\n".join(markers) or output.strip()
+        raise TaskError(f"Vivado project import failed with exit code {completed.returncode}:\n{details}")
+
+    if missing_sources:
+        print(f"rvmt: warning: {missing_sources} source paths from add_sources.tcl were missing.", file=sys.stderr)
+    transient_xpr = fpga_dir / "ariane.xpr"
+    if transient_xpr.exists():
+        transient_xpr.unlink()
+    print(f"Vivado project ready: {xpr}")
+    print(f"Expected imported source-like files: {expected_sources}")
+
+
 def task_bitstream_build(root: Path, config: dict, env: dict[str, str], dry_run: bool) -> None:
     subst_drive = vivado_subst_drive(config)
     subst_before = current_subst_mappings() if subst_drive and not dry_run else {}
@@ -819,6 +1042,8 @@ def task_bitstream_build(root: Path, config: dict, env: dict[str, str], dry_run:
         if not dry_run:
             project = cva6_dir / "corev_apu" / "fpga" / "ariane.xpr"
             make_vivado_project_portable(project, work_root, root)
+            if bool(config.get("vivado_populate_project", True)):
+                task_vivado_project(root, config, env, dry_run=False)
             if work_root != root:
                 print_vivado_artifact_summary(real_artifact_dir)
             else:
@@ -851,6 +1076,7 @@ def show_config(root: Path, config: dict) -> None:
     print(f"vivado_board_repos  = {[str(path) for path in vivado_board_repo_paths(root, config)]}")
     print(f"build_dir           = {configured_path(root, str(config.get('build_dir', 'build')))}")
     print(f"vivado_artifacts    = {vivado_artifact_dir(root, config)}")
+    print(f"vivado_project      = {vivado_project_xpr(root, config)}")
     print(f"make                = {config.get('make', 'make')}")
     print(f"make_path_prepend   = {config.get('make_path_prepend', [])}")
     print(f"make_resolved       = {resolve_make(root, config)}")
@@ -995,6 +1221,8 @@ def main(argv: list[str] | None = None) -> int:
                 task_bootrom_build(root, config, env, args.dry_run)
             elif task == "vivado:check":
                 task_vivado_check(root, config, env, args.dry_run)
+            elif task == "vivado:project":
+                task_vivado_project(root, config, env, args.dry_run)
             elif task == "bitstream:build":
                 task_bitstream_build(root, config, env, args.dry_run)
             elif task == "bitstream:collect":
