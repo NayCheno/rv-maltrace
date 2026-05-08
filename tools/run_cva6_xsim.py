@@ -8,8 +8,10 @@ import sys
 from pathlib import Path
 
 
-TOP = "tb_cva6_direct_xsim_smoke"
-SNAPSHOT = f"{TOP}_snap"
+TRACE_TOP = "tb_cva6_direct_xsim_smoke"
+TRACE_SNAPSHOT = f"{TRACE_TOP}_snap"
+NOTRACE_TOP = "tb_cva6_direct_xsim_notrace_smoke"
+NOTRACE_SNAPSHOT = f"{NOTRACE_TOP}_snap"
 XSIM_FATAL_PATTERNS = [
     "FATAL_ERROR:",
     "Vivado Simulator kernel has discovered an exceptional condition",
@@ -242,18 +244,36 @@ def publish_artifacts(
     compare_src = work_result_dir / "compare.log"
     compare_dst = result_dir / "compare.log"
     if compare_message is not None:
-        compare_dst.write_text(compare_message, encoding="utf-8", newline="\n")
+        if compare_src.exists():
+            shutil.copy2(compare_src, compare_dst)
+            with compare_dst.open("a", encoding="utf-8", newline="\n") as handle:
+                handle.write(compare_message)
+        else:
+            compare_dst.write_text(compare_message, encoding="utf-8", newline="\n")
     else:
         copy_if_exists(compare_src, compare_dst)
 
     copy_if_exists(log, result_dir / "run.log")
-    copy_if_exists(work_dir / "xsim.log", result_dir / "xsim.log")
+    if (work_result_dir / "xsim.log").exists():
+        shutil.copy2(work_result_dir / "xsim.log", result_dir / "xsim.log")
+    else:
+        copy_if_exists(work_dir / "xsim.log", result_dir / "xsim.log")
+    copy_if_exists(work_result_dir / "xsim_notrace.log", result_dir / "xsim_notrace.log")
 
 
 def reset_result_dir(path: Path) -> None:
     if path.exists():
         shutil.rmtree(path)
     path.mkdir(parents=True)
+
+
+def remove_public_cva6_results(result_root: Path) -> None:
+    if not result_root.exists():
+        return
+    for test_name, _, _ in CVA6_XSIM_TESTS:
+        stale_result = result_root / test_name
+        if stale_result.exists():
+            shutil.rmtree(stale_result)
 
 
 def flatten_core_flist(root: Path, cva6_root: Path, work_dir: Path, env: dict[str, str], dry_run: bool) -> tuple[list[Path], list[Path]]:
@@ -342,6 +362,7 @@ def build(root: Path, args: argparse.Namespace) -> None:
 
     log = work_dir / "run.log"
     if not args.dry_run:
+        remove_public_cva6_results(result_root)
         ensure_clean_workdir(root, work_dir)
 
     xvlog = resolve_tool("xvlog", vivado_bin)
@@ -359,11 +380,6 @@ def build(root: Path, args: argparse.Namespace) -> None:
 
     work_result_root = work_dir / "results" / "vivado_sim"
     work_result_root.mkdir(parents=True, exist_ok=True)
-    if result_root.exists():
-        for test_name, _, _ in CVA6_XSIM_TESTS:
-            stale_result = result_root / test_name
-            if stale_result.exists():
-                shutil.rmtree(stale_result)
     pkg_file = work_dir / "ariane_pkg.files"
     src_file = work_dir / "src.files"
     vhdl_file = work_dir / "uart_vhdl.files"
@@ -401,9 +417,29 @@ def build(root: Path, args: argparse.Namespace) -> None:
             "dpi",
             "--sv_root",
             as_posix(work_dir / "xsim.dir" / "work" / "xsc"),
-            f"work.{TOP}",
+            f"work.{TRACE_TOP}",
             "-s",
-            SNAPSHOT,
+            TRACE_SNAPSHOT,
+            "-debug",
+            "typical",
+        ],
+        cwd=work_dir,
+        env=env,
+        log=log,
+        dry_run=False,
+    )
+    run(
+        [
+            xelab,
+            "-L",
+            "uvm",
+            "--sv_lib",
+            "dpi",
+            "--sv_root",
+            as_posix(work_dir / "xsim.dir" / "work" / "xsc"),
+            f"work.{NOTRACE_TOP}",
+            "-s",
+            NOTRACE_SNAPSHOT,
             "-debug",
             "typical",
         ],
@@ -421,7 +457,7 @@ def build(root: Path, args: argparse.Namespace) -> None:
         reset_result_dir(result_dir)
         shutil.copyfile(mem_src, local_mem)
 
-        xsim_cmd = [xsim, SNAPSHOT]
+        xsim_cmd = [xsim, TRACE_SNAPSHOT]
         if args.disable_circular_dependency_check:
             xsim_cmd.append("--disable_circular_dependency_check")
         xsim_cmd.append("--runall")
@@ -447,6 +483,7 @@ def build(root: Path, args: argparse.Namespace) -> None:
                 compare_message=f"[{status}] {message}\n",
             )
             raise
+        copy_if_exists(work_dir / "xsim.log", work_result_dir / "xsim.log")
 
         try:
             run(
@@ -468,6 +505,36 @@ def build(root: Path, args: argparse.Namespace) -> None:
         except RuntimeError:
             publish_artifacts(work_dir=work_dir, work_result_dir=work_result_dir, result_dir=result_dir, log=log)
             raise
+
+        notrace_cmd = [xsim, NOTRACE_SNAPSHOT]
+        if args.disable_circular_dependency_check:
+            notrace_cmd.append("--disable_circular_dependency_check")
+        notrace_cmd.append("--runall")
+        try:
+            run(
+                notrace_cmd,
+                cwd=work_dir,
+                env=env,
+                log=log,
+                dry_run=False,
+                timeout=args.run_timeout_seconds,
+                fatal_patterns=XSIM_FATAL_PATTERNS,
+                fatal_message=f"Vivado xsim kernel fatal during {test_name} no-trace run.",
+            )
+        except RuntimeError as exc:
+            message = str(exc).splitlines()[0]
+            copy_if_exists(work_dir / "xsim.log", work_result_dir / "xsim_notrace.log")
+            publish_artifacts(
+                work_dir=work_dir,
+                work_result_dir=work_result_dir,
+                result_dir=result_dir,
+                log=log,
+                compare_message=f"[FAIL] no-trace final result mismatch for {test_name}: {message}\n",
+            )
+            raise
+        copy_if_exists(work_dir / "xsim.log", work_result_dir / "xsim_notrace.log")
+        with (work_result_dir / "compare.log").open("a", encoding="utf-8", newline="\n") as handle:
+            handle.write("[PASS] no-trace final result matched trace-enabled run\n")
         publish_artifacts(work_dir=work_dir, work_result_dir=work_result_dir, result_dir=result_dir, log=log)
 
 

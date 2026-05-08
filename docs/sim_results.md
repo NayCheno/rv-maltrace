@@ -30,11 +30,13 @@ results/vivado_sim/<test>/
   trace.jsonl
   compare.log
   xsim.log
+  xsim_notrace.log
   waveform.wdb
 ```
 
 For direct-core `cva6_*` tests, `run.log` and `xsim.log` are also published on
-BLOCKED runs.
+BLOCKED runs. `xsim_notrace.log` records the same DRAM image running through the
+direct-core snapshot with the trace adapter/sink disabled.
 When Vivado fails before any committed events, `trace.jsonl` is intentionally
 empty and `compare.log` starts with `[BLOCKED]`.
 
@@ -44,9 +46,11 @@ empty and `compare.log` starts with `[BLOCKED]`.
 - Vivado trace unit and RVFI adapter `xvlog/xelab/xsim`: PASS via `vivado -mode batch -source sim/vivado/run_all_tests.tcl`.
 - CVA6 direct-core xsim matrix: PASS via `uv run rvmt sim:cva6-smoke`. The runner
   compiles the flattened CVA6 filelist, trace sources, direct-core testbench,
-  DPI stubs, elaborates `tb_cva6_direct_xsim_smoke_snap`, then runs six
-  hand-encoded bare-metal DRAM images through the same snapshot and compares
-  each JSONL trace against its `sim/golden/cva6_*.expected.json` file.
+  DPI stubs, elaborates trace-enabled and no-trace direct-core snapshots, then
+  runs six hand-encoded bare-metal DRAM images through both snapshots. The
+  trace-enabled run compares each JSONL trace against its
+  `sim/golden/cva6_*.expected.json` file; the no-trace run must reach the same
+  tohost PASS result before the test is reported as PASS.
 - Full CVA6 `ariane_testharness` xsim run: BLOCKED. Vivado v2025.2 reports
   `FATAL_ERROR` at time 0 in upstream
   `rtl/cva6/vendor/pulp-platform/axi/src/axi_demux.sv`, from the SoC AXI crossbar
@@ -58,6 +62,6 @@ empty and `compare.log` starts with `[BLOCKED]`.
   RVFI events.
 
 The synthetic tests verify tap packet semantics, CSR/SATP/context events, and the
-CVA6 RVFI adapter. The `cva6_*` rows are real CVA6 core execution tests, but they
-intentionally avoid the full SoC harness while the upstream AXI xbar runtime
-blocker remains open.
+CVA6 RVFI adapter. The `cva6_*` rows are real CVA6 core execution tests with
+trace-on/no-trace final-result matching, but they intentionally avoid the full
+SoC harness while the upstream AXI xbar runtime blocker remains open.

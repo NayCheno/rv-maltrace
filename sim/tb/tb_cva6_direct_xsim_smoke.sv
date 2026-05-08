@@ -2,7 +2,9 @@
 `include "rvfi_types.svh"
 `include "iti_types.svh"
 
-module tb_cva6_direct_xsim_smoke;
+module tb_cva6_direct_xsim_smoke #(
+    parameter bit TRACE_ENABLE = 1'b1
+);
   import ariane_pkg::*;
 
 `ifndef RVMT_CVA6_MAX_CYCLES
@@ -162,40 +164,45 @@ module tb_cva6_direct_xsim_smoke;
     assign rvmt_rvfi_rd_wdata[port] = rvfi_instr[port].rd_wdata[CVA6Cfg.XLEN-1:0];
   end
 
-  cva6_rvfi_trace_adapter #(
-    .COMMIT_PORTS(CVA6Cfg.NrCommitPorts),
-    .XLEN(CVA6Cfg.XLEN),
-    .ILEN(config_pkg::ILEN),
-    .VLEN(CVA6Cfg.VLEN)
-  ) i_trace_adapter (
-    .clk_i(clk_i),
-    .rst_ni(rst_ni),
-    .rvfi_valid_i(rvmt_rvfi_valid),
-    .rvfi_insn_i(rvmt_rvfi_insn),
-    .rvfi_trap_i(rvmt_rvfi_trap),
-    .rvfi_cause_i(rvmt_rvfi_cause),
-    .rvfi_tval_i(rvmt_rvfi_tval),
-    .rvfi_mode_i(rvmt_rvfi_mode),
-    .rvfi_compressed_i(rvmt_rvfi_compressed),
-    .rvfi_pc_rdata_i(rvmt_rvfi_pc),
-    .rvfi_rs1_rdata_i(rvmt_rvfi_rs1),
-    .rvfi_rs2_rdata_i(rvmt_rvfi_rs2),
-    .rvfi_rd_addr_i(rvmt_rvfi_rd),
-    .rvfi_rd_wdata_i(rvmt_rvfi_rd_wdata),
-    .csr_valid_i(|rvfi_csr.satp.wmask),
-    .csr_addr_i(12'h180),
-    .csr_wdata_i(rvfi_csr.satp.wdata),
-    .satp_i(rvfi_csr.satp.wdata),
-    .trace_valid_o(rvmt_trace_valid),
-    .trace_packet_o(rvmt_trace_packet)
-  );
+  if (TRACE_ENABLE) begin : gen_trace
+    cva6_rvfi_trace_adapter #(
+      .COMMIT_PORTS(CVA6Cfg.NrCommitPorts),
+      .XLEN(CVA6Cfg.XLEN),
+      .ILEN(config_pkg::ILEN),
+      .VLEN(CVA6Cfg.VLEN)
+    ) i_trace_adapter (
+      .clk_i(clk_i),
+      .rst_ni(rst_ni),
+      .rvfi_valid_i(rvmt_rvfi_valid),
+      .rvfi_insn_i(rvmt_rvfi_insn),
+      .rvfi_trap_i(rvmt_rvfi_trap),
+      .rvfi_cause_i(rvmt_rvfi_cause),
+      .rvfi_tval_i(rvmt_rvfi_tval),
+      .rvfi_mode_i(rvmt_rvfi_mode),
+      .rvfi_compressed_i(rvmt_rvfi_compressed),
+      .rvfi_pc_rdata_i(rvmt_rvfi_pc),
+      .rvfi_rs1_rdata_i(rvmt_rvfi_rs1),
+      .rvfi_rs2_rdata_i(rvmt_rvfi_rs2),
+      .rvfi_rd_addr_i(rvmt_rvfi_rd),
+      .rvfi_rd_wdata_i(rvmt_rvfi_rd_wdata),
+      .csr_valid_i(|rvfi_csr.satp.wmask),
+      .csr_addr_i(12'h180),
+      .csr_wdata_i(rvfi_csr.satp.wdata),
+      .satp_i(rvfi_csr.satp.wdata),
+      .trace_valid_o(rvmt_trace_valid),
+      .trace_packet_o(rvmt_trace_packet)
+    );
 
-  tb_trace_sink i_trace_sink (
-    .clk_i(clk_i),
-    .rst_ni(rst_ni),
-    .trace_valid_i(rvmt_trace_valid),
-    .trace_packet_i(rvmt_trace_packet)
-  );
+    tb_trace_sink i_trace_sink (
+      .clk_i(clk_i),
+      .rst_ni(rst_ni),
+      .trace_valid_i(rvmt_trace_valid),
+      .trace_packet_i(rvmt_trace_packet)
+    );
+  end else begin : gen_no_trace
+    assign rvmt_trace_valid = 1'b0;
+    assign rvmt_trace_packet = trace_pkg::trace_null_packet();
+  end
 
   initial begin
     if (!$value$plusargs("SMOKE_MEM=%s", smoke_mem)) begin
@@ -237,7 +244,7 @@ module tb_cva6_direct_xsim_smoke;
   initial begin
     max_cycles = `RVMT_CVA6_MAX_CYCLES;
     if ($value$plusargs("MAX_CYCLES=%d", max_cycles)) begin
-      $display("[rvmt] Direct CVA6 xsim smoke max cycles: %0d", max_cycles);
+      $display("[rvmt] Direct CVA6 xsim max cycles: %0d", max_cycles);
     end
 
     wait (rst_ni);
@@ -246,16 +253,26 @@ module tb_cva6_direct_xsim_smoke;
     end
 
     if (!tohost_q[0]) begin
-      $fatal(1, "[rvmt] Direct CVA6 xsim smoke timed out after %0d cycles", max_cycles);
+      $fatal(1, "[rvmt] Direct CVA6 xsim timed out after %0d cycles", max_cycles);
     end
 
     if ((tohost_q >> 1) != 0) begin
-      $fatal(1, "[rvmt] Direct CVA6 xsim smoke failed: tohost=%0d", (tohost_q >> 1));
+      $fatal(1, "[rvmt] Direct CVA6 xsim failed: tohost=%0d", (tohost_q >> 1));
     end
 
-    $display("[rvmt] Direct CVA6 xsim smoke PASS after %0d cycles", cycles);
+    if (TRACE_ENABLE) begin
+      $display("[rvmt] Direct CVA6 xsim trace PASS after %0d cycles", cycles);
+    end else begin
+      $display("[rvmt] Direct CVA6 xsim no-trace PASS after %0d cycles", cycles);
+    end
     repeat (5) @(posedge clk_i);
     $finish;
   end
 
+endmodule
+
+module tb_cva6_direct_xsim_notrace_smoke;
+  tb_cva6_direct_xsim_smoke #(
+    .TRACE_ENABLE(1'b0)
+  ) i_tb();
 endmodule
