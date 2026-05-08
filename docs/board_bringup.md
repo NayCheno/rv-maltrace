@@ -65,6 +65,8 @@ Phase 4.4 is tracked in `docs/baseline_pass_criteria.md`. Current status:
 
 ## Trace-enabled Bring-up Plan
 
+Phase 5.1 export choice is recorded in `docs/trace_export_decision.md`.
+
 1. Keep full retire disabled by default.
 2. Enable syscall, trap, context, and branch events first.
 3. Use drop mode before any lossless backpressure mode.

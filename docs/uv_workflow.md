@@ -18,6 +18,7 @@ uv run python tools/check_board_baseline.py
 uv run python tools/check_vivado_authorization.py
 uv run python tools/check_bringup_runbook.py
 uv run python tools/check_baseline_pass_criteria.py
+uv run python tools/check_trace_export_decision.py
 ```
 
 Slash groups are expanded, so this runs the long build sequence:
@@ -278,6 +279,17 @@ the captured observations:
 
 ```powershell
 uv run python tools/check_baseline_pass_criteria.py --evidence-root results/board/genesys2_baseline/<run-id>
+```
+
+## Trace Export Decision
+
+Phase 5.1 is tracked in `docs/trace_export_decision.md`. The first board export
+path is BRAM ring buffer plus ILA/JTAG dump; UART streaming and AXI
+DMA/Ethernet streaming are deferred.
+
+```powershell
+uv run python tools/check_trace_export_decision.py
+uv run python tools/check_trace_export_decision.py --self-test
 ```
 
 ## Trace Compression Prototype
