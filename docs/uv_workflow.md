@@ -24,6 +24,8 @@ uv run python tools/check_board_trace_programs.py
 uv run python tools/check_linux_behavior_principles.py
 uv run python tools/check_linux_benign_dataset.py
 uv run python tools/check_linux_malware_like_dataset.py
+uv run python tools/recover_behavior.py --self-test
+uv run python tools/check_linux_behavior_recovery.py
 ```
 
 Slash groups are expanded, so this runs the long build sequence:
@@ -356,6 +358,20 @@ chains. It does not include real malware.
 ```powershell
 uv run python tools/check_linux_malware_like_dataset.py
 uv run python tools/check_linux_malware_like_dataset.py --self-test
+```
+
+## Linux Behavior Recovery Targets
+
+Phase 6.4 is tracked in `docs/linux_behavior_recovery_targets.md` and
+`experiments/linux_behavior/recovery_targets.json`. The offline recovery
+prototype is `tools/recover_behavior.py`; it derives `semantic_events.json`,
+`behavior_graph.json`, and `recovery_report.md` from `trace.jsonl`.
+
+```powershell
+uv run python tools/recover_behavior.py --self-test
+uv run python tools/recover_behavior.py --trace sim/golden/behavior_recovery.trace.jsonl --out-dir build/behavior_recovery_smoke
+uv run python tools/check_linux_behavior_recovery.py
+uv run python tools/check_linux_behavior_recovery.py --self-test
 ```
 
 ## Trace Compression Prototype

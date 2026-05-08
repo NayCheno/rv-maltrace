@@ -1,0 +1,47 @@
+{
+  "phase": "6.4",
+  "status": "TODO(EXPERIMENT)",
+  "policy_ref": "experiments/linux_behavior/policy.json",
+  "dataset_refs": [
+    "experiments/linux_behavior/benign/manifest.json",
+    "experiments/linux_behavior/malware_like/manifest.json"
+  ],
+  "input_artifact": "trace.jsonl",
+  "output_artifacts": [
+    "semantic_events.json",
+    "behavior_graph.json",
+    "recovery_report.md"
+  ],
+  "targets": [
+    {
+      "id": "syscall_sequence",
+      "source_events": ["ECALL"],
+      "output": "semantic_events.syscall_sequence",
+      "required_fields": ["cycle", "pc", "priv", "a7"]
+    },
+    {
+      "id": "control_flow_segment",
+      "source_events": ["BRANCH", "JUMP"],
+      "output": "semantic_events.control_flow_segments",
+      "required_fields": ["cycle", "pc", "target"]
+    },
+    {
+      "id": "trap_context_transition",
+      "source_events": ["TRAP", "CSR", "SATP", "PRIV"],
+      "output": "semantic_events.trap_context_transitions",
+      "required_fields": ["cycle", "pc", "evt"]
+    },
+    {
+      "id": "privilege_boundary",
+      "source_events": ["ECALL", "TRAP", "PRIV"],
+      "output": "semantic_events.privilege_boundaries",
+      "required_fields": ["cycle", "pc", "priv"]
+    },
+    {
+      "id": "basic_behavior_graph",
+      "source_events": ["ECALL", "BRANCH", "JUMP", "TRAP", "CSR", "SATP", "PRIV"],
+      "output": "behavior_graph",
+      "required_fields": ["nodes", "edges"]
+    }
+  ]
+}
