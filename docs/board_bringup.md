@@ -6,7 +6,7 @@ Board work is intentionally after the Vivado simulation MVP.
 
 | Gate | Status | Evidence |
 | --- | --- | --- |
-| Vivado part and board files visible | TODO | `uv run rvmt vivado:check` |
+| Vivado part and board files visible | PASS | `uv run rvmt vivado:check` on 2026-05-08: `xc7k325tffg900-2` and `digilentinc.com:genesys2:part0:1.1` visible |
 | Baseline CVA6 bitstream generated | TODO | `build/vivado/genesys2-cv64a6_imafdc_sv39/work-fpga/ariane_xilinx.bit` |
 | Clock/reset sanity | TODO | Board observation notes |
 | UART hello | TODO | UART log |
