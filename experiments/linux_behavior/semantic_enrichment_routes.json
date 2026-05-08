@@ -1,0 +1,73 @@
+{
+  "phase": "7.2",
+  "status": "DEFERRED_POST_FPGA",
+  "policy_ref": "experiments/linux_behavior/semantic_enrichment_rationale.json",
+  "current_trace_mem_mode": "TRACE_MEM_MODE_NONE",
+  "routes": [
+    {
+      "id": "selective_memory_snapshot",
+      "label": "Route A",
+      "class": "hardware",
+      "status": "DEFERRED_POST_FPGA",
+      "purpose": "Capture bounded pointer data around selected syscalls.",
+      "examples": [
+        "openat_pathname_prefix",
+        "write_buffer_prefix"
+      ],
+      "trigger": "after_fpga_trace_works",
+      "risks": [
+        "extra_memory_read_path",
+        "timing_impact",
+        "integration_complexity"
+      ],
+      "guardrails": [
+        "no_current_jsonl_memory_payload",
+        "no_default_memory_trace_enable",
+        "must_not_backpressure_core"
+      ]
+    },
+    {
+      "id": "kernel_helper_metadata",
+      "label": "Route B",
+      "class": "kernel_helper",
+      "status": "DEFERRED_POST_FPGA",
+      "purpose": "Expose pid, fd, and path metadata for offline alignment.",
+      "examples": [
+        "fd_path_table",
+        "pid_exec_path"
+      ],
+      "trigger": "after_linux_recovery_workflow_has_evidence",
+      "risks": [
+        "os_intrusion",
+        "pure_hardware_narrative_dilution"
+      ],
+      "guardrails": [
+        "metadata_only",
+        "hardware_trace_remains_authoritative",
+        "must_be_optional"
+      ]
+    },
+    {
+      "id": "ebpf_metadata_alignment",
+      "label": "Route C",
+      "class": "ebpf",
+      "status": "DEFERRED_POST_FPGA",
+      "purpose": "Record high-level kernel semantic events for offline timestamp or cycle alignment.",
+      "examples": [
+        "kernel_semantic_event_stream",
+        "timestamp_cycle_alignment"
+      ],
+      "trigger": "after_linux_experiments_have_trace_evidence",
+      "risks": [
+        "kernel_version_dependency",
+        "mvp_scope_drift",
+        "core_contribution_dilution"
+      ],
+      "guardrails": [
+        "not_mvp_dependency",
+        "not_core_contribution",
+        "comparison_or_enrichment_only"
+      ]
+    }
+  ]
+}

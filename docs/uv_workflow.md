@@ -27,6 +27,7 @@ uv run python tools/check_linux_malware_like_dataset.py
 uv run python tools/recover_behavior.py --self-test
 uv run python tools/check_linux_behavior_recovery.py
 uv run python tools/check_semantic_enrichment_rationale.py
+uv run python tools/check_semantic_enrichment_routes.py
 ```
 
 Slash groups are expanded, so this runs the long build sequence:
@@ -385,6 +386,18 @@ core contribution remains RTL-level committed behavior trace.
 ```powershell
 uv run python tools/check_semantic_enrichment_rationale.py
 uv run python tools/check_semantic_enrichment_rationale.py --self-test
+```
+
+## Semantic Enrichment Routes
+
+Phase 7.2 is tracked in `docs/semantic_enrichment_routes.md` and
+`experiments/linux_behavior/semantic_enrichment_routes.json`. The three routes
+are selective memory snapshot, kernel helper metadata, and eBPF metadata
+alignment; all remain deferred until the FPGA trace path works.
+
+```powershell
+uv run python tools/check_semantic_enrichment_routes.py
+uv run python tools/check_semantic_enrichment_routes.py --self-test
 ```
 
 ## Trace Compression Prototype
