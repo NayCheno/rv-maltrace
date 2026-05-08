@@ -1,0 +1,4 @@
+interface:
+  display_name: "RV-MalTrace"
+  short_description: "CVA6 trace workflow guardrails"
+  default_prompt: "Use $rv-maltrace to plan and validate an RV-MalTrace change."

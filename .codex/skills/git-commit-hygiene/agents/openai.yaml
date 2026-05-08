@@ -1,0 +1,4 @@
+interface:
+  display_name: "Git Commit Hygiene"
+  short_description: "Scoped, validated Git commits"
+  default_prompt: "Use $git-commit-hygiene to create a clean, scoped commit."
