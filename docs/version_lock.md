@@ -7,9 +7,10 @@ hardware behavior tracing MVP.
 
 - Repository: `openhwgroup/cva6`
 - Local path: `rtl/cva6`
-- Commit: `e12d59f6f4a749dc70cc4d08938181ca40b3f343`
-- Commit date: `2026-05-08T11:24:46+08:00`
-- Commit subject: `Make FPGA wrapper compatible with Vivado 2025.2`
+- Upstream baseline commit: `e12d59f6f4a749dc70cc4d08938181ca40b3f343`
+- Local submodule commit: `63a1417ad675b588f1a8ec02d315d27f4c4ab517`
+- Local commit date: `2026-05-08T15:37:19+08:00`
+- Local commit subject: `Add RV maltrace RVFI trace hook`
 
 ## Vivado
 
@@ -34,16 +35,17 @@ hardware behavior tracing MVP.
 
 ## Bare-metal Runtime
 
-- Runtime source: TODO, MVP runtime/crt0 will live under `sim/programs/common/`.
-- Linker script: TODO, MVP linker script will live under `sim/programs/common/linker.ld`.
+- Runtime source: `sim/programs/common/crt0.S`, `sim/programs/common/finish.S`, and `sim/programs/common/trap_vector.S`.
+- Linker script: `sim/programs/common/linker.ld`.
 - End-of-test ABI: MMIO tohost write at `0x10000000`.
 
 ## Testbench
 
 - Repository: this repository.
-- Commit: TODO until the first MVP implementation commit is created.
+- Latest locked implementation commit: `cb31781c33107098b582dc32b51f46f3ba98b5ce`.
 - Trace unit testbench: `sim/tb/tb_trace_top_unit.sv`.
-- Future CVA6 execution testbench: TODO, planned path `sim/tb/tb_cva6_trace_top.sv`.
+- CVA6 RVFI adapter testbench: `sim/tb/tb_cva6_rvfi_trace_adapter.sv`.
+- Future full CVA6 execution testbench: TODO, planned path `sim/tb/tb_cva6_trace_top.sv`.
 - Trace sink: `sim/tb/tb_trace_sink.sv`.
 - Scoreboard: `sim/tb/tb_trace_scoreboard.sv`.
 
