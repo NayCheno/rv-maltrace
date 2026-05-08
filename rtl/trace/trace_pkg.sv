@@ -19,6 +19,14 @@ package trace_pkg;
   localparam logic [1:0] TRACE_PRIV_H = 2'b10;
   localparam logic [1:0] TRACE_PRIV_M = 2'b11;
 
+  typedef enum logic [1:0] {
+    TRACE_MEM_MODE_NONE  = 2'd0,
+    TRACE_MEM_MODE_ADDR  = 2'd1,
+    TRACE_MEM_MODE_RANGE = 2'd2
+  } trace_mem_mode_e;
+
+  localparam trace_mem_mode_e TRACE_MEM_MODE_DEFAULT = TRACE_MEM_MODE_NONE;
+
   localparam logic [11:0] TRACE_CSR_SSTATUS = 12'h100;
   localparam logic [11:0] TRACE_CSR_STVEC   = 12'h105;
   localparam logic [11:0] TRACE_CSR_SEPC    = 12'h141;

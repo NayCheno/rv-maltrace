@@ -73,3 +73,7 @@ Phase 2 packet compression is currently an offline prototype. On 2026-05-08,
 trace and `sim/golden/compression_edges.trace.jsonl`, covering cycle deltas, PC
 deltas, event-specific payloads, context deltas, SATP-to-CSR context handling,
 and no-PC MARKER/DROP records.
+
+Selective memory trace is explicitly reserved but disabled by default:
+`TRACE_MEM_MODE_DEFAULT == TRACE_MEM_MODE_NONE`. The synthetic trace testbench
+fatal-checks this default before running the regression.

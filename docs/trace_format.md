@@ -120,3 +120,17 @@ uv run python tools/compress_trace.py results/vivado_sim/rvfi_adapter/trace.comp
 uv run python tools/compress_trace.py results/vivado_sim/rvfi_adapter/trace.jsonl --check-roundtrip --stats
 uv run python tools/compress_trace.py sim/golden/compression_edges.trace.jsonl --check-roundtrip --stats
 ```
+
+## Selective Memory Trace
+
+Phase 2.3 reserves the memory trace policy but leaves it disabled. The RTL
+package defines:
+
+| Mode | RTL Name | Meaning |
+| ---: | --- | --- |
+| 0 | `TRACE_MEM_MODE_NONE` | Do not emit memory trace records. |
+| 1 | `TRACE_MEM_MODE_ADDR` | Future mode for load/store address-only records. |
+| 2 | `TRACE_MEM_MODE_RANGE` | Future mode for address-range-selected records. |
+
+`TRACE_MEM_MODE_DEFAULT` is `TRACE_MEM_MODE_NONE`. The current JSONL event set
+does not define load/store trace records or memory data payload fields.

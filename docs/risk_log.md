@@ -9,4 +9,5 @@
 | Genesys 2 Vivado part or board files unavailable | Baseline bitstream build cannot start | Run `uv run rvmt vivado:check` before bitstream work | Preflight PASS on 2026-05-08 for `xc7k325tffg900-2` and `digilentinc.com:genesys2:part0:1.1`; bitstream/license gate still open |
 | Trace logic affects core timing | Invalid hardware claim | Keep tap sideband-only, register packet formatting, default to drop mode on board | Open |
 | Trace bandwidth is too high | Lost events or core perturbation | Disable full retire by default on board; use the Phase 2 `trace_filter` event, PC-range, and privilege controls before packet queueing | Filter controls covered in synthetic xsim; board policy still open |
+| Memory semantics are under-specified | Load/store behavior cannot be reconstructed from the MVP trace alone | Keep Phase 2.3 default at `TRACE_MEM_MODE_NONE`; only add address or selected-range memory trace after the committed-control-flow path is stable | Open |
 | Toolchain is not visible on Windows PATH | Bare-metal build cannot run locally | Use Docker `cva6-toolchain` service or point scripts at installed toolchain | Open |

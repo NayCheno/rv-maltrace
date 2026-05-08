@@ -379,6 +379,9 @@ module tb_trace_top_unit
     if (!$value$plusargs("TEST_NAME=%s", test_name)) begin
       test_name = "smoke";
     end
+    if (TRACE_MEM_MODE_DEFAULT != TRACE_MEM_MODE_NONE) begin
+      $fatal(1, "TRACE_MEM_MODE_DEFAULT must stay TRACE_MEM_MODE_NONE until memory trace is enabled");
+    end
 
     rst_n = 1'b0;
     priv_lvl = TRACE_PRIV_M;
