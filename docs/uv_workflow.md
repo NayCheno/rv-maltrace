@@ -28,6 +28,7 @@ uv run python tools/recover_behavior.py --self-test
 uv run python tools/check_linux_behavior_recovery.py
 uv run python tools/check_semantic_enrichment_rationale.py
 uv run python tools/check_semantic_enrichment_routes.py
+uv run python tools/check_semantic_enrichment_strategy.py
 ```
 
 Slash groups are expanded, so this runs the long build sequence:
@@ -398,6 +399,19 @@ alignment; all remain deferred until the FPGA trace path works.
 ```powershell
 uv run python tools/check_semantic_enrichment_routes.py
 uv run python tools/check_semantic_enrichment_routes.py --self-test
+```
+
+## Semantic Enrichment Strategy
+
+Phase 7.3 is tracked in `docs/semantic_enrichment_strategy.md` and
+`experiments/linux_behavior/semantic_enrichment_strategy.json`. The recommended
+order is: MVP without eBPF/kernel-helper/memory-snapshot dependency; after FPGA
+trace works, evaluate selective memory snapshot; after Linux experiments,
+optionally add eBPF metadata alignment.
+
+```powershell
+uv run python tools/check_semantic_enrichment_strategy.py
+uv run python tools/check_semantic_enrichment_strategy.py --self-test
 ```
 
 ## Trace Compression Prototype

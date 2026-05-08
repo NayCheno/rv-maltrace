@@ -1,0 +1,77 @@
+{
+  "phase": "7.3",
+  "status": "STRATEGY_ONLY",
+  "rationale_ref": "experiments/linux_behavior/semantic_enrichment_rationale.json",
+  "routes_ref": "experiments/linux_behavior/semantic_enrichment_routes.json",
+  "current_mvp_policy": "NO_EBPF_NO_KERNEL_HELPER_NO_MEMORY_SNAPSHOT",
+  "strategy": [
+    {
+      "order": 1,
+      "id": "mvp_no_ebpf",
+      "stage": "mvp",
+      "decision": "no_ebpf",
+      "dependency": "none",
+      "route": null,
+      "allowed_work": [
+        "rtl_committed_behavior_trace"
+      ],
+      "forbidden_work": [
+        "ebpf_mvp_dependency",
+        "kernel_helper_mvp_dependency",
+        "memory_snapshot_mvp_dependency"
+      ],
+      "exit_gate": "cva6_vivado_mvp_trace_correct"
+    },
+    {
+      "order": 2,
+      "id": "evaluate_selective_memory_snapshot",
+      "stage": "after_fpga_trace_works",
+      "decision": "evaluate_only",
+      "dependency": "fpga_trace_path_works",
+      "route": "selective_memory_snapshot",
+      "allowed_work": [
+        "bounded_pointer_snapshot_design_review",
+        "timing_resource_assessment",
+        "noninterference_check"
+      ],
+      "forbidden_work": [
+        "default_memory_trace_enable",
+        "jsonl_payload_change_without_gate",
+        "core_backpressure"
+      ],
+      "exit_gate": "timing_and_trace_noninterference_evidence"
+    },
+    {
+      "order": 3,
+      "id": "optional_ebpf_metadata_alignment",
+      "stage": "after_linux_experiments",
+      "decision": "optional_enrichment_only",
+      "dependency": "linux_behavior_experiments_have_trace_evidence",
+      "route": "ebpf_metadata_alignment",
+      "allowed_work": [
+        "offline_alignment_experiment",
+        "comparison_experiment"
+      ],
+      "forbidden_work": [
+        "mvp_dependency",
+        "core_contribution_claim",
+        "software_trace_replaces_rtl_trace"
+      ],
+      "exit_gate": "optional_comparison_result"
+    }
+  ],
+  "deprioritized_routes": [
+    {
+      "route": "kernel_helper_metadata",
+      "status": "NOT_RECOMMENDED_FOR_MVP",
+      "reason": "OS intrusive; revisit only if fd/path metadata is a blocking analysis gap after Linux experiments."
+    }
+  ],
+  "non_goals": [
+    "ebpf_mvp_dependency",
+    "kernel_helper_mvp_dependency",
+    "memory_snapshot_mvp_dependency",
+    "phase7_route_enablement",
+    "load_store_payloads"
+  ]
+}
