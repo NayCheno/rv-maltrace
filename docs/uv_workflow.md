@@ -21,6 +21,7 @@ uv run python tools/check_baseline_pass_criteria.py
 uv run python tools/check_trace_export_decision.py
 uv run python tools/check_board_trace_minimal.py
 uv run python tools/check_board_trace_programs.py
+uv run python tools/check_linux_behavior_principles.py
 ```
 
 Slash groups are expanded, so this runs the long build sequence:
@@ -316,6 +317,18 @@ trap.
 ```powershell
 uv run python tools/check_board_trace_programs.py
 uv run python tools/check_board_trace_programs.py --self-test
+```
+
+## Linux Behavior Experiment Principles
+
+Phase 6.1 is tracked in `docs/linux_behavior_experiment_principles.md` and
+`experiments/linux_behavior/policy.json`. Early experiments must use benign and
+malware-like synthetic programs only; real malware and unknown-provenance
+binaries stay forbidden.
+
+```powershell
+uv run python tools/check_linux_behavior_principles.py
+uv run python tools/check_linux_behavior_principles.py --self-test
 ```
 
 ## Trace Compression Prototype

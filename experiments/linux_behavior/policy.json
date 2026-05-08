@@ -1,0 +1,23 @@
+{
+  "phase": "6.1",
+  "status": "TODO(EXPERIMENT)",
+  "real_malware_policy": "FORBIDDEN_EARLY",
+  "allowed_sample_classes": [
+    "benign",
+    "malware_like_synthetic"
+  ],
+  "blocked_sample_classes": [
+    "real_malware",
+    "unknown_provenance"
+  ],
+  "primary_validation_goal": "trace_semantic_recovery",
+  "requires_prior_hardware_trace_gate": true,
+  "network_policy": "disabled_by_default",
+  "evidence_root": "results/linux_behavior/<run-id>",
+  "required_outputs": [
+    "trace.jsonl",
+    "semantic_events.json",
+    "behavior_graph.json",
+    "recovery_report.md"
+  ]
+}
