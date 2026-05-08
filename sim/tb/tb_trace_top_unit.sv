@@ -30,6 +30,19 @@ module tb_trace_top_unit
   logic [63:0] csr_wdata;
   logic [1:0] priv_lvl;
   logic [63:0] satp;
+  logic trace_enable_retire;
+  logic trace_enable_branch;
+  logic trace_enable_jump;
+  logic trace_enable_syscall;
+  logic trace_enable_trap;
+  logic trace_enable_context;
+  logic trace_enable_marker;
+  logic trace_enable_drop;
+  logic trace_pc_filter_enable;
+  logic [63:0] trace_pc_start;
+  logic [63:0] trace_pc_end;
+  logic trace_priv_filter_enable;
+  logic [3:0] trace_priv_mask;
 
   logic trace_valid;
   trace_packet_t trace_packet;
@@ -69,6 +82,19 @@ module tb_trace_top_unit
       .csr_wdata_i(csr_wdata),
       .priv_lvl_i(priv_lvl),
       .satp_i(satp),
+      .trace_enable_retire_i(trace_enable_retire),
+      .trace_enable_branch_i(trace_enable_branch),
+      .trace_enable_jump_i(trace_enable_jump),
+      .trace_enable_syscall_i(trace_enable_syscall),
+      .trace_enable_trap_i(trace_enable_trap),
+      .trace_enable_context_i(trace_enable_context),
+      .trace_enable_marker_i(trace_enable_marker),
+      .trace_enable_drop_i(trace_enable_drop),
+      .trace_pc_filter_enable_i(trace_pc_filter_enable),
+      .trace_pc_start_i(trace_pc_start),
+      .trace_pc_end_i(trace_pc_end),
+      .trace_priv_filter_enable_i(trace_priv_filter_enable),
+      .trace_priv_mask_i(trace_priv_mask),
       .trace_valid_o(trace_valid),
       .trace_packet_o(trace_packet)
   );
@@ -105,6 +131,24 @@ module tb_trace_top_unit
     clk = 1'b0;
     forever #5 clk = ~clk;
   end
+
+  task automatic set_filter_defaults();
+    begin
+      trace_enable_retire      = 1'b1;
+      trace_enable_branch      = 1'b1;
+      trace_enable_jump        = 1'b1;
+      trace_enable_syscall     = 1'b1;
+      trace_enable_trap        = 1'b1;
+      trace_enable_context     = 1'b1;
+      trace_enable_marker      = 1'b1;
+      trace_enable_drop        = 1'b1;
+      trace_pc_filter_enable   = 1'b0;
+      trace_pc_start           = 64'd0;
+      trace_pc_end             = 64'hffff_ffff_ffff_ffff;
+      trace_priv_filter_enable = 1'b0;
+      trace_priv_mask          = 4'hf;
+    end
+  endtask
 
   task automatic clear_inputs();
     begin
@@ -299,6 +343,38 @@ module tb_trace_top_unit
     end
   endtask
 
+  task automatic run_filter();
+    begin
+      trace_enable_retire      = 1'b0;
+      trace_enable_context     = 1'b0;
+      trace_pc_filter_enable   = 1'b1;
+      trace_pc_start           = 64'h8000_0200;
+      trace_pc_end             = 64'h8000_02ff;
+      trace_priv_filter_enable = 1'b1;
+      trace_priv_mask          = 4'b0010;
+
+      priv_lvl = TRACE_PRIV_S;
+      commit_valid = 1'b1;
+      commit_pc    = 64'h8000_0208;
+      commit_instr = 32'h1800_1073;
+      csr_valid    = 1'b1;
+      csr_addr     = TRACE_CSR_SATP;
+      csr_wdata    = 64'h0000_0000_0000_1234;
+      satp         = 64'h0000_0000_0000_1234;
+      tick();
+
+      commit_instr_event(64'h8000_0200, 32'h0000_0013, 64'h8000_0204);
+      commit_instr_event(64'h8000_0100, 32'h0005_0863, 64'h8000_0110);
+
+      priv_lvl = TRACE_PRIV_M;
+      commit_instr_event(64'h8000_0210, 32'h0005_0863, 64'h8000_0220);
+
+      priv_lvl = TRACE_PRIV_S;
+      commit_instr_event(64'h8000_0220, 32'h0005_0863, 64'h8000_0230);
+      finish_test();
+    end
+  endtask
+
   initial begin
     if (!$value$plusargs("TEST_NAME=%s", test_name)) begin
       test_name = "smoke";
@@ -307,6 +383,7 @@ module tb_trace_top_unit
     rst_n = 1'b0;
     priv_lvl = TRACE_PRIV_M;
     satp = 64'd0;
+    set_filter_defaults();
     clear_inputs();
     repeat (5) @(posedge clk);
     rst_n = 1'b1;
@@ -321,6 +398,7 @@ module tb_trace_top_unit
     else if (test_name == "csr") run_csr();
     else if (test_name == "context") run_context();
     else if (test_name == "backpressure") run_backpressure();
+    else if (test_name == "filter") run_filter();
     else $fatal(1, "Unknown TEST_NAME=%s", test_name);
   end
 

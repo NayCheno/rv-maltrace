@@ -72,3 +72,21 @@ string name for readability.
   exact values.
 - Golden values may use `"ANY"` to assert that a field is present without
   constraining its exact value.
+
+## Filter Controls
+
+`trace_filter.sv` can suppress events before they enter the trace queue. The
+default configuration passes all events.
+
+| Control | Meaning |
+| --- | --- |
+| `enable_retire` | Emit `RETIRE` events. |
+| `enable_branch` | Emit `BRANCH` events. |
+| `enable_jump` | Emit `JUMP` events. |
+| `enable_syscall` | Emit `ECALL` events. |
+| `enable_trap` | Emit `TRAP` events. |
+| `enable_context` | Emit `CSR`, `SATP`, and `PRIV` context events. |
+| `enable_marker` | Emit `MARKER` events. |
+| `enable_drop` | Emit `DROP` events for queue overflow accounting. |
+| `pc_filter_enable`, `pc_start`, `pc_end` | When enabled, pass only packets with `pc_start <= pc <= pc_end`. |
+| `priv_filter_enable`, `priv_mask` | When enabled, pass only packets whose `priv` bit is set in `priv_mask`. |

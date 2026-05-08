@@ -32,6 +32,20 @@ module trace_top
     input  logic [ 1:0]               priv_lvl_i,
     input  logic [63:0]               satp_i,
 
+    input  logic                      trace_enable_retire_i,
+    input  logic                      trace_enable_branch_i,
+    input  logic                      trace_enable_jump_i,
+    input  logic                      trace_enable_syscall_i,
+    input  logic                      trace_enable_trap_i,
+    input  logic                      trace_enable_context_i,
+    input  logic                      trace_enable_marker_i,
+    input  logic                      trace_enable_drop_i,
+    input  logic                      trace_pc_filter_enable_i,
+    input  logic [63:0]               trace_pc_start_i,
+    input  logic [63:0]               trace_pc_end_i,
+    input  logic                      trace_priv_filter_enable_i,
+    input  logic [ 3:0]               trace_priv_mask_i,
+
     output logic                      trace_valid_o,
     output trace_packet_t             trace_packet_o
 );
@@ -50,6 +64,16 @@ module trace_top
   trace_packet_t syscall_packet;
   trace_packet_t trap_packet;
   trace_packet_t context_packet;
+  logic filtered_retire_valid;
+  logic filtered_branch_valid;
+  logic filtered_syscall_valid;
+  logic filtered_trap_valid;
+  logic filtered_context_valid;
+  trace_packet_t filtered_retire_packet;
+  trace_packet_t filtered_branch_packet;
+  trace_packet_t filtered_syscall_packet;
+  trace_packet_t filtered_trap_packet;
+  trace_packet_t filtered_context_packet;
 
   localparam int NUM_SOURCES = 5;
   localparam int QUEUE_COUNT_WIDTH = $clog2(EVENT_QUEUE_DEPTH + 1);
@@ -180,17 +204,117 @@ module trace_top
       .trace_packet_o(context_packet)
   );
 
+  trace_filter i_retire_filter (
+      .trace_valid_i(retire_valid),
+      .trace_packet_i(retire_packet),
+      .enable_retire_i(trace_enable_retire_i),
+      .enable_branch_i(trace_enable_branch_i),
+      .enable_jump_i(trace_enable_jump_i),
+      .enable_syscall_i(trace_enable_syscall_i),
+      .enable_trap_i(trace_enable_trap_i),
+      .enable_context_i(trace_enable_context_i),
+      .enable_marker_i(trace_enable_marker_i),
+      .enable_drop_i(trace_enable_drop_i),
+      .pc_filter_enable_i(trace_pc_filter_enable_i),
+      .pc_start_i(trace_pc_start_i),
+      .pc_end_i(trace_pc_end_i),
+      .priv_filter_enable_i(trace_priv_filter_enable_i),
+      .priv_mask_i(trace_priv_mask_i),
+      .trace_valid_o(filtered_retire_valid),
+      .trace_packet_o(filtered_retire_packet)
+  );
+
+  trace_filter i_branch_filter (
+      .trace_valid_i(branch_valid),
+      .trace_packet_i(branch_packet),
+      .enable_retire_i(trace_enable_retire_i),
+      .enable_branch_i(trace_enable_branch_i),
+      .enable_jump_i(trace_enable_jump_i),
+      .enable_syscall_i(trace_enable_syscall_i),
+      .enable_trap_i(trace_enable_trap_i),
+      .enable_context_i(trace_enable_context_i),
+      .enable_marker_i(trace_enable_marker_i),
+      .enable_drop_i(trace_enable_drop_i),
+      .pc_filter_enable_i(trace_pc_filter_enable_i),
+      .pc_start_i(trace_pc_start_i),
+      .pc_end_i(trace_pc_end_i),
+      .priv_filter_enable_i(trace_priv_filter_enable_i),
+      .priv_mask_i(trace_priv_mask_i),
+      .trace_valid_o(filtered_branch_valid),
+      .trace_packet_o(filtered_branch_packet)
+  );
+
+  trace_filter i_syscall_filter (
+      .trace_valid_i(syscall_valid),
+      .trace_packet_i(syscall_packet),
+      .enable_retire_i(trace_enable_retire_i),
+      .enable_branch_i(trace_enable_branch_i),
+      .enable_jump_i(trace_enable_jump_i),
+      .enable_syscall_i(trace_enable_syscall_i),
+      .enable_trap_i(trace_enable_trap_i),
+      .enable_context_i(trace_enable_context_i),
+      .enable_marker_i(trace_enable_marker_i),
+      .enable_drop_i(trace_enable_drop_i),
+      .pc_filter_enable_i(trace_pc_filter_enable_i),
+      .pc_start_i(trace_pc_start_i),
+      .pc_end_i(trace_pc_end_i),
+      .priv_filter_enable_i(trace_priv_filter_enable_i),
+      .priv_mask_i(trace_priv_mask_i),
+      .trace_valid_o(filtered_syscall_valid),
+      .trace_packet_o(filtered_syscall_packet)
+  );
+
+  trace_filter i_trap_filter (
+      .trace_valid_i(trap_valid),
+      .trace_packet_i(trap_packet),
+      .enable_retire_i(trace_enable_retire_i),
+      .enable_branch_i(trace_enable_branch_i),
+      .enable_jump_i(trace_enable_jump_i),
+      .enable_syscall_i(trace_enable_syscall_i),
+      .enable_trap_i(trace_enable_trap_i),
+      .enable_context_i(trace_enable_context_i),
+      .enable_marker_i(trace_enable_marker_i),
+      .enable_drop_i(trace_enable_drop_i),
+      .pc_filter_enable_i(trace_pc_filter_enable_i),
+      .pc_start_i(trace_pc_start_i),
+      .pc_end_i(trace_pc_end_i),
+      .priv_filter_enable_i(trace_priv_filter_enable_i),
+      .priv_mask_i(trace_priv_mask_i),
+      .trace_valid_o(filtered_trap_valid),
+      .trace_packet_o(filtered_trap_packet)
+  );
+
+  trace_filter i_context_filter (
+      .trace_valid_i(context_valid),
+      .trace_packet_i(context_packet),
+      .enable_retire_i(trace_enable_retire_i),
+      .enable_branch_i(trace_enable_branch_i),
+      .enable_jump_i(trace_enable_jump_i),
+      .enable_syscall_i(trace_enable_syscall_i),
+      .enable_trap_i(trace_enable_trap_i),
+      .enable_context_i(trace_enable_context_i),
+      .enable_marker_i(trace_enable_marker_i),
+      .enable_drop_i(trace_enable_drop_i),
+      .pc_filter_enable_i(trace_pc_filter_enable_i),
+      .pc_start_i(trace_pc_start_i),
+      .pc_end_i(trace_pc_end_i),
+      .priv_filter_enable_i(trace_priv_filter_enable_i),
+      .priv_mask_i(trace_priv_mask_i),
+      .trace_valid_o(filtered_context_valid),
+      .trace_packet_o(filtered_context_packet)
+  );
+
   always_comb begin
-    source_valid[0]  = trap_valid;
-    source_valid[1]  = syscall_valid;
-    source_valid[2]  = context_valid;
-    source_valid[3]  = branch_valid;
-    source_valid[4]  = retire_valid;
-    source_packet[0] = trap_packet;
-    source_packet[1] = syscall_packet;
-    source_packet[2] = context_packet;
-    source_packet[3] = branch_packet;
-    source_packet[4] = retire_packet;
+    source_valid[0]  = filtered_trap_valid;
+    source_valid[1]  = filtered_syscall_valid;
+    source_valid[2]  = filtered_context_valid;
+    source_valid[3]  = filtered_branch_valid;
+    source_valid[4]  = filtered_retire_valid;
+    source_packet[0] = filtered_trap_packet;
+    source_packet[1] = filtered_syscall_packet;
+    source_packet[2] = filtered_context_packet;
+    source_packet[3] = filtered_branch_packet;
+    source_packet[4] = filtered_retire_packet;
     drop_packet = trace_null_packet();
     drop_packet.valid = drop_count_q != 64'd0;
     drop_packet.evt   = drop_count_q != 64'd0 ? EVT_DROP : EVT_NONE;
@@ -203,8 +327,8 @@ module trace_top
     drop_output = 1'b0;
 
     if (drop_count_q != 64'd0 && !drop_defer_q) begin
-      trace_valid_o  = 1'b1;
-      trace_packet_o = drop_packet;
+      trace_valid_o  = trace_enable_drop_i;
+      trace_packet_o = trace_enable_drop_i ? drop_packet : trace_null_packet();
       drop_output    = 1'b1;
     end else if (pending_count_q != '0) begin
       trace_valid_o  = 1'b1;

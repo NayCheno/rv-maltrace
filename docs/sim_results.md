@@ -15,6 +15,7 @@ This document is the running record for MVP simulation evidence.
 | `csr` | PASS | 1 | 0 | 0 | 0 | 0 | SATP event checked by JSONL golden. |
 | `context` | PASS | 2 | 0 | 0 | 0 | 0 | PRIV event checked by JSONL golden. |
 | `backpressure` | PASS | 0 | 0 | 0 | 8 | 14 | Queue overflow/drop-mode unit test produced 7 DROP events. |
+| `filter` | PASS | 0 | 1 | 0 | 0 | 0 | Event enable, PC range, and privilege mask filter controls left only one expected branch. |
 | `rvfi_adapter` | PASS | 4 | 1 | 1 | 1 | 2 | CVA6 RVFI adapter unit test covers dual commit ports, non-ECALL trap, compressed control flow, and an RV64 C.ADDIW non-jump case. |
 | `cva6_smoke` | PASS | 5 | 0 | 2 | 0 | 0 | Direct-core CVA6 xsim smoke booted at DRAM, reached tohost, and checker matched the first committed instructions. |
 | `cva6_branch` | PASS | 7 | 1 | 3 | 0 | 0 | Direct-core CVA6 branch program matched taken branch target `0x80000014`. |
@@ -61,7 +62,8 @@ empty and `compare.log` starts with `[BLOCKED]`.
   separately verifies the same adapter/sink path against real CVA6 committed
   RVFI events.
 
-The synthetic tests verify tap packet semantics, CSR/SATP/context events, and the
-CVA6 RVFI adapter. The `cva6_*` rows are real CVA6 core execution tests with
-trace-on/no-trace final-result matching, but they intentionally avoid the full
-SoC harness while the upstream AXI xbar runtime blocker remains open.
+The synthetic tests verify tap packet semantics, CSR/SATP/context events,
+filtering, queue/drop behavior, and the CVA6 RVFI adapter. The `cva6_*` rows are
+real CVA6 core execution tests with trace-on/no-trace final-result matching, but
+they intentionally avoid the full SoC harness while the upstream AXI xbar
+runtime blocker remains open.

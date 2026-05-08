@@ -55,6 +55,15 @@ def compare(events: list[dict[str, Any]], expected: dict[str, Any]) -> tuple[boo
     ok = True
     counts = Counter(str(event.get("evt", "")) for event in events)
 
+    if "total_events" in expected:
+        actual = len(events)
+        exact = int(expected["total_events"])
+        if actual != exact:
+            ok = False
+            messages.append(f"[FAIL] total events: expected exactly {exact}, got {actual}")
+        else:
+            messages.append(f"[PASS] total events: count {actual} == {exact}")
+
     for evt, minimum in expected.get("min_counts", {}).items():
         actual = counts.get(str(evt), 0)
         if actual < int(minimum):

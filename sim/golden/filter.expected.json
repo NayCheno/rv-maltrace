@@ -1,0 +1,17 @@
+{
+  "test": "filter",
+  "mode": "trace_unit",
+  "total_events": 1,
+  "exact_counts": {
+    "BRANCH": 1
+  },
+  "forbidden_events": ["RETIRE", "DROP"],
+  "required_events": [
+    {
+      "evt": "BRANCH",
+      "pc": "0x0000000080000220",
+      "taken": true,
+      "target": "0x0000000080000230"
+    }
+  ]
+}

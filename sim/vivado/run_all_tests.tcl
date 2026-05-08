@@ -1,7 +1,7 @@
 set ::rvmt_run_xsim_library_only 1
 source sim/vivado/run_xsim.tcl
 
-set tests {smoke branch jump ecall trap_illegal ebreak csr context backpressure}
+set tests {smoke branch jump ecall trap_illegal ebreak csr context backpressure filter}
 set adapter_tests {rvfi_adapter}
 set failed 0
 
