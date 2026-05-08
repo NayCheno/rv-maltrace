@@ -15,6 +15,7 @@ uv run rvmt baremetal:build
 uv run rvmt bitstream:build
 uv run rvmt vivado:project
 uv run python tools/check_board_baseline.py
+uv run python tools/check_vivado_authorization.py
 ```
 
 Slash groups are expanded, so this runs the long build sequence:
@@ -227,6 +228,23 @@ bare-metal runtime observations are still recorded in `docs/board_bringup.md`.
 The current baseline also parses `ariane.check_timing.rpt` and reports known
 open constraint warnings as WARN rows instead of treating report presence as a
 clean timing-constraint pass.
+
+## Vivado Authorization Evidence
+
+Phase 4.2 records the Vivado license/part/board-file risk before physical board
+work. The checker verifies the configured Genesys 2 target, board files,
+existing bitstream/MCS/DCP artifacts, routed timing report, and route status:
+
+```powershell
+uv run rvmt vivado:check
+uv run python tools/check_vivado_authorization.py
+uv run python tools/check_vivado_authorization.py --self-test
+```
+
+The license support conclusion is artifact-based: the local Vivado environment
+has already generated a routed Genesys 2 bitstream. Rerun these checks before a
+fresh rebuild because a future license checkout can still fail independently of
+the stored artifacts.
 
 ## Trace Compression Prototype
 

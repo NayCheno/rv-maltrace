@@ -28,6 +28,16 @@ This preflight checks repository-local Vivado evidence only. It does not program
 the Genesys 2 board or claim hardware clock/reset, UART, or bare-metal runtime
 success.
 
+## Authorization Risk Gate
+
+Phase 4.2 is recorded in `docs/vivado_authorization.md`.
+
+| Gate | Status | Evidence |
+| --- | --- | --- |
+| Vivado license / target-device gate | PASS (artifact evidence) | Existing Vivado v2025.2 build produced `ariane_xilinx.bit`, `.mcs`, `.dcp`, and a routed timing report for `7k325t-ffg900` |
+| Genesys 2 FPGA part implementation | PASS | Routed timing Slack (MET) 0.177 ns; route status has 0 routing errors |
+| Board files available | PASS | `uv run rvmt vivado:check` on 2026-05-08 and `tools/check_vivado_authorization.py` both confirm the Genesys 2 board files |
+
 ## Trace-enabled Bring-up Plan
 
 1. Keep full retire disabled by default.
