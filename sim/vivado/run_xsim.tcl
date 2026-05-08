@@ -27,7 +27,7 @@ proc rvmt_run_xsim_top {test_name top} {
   file delete -force xsim.dir
   file delete -force xvlog.log xelab.log xsim.log
 
-  if {[rvmt_run_cmd [list [rvmt_bin xvlog] -sv -f sim/vivado/filelist.f]]} {
+  if {[rvmt_run_cmd [list [rvmt_bin xvlog] -sv -f sim/vivado/trace_rtl.f -f sim/vivado/trace_sim.f]]} {
     return 1
   }
   if {[rvmt_run_cmd [list [rvmt_bin xelab] work.$top -s $snap -debug typical]]} {

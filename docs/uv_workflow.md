@@ -167,6 +167,23 @@ The full `ariane_testharness` SoC path still hits a Vivado v2025.2 simulator
 kernel fatal in upstream CVA6 AXI demux logic, so the direct-core matrix is the
 current local full-core execution gate.
 
+## Trace Source Boundary
+
+Trace simulation compiles synthesizable trace RTL and simulation-only sources
+from separate filelists:
+
+```text
+sim/vivado/trace_rtl.f
+sim/vivado/trace_sim.f
+```
+
+Run the boundary check before synthesis-oriented work:
+
+```powershell
+uv run python tools/check_trace_boundary.py
+uv run python tools/check_trace_boundary.py --self-test
+```
+
 ## Trace Compression Prototype
 
 Phase 2 keeps compression as an offline simulation artifact until the packet

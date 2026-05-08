@@ -1,0 +1,10 @@
+rtl/trace/trace_pkg.sv
+rtl/trace/arg_shadow.sv
+rtl/trace/retire_tap.sv
+rtl/trace/branch_tap.sv
+rtl/trace/syscall_tap.sv
+rtl/trace/trap_tap.sv
+rtl/trace/context_tap.sv
+rtl/trace/trace_filter.sv
+rtl/trace/trace_top.sv
+rtl/trace/cva6_rvfi_trace_adapter.sv

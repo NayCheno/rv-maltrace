@@ -77,3 +77,9 @@ and no-PC MARKER/DROP records.
 Selective memory trace is explicitly reserved but disabled by default:
 `TRACE_MEM_MODE_DEFAULT == TRACE_MEM_MODE_NONE`. The synthetic trace testbench
 fatal-checks this default before running the regression.
+
+Phase 3.1 source-boundary check separates synthesizable trace RTL
+(`sim/vivado/trace_rtl.f`) from simulation-only testbench/file-writer sources
+(`sim/vivado/trace_sim.f`). `tools/check_trace_boundary.py` passes on the split
+and scans the RTL list for simulation-only constructs; its `--self-test` path
+checks negative coverage for file IO, `initial`, assertion, and delay constructs.
