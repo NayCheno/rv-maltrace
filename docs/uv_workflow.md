@@ -17,6 +17,7 @@ uv run rvmt vivado:project
 uv run python tools/check_board_baseline.py
 uv run python tools/check_vivado_authorization.py
 uv run python tools/check_bringup_runbook.py
+uv run python tools/check_baseline_pass_criteria.py
 ```
 
 Slash groups are expanded, so this runs the long build sequence:
@@ -258,6 +259,25 @@ does not claim physical board success until logs are captured under
 ```powershell
 uv run python tools/check_bringup_runbook.py
 uv run python tools/check_bringup_runbook.py --self-test
+```
+
+## Baseline Pass Criteria
+
+Phase 4.4 is tracked in `docs/baseline_pass_criteria.md`. The checker keeps
+repository-local PASS rows separate from physical board PASS rows. Without a
+concrete `results/board/genesys2_baseline/<run-id>` evidence directory, the
+clock/reset, UART, and bare-metal criteria must remain `TODO (BOARD)`.
+
+```powershell
+uv run python tools/check_baseline_pass_criteria.py
+uv run python tools/check_baseline_pass_criteria.py --self-test
+```
+
+After a board run, pass the run directory to compare the document status against
+the captured observations:
+
+```powershell
+uv run python tools/check_baseline_pass_criteria.py --evidence-root results/board/genesys2_baseline/<run-id>
 ```
 
 ## Trace Compression Prototype

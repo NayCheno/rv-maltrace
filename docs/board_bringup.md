@@ -51,6 +51,18 @@ Record all physical observations under `results/board/genesys2_baseline/<run-id>
 | 4 | CVA6 Bare-metal Boot | TODO (BOARD) | `04_cva6_baremetal_boot/` |
 | 5 | CVA6 Simple Linux Boot (Optional) | TODO (OPTIONAL) | `05_linux_boot_optional/` |
 
+## Baseline Pass Criteria
+
+Phase 4.4 is tracked in `docs/baseline_pass_criteria.md`. Current status:
+
+| Criterion | Status | Evidence |
+| --- | --- | --- |
+| Bitstream generated | PASS | Phase 4.1/4.2 preflight and `ariane_xilinx.bit` artifact |
+| Board clock/reset stable | TODO (BOARD) | Requires `01_led_clock_reset/observation.md` |
+| UART output visible | TODO (BOARD) | Requires `02_uart_hello/observation.md` and raw UART log |
+| Bare-metal program can run | TODO (BOARD) | Requires `04_cva6_baremetal_boot/observation.md` and UART/tohost/JTAG log |
+| No trace modification yet | PASS | Baseline runbook forbids trace-enabled RTL/export changes |
+
 ## Trace-enabled Bring-up Plan
 
 1. Keep full retire disabled by default.
