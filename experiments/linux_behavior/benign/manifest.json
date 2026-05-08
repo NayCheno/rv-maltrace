@@ -1,0 +1,89 @@
+{
+  "phase": "6.2",
+  "status": "TODO(EXPERIMENT)",
+  "sample_class": "benign",
+  "policy_ref": "experiments/linux_behavior/policy.json",
+  "evidence_root": "results/linux_behavior/<run-id>/benign",
+  "fixtures": [
+    "experiments/linux_behavior/benign/fixtures/input.txt"
+  ],
+  "samples": [
+    {
+      "id": "hello",
+      "class": "benign",
+      "status": "TODO(EXPERIMENT)",
+      "provenance": "known_benign_rootfs",
+      "network_required": false,
+      "default_enabled": true,
+      "command": ["echo", "rv-maltrace benign hello"],
+      "evidence_dir": "01_hello",
+      "expected_syscalls": ["write"],
+      "expected_behavior": ["stdout_write"]
+    },
+    {
+      "id": "ls",
+      "class": "benign",
+      "status": "TODO(EXPERIMENT)",
+      "provenance": "known_benign_rootfs",
+      "network_required": false,
+      "default_enabled": true,
+      "command": ["ls", "-la", "/tmp"],
+      "evidence_dir": "02_ls",
+      "expected_syscalls": ["openat", "getdents64", "write", "close"],
+      "expected_behavior": ["directory_listing"]
+    },
+    {
+      "id": "cat",
+      "class": "benign",
+      "status": "TODO(EXPERIMENT)",
+      "provenance": "known_benign_rootfs",
+      "network_required": false,
+      "default_enabled": true,
+      "command": ["cat", "experiments/linux_behavior/benign/fixtures/input.txt"],
+      "evidence_dir": "03_cat",
+      "expected_syscalls": ["openat", "read", "write", "close"],
+      "expected_behavior": ["file_read", "stdout_write"]
+    },
+    {
+      "id": "cp",
+      "class": "benign",
+      "status": "TODO(EXPERIMENT)",
+      "provenance": "known_benign_rootfs",
+      "network_required": false,
+      "default_enabled": true,
+      "command": [
+        "cp",
+        "experiments/linux_behavior/benign/fixtures/input.txt",
+        "/tmp/rvmt_benign_copy.txt"
+      ],
+      "evidence_dir": "04_cp",
+      "expected_syscalls": ["openat", "read", "write", "close"],
+      "expected_behavior": ["file_copy"]
+    },
+    {
+      "id": "sha256sum",
+      "class": "benign",
+      "status": "TODO(EXPERIMENT)",
+      "provenance": "known_benign_rootfs",
+      "network_required": false,
+      "default_enabled": true,
+      "command": ["sha256sum", "experiments/linux_behavior/benign/fixtures/input.txt"],
+      "evidence_dir": "05_sha256sum",
+      "expected_syscalls": ["openat", "read", "write", "close"],
+      "expected_behavior": ["file_hash"]
+    },
+    {
+      "id": "small_network_client",
+      "class": "benign",
+      "status": "OPTIONAL_DISABLED_BY_DEFAULT",
+      "provenance": "repository_source",
+      "network_required": true,
+      "default_enabled": false,
+      "source": "experiments/linux_behavior/benign/programs/small_network_client.c",
+      "command": ["./small_network_client", "127.0.0.1", "7"],
+      "evidence_dir": "06_small_network_client",
+      "expected_syscalls": ["socket", "connect", "write", "read", "close"],
+      "expected_behavior": ["network_client"]
+    }
+  ]
+}

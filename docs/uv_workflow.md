@@ -22,6 +22,7 @@ uv run python tools/check_trace_export_decision.py
 uv run python tools/check_board_trace_minimal.py
 uv run python tools/check_board_trace_programs.py
 uv run python tools/check_linux_behavior_principles.py
+uv run python tools/check_linux_benign_dataset.py
 ```
 
 Slash groups are expanded, so this runs the long build sequence:
@@ -329,6 +330,18 @@ binaries stay forbidden.
 ```powershell
 uv run python tools/check_linux_behavior_principles.py
 uv run python tools/check_linux_behavior_principles.py --self-test
+```
+
+## Linux Benign Dataset
+
+Phase 6.2 is tracked in `docs/linux_benign_dataset.md` and
+`experiments/linux_behavior/benign/manifest.json`. The benign set covers hello,
+`ls`, `cat`, `cp`, `sha256sum`, and an optional small network client that stays
+disabled by default unless a planned target network setup is available.
+
+```powershell
+uv run python tools/check_linux_benign_dataset.py
+uv run python tools/check_linux_benign_dataset.py --self-test
 ```
 
 ## Trace Compression Prototype
