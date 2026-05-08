@@ -1,0 +1,16 @@
+{
+  "test": "branch",
+  "mode": "trace_unit",
+  "min_counts": {
+    "BRANCH": 1
+  },
+  "forbidden_events": ["DROP"],
+  "required_events": [
+    {
+      "evt": "BRANCH",
+      "pc": "0x0000000080000010",
+      "taken": true,
+      "target": "0x0000000080000020"
+    }
+  ]
+}

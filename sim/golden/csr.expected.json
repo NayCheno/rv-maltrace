@@ -1,0 +1,16 @@
+{
+  "test": "csr",
+  "mode": "trace_unit",
+  "min_counts": {
+    "SATP": 1
+  },
+  "forbidden_events": ["DROP"],
+  "required_events": [
+    {
+      "evt": "SATP",
+      "pc": "0x0000000080000070",
+      "csr": "0x180",
+      "value": "0x0000000012345000"
+    }
+  ]
+}

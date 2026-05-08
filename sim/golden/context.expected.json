@@ -1,0 +1,15 @@
+{
+  "test": "context",
+  "mode": "trace_unit",
+  "min_counts": {
+    "PRIV": 1
+  },
+  "forbidden_events": ["DROP"],
+  "required_events": [
+    {
+      "evt": "PRIV",
+      "old_priv": "M",
+      "new_priv": "S"
+    }
+  ]
+}

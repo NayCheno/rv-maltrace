@@ -1,0 +1,15 @@
+{
+  "test": "ebreak",
+  "mode": "trace_unit",
+  "min_counts": {
+    "TRAP": 1
+  },
+  "forbidden_events": ["DROP"],
+  "required_events": [
+    {
+      "evt": "TRAP",
+      "pc": "0x0000000080000060",
+      "cause": "0x0000000000000003"
+    }
+  ]
+}

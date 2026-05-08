@@ -1,0 +1,15 @@
+{
+  "test": "smoke",
+  "mode": "trace_unit",
+  "min_counts": {
+    "RETIRE": 2
+  },
+  "forbidden_events": ["TRAP", "DROP"],
+  "required_events": [
+    {
+      "evt": "RETIRE",
+      "pc": "0x0000000080000000",
+      "instr": "0x00000513"
+    }
+  ]
+}

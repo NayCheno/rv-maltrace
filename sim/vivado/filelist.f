@@ -1,0 +1,12 @@
+rtl/trace/trace_pkg.sv
+rtl/trace/arg_shadow.sv
+rtl/trace/retire_tap.sv
+rtl/trace/branch_tap.sv
+rtl/trace/syscall_tap.sv
+rtl/trace/trap_tap.sv
+rtl/trace/context_tap.sv
+rtl/trace/trace_top.sv
+sim/tb/tb_trace_sink.sv
+sim/tb/tb_trace_scoreboard.sv
+sim/tb/tb_mem_model.sv
+sim/tb/tb_trace_top_unit.sv

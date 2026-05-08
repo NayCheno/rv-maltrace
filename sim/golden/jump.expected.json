@@ -1,0 +1,20 @@
+{
+  "test": "jump",
+  "mode": "trace_unit",
+  "min_counts": {
+    "JUMP": 2
+  },
+  "forbidden_events": ["DROP"],
+  "required_events": [
+    {
+      "evt": "JUMP",
+      "pc": "0x0000000080000030",
+      "target": "0x0000000080000040"
+    },
+    {
+      "evt": "JUMP",
+      "pc": "0x0000000080000040",
+      "target": "0x0000000080000080"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "test": "backpressure",
+  "mode": "trace_unit",
+  "min_counts": {
+    "DROP": 1
+  },
+  "required_events": [
+    {
+      "evt": "DROP",
+      "value": "ANY"
+    }
+  ]
+}

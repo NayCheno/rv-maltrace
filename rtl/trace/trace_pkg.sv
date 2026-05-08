@@ -1,0 +1,78 @@
+package trace_pkg;
+
+  typedef enum logic [3:0] {
+    EVT_NONE   = 4'd0,
+    EVT_RETIRE = 4'd1,
+    EVT_BRANCH = 4'd2,
+    EVT_JUMP   = 4'd3,
+    EVT_ECALL  = 4'd4,
+    EVT_TRAP   = 4'd5,
+    EVT_CSR    = 4'd6,
+    EVT_SATP   = 4'd7,
+    EVT_PRIV   = 4'd8,
+    EVT_MARKER = 4'd9,
+    EVT_DROP   = 4'd10
+  } trace_evt_e;
+
+  localparam logic [1:0] TRACE_PRIV_U = 2'b00;
+  localparam logic [1:0] TRACE_PRIV_S = 2'b01;
+  localparam logic [1:0] TRACE_PRIV_H = 2'b10;
+  localparam logic [1:0] TRACE_PRIV_M = 2'b11;
+
+  localparam logic [11:0] TRACE_CSR_SSTATUS = 12'h100;
+  localparam logic [11:0] TRACE_CSR_STVEC   = 12'h105;
+  localparam logic [11:0] TRACE_CSR_SEPC    = 12'h141;
+  localparam logic [11:0] TRACE_CSR_SCAUSE  = 12'h142;
+  localparam logic [11:0] TRACE_CSR_STVAL   = 12'h143;
+  localparam logic [11:0] TRACE_CSR_SATP    = 12'h180;
+  localparam logic [11:0] TRACE_CSR_MSTATUS = 12'h300;
+  localparam logic [11:0] TRACE_CSR_MEDELEG = 12'h302;
+  localparam logic [11:0] TRACE_CSR_MIDELEG = 12'h303;
+
+  typedef struct packed {
+    logic        valid;
+    trace_evt_e  evt;
+    logic [63:0] cycle;
+    logic [63:0] pc;
+    logic [31:0] instr;
+    logic [63:0] target;
+    logic        taken;
+    logic [ 1:0] priv;
+    logic [ 1:0] old_priv;
+    logic [ 1:0] new_priv;
+    logic [63:0] satp;
+    logic [11:0] csr;
+    logic [63:0] value;
+    logic [63:0] cause;
+    logic [63:0] tval;
+    logic [63:0] a0;
+    logic [63:0] a1;
+    logic [63:0] a2;
+    logic [63:0] a3;
+    logic [63:0] a4;
+    logic [63:0] a5;
+    logic [63:0] a6;
+    logic [63:0] a7;
+  } trace_packet_t;
+
+  function automatic trace_packet_t trace_null_packet();
+    trace_null_packet = '0;
+    trace_null_packet.evt = EVT_NONE;
+  endfunction
+
+  function automatic logic trace_is_watched_csr(input logic [11:0] csr_i);
+    unique case (csr_i)
+      TRACE_CSR_MSTATUS,
+      TRACE_CSR_SSTATUS,
+      TRACE_CSR_SATP,
+      TRACE_CSR_STVEC,
+      TRACE_CSR_SEPC,
+      TRACE_CSR_SCAUSE,
+      TRACE_CSR_STVAL,
+      TRACE_CSR_MEDELEG,
+      TRACE_CSR_MIDELEG: trace_is_watched_csr = 1'b1;
+      default: trace_is_watched_csr = 1'b0;
+    endcase
+  endfunction
+
+endpackage

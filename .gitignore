@@ -66,6 +66,9 @@ xsim.dir/
 vivado*.log
 vivado*.jou
 vivado*.str
+xvlog.pb
+xelab.pb
+xsim.pb
 dfx_runtime.txt
 
 # HDL simulation waves / coverage

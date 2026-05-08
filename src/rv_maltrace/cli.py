@@ -40,6 +40,16 @@ TASK_ALIASES = {
     "vivado:check": "vivado:check",
     "vivado:project": "vivado:project",
     "vivado:xpr": "vivado:project",
+    "sim": "sim:trace-unit",
+    "sim:unit": "sim:trace-unit",
+    "sim:trace": "sim:trace-unit",
+    "sim:trace-unit": "sim:trace-unit",
+    "sim:summary": "sim:summary",
+    "summary": "sim:summary",
+    "baremetal": "baremetal:build",
+    "baremetal:build": "baremetal:build",
+    "programs": "baremetal:build",
+    "programs:build": "baremetal:build",
     "config": "config:show",
     "config:show": "config:show",
     "tasks": "tasks:list",
@@ -59,6 +69,9 @@ DISPLAY_TASKS = [
     "vivado:project",
     "bitstream:build",
     "bitstream:collect",
+    "sim:trace-unit",
+    "sim:summary",
+    "baremetal:build",
     "config:show",
     "tasks:list",
     "completion:powershell",
@@ -1065,6 +1078,54 @@ def task_bitstream_collect(root: Path, config: dict, dry_run: bool) -> None:
     print_vivado_artifact_summary(artifact_dir)
 
 
+def task_sim_trace_unit(root: Path, config: dict, env: dict[str, str], dry_run: bool) -> None:
+    vivado = resolve_vivado(config)
+    env = prepend_env_path(env, Path(vivado).parent)
+    env = env.copy()
+    env["PYTHON"] = sys.executable
+    run(
+        [
+            vivado,
+            "-mode",
+            "batch",
+            "-nojournal",
+            "-nolog",
+            "-notrace",
+            "-source",
+            "sim/vivado/run_all_tests.tcl",
+        ],
+        cwd=root,
+        env=env,
+        dry_run=dry_run,
+    )
+    if not dry_run:
+        task_sim_summary(root, env, dry_run=False)
+
+
+def task_sim_summary(root: Path, env: dict[str, str], dry_run: bool) -> None:
+    run(
+        [
+            sys.executable,
+            "tools/summarize_results.py",
+            "results/vivado_sim",
+            "--out",
+            "results/vivado_sim/summary.json",
+        ],
+        cwd=root,
+        env=env,
+        dry_run=dry_run,
+    )
+
+
+def task_baremetal_build(root: Path, env: dict[str, str], dry_run: bool) -> None:
+    run(
+        [sys.executable, "tools/build_baremetal.py", "--all"],
+        cwd=root,
+        env=env,
+        dry_run=dry_run,
+    )
+
+
 def show_config(root: Path, config: dict) -> None:
     cva6_dir = configured_path(root, str(config.get("cva6_dir", "rtl/cva6")))
     print(f"repo_root            = {root}")
@@ -1184,7 +1245,8 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         nargs="*",
         help=(
             "Tasks to run. Supports docker:build, toolchain:build, bootrom:build, "
-            "vivado:check, bitstream:build, config:show, completion:powershell. Slash groups such as "
+            "vivado:check, bitstream:build, sim:trace-unit, baremetal:build, "
+            "config:show, completion:powershell. Slash groups such as "
             "tool/bootrom are expanded."
         ),
     )
@@ -1227,6 +1289,12 @@ def main(argv: list[str] | None = None) -> int:
                 task_bitstream_build(root, config, env, args.dry_run)
             elif task == "bitstream:collect":
                 task_bitstream_collect(root, config, args.dry_run)
+            elif task == "sim:trace-unit":
+                task_sim_trace_unit(root, config, env, args.dry_run)
+            elif task == "sim:summary":
+                task_sim_summary(root, env, args.dry_run)
+            elif task == "baremetal:build":
+                task_baremetal_build(root, env, args.dry_run)
             else:
                 raise TaskError(f"Unhandled task: {task}")
     except TaskError as exc:
