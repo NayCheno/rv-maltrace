@@ -32,6 +32,7 @@ TASK_ALIASES = {
     "bootrom:build": "bootrom:build",
     "bitstream": "bitstream:build",
     "bitstream:build": "bitstream:build",
+    "bitstream:collect": "bitstream:collect",
     "fpga": "bitstream:build",
     "fpga:build": "bitstream:build",
     "vivado": "vivado:check",
@@ -53,6 +54,7 @@ DISPLAY_TASKS = [
     "bootrom:build",
     "vivado:check",
     "bitstream:build",
+    "bitstream:collect",
     "config:show",
     "tasks:list",
     "completion:powershell",
@@ -261,6 +263,107 @@ def release_subst_mapping(drive: str, root: Path) -> None:
         print(f"rvmt: warning: failed to release {drive}: {message}", file=sys.stderr)
 
 
+def make_vivado_project_portable(project: Path, work_root: Path, real_root: Path) -> None:
+    if not project.exists():
+        return
+    work_prefix = as_posix_path(work_root).rstrip("/")
+    real_prefix = as_posix_path(real_root).rstrip("/")
+    text = project.read_text(encoding="utf-8")
+    text = text.replace(work_prefix, real_prefix)
+    text = text.replace(work_prefix.lower(), real_prefix)
+    project.write_text(text, encoding="utf-8", newline="\n")
+
+
+def safe_artifact_segment(value: str) -> str:
+    segment = "".join(ch if ch.isalnum() or ch in "-_." else "_" for ch in value)
+    segment = segment.strip("._-")
+    return segment or "default"
+
+
+def vivado_artifact_dir(root: Path, config: dict) -> Path:
+    override = config.get("vivado_artifact_dir")
+    if override:
+        return configured_path(root, str(override))
+
+    build_dir = configured_path(root, str(config.get("build_dir", "build")))
+    board = safe_artifact_segment(str(config.get("board", "genesys2")))
+    target = safe_artifact_segment(str(config.get("target", "cv64a6_imafdc_sv39")))
+    return build_dir / "vivado" / f"{board}-{target}"
+
+
+def makefile_relative_path(path: Path, start: Path) -> str:
+    try:
+        return as_posix_path(os.path.relpath(path, start))
+    except ValueError as exc:
+        raise TaskError(f"{path} must be on the same drive as {start}.") from exc
+
+
+VIVADO_WORK_PATTERNS = (
+    "*.bit",
+    "*.bin",
+    "*.mcs",
+    "*.ltx",
+    "*.dcp",
+    "*.rpt",
+    "*.rpx",
+    "*.pb",
+    "*.prm",
+    "*.tcl",
+    "*.vdi",
+    "*.xci",
+    "*.sdf",
+    "*.v",
+)
+
+
+def copy_matching_files(source_dir: Path, target_dir: Path, patterns: Iterable[str]) -> list[Path]:
+    if not source_dir.exists():
+        return []
+
+    target_dir.mkdir(parents=True, exist_ok=True)
+    copied: list[Path] = []
+    for pattern in patterns:
+        for source in source_dir.glob(pattern):
+            if not source.is_file():
+                continue
+            target = target_dir / source.name
+            if source.resolve() == target.resolve():
+                continue
+            shutil.copy2(source, target)
+            copied.append(target)
+    return copied
+
+
+def seed_existing_vivado_artifacts(fpga_dir: Path, artifact_dir: Path) -> None:
+    artifact_work_dir = artifact_dir / "work-fpga"
+    if not (artifact_work_dir / "ariane_xilinx.bit").exists():
+        copy_matching_files(fpga_dir / "work-fpga", artifact_work_dir, VIVADO_WORK_PATTERNS)
+
+    artifact_report_dir = artifact_dir / "reports"
+    if not artifact_report_dir.exists():
+        copy_matching_files(fpga_dir / "reports", artifact_report_dir, ("*.rpt", "*.rpx", "*.pb"))
+
+
+def collect_vivado_artifacts(fpga_dir: Path, artifact_dir: Path) -> list[Path]:
+    artifact_dir.mkdir(parents=True, exist_ok=True)
+    copied = []
+    copied.extend(copy_matching_files(fpga_dir / "work-fpga", artifact_dir / "work-fpga", VIVADO_WORK_PATTERNS))
+    copied.extend(copy_matching_files(fpga_dir / "reports", artifact_dir / "reports", ("*.rpt", "*.rpx", "*.pb")))
+    return copied
+
+
+def print_vivado_artifact_summary(artifact_dir: Path) -> None:
+    print(f"Vivado artifacts: {artifact_dir}")
+    for label, path in (
+        ("bitstream", artifact_dir / "work-fpga" / "ariane_xilinx.bit"),
+        ("flash image", artifact_dir / "work-fpga" / "ariane_xilinx.mcs"),
+        ("timing report", artifact_dir / "reports" / "ariane.timing.rpt"),
+        ("utilization report", artifact_dir / "reports" / "ariane.utilization.rpt"),
+    ):
+        if path.exists():
+            print(f"  {label}: {path}")
+
+
 def vivado_work_root(root: Path, config: dict, *, dry_run: bool) -> Path:
     drive = vivado_subst_drive(config)
     if not drive:
@@ -315,9 +418,6 @@ exec {real_python} "$@"
 
 def prepare_vivado_wrapper(root: Path, config: dict, vivado: str) -> str:
     repo_paths = vivado_board_repo_paths(root, config)
-    if not repo_paths:
-        return vivado
-
     wrapper_dir = root / ".rvmt" / "bin"
     wrapper_dir.mkdir(parents=True, exist_ok=True)
     wrapper = wrapper_dir / "vivado"
@@ -416,9 +516,31 @@ while (($#)); do
     src="$2"
     source_to_run="$src"
     if [[ "$src" == "scripts/run.tcl" && -f "$src" ]]; then
-      mkdir -p work-fpga
-      patched_src="work-fpga/rvmt-vivado-run-$$-${{#tmp_files[@]}}.tcl"
-      sed -E 's#exec[[:space:]]+rm[[:space:]]+-rf[[:space:]]+reports/\\*#file delete -force {{*}}[glob -nocomplain reports/*]#' "$src" > "$patched_src"
+      patch_dir="${{RVMT_VIVADO_PATCH_DIR:-${{RVMT_VIVADO_WORK_DIR:-work-fpga}}}}"
+      mkdir -p "$patch_dir"
+      patched_src="$patch_dir/rvmt-vivado-run-$$-${{#tmp_files[@]}}.tcl"
+      {{
+        cat <<'RVMT_TCL'
+if {{[info exists ::env(RVMT_VIVADO_REPORT_DIR)]}} {{
+  set rvmt_report_dir $::env(RVMT_VIVADO_REPORT_DIR)
+}} else {{
+  set rvmt_report_dir reports
+}}
+file mkdir $rvmt_report_dir
+if {{[info exists ::env(RVMT_VIVADO_WORK_DIR)]}} {{
+  set rvmt_work_dir $::env(RVMT_VIVADO_WORK_DIR)
+}} else {{
+  set rvmt_work_dir work-fpga
+}}
+file mkdir $rvmt_work_dir
+RVMT_TCL
+        sed -E \\
+          -e 's#exec[[:space:]]+mkdir[[:space:]]+-p[[:space:]]+reports/#file mkdir ${{rvmt_report_dir}}#g' \\
+          -e 's#exec[[:space:]]+rm[[:space:]]+-rf[[:space:]]+reports/\\*#file delete -force {{*}}[glob -nocomplain ${{rvmt_report_dir}}/*]#g' \\
+          -e 's#reports/#${{rvmt_report_dir}}/#g' \\
+          -e 's#work-fpga/#${{rvmt_work_dir}}/#g' \\
+          "$src"
+      }} > "$patched_src"
       tmp_files+=("$patched_src")
       source_to_run="$patched_src"
     fi
@@ -645,9 +767,18 @@ def task_bitstream_build(root: Path, config: dict, env: dict[str, str], dry_run:
                 f"Missing {bootrom}. Run 'uv run rvmt bootrom:build' before bitstream:build."
             )
 
+        fpga_dir = cva6_dir / "corev_apu" / "fpga"
+        artifact_dir = vivado_artifact_dir(work_root, config)
+        real_artifact_dir = vivado_artifact_dir(root, config)
+        vivado_work_dir = artifact_dir / "work-fpga"
+        vivado_report_dir = artifact_dir / "reports"
+        work_dir_arg = makefile_relative_path(vivado_work_dir, fpga_dir)
+
         vivado_config = str(config.get("vivado", "vivado"))
         make = resolve_make(root, config)
         if not dry_run:
+            artifact_dir.mkdir(parents=True, exist_ok=True)
+            seed_existing_vivado_artifacts(fpga_dir, artifact_dir)
             task_vivado_check(work_root, config, env, dry_run=False)
             add_sources = cva6_dir / "corev_apu" / "fpga" / "scripts" / "add_sources.tcl"
             if add_sources.exists():
@@ -659,6 +790,10 @@ def task_bitstream_build(root: Path, config: dict, env: dict[str, str], dry_run:
             vivado = prepare_vivado_wrapper(work_root, config, real_vivado)
             wrapper_dir = prepare_msys_python_wrapper(work_root)
             env = prepend_env_path(env, wrapper_dir, Path(vivado).parent, Path(real_vivado).parent)
+            env = env.copy()
+            env["RVMT_VIVADO_WORK_DIR"] = as_posix_path(vivado_work_dir)
+            env["RVMT_VIVADO_REPORT_DIR"] = as_posix_path(vivado_report_dir)
+            env["RVMT_VIVADO_PATCH_DIR"] = as_posix_path(artifact_dir / ".tmp")
         board = str(config.get("board", "genesys2"))
         target = str(config.get("target", "cv64a6_imafdc_sv39"))
         riscv = str(config.get("riscv_placeholder", "/tmp/riscv-placeholder"))
@@ -674,15 +809,35 @@ def task_bitstream_build(root: Path, config: dict, env: dict[str, str], dry_run:
                 f"target={target}",
                 f"RISCV={riscv}",
                 f"VIVADO={as_posix_path(vivado)}",
+                f"work-dir={work_dir_arg}",
                 "fpga",
             ],
             cwd=cva6_dir,
             env=env,
             dry_run=dry_run,
         )
+        if not dry_run:
+            project = cva6_dir / "corev_apu" / "fpga" / "ariane.xpr"
+            make_vivado_project_portable(project, work_root, root)
+            if work_root != root:
+                print_vivado_artifact_summary(real_artifact_dir)
+            else:
+                print_vivado_artifact_summary(artifact_dir)
     finally:
         if release_drive:
             release_subst_mapping(release_drive, root)
+
+
+def task_bitstream_collect(root: Path, config: dict, dry_run: bool) -> None:
+    cva6_dir = configured_path(root, str(config.get("cva6_dir", "rtl/cva6")), must_exist=not dry_run)
+    fpga_dir = cva6_dir / "corev_apu" / "fpga"
+    artifact_dir = vivado_artifact_dir(root, config)
+    if dry_run:
+        print(f"+ collect Vivado artifacts from {fpga_dir} to {artifact_dir}")
+        return
+
+    collect_vivado_artifacts(fpga_dir, artifact_dir)
+    print_vivado_artifact_summary(artifact_dir)
 
 
 def show_config(root: Path, config: dict) -> None:
@@ -694,6 +849,8 @@ def show_config(root: Path, config: dict) -> None:
     print(f"docker_service      = {config.get('docker_service', 'cva6-toolchain')}")
     print(f"vivado              = {config.get('vivado', 'vivado')}")
     print(f"vivado_board_repos  = {[str(path) for path in vivado_board_repo_paths(root, config)]}")
+    print(f"build_dir           = {configured_path(root, str(config.get('build_dir', 'build')))}")
+    print(f"vivado_artifacts    = {vivado_artifact_dir(root, config)}")
     print(f"make                = {config.get('make', 'make')}")
     print(f"make_path_prepend   = {config.get('make_path_prepend', [])}")
     print(f"make_resolved       = {resolve_make(root, config)}")
@@ -840,6 +997,8 @@ def main(argv: list[str] | None = None) -> int:
                 task_vivado_check(root, config, env, args.dry_run)
             elif task == "bitstream:build":
                 task_bitstream_build(root, config, env, args.dry_run)
+            elif task == "bitstream:collect":
+                task_bitstream_collect(root, config, args.dry_run)
             else:
                 raise TaskError(f"Unhandled task: {task}")
     except TaskError as exc:

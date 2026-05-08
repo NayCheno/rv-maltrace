@@ -30,6 +30,7 @@ vivado_board_repo_paths = ["vendor/vivado-boards/new/board_files"]
 vivado_subst_drive = "R:"
 make = "make.exe"
 make_path_prepend = ["D:/env/tools/MinGW/msys/1.0/bin"]
+build_dir = "build"
 board = "genesys2"
 # Optional override. By default this is derived from board.
 # xilinx_part = "xc7k325tffg900-2"
@@ -47,6 +48,18 @@ Digilent board files are provided by the `vendor/vivado-boards` submodule. `rvmt
 
 On Windows, `vivado_subst_drive` maps the repository to a short drive path before running Vivado. This avoids Vivado's 260-character path limit during Xilinx IP synthesis.
 
+`bitstream:build` writes the stable FPGA deliverables under:
+
+```text
+build/vivado/<board>-<target>/
+  work-fpga/      # bitstream, flash image, netlists, checkpoints, generated IP xci copies
+  reports/        # timing and utilization reports
+```
+
+Set `vivado_artifact_dir` if you want to override that exact directory instead of deriving it from `build_dir`, `board`, and `target`.
+
+The upstream CVA6 Vivado project database (`ariane.xpr`, `ariane.runs`, `ariane.cache`, and related state) is still created in `rtl/cva6/corev_apu/fpga/`, because the CVA6 scripts create the project from that directory. `rvmt` rewrites the generated `.xpr` away from the temporary subst drive so it can be opened from the normal `D:` path.
+
 If Vivado is already in `PATH`, keep:
 
 ```toml
@@ -61,6 +74,7 @@ toolchain:build   Build the CVA6 RISC-V GCC/newlib toolchain in Docker.
 bootrom:build     Generate CVA6 FPGA bootrom_64.sv using the Docker toolchain.
 vivado:check      Check whether Vivado has the configured FPGA part and board files.
 bitstream:build   Run CVA6 make fpga with Windows Vivado.
+bitstream:collect Copy existing CVA6 FPGA outputs into build/vivado/<board>-<target>.
 config:show       Print resolved configuration.
 tasks:list        Print task names.
 completion:*      Print shell completion scripts.

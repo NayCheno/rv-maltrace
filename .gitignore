@@ -22,7 +22,6 @@ __pycache__/
 .coverage
 htmlcov/
 dist/
-build/
 *.egg-info/
 
 # Local environment
@@ -80,7 +79,8 @@ covhtmlreport/
 work/
 work-*/
 
-# Project results
+# Project results and local build artifacts
+build/
 results/
 
 # CVA6 generated artifacts in the submodule working tree
