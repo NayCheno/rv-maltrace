@@ -16,6 +16,7 @@ uv run rvmt bitstream:build
 uv run rvmt vivado:project
 uv run python tools/check_board_baseline.py
 uv run python tools/check_vivado_authorization.py
+uv run python tools/check_bringup_runbook.py
 ```
 
 Slash groups are expanded, so this runs the long build sequence:
@@ -245,6 +246,19 @@ The license support conclusion is artifact-based: the local Vivado environment
 has already generated a routed Genesys 2 bitstream. Rerun these checks before a
 fresh rebuild because a future license checkout can still fail independently of
 the stored artifacts.
+
+## Board Bring-up Runbook
+
+Phase 4.3 is documented in `docs/baseline_bringup_runbook.md`. The runbook
+records the required order: LED/clock/reset sanity, UART hello, minimal RISC-V
+core boot, CVA6 bare-metal boot, and optional Linux boot. It is a procedure and
+does not claim physical board success until logs are captured under
+`results/board/genesys2_baseline/<run-id>/`.
+
+```powershell
+uv run python tools/check_bringup_runbook.py
+uv run python tools/check_bringup_runbook.py --self-test
+```
 
 ## Trace Compression Prototype
 

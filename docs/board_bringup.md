@@ -38,6 +38,19 @@ Phase 4.2 is recorded in `docs/vivado_authorization.md`.
 | Genesys 2 FPGA part implementation | PASS | Routed timing Slack (MET) 0.177 ns; route status has 0 routing errors |
 | Board files available | PASS | `uv run rvmt vivado:check` on 2026-05-08 and `tools/check_vivado_authorization.py` both confirm the Genesys 2 board files |
 
+## Baseline Bring-up Sequence
+
+Phase 4.3 is the ordered board procedure in `docs/baseline_bringup_runbook.md`.
+Record all physical observations under `results/board/genesys2_baseline/<run-id>/`.
+
+| Order | Step | Status | Evidence directory |
+| ---: | --- | --- | --- |
+| 1 | LED Blink / Clock Reset Sanity | TODO (BOARD) | `01_led_clock_reset/` |
+| 2 | UART Hello | TODO (BOARD) | `02_uart_hello/` |
+| 3 | Minimal RISC-V Core Boot | TODO (BOARD) | `03_minimal_core_boot/` |
+| 4 | CVA6 Bare-metal Boot | TODO (BOARD) | `04_cva6_baremetal_boot/` |
+| 5 | CVA6 Simple Linux Boot (Optional) | TODO (OPTIONAL) | `05_linux_boot_optional/` |
+
 ## Trace-enabled Bring-up Plan
 
 1. Keep full retire disabled by default.
