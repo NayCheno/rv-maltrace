@@ -26,6 +26,7 @@ uv run python tools/check_linux_benign_dataset.py
 uv run python tools/check_linux_malware_like_dataset.py
 uv run python tools/recover_behavior.py --self-test
 uv run python tools/check_linux_behavior_recovery.py
+uv run python tools/check_semantic_enrichment_rationale.py
 ```
 
 Slash groups are expanded, so this runs the long build sequence:
@@ -372,6 +373,18 @@ uv run python tools/recover_behavior.py --self-test
 uv run python tools/recover_behavior.py --trace sim/golden/behavior_recovery.trace.jsonl --out-dir build/behavior_recovery_smoke
 uv run python tools/check_linux_behavior_recovery.py
 uv run python tools/check_linux_behavior_recovery.py --self-test
+```
+
+## Semantic Enrichment Rationale
+
+Phase 7.1 is tracked in `docs/semantic_enrichment_rationale.md` and
+`experiments/linux_behavior/semantic_enrichment_rationale.json`. eBPF, kernel
+helpers, and memory snapshots are deferred optional semantic enrichment; the
+core contribution remains RTL-level committed behavior trace.
+
+```powershell
+uv run python tools/check_semantic_enrichment_rationale.py
+uv run python tools/check_semantic_enrichment_rationale.py --self-test
 ```
 
 ## Trace Compression Prototype

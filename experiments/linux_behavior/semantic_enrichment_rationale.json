@@ -1,0 +1,29 @@
+{
+  "phase": "7.1",
+  "status": "DEFERRED_POST_FPGA",
+  "mvp_dependency": false,
+  "core_contribution": "rtl_commit_level_trace",
+  "optional_enrichment": true,
+  "hardware_trace_strengths": [
+    "true_executed_path",
+    "syscall_trap_context_visibility",
+    "no_guest_os_instrumentation_dependency",
+    "software_evasion_resistance"
+  ],
+  "semantic_gaps": [
+    "fd_to_path_mapping",
+    "pointer_string_or_buffer_content",
+    "process_name_and_executable_path",
+    "kernel_object_semantics"
+  ],
+  "allowed_later_helpers": [
+    "selective_memory_snapshot",
+    "kernel_helper_metadata",
+    "ebpf_metadata_alignment"
+  ],
+  "blocked_claims": [
+    "ebpf_required_for_mvp",
+    "ebpf_core_contribution",
+    "software_only_tracing_replaces_rtl_trace"
+  ]
+}
