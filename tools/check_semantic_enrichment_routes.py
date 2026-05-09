@@ -41,7 +41,12 @@ EXPECTED_ROUTES = {
         "examples": ["openat_pathname_prefix", "write_buffer_prefix"],
         "trigger": "after_fpga_trace_works",
         "risks": ["extra_memory_read_path", "timing_impact", "integration_complexity"],
-        "guardrails": ["no_current_jsonl_memory_payload", "no_default_memory_trace_enable", "must_not_backpressure_core"],
+        "guardrails": [
+            "arg_mem_default_disabled",
+            "no_default_memory_trace_enable",
+            "no_load_store_trace_records",
+            "must_not_backpressure_core",
+        ],
     },
     "kernel_helper_metadata": {
         "label": "Route B",
@@ -77,13 +82,16 @@ REQUIRED_DOC_TEXT = (
     "eBPF is not an MVP dependency",
     "is not the core contribution",
     "All routes remain deferred in this phase.",
-    "No route changes the JSONL event set",
+    "The JSONL/RTL path already defines default-disabled `ARG_MEM`",
+    "that path is not Phase 7 route implementation evidence",
+    "No route enables default memory trace",
+    "default load/store memory records remain disabled",
     "replaces RTL-level committed behavior trace",
 )
 FORBIDDEN_DOC_PATTERNS = (
     re.compile(r"\bPASS\b", re.IGNORECASE),
-    re.compile(r"\b(?:route\s+[ABC]|selective\s+memory\s+snapshot|kernel\s+helper|eBPF)\s+(?:is|are|has|have)?\s*(?:been\s+)?(?:implemented|complete|completed|validated|passed)\b", re.IGNORECASE),
-    re.compile(r"\b(?:phase\s*7(?:\.2)?\s+)?(?:implementation|semantic\s+enrichment\s+routes?|routes?)\s+(?:is|are|has|have)?\s*(?:been\s+)?(?:implemented|complete|completed|validated|passed)\b", re.IGNORECASE),
+    re.compile(r"\b(?:route\s+[ABC]|selective\s+memory\s+snapshot|kernel\s+helper|eBPF)\s+(?:is|are|has|have)?\s*(?:been\s+)?(?:enabled|implemented|complete|completed|validated|passed)\b", re.IGNORECASE),
+    re.compile(r"\b(?:phase\s*7(?:\.2)?\s+)?(?:implementation|semantic\s+enrichment\s+routes?|routes?)\s+(?:is|are|has|have)?\s*(?:been\s+)?(?:enabled|implemented|complete|completed|validated|passed)\b", re.IGNORECASE),
     re.compile(r"\bTRACE_MEM_MODE_(?:ADDR|RANGE)\s+(?:is\s+)?(?:enabled|default)\b", re.IGNORECASE),
     re.compile(r"\b(?:load/store\s+trace\s+records?|load/store|memory(?:\s+trace)?)\s+payloads?\s+(?:are\s+)?(?:enabled|implemented|available)\b", re.IGNORECASE),
     re.compile(r"\bload/store\s+trace\s+records?\s+(?:are\s+)?(?:enabled|implemented|available)\b", re.IGNORECASE),
@@ -191,11 +199,14 @@ def check_doc(path: Path) -> list[str]:
 
 def check_trace_format(path: Path) -> list[str]:
     text = path.read_text(encoding="utf-8")
+    normalized = normalized_text(text)
     errors: list[str] = []
     if "`TRACE_MEM_MODE_DEFAULT` is `TRACE_MEM_MODE_NONE`" not in text:
         errors.append(f"{path}: trace memory default must remain TRACE_MEM_MODE_NONE")
-    if "does not define load/store trace records or memory data payload fields" not in text:
-        errors.append(f"{path}: trace format must not define current load/store payloads")
+    if "the syscall-scoped `ARG_MEM` event" not in normalized:
+        errors.append(f"{path}: trace format must reserve ARG_MEM as syscall-scoped schema only")
+    if "does not emit load/store memory records by default" not in normalized:
+        errors.append(f"{path}: trace format must keep emitted load/store records disabled by default")
     return errors
 
 
@@ -268,14 +279,18 @@ OS intrusive
 eBPF is not an MVP dependency
 is not the core contribution
 All routes remain deferred in this phase.
-No route changes the JSONL event set
+The JSONL/RTL path already defines default-disabled `ARG_MEM`
+that path is not Phase 7 route implementation evidence
+No route enables default memory trace
+default load/store memory records remain disabled
 replaces RTL-level committed behavior trace
 """,
         encoding="utf-8",
     )
     (root / DEFAULT_TRACE_FORMAT).write_text(
         "`TRACE_MEM_MODE_DEFAULT` is `TRACE_MEM_MODE_NONE`.\n"
-        "does not define load/store trace records or memory data payload fields\n",
+        "the syscall-scoped `ARG_MEM` event is reserved only.\n"
+        "does not emit load/store memory records by default\n",
         encoding="utf-8",
     )
     (root / DEFAULT_UV_DOC).write_text(
@@ -370,9 +385,13 @@ def self_test() -> int:
 
     for phrase in (
         "PASS",
+        "Route A is enabled.",
         "Route A is implemented.",
+        "selective memory snapshot is enabled.",
         "selective memory snapshot has been validated.",
+        "Phase 7.2 routes are enabled.",
         "Phase 7.2 implementation is complete.",
+        "Semantic enrichment routes are enabled.",
         "Semantic enrichment routes have been validated.",
         "TRACE_MEM_MODE_RANGE is enabled.",
         "memory payloads are implemented.",
@@ -398,7 +417,8 @@ def self_test() -> int:
 
     for old, expected in (
         ("`TRACE_MEM_MODE_DEFAULT` is `TRACE_MEM_MODE_NONE`", "trace memory default"),
-        ("does not define load/store trace records or memory data payload fields", "load/store payloads"),
+        ("the syscall-scoped `ARG_MEM` event", "ARG_MEM"),
+        ("does not emit load/store memory records by default", "load/store records"),
     ):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -1,0 +1,145 @@
+{
+  "test": "pointer_guardrails",
+  "mode": "trace_unit",
+  "exact_counts": {
+    "SYSCALL_ENTRY": 5,
+    "SYSCALL_RET": 5,
+    "ARG_MEM": 14,
+    "TRAP": 5
+  },
+  "forbidden_events": ["DROP"],
+  "required_events": [
+    {
+      "evt": "ARG_MEM",
+      "syscall_id": "0x0000000000000000",
+      "arg_index": 1,
+      "mem_addr": "0x0000000080002ffc",
+      "mem_data": "0x000000000000002f",
+      "mem_size": 1,
+      "mem_last": false
+    },
+    {
+      "evt": "ARG_MEM",
+      "syscall_id": "0x0000000000000000",
+      "arg_index": 1,
+      "mem_addr": "0x0000000080002ffd",
+      "mem_data": "0x0000000000000065",
+      "mem_size": 1,
+      "mem_last": false
+    },
+    {
+      "evt": "ARG_MEM",
+      "syscall_id": "0x0000000000000000",
+      "arg_index": 1,
+      "mem_addr": "0x0000000080002ffe",
+      "mem_data": "0x0000000000000074",
+      "mem_size": 1,
+      "mem_last": false
+    },
+    {
+      "evt": "ARG_MEM",
+      "syscall_id": "0x0000000000000000",
+      "arg_index": 1,
+      "mem_addr": "0x0000000080002fff",
+      "mem_data": "0x0000000000000063",
+      "mem_size": 1,
+      "mem_last": false
+    },
+    {
+      "evt": "ARG_MEM",
+      "syscall_id": "0x0000000000000000",
+      "arg_index": 1,
+      "mem_addr": "0x0000000080003000",
+      "mem_data": "0x0000000000000000",
+      "mem_size": 1,
+      "mem_last": true
+    },
+    {
+      "evt": "ARG_MEM",
+      "syscall_id": "0x0000000000000001",
+      "arg_index": 1,
+      "mem_addr": "0x0000000080004000",
+      "mem_data": "0x0000000000000041",
+      "mem_size": 1,
+      "mem_last": false
+    },
+    {
+      "evt": "ARG_MEM",
+      "syscall_id": "0x0000000000000001",
+      "arg_index": 1,
+      "mem_addr": "0x0000000080004001",
+      "mem_data": "0x0000000000000041",
+      "mem_size": 1,
+      "mem_last": false
+    },
+    {
+      "evt": "ARG_MEM",
+      "syscall_id": "0x0000000000000001",
+      "arg_index": 1,
+      "mem_addr": "0x0000000080004002",
+      "mem_data": "0x0000000000000041",
+      "mem_size": 1,
+      "mem_last": false
+    },
+    {
+      "evt": "ARG_MEM",
+      "syscall_id": "0x0000000000000001",
+      "arg_index": 1,
+      "mem_addr": "0x0000000080004003",
+      "mem_data": "0x0000000000000041",
+      "mem_size": 1,
+      "mem_last": false
+    },
+    {
+      "evt": "ARG_MEM",
+      "syscall_id": "0x0000000000000001",
+      "arg_index": 1,
+      "mem_addr": "0x0000000080004004",
+      "mem_data": "0x0000000000000041",
+      "mem_size": 1,
+      "mem_last": false
+    },
+    {
+      "evt": "ARG_MEM",
+      "syscall_id": "0x0000000000000001",
+      "arg_index": 1,
+      "mem_addr": "0x0000000080004005",
+      "mem_data": "0x0000000000000041",
+      "mem_size": 1,
+      "mem_last": false
+    },
+    {
+      "evt": "ARG_MEM",
+      "syscall_id": "0x0000000000000001",
+      "arg_index": 1,
+      "mem_addr": "0x0000000080004006",
+      "mem_data": "0x0000000000000041",
+      "mem_size": 1,
+      "mem_last": false
+    },
+    {
+      "evt": "ARG_MEM",
+      "syscall_id": "0x0000000000000003",
+      "arg_index": 1,
+      "mem_addr": "0x0000000080005006",
+      "mem_data": "0x0000000000005857",
+      "mem_size": 2,
+      "mem_last": true
+    },
+    {
+      "evt": "SYSCALL_RET",
+      "syscall_id": "0x0000000000000004",
+      "target": "0x0000000080000904",
+      "a0": "0x0000000000000005"
+    },
+    {
+      "evt": "ARG_MEM",
+      "syscall_id": "0x0000000000000001",
+      "arg_index": 1,
+      "mem_addr": "0x0000000080004007",
+      "mem_data": "0x0000000000000041",
+      "mem_size": 1,
+      "mem_last": true
+    }
+  ]
+}

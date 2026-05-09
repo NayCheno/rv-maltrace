@@ -8,7 +8,7 @@
       "number": 64
     }
   ],
-  "required_events": ["ECALL"],
+  "required_events": ["SYSCALL_ENTRY", "SYSCALL_RET"],
   "forbidden_events": ["RETIRE"],
   "evidence_dir": "01_hello_write"
 }

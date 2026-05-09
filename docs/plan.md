@@ -283,7 +283,7 @@ Baseline 通过标准：
 1. trace tap 不改变 CVA6 原始执行结果。
 2. trace event 来自 committed instruction。
 3. branch/jump event 正确。
-4. ecall event 能捕获 syscall number 和 a0-a7。
+4. syscall entry event 能捕获 U-mode syscall number 和 a0-a7。
 5. trap event 能捕获 cause/tval/pc。
 6. context event 能捕获 privilege/satp/CSR 变化。
 7. trace output 可由 Python 工具自动解析和比对。
@@ -319,17 +319,19 @@ compare_trace.py
 
 ```systemverilog
 typedef enum logic [3:0] {
-  EVT_NONE      = 4'd0,
-  EVT_RETIRE    = 4'd1,
-  EVT_BRANCH    = 4'd2,
-  EVT_JUMP      = 4'd3,
-  EVT_ECALL     = 4'd4,
-  EVT_TRAP      = 4'd5,
-  EVT_CSR       = 4'd6,
-  EVT_SATP      = 4'd7,
-  EVT_PRIV      = 4'd8,
-  EVT_MARKER    = 4'd9,
-  EVT_DROP      = 4'd10
+  EVT_NONE          = 4'd0,
+  EVT_RETIRE        = 4'd1,
+  EVT_BRANCH        = 4'd2,
+  EVT_JUMP          = 4'd3,
+  EVT_SYSCALL_ENTRY = 4'd4,
+  EVT_SYSCALL_RET   = 4'd5,
+  EVT_TRAP          = 4'd6,
+  EVT_CSR           = 4'd7,
+  EVT_SATP          = 4'd8,
+  EVT_PRIV          = 4'd9,
+  EVT_ARG_MEM       = 4'd10,
+  EVT_DROP          = 4'd11,
+  EVT_MARKER        = 4'd12
 } trace_evt_e;
 ```
 
@@ -415,12 +417,13 @@ instr
 target
 ```
 
-### EVT_ECALL
+### EVT_SYSCALL_ENTRY / EVT_SYSCALL_RET
 
 触发条件：
 
 ```text
-committed instruction == 32'h00000073
+SYSCALL_ENTRY: U-mode ECALL from the exception/trap path, cause == U_ECALL
+SYSCALL_RET: S-mode SRET qualified as returning to U-mode with an outstanding syscall
 ```
 
 记录：
@@ -429,9 +432,11 @@ committed instruction == 32'h00000073
 pc
 a0-a7
 priv
+syscall_id
+return target/duration/a0 on SYSCALL_RET
 ```
 
-a7 作为 syscall number，a0-a5 作为主要 syscall 参数。第一版先只记录寄存器值，不解析指针指向内容。
+a7 作为 syscall number，a0-a5 作为主要 syscall 参数。第一版先只记录寄存器值和返回值，不解析指针指向内容。
 
 ### EVT_TRAP
 
@@ -623,7 +628,7 @@ jalr target 正确
 ```text
 监听 writeback。
 如果 rd 属于 x10-x17，则更新 a0-a7 shadow。
-syscall_tap 触发 ecall 时直接读取 shadow。
+    syscall_tap 触发 U-mode syscall entry 时直接读取 shadow。
 ```
 
 好处：
@@ -644,16 +649,16 @@ writeback flush/kill 必须过滤。
 
 ## Step 6：实现 `syscall_tap.sv`
 
-ecall 识别：
+syscall entry 识别：
 
 ```text
-instr == 32'h00000073
+commit_exception && instr == 32'h00000073 && priv == U && cause == U_ECALL
 ```
 
 触发：
 
 ```text
-commit_valid && instr_is_ecall
+commit exception/trap path, not normal retire
 ```
 
 记录：
@@ -669,7 +674,7 @@ a0-a7
 ```text
 a7 = syscall number
 a0-a5 = syscall arguments
-a0 after syscall return 暂不在同一个 packet 中记录
+SYSCALL_RET records a0 return value, return pc, and duration
 ```
 
 ## Step 7：实现 `trap_tap.sv`
@@ -724,7 +729,7 @@ Linux 上跑用户程序时，syscall/trap/context 边界必须可见。
 仲裁顺序建议：
 
 ```text
-TRAP > ECALL > CSR/PRIV > BRANCH/JUMP > RETIRE
+TRAP > SYSCALL_ENTRY/SYSCALL_RET > CSR/PRIV > BRANCH/JUMP > RETIRE
 ```
 
 第一版可以每周期只输出一个 event。若同周期多个 event，可用 FIFO 或多拍输出在 Phase 2 补强。
@@ -770,7 +775,8 @@ tb_mem_model.sv:
 ```json
 {"cycle":100,"evt":"RETIRE","pc":"0x80000000","instr":"0x00000513","priv":"M"}
 {"cycle":120,"evt":"BRANCH","pc":"0x80000010","taken":true,"target":"0x80000020"}
-{"cycle":180,"evt":"ECALL","pc":"0x80000040","a7":"0x40","a0":"0x1","a1":"0x80001000"}
+{"cycle":180,"evt":"SYSCALL_ENTRY","pc":"0x80000040","priv":"U","syscall_id":"0x0","a7":"0x40","a0":"0x1","a1":"0x80001000"}
+{"cycle":190,"evt":"SYSCALL_RET","pc":"0x80000080","priv":"S","target":"0x80000044","syscall_id":"0x0","duration":10,"a0":"0x5"}
 ```
 
 JSONL 比 CSV 更适合字段稀疏的 event。
@@ -872,7 +878,7 @@ JAL/JALR 对应 EVT_JUMP。
 target 正确。
 ```
 
-## Test 3：ecall
+## Test 3：syscall entry/return
 
 程序：
 
@@ -887,11 +893,12 @@ ecall
 期望：
 
 ```text
-EVT_ECALL
+EVT_SYSCALL_ENTRY
 a7 = 64
 a0 = 1
 a1 = 0x80001000
 a2 = 5
+EVT_SYSCALL_RET records return a0, return pc, and duration when the test includes SRET-to-U
 ```
 
 注意：
@@ -1002,8 +1009,9 @@ simulation final state:
   "test": "ecall",
   "required_events": [
     {
-      "evt": "ECALL",
+      "evt": "SYSCALL_ENTRY",
       "pc": "ANY",
+      "priv": "U",
       "a7": "0x40",
       "a0": "0x1",
       "a1": "0x80001000",
@@ -1039,7 +1047,7 @@ trap tval，视 CVA6 实现而定
 ```text
 [PASS] smoke: 124 retired instructions
 [PASS] branch: 3 branch events matched
-[PASS] ecall: syscall number/args matched
+[PASS] syscall_entry: syscall number/args matched
 [PASS] trap_illegal: cause matched
 [FAIL] jump: expected target 0x80000080, got 0x80000084
 ```
@@ -1084,7 +1092,7 @@ Phase 1 完成标准：
 [PASS] trace tap 接入前后程序最终结果一致
 [PASS] 所有 event 均来自 committed instruction
 [PASS] branch/jump target 与 golden 一致
-[PASS] ecall a0-a7 与 golden 一致
+[PASS] syscall entry/return 与 golden 一致
 [PASS] trap cause/tval/pc 可验证
 [PASS] Python checker 可一键跑 regression
 [PASS] docs/signal_map.md 与 docs/trace_format.md 完成
@@ -1475,7 +1483,8 @@ docs/trace_format.md
 | RETIRE | committed instruction | cycle, pc, instr |
 | BRANCH | committed conditional branch | pc, instr, taken, target |
 | JUMP | committed jal/jalr | pc, instr, target |
-| ECALL | syscall instruction | pc, priv, a0-a7 |
+| SYSCALL_ENTRY | U-mode syscall instruction | pc, priv, syscall_id, a0-a7 |
+| SYSCALL_RET | SRET returning to U-mode | pc, priv, target, syscall_id, duration, a0 |
 | TRAP | trap/exception/interrupt | pc, cause, tval, priv |
 | CSR | watched CSR write | pc, csr, value |
 | PRIV | privilege change | old_priv, new_priv, pc |

@@ -19,7 +19,7 @@ EXPECTED_PROGRAMS = {
         "expected": "board/trace_validation/expected/hello_write.expected.json",
         "evidence_dir": "01_hello_write",
         "syscalls": [("write", 64)],
-        "events": {"ECALL"},
+        "events": {"SYSCALL_ENTRY", "SYSCALL_RET"},
         "source_tokens": ("SYS_write",),
     },
     "file_open_read_write": {
@@ -35,7 +35,7 @@ EXPECTED_PROGRAMS = {
             ("write", 64),
             ("close", 57),
         ],
-        "events": {"ECALL"},
+        "events": {"SYSCALL_ENTRY", "SYSCALL_RET"},
         "source_tokens": (
             "SYS_openat",
             "SYS_read",
@@ -51,7 +51,7 @@ EXPECTED_PROGRAMS = {
         "expected": "board/trace_validation/expected/fork_exec.expected.json",
         "evidence_dir": "03_fork_exec",
         "syscalls": [("clone", 220), ("execve", 221), ("wait4", 260)],
-        "events": {"ECALL", "PRIV"},
+        "events": {"SYSCALL_ENTRY", "SYSCALL_RET", "PRIV"},
         "source_tokens": ("SYS_clone", "SYS_execve", "SYS_wait4"),
     },
     "illegal_instruction": {

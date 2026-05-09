@@ -27,9 +27,9 @@ SPEC_KEYS = {
 }
 EXPECTED_TARGETS = {
     "syscall_sequence": {
-        "source_events": ["ECALL"],
+        "source_events": ["SYSCALL_ENTRY", "SYSCALL_RET"],
         "output": "semantic_events.syscall_sequence",
-        "required_fields": ["cycle", "pc", "priv", "a7"],
+        "required_fields": ["cycle", "pc", "priv", "a7", "return_value", "return_pc", "duration"],
     },
     "control_flow_segment": {
         "source_events": ["BRANCH", "JUMP"],
@@ -42,15 +42,20 @@ EXPECTED_TARGETS = {
         "required_fields": ["cycle", "pc", "evt"],
     },
     "privilege_boundary": {
-        "source_events": ["ECALL", "TRAP", "PRIV"],
+        "source_events": ["SYSCALL_ENTRY", "SYSCALL_RET", "TRAP", "PRIV"],
         "output": "semantic_events.privilege_boundaries",
         "required_fields": ["cycle", "pc", "priv"],
     },
     "basic_behavior_graph": {
-        "source_events": ["ECALL", "BRANCH", "JUMP", "TRAP", "CSR", "SATP", "PRIV"],
+        "source_events": ["SYSCALL_ENTRY", "SYSCALL_RET", "BRANCH", "JUMP", "TRAP", "CSR", "SATP", "PRIV"],
         "output": "behavior_graph",
         "required_fields": ["nodes", "edges"],
     },
+}
+EXPECTED_GOLDEN_SYSCALL_RETURN = {
+    "return_value": "0x0000000000000005",
+    "return_pc": "0x0000000080001004",
+    "duration": 1,
 }
 TARGET_KEYS = {
     "id",
@@ -250,6 +255,32 @@ def check_recover_tool(root: Path, tool: Path, golden: Path) -> list[str]:
             errors.append(f"{tool_path}: golden recovery missed privilege_boundaries")
         if not graph.get("nodes") or not graph.get("edges"):
             errors.append(f"{tool_path}: golden recovery missed behavior_graph nodes/edges")
+        recovered_targets = {
+            "syscall_sequence": semantic.get("syscall_sequence", []),
+            "control_flow_segment": semantic.get("control_flow_segments", []),
+            "trap_context_transition": semantic.get("trap_context_transitions", []),
+            "privilege_boundary": semantic.get("privilege_boundaries", []),
+        }
+        for target_id, rows in recovered_targets.items():
+            if not rows:
+                continue
+            required_fields = EXPECTED_TARGETS[target_id]["required_fields"]
+            missing = [field for field in required_fields if field not in rows[0]]
+            if missing:
+                errors.append(f"{tool_path}: {target_id} missing recovered fields: {', '.join(missing)}")
+        syscall_rows = semantic.get("syscall_sequence") or []
+        if syscall_rows:
+            syscall = syscall_rows[0]
+            syscall_return = syscall.get("return")
+            if not isinstance(syscall_return, dict):
+                errors.append(f"{tool_path}: syscall_sequence missing nested return record")
+            for field, expected in EXPECTED_GOLDEN_SYSCALL_RETURN.items():
+                if syscall.get(field) != expected:
+                    errors.append(f"{tool_path}: syscall_sequence.{field} must recover {expected!r}")
+                if not isinstance(syscall_return, dict):
+                    continue
+                if syscall_return.get(field) != expected:
+                    errors.append(f"{tool_path}: syscall_sequence.return.{field} must recover {expected!r}")
         report = report_path.read_text(encoding="utf-8")
         for target in EXPECTED_TARGETS:
             if target not in report:
@@ -313,10 +344,10 @@ tools/recover_behavior.py
 
 | Order | Target | Source events | Output artifact path | Status |
 | ---: | --- | --- | --- | --- |
-| 1 | syscall_sequence | ECALL | semantic_events.syscall_sequence | TODO(EXPERIMENT) |
+| 1 | syscall_sequence | SYSCALL_ENTRY,SYSCALL_RET | semantic_events.syscall_sequence | TODO(EXPERIMENT) |
 | 2 | control_flow_segment | BRANCH,JUMP | semantic_events.control_flow_segments | TODO(EXPERIMENT) |
 | 3 | trap_context_transition | TRAP,CSR,SATP,PRIV | semantic_events.trap_context_transitions | TODO(EXPERIMENT) |
-| 4 | privilege_boundary | ECALL,TRAP,PRIV | semantic_events.privilege_boundaries | TODO(EXPERIMENT) |
+| 4 | privilege_boundary | SYSCALL_ENTRY,SYSCALL_RET,TRAP,PRIV | semantic_events.privilege_boundaries | TODO(EXPERIMENT) |
 | 5 | basic_behavior_graph | all | behavior_graph | TODO(EXPERIMENT) |
 
 must not be used to claim malware detection quality
@@ -327,7 +358,7 @@ must not be used to claim malware detection quality
         "recover_syscalls\nrecover_control_flow\nrecover_trap_context\nrecover_privilege_boundaries\nbuild_graph\n",
         encoding="utf-8",
     )
-    (root / DEFAULT_GOLDEN).write_text('{"evt":"ECALL"}\n', encoding="utf-8")
+    (root / DEFAULT_GOLDEN).write_text('{"evt":"SYSCALL_ENTRY"}\n', encoding="utf-8")
     (root / DEFAULT_UV_DOC).write_text(
         "uv run python tools/recover_behavior.py --self-test\n"
         "uv run python tools/check_linux_behavior_recovery.py\n"

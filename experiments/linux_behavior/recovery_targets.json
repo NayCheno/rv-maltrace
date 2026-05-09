@@ -15,9 +15,9 @@
   "targets": [
     {
       "id": "syscall_sequence",
-      "source_events": ["ECALL"],
+      "source_events": ["SYSCALL_ENTRY", "SYSCALL_RET"],
       "output": "semantic_events.syscall_sequence",
-      "required_fields": ["cycle", "pc", "priv", "a7"]
+      "required_fields": ["cycle", "pc", "priv", "a7", "return_value", "return_pc", "duration"]
     },
     {
       "id": "control_flow_segment",
@@ -33,13 +33,13 @@
     },
     {
       "id": "privilege_boundary",
-      "source_events": ["ECALL", "TRAP", "PRIV"],
+      "source_events": ["SYSCALL_ENTRY", "SYSCALL_RET", "TRAP", "PRIV"],
       "output": "semantic_events.privilege_boundaries",
       "required_fields": ["cycle", "pc", "priv"]
     },
     {
       "id": "basic_behavior_graph",
-      "source_events": ["ECALL", "BRANCH", "JUMP", "TRAP", "CSR", "SATP", "PRIV"],
+      "source_events": ["SYSCALL_ENTRY", "SYSCALL_RET", "BRANCH", "JUMP", "TRAP", "CSR", "SATP", "PRIV"],
       "output": "behavior_graph",
       "required_fields": ["nodes", "edges"]
     }

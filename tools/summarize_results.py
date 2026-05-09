@@ -57,10 +57,18 @@ def collect(result_dir: Path) -> dict[str, Any]:
         trace_path = test_dir / "trace.jsonl"
         compare_log = test_dir / "compare.log"
         metadata = expected_metadata.get(test_name, {})
+        expected_path = expected_files.get(test_name)
         trace_summary: dict[str, Any] = {"events": 0, "counts": {}}
         status = "MISSING"
         if test_dir.exists():
             status = compare_status(compare_log)
+            if (
+                status == "PASS"
+                and expected_path is not None
+                and compare_log.exists()
+                and compare_log.stat().st_mtime < expected_path.stat().st_mtime
+            ):
+                status = "STALE"
         if test_dir.exists() and trace_path.exists():
             try:
                 trace_summary = summarize(load_trace(trace_path))
@@ -89,7 +97,7 @@ def collect(result_dir: Path) -> dict[str, Any]:
 
 def print_table(payload: dict[str, Any]) -> None:
     print(f"overall: {payload['overall']}")
-    print("test,status,events,retire,branch,jump,ecall,trap,csr,satp,priv,drop")
+    print("test,status,events,retire,branch,jump,syscall_entry,syscall_ret,arg_mem,trap,csr,satp,priv,drop")
     for name, item in payload["tests"].items():
         counts = item.get("counts", {})
         print(
@@ -101,7 +109,9 @@ def print_table(payload: dict[str, Any]) -> None:
                     str(counts.get("RETIRE", 0)),
                     str(counts.get("BRANCH", 0)),
                     str(counts.get("JUMP", 0)),
-                    str(counts.get("ECALL", 0)),
+                    str(counts.get("SYSCALL_ENTRY", 0)),
+                    str(counts.get("SYSCALL_RET", 0)),
+                    str(counts.get("ARG_MEM", 0)),
                     str(counts.get("TRAP", 0)),
                     str(counts.get("CSR", 0)),
                     str(counts.get("SATP", 0)),

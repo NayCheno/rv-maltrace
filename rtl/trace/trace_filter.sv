@@ -33,13 +33,15 @@ module trace_filter
       EVT_RETIRE: event_enabled = enable_retire_i;
       EVT_BRANCH: event_enabled = enable_branch_i;
       EVT_JUMP:   event_enabled = enable_jump_i;
-      EVT_ECALL:  event_enabled = enable_syscall_i;
-      EVT_TRAP:   event_enabled = enable_trap_i;
+      EVT_SYSCALL_ENTRY,
+      EVT_SYSCALL_RET,
+      EVT_ARG_MEM: event_enabled = enable_syscall_i;
+      EVT_TRAP:    event_enabled = enable_trap_i;
       EVT_CSR,
       EVT_SATP,
-      EVT_PRIV:   event_enabled = enable_context_i;
-      EVT_MARKER: event_enabled = enable_marker_i;
-      EVT_DROP:   event_enabled = enable_drop_i;
+      EVT_PRIV:    event_enabled = enable_context_i;
+      EVT_MARKER:  event_enabled = enable_marker_i;
+      EVT_DROP:    event_enabled = enable_drop_i;
       default:    event_enabled = 1'b0;
     endcase
   end

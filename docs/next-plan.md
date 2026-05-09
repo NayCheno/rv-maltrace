@@ -406,7 +406,8 @@ EVT_SYSCALL_ENTRY 不从 normal retire path 捕获，而从 commit-stage excepti
 
 if commit_exception
    && instr == 32'h00000073
-   && cause in {U_ECALL, S_ECALL, M_ECALL}
+   && priv == U-mode
+   && cause == U_ECALL
 then emit EVT_SYSCALL_ENTRY
 ```
 
@@ -416,7 +417,9 @@ RISC-V cause 一般对应：
 - `9` = environment call from S-mode
 - `11` = environment call from M-mode
 
-对 Linux 用户态 syscall，重点是 U-mode ECALL。
+对 Linux 用户态 syscall，`SYSCALL_ENTRY` 只接受 U-mode ECALL。S/M-mode
+ECALL 仍作为普通 `TRAP` 记录，不能建立 outstanding syscall 状态，否则会让
+后续 SRET-to-U 误配成 syscall return。
 
 #### 关键修正 2：compressed instruction 长度
 
@@ -534,6 +537,13 @@ offline:
 - watch timeout 生效。
 - 不会捕获无关 S-mode load。
 
+当前仓库状态：
+
+- `arg_mem_tap.sv` 提供默认关闭的 syscall-scoped `ARG_MEM` pointer snapshot。
+- `pointer_string` 回归验证 openat pathname 的 null-terminated 字符串捕获。
+- `pointer_guardrails` 回归验证跨页顺序捕获、最大长度限制、多字节 load 裁剪、watch timeout、无关 S-mode load 不捕获。
+- CVA6 LSU 真实信号接入与 Linux workload 验证仍作为后续 FPGA/Linux gate。
+
 这一步如果做成，论文价值会明显上升。
 
 ### 6.6 Phase V5：Vivado regression
@@ -550,6 +560,7 @@ offline:
 | csr/satp        | context event                | CSR value 正确         |
 | sret            | privilege transition         | S->U 捕获              |
 | pointer_string  | user-pointer memory snapshot | string 正确            |
+| pointer_guardrails | user-pointer snapshot guardrails | page boundary / max length / multi-byte clipping / timeout / unrelated load 正确 |
 | fifo_overflow   | trace drop                   | `EVT_DROP` 正确        |
 | no_backpressure | trace 不反压 core            | final state 不变       |
 

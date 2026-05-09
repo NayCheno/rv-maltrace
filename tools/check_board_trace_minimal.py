@@ -51,8 +51,8 @@ EXPECTED_DOC_CONTROLS = {
     "trace_enable_marker_o": "0",
     "trace_enable_drop_o": "1",
 }
-FILTER_SOURCES = ("retire", "branch", "syscall", "trap", "context")
-SOURCE_ORDER = ("trap", "syscall", "context", "branch", "retire")
+FILTER_SOURCES = ("retire", "branch", "syscall", "arg_mem", "trap", "context")
+SOURCE_ORDER = ("trap", "syscall", "arg_mem", "context", "branch", "retire")
 REQUIRED_DOC_TEXT = (
     "First board trace runs use `rtl/trace/trace_board_minimal_top.sv`",
     "instantiates `rtl/trace/trace_board_minimal_ctrl.sv`",
@@ -245,15 +245,16 @@ def check_regression(trace_tb: Path, run_all: Path, golden: Path) -> list[str]:
     if not re.search(r"\bboard_minimal\b", run_text):
         errors.append(f"{run_all}: missing board_minimal in trace-unit test matrix")
     exact_counts = expected_json.get("exact_counts", {})
-    for event in ("BRANCH", "ECALL", "TRAP", "PRIV"):
-        if exact_counts.get(event) != 1:
-            errors.append(f"{golden}: board_minimal must expect exactly one {event}")
+    expected_counts = {"BRANCH": 1, "SYSCALL_ENTRY": 1, "TRAP": 1, "PRIV": 2}
+    for event, expected_count in expected_counts.items():
+        if exact_counts.get(event) != expected_count:
+            errors.append(f"{golden}: board_minimal must expect exactly {expected_count} {event}")
     forbidden_events = set(expected_json.get("forbidden_events", []))
     for event in ("RETIRE", "JUMP", "MARKER"):
         if event not in forbidden_events:
             errors.append(f"{golden}: board_minimal must forbid {event}")
     required_events = expected_json.get("required_events", [])
-    for event in ("BRANCH", "ECALL", "TRAP", "PRIV"):
+    for event in ("BRANCH", "SYSCALL_ENTRY", "TRAP", "PRIV"):
         if not any(isinstance(item, dict) and item.get("evt") == event for item in required_events):
             errors.append(f"{golden}: missing required board_minimal event {event}")
     return errors
@@ -456,8 +457,8 @@ endmodule
     )
     (root / DEFAULT_GOLDEN).parent.mkdir(parents=True, exist_ok=True)
     (root / DEFAULT_GOLDEN).write_text(
-        '{"exact_counts":{"BRANCH":1,"ECALL":1,"TRAP":1,"PRIV":1},'
-        '"required_events":[{"evt":"BRANCH"},{"evt":"ECALL"},{"evt":"TRAP"},{"evt":"PRIV"}],'
+        '{"exact_counts":{"BRANCH":1,"SYSCALL_ENTRY":1,"TRAP":1,"PRIV":2},'
+        '"required_events":[{"evt":"BRANCH"},{"evt":"SYSCALL_ENTRY"},{"evt":"TRAP"},{"evt":"PRIV"}],'
         '"forbidden_events":["RETIRE","JUMP","MARKER"]}\n',
         encoding="utf-8",
     )
@@ -570,10 +571,10 @@ def self_test() -> int:
         write_fixture(root)
         trace_top = root / DEFAULT_TRACE_TOP
         trace_top.write_text(
-            trace_top.read_text(encoding="utf-8").replace("source_valid[4] = filtered_retire_valid;", "source_valid[4] = retire_valid;"),
+            trace_top.read_text(encoding="utf-8").replace("source_valid[5] = filtered_retire_valid;", "source_valid[5] = retire_valid;"),
             encoding="utf-8",
         )
-        if not expect_error(root, "queue source 4 must use filtered_retire_valid"):
+        if not expect_error(root, "queue source 5 must use filtered_retire_valid"):
             print("[FAIL] self-test missed unfiltered retire source", file=sys.stderr)
             return 1
 

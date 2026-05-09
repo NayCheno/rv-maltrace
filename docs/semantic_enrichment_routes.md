@@ -37,5 +37,8 @@ Route C can depend on kernel version details and can cause MVP scope drift. eBPF
 is not an MVP dependency, is not the core contribution, and may only be used as
 comparison or optional semantic enrichment.
 
-All routes remain deferred in this phase. No route changes the JSONL event set,
-enables load/store payloads, or replaces RTL-level committed behavior trace.
+All routes remain deferred in this phase. The JSONL/RTL path already defines
+default-disabled `ARG_MEM` for syscall-scoped pointer snapshots, but that path
+is not Phase 7 route implementation evidence. No route enables default memory
+trace; default load/store memory records remain disabled, and no route replaces
+RTL-level committed behavior trace.

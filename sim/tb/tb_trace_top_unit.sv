@@ -10,6 +10,7 @@ module tb_trace_top_unit
   logic [63:0] commit_pc;
   logic [31:0] commit_instr;
   logic [63:0] next_pc;
+  logic sret_to_user;
   logic jalr_target_valid;
   logic [63:0] jalr_target;
   logic commit_exception;
@@ -30,6 +31,12 @@ module tb_trace_top_unit
   logic [63:0] csr_wdata;
   logic [1:0] priv_lvl;
   logic [63:0] satp;
+  trace_mem_mode_e trace_mem_mode;
+  logic trace_mem_load_valid;
+  logic [63:0] trace_mem_load_pc;
+  logic [63:0] trace_mem_load_addr;
+  logic [63:0] trace_mem_load_data;
+  logic [2:0] trace_mem_load_size;
   logic trace_enable_retire;
   logic trace_enable_branch;
   logic trace_enable_jump;
@@ -114,7 +121,9 @@ module tb_trace_top_unit
 
   trace_top #(
       .WB_PORTS(1),
-      .EVENT_QUEUE_DEPTH(8)
+      .EVENT_QUEUE_DEPTH(8),
+      .MAX_ARG_MEM_CAPTURE_BYTES(8),
+      .MAX_ARG_MEM_WATCH_CYCLES(8)
   ) dut (
       .clk_i(clk),
       .rst_ni(rst_n),
@@ -122,6 +131,7 @@ module tb_trace_top_unit
       .commit_pc_i(commit_pc),
       .commit_instr_i(commit_instr),
       .next_pc_i(next_pc),
+      .sret_to_user_i(sret_to_user),
       .jalr_target_valid_i(jalr_target_valid),
       .jalr_target_i(jalr_target),
       .commit_exception_i(commit_exception),
@@ -139,6 +149,12 @@ module tb_trace_top_unit
       .csr_wdata_i(csr_wdata),
       .priv_lvl_i(priv_lvl),
       .satp_i(satp),
+      .trace_mem_mode_i(trace_mem_mode),
+      .mem_load_valid_i(trace_mem_load_valid),
+      .mem_load_pc_i(trace_mem_load_pc),
+      .mem_load_addr_i(trace_mem_load_addr),
+      .mem_load_data_i(trace_mem_load_data),
+      .mem_load_size_i(trace_mem_load_size),
       .trace_enable_retire_i(trace_enable_retire_to_dut),
       .trace_enable_branch_i(trace_enable_branch_to_dut),
       .trace_enable_jump_i(trace_enable_jump_to_dut),
@@ -214,6 +230,7 @@ module tb_trace_top_unit
       commit_pc         = 64'd0;
       commit_instr      = 32'd0;
       next_pc           = 64'd0;
+      sret_to_user      = 1'b0;
       jalr_target_valid = 1'b0;
       jalr_target       = 64'd0;
       commit_exception  = 1'b0;
@@ -229,6 +246,11 @@ module tb_trace_top_unit
       csr_valid         = 1'b0;
       csr_addr          = 12'd0;
       csr_wdata         = 64'd0;
+      trace_mem_load_valid = 1'b0;
+      trace_mem_load_pc    = 64'd0;
+      trace_mem_load_addr  = 64'd0;
+      trace_mem_load_data  = 64'd0;
+      trace_mem_load_size  = 3'd0;
       mem_req           = 1'b0;
       mem_we            = 1'b0;
       mem_addr          = 64'd0;
@@ -263,6 +285,37 @@ module tb_trace_top_unit
       wb_valid[0] = 1'b1;
       wb_rd[0]    = rd;
       wb_data[0]  = data;
+      tick();
+    end
+  endtask
+
+  task automatic trace_load_byte(
+      input logic [63:0] pc,
+      input logic [63:0] addr,
+      input logic [ 7:0] data
+  );
+    begin
+      trace_mem_load_valid = 1'b1;
+      trace_mem_load_pc    = pc;
+      trace_mem_load_addr  = addr;
+      trace_mem_load_data  = {56'd0, data};
+      trace_mem_load_size  = 3'd1;
+      tick();
+    end
+  endtask
+
+  task automatic trace_load_multi(
+      input logic [63:0] pc,
+      input logic [63:0] addr,
+      input logic [63:0] data,
+      input logic [ 2:0] size
+  );
+    begin
+      trace_mem_load_valid = 1'b1;
+      trace_mem_load_pc    = pc;
+      trace_mem_load_addr  = addr;
+      trace_mem_load_data  = data;
+      trace_mem_load_size  = size;
       tick();
     end
   endtask
@@ -310,6 +363,7 @@ module tb_trace_top_unit
 
   task automatic run_ecall();
     begin
+      priv_lvl = TRACE_PRIV_U;
       write_arg(5'd17, 64'd64);
       write_arg(5'd10, 64'd1);
       write_arg(5'd11, 64'h8000_1000);
@@ -320,9 +374,227 @@ module tb_trace_top_unit
       commit_instr     = 32'h0000_0073;
       trap_valid       = 1'b1;
       trap_pc          = 64'h8000_0040;
-      trap_cause       = 64'd11;
+      trap_cause       = 64'd8;
       trap_tval        = 64'd0;
       tick();
+      finish_test();
+    end
+  endtask
+
+  task automatic run_syscall_ret();
+    begin
+      priv_lvl = TRACE_PRIV_U;
+      write_arg(5'd17, 64'd64);
+      write_arg(5'd10, 64'd1);
+      write_arg(5'd11, 64'h8000_1000);
+      write_arg(5'd12, 64'd5);
+
+      commit_valid     = 1'b1;
+      commit_exception = 1'b1;
+      commit_pc        = 64'h8000_0040;
+      commit_instr     = 32'h0000_0073;
+      trap_valid       = 1'b1;
+      trap_pc          = 64'h8000_0040;
+      trap_cause       = 64'd8;
+      trap_tval        = 64'd0;
+      tick();
+
+      priv_lvl = TRACE_PRIV_S;
+      write_arg(5'd10, 64'd5);
+
+      commit_valid = 1'b1;
+      commit_pc    = 64'h8000_0080;
+      commit_instr = 32'h1020_0073;
+      next_pc      = 64'h8000_0044;
+      sret_to_user = 1'b1;
+      tick();
+
+      priv_lvl = TRACE_PRIV_U;
+      commit_instr_event(64'h8000_0044, 32'h0000_0013, 64'h8000_0048);
+      finish_test();
+    end
+  endtask
+
+  task automatic run_pointer_string();
+    begin
+      trace_mem_mode = TRACE_MEM_MODE_RANGE;
+      priv_lvl = TRACE_PRIV_U;
+      write_arg(5'd17, 64'd56);
+      write_arg(5'd10, 64'hffff_ffff_ffff_ff9c);
+      write_arg(5'd11, 64'h8000_2000);
+      write_arg(5'd12, 64'd0);
+
+      commit_valid     = 1'b1;
+      commit_exception = 1'b1;
+      commit_pc        = 64'h8000_0100;
+      commit_instr     = 32'h0000_0073;
+      trap_valid       = 1'b1;
+      trap_pc          = 64'h8000_0100;
+      trap_cause       = 64'd8;
+      trap_tval        = 64'd0;
+      tick();
+
+      priv_lvl = TRACE_PRIV_S;
+      trace_load_byte(64'h8000_0200, 64'h8000_2000, 8'h2f);
+      trace_load_byte(64'h8000_0204, 64'h8000_2001, 8'h74);
+      trace_load_byte(64'h8000_0208, 64'h8000_2002, 8'h6d);
+      trace_load_byte(64'h8000_020c, 64'h8000_2003, 8'h70);
+      trace_load_byte(64'h8000_0210, 64'h8000_2004, 8'h00);
+
+      write_arg(5'd10, 64'd3);
+      commit_valid = 1'b1;
+      commit_pc    = 64'h8000_0220;
+      commit_instr = 32'h1020_0073;
+      next_pc      = 64'h8000_0104;
+      sret_to_user = 1'b1;
+      tick();
+
+      priv_lvl = TRACE_PRIV_U;
+      commit_instr_event(64'h8000_0104, 32'h0000_0013, 64'h8000_0108);
+      finish_test();
+    end
+  endtask
+
+  task automatic run_pointer_guardrails();
+    logic [63:0] offset;
+    begin
+      trace_mem_mode = TRACE_MEM_MODE_RANGE;
+
+      priv_lvl = TRACE_PRIV_U;
+      write_arg(5'd17, 64'd56);
+      write_arg(5'd10, 64'hffff_ffff_ffff_ff9c);
+      write_arg(5'd11, 64'h8000_2ffc);
+      write_arg(5'd12, 64'd0);
+      commit_valid     = 1'b1;
+      commit_exception = 1'b1;
+      commit_pc        = 64'h8000_0300;
+      commit_instr     = 32'h0000_0073;
+      trap_valid       = 1'b1;
+      trap_pc          = 64'h8000_0300;
+      trap_cause       = 64'd8;
+      trap_tval        = 64'd0;
+      tick();
+
+      priv_lvl = TRACE_PRIV_S;
+      trace_load_byte(64'h8000_0400, 64'h8000_2ffc, 8'h2f);
+      trace_load_byte(64'h8000_0404, 64'h8000_2ffd, 8'h65);
+      trace_load_byte(64'h8000_0408, 64'h8000_2ffe, 8'h74);
+      trace_load_byte(64'h8000_040c, 64'h8000_2fff, 8'h63);
+      trace_load_byte(64'h8000_0410, 64'h8000_3000, 8'h00);
+      write_arg(5'd10, 64'd3);
+      commit_valid = 1'b1;
+      commit_pc    = 64'h8000_0420;
+      commit_instr = 32'h1020_0073;
+      next_pc      = 64'h8000_0304;
+      sret_to_user = 1'b1;
+      tick();
+
+      priv_lvl = TRACE_PRIV_U;
+      write_arg(5'd17, 64'd64);
+      write_arg(5'd10, 64'd1);
+      write_arg(5'd11, 64'h8000_4000);
+      write_arg(5'd12, 64'd16);
+      commit_valid     = 1'b1;
+      commit_exception = 1'b1;
+      commit_pc        = 64'h8000_0500;
+      commit_instr     = 32'h0000_0073;
+      trap_valid       = 1'b1;
+      trap_pc          = 64'h8000_0500;
+      trap_cause       = 64'd8;
+      trap_tval        = 64'd0;
+      tick();
+
+      priv_lvl = TRACE_PRIV_S;
+      for (int unsigned i = 0; i < 12; i++) begin
+        offset = i;
+        trace_load_byte(64'h8000_0600 + (offset << 2), 64'h8000_4000 + offset, 8'h41);
+      end
+      write_arg(5'd10, 64'd12);
+      commit_valid = 1'b1;
+      commit_pc    = 64'h8000_0640;
+      commit_instr = 32'h1020_0073;
+      next_pc      = 64'h8000_0504;
+      sret_to_user = 1'b1;
+      tick();
+
+      priv_lvl = TRACE_PRIV_U;
+      write_arg(5'd17, 64'd56);
+      write_arg(5'd10, 64'hffff_ffff_ffff_ff9c);
+      write_arg(5'd11, 64'h8000_6000);
+      write_arg(5'd12, 64'd0);
+      commit_valid     = 1'b1;
+      commit_exception = 1'b1;
+      commit_pc        = 64'h8000_0700;
+      commit_instr     = 32'h0000_0073;
+      trap_valid       = 1'b1;
+      trap_pc          = 64'h8000_0700;
+      trap_cause       = 64'd8;
+      trap_tval        = 64'd0;
+      tick();
+
+      priv_lvl = TRACE_PRIV_S;
+      trace_load_byte(64'h8000_0800, 64'h8000_7000, 8'h55);
+      write_arg(5'd10, 64'd4);
+      commit_valid = 1'b1;
+      commit_pc    = 64'h8000_0810;
+      commit_instr = 32'h1020_0073;
+      next_pc      = 64'h8000_0704;
+      sret_to_user = 1'b1;
+      tick();
+
+      priv_lvl = TRACE_PRIV_U;
+      write_arg(5'd17, 64'd64);
+      write_arg(5'd10, 64'd1);
+      write_arg(5'd11, 64'h8000_5000);
+      write_arg(5'd12, 64'd8);
+      commit_valid     = 1'b1;
+      commit_exception = 1'b1;
+      commit_pc        = 64'h8000_0880;
+      commit_instr     = 32'h0000_0073;
+      trap_valid       = 1'b1;
+      trap_pc          = 64'h8000_0880;
+      trap_cause       = 64'd8;
+      trap_tval        = 64'd0;
+      tick();
+
+      priv_lvl = TRACE_PRIV_S;
+      trace_load_multi(64'h8000_08c0, 64'h8000_5006, 64'h0000_0000_5a59_5857, 3'd4);
+      write_arg(5'd10, 64'd4);
+      commit_valid = 1'b1;
+      commit_pc    = 64'h8000_08d0;
+      commit_instr = 32'h1020_0073;
+      next_pc      = 64'h8000_0884;
+      sret_to_user = 1'b1;
+      tick();
+
+      priv_lvl = TRACE_PRIV_U;
+      write_arg(5'd17, 64'd56);
+      write_arg(5'd10, 64'hffff_ffff_ffff_ff9c);
+      write_arg(5'd11, 64'h8000_8000);
+      write_arg(5'd12, 64'd0);
+      commit_valid     = 1'b1;
+      commit_exception = 1'b1;
+      commit_pc        = 64'h8000_0900;
+      commit_instr     = 32'h0000_0073;
+      trap_valid       = 1'b1;
+      trap_pc          = 64'h8000_0900;
+      trap_cause       = 64'd8;
+      trap_tval        = 64'd0;
+      tick();
+
+      priv_lvl = TRACE_PRIV_S;
+      repeat (12) tick();
+      trace_load_byte(64'h8000_0a00, 64'h8000_8000, 8'h78);
+      write_arg(5'd10, 64'd5);
+      commit_valid = 1'b1;
+      commit_pc    = 64'h8000_0a10;
+      commit_instr = 32'h1020_0073;
+      next_pc      = 64'h8000_0904;
+      sret_to_user = 1'b1;
+      tick();
+
+      priv_lvl = TRACE_PRIV_U;
+      commit_instr_event(64'h8000_0b00, 32'h0000_0013, 64'h8000_0b04);
       finish_test();
     end
   endtask
@@ -384,6 +656,7 @@ module tb_trace_top_unit
 
   task automatic run_backpressure();
     begin
+      priv_lvl = TRACE_PRIV_U;
       write_arg(5'd17, 64'd64);
       write_arg(5'd10, 64'd1);
       repeat (20) begin
@@ -393,7 +666,7 @@ module tb_trace_top_unit
         commit_instr     = 32'h0000_0073;
         trap_valid       = 1'b1;
         trap_pc          = 64'h8000_0100;
-        trap_cause       = 64'd11;
+        trap_cause       = 64'd8;
         trap_tval        = 64'd0;
         tick();
       end
@@ -442,6 +715,7 @@ module tb_trace_top_unit
 
       commit_instr_event(64'h8000_0320, 32'h0005_0863, 64'h8000_0330);
 
+      priv_lvl = TRACE_PRIV_U;
       write_arg(5'd17, 64'd64);
       write_arg(5'd10, 64'd1);
       commit_valid     = 1'b1;
@@ -450,7 +724,7 @@ module tb_trace_top_unit
       commit_instr     = 32'h0000_0073;
       trap_valid       = 1'b1;
       trap_pc          = 64'h8000_0340;
-      trap_cause       = 64'd11;
+      trap_cause       = 64'd8;
       trap_tval        = 64'd0;
       tick();
 
@@ -471,6 +745,7 @@ module tb_trace_top_unit
     rst_n = 1'b0;
     priv_lvl = TRACE_PRIV_M;
     satp = 64'd0;
+    trace_mem_mode = TRACE_MEM_MODE_NONE;
     set_filter_defaults();
     clear_inputs();
     repeat (5) @(posedge clk);
@@ -481,6 +756,9 @@ module tb_trace_top_unit
     else if (test_name == "branch") run_branch();
     else if (test_name == "jump") run_jump();
     else if (test_name == "ecall") run_ecall();
+    else if (test_name == "syscall_ret") run_syscall_ret();
+    else if (test_name == "pointer_string") run_pointer_string();
+    else if (test_name == "pointer_guardrails") run_pointer_guardrails();
     else if (test_name == "trap_illegal") run_trap_illegal();
     else if (test_name == "ebreak") run_ebreak();
     else if (test_name == "csr") run_csr();

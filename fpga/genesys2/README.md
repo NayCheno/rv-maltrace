@@ -34,7 +34,7 @@ single active source until a change has a checkable reason.
 Keep the first-board profile narrow:
 
 ```text
-enabled:  ECALL, TRAP, PRIV, CSR/SATP context, DROP
+enabled:  SYSCALL_ENTRY, SYSCALL_RET, TRAP, PRIV, CSR/SATP context, DROP
 deferred: RETIRE, full branch stream, full memory trace
 ```
 

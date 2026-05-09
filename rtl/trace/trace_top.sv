@@ -3,7 +3,9 @@ module trace_top
 #(
     parameter int WB_PORTS = 1,
     parameter int EVENT_QUEUE_DEPTH = 8,
-    parameter int PIPELINE_INPUTS = 1
+    parameter int PIPELINE_INPUTS = 1,
+    parameter int MAX_ARG_MEM_CAPTURE_BYTES = 256,
+    parameter int MAX_ARG_MEM_WATCH_CYCLES = 64
 ) (
     input  logic                      clk_i,
     input  logic                      rst_ni,
@@ -12,6 +14,7 @@ module trace_top
     input  logic [63:0]               commit_pc_i,
     input  logic [31:0]               commit_instr_i,
     input  logic [63:0]               next_pc_i,
+    input  logic                      sret_to_user_i,
     input  logic                      jalr_target_valid_i,
     input  logic [63:0]               jalr_target_i,
     input  logic                      commit_exception_i,
@@ -32,6 +35,13 @@ module trace_top
     input  logic [63:0]               csr_wdata_i,
     input  logic [ 1:0]               priv_lvl_i,
     input  logic [63:0]               satp_i,
+
+    input  trace_mem_mode_e           trace_mem_mode_i,
+    input  logic                      mem_load_valid_i,
+    input  logic [63:0]               mem_load_pc_i,
+    input  logic [63:0]               mem_load_addr_i,
+    input  logic [63:0]               mem_load_data_i,
+    input  logic [ 2:0]               mem_load_size_i,
 
     input  logic                      trace_enable_retire_i,
     input  logic                      trace_enable_branch_i,
@@ -57,6 +67,7 @@ module trace_top
   logic [63:0] commit_pc_s;
   logic [31:0] commit_instr_s;
   logic [63:0] next_pc_s;
+  logic        sret_to_user_s;
   logic        jalr_target_valid_s;
   logic [63:0] jalr_target_s;
   logic        commit_exception_s;
@@ -74,6 +85,12 @@ module trace_top
   logic [63:0] csr_wdata_s;
   logic [1:0]  priv_lvl_s;
   logic [63:0] satp_s;
+  trace_mem_mode_e trace_mem_mode_s;
+  logic        mem_load_valid_s;
+  logic [63:0] mem_load_pc_s;
+  logic [63:0] mem_load_addr_s;
+  logic [63:0] mem_load_data_s;
+  logic [2:0]  mem_load_size_s;
   logic        trace_enable_retire_s;
   logic        trace_enable_branch_s;
   logic        trace_enable_jump_s;
@@ -92,26 +109,30 @@ module trace_top
   logic retire_valid;
   logic branch_valid;
   logic syscall_valid;
+  logic arg_mem_valid;
   logic trap_valid;
   logic context_valid;
 
   trace_packet_t retire_packet;
   trace_packet_t branch_packet;
   trace_packet_t syscall_packet;
+  trace_packet_t arg_mem_packet;
   trace_packet_t trap_packet;
   trace_packet_t context_packet;
   logic filtered_retire_valid;
   logic filtered_branch_valid;
   logic filtered_syscall_valid;
+  logic filtered_arg_mem_valid;
   logic filtered_trap_valid;
   logic filtered_context_valid;
   trace_packet_t filtered_retire_packet;
   trace_packet_t filtered_branch_packet;
   trace_packet_t filtered_syscall_packet;
+  trace_packet_t filtered_arg_mem_packet;
   trace_packet_t filtered_trap_packet;
   trace_packet_t filtered_context_packet;
 
-  localparam int NUM_SOURCES = 5;
+  localparam int NUM_SOURCES = 6;
   localparam int QUEUE_COUNT_WIDTH = $clog2(EVENT_QUEUE_DEPTH + 1);
 
   logic [NUM_SOURCES-1:0] source_valid;
@@ -137,6 +158,7 @@ module trace_top
           commit_pc_s <= 64'd0;
           commit_instr_s <= 32'd0;
           next_pc_s <= 64'd0;
+          sret_to_user_s <= 1'b0;
           jalr_target_valid_s <= 1'b0;
           jalr_target_s <= 64'd0;
           commit_exception_s <= 1'b0;
@@ -154,6 +176,12 @@ module trace_top
           csr_wdata_s <= 64'd0;
           priv_lvl_s <= TRACE_PRIV_M;
           satp_s <= 64'd0;
+          trace_mem_mode_s <= TRACE_MEM_MODE_NONE;
+          mem_load_valid_s <= 1'b0;
+          mem_load_pc_s <= 64'd0;
+          mem_load_addr_s <= 64'd0;
+          mem_load_data_s <= 64'd0;
+          mem_load_size_s <= 3'd0;
           trace_enable_retire_s <= 1'b0;
           trace_enable_branch_s <= 1'b0;
           trace_enable_jump_s <= 1'b0;
@@ -173,6 +201,7 @@ module trace_top
           commit_pc_s <= commit_pc_i;
           commit_instr_s <= commit_instr_i;
           next_pc_s <= next_pc_i;
+          sret_to_user_s <= sret_to_user_i;
           jalr_target_valid_s <= jalr_target_valid_i;
           jalr_target_s <= jalr_target_i;
           commit_exception_s <= commit_exception_i;
@@ -190,6 +219,12 @@ module trace_top
           csr_wdata_s <= csr_wdata_i;
           priv_lvl_s <= priv_lvl_i;
           satp_s <= satp_i;
+          trace_mem_mode_s <= trace_mem_mode_i;
+          mem_load_valid_s <= mem_load_valid_i;
+          mem_load_pc_s <= mem_load_pc_i;
+          mem_load_addr_s <= mem_load_addr_i;
+          mem_load_data_s <= mem_load_data_i;
+          mem_load_size_s <= mem_load_size_i;
           trace_enable_retire_s <= trace_enable_retire_i;
           trace_enable_branch_s <= trace_enable_branch_i;
           trace_enable_jump_s <= trace_enable_jump_i;
@@ -211,6 +246,7 @@ module trace_top
       assign commit_pc_s = commit_pc_i;
       assign commit_instr_s = commit_instr_i;
       assign next_pc_s = next_pc_i;
+      assign sret_to_user_s = sret_to_user_i;
       assign jalr_target_valid_s = jalr_target_valid_i;
       assign jalr_target_s = jalr_target_i;
       assign commit_exception_s = commit_exception_i;
@@ -228,6 +264,12 @@ module trace_top
       assign csr_wdata_s = csr_wdata_i;
       assign priv_lvl_s = priv_lvl_i;
       assign satp_s = satp_i;
+      assign trace_mem_mode_s = trace_mem_mode_i;
+      assign mem_load_valid_s = mem_load_valid_i;
+      assign mem_load_pc_s = mem_load_pc_i;
+      assign mem_load_addr_s = mem_load_addr_i;
+      assign mem_load_data_s = mem_load_data_i;
+      assign mem_load_size_s = mem_load_size_i;
       assign trace_enable_retire_s = trace_enable_retire_i;
       assign trace_enable_branch_s = trace_enable_branch_i;
       assign trace_enable_jump_s = trace_enable_jump_i;
@@ -313,13 +355,37 @@ module trace_top
       .commit_valid_i(commit_valid_s),
       .commit_pc_i(commit_pc_s),
       .commit_instr_i(commit_instr_s),
+      .next_pc_i(next_pc_s),
+      .sret_to_user_i(sret_to_user_s),
       .commit_exception_i(commit_exception_s),
       .commit_kill_i(commit_kill_s),
+      .trap_cause_i(trap_cause_s),
       .priv_lvl_i(priv_lvl_s),
       .satp_i(satp_s),
       .args_i(args),
       .trace_valid_o(syscall_valid),
       .trace_packet_o(syscall_packet)
+  );
+
+  arg_mem_tap #(
+      .MAX_CAPTURE_BYTES(MAX_ARG_MEM_CAPTURE_BYTES),
+      .MAX_WATCH_CYCLES(MAX_ARG_MEM_WATCH_CYCLES)
+  ) i_arg_mem_tap (
+      .clk_i,
+      .rst_ni,
+      .cycle_i(sample_cycle),
+      .mem_mode_i(trace_mem_mode_s),
+      .syscall_valid_i(filtered_syscall_valid),
+      .syscall_packet_i(filtered_syscall_packet),
+      .mem_load_valid_i(mem_load_valid_s),
+      .mem_load_pc_i(mem_load_pc_s),
+      .mem_load_addr_i(mem_load_addr_s),
+      .mem_load_data_i(mem_load_data_s),
+      .mem_load_size_i(mem_load_size_s),
+      .priv_lvl_i(priv_lvl_s),
+      .satp_i(satp_s),
+      .trace_valid_o(arg_mem_valid),
+      .trace_packet_o(arg_mem_packet)
   );
 
   trap_tap i_trap_tap (
@@ -416,6 +482,26 @@ module trace_top
       .trace_packet_o(filtered_syscall_packet)
   );
 
+  trace_filter i_arg_mem_filter (
+      .trace_valid_i(arg_mem_valid),
+      .trace_packet_i(arg_mem_packet),
+      .enable_retire_i(trace_enable_retire_s),
+      .enable_branch_i(trace_enable_branch_s),
+      .enable_jump_i(trace_enable_jump_s),
+      .enable_syscall_i(trace_enable_syscall_s),
+      .enable_trap_i(trace_enable_trap_s),
+      .enable_context_i(trace_enable_context_s),
+      .enable_marker_i(trace_enable_marker_s),
+      .enable_drop_i(trace_enable_drop_s),
+      .pc_filter_enable_i(trace_pc_filter_enable_s),
+      .pc_start_i(trace_pc_start_s),
+      .pc_end_i(trace_pc_end_s),
+      .priv_filter_enable_i(trace_priv_filter_enable_s),
+      .priv_mask_i(trace_priv_mask_s),
+      .trace_valid_o(filtered_arg_mem_valid),
+      .trace_packet_o(filtered_arg_mem_packet)
+  );
+
   trace_filter i_trap_filter (
       .trace_valid_i(trap_valid),
       .trace_packet_i(trap_packet),
@@ -459,14 +545,16 @@ module trace_top
   always_comb begin
     source_valid[0]  = filtered_trap_valid;
     source_valid[1]  = filtered_syscall_valid;
-    source_valid[2]  = filtered_context_valid;
-    source_valid[3]  = filtered_branch_valid;
-    source_valid[4]  = filtered_retire_valid;
+    source_valid[2]  = filtered_arg_mem_valid;
+    source_valid[3]  = filtered_context_valid;
+    source_valid[4]  = filtered_branch_valid;
+    source_valid[5]  = filtered_retire_valid;
     source_packet[0] = filtered_trap_packet;
     source_packet[1] = filtered_syscall_packet;
-    source_packet[2] = filtered_context_packet;
-    source_packet[3] = filtered_branch_packet;
-    source_packet[4] = filtered_retire_packet;
+    source_packet[2] = filtered_arg_mem_packet;
+    source_packet[3] = filtered_context_packet;
+    source_packet[4] = filtered_branch_packet;
+    source_packet[5] = filtered_retire_packet;
     drop_packet = trace_null_packet();
     drop_packet.valid = drop_count_q != 64'd0;
     drop_packet.evt   = drop_count_q != 64'd0 ? EVT_DROP : EVT_NONE;

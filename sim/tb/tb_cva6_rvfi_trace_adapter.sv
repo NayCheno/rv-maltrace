@@ -15,6 +15,8 @@ module tb_cva6_rvfi_trace_adapter
   logic [COMMIT_PORTS-1:0][1:0]   rvfi_mode;
   logic [COMMIT_PORTS-1:0]        rvfi_compressed;
   logic [COMMIT_PORTS-1:0][63:0]  rvfi_pc;
+  logic [COMMIT_PORTS-1:0][63:0]  rvfi_pc_wdata;
+  logic [COMMIT_PORTS-1:0]        rvfi_sret_to_user;
   logic [COMMIT_PORTS-1:0][63:0]  rvfi_rs1;
   logic [COMMIT_PORTS-1:0][63:0]  rvfi_rs2;
   logic [COMMIT_PORTS-1:0][4:0]   rvfi_rd;
@@ -43,6 +45,8 @@ module tb_cva6_rvfi_trace_adapter
       .rvfi_mode_i(rvfi_mode),
       .rvfi_compressed_i(rvfi_compressed),
       .rvfi_pc_rdata_i(rvfi_pc),
+      .rvfi_pc_wdata_i(rvfi_pc_wdata),
+      .rvfi_sret_to_user_i(rvfi_sret_to_user),
       .rvfi_rs1_rdata_i(rvfi_rs1),
       .rvfi_rs2_rdata_i(rvfi_rs2),
       .rvfi_rd_addr_i(rvfi_rd),
@@ -73,6 +77,8 @@ module tb_cva6_rvfi_trace_adapter
     rvfi_mode       = '0;
     rvfi_compressed = '0;
     rvfi_pc         = '0;
+    rvfi_pc_wdata   = '0;
+    rvfi_sret_to_user = '0;
     rvfi_rs1        = '0;
     rvfi_rs2        = '0;
     rvfi_rd         = '0;
@@ -101,8 +107,8 @@ module tb_cva6_rvfi_trace_adapter
     rvfi_valid[1] = 1'b1;
     rvfi_trap[1] = 1'b1;
     rvfi_insn[1] = 32'h0000_0073;  // ecall
-    rvfi_cause[1] = 64'd11;
-    rvfi_mode[1] = TRACE_PRIV_M;
+    rvfi_cause[1] = 64'd8;
+    rvfi_mode[1] = TRACE_PRIV_U;
     rvfi_pc[1] = 64'h0000_0000_8000_0004;
     @(posedge clk);
 
@@ -140,6 +146,21 @@ module tb_cva6_rvfi_trace_adapter
     rvfi_pc[0] = 64'h0000_0000_8000_0040;
     rvfi_rd[0] = 5'd10;
     rvfi_rd_wdata[0] = 64'd2;
+    @(posedge clk);
+
+    clear_inputs();
+    rvfi_valid[0] = 1'b1;
+    rvfi_insn[0] = 32'h0050_0513;  // addi a0, zero, 5
+    rvfi_mode[0] = TRACE_PRIV_S;
+    rvfi_pc[0] = 64'h0000_0000_8000_0050;
+    rvfi_rd[0] = 5'd10;
+    rvfi_rd_wdata[0] = 64'd5;
+    rvfi_valid[1] = 1'b1;
+    rvfi_insn[1] = 32'h1020_0073;  // sret
+    rvfi_mode[1] = TRACE_PRIV_S;
+    rvfi_pc[1] = 64'h0000_0000_8000_0054;
+    rvfi_pc_wdata[1] = 64'h0000_0000_8000_0008;
+    rvfi_sret_to_user[1] = 1'b1;
     @(posedge clk);
 
     clear_inputs();

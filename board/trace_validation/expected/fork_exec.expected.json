@@ -16,7 +16,7 @@
       "number": 260
     }
   ],
-  "required_events": ["ECALL", "PRIV"],
+  "required_events": ["SYSCALL_ENTRY", "SYSCALL_RET", "PRIV"],
   "forbidden_events": ["RETIRE"],
   "evidence_dir": "03_fork_exec"
 }

@@ -1,8 +1,9 @@
 {
-  "test": "ecall",
+  "test": "syscall_ret",
   "mode": "trace_unit",
   "min_counts": {
     "SYSCALL_ENTRY": 1,
+    "SYSCALL_RET": 1,
     "TRAP": 1
   },
   "forbidden_events": ["DROP"],
@@ -18,10 +19,13 @@
       "a2": "0x0000000000000005"
     },
     {
-      "evt": "TRAP",
-      "pc": "0x0000000080000040",
-      "priv": "U",
-      "cause": "0x0000000000000008"
+      "evt": "SYSCALL_RET",
+      "pc": "0x0000000080000080",
+      "priv": "S",
+      "target": "0x0000000080000044",
+      "syscall_id": "0x0000000000000000",
+      "duration": 2,
+      "a0": "0x0000000000000005"
     }
   ]
 }

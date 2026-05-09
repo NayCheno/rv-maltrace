@@ -1,17 +1,19 @@
 package trace_pkg;
 
   typedef enum logic [3:0] {
-    EVT_NONE   = 4'd0,
-    EVT_RETIRE = 4'd1,
-    EVT_BRANCH = 4'd2,
-    EVT_JUMP   = 4'd3,
-    EVT_ECALL  = 4'd4,
-    EVT_TRAP   = 4'd5,
-    EVT_CSR    = 4'd6,
-    EVT_SATP   = 4'd7,
-    EVT_PRIV   = 4'd8,
-    EVT_MARKER = 4'd9,
-    EVT_DROP   = 4'd10
+    EVT_NONE          = 4'd0,
+    EVT_RETIRE        = 4'd1,
+    EVT_BRANCH        = 4'd2,
+    EVT_JUMP          = 4'd3,
+    EVT_SYSCALL_ENTRY = 4'd4,
+    EVT_SYSCALL_RET   = 4'd5,
+    EVT_TRAP          = 4'd6,
+    EVT_CSR           = 4'd7,
+    EVT_SATP          = 4'd8,
+    EVT_PRIV          = 4'd9,
+    EVT_ARG_MEM       = 4'd10,
+    EVT_DROP          = 4'd11,
+    EVT_MARKER        = 4'd12
   } trace_evt_e;
 
   localparam logic [1:0] TRACE_PRIV_U = 2'b00;
@@ -53,6 +55,13 @@ package trace_pkg;
     logic [63:0] value;
     logic [63:0] cause;
     logic [63:0] tval;
+    logic [63:0] syscall_id;
+    logic [63:0] duration;
+    logic [ 2:0] arg_index;
+    logic [63:0] mem_addr;
+    logic [63:0] mem_data;
+    logic [ 2:0] mem_size;
+    logic        mem_last;
     logic [63:0] a0;
     logic [63:0] a1;
     logic [63:0] a2;

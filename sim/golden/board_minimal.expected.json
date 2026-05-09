@@ -3,9 +3,9 @@
   "mode": "trace_unit",
   "exact_counts": {
     "BRANCH": 1,
-    "ECALL": 1,
+    "SYSCALL_ENTRY": 1,
     "TRAP": 1,
-    "PRIV": 1
+    "PRIV": 2
   },
   "forbidden_events": ["RETIRE", "JUMP", "MARKER"],
   "required_events": [
@@ -16,15 +16,18 @@
       "target": "0x0000000080000330"
     },
     {
-      "evt": "ECALL",
+      "evt": "SYSCALL_ENTRY",
       "pc": "0x0000000080000340",
+      "priv": "U",
+      "syscall_id": "0x0000000000000000",
       "a7": "0x0000000000000040",
       "a0": "0x0000000000000001"
     },
     {
       "evt": "TRAP",
       "pc": "0x0000000080000340",
-      "cause": "0x000000000000000b"
+      "priv": "U",
+      "cause": "0x0000000000000008"
     },
     {
       "evt": "PRIV",

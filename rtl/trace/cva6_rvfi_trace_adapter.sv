@@ -19,6 +19,8 @@ module cva6_rvfi_trace_adapter
     input  logic [COMMIT_PORTS-1:0][1:0]        rvfi_mode_i,
     input  logic [COMMIT_PORTS-1:0]             rvfi_compressed_i,
     input  logic [COMMIT_PORTS-1:0][VLEN-1:0]   rvfi_pc_rdata_i,
+    input  logic [COMMIT_PORTS-1:0][VLEN-1:0]   rvfi_pc_wdata_i,
+    input  logic [COMMIT_PORTS-1:0]             rvfi_sret_to_user_i,
     input  logic [COMMIT_PORTS-1:0][XLEN-1:0]   rvfi_rs1_rdata_i,
     input  logic [COMMIT_PORTS-1:0][XLEN-1:0]   rvfi_rs2_rdata_i,
     input  logic [COMMIT_PORTS-1:0][4:0]        rvfi_rd_addr_i,
@@ -37,14 +39,24 @@ module cva6_rvfi_trace_adapter
   localparam logic [6:0] OPCODE_JAL    = 7'b1101111;
   localparam logic [6:0] OPCODE_JALR   = 7'b1100111;
   localparam logic [31:0] INSTR_ECALL  = 32'h0000_0073;
+  localparam logic [31:0] INSTR_SRET   = 32'h1020_0073;
+  localparam logic [63:0] CAUSE_U_ECALL = 64'd8;
 
-  localparam int MAX_CANDIDATES = COMMIT_PORTS * 5 + 1;
+  localparam int MAX_CANDIDATES = COMMIT_PORTS * 6 + 1;
   localparam int QUEUE_COUNT_WIDTH = $clog2(EVENT_QUEUE_DEPTH + 1);
 
   logic [7:0][63:0] args_q;
   logic [7:0][63:0] args_n;
   logic [COMMIT_PORTS-1:0][7:0][63:0] args_at_port;
   logic [1:0] priv_shadow_q;
+  logic syscall_outstanding_q;
+  logic syscall_outstanding_n;
+  logic [63:0] next_syscall_id_q;
+  logic [63:0] next_syscall_id_n;
+  logic [63:0] active_syscall_id_q;
+  logic [63:0] active_syscall_id_n;
+  logic [63:0] syscall_entry_cycle_q;
+  logic [63:0] syscall_entry_cycle_n;
 
   trace_packet_t candidates [MAX_CANDIDATES];
   int unsigned candidate_count;
@@ -72,6 +84,8 @@ module cva6_rvfi_trace_adapter
   logic [COMMIT_PORTS-1:0][1:0]        rvfi_mode_s;
   logic [COMMIT_PORTS-1:0]             rvfi_compressed_s;
   logic [COMMIT_PORTS-1:0][VLEN-1:0]   rvfi_pc_rdata_s;
+  logic [COMMIT_PORTS-1:0][VLEN-1:0]   rvfi_pc_wdata_s;
+  logic [COMMIT_PORTS-1:0]             rvfi_sret_to_user_s;
   logic [COMMIT_PORTS-1:0][XLEN-1:0]   rvfi_rs1_rdata_s;
   logic [COMMIT_PORTS-1:0][XLEN-1:0]   rvfi_rs2_rdata_s;
   logic [COMMIT_PORTS-1:0][4:0]        rvfi_rd_addr_s;
@@ -94,6 +108,8 @@ module cva6_rvfi_trace_adapter
           rvfi_mode_s <= '0;
           rvfi_compressed_s <= '0;
           rvfi_pc_rdata_s <= '0;
+          rvfi_pc_wdata_s <= '0;
+          rvfi_sret_to_user_s <= '0;
           rvfi_rs1_rdata_s <= '0;
           rvfi_rs2_rdata_s <= '0;
           rvfi_rd_addr_s <= '0;
@@ -112,6 +128,8 @@ module cva6_rvfi_trace_adapter
           rvfi_mode_s <= rvfi_mode_i;
           rvfi_compressed_s <= rvfi_compressed_i;
           rvfi_pc_rdata_s <= rvfi_pc_rdata_i;
+          rvfi_pc_wdata_s <= rvfi_pc_wdata_i;
+          rvfi_sret_to_user_s <= rvfi_sret_to_user_i;
           rvfi_rs1_rdata_s <= rvfi_rs1_rdata_i;
           rvfi_rs2_rdata_s <= rvfi_rs2_rdata_i;
           rvfi_rd_addr_s <= rvfi_rd_addr_i;
@@ -132,6 +150,8 @@ module cva6_rvfi_trace_adapter
       assign rvfi_mode_s = rvfi_mode_i;
       assign rvfi_compressed_s = rvfi_compressed_i;
       assign rvfi_pc_rdata_s = rvfi_pc_rdata_i;
+      assign rvfi_pc_wdata_s = rvfi_pc_wdata_i;
+      assign rvfi_sret_to_user_s = rvfi_sret_to_user_i;
       assign rvfi_rs1_rdata_s = rvfi_rs1_rdata_i;
       assign rvfi_rs2_rdata_s = rvfi_rs2_rdata_i;
       assign rvfi_rd_addr_s = rvfi_rd_addr_i;
@@ -265,9 +285,17 @@ module cva6_rvfi_trace_adapter
   always_comb begin
     trace_packet_t packet;
     logic [1:0] priv_view;
+    logic syscall_outstanding_view;
+    logic [63:0] next_syscall_id_view;
+    logic [63:0] active_syscall_id_view;
+    logic [63:0] syscall_entry_cycle_view;
 
     candidate_count = 0;
     priv_view = priv_shadow_q;
+    syscall_outstanding_view = syscall_outstanding_q;
+    next_syscall_id_view = next_syscall_id_q;
+    active_syscall_id_view = active_syscall_id_q;
+    syscall_entry_cycle_view = syscall_entry_cycle_q;
     for (int unsigned i = 0; i < MAX_CANDIDATES; i++) begin
       candidates[i] = trace_null_packet();
     end
@@ -284,6 +312,8 @@ module cva6_rvfi_trace_adapter
       logic        branch_taken;
       logic [63:0] branch_target;
       logic [63:0] jump_target;
+      logic        syscall_entry_evt;
+      logic        syscall_ret_evt;
 
       event_valid = rvfi_valid_s[port] || rvfi_trap_s[port];
       instr       = insn_to_32(rvfi_insn_s[port]);
@@ -301,6 +331,14 @@ module cva6_rvfi_trace_adapter
                     (!compressed && instr[6:0] == OPCODE_JAL) ? pc + j_imm(instr) :
                     (xlen_to_64(rvfi_rs1_rdata_s[port]) +
                      (compressed ? 64'd0 : i_imm(instr))) & ~64'd1;
+      syscall_entry_evt = event_valid && rvfi_trap_s[port] &&
+                           instr == INSTR_ECALL &&
+                           rvfi_mode_s[port] == TRACE_PRIV_U &&
+                           xlen_to_64(rvfi_cause_s[port]) == CAUSE_U_ECALL;
+      syscall_ret_evt = event_valid && !rvfi_trap_s[port] && instr == INSTR_SRET &&
+                          rvfi_mode_s[port] == TRACE_PRIV_S &&
+                          rvfi_sret_to_user_s[port] &&
+                          syscall_outstanding_view;
 
       if (event_valid && rvfi_trap_s[port]) begin
         packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
@@ -311,9 +349,10 @@ module cva6_rvfi_trace_adapter
         candidate_count++;
       end
 
-      if (event_valid && instr == INSTR_ECALL) begin
+      if (syscall_entry_evt) begin
         packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
-        packet.evt = EVT_ECALL;
+        packet.evt = EVT_SYSCALL_ENTRY;
+        packet.syscall_id = next_syscall_id_view;
         packet.a0  = args_at_port[port][0];
         packet.a1  = args_at_port[port][1];
         packet.a2  = args_at_port[port][2];
@@ -324,6 +363,22 @@ module cva6_rvfi_trace_adapter
         packet.a7  = args_at_port[port][7];
         candidates[candidate_count] = packet;
         candidate_count++;
+        syscall_outstanding_view = 1'b1;
+        active_syscall_id_view = next_syscall_id_view;
+        syscall_entry_cycle_view = sample_cycle;
+        next_syscall_id_view = next_syscall_id_view + 64'd1;
+      end
+
+      if (syscall_ret_evt) begin
+        packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
+        packet.evt = EVT_SYSCALL_RET;
+        packet.target = vlen_to_64(rvfi_pc_wdata_s[port]);
+        packet.syscall_id = active_syscall_id_view;
+        packet.duration = sample_cycle - syscall_entry_cycle_view;
+        packet.a0 = args_at_port[port][0];
+        candidates[candidate_count] = packet;
+        candidate_count++;
+        syscall_outstanding_view = 1'b0;
       end
 
       if (event_valid && port == 0 && csr_valid_s && trace_is_watched_csr(csr_addr_s)) begin
@@ -371,6 +426,10 @@ module cva6_rvfi_trace_adapter
       end
     end
     priv_shadow_n = priv_view;
+    syscall_outstanding_n = syscall_outstanding_view;
+    next_syscall_id_n = next_syscall_id_view;
+    active_syscall_id_n = active_syscall_id_view;
+    syscall_entry_cycle_n = syscall_entry_cycle_view;
   end
 
   always_comb begin
@@ -444,6 +503,10 @@ module cva6_rvfi_trace_adapter
       drop_count_q <= 64'd0;
       drop_defer_q <= 1'b0;
       priv_shadow_q <= TRACE_PRIV_M;
+      syscall_outstanding_q <= 1'b0;
+      next_syscall_id_q <= 64'd0;
+      active_syscall_id_q <= 64'd0;
+      syscall_entry_cycle_q <= 64'd0;
       args_q <= '0;
       pending_count_q <= '0;
       for (int unsigned i = 0; i < EVENT_QUEUE_DEPTH; i++) begin
@@ -453,6 +516,10 @@ module cva6_rvfi_trace_adapter
       cycle_q <= cycle_q + 64'd1;
       args_q <= args_n;
       priv_shadow_q <= priv_shadow_n;
+      syscall_outstanding_q <= syscall_outstanding_n;
+      next_syscall_id_q <= next_syscall_id_n;
+      active_syscall_id_q <= active_syscall_id_n;
+      syscall_entry_cycle_q <= syscall_entry_cycle_n;
 
       if (drop_output) begin
         drop_count_q <= dropped_this_cycle;

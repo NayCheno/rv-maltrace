@@ -1,0 +1,52 @@
+{
+  "test": "pointer_string",
+  "mode": "trace_unit",
+  "exact_counts": {
+    "SYSCALL_ENTRY": 1,
+    "SYSCALL_RET": 1,
+    "ARG_MEM": 5,
+    "TRAP": 1
+  },
+  "forbidden_events": ["DROP"],
+  "required_events": [
+    {
+      "evt": "SYSCALL_ENTRY",
+      "pc": "0x0000000080000100",
+      "priv": "U",
+      "syscall_id": "0x0000000000000000",
+      "a7": "0x0000000000000038",
+      "a1": "0x0000000080002000"
+    },
+    {
+      "evt": "ARG_MEM",
+      "pc": "0x0000000080000200",
+      "priv": "S",
+      "syscall_id": "0x0000000000000000",
+      "arg_index": 1,
+      "mem_addr": "0x0000000080002000",
+      "mem_data": "0x000000000000002f",
+      "mem_size": 1,
+      "mem_last": false
+    },
+    {
+      "evt": "ARG_MEM",
+      "pc": "0x0000000080000210",
+      "priv": "S",
+      "syscall_id": "0x0000000000000000",
+      "arg_index": 1,
+      "mem_addr": "0x0000000080002004",
+      "mem_data": "0x0000000000000000",
+      "mem_size": 1,
+      "mem_last": true
+    },
+    {
+      "evt": "SYSCALL_RET",
+      "pc": "0x0000000080000220",
+      "priv": "S",
+      "target": "0x0000000080000104",
+      "syscall_id": "0x0000000000000000",
+      "duration": 7,
+      "a0": "0x0000000000000003"
+    }
+  ]
+}

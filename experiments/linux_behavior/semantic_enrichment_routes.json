@@ -15,16 +15,17 @@
         "write_buffer_prefix"
       ],
       "trigger": "after_fpga_trace_works",
-      "risks": [
-        "extra_memory_read_path",
-        "timing_impact",
-        "integration_complexity"
-      ],
-      "guardrails": [
-        "no_current_jsonl_memory_payload",
-        "no_default_memory_trace_enable",
-        "must_not_backpressure_core"
-      ]
+        "risks": [
+          "extra_memory_read_path",
+          "timing_impact",
+          "integration_complexity"
+        ],
+        "guardrails": [
+          "arg_mem_default_disabled",
+          "no_default_memory_trace_enable",
+          "no_load_store_trace_records",
+          "must_not_backpressure_core"
+        ]
     },
     {
       "id": "kernel_helper_metadata",

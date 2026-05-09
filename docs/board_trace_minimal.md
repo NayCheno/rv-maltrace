@@ -32,7 +32,8 @@ Only syscall, trap, context, and branch behavior events are enabled for the
 first board run:
 
 ```text
-ECALL
+SYSCALL_ENTRY
+SYSCALL_RET
 TRAP
 CSR
 SATP

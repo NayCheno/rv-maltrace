@@ -36,5 +36,6 @@ is a blocking analysis gap that eBPF alignment cannot cover cleanly.
 ## Boundary
 
 This strategy keeps the MVP free of eBPF, kernel helper, and memory snapshot
-dependencies. It does not enable any Phase 7 route, does not change the JSONL
-event set, and does not add load/store payloads.
+dependencies. It does not enable any Phase 7 route. The default-disabled
+`ARG_MEM` path is treated as synthetic/route-gated scaffolding, and the strategy
+keeps default load/store payload emission disabled.

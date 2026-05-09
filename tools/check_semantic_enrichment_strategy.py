@@ -122,8 +122,8 @@ REQUIRED_DOC_TEXT = (
     "kernel_helper_metadata",
     "not on the recommended MVP path",
     "does not enable any Phase 7 route",
-    "does not change the JSONL event set",
-    "does not add load/store payloads",
+    "The default-disabled `ARG_MEM` path is treated as synthetic/route-gated scaffolding",
+    "keeps default load/store payload emission disabled",
 )
 FORBIDDEN_DOC_PATTERNS = (
     re.compile(r"\bPASS\b", re.IGNORECASE),
@@ -309,11 +309,14 @@ def check_doc(path: Path) -> list[str]:
 
 def check_trace_format(path: Path) -> list[str]:
     text = path.read_text(encoding="utf-8")
+    normalized = normalized_text(text)
     errors: list[str] = []
     if "`TRACE_MEM_MODE_DEFAULT` is `TRACE_MEM_MODE_NONE`" not in text:
         errors.append(f"{path}: trace memory default must remain TRACE_MEM_MODE_NONE")
-    if "does not define load/store trace records or memory data payload fields" not in text:
-        errors.append(f"{path}: trace format must not define current load/store payloads")
+    if "the syscall-scoped `ARG_MEM` event" not in normalized:
+        errors.append(f"{path}: trace format must reserve ARG_MEM as syscall-scoped schema only")
+    if "does not emit load/store memory records by default" not in normalized:
+        errors.append(f"{path}: trace format must keep emitted load/store records disabled by default")
     for pattern in FORBIDDEN_TRACE_FORMAT_PATTERNS:
         if pattern.search(text):
             errors.append(f"{path}: trace format must not claim current memory trace enablement or payload availability")
@@ -406,8 +409,8 @@ must not replace RTL-level committed behavior trace
 kernel_helper_metadata
 not on the recommended MVP path
 does not enable any Phase 7 route
-does not change the JSONL event set
-does not add load/store payloads
+The default-disabled `ARG_MEM` path is treated as synthetic/route-gated scaffolding
+keeps default load/store payload emission disabled
 """,
         encoding="utf-8",
     )
@@ -449,7 +452,8 @@ does not add load/store payloads
     )
     (root / DEFAULT_TRACE_FORMAT).write_text(
         "`TRACE_MEM_MODE_DEFAULT` is `TRACE_MEM_MODE_NONE`.\n"
-        "does not define load/store trace records or memory data payload fields\n",
+        "the syscall-scoped `ARG_MEM` event is reserved only.\n"
+        "does not emit load/store memory records by default\n",
         encoding="utf-8",
     )
     (root / DEFAULT_UV_DOC).write_text(
@@ -645,7 +649,8 @@ def self_test() -> int:
 
     for old, expected in (
         ("`TRACE_MEM_MODE_DEFAULT` is `TRACE_MEM_MODE_NONE`", "trace memory default"),
-        ("does not define load/store trace records or memory data payload fields", "load/store payloads"),
+        ("the syscall-scoped `ARG_MEM` event", "ARG_MEM"),
+        ("does not emit load/store memory records by default", "load/store records"),
     ):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

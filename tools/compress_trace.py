@@ -18,6 +18,9 @@ EVENT_PAYLOAD_FIELDS: dict[str, tuple[str, ...]] = {
     "BRANCH": ("taken",),
     "JUMP": (),
     "ECALL": ARG_FIELDS,
+    "SYSCALL_ENTRY": ("syscall_id", *ARG_FIELDS),
+    "SYSCALL_RET": ("syscall_id", "duration", "a0"),
+    "ARG_MEM": ("syscall_id", "arg_index", "mem_addr", "mem_data", "mem_size", "mem_last"),
     "TRAP": ("cause", "tval"),
     "CSR": ("csr", "value"),
     "SATP": ("csr", "value"),
@@ -28,13 +31,18 @@ EVENT_PAYLOAD_FIELDS: dict[str, tuple[str, ...]] = {
 
 CONTEXT_FIELDS: dict[str, tuple[str, ...]] = {
     "RETIRE": ("priv",),
+    "BRANCH": ("priv",),
+    "JUMP": ("priv",),
     "ECALL": ("priv",),
+    "SYSCALL_ENTRY": ("priv",),
+    "SYSCALL_RET": ("priv",),
+    "ARG_MEM": ("priv",),
     "TRAP": ("priv",),
     "CSR": ("priv",),
     "SATP": ("priv", "satp"),
 }
 
-TARGET_DELTA_EVENTS = {"BRANCH", "JUMP"}
+TARGET_DELTA_EVENTS = {"BRANCH", "JUMP", "SYSCALL_RET"}
 
 
 def parse_int(value: Any) -> int:

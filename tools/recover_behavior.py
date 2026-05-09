@@ -71,19 +71,57 @@ def event_base(event: dict[str, Any], index: int) -> dict[str, Any]:
 
 def recover_syscalls(events: list[dict[str, Any]]) -> list[dict[str, Any]]:
     syscalls: list[dict[str, Any]] = []
+    pending_by_id: dict[int, dict[str, Any]] = {}
+    pending_without_id: list[dict[str, Any]] = []
     for index, event in enumerate(events):
-        if event.get("evt") != "ECALL":
+        evt = event.get("evt")
+        if evt not in {"ECALL", "SYSCALL_ENTRY", "SYSCALL_RET"}:
             continue
-        number = parse_int(event.get("a7"))
-        syscalls.append(
-            {
+        if evt in {"ECALL", "SYSCALL_ENTRY"}:
+            number = parse_int(event.get("a7"))
+            syscall = {
                 **event_base(event, index),
+                "evt": "SYSCALL_ENTRY",
+                "syscall_id": hex_or_none(event.get("syscall_id")),
                 "number": number,
                 "name": SYSCALL_NAMES.get(number, f"sys_{number}" if number is not None else "unknown"),
                 "priv": event.get("priv"),
+                "a7": hex_or_none(event.get("a7")),
                 "args": {f"a{arg}": hex_or_none(event.get(f"a{arg}")) for arg in range(6)},
             }
-        )
+            syscalls.append(syscall)
+            syscall_id = parse_int(event.get("syscall_id"))
+            if syscall_id is None:
+                pending_without_id.append(syscall)
+            else:
+                pending_by_id[syscall_id] = syscall
+            continue
+
+        syscall_id = parse_int(event.get("syscall_id"))
+        match = pending_by_id.pop(syscall_id, None) if syscall_id is not None else None
+        if match is None and pending_without_id:
+            match = pending_without_id.pop()
+        ret = {
+            **event_base(event, index),
+            "return_value": hex_or_none(event.get("a0")),
+            "return_pc": hex_or_none(event.get("target")),
+            "duration": parse_int(event.get("duration")),
+        }
+        if match is None:
+            syscalls.append(
+                {
+                    **event_base(event, index),
+                    "evt": "SYSCALL_RET",
+                    "syscall_id": hex_or_none(event.get("syscall_id")),
+                    "name": "unmatched_return",
+                    "return": ret,
+                }
+            )
+        else:
+            match["return"] = ret
+            match["return_value"] = ret["return_value"]
+            match["return_pc"] = ret["return_pc"]
+            match["duration"] = ret["duration"]
     return syscalls
 
 
@@ -130,8 +168,10 @@ def recover_privilege_boundaries(events: list[dict[str, Any]]) -> list[dict[str,
     boundaries: list[dict[str, Any]] = []
     for index, event in enumerate(events):
         evt = event.get("evt")
-        if evt == "ECALL":
+        if evt in {"ECALL", "SYSCALL_ENTRY"}:
             boundaries.append({**event_base(event, index), "kind": "syscall_entry", "priv": event.get("priv")})
+        elif evt == "SYSCALL_RET":
+            boundaries.append({**event_base(event, index), "kind": "syscall_return", "priv": event.get("priv")})
         elif evt == "TRAP":
             boundaries.append({**event_base(event, index), "kind": "trap_entry", "priv": event.get("priv"), "cause": event.get("cause")})
         elif evt == "PRIV":
@@ -221,10 +261,11 @@ def write_outputs(trace_path: Path, out_dir: Path) -> None:
 def self_test() -> int:
     trace = "\n".join(
         [
-            '{"cycle":1,"evt":"ECALL","pc":"0x1000","priv":"U","a7":"0x40","a0":"0x1"}',
-            '{"cycle":2,"evt":"BRANCH","pc":"0x1004","taken":true,"target":"0x1010","priv":"U"}',
-            '{"cycle":3,"evt":"TRAP","pc":"0x1010","priv":"U","cause":"0x2","tval":"0xffffffff"}',
-            '{"cycle":4,"evt":"PRIV","pc":"0x1010","old_priv":"U","new_priv":"S"}',
+            '{"cycle":1,"evt":"SYSCALL_ENTRY","pc":"0x1000","priv":"U","syscall_id":"0x0","a7":"0x40","a0":"0x1"}',
+            '{"cycle":2,"evt":"SYSCALL_RET","pc":"0x1008","priv":"S","target":"0x1004","syscall_id":"0x0","duration":1,"a0":"0x5"}',
+            '{"cycle":3,"evt":"BRANCH","pc":"0x1004","taken":true,"target":"0x1010","priv":"U"}',
+            '{"cycle":4,"evt":"TRAP","pc":"0x1010","priv":"U","cause":"0x2","tval":"0xffffffff"}',
+            '{"cycle":5,"evt":"PRIV","pc":"0x1010","old_priv":"U","new_priv":"S"}',
         ]
     )
     with tempfile.TemporaryDirectory() as tmp:
@@ -237,6 +278,20 @@ def self_test() -> int:
         graph = json.loads((out_dir / "behavior_graph.json").read_text(encoding="utf-8"))
         if semantic["syscall_sequence"][0]["name"] != "write":
             print("[FAIL] self-test missed write syscall recovery", file=sys.stderr)
+            return 1
+        syscall = semantic["syscall_sequence"][0]
+        syscall_return = syscall.get("return", {})
+        if syscall_return.get("return_value") != "0x0000000000000005":
+            print("[FAIL] self-test missed syscall return recovery", file=sys.stderr)
+            return 1
+        if syscall_return.get("return_pc") != "0x0000000000001004":
+            print("[FAIL] self-test missed syscall return PC recovery", file=sys.stderr)
+            return 1
+        if syscall_return.get("duration") != 1:
+            print("[FAIL] self-test missed syscall duration recovery", file=sys.stderr)
+            return 1
+        if syscall.get("return_pc") != "0x0000000000001004" or syscall.get("duration") != 1:
+            print("[FAIL] self-test missed flattened syscall return fields", file=sys.stderr)
             return 1
         if not semantic["control_flow_segments"]:
             print("[FAIL] self-test missed control-flow recovery", file=sys.stderr)

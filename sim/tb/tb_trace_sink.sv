@@ -16,14 +16,16 @@ module tb_trace_sink
       EVT_RETIRE: evt_name = "RETIRE";
       EVT_BRANCH: evt_name = "BRANCH";
       EVT_JUMP:   evt_name = "JUMP";
-      EVT_ECALL:  evt_name = "ECALL";
-      EVT_TRAP:   evt_name = "TRAP";
-      EVT_CSR:    evt_name = "CSR";
-      EVT_SATP:   evt_name = "SATP";
-      EVT_PRIV:   evt_name = "PRIV";
-      EVT_MARKER: evt_name = "MARKER";
-      EVT_DROP:   evt_name = "DROP";
-      default:    evt_name = "NONE";
+      EVT_SYSCALL_ENTRY: evt_name = "SYSCALL_ENTRY";
+      EVT_SYSCALL_RET:   evt_name = "SYSCALL_RET";
+      EVT_TRAP:          evt_name = "TRAP";
+      EVT_CSR:           evt_name = "CSR";
+      EVT_SATP:          evt_name = "SATP";
+      EVT_PRIV:          evt_name = "PRIV";
+      EVT_ARG_MEM:       evt_name = "ARG_MEM";
+      EVT_MARKER:        evt_name = "MARKER";
+      EVT_DROP:          evt_name = "DROP";
+      default:           evt_name = "NONE";
     endcase
   endfunction
 
@@ -57,11 +59,12 @@ module tb_trace_sink
       EVT_JUMP: begin
         $fwrite(trace_fd, ",\"target\":\"0x%016h\"", packet.target);
       end
-      EVT_ECALL: begin
+      EVT_SYSCALL_ENTRY: begin
         $fwrite(
             trace_fd,
-            ",\"priv\":\"%s\",\"a0\":\"0x%016h\",\"a1\":\"0x%016h\",\"a2\":\"0x%016h\",\"a3\":\"0x%016h\",\"a4\":\"0x%016h\",\"a5\":\"0x%016h\",\"a6\":\"0x%016h\",\"a7\":\"0x%016h\"",
+            ",\"priv\":\"%s\",\"syscall_id\":\"0x%016h\",\"a0\":\"0x%016h\",\"a1\":\"0x%016h\",\"a2\":\"0x%016h\",\"a3\":\"0x%016h\",\"a4\":\"0x%016h\",\"a5\":\"0x%016h\",\"a6\":\"0x%016h\",\"a7\":\"0x%016h\"",
             priv_name(packet.priv),
+            packet.syscall_id,
             packet.a0,
             packet.a1,
             packet.a2,
@@ -70,6 +73,30 @@ module tb_trace_sink
             packet.a5,
             packet.a6,
             packet.a7
+        );
+      end
+      EVT_SYSCALL_RET: begin
+        $fwrite(
+            trace_fd,
+            ",\"priv\":\"%s\",\"target\":\"0x%016h\",\"syscall_id\":\"0x%016h\",\"duration\":%0d,\"a0\":\"0x%016h\"",
+            priv_name(packet.priv),
+            packet.target,
+            packet.syscall_id,
+            packet.duration,
+            packet.a0
+        );
+      end
+      EVT_ARG_MEM: begin
+        $fwrite(
+            trace_fd,
+            ",\"priv\":\"%s\",\"syscall_id\":\"0x%016h\",\"arg_index\":%0d,\"mem_addr\":\"0x%016h\",\"mem_data\":\"0x%016h\",\"mem_size\":%0d,\"mem_last\":%s",
+            priv_name(packet.priv),
+            packet.syscall_id,
+            packet.arg_index,
+            packet.mem_addr,
+            packet.mem_data,
+            packet.mem_size,
+            packet.mem_last ? "true" : "false"
         );
       end
       EVT_TRAP: begin
