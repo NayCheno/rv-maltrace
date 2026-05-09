@@ -29,6 +29,7 @@ uv run python tools/check_linux_behavior_recovery.py
 uv run python tools/check_semantic_enrichment_rationale.py
 uv run python tools/check_semantic_enrichment_routes.py
 uv run python tools/check_semantic_enrichment_strategy.py
+uv run python tools/check_evaluation_plan.py
 ```
 
 Slash groups are expanded, so this runs the long build sequence:
@@ -412,6 +413,17 @@ optionally add eBPF metadata alignment.
 ```powershell
 uv run python tools/check_semantic_enrichment_strategy.py
 uv run python tools/check_semantic_enrichment_strategy.py --self-test
+```
+
+## Evaluation Plan
+
+Paper-level evaluation planning is tracked in `docs/evaluation_plan.md`. It
+keeps the RQ, baseline, dataset, metric, and artifact gates in TODO status until
+simulation, board, Linux, or study evidence exists.
+
+```powershell
+uv run python tools/check_evaluation_plan.py
+uv run python tools/check_evaluation_plan.py --self-test
 ```
 
 ## Trace Compression Prototype

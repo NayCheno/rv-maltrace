@@ -30,6 +30,7 @@ hardware behavior tracing MVP.
 - Expected objdump: `riscv-none-elf-objdump`
 - Expected objcopy: `riscv-none-elf-objcopy`
 - Bare-metal build prefix: `riscv-none-elf-`
+- Linux userland compiler: TODO(LINUX) `riscv64-linux-gnu-gcc` version must be locked before Linux workload claims.
 - Docker toolchain config: `gcc-13.1.0-baremetal`
 - Docker build script: `docker/toolchain/build-cva6-toolchain.sh`
 - Docker service: `cva6-toolchain`
@@ -37,6 +38,16 @@ hardware behavior tracing MVP.
 - GCC source: `https://github.com/gcc-mirror/gcc.git`, ref `releases/gcc-13.1.0`.
 - Newlib source: `https://sourceware.org/git/newlib-cygwin.git`, ref `newlib-4.3.0`.
 - Local Windows PATH check: `riscv-none-elf-gcc`, `riscv-none-elf-objdump`, and `riscv-none-elf-objcopy` are not visible from the Windows shell PATH on 2026-05-08; use Docker or prepend the installed toolchain `bin` directory.
+
+## Linux and Buildroot
+
+- Status: TODO(LINUX).
+- Linux kernel version/commit: not locked for the current committed-event MVP.
+- Buildroot version/commit: not locked for the current committed-event MVP.
+- Rootfs manifest: not present yet.
+- Gate: these anchors must be fixed before claiming Buildroot Linux boot,
+  Linux syscall trace, semantic reconstruction on Linux workloads, or
+  paper-level Linux evaluation evidence.
 
 ## Bare-metal Runtime
 
