@@ -32,6 +32,8 @@ REQUIRED_DOC_TEXT = (
     "sim/golden/fuzz_invariants.json",
     "tools/gen_rv_trace_fuzz.py",
     "tools/check_fuzz_trace.py",
+    "fuzz_trace_invariants.json",
+    "fuzz_trace_report.md",
     "fuzz_cf",
     "fuzz_trap",
     "fuzz_syscall",
@@ -179,7 +181,13 @@ def check_tools(root: Path, generator: Path, checker: Path, smoke: Path) -> list
     for cmd, label in (
         ([sys.executable, str(resolve(root, generator)), "--self-test"], "generator self-test"),
         ([sys.executable, str(resolve(root, checker)), "--self-test"], "checker self-test"),
-        (
+    ):
+        result = subprocess.run(cmd, cwd=root, text=True, capture_output=True)
+        if result.returncode != 0:
+            errors.append(f"{label} failed: {result.stderr.strip() or result.stdout.strip()}")
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp_root = Path(tmp)
+        result = subprocess.run(
             [
                 sys.executable,
                 str(resolve(root, checker)),
@@ -189,13 +197,27 @@ def check_tools(root: Path, generator: Path, checker: Path, smoke: Path) -> list
                 str(resolve(root, DEFAULT_SPEC)),
                 "--case",
                 "fuzz_trace_smoke",
+                "--out-dir",
+                str(tmp_root / "smoke_report"),
             ],
-            "checker smoke trace",
-        ),
-    ):
-        result = subprocess.run(cmd, cwd=root, text=True, capture_output=True)
+            cwd=root,
+            text=True,
+            capture_output=True,
+        )
         if result.returncode != 0:
-            errors.append(f"{label} failed: {result.stderr.strip() or result.stdout.strip()}")
+            errors.append(f"checker smoke trace failed: {result.stderr.strip() or result.stdout.strip()}")
+        smoke_report = tmp_root / "smoke_report" / "fuzz_trace_invariants.json"
+        smoke_markdown = tmp_root / "smoke_report" / "fuzz_trace_report.md"
+        if not smoke_report.exists():
+            errors.append("checker smoke trace did not write fuzz_trace_invariants.json")
+        else:
+            payload = load_json(smoke_report)
+            if payload.get("status") != "PASS":
+                errors.append("checker smoke trace report did not record PASS")
+        if not smoke_markdown.exists():
+            errors.append("checker smoke trace did not write fuzz_trace_report.md")
+        elif "not a processor bug-discovery" not in smoke_markdown.read_text(encoding="utf-8"):
+            errors.append("checker smoke trace markdown report is missing the processor bug-discovery non-claim")
     with tempfile.TemporaryDirectory() as tmp:
         out_dir = Path(tmp) / "seeds"
         result = subprocess.run([sys.executable, str(resolve(root, generator)), "--out-dir", str(out_dir)], cwd=root, text=True, capture_output=True)
@@ -318,6 +340,8 @@ not a processor fuzzing campaign or CVA6 bug-discovery claim
 sim/golden/fuzz_invariants.json
 tools/gen_rv_trace_fuzz.py
 tools/check_fuzz_trace.py
+fuzz_trace_invariants.json
+fuzz_trace_report.md
 fuzz_cf
 fuzz_trap
 fuzz_syscall
@@ -364,6 +388,12 @@ def self_test() -> int:
         if errors:
             for error in errors:
                 print(f"[FAIL] self-test false positive: {error}", file=sys.stderr)
+            return 1
+        repo_root = Path.cwd()
+        tool_errors = check_tools(repo_root, DEFAULT_GENERATOR, DEFAULT_CHECKER, DEFAULT_SMOKE)
+        if tool_errors:
+            for error in tool_errors:
+                print(f"[FAIL] self-test report-output gate failed: {error}", file=sys.stderr)
             return 1
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)

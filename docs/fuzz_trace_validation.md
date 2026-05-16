@@ -22,6 +22,13 @@ The trace checker is:
 tools/check_fuzz_trace.py
 ```
 
+When `--out-dir` is provided, the checker writes:
+
+```text
+fuzz_trace_invariants.json
+fuzz_trace_report.md
+```
+
 ## Cases
 
 | Order | Case | Stress focus | Required invariant families | Status |
@@ -43,6 +50,6 @@ two-week objective.
 uv run python tools/gen_rv_trace_fuzz.py --self-test
 uv run python tools/gen_rv_trace_fuzz.py --out-dir build/fuzz_trace_seeds
 uv run python tools/check_fuzz_trace.py --self-test
-uv run python tools/check_fuzz_trace.py --trace sim/golden/fuzz_trace_smoke.trace.jsonl --case fuzz_trace_smoke
+uv run python tools/check_fuzz_trace.py --trace sim/golden/fuzz_trace_smoke.trace.jsonl --case fuzz_trace_smoke --out-dir build/fuzz_trace_smoke
 uv run python tools/check_fuzz_trace_plan.py
 ```

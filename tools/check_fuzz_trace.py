@@ -337,6 +337,61 @@ def check_trace(events: list[dict[str, Any]], case: dict[str, Any]) -> list[str]
     return errors
 
 
+def build_report(trace_path: Path, events: list[dict[str, Any]], case: dict[str, Any], errors: list[str]) -> dict[str, Any]:
+    return {
+        "schema": "rvmt.fuzz.trace_report.v1",
+        "case": case.get("id"),
+        "trace": trace_path.as_posix(),
+        "status": "FAIL" if errors else "PASS",
+        "events": len(events),
+        "event_counts": dict(sorted(event_counts(events).items())),
+        "invariants": case.get("invariants", []),
+        "min_counts": case.get("min_counts", {}),
+        "errors": errors,
+        "non_claim": "This report validates RV-MalTrace trace invariants, not processor bug discovery.",
+    }
+
+
+def render_report(report: dict[str, Any]) -> str:
+    lines = [
+        "# Fuzz Trace Invariant Report",
+        "",
+        f"- Case: `{report.get('case')}`",
+        f"- Source trace: `{report.get('trace')}`",
+        f"- Status: {report.get('status')}",
+        f"- Events: {report.get('events')}",
+        "",
+        "| Event | Count |",
+        "| --- | ---: |",
+    ]
+    counts = report.get("event_counts", {})
+    if isinstance(counts, dict):
+        for evt, count in counts.items():
+            lines.append(f"| {evt} | {count} |")
+    errors = report.get("errors", [])
+    lines.extend(["", "## Errors", ""])
+    if errors:
+        for error in errors:
+            lines.append(f"- {error}")
+    else:
+        lines.append("- none")
+    lines.extend(
+        [
+            "",
+            "This report validates trace invariants only. It is not a processor bug-discovery or malware-detection claim.",
+            "",
+        ]
+    )
+    return "\n".join(lines)
+
+
+def write_outputs(trace_path: Path, out_dir: Path, events: list[dict[str, Any]], case: dict[str, Any], errors: list[str]) -> None:
+    report = build_report(trace_path, events, case, errors)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / "fuzz_trace_invariants.json").write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    (out_dir / "fuzz_trace_report.md").write_text(render_report(report), encoding="utf-8", newline="\n")
+
+
 def self_test() -> int:
     good_trace = [
         {"cycle": 1, "evt": "SYSCALL_ENTRY", "pc": "0x1000", "instr": "0x00000073", "priv": "U", "syscall_id": "0x0", "a0": "0x1", "a1": "0x0", "a2": "0x0", "a3": "0x0", "a4": "0x0", "a5": "0x0", "a6": "0x0", "a7": "0x40"},
@@ -398,6 +453,17 @@ def self_test() -> int:
         if check_trace(load_jsonl(trace_path), selected):
             print("[FAIL] self-test rejected JSONL smoke fixture", file=sys.stderr)
             return 1
+        out_dir = root / "out"
+        errors = check_trace(load_jsonl(trace_path), selected)
+        write_outputs(trace_path, out_dir, load_jsonl(trace_path), selected, errors)
+        report = load_json(out_dir / "fuzz_trace_invariants.json")
+        if report.get("status") != "PASS" or report.get("event_counts", {}).get("DROP") != 2:
+            print("[FAIL] self-test missed fuzz report content", file=sys.stderr)
+            return 1
+        report_text = (out_dir / "fuzz_trace_report.md").read_text(encoding="utf-8")
+        if "not a processor bug-discovery" not in report_text:
+            print("[FAIL] self-test missed fuzz report non-claim", file=sys.stderr)
+            return 1
 
     print("[PASS] fuzz trace invariant checker self-test")
     return 0
@@ -408,6 +474,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--trace", type=Path)
     parser.add_argument("--invariants", type=Path, default=DEFAULT_INVARIANTS)
     parser.add_argument("--case", required=False)
+    parser.add_argument("--out-dir", type=Path)
     parser.add_argument("--self-test", action="store_true")
     args = parser.parse_args(argv)
 
@@ -420,7 +487,10 @@ def main(argv: list[str] | None = None) -> int:
         case = case_config(spec, args.case)
         if not case:
             raise ValueError(f"{args.invariants}: no case found for {args.case!r}")
-        errors = check_trace(load_jsonl(args.trace), case)
+        events = load_jsonl(args.trace)
+        errors = check_trace(events, case)
+        if args.out_dir is not None:
+            write_outputs(args.trace, args.out_dir, events, case, errors)
     except Exception as exc:
         print(f"check_fuzz_trace: error: {exc}", file=sys.stderr)
         return 2
