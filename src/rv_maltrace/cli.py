@@ -47,6 +47,9 @@ TASK_ALIASES = {
     "sim:cva6": "sim:cva6-smoke",
     "sim:cva6-xsim": "sim:cva6-smoke",
     "sim:cva6-smoke": "sim:cva6-smoke",
+    "sim:cva6-run": "sim:cva6-run",
+    "sim:cva6-custom": "sim:cva6-run",
+    "sim:run": "sim:cva6-run",
     "sim:summary": "sim:summary",
     "summary": "sim:summary",
     "baremetal": "baremetal:build",
@@ -74,6 +77,7 @@ DISPLAY_TASKS = [
     "bitstream:collect",
     "sim:trace-unit",
     "sim:cva6-smoke",
+    "sim:cva6-run",
     "sim:summary",
     "baremetal:build",
     "config:show",
@@ -86,7 +90,19 @@ DISPLAY_TASKS = [
 COMPLETION_CANDIDATES = sorted(
     {
         "--dry-run",
+        "--asm",
+        "--bin",
+        "--cflag",
+        "--elf",
+        "--expected",
         "--help",
+        "--include",
+        "--linker",
+        "--mem",
+        "--name",
+        "--no-runtime",
+        "--tool-mode",
+        "--tool-prefix",
         "-h",
         "docker/tool/bootrom/bitstream",
         "docker/toolchain/bootrom/bitstream",
@@ -1106,7 +1122,13 @@ def task_sim_trace_unit(root: Path, config: dict, env: dict[str, str], dry_run: 
         task_sim_summary(root, env, dry_run=False)
 
 
-def task_sim_cva6_smoke(root: Path, config: dict, env: dict[str, str], dry_run: bool) -> None:
+def task_sim_cva6_smoke(
+    root: Path,
+    config: dict,
+    env: dict[str, str],
+    dry_run: bool,
+    runner_args: list[str] | None = None,
+) -> None:
     vivado = resolve_vivado(config)
     env = prepend_env_path(env, Path(vivado).parent)
     try:
@@ -1122,6 +1144,7 @@ def task_sim_cva6_smoke(root: Path, config: dict, env: dict[str, str], dry_run: 
                 str(config.get("target", "cv64a6_imafdc_sv39")),
                 "--work-dir",
                 str(Path(str(config.get("build_dir", "build"))) / "cva6_xsim_smoke"),
+                *(runner_args or []),
                 *(("--dry-run",) if dry_run else ()),
             ],
             cwd=root,
@@ -1134,6 +1157,34 @@ def task_sim_cva6_smoke(root: Path, config: dict, env: dict[str, str], dry_run: 
         raise
     if not dry_run:
         task_sim_summary(root, env, dry_run=False)
+
+
+def custom_cva6_runner_args(args: argparse.Namespace, config: dict) -> list[str]:
+    selected_inputs = sum(value is not None for value in (args.asm, args.elf, args.bin, args.mem))
+    if selected_inputs != 1:
+        raise TaskError("sim:cva6-run requires exactly one of --asm, --elf, --bin, or --mem.")
+    runner_args: list[str] = []
+    for option, value in (
+        ("--asm", args.asm),
+        ("--elf", args.elf),
+        ("--bin", args.bin),
+        ("--mem", args.mem),
+        ("--name", args.name),
+        ("--expected", args.expected),
+        ("--linker", args.linker),
+        ("--tool-mode", args.tool_mode),
+    ):
+        if value is not None:
+            runner_args.extend([option, str(value)])
+    tool_prefix = args.tool_prefix if args.tool_prefix is not None else str(config.get("baremetal_tool_prefix", "riscv-none-elf-"))
+    runner_args.extend(["--tool-prefix", tool_prefix])
+    for include in args.include:
+        runner_args.extend(["--include", str(include)])
+    for cflag in args.cflag:
+        runner_args.extend(["--cflag", cflag])
+    if args.no_runtime:
+        runner_args.append("--no-runtime")
+    return runner_args
 
 
 def task_sim_summary(root: Path, env: dict[str, str], dry_run: bool) -> None:
@@ -1281,12 +1332,28 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         nargs="*",
         help=(
             "Tasks to run. Supports docker:build, toolchain:build, bootrom:build, "
-            "vivado:check, bitstream:build, sim:trace-unit, sim:cva6-smoke, baremetal:build, "
+            "vivado:check, bitstream:build, sim:trace-unit, sim:cva6-smoke, sim:cva6-run, baremetal:build, "
             "config:show, completion:powershell. Slash groups such as "
             "tool/bootrom are expanded."
         ),
     )
     parser.add_argument("--dry-run", action="store_true", help="Print commands without running them.")
+    parser.add_argument("--asm", type=Path, help="For sim:cva6-run, compile and run a custom RISC-V assembly source.")
+    parser.add_argument("--elf", type=Path, help="For sim:cva6-run, run a custom RISC-V ELF image.")
+    parser.add_argument("--bin", type=Path, help="For sim:cva6-run, run a custom raw binary image.")
+    parser.add_argument("--mem", type=Path, help="For sim:cva6-run, run a custom $readmemh memory image.")
+    parser.add_argument("--name", help="For sim:cva6-run, result directory name under results/vivado_sim/.")
+    parser.add_argument("--expected", type=Path, help="For sim:cva6-run, optional JSON golden to compare against.")
+    parser.add_argument("--tool-prefix", help="For sim:cva6-run, RISC-V tool prefix for --asm/--elf.")
+    parser.add_argument(
+        "--tool-mode",
+        choices=("auto", "local", "docker"),
+        help="For sim:cva6-run, choose local or Docker RISC-V tools. auto uses local tools when present, otherwise Docker.",
+    )
+    parser.add_argument("--linker", type=Path, help="For sim:cva6-run --asm, linker script.")
+    parser.add_argument("--include", type=Path, action="append", default=[], help="For sim:cva6-run --asm, extra include directory.")
+    parser.add_argument("--cflag", action="append", default=[], help="For sim:cva6-run --asm, extra compiler flag.")
+    parser.add_argument("--no-runtime", action="store_true", help="For sim:cva6-run --asm, do not link the rv-maltrace runtime.")
     return parser.parse_args(argv)
 
 
@@ -1329,6 +1396,8 @@ def main(argv: list[str] | None = None) -> int:
                 task_sim_trace_unit(root, config, env, args.dry_run)
             elif task == "sim:cva6-smoke":
                 task_sim_cva6_smoke(root, config, env, args.dry_run)
+            elif task == "sim:cva6-run":
+                task_sim_cva6_smoke(root, config, env, args.dry_run, custom_cva6_runner_args(args, config))
             elif task == "sim:summary":
                 task_sim_summary(root, env, args.dry_run)
             elif task == "baremetal:build":

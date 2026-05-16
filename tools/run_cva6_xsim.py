@@ -2,9 +2,12 @@ from __future__ import annotations
 
 import argparse
 import os
+import re
+import shlex
 import shutil
 import subprocess
 import sys
+from dataclasses import dataclass
 from pathlib import Path
 
 
@@ -24,6 +27,16 @@ CVA6_XSIM_TESTS = [
     ("cva6_trap_illegal", "cva6_trap_illegal/cva6_trap_illegal.mem", "cva6_trap_illegal.expected.json"),
     ("cva6_ebreak", "cva6_ebreak/cva6_ebreak.mem", "cva6_ebreak.expected.json"),
 ]
+DEFAULT_TOOL_PREFIX = "riscv-none-elf-"
+READMEMH_WORD_BYTES = 8
+CONTAINER_REPO_ROOT = Path("/workspace/rv-maltrace")
+
+
+@dataclass(frozen=True)
+class ProgramRun:
+    name: str
+    mem_src: Path
+    expected: Path | None
 
 
 ARIANE_PKG = [
@@ -143,6 +156,105 @@ def resolve_tool(name: str, vivado_bin: Path | None) -> str:
         if resolved:
             return resolved
     raise RuntimeError(f"Vivado tool not found: {name}")
+
+
+def resolve_prefixed_tool(name: str, prefix: str) -> str:
+    configured = f"{prefix}{name}"
+    resolved = shutil.which(configured)
+    return resolved or configured
+
+
+def select_tool_mode(prefix: str, requested: str) -> str:
+    if requested != "auto":
+        return requested
+    return "local" if shutil.which(f"{prefix}gcc") and shutil.which(f"{prefix}objcopy") else "docker"
+
+
+def container_path(root: Path, path: Path) -> str:
+    resolved = path.resolve()
+    try:
+        rel = resolved.relative_to(root.resolve())
+    except ValueError as exc:
+        raise RuntimeError(f"Docker tool mode requires inputs under the repository root: {resolved}") from exc
+    return (CONTAINER_REPO_ROOT / rel.as_posix()).as_posix()
+
+
+def shell_join(cmd: list[str]) -> str:
+    return " ".join(shlex.quote(item) for item in cmd)
+
+
+def docker_compose_cmd(root: Path, inner_cmd: list[str]) -> list[str]:
+    return [
+        "docker",
+        "compose",
+        "-f",
+        str(root / "docker-compose.toolchain.yml"),
+        "run",
+        "--rm",
+        "cva6-toolchain",
+        "bash",
+        "-lc",
+        shell_join(inner_cmd),
+    ]
+
+
+def sanitize_result_name(raw: str) -> str:
+    name = re.sub(r"[^A-Za-z0-9_.-]+", "_", raw).strip("._-")
+    return name or "custom"
+
+
+def custom_input_count(args: argparse.Namespace) -> int:
+    return sum(value is not None for value in (args.asm, args.elf, args.bin, args.mem))
+
+
+def has_custom_program(args: argparse.Namespace) -> bool:
+    return custom_input_count(args) > 0
+
+
+def write_readmemh_from_binary(binary_path: Path, mem_path: Path) -> None:
+    data = binary_path.read_bytes()
+    if not data:
+        raise RuntimeError(f"empty program binary: {binary_path}")
+    mem_path.parent.mkdir(parents=True, exist_ok=True)
+    with mem_path.open("w", encoding="utf-8", newline="\n") as handle:
+        for offset in range(0, len(data), READMEMH_WORD_BYTES):
+            chunk = data[offset : offset + READMEMH_WORD_BYTES].ljust(READMEMH_WORD_BYTES, b"\0")
+            handle.write(f"{int.from_bytes(chunk, byteorder='little'):016x}\n")
+
+
+def run_tool(
+    *,
+    root: Path,
+    args: argparse.Namespace,
+    tool: str,
+    tool_args: list[Path | str],
+    cwd: Path,
+    env: dict[str, str],
+    log: Path,
+) -> None:
+    mode = select_tool_mode(args.tool_prefix, args.tool_mode)
+    if mode == "local":
+        run(
+            [resolve_prefixed_tool(tool, args.tool_prefix), *(str(item) for item in tool_args)],
+            cwd=cwd,
+            env=env,
+            log=log,
+            dry_run=False,
+        )
+        return
+
+    docker_tool = f"/opt/riscv/bin/{args.tool_prefix}{tool}"
+    converted_args = [
+        container_path(root, item) if isinstance(item, Path) else item
+        for item in tool_args
+    ]
+    run(
+        docker_compose_cmd(root, [docker_tool, *converted_args]),
+        cwd=root,
+        env=env,
+        log=log,
+        dry_run=False,
+    )
 
 
 def ensure_clean_workdir(root: Path, work_dir: Path) -> None:
@@ -267,6 +379,102 @@ def reset_result_dir(path: Path) -> None:
     path.mkdir(parents=True)
 
 
+def prepare_custom_program(
+    root: Path,
+    args: argparse.Namespace,
+    work_dir: Path,
+    env: dict[str, str],
+    log: Path,
+) -> ProgramRun | None:
+    count = custom_input_count(args)
+    if count == 0:
+        return None
+    if count != 1:
+        raise RuntimeError("choose exactly one custom program input: --asm, --elf, --bin, or --mem")
+
+    raw_name = args.name
+    input_path = (args.asm or args.elf or args.bin or args.mem).resolve()
+    if not input_path.exists():
+        raise RuntimeError(f"custom program input does not exist: {input_path}")
+    name = sanitize_result_name(raw_name or f"custom_{input_path.stem}")
+    custom_dir = work_dir / "custom_program" / name
+    custom_dir.mkdir(parents=True, exist_ok=True)
+
+    expected = args.expected.resolve() if args.expected else None
+    if expected and not expected.exists():
+        raise RuntimeError(f"expected trace file does not exist: {expected}")
+
+    if args.mem:
+        return ProgramRun(name=name, mem_src=input_path, expected=expected)
+
+    binary = custom_dir / f"{name}.bin"
+    mem = custom_dir / f"{name}.mem"
+    if args.asm:
+        asm_source = custom_dir / input_path.name
+        shutil.copy2(input_path, asm_source)
+        common_dir = root / "sim" / "programs" / "common"
+        linker = (args.linker.resolve() if args.linker else common_dir / "linker.ld")
+        if not linker.exists():
+            raise RuntimeError(f"linker script does not exist: {linker}")
+        sources = [] if args.no_runtime else [
+            common_dir / "crt0.S",
+            common_dir / "finish.S",
+            common_dir / "trap_vector.S",
+        ]
+        sources.append(asm_source)
+        elf = custom_dir / f"{name}.elf"
+        run_tool(
+            root=root,
+            args=args,
+            tool="gcc",
+            tool_args=[
+                "-march=rv64gc",
+                "-mabi=lp64d",
+                "-nostdlib",
+                "-ffreestanding",
+                "-Wl,--no-relax",
+                "-T",
+                linker,
+                "-I",
+                common_dir,
+                *(item for include_dir in args.include for item in ("-I", include_dir)),
+                *args.cflag,
+                *sources,
+                "-o",
+                elf,
+            ],
+            cwd=root,
+            env=env,
+            log=log,
+        )
+        run_tool(
+            root=root,
+            args=args,
+            tool="objcopy",
+            tool_args=["-O", "binary", elf, binary],
+            cwd=root,
+            env=env,
+            log=log,
+        )
+    elif args.elf:
+        elf = custom_dir / input_path.name
+        shutil.copy2(input_path, elf)
+        run_tool(
+            root=root,
+            args=args,
+            tool="objcopy",
+            tool_args=["-O", "binary", elf, binary],
+            cwd=root,
+            env=env,
+            log=log,
+        )
+    else:
+        shutil.copy2(input_path, binary)
+
+    write_readmemh_from_binary(binary, mem)
+    return ProgramRun(name=name, mem_src=mem, expected=expected)
+
+
 def remove_public_cva6_results(result_root: Path) -> None:
     if not result_root.exists():
         return
@@ -347,6 +555,113 @@ def compile_args(incdirs: list[Path]) -> list[str]:
     return args
 
 
+def run_program(
+    *,
+    root: Path,
+    work_dir: Path,
+    work_result_root: Path,
+    result_root: Path,
+    env: dict[str, str],
+    log: Path,
+    xsim: str,
+    args: argparse.Namespace,
+    program: ProgramRun,
+) -> None:
+    local_mem = work_dir / "cva6_program.mem"
+    work_result_dir = work_result_root / "smoke"
+    result_dir = result_root / program.name
+    reset_result_dir(work_result_dir)
+    reset_result_dir(result_dir)
+    shutil.copyfile(program.mem_src, local_mem)
+
+    xsim_cmd = [xsim, TRACE_SNAPSHOT]
+    if args.disable_circular_dependency_check:
+        xsim_cmd.append("--disable_circular_dependency_check")
+    xsim_cmd.append("--runall")
+    try:
+        run(
+            xsim_cmd,
+            cwd=work_dir,
+            env=env,
+            log=log,
+            dry_run=False,
+            timeout=args.run_timeout_seconds,
+            fatal_patterns=XSIM_FATAL_PATTERNS,
+            fatal_message=f"Vivado xsim kernel fatal during {program.name} run.",
+        )
+    except RuntimeError as exc:
+        message = str(exc).splitlines()[0]
+        status = "BLOCKED" if "kernel fatal" in message.lower() else "FAIL"
+        publish_artifacts(
+            work_dir=work_dir,
+            work_result_dir=work_result_dir,
+            result_dir=result_dir,
+            log=log,
+            compare_message=f"[{status}] {message}\n",
+        )
+        raise
+    copy_if_exists(work_dir / "xsim.log", work_result_dir / "xsim.log")
+
+    if program.expected is not None:
+        try:
+            run(
+                [
+                    sys.executable,
+                    as_posix(root / "tools" / "compare_trace.py"),
+                    "--trace",
+                    as_posix(work_result_dir / "trace.jsonl"),
+                    "--expected",
+                    as_posix(program.expected),
+                    "--log",
+                    as_posix(work_result_dir / "compare.log"),
+                ],
+                cwd=root,
+                env=env,
+                log=log,
+                dry_run=False,
+            )
+        except RuntimeError:
+            publish_artifacts(work_dir=work_dir, work_result_dir=work_result_dir, result_dir=result_dir, log=log)
+            raise
+    else:
+        (work_result_dir / "compare.log").write_text(
+            "[INFO] no expected golden supplied; trace captured without JSONL comparison\n",
+            encoding="utf-8",
+            newline="\n",
+        )
+
+    notrace_cmd = [xsim, NOTRACE_SNAPSHOT]
+    if args.disable_circular_dependency_check:
+        notrace_cmd.append("--disable_circular_dependency_check")
+    notrace_cmd.append("--runall")
+    try:
+        run(
+            notrace_cmd,
+            cwd=work_dir,
+            env=env,
+            log=log,
+            dry_run=False,
+            timeout=args.run_timeout_seconds,
+            fatal_patterns=XSIM_FATAL_PATTERNS,
+            fatal_message=f"Vivado xsim kernel fatal during {program.name} no-trace run.",
+        )
+    except RuntimeError as exc:
+        message = str(exc).splitlines()[0]
+        copy_if_exists(work_dir / "xsim.log", work_result_dir / "xsim_notrace.log")
+        publish_artifacts(
+            work_dir=work_dir,
+            work_result_dir=work_result_dir,
+            result_dir=result_dir,
+            log=log,
+            compare_message=f"[FAIL] no-trace final result mismatch for {program.name}: {message}\n",
+        )
+        raise
+    copy_if_exists(work_dir / "xsim.log", work_result_dir / "xsim_notrace.log")
+    with (work_result_dir / "compare.log").open("a", encoding="utf-8", newline="\n") as handle:
+        handle.write("[PASS] no-trace final result reached tohost PASS\n")
+    publish_artifacts(work_dir=work_dir, work_result_dir=work_result_dir, result_dir=result_dir, log=log)
+
+
 def build(root: Path, args: argparse.Namespace) -> None:
     cva6_root = (root / args.cva6).resolve()
     work_dir = (root / args.work_dir).resolve()
@@ -361,8 +676,10 @@ def build(root: Path, args: argparse.Namespace) -> None:
         env["PATH"] = f"{vivado_bin}{os.pathsep}{env.get('PATH', '')}"
 
     log = work_dir / "run.log"
+    custom = has_custom_program(args)
     if not args.dry_run:
-        remove_public_cva6_results(result_root)
+        if not custom:
+            remove_public_cva6_results(result_root)
         ensure_clean_workdir(root, work_dir)
 
     xvlog = resolve_tool("xvlog", vivado_bin)
@@ -377,6 +694,20 @@ def build(root: Path, args: argparse.Namespace) -> None:
 
     if args.dry_run:
         return
+
+    custom_program = prepare_custom_program(root, args, work_dir, env, log)
+    programs = (
+        [custom_program]
+        if custom_program is not None
+        else [
+            ProgramRun(
+                name=test_name,
+                mem_src=root / "sim" / "programs" / mem_rel,
+                expected=root / "sim" / "golden" / expected_name,
+            )
+            for test_name, mem_rel, expected_name in CVA6_XSIM_TESTS
+        ]
+    )
 
     work_result_root = work_dir / "results" / "vivado_sim"
     work_result_root.mkdir(parents=True, exist_ok=True)
@@ -448,94 +779,18 @@ def build(root: Path, args: argparse.Namespace) -> None:
         log=log,
         dry_run=False,
     )
-    for test_name, mem_rel, expected_name in CVA6_XSIM_TESTS:
-        mem_src = root / "sim" / "programs" / mem_rel
-        local_mem = work_dir / "cva6_program.mem"
-        work_result_dir = work_result_root / "smoke"
-        result_dir = result_root / test_name
-        reset_result_dir(work_result_dir)
-        reset_result_dir(result_dir)
-        shutil.copyfile(mem_src, local_mem)
-
-        xsim_cmd = [xsim, TRACE_SNAPSHOT]
-        if args.disable_circular_dependency_check:
-            xsim_cmd.append("--disable_circular_dependency_check")
-        xsim_cmd.append("--runall")
-        try:
-            run(
-                xsim_cmd,
-                cwd=work_dir,
-                env=env,
-                log=log,
-                dry_run=False,
-                timeout=args.run_timeout_seconds,
-                fatal_patterns=XSIM_FATAL_PATTERNS,
-                fatal_message=f"Vivado xsim kernel fatal during {test_name} run.",
-            )
-        except RuntimeError as exc:
-            message = str(exc).splitlines()[0]
-            status = "BLOCKED" if "kernel fatal" in message.lower() else "FAIL"
-            publish_artifacts(
-                work_dir=work_dir,
-                work_result_dir=work_result_dir,
-                result_dir=result_dir,
-                log=log,
-                compare_message=f"[{status}] {message}\n",
-            )
-            raise
-        copy_if_exists(work_dir / "xsim.log", work_result_dir / "xsim.log")
-
-        try:
-            run(
-                [
-                    sys.executable,
-                    as_posix(root / "tools" / "compare_trace.py"),
-                    "--trace",
-                    as_posix(work_result_dir / "trace.jsonl"),
-                    "--expected",
-                    as_posix(root / "sim" / "golden" / expected_name),
-                    "--log",
-                    as_posix(work_result_dir / "compare.log"),
-                ],
-                cwd=root,
-                env=env,
-                log=log,
-                dry_run=False,
-            )
-        except RuntimeError:
-            publish_artifacts(work_dir=work_dir, work_result_dir=work_result_dir, result_dir=result_dir, log=log)
-            raise
-
-        notrace_cmd = [xsim, NOTRACE_SNAPSHOT]
-        if args.disable_circular_dependency_check:
-            notrace_cmd.append("--disable_circular_dependency_check")
-        notrace_cmd.append("--runall")
-        try:
-            run(
-                notrace_cmd,
-                cwd=work_dir,
-                env=env,
-                log=log,
-                dry_run=False,
-                timeout=args.run_timeout_seconds,
-                fatal_patterns=XSIM_FATAL_PATTERNS,
-                fatal_message=f"Vivado xsim kernel fatal during {test_name} no-trace run.",
-            )
-        except RuntimeError as exc:
-            message = str(exc).splitlines()[0]
-            copy_if_exists(work_dir / "xsim.log", work_result_dir / "xsim_notrace.log")
-            publish_artifacts(
-                work_dir=work_dir,
-                work_result_dir=work_result_dir,
-                result_dir=result_dir,
-                log=log,
-                compare_message=f"[FAIL] no-trace final result mismatch for {test_name}: {message}\n",
-            )
-            raise
-        copy_if_exists(work_dir / "xsim.log", work_result_dir / "xsim_notrace.log")
-        with (work_result_dir / "compare.log").open("a", encoding="utf-8", newline="\n") as handle:
-            handle.write("[PASS] no-trace final result matched trace-enabled run\n")
-        publish_artifacts(work_dir=work_dir, work_result_dir=work_result_dir, result_dir=result_dir, log=log)
+    for program in programs:
+        run_program(
+            root=root,
+            work_dir=work_dir,
+            work_result_root=work_result_root,
+            result_root=result_root,
+            env=env,
+            log=log,
+            xsim=xsim,
+            args=args,
+            program=program,
+        )
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -546,6 +801,23 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--work-dir", default="build/cva6_xsim_smoke")
     parser.add_argument("--run-timeout-seconds", type=int, default=900)
     parser.add_argument("--disable-circular-dependency-check", action="store_true")
+    parser.add_argument("--asm", type=Path, help="Custom RISC-V assembly source to compile and run.")
+    parser.add_argument("--elf", type=Path, help="Custom RISC-V ELF image to objcopy to a direct-core memory image.")
+    parser.add_argument("--bin", type=Path, help="Custom raw binary image loaded at the direct-core DRAM base.")
+    parser.add_argument("--mem", type=Path, help="Custom $readmemh image with one little-endian 64-bit word per line.")
+    parser.add_argument("--name", help="Result name under results/vivado_sim/ for a custom program.")
+    parser.add_argument("--expected", type=Path, help="Optional JSON golden to compare a custom trace against.")
+    parser.add_argument("--tool-prefix", default=DEFAULT_TOOL_PREFIX, help="RISC-V tool prefix for --asm/--elf.")
+    parser.add_argument(
+        "--tool-mode",
+        choices=("auto", "local", "docker"),
+        default="auto",
+        help="How to run RISC-V compiler tools for --asm/--elf. auto uses local tools when present, otherwise Docker.",
+    )
+    parser.add_argument("--linker", type=Path, help="Linker script for --asm. Defaults to sim/programs/common/linker.ld.")
+    parser.add_argument("--include", type=Path, action="append", default=[], help="Extra include directory for --asm.")
+    parser.add_argument("--cflag", action="append", default=[], help="Extra compiler flag for --asm. May be repeated.")
+    parser.add_argument("--no-runtime", action="store_true", help="For --asm, do not link the rv-maltrace crt0/trap/finish runtime.")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(argv)
 

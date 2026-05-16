@@ -10,6 +10,7 @@ uv run rvmt bootrom:build
 uv run rvmt vivado:check
 uv run rvmt sim:trace-unit
 uv run rvmt sim:cva6-smoke
+uv run rvmt sim:cva6-run --asm path\to\program.S --name custom_program
 uv run rvmt sim:summary
 uv run rvmt baremetal:build
 uv run rvmt bitstream:build
@@ -104,6 +105,7 @@ bitstream:build   Run CVA6 make fpga with Windows Vivado.
 bitstream:collect Copy existing CVA6 FPGA outputs into build/vivado/<board>-<target>.
 sim:trace-unit    Run the trace_top unit regression in Vivado xsim and compare JSONL output.
 sim:cva6-smoke    Compile/elaborate the direct CVA6 xsim testbench and run the trace/no-trace matrix.
+sim:cva6-run      Run one custom assembly, ELF, raw binary, or readmemh image through the direct CVA6 xsim testbench.
 sim:summary       Summarize results/vivado_sim into a table and summary.json.
 baremetal:build   Build all sim/programs bare-metal ELF/dump/bin artifacts when the RISC-V toolchain is available.
 config:show       Print resolved configuration.
@@ -120,6 +122,7 @@ bitstream/fpga -> bitstream:build
 vivado:xpr -> vivado:project
 sim/sim:unit/sim:trace -> sim:trace-unit
 sim:cva6/sim:cva6-xsim -> sim:cva6-smoke
+sim:run/sim:cva6-custom -> sim:cva6-run
 summary -> sim:summary
 baremetal/programs -> baremetal:build
 ```
@@ -182,6 +185,40 @@ trace-enabled and no-trace snapshots, and publishes
 The full `ariane_testharness` SoC path still hits a Vivado v2025.2 simulator
 kernel fatal in upstream CVA6 AXI demux logic, so the direct-core matrix is the
 current local full-core execution gate.
+
+`sim:cva6-run` uses the same direct-core trace/no-trace snapshots for one custom
+program. Choose exactly one input:
+
+```powershell
+uv run rvmt sim:cva6-run --asm .\scratch\demo.S --name demo
+uv run rvmt sim:cva6-run --asm .\scratch\demo.S --name demo --tool-mode docker
+uv run rvmt sim:cva6-run --elf .\build\demo.elf --name demo
+uv run rvmt sim:cva6-run --bin .\build\demo.bin --name demo
+uv run rvmt sim:cva6-run --mem .\build\demo.mem --name demo --expected .\sim\golden\demo.expected.json
+```
+
+For `--asm`, the runner links `sim/programs/common/crt0.S`,
+`trap_vector.S`, `finish.S`, and `linker.ld` by default, so the assembly source
+can just define `main` and return `a0=1` for PASS:
+
+```asm
+.section .text
+.globl main
+main:
+  li a0, 1
+  ret
+```
+
+Use `--no-runtime` only for a complete image that defines its own `_start`,
+trap handling, and tohost write. ELF and raw binary inputs are loaded at the
+direct-core DRAM base `0x80000000`; raw binaries must already be laid out for
+that address. Results are published under
+`results/vivado_sim/<name>/{trace.jsonl,compare.log,run.log,xsim.log,xsim_notrace.log}`.
+
+When `riscv-none-elf-*` is not on the host `PATH`, `sim:cva6-run` falls back to
+the existing `docker-compose.toolchain.yml` service for `--asm` and `--elf`
+tool steps. Use `--tool-mode docker` to force the container, or
+`--tool-mode local` to require host tools.
 
 ## Trace Source Boundary
 
