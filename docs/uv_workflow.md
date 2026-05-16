@@ -462,6 +462,8 @@ trace/no-trace parity, and baseline resource reporting until trace-enabled
 implementation reports exist.
 
 ```powershell
+uv run python tools/generate_noninterference_report.py --self-test
+uv run python tools/generate_noninterference_report.py --out-dir build/noninterference_gate
 uv run python tools/check_noninterference_gate.py
 uv run python tools/check_noninterference_gate.py --self-test
 ```

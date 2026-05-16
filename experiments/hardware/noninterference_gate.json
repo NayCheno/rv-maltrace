@@ -7,7 +7,8 @@
     "docs/resource_report.md",
     "results/vivado_sim/summary.json",
     "tools/check_timing_principles.py",
-    "tools/generate_resource_report.py"
+    "tools/generate_resource_report.py",
+    "tools/generate_noninterference_report.py"
   ],
   "checks": [
     {
@@ -31,8 +32,8 @@
     {
       "id": "direct_core_trace_no_trace_parity",
       "status": "CHECKED(SIM)",
-      "command": "uv run rvmt sim:cva6-smoke",
-      "evidence": "direct-core CVA6 trace-enabled and no-trace logs reach matching tohost PASS"
+      "command": "uv run python tools/generate_noninterference_report.py --out-dir build/noninterference_gate",
+      "evidence": "direct-core CVA6 trace-enabled and no-trace logs reach matching tohost PASS in the generated noninterference summary"
     },
     {
       "id": "baseline_resource_snapshot",

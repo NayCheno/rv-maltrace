@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -15,6 +16,7 @@ DEFAULT_DOC = Path("docs/noninterference_resource_gate.md")
 DEFAULT_SUMMARY = Path("results/vivado_sim/summary.json")
 DEFAULT_RESOURCE_REPORT = Path("docs/resource_report.md")
 DEFAULT_TIMING_CHECK = Path("tools/check_timing_principles.py")
+DEFAULT_REPORT_TOOL = Path("tools/generate_noninterference_report.py")
 DEFAULT_UV_DOC = Path("docs/uv_workflow.md")
 EXPECTED_CHECKS = [
     "no_core_backpressure_ports",
@@ -41,6 +43,9 @@ REQUIRED_DOC_TEXT = (
     "drop_accounting_not_stall",
     "direct_core_trace_no_trace_parity",
     "trace_enabled_fpga_resource_delta",
+    "tools/generate_noninterference_report.py",
+    "noninterference_summary.json",
+    "noninterference_report.md",
     "must not claim CVA6 IPC improvement",
     "trace-enabled FPGA resource overhead",
 )
@@ -87,7 +92,14 @@ def check_spec(path: Path) -> list[str]:
     if spec.get("scope") != "trace_sideband_noninterference_and_resource_gate":
         errors.append(f"{path}: unexpected scope")
     refs = spec.get("evidence_refs", [])
-    for ref in ("docs/timing_principles.md", "docs/resource_report.md", "results/vivado_sim/summary.json", "tools/check_timing_principles.py", "tools/generate_resource_report.py"):
+    for ref in (
+        "docs/timing_principles.md",
+        "docs/resource_report.md",
+        "results/vivado_sim/summary.json",
+        "tools/check_timing_principles.py",
+        "tools/generate_resource_report.py",
+        "tools/generate_noninterference_report.py",
+    ):
         if ref not in refs:
             errors.append(f"{path}: evidence_refs missing {ref}")
     checks = spec.get("checks", [])
@@ -226,6 +238,8 @@ def check_uv_doc(path: Path) -> list[str]:
     errors: list[str] = []
     for token, label in (
         ("tools/check_noninterference_gate.py", "Phase 3.4 checker command"),
+        ("tools/generate_noninterference_report.py --self-test", "Phase 3.4 report self-test command"),
+        ("tools/generate_noninterference_report.py --out-dir build/noninterference_gate", "Phase 3.4 report command"),
         ("docs/noninterference_resource_gate.md", "Phase 3.4 doc reference"),
         ("experiments/hardware/noninterference_gate.json", "Phase 3.4 spec reference"),
     ):
@@ -241,13 +255,49 @@ def check_timing_tool(root: Path, tool: Path) -> list[str]:
     return []
 
 
-def run_checks(root: Path, spec: Path, doc: Path, summary: Path, resource_report: Path, timing_check: Path, uv_doc: Path) -> list[str]:
+def check_report_tool(root: Path, tool: Path, summary: Path) -> list[str]:
+    errors: list[str] = []
+    tool_path = resolve(root, tool)
+    if not tool_path.exists():
+        return [f"missing noninterference report tool: {tool_path}"]
+    result = subprocess.run([sys.executable, str(tool_path), "--self-test"], cwd=root, text=True, capture_output=True)
+    if result.returncode != 0:
+        errors.append(f"noninterference report self-test failed: {result.stderr.strip() or result.stdout.strip()}")
+    with tempfile.TemporaryDirectory() as tmp:
+        out_dir = Path(tmp) / "noninterference"
+        result = subprocess.run(
+            [sys.executable, str(tool_path), "--summary", str(resolve(root, summary)), "--out-dir", str(out_dir)],
+            cwd=root,
+            text=True,
+            capture_output=True,
+        )
+        if result.returncode != 0:
+            errors.append(f"noninterference report generation failed: {result.stderr.strip() or result.stdout.strip()}")
+        json_path = out_dir / "noninterference_summary.json"
+        md_path = out_dir / "noninterference_report.md"
+        if not json_path.exists():
+            errors.append("noninterference report generation did not write noninterference_summary.json")
+        else:
+            payload = load_json(json_path)
+            if payload.get("status") != "PASS":
+                errors.append("noninterference summary did not record PASS")
+            if "trace-enabled FPGA resource delta" not in str(payload.get("claim_boundary", "")):
+                errors.append("noninterference summary is missing trace-enabled resource-delta boundary")
+        if not md_path.exists():
+            errors.append("noninterference report generation did not write noninterference_report.md")
+        elif "does not claim CVA6 IPC/Fmax improvement" not in md_path.read_text(encoding="utf-8"):
+            errors.append("noninterference markdown report is missing CVA6 IPC/Fmax non-claim")
+    return errors
+
+
+def run_checks(root: Path, spec: Path, doc: Path, summary: Path, resource_report: Path, timing_check: Path, report_tool: Path, uv_doc: Path) -> list[str]:
     paths = {
         "spec": resolve(root, spec),
         "doc": resolve(root, doc),
         "summary": resolve(root, summary),
         "resource report": resolve(root, resource_report),
         "timing check": resolve(root, timing_check),
+        "report tool": resolve(root, report_tool),
         "uv workflow": resolve(root, uv_doc),
     }
     errors = [f"missing {label}: {path}" for label, path in paths.items() if not path.exists()]
@@ -259,6 +309,7 @@ def run_checks(root: Path, spec: Path, doc: Path, summary: Path, resource_report
     errors.extend(check_resource_report(paths["resource report"]))
     errors.extend(check_uv_doc(paths["uv workflow"]))
     errors.extend(check_timing_tool(root, timing_check))
+    errors.extend(check_report_tool(root, report_tool, summary))
     return errors
 
 
@@ -295,6 +346,7 @@ def write_fixture(root: Path) -> None:
                     "results/vivado_sim/summary.json",
                     "tools/check_timing_principles.py",
                     "tools/generate_resource_report.py",
+                    "tools/generate_noninterference_report.py",
                 ],
                 "checks": checks,
                 "non_goals": [
@@ -312,6 +364,9 @@ def write_fixture(root: Path) -> None:
 
 Phase 3.4 defines the noninterference and resource boundary for the trace logic.
 experiments/hardware/noninterference_gate.json
+tools/generate_noninterference_report.py
+noninterference_summary.json
+noninterference_report.md
 
 | Order | Check | Evidence | Status |
 | ---: | --- | --- | --- |
@@ -335,6 +390,8 @@ trace-enabled FPGA resource overhead
     )
     (root / DEFAULT_TIMING_CHECK).write_text("print('[PASS] timing stub')\n", encoding="utf-8")
     (root / DEFAULT_UV_DOC).write_text(
+        "uv run python tools/generate_noninterference_report.py --self-test\n"
+        "uv run python tools/generate_noninterference_report.py --out-dir build/noninterference_gate\n"
         "uv run python tools/check_noninterference_gate.py\n"
         "docs/noninterference_resource_gate.md\n"
         "experiments/hardware/noninterference_gate.json\n",
@@ -365,6 +422,14 @@ def self_test() -> int:
         if errors:
             for error in errors:
                 print(f"[FAIL] self-test false positive: {error}", file=sys.stderr)
+            return 1
+        source_tool = Path.cwd() / DEFAULT_REPORT_TOOL
+        fixture_tool = root / DEFAULT_REPORT_TOOL
+        shutil.copyfile(source_tool, fixture_tool)
+        tool_errors = check_report_tool(root, DEFAULT_REPORT_TOOL, DEFAULT_SUMMARY)
+        if tool_errors:
+            for error in tool_errors:
+                print(f"[FAIL] self-test report-output gate failed: {error}", file=sys.stderr)
             return 1
 
     with tempfile.TemporaryDirectory() as tmp:
@@ -465,6 +530,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--summary", type=Path, default=DEFAULT_SUMMARY)
     parser.add_argument("--resource-report", type=Path, default=DEFAULT_RESOURCE_REPORT)
     parser.add_argument("--timing-check", type=Path, default=DEFAULT_TIMING_CHECK)
+    parser.add_argument("--report-tool", type=Path, default=DEFAULT_REPORT_TOOL)
     parser.add_argument("--uv-doc", type=Path, default=DEFAULT_UV_DOC)
     parser.add_argument("--self-test", action="store_true")
     args = parser.parse_args(argv)
@@ -473,7 +539,16 @@ def main(argv: list[str] | None = None) -> int:
         return self_test()
 
     try:
-        errors = run_checks(args.root.resolve(), args.spec, args.doc, args.summary, args.resource_report, args.timing_check, args.uv_doc)
+        errors = run_checks(
+            args.root.resolve(),
+            args.spec,
+            args.doc,
+            args.summary,
+            args.resource_report,
+            args.timing_check,
+            args.report_tool,
+            args.uv_doc,
+        )
     except Exception as exc:
         print(f"check_noninterference_gate: error: {exc}", file=sys.stderr)
         return 2
