@@ -29,6 +29,9 @@ uv run python tools/recover_behavior.py --self-test
 uv run python tools/check_linux_behavior_recovery.py
 uv run python tools/audit_behavior.py --self-test
 uv run python tools/check_linux_behavior_audit.py
+uv run python tools/gen_rv_trace_fuzz.py --self-test
+uv run python tools/check_fuzz_trace.py --self-test
+uv run python tools/check_fuzz_trace_plan.py
 uv run python tools/check_semantic_enrichment_rationale.py
 uv run python tools/check_semantic_enrichment_routes.py
 uv run python tools/check_semantic_enrichment_strategy.py
@@ -430,6 +433,22 @@ uv run python tools/audit_behavior.py --self-test
 uv run python tools/audit_behavior.py --semantic build/behavior_recovery_smoke/semantic_events.json --graph build/behavior_recovery_smoke/behavior_graph.json --manifest experiments/linux_behavior/malware_like/manifest.json --sample-id illegal_trap --out-dir build/behavior_audit_smoke
 uv run python tools/check_linux_behavior_audit.py
 uv run python tools/check_linux_behavior_audit.py --self-test
+```
+
+## Bounded Fuzz Trace Validation
+
+Phase 8 trace-validator fuzzing is tracked in `docs/fuzz_trace_validation.md`
+and `sim/golden/fuzz_invariants.json`. The first implementation uses
+deterministic seed programs from `tools/gen_rv_trace_fuzz.py` and checks trace
+invariants with `tools/check_fuzz_trace.py`.
+
+```powershell
+uv run python tools/gen_rv_trace_fuzz.py --self-test
+uv run python tools/gen_rv_trace_fuzz.py --out-dir build/fuzz_trace_seeds
+uv run python tools/check_fuzz_trace.py --self-test
+uv run python tools/check_fuzz_trace.py --trace sim/golden/fuzz_trace_smoke.trace.jsonl --case fuzz_trace_smoke
+uv run python tools/check_fuzz_trace_plan.py
+uv run python tools/check_fuzz_trace_plan.py --self-test
 ```
 
 ## Semantic Enrichment Rationale

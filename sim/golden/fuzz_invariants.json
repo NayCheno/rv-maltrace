@@ -1,0 +1,139 @@
+{
+  "schema": "rvmt.fuzz.invariants.v1",
+  "status": "TODO(SIM)",
+  "purpose": "Bounded fuzz/stress cases validate RV-MalTrace trace invariants, not CVA6 bug discovery.",
+  "invariant_catalog": [
+    "known_event_types",
+    "trace_schema_required_fields",
+    "control_flow_targets_aligned",
+    "trap_not_retire",
+    "syscall_pairing",
+    "context_events_well_formed",
+    "drop_count_monotonic"
+  ],
+  "cases": [
+    {
+      "id": "fuzz_trace_smoke",
+      "trace_fixture": "sim/golden/fuzz_trace_smoke.trace.jsonl",
+      "min_counts": {
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1,
+        "BRANCH": 1,
+        "JUMP": 1,
+        "TRAP": 1,
+        "PRIV": 1,
+        "SATP": 1,
+        "DROP": 2
+      },
+      "required_fields": {
+        "BRANCH": ["target", "taken"],
+        "JUMP": ["target"],
+        "TRAP": ["cause"],
+        "PRIV": ["old_priv", "new_priv"],
+        "SATP": ["satp"],
+        "DROP": ["value"]
+      },
+      "allowed_trap_causes": ["0x2"],
+      "invariants": [
+        "known_event_types",
+        "trace_schema_required_fields",
+        "control_flow_targets_aligned",
+        "trap_not_retire",
+        "syscall_pairing",
+        "context_events_well_formed",
+        "drop_count_monotonic"
+      ]
+    },
+    {
+      "id": "fuzz_cf",
+      "generated_program": "build/fuzz_trace_seeds/fuzz_cf/main.S",
+      "min_counts": {
+        "BRANCH": 1,
+        "JUMP": 1
+      },
+      "required_fields": {
+        "BRANCH": ["target", "taken"],
+        "JUMP": ["target"]
+      },
+      "invariants": [
+        "known_event_types",
+        "trace_schema_required_fields",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic"
+      ]
+    },
+    {
+      "id": "fuzz_trap",
+      "generated_program": "build/fuzz_trace_seeds/fuzz_trap/main.S",
+      "min_counts": {
+        "TRAP": 1
+      },
+      "required_fields": {
+        "TRAP": ["cause"]
+      },
+      "allowed_trap_causes": ["0x2", "0x3"],
+      "invariants": [
+        "known_event_types",
+        "trace_schema_required_fields",
+        "trap_not_retire",
+        "context_events_well_formed",
+        "drop_count_monotonic"
+      ]
+    },
+    {
+      "id": "fuzz_syscall",
+      "shape_seed": "build/fuzz_trace_seeds/fuzz_syscall/main.S",
+      "execution_status": "TODO(HARNESS)",
+      "execution_gate": "Requires a U-mode ECALL plus SRET-to-U direct-core harness before this seed can produce SYSCALL_ENTRY/SYSCALL_RET evidence.",
+      "min_counts": {
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1
+      },
+      "required_fields": {
+        "SYSCALL_ENTRY": ["priv", "syscall_id", "a0", "a1", "a2", "a3", "a4", "a5", "a6", "a7"],
+        "SYSCALL_RET": ["priv", "target", "syscall_id", "duration", "a0"]
+      },
+      "invariants": [
+        "known_event_types",
+        "trace_schema_required_fields",
+        "syscall_pairing",
+        "trap_not_retire",
+        "drop_count_monotonic"
+      ]
+    },
+    {
+      "id": "fuzz_context",
+      "generated_program": "build/fuzz_trace_seeds/fuzz_context/main.S",
+      "min_counts": {
+        "SATP": 1
+      },
+      "required_fields": {
+        "SATP": ["satp"]
+      },
+      "invariants": [
+        "known_event_types",
+        "trace_schema_required_fields",
+        "context_events_well_formed",
+        "drop_count_monotonic"
+      ]
+    },
+    {
+      "id": "fuzz_overflow",
+      "generated_program": "build/fuzz_trace_seeds/fuzz_overflow/main.S",
+      "min_counts": {
+        "BRANCH": 1,
+        "DROP": 1
+      },
+      "required_fields": {
+        "BRANCH": ["target", "taken"],
+        "DROP": ["value"]
+      },
+      "invariants": [
+        "known_event_types",
+        "trace_schema_required_fields",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic"
+      ]
+    }
+  ]
+}
