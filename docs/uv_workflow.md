@@ -32,6 +32,7 @@ uv run python tools/check_linux_behavior_audit.py
 uv run python tools/gen_rv_trace_fuzz.py --self-test
 uv run python tools/check_fuzz_trace.py --self-test
 uv run python tools/check_fuzz_trace_plan.py
+uv run python tools/check_noninterference_gate.py
 uv run python tools/check_semantic_enrichment_rationale.py
 uv run python tools/check_semantic_enrichment_routes.py
 uv run python tools/check_semantic_enrichment_strategy.py
@@ -449,6 +450,19 @@ uv run python tools/check_fuzz_trace.py --self-test
 uv run python tools/check_fuzz_trace.py --trace sim/golden/fuzz_trace_smoke.trace.jsonl --case fuzz_trace_smoke
 uv run python tools/check_fuzz_trace_plan.py
 uv run python tools/check_fuzz_trace_plan.py --self-test
+```
+
+## Noninterference And Resource Gate
+
+Phase 3.4 is tracked in `docs/noninterference_resource_gate.md` and
+`experiments/hardware/noninterference_gate.json`. The gate keeps current
+evidence limited to sideband trace capture, drop accounting, direct-core
+trace/no-trace parity, and baseline resource reporting until trace-enabled
+implementation reports exist.
+
+```powershell
+uv run python tools/check_noninterference_gate.py
+uv run python tools/check_noninterference_gate.py --self-test
 ```
 
 ## Semantic Enrichment Rationale

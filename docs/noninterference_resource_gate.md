@@ -1,0 +1,40 @@
+# Noninterference And Resource Gate
+
+Phase 3.4 defines the noninterference and resource boundary for the trace
+logic. This is a simulation and repository-artifact gate, not a claim that CVA6
+IPC, Fmax, or the FPGA implementation has improved.
+
+The gate specification is:
+
+```text
+experiments/hardware/noninterference_gate.json
+```
+
+## Current Evidence
+
+| Order | Check | Evidence | Status |
+| ---: | --- | --- | --- |
+| 1 | no_core_backpressure_ports | `tools/check_timing_principles.py` scans trace RTL ports for ready/stall/backpressure/waitrequest names | CHECKED(REPO) |
+| 2 | pipelined_sideband_snapshot | `trace_top` and `cva6_rvfi_trace_adapter` default `PIPELINE_INPUTS=1` | CHECKED(REPO) |
+| 3 | drop_accounting_not_stall | `backpressure` trace-unit row emits `DROP` records | CHECKED(SIM) |
+| 4 | direct_core_trace_no_trace_parity | direct-core `cva6_*` trace and no-trace xsim logs reach tohost PASS | CHECKED(SIM) |
+| 5 | baseline_resource_snapshot | `docs/resource_report.md` records the existing Genesys 2 routed baseline plus trace queue/drop rows | CHECKED(BASELINE) |
+| 6 | trace_enabled_fpga_resource_delta | trace-enabled implementation utilization/timing delta | TODO(TRACE_ENABLED_SYNTHESIS) |
+
+## Claim Boundary
+
+Two-week evidence may claim that the trace RTL is sideband-only at the source
+interface, defaults to a registered input snapshot, accounts for overflow with
+`EVT_DROP`, and preserves direct-core trace/no-trace final PASS behavior in the
+current xsim matrix.
+
+Two-week evidence must not claim CVA6 IPC improvement, CVA6 Fmax improvement,
+trace-enabled FPGA resource overhead, trace-enabled routed timing, or board
+runtime overhead until the corresponding implementation or board artifacts exist.
+
+## Validation Command
+
+```powershell
+uv run python tools/check_noninterference_gate.py
+uv run python tools/check_noninterference_gate.py --self-test
+```
