@@ -119,8 +119,9 @@ Compression rules:
 - `pc_delta` is relative to the previous emitted event PC and may be negative;
   it is omitted for events such as `MARKER` and `DROP` that do not carry `pc`.
 - Branch and jump targets are stored as `target_delta` relative to the event PC.
-- Event-specific fields stay in `payload`; unchanged context fields are omitted
-  from `payload.ctx` and reconstructed by the decompressor.
+- Event-specific fields stay in `payload`; changed context values are recorded
+  in `payload.ctx`, while `payload.ctx_fields` records which context fields were
+  present in the original event so round-trip checks do not invent absent fields.
 - `payload_len` is the byte length of the canonical JSON payload used by this
   prototype, not a final hardware wire encoding.
 

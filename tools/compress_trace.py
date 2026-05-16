@@ -132,13 +132,17 @@ def compress_events(events: list[dict[str, Any]]) -> list[dict[str, Any]]:
             payload["target_delta"] = delta_hex(parse_int(event["target"]) - pc)
 
         context_delta: dict[str, Any] = {}
+        context_present: list[str] = []
         for field in CONTEXT_FIELDS.get(evt, ()):
             if field in event:
+                context_present.append(field)
                 if context.get(field) != event[field]:
                     context_delta[field] = event[field]
                 context[field] = event[field]
         if context_delta:
             payload["ctx"] = context_delta
+        if evt in CONTEXT_FIELDS:
+            payload["ctx_fields"] = context_present
 
         if evt == "PRIV" and "new_priv" in event:
             context["priv"] = event["new_priv"]
@@ -201,7 +205,17 @@ def decompress_records(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
         if not isinstance(context_delta, dict):
             raise ValueError(f"record {index}: ctx must be an object")
         context.update(context_delta)
-        for field in CONTEXT_FIELDS.get(evt, ()):
+        context_fields_payload = payload.get("ctx_fields")
+        if context_fields_payload is None:
+            context_fields = CONTEXT_FIELDS.get(evt, ())
+        else:
+            if not isinstance(context_fields_payload, list) or not all(isinstance(field, str) for field in context_fields_payload):
+                raise ValueError(f"record {index}: ctx_fields must be a list of strings")
+            context_fields = tuple(context_fields_payload)
+        valid_context_fields = set(CONTEXT_FIELDS.get(evt, ()))
+        for field in context_fields:
+            if field not in valid_context_fields:
+                raise ValueError(f"record {index}: ctx_fields contains invalid field {field!r} for {evt}")
             if field in context:
                 event[field] = context[field]
 

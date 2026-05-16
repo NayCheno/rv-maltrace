@@ -33,6 +33,8 @@ uv run python tools/gen_rv_trace_fuzz.py --self-test
 uv run python tools/check_fuzz_trace.py --self-test
 uv run python tools/check_fuzz_trace_plan.py
 uv run python tools/check_noninterference_gate.py
+uv run python tools/analyze_trace_lightweight.py --self-test
+uv run python tools/check_lightweight_trace_analysis.py
 uv run python tools/check_semantic_enrichment_rationale.py
 uv run python tools/check_semantic_enrichment_routes.py
 uv run python tools/check_semantic_enrichment_strategy.py
@@ -466,6 +468,21 @@ uv run python tools/generate_noninterference_report.py --self-test
 uv run python tools/generate_noninterference_report.py --out-dir build/noninterference_gate
 uv run python tools/check_noninterference_gate.py
 uv run python tools/check_noninterference_gate.py --self-test
+```
+
+## Lightweight Trace Analysis
+
+Phase 9.1 is tracked in `docs/lightweight_trace_analysis.md` and
+`experiments/analysis/lightweight_trace_profile.json`. The analysis tool reads
+trace JSONL, checks event-selective profiles, and reports compact trace volume
+without claiming runtime overhead or detection quality.
+
+```powershell
+uv run python tools/analyze_trace_lightweight.py --self-test
+uv run python tools/analyze_trace_lightweight.py --trace results/vivado_sim/board_minimal/trace.jsonl --profile board_minimal --out-dir build/lightweight_trace_smoke
+uv run python tools/compress_trace.py sim/golden/compression_edges.trace.jsonl --check-roundtrip --stats
+uv run python tools/check_lightweight_trace_analysis.py
+uv run python tools/check_lightweight_trace_analysis.py --self-test
 ```
 
 ## Semantic Enrichment Rationale

@@ -1,0 +1,53 @@
+{
+  "phase": "9.1",
+  "status": "TODO(EXPERIMENT)",
+  "scope": "selective_committed_semantic_trace_analysis",
+  "input_artifacts": [
+    "trace.jsonl"
+  ],
+  "output_artifacts": [
+    "lightweight_trace_analysis.json",
+    "lightweight_trace_report.md"
+  ],
+  "profiles": [
+    {
+      "id": "board_minimal",
+      "behavior_events": ["BRANCH", "SYSCALL_ENTRY", "SYSCALL_RET", "TRAP", "CSR", "SATP", "PRIV"],
+      "accounting_events": ["DROP"],
+      "allowed_other_events": [],
+      "forbidden_behavior_events": ["RETIRE", "JUMP", "MARKER", "ARG_MEM"],
+      "status": "CHECKED(SIM)"
+    },
+    {
+      "id": "semantic_mvp",
+      "behavior_events": ["BRANCH", "JUMP", "SYSCALL_ENTRY", "SYSCALL_RET", "TRAP", "CSR", "SATP", "PRIV", "ARG_MEM"],
+      "accounting_events": ["DROP"],
+      "allowed_other_events": [],
+      "forbidden_behavior_events": ["MARKER"],
+      "status": "TODO(EXPERIMENT)"
+    }
+  ],
+  "gates": [
+    {
+      "id": "compact_roundtrip",
+      "status": "CHECKED(SIM)",
+      "command": "uv run python tools/compress_trace.py sim/golden/compression_edges.trace.jsonl --check-roundtrip --stats"
+    },
+    {
+      "id": "board_minimal_profile",
+      "status": "CHECKED(SIM)",
+      "command": "uv run python tools/analyze_trace_lightweight.py --trace results/vivado_sim/board_minimal/trace.jsonl --profile board_minimal --out-dir build/lightweight_trace_smoke"
+    },
+    {
+      "id": "filter_regression",
+      "status": "CHECKED(SIM)",
+      "command": "uv run rvmt sim:trace-unit"
+    }
+  ],
+  "non_goals": [
+    "full instruction trace by default",
+    "full memory trace by default",
+    "runtime overhead claim without paired runs",
+    "trace-enabled FPGA bandwidth claim without implementation artifacts"
+  ]
+}
