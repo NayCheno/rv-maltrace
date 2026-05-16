@@ -1,0 +1,62 @@
+{
+  "phase": "10.1",
+  "status": "TODO(EXPERIMENT)",
+  "scope": "isa_specific_capture_to_architecture_neutral_behavior",
+  "policy": {
+    "raw_opcode_mapping": "FORBIDDEN",
+    "primary_comparison_unit": "behavior_semantics",
+    "claim_boundary": "design motivation and experiment rubric only"
+  },
+  "inputs": [
+    "trace.jsonl",
+    "semantic_events.json",
+    "behavior_graph.json",
+    "strace_or_qemu_transcript_when_available"
+  ],
+  "outputs": [
+    "isa_behavior_portability_report.md"
+  ],
+  "mappings": [
+    {
+      "id": "syscall_abi",
+      "x86_signal": "syscall instruction plus x86-64 syscall register convention",
+      "riscv_signal": "ecall plus RISC-V Linux a7/a0-a5/a0 convention",
+      "normalized_behavior": "syscall name, arguments, return value, duration, fd/path/process relationship",
+      "status": "TODO(EXPERIMENT)"
+    },
+    {
+      "id": "control_flow",
+      "x86_signal": "call, jmp, ret, conditional branch",
+      "riscv_signal": "jal, jalr, branch",
+      "normalized_behavior": "control-flow edge with kind, pc, target, taken state when available",
+      "status": "TODO(EXPERIMENT)"
+    },
+    {
+      "id": "privilege_transition",
+      "x86_signal": "user/kernel ring transition",
+      "riscv_signal": "U/S/M privilege transition plus trap and sret context",
+      "normalized_behavior": "privilege boundary and trap/context transition",
+      "status": "TODO(EXPERIMENT)"
+    },
+    {
+      "id": "anti_analysis",
+      "x86_signal": "ptrace/proc/timing behavior independent of opcode encoding",
+      "riscv_signal": "ptrace/proc/timing syscalls captured through RISC-V syscall ABI",
+      "normalized_behavior": "anti-analysis indicator in semantic events and behavior graph",
+      "status": "TODO(EXPERIMENT)"
+    },
+    {
+      "id": "dynamic_code",
+      "x86_signal": "mmap/mprotect plus control transfer to executable mapping",
+      "riscv_signal": "mmap/mprotect plus jalr/branch into executable mapping when available",
+      "normalized_behavior": "memory permission transition and executable mapping relationship",
+      "status": "TODO(EXPERIMENT)"
+    }
+  ],
+  "non_goals": [
+    "x86 instruction to RISC-V instruction translation",
+    "raw opcode signature matching",
+    "malware detection quality claim",
+    "real malware corpus coverage claim"
+  ]
+}

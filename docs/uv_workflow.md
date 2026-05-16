@@ -38,6 +38,7 @@ uv run python tools/check_lightweight_trace_analysis.py
 uv run python tools/check_semantic_enrichment_rationale.py
 uv run python tools/check_semantic_enrichment_routes.py
 uv run python tools/check_semantic_enrichment_strategy.py
+uv run python tools/check_isa_behavior_portability.py
 uv run python tools/check_evaluation_plan.py
 ```
 
@@ -483,6 +484,18 @@ uv run python tools/analyze_trace_lightweight.py --trace results/vivado_sim/boar
 uv run python tools/compress_trace.py sim/golden/compression_edges.trace.jsonl --check-roundtrip --stats
 uv run python tools/check_lightweight_trace_analysis.py
 uv run python tools/check_lightweight_trace_analysis.py --self-test
+```
+
+## ISA Behavior Portability
+
+Phase 10.1 is tracked in `docs/isa_behavior_portability.md` and
+`experiments/analysis/isa_behavior_portability.json`. The rubric keeps the
+x86-to-RISC-V comparison at the behavior semantics layer instead of raw opcode
+translation.
+
+```powershell
+uv run python tools/check_isa_behavior_portability.py
+uv run python tools/check_isa_behavior_portability.py --self-test
 ```
 
 ## Semantic Enrichment Rationale
