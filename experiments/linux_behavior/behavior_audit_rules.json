@@ -1,0 +1,83 @@
+{
+  "phase": "6.5",
+  "status": "TODO(EXPERIMENT)",
+  "policy_ref": "experiments/linux_behavior/policy.json",
+  "dataset_ref": "experiments/linux_behavior/malware_like/manifest.json",
+  "input_artifacts": [
+    "semantic_events.json",
+    "behavior_graph.json"
+  ],
+  "output_artifacts": [
+    "behavior_audit.json",
+    "behavior_audit_report.md"
+  ],
+  "rules": [
+    {
+      "id": "many_file_scan",
+      "family": "file_discovery",
+      "expected_syscalls": ["openat", "getdents64", "close"],
+      "min_counts": {"getdents64": 2},
+      "evidence": "directory scan syscall shape"
+    },
+    {
+      "id": "batch_file_read_write",
+      "family": "collection_staging",
+      "expected_syscalls": ["openat", "read", "write", "close"],
+      "min_counts": {"openat": 2, "close": 2},
+      "ordered_syscalls": ["openat", "read", "close", "openat", "write", "close"],
+      "evidence": "batch file read/write syscall shape"
+    },
+    {
+      "id": "self_copy_simulation",
+      "family": "dropper_like",
+      "expected_syscalls": ["openat", "read", "write", "close"],
+      "min_counts": {"openat": 2, "close": 2},
+      "ordered_syscalls": ["openat", "read", "openat", "write", "close"],
+      "evidence": "source-to-output copy shape without executing the copy"
+    },
+    {
+      "id": "abnormal_syscall_sequence",
+      "family": "abnormal_sequence",
+      "expected_syscalls": ["close", "openat", "read", "write"],
+      "min_counts": {"close": 2},
+      "requires_failed_syscall": true,
+      "failure_syscalls": ["close", "openat", "read", "write"],
+      "evidence": "invalid descriptor or path syscall failures"
+    },
+    {
+      "id": "illegal_instruction_trap",
+      "family": "trap_behavior",
+      "expected_syscalls": ["write"],
+      "expected_traps": ["illegal_instruction"],
+      "evidence": "trap context plus handler-visible write"
+    },
+    {
+      "id": "process_creation_chain",
+      "family": "process_chain",
+      "expected_syscalls": ["clone", "execve", "wait4"],
+      "ordered_syscalls": ["clone", "execve", "wait4"],
+      "evidence": "parent/child process creation syscall shape"
+    },
+    {
+      "id": "dynamic_executable_memory",
+      "family": "memory_permission",
+      "expected_syscalls": ["mmap", "mprotect"],
+      "ordered_syscalls": ["mmap", "mprotect"],
+      "arg_bit_requirements": [
+        {"syscall": "mprotect", "arg": "a2", "mask": "0x4"}
+      ],
+      "evidence": "mmap followed by mprotect with PROT_EXEC set"
+    },
+    {
+      "id": "anti_analysis_indicator",
+      "family": "anti_analysis",
+      "any_syscalls": ["ptrace", "clock_gettime"],
+      "evidence": "anti-debug or timing-oriented syscall indicator"
+    }
+  ],
+  "non_goals": [
+    "real malware execution",
+    "malware detection quality claim",
+    "classifier accuracy claim"
+  ]
+}

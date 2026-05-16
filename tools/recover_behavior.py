@@ -9,18 +9,29 @@ from typing import Any
 
 
 SYSCALL_NAMES = {
+    35: "unlinkat",
+    48: "faccessat",
+    53: "fchmodat",
     56: "openat",
     57: "close",
+    61: "getdents64",
     63: "read",
     64: "write",
     66: "writev",
+    79: "newfstatat",
+    80: "fstat",
     93: "exit",
     94: "exit_group",
+    113: "clock_gettime",
+    117: "ptrace",
+    198: "socket",
+    203: "connect",
     172: "getpid",
     214: "brk",
     220: "clone",
     221: "execve",
     222: "mmap",
+    226: "mprotect",
     260: "wait4",
 }
 

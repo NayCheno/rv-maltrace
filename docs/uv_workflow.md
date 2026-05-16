@@ -27,6 +27,8 @@ uv run python tools/check_linux_benign_dataset.py
 uv run python tools/check_linux_malware_like_dataset.py
 uv run python tools/recover_behavior.py --self-test
 uv run python tools/check_linux_behavior_recovery.py
+uv run python tools/audit_behavior.py --self-test
+uv run python tools/check_linux_behavior_audit.py
 uv run python tools/check_semantic_enrichment_rationale.py
 uv run python tools/check_semantic_enrichment_routes.py
 uv run python tools/check_semantic_enrichment_strategy.py
@@ -413,6 +415,21 @@ uv run python tools/recover_behavior.py --self-test
 uv run python tools/recover_behavior.py --trace sim/golden/behavior_recovery.trace.jsonl --out-dir build/behavior_recovery_smoke
 uv run python tools/check_linux_behavior_recovery.py
 uv run python tools/check_linux_behavior_recovery.py --self-test
+```
+
+## Linux Behavior Audit
+
+Phase 6.5 is tracked in `docs/linux_behavior_audit.md` and
+`experiments/linux_behavior/behavior_audit_rules.json`. The offline audit
+prototype is `tools/audit_behavior.py`; it derives `behavior_audit.json` and
+`behavior_audit_report.md` from recovered semantic artifacts for synthetic
+case-study review only.
+
+```powershell
+uv run python tools/audit_behavior.py --self-test
+uv run python tools/audit_behavior.py --semantic build/behavior_recovery_smoke/semantic_events.json --graph build/behavior_recovery_smoke/behavior_graph.json --manifest experiments/linux_behavior/malware_like/manifest.json --sample-id illegal_trap --out-dir build/behavior_audit_smoke
+uv run python tools/check_linux_behavior_audit.py
+uv run python tools/check_linux_behavior_audit.py --self-test
 ```
 
 ## Semantic Enrichment Rationale
