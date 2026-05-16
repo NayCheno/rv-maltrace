@@ -399,8 +399,9 @@ uv run python tools/check_linux_benign_dataset.py --self-test
 Phase 6.3 is tracked in `docs/linux_malware_like_dataset.md` and
 `experiments/linux_behavior/malware_like/manifest.json`. The synthetic set
 covers file scanning, batch open/read/write, self-copy simulation, abnormal
-syscall sequences, illegal-instruction trap behavior, and process creation
-chains. It does not include real malware.
+syscall sequences, illegal-instruction trap behavior, process creation chains,
+dynamic executable memory transitions, and anti-debug-like timing indicators.
+It does not include real malware.
 
 ```powershell
 uv run python tools/check_linux_malware_like_dataset.py
