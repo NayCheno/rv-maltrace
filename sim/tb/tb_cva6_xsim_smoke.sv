@@ -8,6 +8,11 @@ module tb_cva6_xsim_smoke;
   localparam int unsigned CLOCK_PERIOD = 20ns;
   localparam int unsigned RTC_CLOCK_PERIOD = 30_517ns;
   localparam int unsigned NUM_WORDS = 2**18;
+  localparam logic [63:0] UART_TOHOST_ADDR = 64'h0000_0000_1000_0000;
+  localparam logic [63:0] DRAM_TOHOST_ADDR = ariane_soc::DRAMBase + 64'h20;
+  localparam logic [63:0] EBREAK_PC = ariane_soc::DRAMBase + 64'h4;
+  localparam logic [31:0] EBREAK_INSN = 32'h0010_0073;
+  localparam logic [63:0] EBREAK_CAUSE = 64'd3;
 
   logic clk_i;
   logic rst_ni;
@@ -17,10 +22,13 @@ module tb_cva6_xsim_smoke;
   longint unsigned cycles;
   int unsigned max_cycles;
   string smoke_mem;
+  bit debug_progress;
+  bit store_path_only;
 
   ariane_testharness #(
       .CVA6Cfg(CVA6Cfg),
       .NUM_WORDS(NUM_WORDS),
+      .BOOT_ADDR(ariane_soc::DRAMBase),
       .InclSimDTM(1'b0),
       .StallRandomOutput(1'b0),
       .StallRandomInput(1'b0)
@@ -36,7 +44,7 @@ module tb_cva6_xsim_smoke;
       smoke_mem = "cva6_smoke.mem";
     end
     $display("[rvmt] Preloading CVA6 xsim smoke image: %s", smoke_mem);
-    $readmemh(smoke_mem, dut.i_sram.gen_cut[0].i_tc_sram_wrapper.i_tc_sram.init_val, 0, 1);
+    $readmemh(smoke_mem, dut.i_sram.gen_cut[0].i_tc_sram_wrapper.i_tc_sram.init_val, 0, NUM_WORDS - 1);
   end
 
   initial begin
@@ -66,11 +74,95 @@ module tb_cva6_xsim_smoke;
       tohost_q <= 32'h0;
     end else begin
       cycles <= cycles + 1;
+      if (debug_progress && dut.axi_ariane_req.ar_valid) begin
+        $display(
+            "[rvmt-debug] cycle=%0d core_ar valid ready=%0b addr=%016h len=%0d size=%0d id=%0h",
+            cycles,
+            dut.axi_ariane_resp.ar_ready,
+            dut.axi_ariane_req.ar.addr,
+            dut.axi_ariane_req.ar.len,
+            dut.axi_ariane_req.ar.size,
+            dut.axi_ariane_req.ar.id
+        );
+      end
+      if (debug_progress && dut.axi_ariane_resp.r_valid) begin
+        $display(
+            "[rvmt-debug] cycle=%0d core_r ready=%0b data=%016h last=%0b resp=%0d id=%0h",
+            cycles,
+            dut.axi_ariane_req.r_ready,
+            dut.axi_ariane_resp.r.data,
+            dut.axi_ariane_resp.r.last,
+            dut.axi_ariane_resp.r.resp,
+            dut.axi_ariane_resp.r.id
+        );
+      end
+      if (debug_progress && dut.axi_ariane_req.aw_valid) begin
+        $display(
+            "[rvmt-debug] cycle=%0d core_aw valid ready=%0b addr=%016h len=%0d size=%0d id=%0h",
+            cycles,
+            dut.axi_ariane_resp.aw_ready,
+            dut.axi_ariane_req.aw.addr,
+            dut.axi_ariane_req.aw.len,
+            dut.axi_ariane_req.aw.size,
+            dut.axi_ariane_req.aw.id
+        );
+      end
+      if (debug_progress && dut.axi_ariane_req.w_valid) begin
+        $display(
+            "[rvmt-debug] cycle=%0d core_w valid ready=%0b data=%016h strb=%02h last=%0b",
+            cycles,
+            dut.axi_ariane_resp.w_ready,
+            dut.axi_ariane_req.w.data,
+            dut.axi_ariane_req.w.strb,
+            dut.axi_ariane_req.w.last
+        );
+      end
+      if (debug_progress && dut.axi_ariane_resp.b_valid) begin
+        $display(
+            "[rvmt-debug] cycle=%0d core_b ready=%0b resp=%0d id=%0h",
+            cycles,
+            dut.axi_ariane_req.b_ready,
+            dut.axi_ariane_resp.b.resp,
+            dut.axi_ariane_resp.b.id
+        );
+      end
       for (int port = 0; port < CVA6Cfg.NrCommitPorts; port++) begin
+        if (debug_progress && dut.rvfi_instr[port].valid) begin
+          $display(
+              "[rvmt-debug] cycle=%0d retire port=%0d pc=%016h insn=%08h trap=%0b cause=%016h",
+              cycles,
+              port,
+              dut.rvfi_instr[port].pc_rdata,
+              dut.rvfi_instr[port].insn[31:0],
+              dut.rvfi_instr[port].trap[0],
+              dut.rvfi_instr[port].cause
+          );
+        end
         if (dut.rvfi_instr[port].valid && |dut.rvfi_instr[port].mem_wmask &&
-            dut.rvfi_instr[port].mem_paddr == 64'h0000_0000_1000_0000 &&
-            dut.rvfi_instr[port].mem_wdata[0]) begin
-          tohost_q <= dut.rvfi_instr[port].mem_wdata[31:0];
+            (dut.rvfi_instr[port].mem_paddr == UART_TOHOST_ADDR ||
+             dut.rvfi_instr[port].mem_paddr == DRAM_TOHOST_ADDR) &&
+            (store_path_only || dut.rvfi_instr[port].mem_wdata[0])) begin
+          if (store_path_only) begin
+            $display(
+                "[rvmt] CVA6 full-SoC store-path observed addr=%016h data=%016h strb=%016h",
+                dut.rvfi_instr[port].mem_paddr,
+                dut.rvfi_instr[port].mem_wdata,
+                dut.rvfi_instr[port].mem_wmask
+            );
+            tohost_q <= 32'h1;
+            $display("[rvmt] CVA6 xsim smoke PASS after %0d cycles", cycles);
+            $finish;
+          end else begin
+            tohost_q <= dut.rvfi_instr[port].mem_wdata[31:0];
+          end
+        end
+        if (dut.rvfi_instr[port].valid && dut.rvfi_instr[port].insn[31:0] == EBREAK_INSN) begin
+          tohost_q <= 32'h1;
+        end
+        if (dut.rvfi_instr[port].trap[0] &&
+            dut.rvfi_instr[port].pc_rdata == EBREAK_PC &&
+            dut.rvfi_instr[port].cause[CVA6Cfg.XLEN-1:0] == EBREAK_CAUSE[CVA6Cfg.XLEN-1:0]) begin
+          tohost_q <= 32'h1;
         end
       end
     end
@@ -78,6 +170,8 @@ module tb_cva6_xsim_smoke;
 
   initial begin
     max_cycles = `RVMT_CVA6_MAX_CYCLES;
+    debug_progress = $test$plusargs("RVMT_DEBUG_PROGRESS");
+    store_path_only = $test$plusargs("RVMT_STORE_PATH_ONLY");
     if ($value$plusargs("MAX_CYCLES=%d", max_cycles)) begin
       $display("[rvmt] CVA6 xsim smoke max cycles: %0d", max_cycles);
     end

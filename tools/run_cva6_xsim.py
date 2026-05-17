@@ -15,6 +15,13 @@ TRACE_TOP = "tb_cva6_direct_xsim_smoke"
 TRACE_SNAPSHOT = f"{TRACE_TOP}_snap"
 NOTRACE_TOP = "tb_cva6_direct_xsim_notrace_smoke"
 NOTRACE_SNAPSHOT = f"{NOTRACE_TOP}_snap"
+FULL_SOC_TOP = "tb_cva6_xsim_smoke"
+FULL_SOC_SNAPSHOT = f"{FULL_SOC_TOP}_snap"
+# addi t0, zero, 1; ebreak; j .
+FULL_SOC_SMOKE_MEM = (
+    "0010007300100293",
+    "000000000000006f",
+)
 XSIM_FATAL_PATTERNS = [
     "FATAL_ERROR:",
     "Vivado Simulator kernel has discovered an exceptional condition",
@@ -37,6 +44,7 @@ class ProgramRun:
     name: str
     mem_src: Path
     expected: Path | None
+    disasm_src: Path | None = None
 
 
 ARIANE_PKG = [
@@ -231,24 +239,23 @@ def run_tool(
     cwd: Path,
     env: dict[str, str],
     log: Path,
-) -> None:
+) -> str:
     mode = select_tool_mode(args.tool_prefix, args.tool_mode)
     if mode == "local":
-        run(
+        return run(
             [resolve_prefixed_tool(tool, args.tool_prefix), *(str(item) for item in tool_args)],
             cwd=cwd,
             env=env,
             log=log,
             dry_run=False,
         )
-        return
 
     docker_tool = f"/opt/riscv/bin/{args.tool_prefix}{tool}"
     converted_args = [
         container_path(root, item) if isinstance(item, Path) else item
         for item in tool_args
     ]
-    run(
+    return run(
         docker_compose_cmd(root, [docker_tool, *converted_args]),
         cwd=root,
         env=env,
@@ -352,6 +359,8 @@ def publish_artifacts(
         shutil.copy2(trace_src, trace_dst)
     elif compare_message is not None:
         trace_dst.write_text("", encoding="utf-8", newline="\n")
+    copy_if_exists(work_result_dir / "trace.disasm.jsonl", result_dir / "trace.disasm.jsonl")
+    copy_if_exists(work_result_dir / "program.dump", result_dir / "program.dump")
 
     compare_src = work_result_dir / "compare.log"
     compare_dst = result_dir / "compare.log"
@@ -409,6 +418,7 @@ def prepare_custom_program(
 
     binary = custom_dir / f"{name}.bin"
     mem = custom_dir / f"{name}.mem"
+    disasm_src: Path | None = None
     if args.asm:
         asm_source = custom_dir / input_path.name
         shutil.copy2(input_path, asm_source)
@@ -471,8 +481,25 @@ def prepare_custom_program(
     else:
         shutil.copy2(input_path, binary)
 
+    if args.asm or args.elf:
+        dump = custom_dir / f"{name}.dump"
+        dump.write_text(
+            run_tool(
+                root=root,
+                args=args,
+                tool="objdump",
+                tool_args=["-d", elf],
+                cwd=root,
+                env=env,
+                log=log,
+            ),
+            encoding="utf-8",
+            newline="\n",
+        )
+        disasm_src = dump
+
     write_readmemh_from_binary(binary, mem)
-    return ProgramRun(name=name, mem_src=mem, expected=expected)
+    return ProgramRun(name=name, mem_src=mem, expected=expected, disasm_src=disasm_src)
 
 
 def remove_public_cva6_results(result_root: Path) -> None:
@@ -630,6 +657,26 @@ def run_program(
             newline="\n",
         )
 
+    if program.disasm_src is not None and (work_result_dir / "trace.jsonl").exists():
+        dump_dst = work_result_dir / "program.dump"
+        shutil.copy2(program.disasm_src, dump_dst)
+        run(
+            [
+                sys.executable,
+                as_posix(root / "tools" / "annotate_trace_disasm.py"),
+                "--trace",
+                as_posix(work_result_dir / "trace.jsonl"),
+                "--objdump",
+                as_posix(dump_dst),
+                "--out",
+                as_posix(work_result_dir / "trace.disasm.jsonl"),
+            ],
+            cwd=root,
+            env=env,
+            log=log,
+            dry_run=False,
+        )
+
     notrace_cmd = [xsim, NOTRACE_SNAPSHOT]
     if args.disable_circular_dependency_check:
         notrace_cmd.append("--disable_circular_dependency_check")
@@ -662,6 +709,83 @@ def run_program(
     publish_artifacts(work_dir=work_dir, work_result_dir=work_result_dir, result_dir=result_dir, log=log)
 
 
+def run_full_soc_smoke(
+    *,
+    root: Path,
+    work_dir: Path,
+    work_result_root: Path,
+    result_root: Path,
+    env: dict[str, str],
+    log: Path,
+    xsim: str,
+    args: argparse.Namespace,
+    program: ProgramRun,
+) -> None:
+    local_mem = work_dir / "cva6_smoke.mem"
+    work_result_dir = work_result_root / "smoke"
+    result_dir = result_root / ("cva6_full_soc_smoke" if program.name == "cva6_smoke" else f"cva6_full_soc_{program.name}")
+    reset_result_dir(work_result_dir)
+    reset_result_dir(result_dir)
+    if program.name == "cva6_smoke":
+        local_mem.write_text("\n".join(FULL_SOC_SMOKE_MEM) + "\n", encoding="utf-8", newline="\n")
+    else:
+        shutil.copyfile(program.mem_src, local_mem)
+
+    xsim_cmd = [xsim, FULL_SOC_SNAPSHOT]
+    if args.disable_circular_dependency_check:
+        xsim_cmd.append("--disable_circular_dependency_check")
+    xsim_cmd.extend(["--testplusarg", "debug_disable"])
+    if args.full_soc_debug_progress:
+        xsim_cmd.extend(["--testplusarg", "RVMT_DEBUG_PROGRESS"])
+    if args.full_soc_store_path_only:
+        xsim_cmd.extend(["--testplusarg", "RVMT_STORE_PATH_ONLY"])
+    xsim_cmd.append("--runall")
+    try:
+        run(
+            xsim_cmd,
+            cwd=work_dir,
+            env=env,
+            log=log,
+            dry_run=False,
+            timeout=args.run_timeout_seconds,
+            fatal_patterns=XSIM_FATAL_PATTERNS,
+            fatal_message=f"Vivado xsim kernel fatal during {program.name} full SoC smoke run.",
+        )
+    except RuntimeError as exc:
+        message = str(exc).splitlines()[0]
+        lowered = message.lower()
+        status = "BLOCKED" if "kernel fatal" in lowered or "timed out" in lowered else "FAIL"
+        copy_if_exists(work_dir / "xsim.log", work_result_dir / "xsim.log")
+        publish_artifacts(
+            work_dir=work_dir,
+            work_result_dir=work_result_dir,
+            result_dir=result_dir,
+            log=log,
+            compare_message=f"[{status}] {message}\n",
+        )
+        raise
+
+    copy_if_exists(work_dir / "xsim.log", work_result_dir / "xsim.log")
+    transcript = (work_dir / "xsim.log").read_text(encoding="utf-8", errors="replace") if (work_dir / "xsim.log").exists() else ""
+    if "Fatal:" in transcript or "[rvmt] CVA6 xsim smoke PASS" not in transcript:
+        message = "full SoC smoke did not report PASS"
+        publish_artifacts(
+            work_dir=work_dir,
+            work_result_dir=work_result_dir,
+            result_dir=result_dir,
+            log=log,
+            compare_message=f"[FAIL] {message}\n",
+        )
+        raise RuntimeError(f"{message}. See {work_dir / 'xsim.log'}")
+
+    (work_result_dir / "compare.log").write_text(
+        "[PASS] full SoC smoke reached breakpoint PASS\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+    publish_artifacts(work_dir=work_dir, work_result_dir=work_result_dir, result_dir=result_dir, log=log)
+
+
 def build(root: Path, args: argparse.Namespace) -> None:
     cva6_root = (root / args.cva6).resolve()
     work_dir = (root / args.work_dir).resolve()
@@ -678,7 +802,7 @@ def build(root: Path, args: argparse.Namespace) -> None:
     log = work_dir / "run.log"
     custom = has_custom_program(args)
     if not args.dry_run:
-        if not custom:
+        if not custom and not args.full_soc_smoke:
             remove_public_cva6_results(result_root)
         ensure_clean_workdir(root, work_dir)
 
@@ -739,6 +863,40 @@ def build(root: Path, args: argparse.Namespace) -> None:
     run([xvhdl, "-2008", "-f", as_posix(vhdl_file)], cwd=work_dir, env=env, log=log, dry_run=False)
     run(common_xvlog + inc_args + ["-f", as_posix(src_file)], cwd=work_dir, env=env, log=log, dry_run=False)
     run([xsc, as_posix(root / "sim" / "dpi" / "xsim_dpi_stubs.c")], cwd=work_dir, env=env, log=log, dry_run=False)
+    if args.full_soc_smoke:
+        run(
+            [
+                xelab,
+                "-L",
+                "uvm",
+                "--sv_lib",
+                "dpi",
+                "--sv_root",
+                as_posix(work_dir / "xsim.dir" / "work" / "xsc"),
+                f"work.{FULL_SOC_TOP}",
+                "-s",
+                FULL_SOC_SNAPSHOT,
+            ],
+            cwd=work_dir,
+            env=env,
+            log=log,
+            dry_run=False,
+            fatal_patterns=XSIM_FATAL_PATTERNS,
+            fatal_message=f"Vivado xsim kernel fatal during {FULL_SOC_TOP} elaboration.",
+        )
+        run_full_soc_smoke(
+            root=root,
+            work_dir=work_dir,
+            work_result_root=work_result_root,
+            result_root=result_root,
+            env=env,
+            log=log,
+            xsim=xsim,
+            args=args,
+            program=programs[0],
+        )
+        return
+
     run(
         [
             xelab,
@@ -801,6 +959,13 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--work-dir", default="build/cva6_xsim_smoke")
     parser.add_argument("--run-timeout-seconds", type=int, default=900)
     parser.add_argument("--disable-circular-dependency-check", action="store_true")
+    parser.add_argument("--full-soc-debug-progress", action="store_true")
+    parser.add_argument("--full-soc-store-path-only", action="store_true")
+    parser.add_argument(
+        "--full-soc-smoke",
+        action="store_true",
+        help="Elaborate and run the ariane_testharness full SoC smoke instead of the direct-core matrix.",
+    )
     parser.add_argument("--asm", type=Path, help="Custom RISC-V assembly source to compile and run.")
     parser.add_argument("--elf", type=Path, help="Custom RISC-V ELF image to objcopy to a direct-core memory image.")
     parser.add_argument("--bin", type=Path, help="Custom raw binary image loaded at the direct-core DRAM base.")

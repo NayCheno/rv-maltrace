@@ -7,12 +7,13 @@ Board work is intentionally after the Vivado simulation MVP.
 | Gate | Status | Evidence |
 | --- | --- | --- |
 | Vivado part and board files visible | PASS | `uv run rvmt vivado:check` on 2026-05-08: `xc7k325tffg900-2` and `digilentinc.com:genesys2:part0:1.1` visible |
-| Local Vivado simulation gate | PASS | `uv run python tools/check_board_baseline.py`: `results/vivado_sim/summary.json` overall PASS, 17 expected tests PASS with referenced trace/compare artifacts present |
+| Local Vivado simulation gate | PASS | `uv run python tools/check_board_baseline.py` on 2026-05-17: `results/vivado_sim/summary.json` overall PASS, 20 expected tests PASS with referenced trace/compare artifacts present |
 | Baseline CVA6 bitstream generated | PASS | `build/vivado/genesys2-cv64a6_imafdc_sv39/work-fpga/ariane_xilinx.bit` (11,443,738 bytes), plus `.mcs`, `.dcp`, and GUI `ariane.xpr` present |
 | Baseline route/timing reports | PASS | Route status: 130,576/130,576 routable nets fully routed, 0 routing errors; timing Slack (MET) 0.177 ns |
 | Baseline check_timing constraints | WARN | Parsed `ariane.check_timing.rpt`; known open warnings: `no_clock=126`, `unconstrained_internal_endpoints=33`, `no_input_delay=21`, `no_output_delay=23`, `partial_input_delay=3` |
 | Genesys 2 constraints available | PASS | Active `rtl/cva6/corev_apu/fpga/constraints/genesys-2.xdc` commands constrain `cpu_resetn`, `prog_clko`, UART `tx`, and UART `rx` |
 | DDR / clock / reset / UART static path | PASS | Active FPGA Tcl commands include `xlnx_mig_7_ddr3`, `xlnx_clk_gen`, `xlnx_dpti_clk`, and the APB UART source path; generated DDR/clock IP artifacts are present |
+| Trace-enabled resource build | PASS | `uv run rvmt bitstream:build-trace` on 2026-05-17 generated `build/vivado/genesys2-cv64a6_imafdc_sv39-trace/`; `docs/resource_report.md` records the routed delta |
 | Clock/reset sanity | TODO (BOARD) | Requires board observation notes after programming the bitstream |
 | UART hello | TODO (BOARD) | Requires serial log from the physical board |
 | Bare-metal program runs | TODO (BOARD) | Requires UART/tohost log from the physical board |

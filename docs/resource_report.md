@@ -46,3 +46,17 @@ Drop rows:
 | Test | Status | DROP records | Dropped event count |
 | --- | --- | ---: | ---: |
 | backpressure | PASS | 7 | 18 |
+
+## Trace-Enabled FPGA Delta
+
+- Trace utilization: `build/vivado/genesys2-cv64a6_imafdc_sv39-trace/reports/ariane.utilization.rpt`
+- Trace timing: `build/vivado/genesys2-cv64a6_imafdc_sv39-trace/reports/ariane.timing.rpt`
+
+| Metric | Baseline | Trace-enabled | Delta |
+| --- | ---: | ---: | ---: |
+| LUT | 84923 | 125717 | +40794 (+48.04%) |
+| FF | 56491 | 59301 | +2810 (+4.97%) |
+| BRAM18 equiv | 108 | 108 | +0 (+0.00%) |
+| DSP | 27 | 27 | +0 (+0.00%) |
+| Slack (ns) | 0.177 | 0.177 | 0.000 |
+| Approx. achieved Fmax (MHz) | 932.0 | 932.0 | 0.0 |

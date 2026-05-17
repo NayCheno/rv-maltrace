@@ -85,6 +85,22 @@ string name for readability.
 - Golden values may use `"ANY"` to assert that a field is present without
   constraining its exact value.
 
+## Disassembly Annotation
+
+Raw trace JSONL keeps `instr` as the stable machine-code field. For inspection,
+`tools/annotate_trace_disasm.py` can join a trace with RISC-V objdump output and
+write an annotated JSONL file with optional `asm`, `asm_source`, `asm_match`, and
+`asm_warning` fields:
+
+```powershell
+uv run python tools/annotate_trace_disasm.py --trace results/vivado_sim/cva6_ecall/trace.jsonl --objdump build/baremetal/cva6_ecall/cva6_ecall.dump --out results/vivado_sim/cva6_ecall/trace.disasm.jsonl --strict
+uv run python tools/annotate_trace_disasm.py --trace results/vivado_sim/custom/trace.jsonl --elf build/custom.elf --out results/vivado_sim/custom/trace.disasm.jsonl
+```
+
+The annotated file is a derived review artifact. Golden comparison and hardware
+packet semantics continue to use `pc` and `instr`, so missing host objdump tools
+do not change trace capture.
+
 ## Filter Controls
 
 `trace_filter.sv` can suppress events before they enter the trace queue. The

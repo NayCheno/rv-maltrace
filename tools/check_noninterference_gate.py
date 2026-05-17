@@ -32,7 +32,7 @@ EXPECTED_STATUSES = {
     "drop_accounting_not_stall": "CHECKED(SIM)",
     "direct_core_trace_no_trace_parity": "CHECKED(SIM)",
     "baseline_resource_snapshot": "CHECKED(BASELINE)",
-    "trace_enabled_fpga_resource_delta": "TODO(TRACE_ENABLED_SYNTHESIS)",
+    "trace_enabled_fpga_resource_delta": "CHECKED(TRACE_SYNTHESIS)",
 }
 DIRECT_CORE_CASES = ["cva6_smoke", "cva6_branch", "cva6_jump", "cva6_ecall", "cva6_trap_illegal", "cva6_ebreak"]
 REQUIRED_DOC_TEXT = (
@@ -47,11 +47,9 @@ REQUIRED_DOC_TEXT = (
     "noninterference_summary.json",
     "noninterference_report.md",
     "must not claim CVA6 IPC improvement",
-    "trace-enabled FPGA resource overhead",
+    "Trace-enabled FPGA LUT/FF/BRAM/DSP/slack delta",
 )
 FORBIDDEN_DOC_PATTERNS = (
-    re.compile(r"\btrace[- ]enabled\s+FPGA\s+resource\s+(?:delta|overhead)\s+(?:is\s+)?(?:passed|validated|complete|measured)\b", re.IGNORECASE),
-    re.compile(r"\btrace[- ]enabled\s+routed\s+timing\s+(?:is\s+)?(?:passed|validated|complete|measured)\b", re.IGNORECASE),
     re.compile(r"\bCVA6\s+(?:IPC|Fmax)\s+improvement\s+(?:is\s+)?(?:passed|validated|complete|measured|proven)\b", re.IGNORECASE),
     re.compile(r"\bboard\s+runtime\s+overhead\s+(?:is\s+)?(?:passed|validated|complete|measured)\b", re.IGNORECASE),
 )
@@ -87,8 +85,8 @@ def check_spec(path: Path) -> list[str]:
     errors: list[str] = []
     if spec.get("phase") != "3.4":
         errors.append(f"{path}: phase must be 3.4")
-    if spec.get("status") != "TODO(TRACE_ENABLED_SYNTHESIS)":
-        errors.append(f"{path}: status must remain TODO(TRACE_ENABLED_SYNTHESIS)")
+    if spec.get("status") != "CHECKED(TRACE_SYNTHESIS)":
+        errors.append(f"{path}: status must be CHECKED(TRACE_SYNTHESIS)")
     if spec.get("scope") != "trace_sideband_noninterference_and_resource_gate":
         errors.append(f"{path}: unexpected scope")
     refs = spec.get("evidence_refs", [])
@@ -226,6 +224,10 @@ def check_resource_report(path: Path) -> list[str]:
         "Trace-specific queue/drop rows",
         "Max DROP test",
         "Max dropped event count",
+        "Trace-Enabled FPGA Delta",
+        "build/vivado/genesys2-cv64a6_imafdc_sv39-trace/reports/ariane.utilization.rpt",
+        "| LUT |",
+        "| FF |",
     ):
         if required not in text:
             errors.append(f"{path}: missing resource boundary text: {required}")
@@ -338,7 +340,7 @@ def write_fixture(root: Path) -> None:
         json.dumps(
             {
                 "phase": "3.4",
-                "status": "TODO(TRACE_ENABLED_SYNTHESIS)",
+                "status": "CHECKED(TRACE_SYNTHESIS)",
                 "scope": "trace_sideband_noninterference_and_resource_gate",
                 "evidence_refs": [
                     "docs/timing_principles.md",
@@ -375,17 +377,20 @@ noninterference_report.md
 | 3 | drop_accounting_not_stall | drop | CHECKED(SIM) |
 | 4 | direct_core_trace_no_trace_parity | parity | CHECKED(SIM) |
 | 5 | baseline_resource_snapshot | resource | CHECKED(BASELINE) |
-| 6 | trace_enabled_fpga_resource_delta | delta | TODO(TRACE_ENABLED_SYNTHESIS) |
+| 6 | trace_enabled_fpga_resource_delta | delta | CHECKED(TRACE_SYNTHESIS) |
 
 must not claim CVA6 IPC improvement
-trace-enabled FPGA resource overhead
+Trace-enabled FPGA LUT/FF/BRAM/DSP/slack delta
 """,
         encoding="utf-8",
     )
     (root / DEFAULT_RESOURCE_REPORT).write_text(
         "The Vivado numbers below are from the existing Genesys 2 routed `ariane_xilinx` report.\n"
         "Trace-specific queue/drop rows are taken from current trace RTL parameters.\n"
-        "Max DROP test\nMax dropped event count\n",
+        "Max DROP test\nMax dropped event count\n"
+        "Trace-Enabled FPGA Delta\n"
+        "build/vivado/genesys2-cv64a6_imafdc_sv39-trace/reports/ariane.utilization.rpt\n"
+        "| LUT |\n| FF |\n",
         encoding="utf-8",
     )
     (root / DEFAULT_TIMING_CHECK).write_text("print('[PASS] timing stub')\n", encoding="utf-8")
@@ -436,10 +441,10 @@ def self_test() -> int:
         root = Path(tmp)
         write_fixture(root)
         spec = load_json(root / DEFAULT_SPEC)
-        spec["checks"][-1]["status"] = "CHECKED(TRACE_ENABLED_SYNTHESIS)"
+        spec["checks"][-1]["status"] = "TODO(TRACE_ENABLED_SYNTHESIS)"
         (root / DEFAULT_SPEC).write_text(json.dumps(spec), encoding="utf-8")
-        if not expect_error(root, "trace_enabled_fpga_resource_delta.status must be TODO"):
-            print("[FAIL] self-test missed premature trace-enabled resource delta claim", file=sys.stderr)
+        if not expect_error(root, "trace_enabled_fpga_resource_delta.status must be CHECKED"):
+            print("[FAIL] self-test missed regressed trace-enabled resource delta status", file=sys.stderr)
             return 1
 
     with tempfile.TemporaryDirectory() as tmp:
@@ -488,9 +493,6 @@ def self_test() -> int:
             return 1
 
     for phrase in (
-        "trace-enabled FPGA resource delta is measured",
-        "trace-enabled FPGA resource overhead is measured",
-        "trace-enabled routed timing is validated",
         "CVA6 IPC improvement is validated",
         "board runtime overhead is measured",
     ):
@@ -504,8 +506,6 @@ def self_test() -> int:
                 return 1
 
     for phrase in (
-        "trace-enabled FPGA resource overhead is measured",
-        "trace-enabled routed timing is validated",
         "board runtime overhead is measured",
         "CVA6 Fmax improvement is validated",
     ):

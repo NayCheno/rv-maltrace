@@ -63,8 +63,9 @@ trace tap. Signal paths are based on the local CVA6 checkout locked in
   The trace-enabled snapshot drives `cva6_rvfi`, the RVFI trace adapter, and
   `tb_trace_sink`; the no-trace snapshot must reach the same tohost PASS result.
 - `RV_MALTRACE_TRACE=1` also enables the simulation-only CVA6 RVFI hook in
-  `corev_apu/tb/ariane_testharness.sv`; that full SoC harness path remains
-  blocked locally by the Vivado v2025.2 `axi_demux.sv` runtime fatal.
+  `corev_apu/tb/ariane_testharness.sv`; that full SoC harness path now has a
+  reproducible `uv run rvmt sim:cva6-full-soc` probe that boots from DRAM and
+  reaches a breakpoint-terminated PASS in Vivado v2025.2.
 - The synthetic testbench still drives logical tap signals directly. The
   `rvfi_adapter` regression separately checks the CVA6 RVFI committed-stream
   translation, including dual commit ports and compressed control flow.

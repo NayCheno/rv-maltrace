@@ -1,6 +1,6 @@
 {
   "phase": "3.4",
-  "status": "TODO(TRACE_ENABLED_SYNTHESIS)",
+  "status": "CHECKED(TRACE_SYNTHESIS)",
   "scope": "trace_sideband_noninterference_and_resource_gate",
   "evidence_refs": [
     "docs/timing_principles.md",
@@ -43,9 +43,9 @@
     },
     {
       "id": "trace_enabled_fpga_resource_delta",
-      "status": "TODO(TRACE_ENABLED_SYNTHESIS)",
-      "command": "uv run rvmt bitstream:build",
-      "evidence": "requires a trace-enabled implementation report before LUT/FF/BRAM/Fmax overhead can be claimed"
+      "status": "CHECKED(TRACE_SYNTHESIS)",
+      "command": "uv run rvmt bitstream:build-trace && uv run python tools/generate_resource_report.py",
+      "evidence": "docs/resource_report.md records baseline vs trace-enabled routed LUT/FF/BRAM/DSP/slack delta from build/vivado/genesys2-cv64a6_imafdc_sv39-trace reports"
     }
   ],
   "non_goals": [

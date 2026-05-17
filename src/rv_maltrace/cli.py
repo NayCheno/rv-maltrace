@@ -33,9 +33,13 @@ TASK_ALIASES = {
     "bootrom:build": "bootrom:build",
     "bitstream": "bitstream:build",
     "bitstream:build": "bitstream:build",
+    "bitstream:build-trace": "bitstream:build-trace",
+    "bitstream:trace": "bitstream:build-trace",
     "bitstream:collect": "bitstream:collect",
     "fpga": "bitstream:build",
     "fpga:build": "bitstream:build",
+    "fpga:build-trace": "bitstream:build-trace",
+    "fpga:trace": "bitstream:build-trace",
     "vivado": "vivado:check",
     "vivado:check": "vivado:check",
     "vivado:project": "vivado:project",
@@ -47,6 +51,12 @@ TASK_ALIASES = {
     "sim:cva6": "sim:cva6-smoke",
     "sim:cva6-xsim": "sim:cva6-smoke",
     "sim:cva6-smoke": "sim:cva6-smoke",
+    "sim:full-soc": "sim:cva6-full-soc",
+    "sim:fullsoc": "sim:cva6-full-soc",
+    "sim:cva6-full-soc": "sim:cva6-full-soc",
+    "sim:cva6-full-soc-smoke": "sim:cva6-full-soc",
+    "sim:cva6-full-soc-store": "sim:cva6-full-soc-store",
+    "sim:cva6-full-soc-uart-store": "sim:cva6-full-soc-store",
     "sim:cva6-run": "sim:cva6-run",
     "sim:cva6-custom": "sim:cva6-run",
     "sim:run": "sim:cva6-run",
@@ -74,9 +84,12 @@ DISPLAY_TASKS = [
     "vivado:check",
     "vivado:project",
     "bitstream:build",
+    "bitstream:build-trace",
     "bitstream:collect",
     "sim:trace-unit",
     "sim:cva6-smoke",
+    "sim:cva6-full-soc",
+    "sim:cva6-full-soc-store",
     "sim:cva6-run",
     "sim:summary",
     "baremetal:build",
@@ -326,6 +339,11 @@ def vivado_artifact_dir(root: Path, config: dict) -> Path:
     board = safe_artifact_segment(str(config.get("board", "genesys2")))
     target = safe_artifact_segment(str(config.get("target", "cv64a6_imafdc_sv39")))
     return build_dir / "vivado" / f"{board}-{target}"
+
+
+def trace_vivado_artifact_dir(root: Path, config: dict) -> Path:
+    base = vivado_artifact_dir(root, config)
+    return base.with_name(f"{base.name}-trace")
 
 
 def vivado_project_dir(root: Path, config: dict) -> Path:
@@ -1009,7 +1027,7 @@ def task_vivado_project(root: Path, config: dict, env: dict[str, str], dry_run: 
     print(f"Expected imported source-like files: {expected_sources}")
 
 
-def task_bitstream_build(root: Path, config: dict, env: dict[str, str], dry_run: bool) -> None:
+def task_bitstream_build(root: Path, config: dict, env: dict[str, str], dry_run: bool, *, trace_enabled: bool = False) -> None:
     subst_drive = vivado_subst_drive(config)
     subst_before = current_subst_mappings() if subst_drive and not dry_run else {}
     work_root = vivado_work_root(root, config, dry_run=dry_run)
@@ -1024,8 +1042,8 @@ def task_bitstream_build(root: Path, config: dict, env: dict[str, str], dry_run:
             )
 
         fpga_dir = cva6_dir / "corev_apu" / "fpga"
-        artifact_dir = vivado_artifact_dir(work_root, config)
-        real_artifact_dir = vivado_artifact_dir(root, config)
+        artifact_dir = trace_vivado_artifact_dir(work_root, config) if trace_enabled else vivado_artifact_dir(work_root, config)
+        real_artifact_dir = trace_vivado_artifact_dir(root, config) if trace_enabled else vivado_artifact_dir(root, config)
         vivado_work_dir = artifact_dir / "work-fpga"
         vivado_report_dir = artifact_dir / "reports"
         work_dir_arg = makefile_relative_path(vivado_work_dir, fpga_dir)
@@ -1034,7 +1052,16 @@ def task_bitstream_build(root: Path, config: dict, env: dict[str, str], dry_run:
         make = resolve_make(root, config)
         if not dry_run:
             artifact_dir.mkdir(parents=True, exist_ok=True)
-            seed_existing_vivado_artifacts(fpga_dir, artifact_dir)
+            if not trace_enabled:
+                seed_existing_vivado_artifacts(fpga_dir, artifact_dir)
+            else:
+                for stale in (
+                    vivado_work_dir / "ariane_xilinx.bit",
+                    vivado_work_dir / "ariane_xilinx.mcs",
+                    vivado_work_dir / "ariane_xilinx.dcp",
+                ):
+                    if stale.exists():
+                        stale.unlink()
             task_vivado_check(work_root, config, env, dry_run=False)
             add_sources = cva6_dir / "corev_apu" / "fpga" / "scripts" / "add_sources.tcl"
             if add_sources.exists():
@@ -1050,6 +1077,8 @@ def task_bitstream_build(root: Path, config: dict, env: dict[str, str], dry_run:
             env["RVMT_VIVADO_WORK_DIR"] = as_posix_path(vivado_work_dir)
             env["RVMT_VIVADO_REPORT_DIR"] = as_posix_path(vivado_report_dir)
             env["RVMT_VIVADO_PATCH_DIR"] = as_posix_path(artifact_dir / ".tmp")
+            if trace_enabled:
+                env["RVMT_VIVADO_VERILOG_DEFINES"] = "RV_MALTRACE_FPGA_TRACE"
         board = str(config.get("board", "genesys2"))
         target = str(config.get("target", "cv64a6_imafdc_sv39"))
         riscv = str(config.get("riscv_placeholder", "/tmp/riscv-placeholder"))
@@ -1066,6 +1095,7 @@ def task_bitstream_build(root: Path, config: dict, env: dict[str, str], dry_run:
                 f"RISCV={riscv}",
                 f"VIVADO={as_posix_path(vivado)}",
                 f"work-dir={work_dir_arg}",
+                *(["RV_MALTRACE_FPGA_TRACE=1"] if trace_enabled else []),
                 "fpga",
             ],
             cwd=cva6_dir,
@@ -1075,7 +1105,7 @@ def task_bitstream_build(root: Path, config: dict, env: dict[str, str], dry_run:
         if not dry_run:
             project = cva6_dir / "corev_apu" / "fpga" / "ariane.xpr"
             make_vivado_project_portable(project, work_root, root)
-            if bool(config.get("vivado_populate_project", True)):
+            if bool(config.get("vivado_populate_project", True)) and not trace_enabled:
                 task_vivado_project(root, config, env, dry_run=False)
             if work_root != root:
                 print_vivado_artifact_summary(real_artifact_dir)
@@ -1128,9 +1158,11 @@ def task_sim_cva6_smoke(
     env: dict[str, str],
     dry_run: bool,
     runner_args: list[str] | None = None,
+    work_dir: Path | None = None,
 ) -> None:
     vivado = resolve_vivado(config)
     env = prepend_env_path(env, Path(vivado).parent)
+    resolved_work_dir = work_dir or Path(str(config.get("build_dir", "build"))) / "cva6_xsim_smoke"
     try:
         run(
             [
@@ -1143,7 +1175,7 @@ def task_sim_cva6_smoke(
                 "--target",
                 str(config.get("target", "cv64a6_imafdc_sv39")),
                 "--work-dir",
-                str(Path(str(config.get("build_dir", "build"))) / "cva6_xsim_smoke"),
+                str(resolved_work_dir),
                 *(runner_args or []),
                 *(("--dry-run",) if dry_run else ()),
             ],
@@ -1157,6 +1189,37 @@ def task_sim_cva6_smoke(
         raise
     if not dry_run:
         task_sim_summary(root, env, dry_run=False)
+
+
+def task_sim_cva6_full_soc(root: Path, config: dict, env: dict[str, str], dry_run: bool) -> None:
+    build_dir = Path(str(config.get("build_dir", "build")))
+    task_sim_cva6_smoke(
+        root,
+        config,
+        env,
+        dry_run,
+        ["--full-soc-smoke"],
+        work_dir=build_dir / "cva6_xsim_full_soc",
+    )
+
+
+def task_sim_cva6_full_soc_store(root: Path, config: dict, env: dict[str, str], dry_run: bool) -> None:
+    build_dir = Path(str(config.get("build_dir", "build")))
+    task_sim_cva6_smoke(
+        root,
+        config,
+        env,
+        dry_run,
+        [
+            "--full-soc-smoke",
+            "--full-soc-store-path-only",
+            "--mem",
+            "sim/programs/full_soc_uart_store_path/full_soc_uart_store_path.mem",
+            "--name",
+            "uart_store_path",
+        ],
+        work_dir=build_dir / "cva6_xsim_full_soc_uart_store_path",
+    )
 
 
 def custom_cva6_runner_args(args: argparse.Namespace, config: dict) -> list[str]:
@@ -1332,7 +1395,8 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         nargs="*",
         help=(
             "Tasks to run. Supports docker:build, toolchain:build, bootrom:build, "
-            "vivado:check, bitstream:build, sim:trace-unit, sim:cva6-smoke, sim:cva6-run, baremetal:build, "
+            "vivado:check, bitstream:build, bitstream:build-trace, sim:trace-unit, sim:cva6-smoke, "
+            "sim:cva6-full-soc, sim:cva6-run, baremetal:build, "
             "config:show, completion:powershell. Slash groups such as "
             "tool/bootrom are expanded."
         ),
@@ -1390,12 +1454,18 @@ def main(argv: list[str] | None = None) -> int:
                 task_vivado_project(root, config, env, args.dry_run)
             elif task == "bitstream:build":
                 task_bitstream_build(root, config, env, args.dry_run)
+            elif task == "bitstream:build-trace":
+                task_bitstream_build(root, config, env, args.dry_run, trace_enabled=True)
             elif task == "bitstream:collect":
                 task_bitstream_collect(root, config, args.dry_run)
             elif task == "sim:trace-unit":
                 task_sim_trace_unit(root, config, env, args.dry_run)
             elif task == "sim:cva6-smoke":
                 task_sim_cva6_smoke(root, config, env, args.dry_run)
+            elif task == "sim:cva6-full-soc":
+                task_sim_cva6_full_soc(root, config, env, args.dry_run)
+            elif task == "sim:cva6-full-soc-store":
+                task_sim_cva6_full_soc_store(root, config, env, args.dry_run)
             elif task == "sim:cva6-run":
                 task_sim_cva6_smoke(root, config, env, args.dry_run, custom_cva6_runner_args(args, config))
             elif task == "sim:summary":

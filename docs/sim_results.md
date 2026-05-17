@@ -27,6 +27,8 @@ This document is the running record for MVP simulation evidence.
 | `cva6_ecall` | PASS | 15 | 12 | 0 | 2 | 0 | 0 | 0 | 1 | 0 | 0 | Direct-core CVA6 machine-mode ecall program remains a TRAP, not a Linux syscall entry. |
 | `cva6_trap_illegal` | PASS | 11 | 8 | 0 | 2 | 0 | 0 | 0 | 1 | 0 | 0 | Direct-core CVA6 illegal instruction program matched trap pc/cause/tval. |
 | `cva6_ebreak` | PASS | 11 | 8 | 0 | 2 | 0 | 0 | 0 | 1 | 0 | 0 | Direct-core CVA6 ebreak program matched breakpoint trap cause. |
+| `cva6_full_soc_smoke` | PASS | 3 | 1 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | Full `ariane_testharness` breakpoint-terminated smoke compiled, elaborated, booted from DRAM, and observed the expected breakpoint trap. |
+| `cva6_full_soc_uart_store_path` | PASS | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Full `ariane_testharness` observed a committed RVFI store to UART/MMIO address `0x10000000` using the two-instruction store-path gate. |
 
 ## Artifact Layout
 
@@ -64,11 +66,20 @@ empty and `compare.log` starts with `[BLOCKED]`.
   trace-enabled run compares each JSONL trace against its
   `sim/golden/cva6_*.expected.json` file; the no-trace run must reach the same
   tohost PASS result before the test is reported as PASS.
-- Full CVA6 `ariane_testharness` xsim run: BLOCKED. Vivado v2025.2 reports
-  `FATAL_ERROR` at time 0 in upstream
-  `rtl/cva6/vendor/pulp-platform/axi/src/axi_demux.sv`, from the SoC AXI crossbar
-  instance. The direct-core smoke avoids that crossbar to verify committed CVA6
-  RVFI trace execution.
+- Full CVA6 `ariane_testharness` xsim breakpoint run: PASS via
+  `uv run rvmt sim:cva6-full-soc`. On 2026-05-17, the full-SoC probe compiled
+  and elaborated the full `ariane_testharness`, booted at DRAM
+  `0x8000_0000`, retired a normal instruction, observed the magic breakpoint
+  trap at `0x8000_0004`, and published PASS artifacts to
+  `results/vivado_sim/cva6_full_soc_smoke/`.
+- Full-SoC UART/MMIO store-path gate: PASS via
+  `uv run rvmt sim:cva6-full-soc-store`. On 2026-05-17, the full
+  `ariane_testharness` booted a two-instruction DRAM image, retired the
+  address setup instruction, observed a committed RVFI store to UART/MMIO
+  address `0x1000_0000` with byte strobe `0xff`, and published PASS artifacts
+  to `results/vivado_sim/cva6_full_soc_uart_store_path/`. This proves the
+  local full-SoC UART/MMIO store observation path, but it is not the same as a
+  normal multi-instruction tohost program reaching completion.
 - Direct CVA6 trace integration: PARTIAL. `RV_MALTRACE_TRACE=1` enables the
   guarded CVA6 testharness RVFI hook and JSONL sink; the direct-core smoke
   separately verifies the same adapter/sink path against real CVA6 committed
@@ -76,9 +87,13 @@ empty and `compare.log` starts with `[BLOCKED]`.
 
 The synthetic tests verify tap packet semantics, CSR/SATP/context events,
 filtering, queue/drop behavior, and the CVA6 RVFI adapter. The `cva6_*` rows are
-real CVA6 core execution tests with trace-on/no-trace final-result matching, but
-they intentionally avoid the full SoC harness while the upstream AXI xbar
-runtime blocker remains open.
+real CVA6 core execution tests with trace-on/no-trace final-result matching. The
+full SoC harness is now part of the reproducible local simulation evidence via a
+short breakpoint-terminated smoke plus a separate UART/MMIO store-path
+observation gate. Exploratory multi-instruction full-SoC tohost attempts that
+stalled after early retire are archived under
+`results/vivado_sim_exploratory_blocked/` and are not counted in the main
+summary.
 
 Phase 2 packet compression is currently an offline prototype. On 2026-05-09,
 `tools/compress_trace.py --check-roundtrip --stats` passed for

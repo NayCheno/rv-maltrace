@@ -11,6 +11,8 @@ from typing import Any
 
 DEFAULT_UTIL_REPORT = Path("build/vivado/genesys2-cv64a6_imafdc_sv39/reports/ariane.utilization.rpt")
 DEFAULT_TIMING_REPORT = Path("build/vivado/genesys2-cv64a6_imafdc_sv39/reports/ariane.timing.rpt")
+DEFAULT_TRACE_UTIL_REPORT = Path("build/vivado/genesys2-cv64a6_imafdc_sv39-trace/reports/ariane.utilization.rpt")
+DEFAULT_TRACE_TIMING_REPORT = Path("build/vivado/genesys2-cv64a6_imafdc_sv39-trace/reports/ariane.timing.rpt")
 DEFAULT_SIM_SUMMARY = Path("results/vivado_sim/summary.json")
 DEFAULT_OUT = Path("docs/resource_report.md")
 TRACE_PARAM_FILES = (
@@ -169,6 +171,13 @@ def fmt_float(value: float | None, digits: int = 3) -> str:
     return "n/a" if value is None else f"{value:.{digits}f}"
 
 
+def delta_value(trace: int, baseline: int) -> str:
+    delta = trace - baseline
+    pct = (delta / baseline * 100.0) if baseline else 0.0
+    sign = "+" if delta >= 0 else ""
+    return f"{sign}{delta} ({sign}{pct:.2f}%)"
+
+
 def build_report(
     util: dict[str, Any],
     timing: dict[str, Any],
@@ -177,6 +186,10 @@ def build_report(
     util_report: Path = DEFAULT_UTIL_REPORT,
     timing_report: Path = DEFAULT_TIMING_REPORT,
     sim_summary: Path = DEFAULT_SIM_SUMMARY,
+    trace_util: dict[str, Any] | None = None,
+    trace_timing: dict[str, Any] | None = None,
+    trace_util_report: Path = DEFAULT_TRACE_UTIL_REPORT,
+    trace_timing_report: Path = DEFAULT_TRACE_TIMING_REPORT,
 ) -> str:
     bram18_equiv = util["ramb36"] * 2 + util["ramb18"]
     max_drop = drops["max_drop"] or {"test": "none", "drop_records": 0, "drop_value_sum": 0, "status": ""}
@@ -247,6 +260,39 @@ def build_report(
             lines.append(f"| {row['test']} | {row['status']} | {row['drop_records']} | {row['drop_value_sum']} |")
     else:
         lines.append("| none | n/a | 0 | 0 |")
+    lines.extend(
+        [
+            "",
+            "## Trace-Enabled FPGA Delta",
+            "",
+        ]
+    )
+    if trace_util and trace_timing:
+        trace_bram18_equiv = trace_util["ramb36"] * 2 + trace_util["ramb18"]
+        lines.extend(
+            [
+                f"- Trace utilization: `{trace_util_report.as_posix()}`",
+                f"- Trace timing: `{trace_timing_report.as_posix()}`",
+                "",
+                "| Metric | Baseline | Trace-enabled | Delta |",
+                "| --- | ---: | ---: | ---: |",
+                f"| LUT | {util['total_luts']} | {trace_util['total_luts']} | {delta_value(trace_util['total_luts'], util['total_luts'])} |",
+                f"| FF | {util['ffs']} | {trace_util['ffs']} | {delta_value(trace_util['ffs'], util['ffs'])} |",
+                f"| BRAM18 equiv | {bram18_equiv} | {trace_bram18_equiv} | {delta_value(trace_bram18_equiv, bram18_equiv)} |",
+                f"| DSP | {util['dsp']} | {trace_util['dsp']} | {delta_value(trace_util['dsp'], util['dsp'])} |",
+                f"| Slack (ns) | {fmt_float(timing['slack_ns'])} | {fmt_float(trace_timing['slack_ns'])} | {fmt_float(trace_timing['slack_ns'] - timing['slack_ns'])} |",
+                f"| Approx. achieved Fmax (MHz) | {fmt_float(timing['achieved_fmax_mhz'], 1)} | {fmt_float(trace_timing['achieved_fmax_mhz'], 1)} | {fmt_float((trace_timing['achieved_fmax_mhz'] or 0.0) - (timing['achieved_fmax_mhz'] or 0.0), 1)} |",
+            ]
+        )
+    else:
+        lines.extend(
+            [
+                f"- Trace utilization report missing: `{trace_util_report.as_posix()}`",
+                f"- Trace timing report missing: `{trace_timing_report.as_posix()}`",
+                "",
+                "Trace-enabled implementation delta is not available until `uv run rvmt bitstream:build-trace` completes.",
+            ]
+        )
     lines.append("")
     return "\n".join(lines)
 
@@ -305,9 +351,33 @@ Slack (MET) :             0.500ns  (required time - arrival time)
         parsed_timing = parse_timing(timing)
         parsed_params = parse_trace_params((trace_top, adapter))
         parsed_drops = parse_drop_summary(summary)
-        report = build_report(parsed_util, parsed_timing, parsed_params, parsed_drops, util, timing, summary)
+        parsed_trace_util = {
+            **parsed_util,
+            "total_luts": 12,
+            "ffs": 25,
+            "ramb36": 2,
+            "ramb18": 2,
+            "dsp": 3,
+        }
+        parsed_trace_timing = {**parsed_timing, "slack_ns": 0.400, "achieved_fmax_mhz": 925.9}
+        report = build_report(
+            parsed_util,
+            parsed_timing,
+            parsed_params,
+            parsed_drops,
+            util,
+            timing,
+            summary,
+            parsed_trace_util,
+            parsed_trace_timing,
+            root / "trace_util.rpt",
+            root / "trace_timing.rpt",
+        )
         if "| ariane_xilinx | xc7k325tffg900-2 | Routed | 10 | 20 | 2 | 1 | 5 | 3 |" not in report or "Max dropped event count | 5" not in report:
             print("[FAIL] resource report self-test output mismatch", file=sys.stderr)
+            return 1
+        if "| LUT | 10 | 12 | +2 (+20.00%) |" not in report:
+            print("[FAIL] resource report self-test missed trace-enabled delta", file=sys.stderr)
             return 1
 
         repo_relative_trace = root / "results" / "vivado_sim" / "windows_path" / "trace.jsonl"
@@ -365,6 +435,8 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Generate the rv-maltrace Phase 3.3 resource report.")
     parser.add_argument("--util-report", type=Path, default=DEFAULT_UTIL_REPORT)
     parser.add_argument("--timing-report", type=Path, default=DEFAULT_TIMING_REPORT)
+    parser.add_argument("--trace-util-report", type=Path, default=DEFAULT_TRACE_UTIL_REPORT)
+    parser.add_argument("--trace-timing-report", type=Path, default=DEFAULT_TRACE_TIMING_REPORT)
     parser.add_argument("--sim-summary", type=Path, default=DEFAULT_SIM_SUMMARY)
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
     parser.add_argument("--self-test", action="store_true", help="Run parser/generator self-test.")
@@ -376,9 +448,23 @@ def main(argv: list[str] | None = None) -> int:
     try:
         util = parse_utilization(args.util_report)
         timing = parse_timing(args.timing_report)
+        trace_util = parse_utilization(args.trace_util_report) if args.trace_util_report.exists() else None
+        trace_timing = parse_timing(args.trace_timing_report) if args.trace_timing_report.exists() else None
         trace_params = parse_trace_params()
         drops = parse_drop_summary(args.sim_summary)
-        report = build_report(util, timing, trace_params, drops, args.util_report, args.timing_report, args.sim_summary)
+        report = build_report(
+            util,
+            timing,
+            trace_params,
+            drops,
+            args.util_report,
+            args.timing_report,
+            args.sim_summary,
+            trace_util,
+            trace_timing,
+            args.trace_util_report,
+            args.trace_timing_report,
+        )
         args.out.parent.mkdir(parents=True, exist_ok=True)
         args.out.write_text(report, encoding="utf-8", newline="\n")
     except Exception as exc:

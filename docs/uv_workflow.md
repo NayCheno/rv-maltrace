@@ -10,6 +10,8 @@ uv run rvmt bootrom:build
 uv run rvmt vivado:check
 uv run rvmt sim:trace-unit
 uv run rvmt sim:cva6-smoke
+uv run rvmt sim:cva6-full-soc
+uv run rvmt sim:cva6-full-soc-store
 uv run rvmt sim:cva6-run --asm path\to\program.S --name custom_program
 uv run rvmt sim:summary
 uv run rvmt baremetal:build
@@ -26,6 +28,7 @@ uv run python tools/check_linux_behavior_principles.py
 uv run python tools/check_linux_benign_dataset.py
 uv run python tools/check_linux_malware_like_dataset.py
 uv run python tools/recover_behavior.py --self-test
+uv run python tools/annotate_trace_disasm.py --self-test
 uv run python tools/check_linux_behavior_recovery.py
 uv run python tools/audit_behavior.py --self-test
 uv run python tools/check_linux_behavior_audit.py
@@ -111,9 +114,12 @@ bootrom:build     Generate CVA6 FPGA bootrom_64.sv using the Docker toolchain.
 vivado:check      Check whether Vivado has the configured FPGA part and board files.
 vivado:project    Generate build/vivado/<board>-<target>/project/ariane.xpr for GUI browsing.
 bitstream:build   Run CVA6 make fpga with Windows Vivado.
+bitstream:build-trace Run a trace-enabled FPGA build into build/vivado/<board>-<target>-trace.
 bitstream:collect Copy existing CVA6 FPGA outputs into build/vivado/<board>-<target>.
 sim:trace-unit    Run the trace_top unit regression in Vivado xsim and compare JSONL output.
 sim:cva6-smoke    Compile/elaborate the direct CVA6 xsim testbench and run the trace/no-trace matrix.
+sim:cva6-full-soc Compile/elaborate the ariane_testharness full SoC breakpoint smoke probe.
+sim:cva6-full-soc-store Compile/elaborate the ariane_testharness full SoC UART/MMIO store-path probe.
 sim:cva6-run      Run one custom assembly, ELF, raw binary, or readmemh image through the direct CVA6 xsim testbench.
 sim:summary       Summarize results/vivado_sim into a table and summary.json.
 baremetal:build   Build all sim/programs bare-metal ELF/dump/bin artifacts when the RISC-V toolchain is available.
@@ -128,9 +134,12 @@ Aliases:
 tool -> toolchain:build
 bootrom -> bootrom:build
 bitstream/fpga -> bitstream:build
+bitstream:trace/fpga:trace -> bitstream:build-trace
 vivado:xpr -> vivado:project
 sim/sim:unit/sim:trace -> sim:trace-unit
 sim:cva6/sim:cva6-xsim -> sim:cva6-smoke
+sim:full-soc/sim:fullsoc/sim:cva6-full-soc-smoke -> sim:cva6-full-soc
+sim:cva6-full-soc-uart-store -> sim:cva6-full-soc-store
 sim:run/sim:cva6-custom -> sim:cva6-run
 summary -> sim:summary
 baremetal/programs -> baremetal:build
@@ -191,9 +200,32 @@ simple AXI memory, boots six minimal DRAM images (`cva6_smoke`, `cva6_branch`,
 `cva6_jump`, `cva6_ecall`, `cva6_trap_illegal`, and `cva6_ebreak`) through both
 trace-enabled and no-trace snapshots, and publishes
 `results/vivado_sim/cva6_*/{trace.jsonl,compare.log,run.log,xsim.log,xsim_notrace.log}`.
-The full `ariane_testharness` SoC path still hits a Vivado v2025.2 simulator
-kernel fatal in upstream CVA6 AXI demux logic, so the direct-core matrix is the
-current local full-core execution gate.
+The full `ariane_testharness` SoC path is available as:
+
+```powershell
+uv run rvmt sim:cva6-full-soc
+```
+
+The full-SoC probe compiles and elaborates `ariane_testharness`, boots a
+full-SoC-specific DRAM image at `0x8000_0000`, and terminates on a magic
+breakpoint trap. It publishes
+`results/vivado_sim/cva6_full_soc_smoke/{trace.jsonl,compare.log,run.log,xsim.log}`.
+On 2026-05-17 this path passed locally on Vivado v2025.2; the direct-core matrix
+remains the broader committed-trace execution gate because it still runs the
+trace/no-trace program matrix and tohost-store checks.
+
+The full-SoC UART/MMIO store-path probe is:
+
+```powershell
+uv run rvmt sim:cva6-full-soc-store
+```
+
+It boots a two-instruction DRAM image that sets the UART/MMIO base and commits a
+store to `0x1000_0000`; the testbench uses `RVMT_STORE_PATH_ONLY` to pass when
+that committed store is observed through RVFI. It publishes
+`results/vivado_sim/cva6_full_soc_uart_store_path/{trace.jsonl,compare.log,run.log,xsim.log}`.
+This is a store-path observation gate, not proof that a normal multi-instruction
+full-SoC pseudo-tohost program can run to completion.
 
 `sim:cva6-run` uses the same direct-core trace/no-trace snapshots for one custom
 program. Choose exactly one input:
@@ -223,11 +255,24 @@ trap handling, and tohost write. ELF and raw binary inputs are loaded at the
 direct-core DRAM base `0x80000000`; raw binaries must already be laid out for
 that address. Results are published under
 `results/vivado_sim/<name>/{trace.jsonl,compare.log,run.log,xsim.log,xsim_notrace.log}`.
+For `--asm` and `--elf` inputs, the runner also publishes `program.dump` and
+`trace.disasm.jsonl`.
 
 When `riscv-none-elf-*` is not on the host `PATH`, `sim:cva6-run` falls back to
 the existing `docker-compose.toolchain.yml` service for `--asm` and `--elf`
 tool steps. Use `--tool-mode docker` to force the container, or
 `--tool-mode local` to require host tools.
+
+Trace disassembly is a derived annotation step. Keep `trace.jsonl` as the raw
+capture, then generate `trace.disasm.jsonl` when an ELF or objdump dump is
+available. This is automatic for `sim:cva6-run --asm` and `sim:cva6-run --elf`;
+the manual command is useful for existing traces:
+
+```powershell
+uv run python tools/annotate_trace_disasm.py --trace results/vivado_sim/demo/trace.jsonl --elf build/demo.elf --out results/vivado_sim/demo/trace.disasm.jsonl
+uv run python tools/annotate_trace_disasm.py --trace results/vivado_sim/demo/trace.jsonl --objdump build/demo.dump --out results/vivado_sim/demo/trace.disasm.jsonl --strict
+uv run python tools/annotate_trace_disasm.py --self-test
+```
 
 ## Trace Source Boundary
 
@@ -261,14 +306,18 @@ uv run python tools/check_timing_principles.py --self-test
 ## Resource Report
 
 Phase 3.3 resource reporting is generated from the existing Genesys 2 Vivado
-reports plus the latest trace simulation summary:
+reports, the optional trace-enabled Vivado reports, and the latest trace
+simulation summary:
 
 ```powershell
+uv run rvmt bitstream:build-trace
 uv run python tools/generate_resource_report.py
 uv run python tools/generate_resource_report.py --self-test
 ```
 
-The generated report is `docs/resource_report.md`.
+The generated report is `docs/resource_report.md`. When
+`build/vivado/genesys2-cv64a6_imafdc_sv39-trace/reports/{ariane.utilization.rpt,ariane.timing.rpt}`
+exists, the report includes the routed baseline-vs-trace FPGA delta.
 
 ## Board Baseline Preflight
 
@@ -461,8 +510,8 @@ uv run python tools/check_fuzz_trace_plan.py --self-test
 Phase 3.4 is tracked in `docs/noninterference_resource_gate.md` and
 `experiments/hardware/noninterference_gate.json`. The gate keeps current
 evidence limited to sideband trace capture, drop accounting, direct-core
-trace/no-trace parity, and baseline resource reporting until trace-enabled
-implementation reports exist.
+trace/no-trace parity, routed trace-enabled resource delta, and board-free
+noninterference evidence.
 
 ```powershell
 uv run python tools/generate_noninterference_report.py --self-test

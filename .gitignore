@@ -133,3 +133,4 @@ rtl/cva6/corev_apu/fpga/src/bootrom/*.dts
 
 # Local completion files are user-specific.
 scripts/completions/
+vendor/ISSTA-22-NCScope/

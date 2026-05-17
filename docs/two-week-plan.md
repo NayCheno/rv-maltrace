@@ -16,17 +16,17 @@
 | 更轻便的分析手段 | 论文潜力点 | 做 compact event + filter + syscall semantic recovery |
 | x86 -> RV malware instruction 不一样 | 动机与实验设计 | 不比较 raw instruction，比较行为语义、syscall、规避方式迁移 |
 
-本计划没有重新跑 Vivado；判断基于仓库文档和代码审阅。
+2026-05-17 复核已重新跑 `sim:trace-unit`、`sim:cva6-smoke`、`sim:cva6-full-soc`，重新生成 `results/vivado_sim/summary.json`，并复跑 semantic recovery、fuzz checker、compression、timing、trace-boundary、board-minimal、evaluation 等 Python gate。
 
 ## 当前仓库状态判断
 
-仓库已经超过空雏形：已有 commit-level trace MVP、事件格式、RTL/工具链和部分 CVA6 仿真 PASS。主要缺口在完整 SoC、Linux/board 证据、语义恢复与 fuzzing 接入。
+仓库已经超过空雏形：已有 commit-level trace MVP、事件格式、RTL/工具链、direct-core CVA6 matrix、full-SoC breakpoint smoke PASS、full-SoC UART/MMIO store-path observation PASS，以及 trace-enabled Genesys 2 routed resource delta。主要缺口已经从“完整 SoC 能否跑起来”转为 normal full-SoC multi-instruction tohost completion、production signal plumbing、physical board、Linux workload、真实 malware safety gate 和论文级 evaluation 证据。
 
 - README 已把项目定位为 CVA6/RISC-V hardware-assisted behavior tracing，核心目标是 committed-event trace MVP、JSONL golden comparison，并明确 board/Linux claims 要放在 evidence gates 后面。
 - Trace event schema 已覆盖 `RETIRE`、`BRANCH`、`JUMP`、`SYSCALL_ENTRY`、`SYSCALL_RET`、`TRAP`、`CSR`、`SATP`、`PRIV`、`ARG_MEM`、`DROP`、`MARKER`。
 - CVA6 信号映射已经走 RVFI/commit/trap/CSR/writeback 路径，包括 `commit_pc`、`commit_instr`、`trap_cause`、`priv_lvl`、`satp`、`a0-a7 shadow` 等关键 attachment points。
-- 仿真结果文档显示 `trace-unit`、`rvfi_adapter`、`cva6_smoke`、`cva6_branch`、`cva6_jump`、`cva6_ecall`、`cva6_trap_illegal` 等已记录为 PASS。
-- Full CVA6 `ariane_testharness` xsim 仍被上游 AXI crossbar/`axi_demux.sv` runtime fatal 阻塞。两周内应继续走 direct-core CVA6 xsim + trace-on/no-trace parity，而不是强攻完整 SoC harness。
+- 仿真结果文档显示 `trace-unit`、`rvfi_adapter`、`cva6_smoke`、`cva6_branch`、`cva6_jump`、`cva6_ecall`、`cva6_trap_illegal`、`cva6_full_soc_smoke`、`cva6_full_soc_uart_store_path` 等已记录为 PASS。
+- Full CVA6 `ariane_testharness` xsim 已有两条可复现 gate：breakpoint-terminated smoke 可以 compile/elaborate、从 DRAM `0x8000_0000` boot、退休第一条指令并在 `0x8000_0004` 观察 breakpoint trap；UART/MMIO store-path gate 可以观察 committed RVFI store 到 `0x1000_0000`。normal multi-instruction pseudo-tohost program completion 仍是单独 TODO，不能把这些 simulation gates 外推成 Linux/board 已验证。
 - Board 侧文档已明确：board work intentionally after Vivado simulation MVP；已有本地 preflight/bitstream/route/timing artifact，但 clock/reset、UART、bare-metal runtime 仍是 `TODO(BOARD)`，不能提前声称上板成功。
 
 ## 两周最终交付
@@ -52,8 +52,8 @@
 
 | 事项 | 两周内允许声称 | 两周内不能声称 |
 | --- | --- | --- |
-| Trace RTL | synthetic trace-unit 和 direct-core CVA6 xsim 下的 committed-event trace 已验证 | full SoC `ariane_testharness` 已完整通过 |
-| CVA6 集成 | direct-core trace-on/no-trace parity 可作为当前本地执行 gate | 真实 SoC/Linux/board 执行已经证明 |
+| Trace RTL | synthetic trace-unit、direct-core CVA6 xsim、full-SoC breakpoint smoke 和 full-SoC UART/MMIO store-path observation 已验证 | normal full-SoC tohost program、Linux、board 已完整通过 |
+| CVA6 集成 | direct-core trace-on/no-trace parity 和 full-SoC breakpoint smoke 可作为当前本地 execution evidence | 真实 Linux/board 执行已经证明 |
 | `ARG_MEM` | default-disabled synthetic pointer snapshot 已验证 guardrails | CVA6 LSU 真实信号接入和 Linux pointer recovery 已完成 |
 | Semantic recovery | `trace.jsonl` 可离线生成 `semantic_events.json`、`behavior_graph.json`、`recovery_report.md` | 已具备真实恶意样本检测准确率 |
 | Board | 可以冻结 first-board minimal trace profile 和 go/no-go checklist | clock/reset、UART、bare-metal、Linux boot 的实机通过证据已经满足 |
@@ -314,7 +314,7 @@ RISCV-DV 是 open-source RISC-V processor verification instruction generator，�
 | RQ5 hardware cost | 更新 resource/timing/drop report |
 | RQ6 malware usefulness | 用 malware-like synthetic case study 预演 |
 
-`docs/resource_report.md` 当前已有 Genesys 2 routed utilization/timing snapshot，以及 trace queue/drop 统计。两周内要补的是 trace-enabled delta，而不是泛泛地说“性能影响小”。
+`docs/resource_report.md` 当前已有 Genesys 2 baseline routed utilization/timing snapshot、trace queue/drop 统计，以及 `build/vivado/genesys2-cv64a6_imafdc_sv39-trace` 生成的 trace-enabled routed delta。当前 delta：LUT +40,794 (+48.04%)、FF +2,810 (+4.97%)、BRAM/DSP 无变化、报告 slack 与 baseline 持平。
 
 ### 第 14 天：冻结上板准入条件
 
@@ -367,8 +367,8 @@ uv run python tools/check_timing_principles.py
 
 - `results/vivado_sim/summary.json` 的 `overall` 必须为 `PASS`，否则先 triage 失败 test。
 - `docs/sim_results.md` 中 direct-core CVA6 rows 必须与 `summary.json` 一致。
-- full SoC `ariane_testharness` 仍应标为 `BLOCKED`，不能被计入两周通过项。
-- `docs/risk_log.md` 中 AXI demux blocker、LSU hook TBD、board TODO 必须保留。
+- full SoC `ariane_testharness` breakpoint smoke 应标为 `PASS`，但 UART/MMIO pseudo-tohost store path 仍应单独标为 `TODO`，不能混成 full-SoC execution blocker 或 Linux/board 证据。
+- `docs/risk_log.md` 中 full-SoC UART/MMIO store-path TODO、LSU hook TBD、board TODO 必须保留。
 
 产物：
 
@@ -616,7 +616,7 @@ uv run python tools/generate_resource_report.py
 
 仍需后续证明：
 
-- trace-enabled full FPGA build 的 LUT/FF/BRAM/Fmax delta。
+- trace-enabled full FPGA build 的 LUT/FF/BRAM/slack delta 已由 `uv run rvmt bitstream:build-trace` 和 `uv run python tools/generate_resource_report.py` 记录。
 - trace path 对 routed timing 的真实影响。
 - board trace sink 在 BRAM/ILA/UART/AXI 模式下的 drop rate。
 
@@ -630,8 +630,8 @@ uv run python tools/generate_resource_report.py
 
 验收：
 
-- 文档中不得把 baseline Genesys 2 routed report 写成 trace-enabled resource overhead。
-- 若无 trace-enabled implementation report，只能写“baseline routed snapshot + simulation drop stats”。
+- 文档中不得把 baseline Genesys 2 routed report 写成 trace-enabled resource overhead；trace-enabled overhead 必须引用 `build/vivado/genesys2-cv64a6_imafdc_sv39-trace/reports/`。
+- 若 trace-enabled implementation report 缺失，只能写“baseline routed snapshot + simulation drop stats”；当前本机报告已生成。
 
 ### Day 11：board go/no-go 预案
 
@@ -767,14 +767,14 @@ docs/board_trace_validation.md
 
 | 风险 | 两周内处理方式 | 退出标准 |
 | --- | --- | --- |
-| Full SoC xsim 被 `axi_demux.sv` fatal 阻塞 | 保持 direct-core CVA6 matrix 为本地 execution gate | 不再把 full SoC xsim 作为两周硬目标 |
+| Full SoC normal tohost program completion 仍未验证 | 保持 direct-core CVA6 matrix、full-SoC breakpoint smoke 和 UART/MMIO store-path observation 为本地 execution evidence；multi-instruction pseudo-tohost program 单独追踪 | 不把 store-path observation 写成 Linux boot 或 board trace 已验证 |
 | CVA6 LSU hook TBD | `ARG_MEM` 只做 synthetic pointer snapshot，不宣称 Linux pointer recovery | `docs/signal_map.md` 明确 mem load hook TBD |
 | `a0-a7` shadow stale | MVP 规定 trace from reset；后续 RF snapshot 作为增强 | syscall tests 覆盖 same-cycle write/ECALL |
 | compressed/JALR target 错误 | 增加 directed regression 或明确 coverage gap | branch/jump golden 包含 target/taken |
 | trace bandwidth/drop | first-board profile 默认关 full retire/jump/memory trace | backpressure/drop test 和 resource report 对齐 |
 | 真实恶意样本数据不足或风险高 | 只用 benign + controlled malware-like synthetic suite | policy 保持 real malware forbidden early |
 | eBPF 稀释贡献 | eBPF 只作为后续 metadata alignment，不是 MVP dependency | semantic strategy checker 通过 |
-| trace-enabled resource delta 缺失 | 当前只报告 baseline routed snapshot + simulation queue/drop | 不声称 trace-enabled Fmax/LUT delta 已测 |
+| trace-enabled resource delta 缺失 | 2026-05-17 已生成 trace-enabled Genesys 2 routed report 并写入 `docs/resource_report.md` | 后续改 trace RTL 必须重跑 `uv run rvmt bitstream:build-trace` |
 
 ## 5 个方向的具体取舍
 
@@ -902,21 +902,32 @@ RV-MalTrace translates RISC-V-specific execution events into architecture-neutra
 
 ## 两周完成标准
 
-建议把“软件模拟完成”定义成下面 10 条：
+2026-05-17 完整复跑结果：两周 simulation MVP 可以标为完成，但完成范围应严格限定在 repository-local simulation/checker evidence。full SoC 已从旧的 BLOCKED 状态升级为 breakpoint smoke PASS，UART/MMIO store-path observation 已 PASS，trace-enabled FPGA routed resource delta 已生成；仍不能声称 physical board、Linux workload 或真实 malware analysis 已完成。
 
-- [ ] `[PASS]` trace event schema frozen。
-- [ ] `[PASS]` direct-core CVA6 trace-on simulation。
-- [ ] `[PASS]` direct-core CVA6 no-trace parity。
-- [ ] `[PASS]` branch/jump/trap/syscall/context regression。
-- [ ] `[PASS]` U-mode syscall entry + SRET-to-U syscall return。
-- [ ] `[PASS]` bounded `ARG_MEM` pointer snapshot synthetic tests。
-- [ ] `[PASS]` JSONL parser + golden checker。
-- [ ] `[PASS]` `semantic_events.json` + `behavior_graph.json` output。
-- [ ] `[PASS]` fuzz/stress invariant checker。
-- [ ] `[PASS]` board bring-up go/no-go checklist。
+| 标准 | 状态 | 证据或边界 |
+| --- | --- | --- |
+| Trace event schema frozen | PASS | `docs/trace_format.md` 覆盖当前 JSONL/event schema；`sim:summary` 生成 PASS summary |
+| direct-core CVA6 trace-on simulation | PASS | `cva6_smoke`、`cva6_branch`、`cva6_jump`、`cva6_ecall`、`cva6_trap_illegal`、`cva6_ebreak` rows PASS |
+| direct-core CVA6 no-trace parity | PASS | direct-core runner 要求 trace-enabled 与 no-trace snapshot 都到相同 tohost PASS |
+| branch/jump/trap/syscall/context regression | PASS | trace-unit、RVFI adapter 和 direct-core CVA6 rows 覆盖这些事件族 |
+| U-mode syscall entry + SRET-to-U syscall return | PASS | `syscall_ret` 和 `rvfi_adapter` 覆盖 pairing、return value、return PC、duration |
+| bounded `ARG_MEM` pointer snapshot synthetic tests | PASS | `pointer_string`、`pointer_guardrails` PASS；仍不是 Linux pointer recovery PASS |
+| JSONL parser + golden checker | PASS | `compare.log`/golden checker 和 `uv run rvmt sim:summary` PASS |
+| `semantic_events.json` + `behavior_graph.json` output | PASS(SYNTHETIC) | `build/behavior_recovery_smoke/` 已有 `semantic_events.json`、`behavior_graph.json`、`recovery_report.md`；Linux workload 输出仍 TODO |
+| fuzz/stress invariant checker | PASS(CHECKER) | `tools/check_fuzz_trace.py --self-test` 和 `fuzz_trace_smoke` fixture PASS；generated seed 的 direct-core/xsim execution 仍可作为后续优化 |
+| board bring-up go/no-go checklist | PASS(PLAN) | `check_board_trace_minimal.py` 和 `check_board_trace_programs.py` PASS；physical board observation 仍 TODO |
+| trace-enabled FPGA resource delta | PASS(SYNTHESIS) | `uv run rvmt bitstream:build-trace` 生成 `build/vivado/genesys2-cv64a6_imafdc_sv39-trace/`；`docs/resource_report.md` 记录 LUT/FF/BRAM/DSP/slack delta |
+
+当前最值得优化的不是继续扩两周 checklist，而是把下一阶段拆成 5 个明确 gate：
+
+1. Normal full-SoC multi-instruction pseudo-tohost completion：当前 UART/MMIO store observation 已 PASS，但普通 tohost program 仍需继续追踪。
+2. Production CVA6 signal plumbing：减少对 RVFI/direct-core/synthetic path 的依赖，补 CSR/SATP/LSU/raw commit hook 证据。
+3. Physical board minimal trace：clock/reset、UART、bare-metal boot、trace dump、decode、expected compare。
+4. Linux workload semantic recovery：为 benign 和 malware-like suite 生成 build evidence、ground truth、trace、`semantic_events.json`、`behavior_graph.json`、`recovery_report.md`。
+5. Real malware admission gate：在 board/Linux workload 证据存在前，真实 malware 保持 `FORBIDDEN_EARLY`。
 
 最重要的工程判断：
 
-> 先把 simulation evidence 做成铁证；不要在两周内同时追完整 Linux、真实恶意样本、独立 fuzzing、软核性能优化和上板。
+> simulation MVP 已经可以作为下一阶段基线；后续不要把 breakpoint smoke、synthetic `ARG_MEM` 或 checker self-test 外推成外设、board、Linux 或 malware-analysis completion。
 
 这样做，两周后得到的不是“一个 trace 雏形”，而是可以支撑上板和论文扩展的 RISC-V hardware-assisted malware behavior tracing simulation baseline。

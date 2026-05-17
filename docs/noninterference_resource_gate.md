@@ -32,7 +32,7 @@ noninterference_report.md
 | 3 | drop_accounting_not_stall | `backpressure` trace-unit row emits `DROP` records | CHECKED(SIM) |
 | 4 | direct_core_trace_no_trace_parity | generated noninterference summary confirms direct-core `cva6_*` trace and no-trace xsim logs reach tohost PASS | CHECKED(SIM) |
 | 5 | baseline_resource_snapshot | `docs/resource_report.md` records the existing Genesys 2 routed baseline plus trace queue/drop rows | CHECKED(BASELINE) |
-| 6 | trace_enabled_fpga_resource_delta | trace-enabled implementation utilization/timing delta | TODO(TRACE_ENABLED_SYNTHESIS) |
+| 6 | trace_enabled_fpga_resource_delta | `uv run rvmt bitstream:build-trace` generated trace-enabled Genesys 2 reports under `build/vivado/genesys2-cv64a6_imafdc_sv39-trace`; `docs/resource_report.md` records the routed delta | CHECKED(TRACE_SYNTHESIS) |
 
 ## Claim Boundary
 
@@ -42,8 +42,8 @@ interface, defaults to a registered input snapshot, accounts for overflow with
 current xsim matrix.
 
 Two-week evidence must not claim CVA6 IPC improvement, CVA6 Fmax improvement,
-trace-enabled FPGA resource overhead, trace-enabled routed timing, or board
-runtime overhead until the corresponding implementation or board artifacts exist.
+or board runtime overhead. Trace-enabled FPGA LUT/FF/BRAM/DSP/slack delta may
+now be cited only from the routed reports listed in `docs/resource_report.md`.
 
 ## Validation Command
 
