@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import argparse
 import json
@@ -10,9 +10,9 @@ from typing import Any
 
 
 DEFAULT_MANIFEST = Path("experiments/linux_behavior/benign/manifest.json")
-DEFAULT_DOC = Path("docs/linux_benign_dataset.md")
+DEFAULT_DOC = Path("docs/linux/linux_benign_dataset.md")
 DEFAULT_POLICY = Path("experiments/linux_behavior/policy.json")
-DEFAULT_UV_DOC = Path("docs/uv_workflow.md")
+DEFAULT_UV_DOC = Path("docs/process/uv_workflow.md")
 
 EXPECTED_FIXTURES = ["experiments/linux_behavior/benign/fixtures/input.txt"]
 EXPECTED_SAMPLES = {
@@ -278,7 +278,7 @@ def check_uv_doc(path: Path) -> list[str]:
     errors: list[str] = []
     if "tools/check_linux_benign_dataset.py" not in text:
         errors.append(f"{path}: missing Phase 6.2 checker command")
-    if "docs/linux_benign_dataset.md" not in text:
+    if "docs/linux/linux_benign_dataset.md" not in text:
         errors.append(f"{path}: missing Phase 6.2 benign dataset doc reference")
     if "experiments/linux_behavior/benign/manifest.json" not in text:
         errors.append(f"{path}: missing Phase 6.2 benign manifest reference")
@@ -376,7 +376,7 @@ must not include real malware
     )
     (root / DEFAULT_UV_DOC).write_text(
         "uv run python tools/check_linux_benign_dataset.py\n"
-        "docs/linux_benign_dataset.md\n"
+        "docs/linux/linux_benign_dataset.md\n"
         "experiments/linux_behavior/benign/manifest.json\n",
         encoding="utf-8",
     )
@@ -509,7 +509,7 @@ def self_test() -> int:
 
     for token, expected in (
         ("uv run python tools/check_linux_benign_dataset.py", "checker command"),
-        ("docs/linux_benign_dataset.md", "benign dataset doc reference"),
+        ("docs/linux/linux_benign_dataset.md", "benign dataset doc reference"),
         ("experiments/linux_behavior/benign/manifest.json", "benign manifest reference"),
     ):
         with tempfile.TemporaryDirectory() as tmp:

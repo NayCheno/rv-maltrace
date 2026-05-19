@@ -1,4 +1,4 @@
-# Genesys 2 Board Bring-up
+﻿# Genesys 2 Board Bring-up
 
 Board work is intentionally after the Vivado simulation MVP.
 
@@ -13,7 +13,7 @@ Board work is intentionally after the Vivado simulation MVP.
 | Baseline check_timing constraints | WARN | Parsed `ariane.check_timing.rpt`; known open warnings: `no_clock=126`, `unconstrained_internal_endpoints=33`, `no_input_delay=21`, `no_output_delay=23`, `partial_input_delay=3` |
 | Genesys 2 constraints available | PASS | Active `rtl/cva6/corev_apu/fpga/constraints/genesys-2.xdc` commands constrain `cpu_resetn`, `prog_clko`, UART `tx`, and UART `rx` |
 | DDR / clock / reset / UART static path | PASS | Active FPGA Tcl commands include `xlnx_mig_7_ddr3`, `xlnx_clk_gen`, `xlnx_dpti_clk`, and the APB UART source path; generated DDR/clock IP artifacts are present |
-| Trace-enabled resource build | PASS | `uv run rvmt bitstream:build-trace` on 2026-05-17 generated `build/vivado/genesys2-cv64a6_imafdc_sv39-trace/`; `docs/resource_report.md` records the routed delta |
+| Trace-enabled resource build | PASS | `uv run rvmt bitstream:build-trace` on 2026-05-17 generated `build/vivado/genesys2-cv64a6_imafdc_sv39-trace/`; `docs/reports/resource_report.md` records the routed delta |
 | Clock/reset sanity | TODO (BOARD) | Requires board observation notes after programming the bitstream |
 | UART hello | TODO (BOARD) | Requires serial log from the physical board |
 | Bare-metal program runs | TODO (BOARD) | Requires UART/tohost log from the physical board |
@@ -31,7 +31,7 @@ success.
 
 ## Authorization Risk Gate
 
-Phase 4.2 is recorded in `docs/vivado_authorization.md`.
+Phase 4.2 is recorded in `docs/board/vivado_authorization.md`.
 
 | Gate | Status | Evidence |
 | --- | --- | --- |
@@ -41,7 +41,7 @@ Phase 4.2 is recorded in `docs/vivado_authorization.md`.
 
 ## Baseline Bring-up Sequence
 
-Phase 4.3 is the ordered board procedure in `docs/baseline_bringup_runbook.md`.
+Phase 4.3 is the ordered board procedure in `docs/board/baseline_bringup_runbook.md`.
 Record all physical observations under `results/board/genesys2_baseline/<run-id>/`.
 
 | Order | Step | Status | Evidence directory |
@@ -54,7 +54,7 @@ Record all physical observations under `results/board/genesys2_baseline/<run-id>
 
 ## Baseline Pass Criteria
 
-Phase 4.4 is tracked in `docs/baseline_pass_criteria.md`. Current status:
+Phase 4.4 is tracked in `docs/board/baseline_pass_criteria.md`. Current status:
 
 | Criterion | Status | Evidence |
 | --- | --- | --- |
@@ -66,11 +66,11 @@ Phase 4.4 is tracked in `docs/baseline_pass_criteria.md`. Current status:
 
 ## Trace-enabled Bring-up Plan
 
-Phase 5.1 export choice is recorded in `docs/trace_export_decision.md`.
-Phase 5.2 first-board event policy is recorded in `docs/board_trace_minimal.md`
+Phase 5.1 export choice is recorded in `docs/architecture/trace_export_decision.md`.
+Phase 5.2 first-board event policy is recorded in `docs/board/board_trace_minimal.md`
 and driven by `rtl/trace/trace_board_minimal_top.sv`.
 Phase 5.3 validation programs are recorded in
-`docs/board_trace_validation.md` and `board/trace_validation/manifest.json`.
+`docs/board/board_trace_validation.md` and `board/trace_validation/manifest.json`.
 
 1. Keep full retire disabled by default.
 2. Enable syscall, trap, context, and branch events first.

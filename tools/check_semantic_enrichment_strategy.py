@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import argparse
 import json
@@ -10,11 +10,11 @@ from typing import Any
 
 
 DEFAULT_SPEC = Path("experiments/linux_behavior/semantic_enrichment_strategy.json")
-DEFAULT_DOC = Path("docs/semantic_enrichment_strategy.md")
+DEFAULT_DOC = Path("docs/research/semantic/semantic_enrichment_strategy.md")
 DEFAULT_RATIONALE = Path("experiments/linux_behavior/semantic_enrichment_rationale.json")
 DEFAULT_ROUTES = Path("experiments/linux_behavior/semantic_enrichment_routes.json")
-DEFAULT_TRACE_FORMAT = Path("docs/trace_format.md")
-DEFAULT_UV_DOC = Path("docs/uv_workflow.md")
+DEFAULT_TRACE_FORMAT = Path("docs/architecture/trace_format.md")
+DEFAULT_UV_DOC = Path("docs/process/uv_workflow.md")
 
 SPEC_KEYS = {
     "phase",
@@ -328,7 +328,7 @@ def check_uv_doc(path: Path) -> list[str]:
     errors: list[str] = []
     for token, label in (
         ("tools/check_semantic_enrichment_strategy.py", "Phase 7.3 checker command"),
-        ("docs/semantic_enrichment_strategy.md", "Phase 7.3 doc reference"),
+        ("docs/research/semantic/semantic_enrichment_strategy.md", "Phase 7.3 doc reference"),
         ("experiments/linux_behavior/semantic_enrichment_strategy.json", "Phase 7.3 spec reference"),
     ):
         if token not in text:
@@ -458,7 +458,7 @@ keeps default load/store payload emission disabled
     )
     (root / DEFAULT_UV_DOC).write_text(
         "uv run python tools/check_semantic_enrichment_strategy.py\n"
-        "docs/semantic_enrichment_strategy.md\n"
+        "docs/research/semantic/semantic_enrichment_strategy.md\n"
         "experiments/linux_behavior/semantic_enrichment_strategy.json\n",
         encoding="utf-8",
     )
@@ -663,7 +663,7 @@ def self_test() -> int:
 
     for token, expected in (
         ("tools/check_semantic_enrichment_strategy.py", "checker command"),
-        ("docs/semantic_enrichment_strategy.md", "doc reference"),
+        ("docs/research/semantic/semantic_enrichment_strategy.md", "doc reference"),
         ("experiments/linux_behavior/semantic_enrichment_strategy.json", "spec reference"),
     ):
         with tempfile.TemporaryDirectory() as tmp:

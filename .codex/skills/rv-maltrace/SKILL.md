@@ -1,4 +1,4 @@
----
+﻿---
 name: rv-maltrace
 description: Repository-specific workflow for RV-MalTrace, a CVA6/RISC-V hardware-assisted malware behavior tracing project. Use when Codex works in this repository on RTL trace taps, Vivado/xsim simulation, CVA6 integration, board bring-up, trace JSONL/golden files, behavior recovery experiments, project documentation, validation gates, or research-plan changes.
 ---
@@ -11,11 +11,11 @@ Use this skill to keep RV-MalTrace work aligned with mature open-source hardware
 
 1. Confirm the repo root by finding `pyproject.toml` with `name = "rv-maltrace"`.
 2. Read the most relevant local docs before editing:
-   - `docs/uv_workflow.md` for commands and configuration.
-   - `docs/trace_format.md` before changing trace packets, JSONL, parser, compressor, or goldens.
-   - `docs/signal_map.md` before touching CVA6 adapter or RTL tap attachment points.
-   - `docs/plan.md` and `docs/next-plan.md` before changing project direction.
-   - Board docs under `docs/board_*.md` before claiming board progress.
+   - `docs/process/uv_workflow.md` for commands and configuration.
+   - `docs/architecture/trace_format.md` before changing trace packets, JSONL, parser, compressor, or goldens.
+   - `docs/architecture/signal_map.md` before touching CVA6 adapter or RTL tap attachment points.
+   - `docs/planning/plan.md` and `docs/planning/next-plan.md` before changing project direction.
+   - Board docs under `docs/board/` before claiming board progress.
 3. Inspect current diffs with `git status --short` and preserve user changes.
 4. Prefer the repository entry points over ad hoc commands:
    - `uv run rvmt tasks:list`
@@ -34,8 +34,8 @@ Keep trace logic sideband-only. Do not add core backpressure for trace collectio
 Before editing, read:
 
 - `references/project-map.md`
-- `docs/trace_format.md`
-- `docs/signal_map.md`
+- `docs/architecture/trace_format.md`
+- `docs/architecture/signal_map.md`
 - the touched files under `rtl/trace/`
 
 Validation expectations:
@@ -51,7 +51,7 @@ Treat JSONL as the stable behavioral interface between RTL/sim and Python tools.
 
 Before editing, read:
 
-- `docs/trace_format.md`
+- `docs/architecture/trace_format.md`
 - `tools/compare_trace.py`
 - `tools/parse_trace.py`
 - relevant files under `sim/golden/`, `board/trace_validation/expected/`, or `experiments/linux_behavior/`
@@ -84,11 +84,11 @@ Separate repository-local build evidence from physical board evidence.
 
 Before editing, read:
 
-- `docs/baseline_bringup_runbook.md`
-- `docs/baseline_pass_criteria.md`
-- `docs/board_bringup.md`
-- `docs/board_trace_minimal.md`
-- `docs/board_trace_validation.md`
+- `docs/board/baseline_bringup_runbook.md`
+- `docs/board/baseline_pass_criteria.md`
+- `docs/board/board_bringup.md`
+- `docs/board/board_trace_minimal.md`
+- `docs/board/board_trace_validation.md`
 
 Validation expectations:
 

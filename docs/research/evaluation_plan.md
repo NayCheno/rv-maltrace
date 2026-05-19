@@ -1,6 +1,6 @@
-# Evaluation Plan
+﻿# Evaluation Plan
 
-This document turns `docs/next-plan.md` Section 9 and Stage 3 into a checkable
+This document turns `docs/planning/next-plan.md` Section 9 and Stage 3 into a checkable
 evaluation plan. It is a research design and artifact gate, not evaluation
 evidence. All rows remain TODO until the required simulation, board, Linux, or
 paper-study artifacts exist under the documented results paths.
@@ -22,7 +22,7 @@ and comparisons against software or simulator baselines.
 | RQ2 | Semantic reconstruction: can syscall arguments, return values, paths, fd behavior, and behavior graphs be recovered? | recovery target specs, synthetic traces, Linux trace outputs, semantic JSON, graph JSON, and reports | TODO |
 | RQ3 | Low perturbation: how much runtime and timing perturbation is introduced compared with software tracing? | paired hardware-only/software-baseline runs, cycle or wall-time measurements, and perturbation summaries | TODO |
 | RQ4 | Evasion resistance: are anti-debug, timing, direct-syscall, and packed-code samples less able to detect or bypass tracing? | controlled malware-like suite manifests, per-sample traces, expected behaviors, and comparison notes | TODO |
-| RQ5 | Hardware cost: what are LUT, FF, BRAM, Fmax, trace bandwidth, and drop-rate costs? | Vivado utilization/timing reports, `docs/resource_report.md`, trace bandwidth summaries, and drop accounting | TODO |
+| RQ5 | Hardware cost: what are LUT, FF, BRAM, Fmax, trace bandwidth, and drop-rate costs? | Vivado utilization/timing reports, `docs/reports/resource_report.md`, trace bandwidth summaries, and drop accounting | TODO |
 | RQ6 | Malware behavior usefulness: are key malware-like behaviors reconstructed clearly enough for audit or rules? | case studies with behavior graph evidence and manually reviewable semantic summaries | TODO |
 
 ## Baselines

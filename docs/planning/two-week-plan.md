@@ -1,4 +1,4 @@
-# RV-MalTrace 两周推进计划
+﻿# RV-MalTrace 两周推进计划
 
 ## 结论
 
@@ -28,6 +28,26 @@
 - 仿真结果文档显示 `trace-unit`、`rvfi_adapter`、`cva6_smoke`、`cva6_branch`、`cva6_jump`、`cva6_ecall`、`cva6_trap_illegal`、`cva6_full_soc_smoke`、`cva6_full_soc_uart_store_path` 等已记录为 PASS。
 - Full CVA6 `ariane_testharness` xsim 已有两条可复现 gate：breakpoint-terminated smoke 可以 compile/elaborate、从 DRAM `0x8000_0000` boot、退休第一条指令并在 `0x8000_0004` 观察 breakpoint trap；UART/MMIO store-path gate 可以观察 committed RVFI store 到 `0x1000_0000`。normal multi-instruction pseudo-tohost program completion 仍是单独 TODO，不能把这些 simulation gates 外推成 Linux/board 已验证。
 - Board 侧文档已明确：board work intentionally after Vivado simulation MVP；已有本地 preflight/bitstream/route/timing artifact，但 clock/reset、UART、bare-metal runtime 仍是 `TODO(BOARD)`，不能提前声称上板成功。
+
+## 2026-05-17 复核结论
+
+本轮复核基于当前 `main` 分支文档、代码、已有结果和提交记录，不等价于重新完成 physical board、Linux boot 或真实 malware 实验。结论应按下面口径对外表述：
+
+| 问题 | 当前判断 |
+| --- | --- |
+| two-week-plan 是否完成 | 仿真 MVP 基本完成；论文级/上板/Linux/malware 评估没有完成。计划中“软件模拟可验证的 RISC-V/CVA6 malware behavior tracing MVP”已有较完整证据链，但 board、Linux workload、真实 malware、安全隔离、baseline 对比仍是后续 gate。 |
+| 目前模拟的 SoC 是否正确 | 局部正确，不可外推为完整 SoC 正确。direct-core CVA6 和 trace-unit 回归较强；full SoC 已有 breakpoint smoke 与 UART/MMIO store-path observation PASS。但 normal full-SoC multi-instruction tohost completion、Linux boot、physical board 仍不能声称正确。 |
+| 没有板子测试时能否声称硬件正确 | 不能。当前 board 文档中 clock/reset、UART hello、bare-metal runtime 仍是 `TODO(BOARD)`；现有 bitstream、route/timing、preflight 只能算 repository-local Vivado evidence。 |
+| malware 是否检测准确 | 不能声称检测准确率。仓库已有 synthetic malware-like manifest、semantic recovery 和 rule-based audit，但这些只能证明 synthetic behavior audit workflow，不是 real malware detection quality evidence。 |
+| 下一步主线 | 先做可视化可审计 demo、Linux/QEMU/strace ground truth 和 board bring-up；再做 QEMU/Spike/strace/eBPF/QEMU-plugin 对比；最后做 RISC-V vs x86 行为语义对比。 |
+
+因此当前最稳妥的项目表述是：
+
+```text
+RV-MalTrace has completed a simulation-validated RISC-V/CVA6 committed-event tracing MVP.
+It currently supports derived semantic behavior recovery and synthetic rule-based behavior audit.
+The next milestone is board-level trace export and Linux/QEMU/strace-aligned behavior evaluation.
+```
 
 ## 两周最终交付
 
@@ -141,13 +161,14 @@ repository-authored Linux behavior workload
 
 | 工作包 | 目标 | 主要文件或目录 | 产物 | 验收命令 |
 | --- | --- | --- | --- | --- |
-| WP0 baseline freeze | 冻结当前可复现实验基线 | `docs/sim_results.md`、`results/vivado_sim/` | `summary.json`、per-test logs、baseline notes | `uv run rvmt sim:summary` |
+| WP0 baseline freeze | 冻结当前可复现实验基线 | `docs/reports/sim_results.md`、`results/vivado_sim/` | `summary.json`、per-test logs、baseline notes | `uv run rvmt sim:summary` |
 | WP1 event correctness | 打实 branch/jump/syscall/trap/context/drop 语义 | `rtl/trace/`、`sim/golden/`、`sim/tb/` | 新增或确认 golden、compare logs | `uv run rvmt sim:trace-unit` |
 | WP2 direct-core CVA6 coverage | 保持真实 CVA6 committed RVFI 路径可跑 | `sim/tb/tb_cva6_direct_xsim_smoke.sv`、`sim/programs/cva6_*` | trace-on/no-trace matrix logs | `uv run rvmt sim:cva6-smoke` |
 | WP3 semantic recovery | 把 raw trace 转成可审计行为语义 | `tools/recover_behavior.py`、`experiments/linux_behavior/recovery_targets.json` | `semantic_events.json`、`behavior_graph.json`、`recovery_report.md` | `uv run python tools/recover_behavior.py --self-test` |
 | WP4 bounded fuzz/stress | 用生成或 directed 程序压力测试 trace invariants | `sim/programs/`、后续 `tools/check_fuzz_trace.py` | fuzz manifest、per-case compare logs、invariant report | `uv run rvmt sim:cva6-run ...` |
-| WP5 lightweight analysis | 证明 event-selective trace 不是 full trace | `docs/trace_format.md`、`tools/compress_trace.py` | compression stats、filter/drop report | `uv run python tools/compress_trace.py ... --check-roundtrip --stats` |
-| WP6 evaluation/resource/board gate | 冻结论文级评估与上板准入 | `docs/evaluation_plan.md`、`docs/resource_report.md`、`docs/board_*.md` | RQ gate、resource delta plan、board go/no-go checklist | `uv run python tools/check_evaluation_plan.py` |
+| WP5 lightweight analysis | 证明 event-selective trace 不是 full trace | `docs/architecture/trace_format.md`、`tools/compress_trace.py` | compression stats、filter/drop report | `uv run python tools/compress_trace.py ... --check-roundtrip --stats` |
+| WP6 evaluation/resource/board gate | 冻结论文级评估与上板准入 | `docs/research/evaluation_plan.md`、`docs/reports/resource_report.md`、`docs/board/` | RQ gate、resource delta plan、board go/no-go checklist | `uv run python tools/check_evaluation_plan.py` |
+| WP7 demo/evidence bundle | 把 trace、语义恢复、rule audit 和可视化串成可审计 demo | `results/demo/`、`tools/recover_behavior.py`、`tools/audit_behavior.py`、`tools/render_behavior_demo.py` | timeline、behavior graph、scorecard、audit report | `uv run rvmt demo:behavior --sample ... --backend fixture` |
 
 ## 依赖关系
 
@@ -159,6 +180,7 @@ WP0 baseline freeze
     -> WP4 bounded fuzz/stress
     -> WP5 lightweight analysis
     -> WP6 evaluation/resource/board gate
+    -> WP7 demo/evidence bundle
 ```
 
 实际执行时允许 WP3/WP5 与 WP1/WP2 并行推进，但不能在 WP1/WP2 未通过时宣称 trace correctness。
@@ -186,7 +208,7 @@ uv run rvmt sim:summary
 | `trace-unit` | 所有 synthetic trace tests PASS |
 | `cva6-smoke` | direct-core CVA6 trace-on/no-trace 都能到相同 `tohost` PASS |
 | `summary` | `results/vivado_sim/summary.json` 更新 |
-| `docs` | `docs/sim_results.md` 与实际结果一致 |
+| `docs` | `docs/reports/sim_results.md` 与实际结果一致 |
 | `evidence` | 不能只有口头 PASS，必须有 trace、compare、xsim log |
 
 这里不要急着加新功能。先把现有结果重新跑通并固化。
@@ -202,7 +224,7 @@ uv run rvmt sim:summary
 | `SYSCALL_RET` | SRET-to-U + outstanding syscall | 普通 SRET 被误配成 syscall return |
 | `TRAP` | illegal/ebreak/ecall cause/tval/pc | trap 与 retire 混淆 |
 
-`docs/next-plan.md` 已指出几个关键坑：ECALL 不能只从 normal retire path 捕获，compressed instruction 不能默认 `next_pc = pc + 4`，JALR target 要优先用 core resolved target/next_pc，`a0-a7 shadow` 也有 stale 风险。
+`docs/planning/next-plan.md` 已指出几个关键坑：ECALL 不能只从 normal retire path 捕获，compressed instruction 不能默认 `next_pc = pc + 4`，JALR target 要优先用 core resolved target/next_pc，`a0-a7 shadow` 也有 stale 风险。
 
 建议新增或确认以下 regression：
 
@@ -275,7 +297,7 @@ RISCV-DV 是 open-source RISC-V processor verification instruction generator，�
 | L2 compact packet | event-specific payload、cycle delta、pc delta | 降低存储/导出成本 |
 | L3 semantic recovery | 离线恢复 behavior graph | 减少硬件复杂度 |
 
-`docs/trace_format.md` 已经有 filter controls 和 compressed trace prototype，包含 `cycle_delta`、`pc_delta`、event-specific payload、context delta 等设计。
+`docs/architecture/trace_format.md` 已经有 filter controls 和 compressed trace prototype，包含 `cycle_delta`、`pc_delta`、event-specific payload、context delta 等设计。
 
 两周内应输出：
 
@@ -301,7 +323,7 @@ RISCV-DV 是 open-source RISC-V processor verification instruction generator，�
 
 ### 第 12-13 天：整理论文级 evaluation gate
 
-`docs/evaluation_plan.md` 已经把研究问题拆成 correctness、semantic reconstruction、low perturbation、evasion resistance、hardware cost、malware behavior usefulness，并列出 `strace`/`ptrace`、eBPF-only、QEMU plugin、software instrumentation、event-only、pointer snapshot、kernel helper 等 baseline。
+`docs/research/evaluation_plan.md` 已经把研究问题拆成 correctness、semantic reconstruction、low perturbation、evasion resistance、hardware cost、malware behavior usefulness，并列出 `strace`/`ptrace`、eBPF-only、QEMU plugin、software instrumentation、event-only、pointer snapshot、kernel helper 等 baseline。
 
 两周内不要尝试完成所有 evaluation。应只完成 simulation-level RQ1/RQ2 的证据：
 
@@ -314,7 +336,7 @@ RISCV-DV 是 open-source RISC-V processor verification instruction generator，�
 | RQ5 hardware cost | 更新 resource/timing/drop report |
 | RQ6 malware usefulness | 用 malware-like synthetic case study 预演 |
 
-`docs/resource_report.md` 当前已有 Genesys 2 baseline routed utilization/timing snapshot、trace queue/drop 统计，以及 `build/vivado/genesys2-cv64a6_imafdc_sv39-trace` 生成的 trace-enabled routed delta。当前 delta：LUT +40,794 (+48.04%)、FF +2,810 (+4.97%)、BRAM/DSP 无变化、报告 slack 与 baseline 持平。
+`docs/reports/resource_report.md` 当前已有 Genesys 2 baseline routed utilization/timing snapshot、trace queue/drop 统计，以及 `build/vivado/genesys2-cv64a6_imafdc_sv39-trace` 生成的 trace-enabled routed delta。当前 delta：LUT +40,794 (+48.04%)、FF +2,810 (+4.97%)、BRAM/DSP 无变化、报告 slack 与 baseline 持平。
 
 ### 第 14 天：冻结上板准入条件
 
@@ -366,14 +388,14 @@ uv run python tools/check_timing_principles.py
 检查项：
 
 - `results/vivado_sim/summary.json` 的 `overall` 必须为 `PASS`，否则先 triage 失败 test。
-- `docs/sim_results.md` 中 direct-core CVA6 rows 必须与 `summary.json` 一致。
+- `docs/reports/sim_results.md` 中 direct-core CVA6 rows 必须与 `summary.json` 一致。
 - full SoC `ariane_testharness` breakpoint smoke 应标为 `PASS`，但 UART/MMIO pseudo-tohost store path 仍应单独标为 `TODO`，不能混成 full-SoC execution blocker 或 Linux/board 证据。
-- `docs/risk_log.md` 中 full-SoC UART/MMIO store-path TODO、LSU hook TBD、board TODO 必须保留。
+- `docs/process/risk_log.md` 中 full-SoC UART/MMIO store-path TODO、LSU hook TBD、board TODO 必须保留。
 
 产物：
 
 - 一段 baseline note，记录当前 PASS matrix、BLOCKED matrix、复现命令。
-- 若 `summary.json` 与文档不一致，先更新 `docs/sim_results.md`，不要继续扩功能。
+- 若 `summary.json` 与文档不一致，先更新 `docs/reports/sim_results.md`，不要继续扩功能。
 
 验收：
 
@@ -477,7 +499,7 @@ uv run python tools/recover_behavior.py --trace sim/golden/behavior_recovery.tra
 
 - `PRIV` 事件要记录 `old_priv` 和 `new_priv`。
 - `SATP` 要被单独保留为 context 事件，而不是普通 CSR 被吞掉。
-- watched CSR 列表和优先级必须写在 `docs/signal_map.md` 或相关文档中。
+- watched CSR 列表和优先级必须写在 `docs/architecture/signal_map.md` 或相关文档中。
 - `DROP.value` 记录累计 drop count；drop 不是 silent failure。
 - filter 后的 dropped/kept 事件口径要能解释。
 
@@ -490,7 +512,7 @@ uv run python tools/recover_behavior.py --trace sim/golden/behavior_recovery.tra
 
 验收：
 
-- backpressure test 的 drop rows 与 `docs/resource_report.md` 中 drop summary 一致。
+- backpressure test 的 drop rows 与 `docs/reports/resource_report.md` 中 drop summary 一致。
 - filter test 能证明 event-type、PC range、privilege mask 的组合不会把 drop accounting 吞掉。
 
 ### Day 6：semantic recovery schema 细化
@@ -601,7 +623,7 @@ uv run python tools/generate_resource_report.py
 
 - compression roundtrip 后语义不变。
 - `DROP` 只作为 accounted loss，不作为 silent trace corruption。
-- `docs/resource_report.md` 与最新 `summary.json` 的 drop rows 对齐。
+- `docs/reports/resource_report.md` 与最新 `summary.json` 的 drop rows 对齐。
 
 ### Day 10：noninterference 和资源边界
 
@@ -693,7 +715,7 @@ uv run python tools/check_linux_malware_like_dataset.py
 
 验收：
 
-- `docs/evaluation_plan.md` 仍保持 TODO，除非真实 artifact 已存在。
+- `docs/research/evaluation_plan.md` 仍保持 TODO，除非真实 artifact 已存在。
 - 每个 baseline 都必须有独立 run config，不能把 `strace` ground truth run 当作 uninstrumented runtime。
 
 ### Day 13：研究叙事和消融实验设计
@@ -749,12 +771,12 @@ uv run python tools/check_evaluation_plan.py
 ```text
 results/vivado_sim/
 build/behavior_recovery_smoke/
-docs/sim_results.md
-docs/resource_report.md
-docs/evaluation_plan.md
-docs/two-week-plan.md
-docs/board_trace_minimal.md
-docs/board_trace_validation.md
+docs/reports/sim_results.md
+docs/reports/resource_report.md
+docs/research/evaluation_plan.md
+docs/planning/two-week-plan.md
+docs/board/board_trace_minimal.md
+docs/board/board_trace_validation.md
 ```
 
 最终验收：
@@ -768,13 +790,13 @@ docs/board_trace_validation.md
 | 风险 | 两周内处理方式 | 退出标准 |
 | --- | --- | --- |
 | Full SoC normal tohost program completion 仍未验证 | 保持 direct-core CVA6 matrix、full-SoC breakpoint smoke 和 UART/MMIO store-path observation 为本地 execution evidence；multi-instruction pseudo-tohost program 单独追踪 | 不把 store-path observation 写成 Linux boot 或 board trace 已验证 |
-| CVA6 LSU hook TBD | `ARG_MEM` 只做 synthetic pointer snapshot，不宣称 Linux pointer recovery | `docs/signal_map.md` 明确 mem load hook TBD |
+| CVA6 LSU hook TBD | `ARG_MEM` 只做 synthetic pointer snapshot，不宣称 Linux pointer recovery | `docs/architecture/signal_map.md` 明确 mem load hook TBD |
 | `a0-a7` shadow stale | MVP 规定 trace from reset；后续 RF snapshot 作为增强 | syscall tests 覆盖 same-cycle write/ECALL |
 | compressed/JALR target 错误 | 增加 directed regression 或明确 coverage gap | branch/jump golden 包含 target/taken |
 | trace bandwidth/drop | first-board profile 默认关 full retire/jump/memory trace | backpressure/drop test 和 resource report 对齐 |
 | 真实恶意样本数据不足或风险高 | 只用 benign + controlled malware-like synthetic suite | policy 保持 real malware forbidden early |
 | eBPF 稀释贡献 | eBPF 只作为后续 metadata alignment，不是 MVP dependency | semantic strategy checker 通过 |
-| trace-enabled resource delta 缺失 | 2026-05-17 已生成 trace-enabled Genesys 2 routed report 并写入 `docs/resource_report.md` | 后续改 trace RTL 必须重跑 `uv run rvmt bitstream:build-trace` |
+| trace-enabled resource delta 缺失 | 2026-05-17 已生成 trace-enabled Genesys 2 routed report 并写入 `docs/reports/resource_report.md` | 后续改 trace RTL 必须重跑 `uv run rvmt bitstream:build-trace` |
 
 ## 5 个方向的具体取舍
 
@@ -902,11 +924,11 @@ RV-MalTrace translates RISC-V-specific execution events into architecture-neutra
 
 ## 两周完成标准
 
-2026-05-17 完整复跑结果：两周 simulation MVP 可以标为完成，但完成范围应严格限定在 repository-local simulation/checker evidence。full SoC 已从旧的 BLOCKED 状态升级为 breakpoint smoke PASS，UART/MMIO store-path observation 已 PASS，trace-enabled FPGA routed resource delta 已生成；仍不能声称 physical board、Linux workload 或真实 malware analysis 已完成。
+2026-05-18 复跑结果：两周 simulation MVP 可以标为完成，但完成范围应严格限定在 repository-local simulation/checker evidence。full SoC 已从旧的 BLOCKED 状态升级为 breakpoint smoke PASS，UART/MMIO store-path observation 已 PASS，normal tohost/MMIO completion gate 已 PASS，trace-enabled FPGA routed resource delta 已生成；仍不能声称 physical board、Linux workload 或真实 malware analysis 已完成。
 
 | 标准 | 状态 | 证据或边界 |
 | --- | --- | --- |
-| Trace event schema frozen | PASS | `docs/trace_format.md` 覆盖当前 JSONL/event schema；`sim:summary` 生成 PASS summary |
+| Trace event schema frozen | PASS | `docs/architecture/trace_format.md` 覆盖当前 JSONL/event schema；`sim:summary` 生成 PASS summary |
 | direct-core CVA6 trace-on simulation | PASS | `cva6_smoke`、`cva6_branch`、`cva6_jump`、`cva6_ecall`、`cva6_trap_illegal`、`cva6_ebreak` rows PASS |
 | direct-core CVA6 no-trace parity | PASS | direct-core runner 要求 trace-enabled 与 no-trace snapshot 都到相同 tohost PASS |
 | branch/jump/trap/syscall/context regression | PASS | trace-unit、RVFI adapter 和 direct-core CVA6 rows 覆盖这些事件族 |
@@ -916,11 +938,12 @@ RV-MalTrace translates RISC-V-specific execution events into architecture-neutra
 | `semantic_events.json` + `behavior_graph.json` output | PASS(SYNTHETIC) | `build/behavior_recovery_smoke/` 已有 `semantic_events.json`、`behavior_graph.json`、`recovery_report.md`；Linux workload 输出仍 TODO |
 | fuzz/stress invariant checker | PASS(CHECKER) | `tools/check_fuzz_trace.py --self-test` 和 `fuzz_trace_smoke` fixture PASS；generated seed 的 direct-core/xsim execution 仍可作为后续优化 |
 | board bring-up go/no-go checklist | PASS(PLAN) | `check_board_trace_minimal.py` 和 `check_board_trace_programs.py` PASS；physical board observation 仍 TODO |
-| trace-enabled FPGA resource delta | PASS(SYNTHESIS) | `uv run rvmt bitstream:build-trace` 生成 `build/vivado/genesys2-cv64a6_imafdc_sv39-trace/`；`docs/resource_report.md` 记录 LUT/FF/BRAM/DSP/slack delta |
+| trace-enabled FPGA resource delta | PASS(SYNTHESIS) | `uv run rvmt bitstream:build-trace` 生成 `build/vivado/genesys2-cv64a6_imafdc_sv39-trace/`；`docs/reports/resource_report.md` 记录 LUT/FF/BRAM/DSP/slack delta |
+| normal full-SoC tohost/MMIO completion | PASS(SIM) | `uv run rvmt sim:cva6-full-soc-tohost` PASS；full `ariane_testharness` 观察到 committed tohost/MMIO store，且未使用 `RVMT_STORE_PATH_ONLY` shortcut |
 
 当前最值得优化的不是继续扩两周 checklist，而是把下一阶段拆成 5 个明确 gate：
 
-1. Normal full-SoC multi-instruction pseudo-tohost completion：当前 UART/MMIO store observation 已 PASS，但普通 tohost program 仍需继续追踪。
+1. Normal full-SoC tohost/MMIO completion：`uv run rvmt sim:cva6-full-soc-tohost` 已成为单独 gate 且 PASS，不与 breakpoint smoke 或 `RVMT_STORE_PATH_ONLY` store-path PASS 混淆。
 2. Production CVA6 signal plumbing：减少对 RVFI/direct-core/synthetic path 的依赖，补 CSR/SATP/LSU/raw commit hook 证据。
 3. Physical board minimal trace：clock/reset、UART、bare-metal boot、trace dump、decode、expected compare。
 4. Linux workload semantic recovery：为 benign 和 malware-like suite 生成 build evidence、ground truth、trace、`semantic_events.json`、`behavior_graph.json`、`recovery_report.md`。
@@ -929,5 +952,141 @@ RV-MalTrace translates RISC-V-specific execution events into architecture-neutra
 最重要的工程判断：
 
 > simulation MVP 已经可以作为下一阶段基线；后续不要把 breakpoint smoke、synthetic `ARG_MEM` 或 checker self-test 外推成外设、board、Linux 或 malware-analysis completion。
+
+## 下一阶段：可审计 demo 和评估路线
+
+下一阶段最缺的不是再加一种 event，而是把已有 trace 证据转成可展示、可复核、可比较的 evidence bundle。建议新增统一 demo 输出目录：
+
+```text
+results/demo/<run-id>/<sample-id>/
+  00_build/
+    source.sha256
+    elf.sha256
+    compiler.txt
+  01_ground_truth/
+    qemu.log
+    strace.log
+    expected_behavior.json
+  02_trace/
+    trace.jsonl
+    trace.disasm.jsonl
+    compare.log
+  03_semantic/
+    semantic_events.json
+    behavior_graph.json
+    recovery_report.md
+  04_audit/
+    behavior_audit.json
+    behavior_audit_report.md
+  05_visual/
+    timeline.html
+    graph.html
+    scorecard.md
+```
+
+建议新增一个统一入口：
+
+```powershell
+uv run rvmt demo:behavior --sample anti_debug_like --backend fixture
+```
+
+第一版内部只需要串起已有 recovery 和后续 audit/render 工具：
+
+```powershell
+uv run python tools/recover_behavior.py `
+  --trace results/demo/<run>/<sample>/02_trace/trace.jsonl `
+  --out-dir results/demo/<run>/<sample>/03_semantic
+
+uv run python tools/audit_behavior.py `
+  --semantic results/demo/<run>/<sample>/03_semantic/semantic_events.json `
+  --graph results/demo/<run>/<sample>/03_semantic/behavior_graph.json `
+  --manifest experiments/linux_behavior/malware_like/manifest.json `
+  --sample-id anti_debug_like `
+  --out-dir results/demo/<run>/<sample>/04_audit
+```
+
+### Demo 呈现口径
+
+`scorecard.md` 和 HTML 报告中不要写 `malware detected: yes`。当前阶段更严谨的表达是：
+
+```text
+Matched malware-like behavior rule: anti_analysis_indicator
+```
+
+等 benign/malware-like confusion matrix、ground truth、rule-level TP/FP/FN/TN 做完后，才能把输出升级成：
+
+```text
+Detection result: suspicious / benign / inconclusive
+```
+
+最小可视化应包含三类视图：
+
+| 视图 | 内容 | 用途 |
+| --- | --- | --- |
+| `timeline.html` | cycle/time 横轴，syscall、trap、context、branch、drop 分层展示 | 一眼看到行为序列 |
+| `graph.html` | Process/File/Socket/MemoryRegion/Syscall 节点和边 | 一眼看到行为图 |
+| `scorecard.md` 或 `scorecard.html` | rule、matched/missing、证据 event、non-claim | 一眼看到为什么命中规则，以及不能声称什么 |
+
+优先 demo 样例：
+
+1. `anti_debug_like`：验证 `ptrace`、`clock_gettime` 或 `/proc` 访问形态。
+2. `dynamic_executable_memory`：验证 `mmap`、buffer write、`mprotect RX` 行为图。
+3. `file_scan`：验证目录/文件访问图和 fd graph。
+
+### 检测准确率指标
+
+在真实准确率实验前，只能说 rule-based synthetic audit，不应说 malware detection accuracy。后续若要量化准确率，至少需要以下层级：
+
+| 层级 | 指标 |
+| --- | --- |
+| Event 层 | syscall precision/recall、trap precision/recall、branch/jump target accuracy |
+| Argument 层 | scalar arg accuracy、return value accuracy、path string reconstruction accuracy |
+| Graph 层 | fd graph accuracy、process graph accuracy、file/socket/memory node recovery accuracy |
+| Rule 层 | rule-level TP/FP/FN/TN |
+| Sample 层 | benign vs malware-like confusion matrix |
+| Robustness 层 | anti-debug、timing、direct syscall、`mmap`/`mprotect`、packed-code case outcome |
+| Perturbation 层 | runtime overhead、trace volume、drop rate、detectability |
+
+最小实验矩阵应同时包含 benign 和 malware-like synthetic：
+
+| 类别 | 样例 |
+| --- | --- |
+| benign | `hello`、`cat`、`cp`、`sha256sum`、small network client |
+| malware-like synthetic | `file_scan`、`batch_open_read_write`、`self_copy_sim`、`abnormal_syscall_sequence`、`illegal_trap`、`process_chain`、`dynamic_executable_memory`、`anti_debug_like` |
+
+每个样例必须记录 source hash、ELF hash、input fixture hash、QEMU/strace ground truth、RV-MalTrace `trace.jsonl`、`semantic_events.json`、`behavior_graph.json`、`behavior_audit.json`、`behavior_audit_report.md` 和 manual mismatch notes。
+
+### 性能和 baseline 对比
+
+不要把 Vivado xsim、QEMU、Spike、strace/eBPF 和 FPGA RV-MalTrace 混成一个速度排名。它们回答的问题不同：
+
+| Backend | 正确用途 | 主要指标 |
+| --- | --- | --- |
+| Spike | RISC-V ISA functional oracle，适合 bare-metal 指令/异常/寄存器结果对齐 | instruction/trap correctness |
+| QEMU user/system mode | Linux workload、QEMU plugin、行为 ground truth | wall-clock、syscall behavior、trace overhead |
+| Vivado xsim direct-core/full-SoC | RTL correctness evidence | event correctness、SoC smoke/store correctness |
+| FPGA RV-MalTrace | 硬件 trace 的运行时证据 | trace-on/off runtime overhead、drop rate、trace bandwidth |
+| `strace`/`ptrace` | syscall semantic ground truth 和软件扰动 baseline | perturbation、syscall coverage |
+| eBPF-only | software semantic enrichment baseline | kernel-helper coverage、overhead、threat-model gap |
+
+公平测量规则：
+
+- 同一源码、输入 fixture、编译参数和输出正确性检查。
+- host 侧固定机器、run count、CPU governor 和 core pinning 条件。
+- correctness、runtime、trace cost 分开报告。
+- xsim wall-clock 只作为 RTL 仿真成本，不作为系统运行性能 baseline。
+
+### RISC-V vs x86 对比口径
+
+不要比较 raw instruction 或 opcode signature。应比较同源 workload 在不同 ISA/ABI/backend 下恢复出的 behavior graph：
+
+```text
+file_scan.c
+  -> riscv64-linux ELF -> RV-MalTrace/QEMU/Spike
+  -> x86_64-linux ELF  -> native/strace/perf/Intel PT if available
+  -> compare behavior graph, not raw instruction trace
+```
+
+归一化图 schema 应至少覆盖 `Process`、`File`、`Socket`、`MemoryRegion`、`Syscall`、`Trap` 节点，以及 `open`、`read`、`write`、`exec`、`fork`、`mprotect_exec`、`anti_debug` 边。比较指标应使用 graph node recall、edge recall、syscall family match、argument accuracy、graph edit distance 和 benign false positive rate。
 
 这样做，两周后得到的不是“一个 trace 雏形”，而是可以支撑上板和论文扩展的 RISC-V hardware-assisted malware behavior tracing simulation baseline。

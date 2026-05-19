@@ -19,6 +19,16 @@ services:
       BUILD_DIR: /opt/cva6-toolchain/build
     command: bash docker/toolchain/build-cva6-toolchain.sh
 
+  linux-behavior:
+    build:
+      context: .
+      dockerfile: docker/linux-behavior/Dockerfile
+    image: rv-maltrace/linux-behavior:ubuntu24.04
+    working_dir: /workspace/rv-maltrace
+    volumes:
+      - .:/workspace/rv-maltrace
+    command: bash
+
 volumes:
   cva6_toolchain_src:
   cva6_toolchain_build:

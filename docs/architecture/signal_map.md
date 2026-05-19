@@ -1,8 +1,8 @@
-# CVA6 Signal Map
+﻿# CVA6 Signal Map
 
 This map records the first RTL-level attachment points for the commit-level
 trace tap. Signal paths are based on the local CVA6 checkout locked in
-`docs/version_lock.md`.
+`docs/process/version_lock.md`.
 
 ## Commit Signals
 

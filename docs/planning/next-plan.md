@@ -1,4 +1,4 @@
-# RV-MalTrace 下一阶段计划
+﻿# RV-MalTrace 下一阶段计划
 
 ## 1. 总体研究定位
 
@@ -319,11 +319,11 @@ payload:
 需要先补齐：
 
 - `README.md`
-- `docs/version_lock.md`
-- `docs/signal_map.md`
-- `docs/trace_format.md`
-- `docs/risk_log.md`
-- `docs/evaluation_plan.md`
+- `docs/process/version_lock.md`
+- `docs/architecture/signal_map.md`
+- `docs/architecture/trace_format.md`
+- `docs/process/risk_log.md`
+- `docs/research/evaluation_plan.md`
 - `rtl/trace/`
 - `sim/`
 - `tools/`

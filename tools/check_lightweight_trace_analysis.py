@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import argparse
 import json
@@ -11,12 +11,12 @@ from typing import Any
 
 
 DEFAULT_SPEC = Path("experiments/analysis/lightweight_trace_profile.json")
-DEFAULT_DOC = Path("docs/lightweight_trace_analysis.md")
+DEFAULT_DOC = Path("docs/research/lightweight_trace_analysis.md")
 DEFAULT_TOOL = Path("tools/analyze_trace_lightweight.py")
 DEFAULT_COMPRESS = Path("tools/compress_trace.py")
 DEFAULT_TRACE = Path("results/vivado_sim/board_minimal/trace.jsonl")
 DEFAULT_COMPRESSION_TRACE = Path("sim/golden/compression_edges.trace.jsonl")
-DEFAULT_UV_DOC = Path("docs/uv_workflow.md")
+DEFAULT_UV_DOC = Path("docs/process/uv_workflow.md")
 EXPECTED_PROFILES = ["board_minimal", "semantic_mvp"]
 FORBIDDEN_CLAIM_PATTERNS = (
     re.compile(r"\bruntime\s+overhead\s+(?:is\s+)?(?:measured|validated|passed|complete)\b", re.IGNORECASE),
@@ -142,7 +142,7 @@ def check_uv_doc(path: Path) -> list[str]:
     for token, label in (
         ("tools/analyze_trace_lightweight.py --self-test", "analysis self-test"),
         ("tools/check_lightweight_trace_analysis.py", "lightweight checker"),
-        ("docs/lightweight_trace_analysis.md", "lightweight doc reference"),
+        ("docs/research/lightweight_trace_analysis.md", "lightweight doc reference"),
         ("experiments/analysis/lightweight_trace_profile.json", "lightweight spec reference"),
         ("tools/compress_trace.py sim/golden/compression_edges.trace.jsonl --check-roundtrip --stats", "compression roundtrip command"),
     ):
@@ -306,7 +306,7 @@ must not be used to claim runtime overhead
     (root / DEFAULT_UV_DOC).write_text(
         "uv run python tools/analyze_trace_lightweight.py --self-test\n"
         "uv run python tools/check_lightweight_trace_analysis.py\n"
-        "docs/lightweight_trace_analysis.md\n"
+        "docs/research/lightweight_trace_analysis.md\n"
         "experiments/analysis/lightweight_trace_profile.json\n"
         "uv run python tools/compress_trace.py sim/golden/compression_edges.trace.jsonl --check-roundtrip --stats\n",
         encoding="utf-8",

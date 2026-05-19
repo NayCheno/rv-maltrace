@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import argparse
 import re
@@ -7,11 +7,11 @@ import tempfile
 from pathlib import Path
 
 
-DEFAULT_DOC = Path("docs/evaluation_plan.md")
-DEFAULT_UV_DOC = Path("docs/uv_workflow.md")
+DEFAULT_DOC = Path("docs/research/evaluation_plan.md")
+DEFAULT_UV_DOC = Path("docs/process/uv_workflow.md")
 
 REQUIRED_TEXT = (
-    "This document turns `docs/next-plan.md` Section 9 and Stage 3 into a checkable evaluation plan.",
+    "This document turns `docs/planning/next-plan.md` Section 9 and Stage 3 into a checkable evaluation plan.",
     "research design and artifact gate, not evaluation evidence.",
     "RQ1",
     "Correctness: can committed syscall/control-flow/trap/context events be captured accurately?",
@@ -233,7 +233,7 @@ def check_doc(path: Path) -> list[str]:
 def check_uv_doc(path: Path) -> list[str]:
     text = path.read_text(encoding="utf-8")
     errors: list[str] = []
-    for token in ("tools/check_evaluation_plan.py", "docs/evaluation_plan.md"):
+    for token in ("tools/check_evaluation_plan.py", "docs/research/evaluation_plan.md"):
         if token not in text:
             errors.append(f"{path}: missing {token}")
     return errors
@@ -242,18 +242,18 @@ def check_uv_doc(path: Path) -> list[str]:
 def self_test() -> int:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
-        docs = root / "docs"
         tools = root / "tools"
-        docs.mkdir()
+        doc = root / DEFAULT_DOC
+        uv_doc = root / DEFAULT_UV_DOC
+        doc.parent.mkdir(parents=True)
+        uv_doc.parent.mkdir(parents=True)
         tools.mkdir()
 
-        doc = docs / "evaluation_plan.md"
-        uv_doc = docs / "uv_workflow.md"
         source_doc = DEFAULT_DOC.read_text(encoding="utf-8")
         doc.write_text(source_doc, encoding="utf-8")
         uv_doc.write_text(
             "uv run python tools/check_evaluation_plan.py\n"
-            "docs/evaluation_plan.md\n",
+            "docs/research/evaluation_plan.md\n",
             encoding="utf-8",
         )
 

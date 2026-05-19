@@ -1,4 +1,4 @@
-# RISC-V/CVA6 硬件辅助 Malware Behavior Tracing 项目计划
+﻿# RISC-V/CVA6 硬件辅助 Malware Behavior Tracing 项目计划
 
 ## 1. 项目定位
 
@@ -134,7 +134,7 @@ Python checker version
 建议记录到：
 
 ```text
-docs/version_lock.md
+docs/process/version_lock.md
 ```
 
 内容模板：
@@ -504,7 +504,7 @@ cycle
 先建立：
 
 ```text
-docs/signal_map.md
+docs/architecture/signal_map.md
 ```
 
 模板：
@@ -1095,7 +1095,7 @@ Phase 1 完成标准：
 [PASS] syscall entry/return 与 golden 一致
 [PASS] trap cause/tval/pc 可验证
 [PASS] Python checker 可一键跑 regression
-[PASS] docs/signal_map.md 与 docs/trace_format.md 完成
+[PASS] docs/architecture/signal_map.md 与 docs/architecture/trace_format.md 完成
 ```
 
 ---
@@ -1468,7 +1468,7 @@ After Linux experiments: optionally add eBPF metadata alignment
 建议建立：
 
 ```text
-docs/trace_format.md
+docs/architecture/trace_format.md
 ```
 
 模板：
@@ -1509,7 +1509,7 @@ docs/trace_format.md
 建议建立：
 
 ```text
-docs/signal_map.md
+docs/architecture/signal_map.md
 ```
 
 模板：
@@ -1550,7 +1550,7 @@ docs/signal_map.md
 建议建立：
 
 ```text
-docs/sim_results.md
+docs/reports/sim_results.md
 ```
 
 模板：
@@ -1654,8 +1654,8 @@ eBPF 只作为 optional semantic enrichment。
 ```text
 1. 固定 CVA6 commit
 2. 固定 Vivado/toolchain version
-3. 建 docs/version_lock.md
-4. 建 docs/signal_map.md
+3. 建 docs/process/version_lock.md
+4. 建 docs/architecture/signal_map.md
 5. 跑未修改 CVA6 Vivado baseline
 6. 找 commit_pc / commit_instr / commit_valid
 7. 实现 trace_pkg.sv

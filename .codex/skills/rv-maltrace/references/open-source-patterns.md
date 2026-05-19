@@ -1,4 +1,4 @@
-# Mature Open-Source Hardware Patterns for RV-MalTrace
+﻿# Mature Open-Source Hardware Patterns for RV-MalTrace
 
 Use these patterns as guardrails when changing RV-MalTrace. They are distilled from mature open-source hardware and RISC-V verification ecosystems such as OpenTitan DV/checklists, OpenHW/CVA6, CORE-V verification, and riscv-dv-style regression flows.
 
@@ -72,7 +72,7 @@ Keep versions and environment assumptions explicit:
 - board target and Xilinx part
 - generated output directories
 
-Use `pyproject.toml` `[tool.rv-maltrace]` and `docs/version_lock.md` as the primary local anchors.
+Use `pyproject.toml` `[tool.rv-maltrace]` and `docs/process/version_lock.md` as the primary local anchors.
 
 ## Review Heuristics
 

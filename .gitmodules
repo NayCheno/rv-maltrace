@@ -5,3 +5,6 @@
 [submodule "vendor/vivado-boards"]
 	path = vendor/vivado-boards
 	url = https://github.com/Digilent/vivado-boards
+[submodule "rtl/vex-riscv"]
+	path = rtl/vex-riscv
+	url = git@github.com:NayCheno/VexRiscv.git

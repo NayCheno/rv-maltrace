@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import argparse
 import json
@@ -11,11 +11,11 @@ from typing import Any
 
 
 DEFAULT_SPEC = Path("sim/golden/fuzz_invariants.json")
-DEFAULT_DOC = Path("docs/fuzz_trace_validation.md")
+DEFAULT_DOC = Path("docs/validation/fuzz_trace_validation.md")
 DEFAULT_GENERATOR = Path("tools/gen_rv_trace_fuzz.py")
 DEFAULT_CHECKER = Path("tools/check_fuzz_trace.py")
 DEFAULT_SMOKE = Path("sim/golden/fuzz_trace_smoke.trace.jsonl")
-DEFAULT_UV_DOC = Path("docs/uv_workflow.md")
+DEFAULT_UV_DOC = Path("docs/process/uv_workflow.md")
 EXPECTED_CASES = ["fuzz_trace_smoke", "fuzz_cf", "fuzz_trap", "fuzz_syscall", "fuzz_context", "fuzz_overflow"]
 EXPECTED_INVARIANTS = [
     "known_event_types",
@@ -163,7 +163,7 @@ def check_uv_doc(path: Path) -> list[str]:
         ("tools/check_fuzz_trace.py --self-test", "fuzz checker self-test"),
         ("tools/check_fuzz_trace.py --trace sim/golden/fuzz_trace_smoke.trace.jsonl --case fuzz_trace_smoke", "fuzz smoke checker command"),
         ("tools/check_fuzz_trace_plan.py", "fuzz plan checker command"),
-        ("docs/fuzz_trace_validation.md", "fuzz doc reference"),
+        ("docs/validation/fuzz_trace_validation.md", "fuzz doc reference"),
         ("sim/golden/fuzz_invariants.json", "fuzz invariant spec reference"),
     ):
         if token not in text:
@@ -363,7 +363,7 @@ fuzz_overflow
         "uv run python tools/check_fuzz_trace.py --self-test\n"
         "uv run python tools/check_fuzz_trace.py --trace sim/golden/fuzz_trace_smoke.trace.jsonl --case fuzz_trace_smoke\n"
         "uv run python tools/check_fuzz_trace_plan.py\n"
-        "docs/fuzz_trace_validation.md\n"
+        "docs/validation/fuzz_trace_validation.md\n"
         "sim/golden/fuzz_invariants.json\n",
         encoding="utf-8",
     )

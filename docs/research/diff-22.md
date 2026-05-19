@@ -1,4 +1,4 @@
-# RV-MalTrace 与 ISSTA-22 NCScope 的差异
+﻿# RV-MalTrace 与 ISSTA-22 NCScope 的差异
 
 本文记录 `vendor/ISSTA-22-NCScope` 与 RV-MalTrace/RV-MalScope 的技术差异、
 可借鉴边界、当前证据状态和后续论文级缺口。本文是设计分析和路线校准，
@@ -242,7 +242,7 @@ overall: PASS
   `0x8000_0000` boot，观测 breakpoint trap，并发布
   `results/vivado_sim/cva6_full_soc_smoke/` artifacts。
 - Python checker 和 synthetic behavior recovery self-test 在
-  `docs/sim_results.md` 中记录为 PASS。
+  `docs/reports/sim_results.md` 中记录为 PASS。
 - Genesys 2 baseline 的 repository-local preflight 已有 board files、
   routed baseline bitstream、route/timing reports、DDR/clock IP artifacts 和
   UART source path 证据。
@@ -269,39 +269,44 @@ production raw CVA6 commit/CSR/LSU 内部信号 plumbing。
 这不否定当前 MVP 的 simulation evidence，但限制了 production RTL integration
 可以声称的范围。
 
-### 2. Full SoC store/tohost path 仍需单独验证
+### 2. Full SoC store/tohost path 已拆分验证
 
 `sim:cva6-full-soc` 已经 PASS，但它是 breakpoint-terminated smoke。之前使用
 UART/MMIO pseudo-tohost store 作为 completion gate 时，Vivado v2025.2 full SoC
-路径会卡在 store 提交前后。
+路径会卡在 store 提交前后。后续 `sim:cva6-full-soc-store` 已经把最小
+UART/MMIO store-path observation 从 TODO 推到 PASS；`sim:cva6-full-soc-tohost`
+现在也通过普通 completion path 观察 committed tohost/MMIO store，不再依赖
+`RVMT_STORE_PATH_ONLY` shortcut。
 
 因此当前可以声称：
 
 - PASS：full SoC compile/elaboration/DRAM boot/breakpoint trap probe。
+- PASS：full SoC UART/MMIO store-path observation。
+- PASS：full SoC normal tohost/MMIO completion path。
 - PASS：direct-core tohost-store matrix。
-- TODO：full SoC UART/MMIO store-path validation。
 
-这一区分很重要：full SoC xsim 支持已修复，但外设 store path 还不是论文级
-peripheral validation evidence。
+这一区分很重要：full SoC xsim 支持已修复，但这些仍是 repository-local
+simulation evidence，不是 physical board peripheral validation evidence。
 
-### 3. Trace-enabled FPGA resource/timing delta 缺失
+### 3. Trace-enabled FPGA resource/timing delta 已记录，但仍不是板上证据
 
-仓库已有 Genesys 2 baseline routed bitstream evidence。但还没有加入 trace logic
-后的 trace-enabled implementation report。
+仓库已有 Genesys 2 baseline routed bitstream evidence，也已经记录 trace logic
+后的 trace-enabled implementation delta。
 
-缺少的具体指标包括：
+已记录的具体指标包括：
 
 - LUT delta。
 - FF delta。
 - BRAM delta。
 - Fmax 或 slack delta。
-- trace queue/drop behavior。
 - trace logic 对 routed timing 的影响。
 
 所以当前 resource story 只能写成：
 
-- PASS：baseline routed snapshot 和 simulation drop accounting。
-- TODO：trace-enabled synthesis/implementation resource delta。
+- PASS：baseline routed snapshot、trace-enabled implementation delta 和
+  simulation drop accounting。
+- TODO：board runtime overhead、trace bandwidth 和 physical trace export
+  measurement。
 
 ### 4. 物理板证据缺失
 
@@ -348,7 +353,7 @@ semantics，不能声称 Linux malware behavior tracing 已完成。
 
 ### 7. Evaluation baselines 还没有完成
 
-`docs/evaluation_plan.md` 中的 paper baselines 和 RQs 仍是 TODO。
+`docs/research/evaluation_plan.md` 中的 paper baselines 和 RQs 仍是 TODO。
 
 缺少的 baseline artifacts 包括：
 
@@ -449,12 +454,12 @@ analysis；RV-MalScope 进一步面向开源 RISC-V/CVA6，把低扰动行为观
 
 ## 建议下一步顺序
 
-1. 先把 full SoC PASS 状态保持稳定，避免把 UART/MMIO store-path TODO 混成
-   full SoC execution blocker。
+1. 先把 full SoC breakpoint、UART/MMIO store-path 和 normal tohost/MMIO
+   completion PASS 状态保持稳定。
 2. 补齐仍隐藏在 RVFI/direct-core 或 synthetic path 后面的 production CVA6 signal
    plumbing gap。
-3. 跑 trace-enabled FPGA implementation，记录相对现有 Genesys 2 baseline 的
-   resource/timing delta。
+3. 继续维护已记录的 trace-enabled FPGA implementation resource/timing delta，
+   后续只在 synthesis artifact 变化时更新。
 4. 收集 physical board baseline evidence：clock/reset、UART、CVA6 bare-metal boot。
 5. 启动第一版 board trace export，使用 minimal profile：syscall、trap、context、
    branch、drop；默认关闭 full retire 和 full memory trace。

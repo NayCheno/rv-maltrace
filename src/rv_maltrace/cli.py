@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import re
 import shutil
@@ -57,6 +58,10 @@ TASK_ALIASES = {
     "sim:cva6-full-soc-smoke": "sim:cva6-full-soc",
     "sim:cva6-full-soc-store": "sim:cva6-full-soc-store",
     "sim:cva6-full-soc-uart-store": "sim:cva6-full-soc-store",
+    "sim:cva6-full-soc-tohost": "sim:cva6-full-soc-tohost",
+    "sim:full-soc-tohost": "sim:cva6-full-soc-tohost",
+    "sim:cva6-full-soc-rv64gc": "sim:cva6-full-soc-rv64gc",
+    "sim:full-soc-rv64gc": "sim:cva6-full-soc-rv64gc",
     "sim:cva6-run": "sim:cva6-run",
     "sim:cva6-custom": "sim:cva6-run",
     "sim:run": "sim:cva6-run",
@@ -66,6 +71,9 @@ TASK_ALIASES = {
     "baremetal:build": "baremetal:build",
     "programs": "baremetal:build",
     "programs:build": "baremetal:build",
+    "demo": "demo:behavior",
+    "demo:behavior": "demo:behavior",
+    "demo:groundtruth": "demo:groundtruth",
     "config": "config:show",
     "config:show": "config:show",
     "tasks": "tasks:list",
@@ -90,9 +98,13 @@ DISPLAY_TASKS = [
     "sim:cva6-smoke",
     "sim:cva6-full-soc",
     "sim:cva6-full-soc-store",
+    "sim:cva6-full-soc-tohost",
+    "sim:cva6-full-soc-rv64gc",
     "sim:cva6-run",
     "sim:summary",
     "baremetal:build",
+    "demo:behavior",
+    "demo:groundtruth",
     "config:show",
     "tasks:list",
     "completion:powershell",
@@ -113,9 +125,14 @@ COMPLETION_CANDIDATES = sorted(
         "--linker",
         "--mem",
         "--name",
+        "--backend",
+        "--run-id",
+        "--sample",
         "--no-runtime",
+        "--out-dir",
         "--tool-mode",
         "--tool-prefix",
+        "--trace",
         "-h",
         "docker/tool/bootrom/bitstream",
         "docker/toolchain/bootrom/bitstream",
@@ -1222,6 +1239,42 @@ def task_sim_cva6_full_soc_store(root: Path, config: dict, env: dict[str, str], 
     )
 
 
+def task_sim_cva6_full_soc_tohost(root: Path, config: dict, env: dict[str, str], dry_run: bool) -> None:
+    build_dir = Path(str(config.get("build_dir", "build")))
+    task_sim_cva6_smoke(
+        root,
+        config,
+        env,
+        dry_run,
+        [
+            "--full-soc-smoke",
+            "--mem",
+            "sim/programs/full_soc_dram_tohost/full_soc_dram_tohost.mem",
+            "--name",
+            "tohost_normal",
+        ],
+        work_dir=build_dir / "cva6_xsim_full_soc_tohost_normal",
+    )
+
+
+def task_sim_cva6_full_soc_rv64gc(root: Path, config: dict, env: dict[str, str], dry_run: bool) -> None:
+    build_dir = Path(str(config.get("build_dir", "build")))
+    task_sim_cva6_smoke(
+        root,
+        config,
+        env,
+        dry_run,
+        [
+            "--full-soc-smoke",
+            "--full-soc-rv64gc-suite",
+            "--full-soc-allow-suite-blocked",
+            "--run-timeout-seconds",
+            "120",
+        ],
+        work_dir=build_dir / "cva6_xsim_full_soc_rv64gc_gate2",
+    )
+
+
 def custom_cva6_runner_args(args: argparse.Namespace, config: dict) -> list[str]:
     selected_inputs = sum(value is not None for value in (args.asm, args.elf, args.bin, args.mem))
     if selected_inputs != 1:
@@ -1273,6 +1326,168 @@ def task_baremetal_build(root: Path, config: dict, env: dict[str, str], dry_run:
         env=env,
         dry_run=dry_run,
     )
+
+
+def load_json_file(path: Path) -> dict:
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def demo_run_dir(root: Path, out_dir: Path | None, run_id: str | None, sample: str) -> Path:
+    base = out_dir or Path("results/demo")
+    if not base.is_absolute():
+        base = root / base
+    return base / (run_id or "manual") / sample
+
+
+def demo_fixture_trace(root: Path, sample: str) -> Path:
+    path = root / "sim" / "golden" / "demo_behavior" / f"{sample}.trace.jsonl"
+    if not path.exists():
+        raise TaskError(f"No demo fixture trace for sample '{sample}': {path}")
+    return path
+
+
+def demo_manifest_sample(root: Path, sample: str) -> dict:
+    manifest_path = root / "experiments" / "linux_behavior" / "malware_like" / "manifest.json"
+    manifest = load_json_file(manifest_path)
+    samples = manifest.get("samples", [])
+    if not isinstance(samples, list):
+        raise TaskError(f"{manifest_path}: samples must be a list")
+    for item in samples:
+        if isinstance(item, dict) and item.get("id") == sample:
+            return item
+    raise TaskError(f"Unknown malware-like synthetic sample '{sample}' in {manifest_path}")
+
+
+def task_demo_behavior(root: Path, env: dict[str, str], args: argparse.Namespace) -> None:
+    sample = args.sample or "anti_debug_like"
+    run_dir = demo_run_dir(root, args.out_dir, args.run_id, sample)
+    trace_dir = run_dir / "02_trace"
+    semantic_dir = run_dir / "03_semantic"
+    audit_dir = run_dir / "04_audit"
+    visual_dir = run_dir / "05_visual"
+    if args.backend == "fixture":
+        source_trace = demo_fixture_trace(root, sample)
+    elif args.backend == "trace":
+        if args.trace is None:
+            raise TaskError("demo:behavior --backend trace requires --trace <path>.")
+        source_trace = args.trace if args.trace.is_absolute() else root / args.trace
+        if not source_trace.exists():
+            raise TaskError(f"Trace does not exist: {source_trace}")
+    else:
+        raise TaskError(f"Unsupported demo backend: {args.backend}")
+
+    trace_path = trace_dir / "trace.jsonl"
+    print(f"+ copy {quote_for_display(str(source_trace))} {quote_for_display(str(trace_path))}")
+    if not args.dry_run:
+        trace_dir.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source_trace, trace_path)
+
+    run(
+        [sys.executable, "tools/recover_behavior.py", "--trace", str(trace_path), "--out-dir", str(semantic_dir)],
+        cwd=root,
+        env=env,
+        dry_run=args.dry_run,
+    )
+    run(
+        [
+            sys.executable,
+            "tools/audit_behavior.py",
+            "--semantic",
+            str(semantic_dir / "semantic_events.json"),
+            "--graph",
+            str(semantic_dir / "behavior_graph.json"),
+            "--manifest",
+            "experiments/linux_behavior/malware_like/manifest.json",
+            "--sample-id",
+            sample,
+            "--out-dir",
+            str(audit_dir),
+        ],
+        cwd=root,
+        env=env,
+        dry_run=args.dry_run,
+    )
+    run(
+        [
+            sys.executable,
+            "tools/render_behavior_demo.py",
+            "--trace",
+            str(trace_path),
+            "--semantic",
+            str(semantic_dir / "semantic_events.json"),
+            "--graph",
+            str(semantic_dir / "behavior_graph.json"),
+            "--audit",
+            str(audit_dir / "behavior_audit.json"),
+            "--manifest",
+            "experiments/linux_behavior/malware_like/manifest.json",
+            "--sample-id",
+            sample,
+            "--out-dir",
+            str(visual_dir),
+        ],
+        cwd=root,
+        env=env,
+        dry_run=args.dry_run,
+    )
+    print(f"demo behavior artifacts: {run_dir}")
+
+
+def task_demo_groundtruth(root: Path, config: dict, env: dict[str, str], args: argparse.Namespace) -> None:
+    sample = args.sample or "anti_debug_like"
+    sample_spec = demo_manifest_sample(root, sample)
+    source = str(sample_spec.get("source", ""))
+    if not source:
+        raise TaskError(f"Sample '{sample}' does not define a source path")
+    source_path = root / source
+    if not source_path.exists():
+        raise TaskError(f"Sample source does not exist: {source_path}")
+
+    run_dir = demo_run_dir(root, args.out_dir, args.run_id, sample)
+    build_dir = run_dir / "00_build"
+    groundtruth_dir = run_dir / "01_ground_truth"
+    build_posix = as_posix_path(build_dir.relative_to(root) if build_dir.is_relative_to(root) else build_dir)
+    groundtruth_posix = as_posix_path(groundtruth_dir.relative_to(root) if groundtruth_dir.is_relative_to(root) else groundtruth_dir)
+    source_posix = as_posix_path(source)
+    shell = f"""
+set -eu
+sample={shell_single_quoted(sample)}
+source_path={shell_single_quoted(source_posix)}
+build_dir={shell_single_quoted(build_posix)}
+groundtruth_dir={shell_single_quoted(groundtruth_posix)}
+mkdir -p "$build_dir" "$groundtruth_dir"
+sha256sum "$source_path" > "$build_dir/source.sha256"
+gcc --version | head -n 1 > "$build_dir/compiler.txt"
+riscv64-linux-gnu-gcc --version | head -n 1 >> "$build_dir/compiler.txt"
+gcc -O2 -Wall -Wextra -o "$build_dir/$sample.host" "$source_path"
+riscv64-linux-gnu-gcc -O2 -static -o "$build_dir/$sample.riscv64" "$source_path"
+sha256sum "$build_dir/$sample.host" > "$build_dir/host_elf.sha256"
+sha256sum "$build_dir/$sample.riscv64" > "$build_dir/riscv64_elf.sha256"
+set +e
+strace -f -o "$groundtruth_dir/host.strace.log" "$build_dir/$sample.host" > "$groundtruth_dir/host.stdout.txt" 2> "$groundtruth_dir/host.stderr.txt"
+host_code=$?
+qemu-riscv64 -strace "$build_dir/$sample.riscv64" > "$groundtruth_dir/qemu-riscv64.stdout.txt" 2> "$groundtruth_dir/qemu-riscv64.strace.log"
+qemu_code=$?
+set -e
+printf 'host_exit_code=%s\\nqemu_riscv64_exit_code=%s\\n' "$host_code" "$qemu_code" > "$groundtruth_dir/exit-codes.txt"
+exit 0
+""".strip()
+    run(
+        [
+            *docker_compose_base(config),
+            "run",
+            "--rm",
+            "--build",
+            "linux-behavior",
+            "bash",
+            "-lc",
+            shell,
+        ],
+        cwd=root,
+        env=env,
+        dry_run=args.dry_run,
+    )
+    print(f"demo groundtruth artifacts: {run_dir}")
 
 
 def show_config(root: Path, config: dict) -> None:
@@ -1396,7 +1611,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         help=(
             "Tasks to run. Supports docker:build, toolchain:build, bootrom:build, "
             "vivado:check, bitstream:build, bitstream:build-trace, sim:trace-unit, sim:cva6-smoke, "
-            "sim:cva6-full-soc, sim:cva6-run, baremetal:build, "
+            "sim:cva6-full-soc, sim:cva6-full-soc-tohost, sim:cva6-full-soc-rv64gc, sim:cva6-run, baremetal:build, "
             "config:show, completion:powershell. Slash groups such as "
             "tool/bootrom are expanded."
         ),
@@ -1418,6 +1633,16 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--include", type=Path, action="append", default=[], help="For sim:cva6-run --asm, extra include directory.")
     parser.add_argument("--cflag", action="append", default=[], help="For sim:cva6-run --asm, extra compiler flag.")
     parser.add_argument("--no-runtime", action="store_true", help="For sim:cva6-run --asm, do not link the rv-maltrace runtime.")
+    parser.add_argument("--sample", default="anti_debug_like", help="For demo tasks, malware-like synthetic sample id.")
+    parser.add_argument(
+        "--backend",
+        choices=("fixture", "trace"),
+        default="fixture",
+        help="For demo:behavior, use a checked-in fixture trace or a user-provided trace.",
+    )
+    parser.add_argument("--trace", type=Path, help="For demo:behavior --backend trace, input RV-MalTrace JSONL trace.")
+    parser.add_argument("--run-id", default="manual", help="For demo tasks, run directory under the output root.")
+    parser.add_argument("--out-dir", type=Path, help="For demo tasks, output root. Defaults to results/demo.")
     return parser.parse_args(argv)
 
 
@@ -1466,12 +1691,20 @@ def main(argv: list[str] | None = None) -> int:
                 task_sim_cva6_full_soc(root, config, env, args.dry_run)
             elif task == "sim:cva6-full-soc-store":
                 task_sim_cva6_full_soc_store(root, config, env, args.dry_run)
+            elif task == "sim:cva6-full-soc-tohost":
+                task_sim_cva6_full_soc_tohost(root, config, env, args.dry_run)
+            elif task == "sim:cva6-full-soc-rv64gc":
+                task_sim_cva6_full_soc_rv64gc(root, config, env, args.dry_run)
             elif task == "sim:cva6-run":
                 task_sim_cva6_smoke(root, config, env, args.dry_run, custom_cva6_runner_args(args, config))
             elif task == "sim:summary":
                 task_sim_summary(root, env, args.dry_run)
             elif task == "baremetal:build":
                 task_baremetal_build(root, config, env, args.dry_run)
+            elif task == "demo:behavior":
+                task_demo_behavior(root, env, args)
+            elif task == "demo:groundtruth":
+                task_demo_groundtruth(root, config, env, args)
             else:
                 raise TaskError(f"Unhandled task: {task}")
     except TaskError as exc:

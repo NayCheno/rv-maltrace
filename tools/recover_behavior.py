@@ -27,6 +27,7 @@ SYSCALL_NAMES = {
     198: "socket",
     203: "connect",
     172: "getpid",
+    215: "munmap",
     214: "brk",
     220: "clone",
     221: "execve",

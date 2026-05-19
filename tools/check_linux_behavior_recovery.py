@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import argparse
 import json
@@ -11,10 +11,10 @@ from typing import Any
 
 
 DEFAULT_SPEC = Path("experiments/linux_behavior/recovery_targets.json")
-DEFAULT_DOC = Path("docs/linux_behavior_recovery_targets.md")
+DEFAULT_DOC = Path("docs/linux/linux_behavior_recovery_targets.md")
 DEFAULT_TOOL = Path("tools/recover_behavior.py")
 DEFAULT_GOLDEN = Path("sim/golden/behavior_recovery.trace.jsonl")
-DEFAULT_UV_DOC = Path("docs/uv_workflow.md")
+DEFAULT_UV_DOC = Path("docs/process/uv_workflow.md")
 
 SPEC_KEYS = {
     "phase",
@@ -206,7 +206,7 @@ def check_uv_doc(path: Path) -> list[str]:
     for token, label in (
         ("tools/recover_behavior.py --self-test", "recover self-test command"),
         ("tools/check_linux_behavior_recovery.py", "Phase 6.4 checker command"),
-        ("docs/linux_behavior_recovery_targets.md", "Phase 6.4 doc reference"),
+        ("docs/linux/linux_behavior_recovery_targets.md", "Phase 6.4 doc reference"),
         ("experiments/linux_behavior/recovery_targets.json", "Phase 6.4 spec reference"),
     ):
         if token not in text:
@@ -362,7 +362,7 @@ must not be used to claim malware detection quality
     (root / DEFAULT_UV_DOC).write_text(
         "uv run python tools/recover_behavior.py --self-test\n"
         "uv run python tools/check_linux_behavior_recovery.py\n"
-        "docs/linux_behavior_recovery_targets.md\n"
+        "docs/linux/linux_behavior_recovery_targets.md\n"
         "experiments/linux_behavior/recovery_targets.json\n",
         encoding="utf-8",
     )
@@ -463,7 +463,7 @@ def self_test() -> int:
     for token, expected in (
         ("tools/recover_behavior.py --self-test", "recover self-test command"),
         ("tools/check_linux_behavior_recovery.py", "checker command"),
-        ("docs/linux_behavior_recovery_targets.md", "doc reference"),
+        ("docs/linux/linux_behavior_recovery_targets.md", "doc reference"),
         ("experiments/linux_behavior/recovery_targets.json", "spec reference"),
     ):
         with tempfile.TemporaryDirectory() as tmp:

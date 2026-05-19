@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import argparse
 import re
@@ -7,8 +7,8 @@ import tempfile
 from pathlib import Path
 
 
-DEFAULT_DECISION = Path("docs/trace_export_decision.md")
-DEFAULT_BOARD_DOC = Path("docs/board_bringup.md")
+DEFAULT_DECISION = Path("docs/architecture/trace_export_decision.md")
+DEFAULT_BOARD_DOC = Path("docs/board/board_bringup.md")
 SELECTED = "BRAM ring buffer + ILA/JTAG dump"
 DEFERRED = {
     "UART streaming",
@@ -156,7 +156,7 @@ def check_decision_doc(path: Path) -> list[str]:
 def check_board_doc(path: Path) -> list[str]:
     text = path.read_text(encoding="utf-8")
     errors: list[str] = []
-    if "docs/trace_export_decision.md" not in text:
+    if "docs/architecture/trace_export_decision.md" not in text:
         errors.append(f"{path}: missing trace export decision link")
     if "BRAM ring buffer plus ILA/JTAG dump" not in text:
         errors.append(f"{path}: missing BRAM/JTAG trace-enabled bring-up step")
@@ -181,9 +181,11 @@ def run_checks(root: Path, decision: Path, board_doc: Path) -> list[str]:
 
 
 def write_fixture(root: Path) -> None:
-    docs = root / "docs"
-    docs.mkdir()
-    (docs / "trace_export_decision.md").write_text(
+    decision = root / DEFAULT_DECISION
+    board_doc = root / DEFAULT_BOARD_DOC
+    decision.parent.mkdir(parents=True)
+    board_doc.parent.mkdir(parents=True)
+    decision.write_text(
         f"""# Trace Export Decision
 
 ## Decision
@@ -210,8 +212,8 @@ This is a bring-up choice, not the final high-throughput transport.
 """,
         encoding="utf-8",
     )
-    (docs / "board_bringup.md").write_text(
-        "See docs/trace_export_decision.md\nExport the first hardware trace through BRAM ring buffer plus ILA/JTAG dump.\n",
+    board_doc.write_text(
+        "See docs/architecture/trace_export_decision.md\nExport the first hardware trace through BRAM ring buffer plus ILA/JTAG dump.\n",
         encoding="utf-8",
     )
 

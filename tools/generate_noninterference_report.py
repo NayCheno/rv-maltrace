@@ -10,6 +10,9 @@ from typing import Any
 
 
 DIRECT_CORE_CASES = ["cva6_smoke", "cva6_branch", "cva6_jump", "cva6_ecall", "cva6_trap_illegal", "cva6_ebreak"]
+ALLOWED_BLOCKED_SIM_TESTS = {
+    "cva6_full_soc_tohost_normal": "normal full-SoC tohost/MMIO gate is tracked separately from noninterference",
+}
 TRACE_PASS_RE = re.compile(r"^\[rvmt\]\s+Direct CVA6 xsim trace PASS\b", re.MULTILINE)
 NO_TRACE_PASS_RE = re.compile(r"^\[rvmt\]\s+Direct CVA6 xsim no-trace PASS\b", re.MULTILINE)
 
@@ -48,11 +51,34 @@ def read_text_if_exists(path: Path) -> str:
     return path.read_text(encoding="utf-8", errors="replace") if path.exists() else ""
 
 
+def classify_simulation_boundary(summary: dict[str, Any], tests: dict[str, Any]) -> tuple[bool, list[str], list[str]]:
+    failing = sorted(
+        name
+        for name, row in tests.items()
+        if not isinstance(row, dict) or row.get("status") != "PASS"
+    )
+    allowed_blocked = sorted(
+        name
+        for name in failing
+        if name in ALLOWED_BLOCKED_SIM_TESTS
+        and isinstance(tests.get(name), dict)
+        and tests[name].get("status") == "BLOCKED"
+    )
+    unexpected = sorted(name for name in failing if name not in allowed_blocked)
+    overall = summary.get("overall")
+    if overall == "PASS":
+        return not failing, [], failing
+    if overall == "PASS_WITH_BLOCKED":
+        return not unexpected and bool(allowed_blocked), allowed_blocked, unexpected
+    return False, allowed_blocked, unexpected or [f"overall={overall!r}"]
+
+
 def analyze(root: Path, summary_path: Path) -> dict[str, Any]:
     summary = load_json(summary_path)
     tests = summary.get("tests", {})
     if not isinstance(tests, dict):
         raise ValueError(f"{summary_path}: tests must be an object")
+    simulation_boundary_ok, allowed_blocked, unexpected_nonpass = classify_simulation_boundary(summary, tests)
 
     backpressure = tests.get("backpressure", {})
     if not isinstance(backpressure, dict):
@@ -91,7 +117,7 @@ def analyze(root: Path, summary_path: Path) -> dict[str, Any]:
         )
 
     overall_pass = (
-        summary.get("overall") == "PASS"
+        simulation_boundary_ok
         and drop["test_status"] == "PASS"
         and drop["drop_records"] > 0
         and drop["dropped_event_count"] > 0
@@ -102,6 +128,8 @@ def analyze(root: Path, summary_path: Path) -> dict[str, Any]:
         "summary": summary_path.as_posix(),
         "status": "PASS" if overall_pass else "FAIL",
         "simulation_overall": summary.get("overall"),
+        "allowed_blocked_sim_tests": allowed_blocked,
+        "unexpected_nonpass_sim_tests": unexpected_nonpass,
         "drop_accounting": drop,
         "direct_core_trace_no_trace_parity": parity_cases,
         "claim_boundary": "Simulation and repository evidence only; no CVA6 IPC/Fmax improvement or trace-enabled FPGA resource delta is claimed.",
@@ -116,6 +144,7 @@ def render_report(report: dict[str, Any]) -> str:
         f"- Source summary: `{report['summary']}`",
         f"- Status: {report['status']}",
         f"- Simulation overall: {report['simulation_overall']}",
+        f"- Allowed blocked simulation tests: {', '.join(report['allowed_blocked_sim_tests']) if report['allowed_blocked_sim_tests'] else 'none'}",
         f"- DROP records: {drop['drop_records']}",
         f"- Dropped event count: {drop['dropped_event_count']}",
         "",
@@ -181,6 +210,21 @@ def self_test() -> int:
         markdown = (out_dir / "noninterference_report.md").read_text(encoding="utf-8")
         if "does not claim CVA6 IPC/Fmax improvement" not in markdown:
             print("[FAIL] self-test missed non-claim wording", file=sys.stderr)
+            return 1
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        summary_path = write_fixture(root)
+        summary = load_json(summary_path)
+        summary["overall"] = "PASS_WITH_BLOCKED"
+        summary["tests"]["cva6_full_soc_tohost_normal"] = {"status": "BLOCKED"}
+        summary_path.write_text(json.dumps(summary), encoding="utf-8")
+        report = write_outputs(root, summary_path, root / "out")
+        if report["status"] != "PASS":
+            print("[FAIL] self-test rejected allowed BLOCKED tohost boundary", file=sys.stderr)
+            return 1
+        if report["allowed_blocked_sim_tests"] != ["cva6_full_soc_tohost_normal"]:
+            print("[FAIL] self-test did not record allowed BLOCKED tohost boundary", file=sys.stderr)
             return 1
 
     with tempfile.TemporaryDirectory() as tmp:

@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import argparse
 import json
@@ -10,8 +10,8 @@ from typing import Any
 
 
 DEFAULT_SPEC = Path("experiments/analysis/isa_behavior_portability.json")
-DEFAULT_DOC = Path("docs/isa_behavior_portability.md")
-DEFAULT_UV_DOC = Path("docs/uv_workflow.md")
+DEFAULT_DOC = Path("docs/research/isa_behavior_portability.md")
+DEFAULT_UV_DOC = Path("docs/process/uv_workflow.md")
 EXPECTED_MAPPINGS = ["syscall_abi", "control_flow", "privilege_transition", "anti_analysis", "dynamic_code"]
 FORBIDDEN_PATTERNS = (
     re.compile(
@@ -154,7 +154,7 @@ def check_uv_doc(path: Path) -> list[str]:
     errors = []
     for token, label in (
         ("tools/check_isa_behavior_portability.py", "Phase 10.1 checker command"),
-        ("docs/isa_behavior_portability.md", "Phase 10.1 doc reference"),
+        ("docs/research/isa_behavior_portability.md", "Phase 10.1 doc reference"),
         ("experiments/analysis/isa_behavior_portability.json", "Phase 10.1 spec reference"),
     ):
         if token not in text:
@@ -237,7 +237,7 @@ must not be used to claim real malware corpus coverage
     )
     (root / DEFAULT_UV_DOC).write_text(
         "uv run python tools/check_isa_behavior_portability.py\n"
-        "docs/isa_behavior_portability.md\n"
+        "docs/research/isa_behavior_portability.md\n"
         "experiments/analysis/isa_behavior_portability.json\n",
         encoding="utf-8",
     )

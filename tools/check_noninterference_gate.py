@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import argparse
 import json
@@ -12,12 +12,12 @@ from typing import Any
 
 
 DEFAULT_SPEC = Path("experiments/hardware/noninterference_gate.json")
-DEFAULT_DOC = Path("docs/noninterference_resource_gate.md")
+DEFAULT_DOC = Path("docs/validation/noninterference_resource_gate.md")
 DEFAULT_SUMMARY = Path("results/vivado_sim/summary.json")
-DEFAULT_RESOURCE_REPORT = Path("docs/resource_report.md")
+DEFAULT_RESOURCE_REPORT = Path("docs/reports/resource_report.md")
 DEFAULT_TIMING_CHECK = Path("tools/check_timing_principles.py")
 DEFAULT_REPORT_TOOL = Path("tools/generate_noninterference_report.py")
-DEFAULT_UV_DOC = Path("docs/uv_workflow.md")
+DEFAULT_UV_DOC = Path("docs/process/uv_workflow.md")
 EXPECTED_CHECKS = [
     "no_core_backpressure_ports",
     "pipelined_sideband_snapshot",
@@ -35,6 +35,9 @@ EXPECTED_STATUSES = {
     "trace_enabled_fpga_resource_delta": "CHECKED(TRACE_SYNTHESIS)",
 }
 DIRECT_CORE_CASES = ["cva6_smoke", "cva6_branch", "cva6_jump", "cva6_ecall", "cva6_trap_illegal", "cva6_ebreak"]
+ALLOWED_BLOCKED_SIM_TESTS = {
+    "cva6_full_soc_tohost_normal": "normal full-SoC tohost/MMIO gate is tracked separately from noninterference",
+}
 REQUIRED_DOC_TEXT = (
     "Phase 3.4 defines the noninterference and resource boundary for the trace logic.",
     "experiments/hardware/noninterference_gate.json",
@@ -91,8 +94,8 @@ def check_spec(path: Path) -> list[str]:
         errors.append(f"{path}: unexpected scope")
     refs = spec.get("evidence_refs", [])
     for ref in (
-        "docs/timing_principles.md",
-        "docs/resource_report.md",
+        "docs/architecture/timing_principles.md",
+        "docs/reports/resource_report.md",
         "results/vivado_sim/summary.json",
         "tools/check_timing_principles.py",
         "tools/generate_resource_report.py",
@@ -173,14 +176,59 @@ def parse_drop_value(value: Any) -> int:
     return 0
 
 
+def resolve_summary_artifact(root: Path, summary_path: Path, raw_path: object) -> Path:
+    path = Path(str(raw_path).replace("\\", "/"))
+    if path.is_absolute():
+        return path
+    root_relative = root / path
+    if root_relative.exists():
+        return root_relative
+    return summary_path.parent / path
+
+
 def check_summary(root: Path, path: Path) -> list[str]:
     summary = load_json(path)
     errors: list[str] = []
-    if summary.get("overall") != "PASS":
-        errors.append(f"{path}: overall must be PASS for this gate")
     tests = summary.get("tests", {})
     if not isinstance(tests, dict):
         return errors + [f"{path}: tests must be an object"]
+    malformed = sorted(name for name, row in tests.items() if not isinstance(row, dict))
+    if malformed:
+        errors.append(f"{path}: malformed test rows: {', '.join(malformed)}")
+    failing = sorted(
+        name
+        for name, row in tests.items()
+        if not isinstance(row, dict) or row.get("status") != "PASS"
+    )
+    allowed_blocked = sorted(
+        name
+        for name in failing
+        if name in ALLOWED_BLOCKED_SIM_TESTS
+        and isinstance(tests.get(name), dict)
+        and tests[name].get("status") == "BLOCKED"
+    )
+    unexpected_failing = sorted(name for name in failing if name not in allowed_blocked)
+    overall = summary.get("overall")
+    if overall == "PASS":
+        if failing:
+            errors.append(f"{path}: failing tests: {', '.join(failing)}")
+    elif overall == "PASS_WITH_BLOCKED":
+        if unexpected_failing:
+            errors.append(f"{path}: unexpected failing tests: {', '.join(unexpected_failing)}")
+        if not allowed_blocked:
+            errors.append(f"{path}: overall PASS_WITH_BLOCKED but no allowed BLOCKED tests found")
+    else:
+        errors.append(f"{path}: overall must be PASS or controlled PASS_WITH_BLOCKED for this gate")
+    for name in allowed_blocked:
+        row = tests[name]
+        for key in ("trace", "compare_log"):
+            raw_path = row.get(key)
+            if not raw_path:
+                errors.append(f"{path}: allowed BLOCKED {name} missing {key}")
+                continue
+            artifact = resolve_summary_artifact(root, path, raw_path)
+            if not artifact.is_file():
+                errors.append(f"{path}: allowed BLOCKED {name}.{key} is missing: {artifact}")
     backpressure = tests.get("backpressure", {})
     if backpressure.get("status") != "PASS":
         errors.append(f"{path}: backpressure status must be PASS")
@@ -242,7 +290,7 @@ def check_uv_doc(path: Path) -> list[str]:
         ("tools/check_noninterference_gate.py", "Phase 3.4 checker command"),
         ("tools/generate_noninterference_report.py --self-test", "Phase 3.4 report self-test command"),
         ("tools/generate_noninterference_report.py --out-dir build/noninterference_gate", "Phase 3.4 report command"),
-        ("docs/noninterference_resource_gate.md", "Phase 3.4 doc reference"),
+        ("docs/validation/noninterference_resource_gate.md", "Phase 3.4 doc reference"),
         ("experiments/hardware/noninterference_gate.json", "Phase 3.4 spec reference"),
     ):
         if token not in text:
@@ -343,8 +391,8 @@ def write_fixture(root: Path) -> None:
                 "status": "CHECKED(TRACE_SYNTHESIS)",
                 "scope": "trace_sideband_noninterference_and_resource_gate",
                 "evidence_refs": [
-                    "docs/timing_principles.md",
-                    "docs/resource_report.md",
+                    "docs/architecture/timing_principles.md",
+                    "docs/reports/resource_report.md",
                     "results/vivado_sim/summary.json",
                     "tools/check_timing_principles.py",
                     "tools/generate_resource_report.py",
@@ -398,7 +446,7 @@ Trace-enabled FPGA LUT/FF/BRAM/DSP/slack delta
         "uv run python tools/generate_noninterference_report.py --self-test\n"
         "uv run python tools/generate_noninterference_report.py --out-dir build/noninterference_gate\n"
         "uv run python tools/check_noninterference_gate.py\n"
-        "docs/noninterference_resource_gate.md\n"
+        "docs/validation/noninterference_resource_gate.md\n"
         "experiments/hardware/noninterference_gate.json\n",
         encoding="utf-8",
     )
@@ -435,6 +483,33 @@ def self_test() -> int:
         if tool_errors:
             for error in tool_errors:
                 print(f"[FAIL] self-test report-output gate failed: {error}", file=sys.stderr)
+            return 1
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_fixture(root)
+        blocked_dir = root / "results/vivado_sim/cva6_full_soc_tohost_normal"
+        blocked_dir.mkdir(parents=True)
+        (blocked_dir / "trace.jsonl").write_text('{"evt":"RETIRE","value":1}\n', encoding="utf-8")
+        (blocked_dir / "compare.log").write_text("[BLOCKED] timed out before observing tohost store\n", encoding="utf-8")
+        summary = load_json(root / DEFAULT_SUMMARY)
+        summary["overall"] = "PASS_WITH_BLOCKED"
+        summary["tests"]["cva6_full_soc_tohost_normal"] = {
+            "status": "BLOCKED",
+            "trace": "results/vivado_sim/cva6_full_soc_tohost_normal/trace.jsonl",
+            "compare_log": "results/vivado_sim/cva6_full_soc_tohost_normal/compare.log",
+        }
+        (root / DEFAULT_SUMMARY).write_text(json.dumps(summary), encoding="utf-8")
+        errors = check_summary(root, root / DEFAULT_SUMMARY)
+        if errors:
+            for error in errors:
+                print(f"[FAIL] self-test rejected allowed BLOCKED tohost boundary: {error}", file=sys.stderr)
+            return 1
+        shutil.copyfile(Path.cwd() / DEFAULT_REPORT_TOOL, root / DEFAULT_REPORT_TOOL)
+        tool_errors = check_report_tool(root, DEFAULT_REPORT_TOOL, DEFAULT_SUMMARY)
+        if tool_errors:
+            for error in tool_errors:
+                print(f"[FAIL] self-test report-output rejected allowed BLOCKED tohost boundary: {error}", file=sys.stderr)
             return 1
 
     with tempfile.TemporaryDirectory() as tmp:

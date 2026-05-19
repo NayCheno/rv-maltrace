@@ -1,11 +1,11 @@
-# RV-MalTrace Project Map
+﻿# RV-MalTrace Project Map
 
 ## Core Entry Points
 
 - `pyproject.toml`: project metadata, `rvmt` CLI config, Vivado/board/toolchain settings.
 - `src/rv_maltrace/cli.py`: task runner for Docker, toolchain, bootrom, Vivado, bitstream, sim, summary, and bare-metal builds.
 - `Makefile`: thin wrappers around `uv run rvmt`.
-- `docs/uv_workflow.md`: canonical command list.
+- `docs/process/uv_workflow.md`: canonical command list.
 
 ## RTL and Simulation
 
@@ -30,28 +30,28 @@
 
 ## Documentation
 
-- `docs/plan.md`: MVP phase plan.
-- `docs/next-plan.md`: paper-level next-stage plan.
-- `docs/trace_format.md`: event semantics, packet fields, JSONL schema, comparison rules, filters, compression, memory mode.
-- `docs/signal_map.md`: CVA6 signal attachment map and integration notes.
-- `docs/timing_principles.md`: trace timing/critical-path guidance.
-- `docs/trace_export_decision.md`: export-path decisions.
-- `docs/version_lock.md`: reproducibility anchors.
-- `docs/risk_log.md`: known risks and mitigations.
-- `docs/resource_report.md`: FPGA/resource reporting.
+- `docs/planning/plan.md`: MVP phase plan.
+- `docs/planning/next-plan.md`: paper-level next-stage plan.
+- `docs/architecture/trace_format.md`: event semantics, packet fields, JSONL schema, comparison rules, filters, compression, memory mode.
+- `docs/architecture/signal_map.md`: CVA6 signal attachment map and integration notes.
+- `docs/architecture/timing_principles.md`: trace timing/critical-path guidance.
+- `docs/architecture/trace_export_decision.md`: export-path decisions.
+- `docs/process/version_lock.md`: reproducibility anchors.
+- `docs/process/risk_log.md`: known risks and mitigations.
+- `docs/reports/resource_report.md`: FPGA/resource reporting.
 
 ## Board and Linux Work
 
-- `docs/board_bringup.md`
-- `docs/baseline_bringup_runbook.md`
-- `docs/baseline_pass_criteria.md`
-- `docs/board_trace_minimal.md`
-- `docs/board_trace_validation.md`
+- `docs/board/board_bringup.md`
+- `docs/board/baseline_bringup_runbook.md`
+- `docs/board/baseline_pass_criteria.md`
+- `docs/board/board_trace_minimal.md`
+- `docs/board/board_trace_validation.md`
 - `board/trace_validation/programs/`
 - `board/trace_validation/expected/`
 - `experiments/linux_behavior/`
 - `docs/linux_*`
-- `docs/semantic_enrichment_*`
+- `docs/research/semantic/semantic_enrichment_*`
 
 ## Common Validation Commands
 

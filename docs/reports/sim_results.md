@@ -1,4 +1,4 @@
-# Vivado Simulation Results
+﻿# Vivado Simulation Results
 
 This document is the running record for MVP simulation evidence.
 
@@ -29,6 +29,13 @@ This document is the running record for MVP simulation evidence.
 | `cva6_ebreak` | PASS | 11 | 8 | 0 | 2 | 0 | 0 | 0 | 1 | 0 | 0 | Direct-core CVA6 ebreak program matched breakpoint trap cause. |
 | `cva6_full_soc_smoke` | PASS | 3 | 1 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | Full `ariane_testharness` breakpoint-terminated smoke compiled, elaborated, booted from DRAM, and observed the expected breakpoint trap. |
 | `cva6_full_soc_uart_store_path` | PASS | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Full `ariane_testharness` observed a committed RVFI store to UART/MMIO address `0x10000000` using the two-instruction store-path gate. |
+| `cva6_full_soc_tohost_normal` | PASS | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Full `ariane_testharness` normal tohost/MMIO probe compiled, elaborated, and observed a committed tohost store without `RVMT_STORE_PATH_ONLY`. |
+| `cva6_full_soc_rv64gc_i_addi` | PASS | 3 | 1 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | Full-SoC retire-count microprobe for the base integer `I` extension. |
+| `cva6_full_soc_rv64gc_m_mul` | PASS | 3 | 1 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | Full-SoC retire-count microprobe for the multiply/divide `M` extension. |
+| `cva6_full_soc_rv64gc_c_nop` | PASS | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Compressed `C.NOP` retired once; the runner accepts the explicit PASS transcript even if xsim does not exit cleanly before the wrapper timeout. |
+| `cva6_full_soc_rv64gc_f_fsgnj_s` | PASS | 4 | 1 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | Full-SoC single-precision `FSGNJ.S` retired once with the simulation M-mode environment forcing FS Dirty. |
+| `cva6_full_soc_rv64gc_d_fsgnj_d` | PASS | 4 | 1 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | Full-SoC double-precision `FSGNJ.D` retired once with the simulation M-mode environment forcing FS Dirty. |
+| `cva6_full_soc_rv64gc_a_sc_w` | PASS | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Full-SoC atomic `SC.W` retired once. |
 
 ## Artifact Layout
 
@@ -80,6 +87,13 @@ empty and `compare.log` starts with `[BLOCKED]`.
   to `results/vivado_sim/cva6_full_soc_uart_store_path/`. This proves the
   local full-SoC UART/MMIO store observation path, but it is not the same as a
   normal multi-instruction tohost program reaching completion.
+- Normal full-SoC tohost/MMIO completion gate: PASS via
+  `uv run rvmt sim:cva6-full-soc-tohost`. On 2026-05-18, the full
+  `ariane_testharness` compiled and elaborated, booted
+  `sim/programs/full_soc_dram_tohost/full_soc_dram_tohost.mem`, observed a
+  committed RVFI store to `0x1000_0000`, and published PASS artifacts to
+  `results/vivado_sim/cva6_full_soc_tohost_normal/`. This uses the normal
+  completion path and does not set `RVMT_STORE_PATH_ONLY`.
 - Direct CVA6 trace integration: PARTIAL. `RV_MALTRACE_TRACE=1` enables the
   guarded CVA6 testharness RVFI hook and JSONL sink; the direct-core smoke
   separately verifies the same adapter/sink path against real CVA6 committed
@@ -90,10 +104,17 @@ filtering, queue/drop behavior, and the CVA6 RVFI adapter. The `cva6_*` rows are
 real CVA6 core execution tests with trace-on/no-trace final-result matching. The
 full SoC harness is now part of the reproducible local simulation evidence via a
 short breakpoint-terminated smoke plus a separate UART/MMIO store-path
-observation gate. Exploratory multi-instruction full-SoC tohost attempts that
-stalled after early retire are archived under
-`results/vivado_sim_exploratory_blocked/` and are not counted in the main
-summary.
+observation gate plus a separate normal tohost/MMIO completion gate. Both are
+repository-local simulation evidence, not physical board evidence.
+
+Full-SoC RV64GC microprobe coverage is PASS via
+`uv run rvmt sim:cva6-full-soc-rv64gc`. The suite covers one committed
+instruction from each RV64GC extension family: `I` (`ADDI`), `M` (`MUL`), `A`
+(`SC.W`), `F` (`FSGNJ.S`), `D` (`FSGNJ.D`), and `C` (`C.NOP`). The `F` and `D`
+probes use the simulation-only `RVMT_FORCE_FS_DIRTY` plusarg to model an M-mode
+runtime that has enabled floating-point state. This is a minimum per-extension
+full-SoC retire gate, not a claim that arbitrary RV64GC programs, riscv-tests,
+Linux, or physical board execution have passed.
 
 Phase 2 packet compression is currently an offline prototype. On 2026-05-09,
 `tools/compress_trace.py --check-roundtrip --stats` passed for
@@ -118,7 +139,7 @@ Phase 3.2 timing-principle check records trace as a sideband-only path:
 before decode/packet formatting, and `tools/check_timing_principles.py` passes
 with no ready/stall/backpressure ports exposed by trace RTL.
 
-Phase 3.3 resource reporting is generated in `docs/resource_report.md` from the
+Phase 3.3 resource reporting is generated in `docs/reports/resource_report.md` from the
 existing Genesys 2 routed utilization/timing reports plus the latest
 `results/vivado_sim/summary.json` drop statistics.
 
