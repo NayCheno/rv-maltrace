@@ -43,10 +43,14 @@ class RVMTTraceRing(Module, AutoCSR):
         self.sink_args = [Signal(32, name=f"rvmt_trace_a{arg}") for arg in range(8)]
 
         self._control = CSRStorage(
-            2,
-            reset=1,
+            10,
+            reset=0x03d,
             name="control",
-            description="bit0: enable trace capture, bit1: clear ring/drop counters",
+            description=(
+                "bit0: enable trace capture, bit1: clear ring/drop counters, "
+                "bit2: syscall, bit3: trap, bit4: context, bit5: drop accounting, "
+                "bit6: branch, bit7: retire, bit8: jump, bit9: arg_mem"
+            ),
         )
         self._status = CSRStatus(
             32,
@@ -79,10 +83,34 @@ class RVMTTraceRing(Module, AutoCSR):
 
         enabled = self._control.storage[0]
         clear = self._control.storage[1]
+        enable_syscall = self._control.storage[2]
+        enable_trap = self._control.storage[3]
+        enable_context = self._control.storage[4]
+        enable_drop = self._control.storage[5]
+        enable_branch = self._control.storage[6]
+        enable_retire = self._control.storage[7]
+        enable_jump = self._control.storage[8]
+        enable_arg_mem = self._control.storage[9]
         full = count == depth
         empty = count == 0
-        accept = self.sink_valid & enabled & ~full & ~busy
-        drop = self.sink_valid & enabled & (full | busy)
+        syscall_event = (self.sink_event == 4) | (self.sink_event == 5)
+        trap_event = self.sink_event == 6
+        context_event = (self.sink_event == 9) | (self.sink_event == 7) | (self.sink_event == 8)
+        branch_event = self.sink_event == 2
+        retire_event = self.sink_event == 1
+        jump_event = self.sink_event == 3
+        arg_mem_event = self.sink_event == 10
+        event_enabled = (
+            (syscall_event & enable_syscall)
+            | (trap_event & enable_trap)
+            | (context_event & enable_context)
+            | (branch_event & enable_branch)
+            | (retire_event & enable_retire)
+            | (jump_event & enable_jump)
+            | (arg_mem_event & enable_arg_mem)
+        )
+        accept = self.sink_valid & enabled & event_enabled & ~full & ~busy
+        drop = self.sink_valid & enabled & event_enabled & enable_drop & (full | busy)
 
         write_enable = Signal()
 

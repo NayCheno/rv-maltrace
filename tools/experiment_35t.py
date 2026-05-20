@@ -25,6 +25,11 @@ from rv_maltrace.cli import (  # noqa: E402
     artix7_trace_csr_base,
     raw_trace_record_to_event,
 )
+from rv_maltrace.trace_profiles import (  # noqa: E402
+    get_trace_profile,
+    profile_names,
+    trace_control_mask_for_profile,
+)
 
 
 BENIGN_MANIFEST = Path("experiments/linux_behavior/benign/manifest.json")
@@ -32,6 +37,8 @@ MALWARE_MANIFEST = Path("experiments/linux_behavior/malware_like/manifest.json")
 RULES_PATH = Path("experiments/linux_behavior/behavior_audit_rules.json")
 TRACE_OFF = "trace-off"
 TRACE_ON = "trace-on"
+RUNTIME_CLASSIC = "classic"
+RUNTIME_ABBA = "abba"
 REQUIRED_BASELINES = ("host_native", "host_strace", "qemu_native", "qemu_strace")
 OPTIONAL_BASELINES = ("ebpf_only", "qemu_plugin", "software_instrumentation")
 UART_TIMESTAMP_RE = re.compile(r"\[[0-9]+(?:\.[0-9]+)?\]\s*")
@@ -320,14 +327,23 @@ def serial_capture(port: str, baud: int, duration: float, commands: list[str], l
 
 
 def stage_board(args: argparse.Namespace, samples: list[Sample]) -> None:
-    csr_base = artix7_trace_csr_base(ROOT, allow_default=args.dry_run)
+    csr_base = artix7_trace_csr_base(ROOT, args.trace_records, allow_default=args.dry_run)
     selectors = " ".join(sample.sample_id for sample in samples)
-    commands = [
-        "root",
-        "cd /opt/rvmt",
-        f"/usr/bin/rvmt_exp_runner 0x{csr_base:08x} {args.trace_records} {args.reps} trace-off {selectors}",
-        f"/usr/bin/rvmt_exp_runner 0x{csr_base:08x} {args.trace_records} {args.reps} trace-on {selectors}",
-    ]
+    control_mask = trace_control_mask_for_profile(args.trace_profile)
+    runner_args = f"--control-mask 0x{control_mask:x} --warmup {args.warmup}"
+    if args.runtime_order == RUNTIME_ABBA:
+        commands = [
+            "root",
+            "cd /opt/rvmt",
+            f"/usr/bin/rvmt_exp_runner 0x{csr_base:08x} {args.trace_records} {args.reps} abba {runner_args} {selectors}",
+        ]
+    else:
+        commands = [
+            "root",
+            "cd /opt/rvmt",
+            f"/usr/bin/rvmt_exp_runner 0x{csr_base:08x} {args.trace_records} {args.reps} trace-off {runner_args} {selectors}",
+            f"/usr/bin/rvmt_exp_runner 0x{csr_base:08x} {args.trace_records} {args.reps} trace-on {runner_args} {selectors}",
+        ]
     raw_log = result_root(args.run_id) / "board" / "raw_uart.log"
     serial_capture(args.port, args.baud, args.duration, commands, raw_log, dry_run=args.dry_run)
     if not args.dry_run:
@@ -335,7 +351,7 @@ def stage_board(args: argparse.Namespace, samples: list[Sample]) -> None:
 
 
 def clean_uart_line(line: str) -> str:
-    line = UART_TIMESTAMP_RE.sub(" ", line).strip()
+    line = UART_TIMESTAMP_RE.sub("", line).strip()
     for pattern, marker in UART_MARKER_PATTERNS:
         line = pattern.sub(marker, line)
     if line.startswith(">> "):
@@ -400,6 +416,14 @@ def marker_fields(line: str) -> dict[str, str]:
     return result
 
 
+def int_field(fields: dict[str, str], key: str, default: int = 0) -> int:
+    raw = fields.get(key)
+    if raw is None:
+        return default
+    match = re.match(r"-?\d+", raw)
+    return int(match.group(0)) if match else default
+
+
 def trace_lines_to_events(lines: list[str]) -> list[dict[str, object]]:
     events: list[dict[str, object]] = []
     for line in lines:
@@ -437,7 +461,9 @@ def write_board_rep(run_id: str, current: dict[str, Any], trace_lines: list[str]
     )
     mode = current["mode"]
     rep = int(current["rep"])
-    rep_dir = sample_root(run_id, sample) / "board" / mode / f"rep_{rep:02d}"
+    is_warmup = bool(current.get("warmup"))
+    rep_name = f"warmup_{rep:02d}" if is_warmup else f"rep_{rep:02d}"
+    rep_dir = sample_root(run_id, sample) / "board" / mode / rep_name
     rep_dir.mkdir(parents=True, exist_ok=True)
     (rep_dir / "status.json").write_text(json.dumps(current, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     if trace_lines:
@@ -446,10 +472,47 @@ def write_board_rep(run_id: str, current: dict[str, Any], trace_lines: list[str]
         (rep_dir / "trace.jsonl").write_text("".join(json.dumps(event, sort_keys=True) + "\n" for event in events), encoding="utf-8")
 
 
+def write_board_timing_rows(run_id: str, rows: list[dict[str, Any]]) -> None:
+    by_sample: dict[tuple[str, str], list[dict[str, Any]]] = {}
+    for row in rows:
+        key = (str(row.get("class", "unknown")), str(row.get("sample", "unknown")))
+        by_sample.setdefault(key, []).append(row)
+    for (sample_class, sample_id), sample_rows in by_sample.items():
+        sample = Sample(
+            sample_class=sample_class,
+            sample_id=sample_id,
+            source="",
+            command=[],
+            expected_behavior=[],
+            evidence_dir="",
+        )
+        timing_path = sample_root(run_id, sample) / "board" / "timings.jsonl"
+        timing_path.parent.mkdir(parents=True, exist_ok=True)
+        normalized = []
+        for row in sample_rows:
+            normalized.append(
+                {
+                    "sample_class": sample_class,
+                    "sample": sample_id,
+                    "mode": row.get("mode"),
+                    "rep": row.get("rep"),
+                    "order_index": row.get("order_index"),
+                    "warmup": bool(row.get("warmup")),
+                    "status": row.get("status"),
+                    "exit_code": row.get("exit_code"),
+                    "runtime_ns": row.get("runtime_ns"),
+                    "trace_count": row.get("trace_count"),
+                    "drop": row.get("drop"),
+                }
+            )
+        timing_path.write_text("".join(json.dumps(row, sort_keys=True) + "\n" for row in normalized), encoding="utf-8")
+
+
 def parse_board_log(raw_log: Path, run_id: str) -> None:
     current: dict[str, Any] | None = None
     capturing_trace = False
     trace_lines: list[str] = []
+    timing_rows: list[dict[str, Any]] = []
     for raw_line in raw_log.read_text(encoding="utf-8", errors="replace").splitlines():
         line = clean_uart_line(raw_line)
         if not line:
@@ -461,7 +524,9 @@ def parse_board_log(raw_log: Path, run_id: str) -> None:
                 "class": fields.get("class", "unknown"),
                 "sample": fields.get("sample", "unknown"),
                 "mode": fields.get("mode", "unknown"),
-                "rep": int(fields.get("rep", "0")),
+                "rep": int_field(fields, "rep"),
+                "order_index": int_field(fields, "order_index"),
+                "warmup": fields.get("warmup", "0") == "1",
                 "status": "STARTED",
             }
             trace_lines = []
@@ -473,12 +538,15 @@ def parse_board_log(raw_log: Path, run_id: str) -> None:
             current.update(
                 {
                     "status": "PASS" if fields.get("exit") == "0" else "FAIL",
-                    "exit_code": int(fields.get("exit", "127")),
-                    "runtime_ns": int(fields.get("runtime_ns", "0")),
-                    "trace_count": int(fields.get("trace_count", "0")),
-                    "drop": int(fields.get("drop", "0")),
+                    "exit_code": int_field(fields, "exit", 127),
+                    "runtime_ns": int_field(fields, "runtime_ns"),
+                    "trace_count": int_field(fields, "trace_count"),
+                    "drop": int_field(fields, "drop"),
+                    "order_index": int_field(fields, "order_index", int(current.get("order_index", 0))),
+                    "warmup": fields.get("warmup", "1" if current.get("warmup") else "0") == "1",
                 }
             )
+            timing_rows.append(dict(current))
             continue
         if current is not None and marker_fragment(line, "RVMT_TRACE_DUMP_BEGIN"):
             capturing_trace = True
@@ -500,6 +568,8 @@ def parse_board_log(raw_log: Path, run_id: str) -> None:
         current["status"] = "FAIL"
         current["error"] = "missing RVMT_EXP_REP_END"
         write_board_rep(run_id, current, trace_lines)
+        timing_rows.append(dict(current))
+    write_board_timing_rows(run_id, timing_rows)
 
 
 def parse_strace_names(path: Path) -> list[dict[str, Any]]:
@@ -538,6 +608,16 @@ def lcs_len(left: list[str], right: list[str]) -> int:
     return previous[-1]
 
 
+def edit_distance(left: list[str], right: list[str]) -> int:
+    previous = list(range(len(right) + 1))
+    for i, item in enumerate(left, start=1):
+        current = [i]
+        for j, other in enumerate(right, start=1):
+            current.append(min(previous[j] + 1, current[-1] + 1, previous[j - 1] + (0 if item == other else 1)))
+        previous = current
+    return previous[-1]
+
+
 def return_sign(value: Any) -> str:
     if value is None:
         return "unknown"
@@ -550,7 +630,14 @@ def return_sign(value: Any) -> str:
     return "nonneg"
 
 
-def align_trace_to_groundtruth(gt_path: Path, semantic_path: Path, out_dir: Path) -> dict[str, Any]:
+def align_trace_to_groundtruth(
+    gt_path: Path,
+    semantic_path: Path,
+    out_dir: Path,
+    *,
+    trace_path: Path | None = None,
+    status_path: Path | None = None,
+) -> dict[str, Any]:
     gt = parse_strace_names(gt_path)
     sem = semantic_syscalls(semantic_path)
     gt_names = [row["name"] for row in gt]
@@ -561,7 +648,9 @@ def align_trace_to_groundtruth(gt_path: Path, semantic_path: Path, out_dir: Path
     precision = tp / len(sem_set) if sem_set else 0.0
     recall = tp / len(gt_set) if gt_set else 0.0
     ordered = lcs_len(gt_names, sem_names)
+    edit = edit_distance(gt_names, sem_names)
     paired = min(len(gt), len(sem))
+    paired_returns = sum(1 for row in sem if row.get("return_value") is not None)
     sign_matches = 0
     arg_values = 0
     arg_matches = 0
@@ -587,21 +676,45 @@ def align_trace_to_groundtruth(gt_path: Path, semantic_path: Path, out_dir: Path
             if any(token in gt_text for token in tokens if token):
                 arg_matches += 1
     args_present = sum(1 for row in sem if isinstance(row.get("args"), dict) and any(row["args"].values()))
+    captured_events = trace_event_count(trace_path) if trace_path is not None else None
+    drop_count = None
+    if status_path is not None and status_path.exists():
+        drop_count = int(load_json(status_path).get("drop", 0) or 0)
+    drop_rate = (
+        drop_count / (drop_count + captured_events)
+        if drop_count is not None and captured_events is not None and (drop_count + captured_events) > 0
+        else None
+    )
     result = {
         "schema": "rvmt.35t.alignment.v1",
         "groundtruth": repo_rel(gt_path),
         "semantic": repo_rel(semantic_path),
+        "trace": repo_rel(trace_path) if trace_path is not None else None,
         "groundtruth_syscalls": len(gt),
         "semantic_syscalls": len(sem),
         "syscall_family_precision": precision,
         "syscall_family_recall": recall,
         "ordered_lcs": ordered,
         "ordered_lcs_ratio": ordered / len(gt_names) if gt_names else 0.0,
+        "edit_distance": edit,
+        "paired_return_ratio": paired_returns / len(sem) if sem else 0.0,
         "return_sign_match_ratio": sign_matches / paired if paired else 0.0,
         "argument_availability_ratio": args_present / len(sem) if sem else 0.0,
         "argument_accuracy_ratio": (arg_matches / arg_values) if arg_values else None,
         "argument_accuracy_method": "best-effort scalar-token overlap with QEMU -strace text",
+        "captured_events": captured_events,
+        "drop_count": drop_count,
+        "drop_rate": drop_rate,
     }
+    result["family_set"] = {"precision": precision, "recall": recall, "true_positive_families": sorted(gt_set & sem_set)}
+    result["ordered_sequence"] = {"lcs": ordered, "lcs_ratio": result["ordered_lcs_ratio"], "edit_distance": edit}
+    result["paired_semantics"] = {
+        "paired_return_ratio": result["paired_return_ratio"],
+        "return_sign_match_ratio": result["return_sign_match_ratio"],
+        "argument_availability_ratio": result["argument_availability_ratio"],
+        "argument_accuracy_ratio": result["argument_accuracy_ratio"],
+    }
+    result["drop_aware"] = {"captured_events": captured_events, "drop_count": drop_count, "drop_rate": drop_rate}
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "alignment.json").write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return result
@@ -671,7 +784,13 @@ def stage_analyze(args: argparse.Namespace, samples: list[Sample]) -> None:
                 print(f"+ align {gt_strace} {semantic_dir / 'semantic_events.json'} -> {align_dir / 'alignment.json'}")
             else:
                 try:
-                    align_trace_to_groundtruth(gt_strace, semantic_dir / "semantic_events.json", align_dir)
+                    align_trace_to_groundtruth(
+                        gt_strace,
+                        semantic_dir / "semantic_events.json",
+                        align_dir,
+                        trace_path=trace,
+                        status_path=rep_dir / "status.json",
+                    )
                 except Exception as exc:  # noqa: BLE001 - keep batch execution moving and record the failed rep.
                     failures.append({"stage": "alignment", "error": str(exc)})
                 status = {"status": "PASS" if not failures else "FAIL", "failures": failures}
@@ -689,11 +808,19 @@ def median(values: list[float]) -> float | None:
 
 
 def summarize_numbers(values: list[float]) -> dict[str, float | None]:
+    sorted_values = sorted(values)
+    if len(sorted_values) >= 4:
+        lower = sorted_values[: len(sorted_values) // 2]
+        upper = sorted_values[(len(sorted_values) + 1) // 2 :]
+        iqr = statistics.median(upper) - statistics.median(lower)
+    else:
+        iqr = None
     return {
         "median": median(values),
         "min": min(values) if values else None,
         "max": max(values) if values else None,
         "spread": (max(values) - min(values)) if values else None,
+        "iqr": iqr,
     }
 
 
@@ -701,7 +828,17 @@ def trace_event_count(path: Path) -> int:
     return len(load_jsonl(path))
 
 
+def trace_event_counts(path: Path) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for event in load_jsonl(path):
+        evt = str(event.get("evt", "NONE"))
+        counts[evt] = counts.get(evt, 0) + 1
+    return dict(sorted(counts.items()))
+
+
 def collect_metrics(run_id: str, samples: list[Sample]) -> dict[str, Any]:
+    run_config = load_json(result_root(run_id) / "run_config.json") if (result_root(run_id) / "run_config.json").exists() else {}
+    trace_records = int(run_config["trace_records"]) if run_config.get("trace_records") is not None else None
     rows: list[dict[str, Any]] = []
     confusion = {"tp": 0, "fp": 0, "tn": 0, "fn": 0}
     rule_confusion = {"tp": 0, "fp": 0, "tn": 0, "fn": 0}
@@ -764,12 +901,18 @@ def collect_metrics(run_id: str, samples: list[Sample]) -> dict[str, Any]:
         jsonl_bytes_per_sec: list[float] = []
         compact_bytes_per_sec: list[float] = []
         drop_rates: list[float] = []
+        captured_cap_reps: list[str] = []
+        event_count_totals: dict[str, int] = {}
         drops = [float(row.get("drop", 0)) for row in board_by_mode[TRACE_ON]]
         for rep_dir in sorted((sample_dir / "board" / TRACE_ON).glob("rep_*")):
             status = load_json(rep_dir / "status.json") if (rep_dir / "status.json").exists() else {}
             runtime_s = float(status.get("runtime_ns", 0)) / 1_000_000_000.0
             trace_path = rep_dir / "trace.jsonl"
             events = float(trace_event_count(trace_path))
+            if trace_records is not None and int(events) == trace_records:
+                captured_cap_reps.append(rep_dir.name)
+            for evt, count in trace_event_counts(trace_path).items():
+                event_count_totals[evt] = event_count_totals.get(evt, 0) + count
             jsonl_bytes = float(trace_path.stat().st_size) if trace_path.exists() else 0.0
             lightweight = rep_dir / "lightweight" / "lightweight_trace_analysis.json"
             compact = 0.0
@@ -803,6 +946,9 @@ def collect_metrics(run_id: str, samples: list[Sample]) -> dict[str, Any]:
                 "trace_compact_bytes_per_sec": summarize_numbers(compact_bytes_per_sec),
                 "drop_count": summarize_numbers(drops),
                 "drop_rate": summarize_numbers(drop_rates),
+                "captured_cap_reps": captured_cap_reps,
+                "trace_on_rep_count": len(list((sample_dir / "board" / TRACE_ON).glob("rep_*"))),
+                "event_counts": dict(sorted(event_count_totals.items())),
                 "alignment_precision": summarize_numbers(alignment_precision),
                 "alignment_recall": summarize_numbers(alignment_recall),
                 "alignment_argument_accuracy": summarize_numbers(alignment_arg_accuracy),
@@ -889,7 +1035,8 @@ def write_reports(run_id: str, samples: list[Sample]) -> None:
         newline="\n",
     )
     (aggregate / "overhead_report.md").write_text(render_overhead_report(metrics), encoding="utf-8", newline="\n")
-    (aggregate / "bandwidth_report.md").write_text(render_bandwidth_report(metrics), encoding="utf-8", newline="\n")
+    run_config = load_json(result_root(run_id) / "run_config.json") if (result_root(run_id) / "run_config.json").exists() else {}
+    (aggregate / "bandwidth_report.md").write_text(render_bandwidth_report(metrics, run_config), encoding="utf-8", newline="\n")
     (aggregate / "artifact_index.md").write_text(render_artifact_index(run_id, samples), encoding="utf-8", newline="\n")
 
 
@@ -897,8 +1044,8 @@ def render_overhead_report(metrics: dict[str, Any]) -> str:
     lines = [
         "# 35T Runtime And Perturbation Report",
         "",
-        "| Sample | Trace-off median ns | Trace-off min/max ns | Trace-off spread ns | Trace-on median ns | Trace-on min/max ns | Trace-on spread ns | Trace ratio | Host native ns | Host strace ratio | QEMU native ns | QEMU strace ratio |",
-        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+        "| Sample | Trace-off median ns | Trace-off min/max ns | Trace-off spread ns | Trace-off IQR ns | Trace-on median ns | Trace-on min/max ns | Trace-on spread ns | Trace-on IQR ns | Measured trace ratio | Host native ns | Host strace ratio | QEMU native ns | QEMU strace ratio |",
+        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
     for row in metrics["samples"]:
         off_stats = row["board_trace_off_runtime_ns"]
@@ -914,29 +1061,66 @@ def render_overhead_report(metrics: dict[str, Any]) -> str:
         host_ratio = (host_strace / host_native) if host_strace is not None and host_native not in (None, 0) else None
         qemu_ratio = (qemu_strace / qemu_native) if qemu_strace is not None and qemu_native not in (None, 0) else None
         lines.append(
-            f"| `{row['sample_id']}` | {off} | {off_stats['min']} / {off_stats['max']} | {off_stats['spread']} | "
-            f"{on} | {on_stats['min']} / {on_stats['max']} | {on_stats['spread']} | {ratio if ratio is not None else 'n/a'} | "
+            f"| `{row['sample_id']}` | {off} | {off_stats['min']} / {off_stats['max']} | {off_stats['spread']} | {off_stats.get('iqr')} | "
+            f"{on} | {on_stats['min']} / {on_stats['max']} | {on_stats['spread']} | {on_stats.get('iqr')} | {ratio if ratio is not None else 'n/a'} | "
             f"{host_native} | {host_ratio if host_ratio is not None else 'n/a'} | "
             f"{qemu_native} | {qemu_ratio if qemu_ratio is not None else 'n/a'} |"
         )
-    lines.extend(["", "Trace-off and trace-on are both executed on the 35T trace-capable image; trace-off disables capture through the trace CSR.", ""])
+    lines.extend(
+        [
+            "",
+            "Trace-off and trace-on are both executed on the 35T trace-capable image; trace-off disables capture through the trace CSR.",
+            "Ratios below 1.0 are reported only as measured ratios, not as acceleration claims.",
+            "",
+        ]
+    )
     return "\n".join(lines)
 
 
-def render_bandwidth_report(metrics: dict[str, Any]) -> str:
+def render_bandwidth_report(metrics: dict[str, Any], run_config: dict[str, Any] | None = None) -> str:
+    run_config = run_config or {}
+    trace_records = run_config.get("trace_records")
+    capped_samples = [
+        row["sample_id"]
+        for row in metrics["samples"]
+        if trace_records is not None and row.get("captured_cap_reps")
+    ]
+    worst = max(
+        (row for row in metrics["samples"] if row["drop_rate"]["median"] is not None),
+        key=lambda row: row["drop_rate"]["median"],
+        default=None,
+    )
     lines = [
         "# 35T Trace Bandwidth And Drop Report",
         "",
-        "| Sample | Events median | JSONL bytes median | Compact bytes median | Events/sec median | JSONL bytes/sec median | DROP median | Drop rate median |",
-        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+        "| Sample | Events median | Cap hits | JSONL bytes median | Compact bytes median | Events/sec median | JSONL bytes/sec median | DROP median | Drop rate median | Align recall median | Event counts |",
+        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |",
     ]
     for row in metrics["samples"]:
+        counts = ", ".join(f"{key}:{value}" for key, value in row.get("event_counts", {}).items()) or "none"
         lines.append(
-            f"| `{row['sample_id']}` | {row['trace_events']['median']} | {row['trace_jsonl_bytes']['median']} | "
+            f"| `{row['sample_id']}` | {row['trace_events']['median']} | {len(row.get('captured_cap_reps', []))} | {row['trace_jsonl_bytes']['median']} | "
             f"{row['trace_compact_bytes']['median']} | {row['trace_events_per_sec']['median']} | "
-            f"{row['trace_jsonl_bytes_per_sec']['median']} | {row['drop_count']['median']} | {row['drop_rate']['median']} |"
+            f"{row['trace_jsonl_bytes_per_sec']['median']} | {row['drop_count']['median']} | {row['drop_rate']['median']} | "
+            f"{row['alignment_recall']['median']} | {counts} |"
         )
-    lines.extend(["", "This report covers captured trace volume and DROP accounting, not high-bandwidth streaming capacity.", ""])
+    lines.extend(
+        [
+            "",
+            f"- Trace records cap: `{trace_records if trace_records is not None else 'not recorded'}`.",
+            f"- Samples with `captured_events == trace_records`: {', '.join(f'`{item}`' for item in capped_samples) if capped_samples else 'none'}.",
+            (
+                f"- Worst median DROP sample: `{worst['sample_id']}` at {worst['drop_rate']['median']}."
+                if worst is not None
+                else "- Worst median DROP sample: n/a."
+            ),
+            "- DROP rate is computed as `drop / (drop + captured_events)` for each trace-on rep.",
+            "- Current bandwidth is not sufficient evidence for mature semantic recovery unless the gate report shows low DROP and adequate alignment recall.",
+            "",
+            "This report covers captured trace volume and DROP accounting, not high-bandwidth streaming capacity.",
+            "",
+        ]
+    )
     return "\n".join(lines)
 
 
@@ -1061,6 +1245,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--reps", type=int, default=5)
     parser.add_argument("--duration", type=float, default=3600.0)
     parser.add_argument("--trace-records", type=int, default=256)
+    parser.add_argument("--trace-profile", choices=profile_names(), default="p0_syscall_trap_context")
+    parser.add_argument("--runtime-order", choices=(RUNTIME_CLASSIC, RUNTIME_ABBA), default=RUNTIME_CLASSIC)
+    parser.add_argument("--warmup", type=int, default=0)
     parser.add_argument("--sample", action="append", default=[])
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--keep-going", action="store_true", default=True)
@@ -1069,6 +1256,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.stage == "self-test":
         return self_test()
     samples = selected_samples(args.sample)
+    profile = get_trace_profile(args.trace_profile)
     config = {
         "run_id": args.run_id,
         "port": args.port,
@@ -1076,6 +1264,11 @@ def main(argv: list[str] | None = None) -> int:
         "reps": args.reps,
         "duration": args.duration,
         "trace_records": args.trace_records,
+        "trace_profile": profile.name,
+        "trace_controls": profile.trace_controls,
+        "trace_control_mask": f"0x{profile.control_mask:x}",
+        "runtime_order": args.runtime_order,
+        "warmup": args.warmup,
         "samples": [sample.sample_id for sample in samples],
         "network": "disabled",
         "real_malware": "forbidden",

@@ -15,6 +15,8 @@ import tomllib
 from pathlib import Path
 from typing import Iterable
 
+from rv_maltrace.trace_profiles import profile_names
+
 
 BOARD_DEFAULTS = {
     "genesys2": ("xc7k325tffg900-2", "digilentinc.com:genesys2:part0:1.1"),
@@ -201,7 +203,10 @@ COMPLETION_CANDIDATES = sorted(
         "--tool-mode",
         "--tool-prefix",
         "--trace",
+        "--trace-profile",
         "-h",
+        "--runtime-order",
+        "--warmup",
         "docker/tool/bootrom/bitstream",
         "docker/toolchain/bootrom/bitstream",
         "tool/bootrom/bitstream",
@@ -1202,12 +1207,21 @@ def artix7_trace_jsonl_path(root: Path, args: argparse.Namespace) -> Path:
     return artix7_step_dir(root, args, "08_trace_jsonl_compare") / "trace.jsonl"
 
 
-def artix7_trace_csr_csv(root: Path) -> Path:
-    return root / ARTIX7_LOLV_TRACE_BUILD / "csr.csv"
+def artix7_trace_build_name(trace_records: int | None) -> str:
+    records = 256 if trace_records is None else int(trace_records)
+    return "embedfire_rise_pro_trace" if records == 256 else f"embedfire_rise_pro_trace_r{records}"
 
 
-def artix7_trace_csr_base(root: Path, *, allow_default: bool = False) -> int:
-    csr_csv = artix7_trace_csr_csv(root)
+def artix7_trace_build_dir(root: Path, trace_records: int | None) -> Path:
+    return root / ARTIX7_LOLV_DIR / "build" / artix7_trace_build_name(trace_records)
+
+
+def artix7_trace_csr_csv(root: Path, trace_records: int | None = None) -> Path:
+    return artix7_trace_build_dir(root, trace_records) / "csr.csv"
+
+
+def artix7_trace_csr_base(root: Path, trace_records: int | None = None, *, allow_default: bool = False) -> int:
+    csr_csv = artix7_trace_csr_csv(root, trace_records)
     if not csr_csv.exists():
         if allow_default:
             return ARTIX7_TRACE_DEFAULT_CSR_BASE
@@ -2013,6 +2027,10 @@ def task_artix7_trace_build(root: Path, config: dict, env: dict[str, str], args:
         str(args.baud),
         "--rootfs",
         "ram0",
+        "--trace-depth",
+        str(args.trace_records),
+        "--output-dir",
+        f"build/{artix7_trace_build_name(args.trace_records)}",
         "--build",
         "--no-compile-software",
         "--skip-dts",
@@ -2036,7 +2054,8 @@ def task_artix7_trace_build(root: Path, config: dict, env: dict[str, str], args:
         )
         raise TaskError(f"Missing trace SoC integration: {trace_soc}")
     run_capture(cmd, cwd=root, env=artix7_litex_vivado_env(root, config, env), dry_run=False, log_path=log_path)
-    bitstream = root / ARTIX7_LOLV_TRACE_BUILD / "gateware" / "embedfire_rise_pro.bit"
+    trace_build_dir = artix7_trace_build_dir(root, args.trace_records)
+    bitstream = trace_build_dir / "gateware" / "embedfire_rise_pro.bit"
     if not bitstream.exists():
         write_artix7_observation(step_dir, "FAIL", [f"- Trace build did not produce `{bitstream}`."])
         raise TaskError(f"Trace build did not produce {bitstream}")
@@ -2055,13 +2074,14 @@ def task_artix7_trace_build(root: Path, config: dict, env: dict[str, str], args:
 def task_artix7_trace_load(root: Path, config: dict, env: dict[str, str], args: argparse.Namespace) -> None:
     record_artix7_board_identity(root, config, env, args, args.dry_run)
     step_dir = artix7_step_dir(root, args, "07_trace_minimal")
-    bitstreams = sorted((root / ARTIX7_LOLV_TRACE_BUILD / "gateware").glob("*.bit"))
+    trace_build_dir = artix7_trace_build_dir(root, args.trace_records)
+    bitstreams = sorted((trace_build_dir / "gateware").glob("*.bit"))
     log_path = step_dir / "trace_load.log"
     if args.dry_run:
         print(f"+ load Artix-7 minimal trace bitstream > {quote_for_display(str(log_path))}")
         return
     if not bitstreams:
-        write_artix7_observation(step_dir, "FAIL", [f"- No trace bitstream found under `{root / ARTIX7_LOLV_TRACE_BUILD / 'gateware'}`."])
+        write_artix7_observation(step_dir, "FAIL", [f"- No trace bitstream found under `{trace_build_dir / 'gateware'}`."])
         raise TaskError("No Artix-7 trace bitstream found")
     script = root / "fpga" / "artix7_35t" / "scripts" / "program_bitstream.tcl"
     artix7_vivado_capture(root, config, env, args, script, [str(bitstreams[0])], log_path, False)
@@ -2072,7 +2092,7 @@ def task_artix7_trace_dump(root: Path, config: dict, env: dict[str, str], args: 
     record_artix7_board_identity(root, config, env, args, args.dry_run)
     step_dir = artix7_step_dir(root, args, "08_trace_jsonl_compare")
     log_path = step_dir / "trace_raw_uart.log"
-    csr_base = artix7_trace_csr_base(root, allow_default=args.dry_run)
+    csr_base = artix7_trace_csr_base(root, args.trace_records, allow_default=args.dry_run)
     dump_command = f"/usr/bin/rvmt_trace_dump 0x{csr_base:08x} {args.trace_records}"
     print(
         f"+ capture trace dump from {args.port} {args.baud} 8N1 for {args.duration:g}s "
@@ -2099,7 +2119,7 @@ def task_artix7_trace_dump(root: Path, config: dict, env: dict[str, str], args: 
         status,
         [
             f"- Raw trace UART log: `{log_path}`.",
-            f"- Trace CSR base: `0x{csr_base:08x}` from `{artix7_trace_csr_csv(root)}`.",
+            f"- Trace CSR base: `0x{csr_base:08x}` from `{artix7_trace_csr_csv(root, args.trace_records)}`.",
             f"- Records requested: `{args.trace_records}`.",
             "- Required markers: `RVMT_TRACE_DUMP_BEGIN` and `RVMT_TRACE_DUMP_END`.",
         ],
@@ -2122,10 +2142,16 @@ def artix7_priv_name(value: int) -> str:
 
 def raw_trace_record_to_event(index: int, words: list[int]) -> dict[str, object]:
     event_names = {
+        1: "RETIRE",
+        2: "BRANCH",
+        3: "JUMP",
         4: "SYSCALL_ENTRY",
         5: "SYSCALL_RET",
         6: "TRAP",
+        7: "CSR",
+        8: "SATP",
         9: "PRIV",
+        10: "ARG_MEM",
         11: "DROP",
     }
     if len(words) < ARTIX7_TRACE_RAW_RECORD_WORDS:
@@ -2162,6 +2188,28 @@ def raw_trace_record_to_event(index: int, words: list[int]) -> dict[str, object]
         )
     elif evt == "TRAP":
         event.update({"cause": artix7_hex32(words[4]), "tval": artix7_hex32(words[5]), "priv": priv})
+    elif evt in {"RETIRE", "BRANCH", "JUMP"}:
+        event.update({"instr": artix7_hex32(words[3]), "priv": priv})
+        if evt in {"BRANCH", "JUMP"}:
+            event["target"] = artix7_pc_hex(words[4])
+        if evt == "BRANCH":
+            event["taken"] = bool(words[5] & 1)
+    elif evt == "CSR":
+        event.update({"csr": artix7_hex32(words[4]), "value": artix7_hex32(words[5]), "priv": priv})
+    elif evt == "SATP":
+        event.update({"satp": artix7_hex32(words[4]), "priv": priv})
+    elif evt == "ARG_MEM":
+        event.update(
+            {
+                "priv": priv,
+                "syscall_id": artix7_hex32(words[6]),
+                "arg_index": words[3] & 0x7,
+                "mem_addr": artix7_pc_hex(words[4]),
+                "mem_data": artix7_hex32(words[5]),
+                "mem_size": words[7] & 0xff,
+                "mem_last": bool(words[7] & 0x100),
+            }
+        )
     elif evt == "PRIV":
         event.update({"old_priv": old_priv, "new_priv": new_priv, "target": artix7_pc_hex(words[4])})
     elif evt == "DROP":
@@ -2864,8 +2912,22 @@ def demo_manifest_sample(root: Path, sample: str) -> dict:
     raise TaskError(f"Unknown malware-like synthetic sample '{sample}' in {manifest_path}")
 
 
+def cli_sample_values(args: argparse.Namespace) -> list[str]:
+    value = args.sample
+    if value is None:
+        return []
+    if isinstance(value, list):
+        return [str(item) for item in value if item]
+    return [str(value)]
+
+
+def cli_primary_sample(args: argparse.Namespace, default: str) -> str:
+    values = cli_sample_values(args)
+    return values[-1] if values else default
+
+
 def task_demo_behavior(root: Path, env: dict[str, str], args: argparse.Namespace) -> None:
-    sample = args.sample or "anti_debug_like"
+    sample = cli_primary_sample(args, "anti_debug_like")
     run_dir = demo_run_dir(root, args.out_dir, args.run_id, sample)
     trace_dir = run_dir / "02_trace"
     semantic_dir = run_dir / "03_semantic"
@@ -2940,7 +3002,7 @@ def task_demo_behavior(root: Path, env: dict[str, str], args: argparse.Namespace
 
 
 def task_demo_groundtruth(root: Path, config: dict, env: dict[str, str], args: argparse.Namespace) -> None:
-    sample = args.sample or "anti_debug_like"
+    sample = cli_primary_sample(args, "anti_debug_like")
     sample_spec = demo_manifest_sample(root, sample)
     source = str(sample_spec.get("source", ""))
     if not source:
@@ -3013,10 +3075,16 @@ def task_exp_35t(root: Path, env: dict[str, str], args: argparse.Namespace) -> N
         cmd.extend(["--duration", str(args.duration)])
     if args.trace_records is not None:
         cmd.extend(["--trace-records", str(args.trace_records)])
+    if args.trace_profile is not None:
+        cmd.extend(["--trace-profile", args.trace_profile])
+    if args.runtime_order is not None:
+        cmd.extend(["--runtime-order", args.runtime_order])
+    if args.warmup is not None:
+        cmd.extend(["--warmup", str(args.warmup)])
     if args.baud is not None:
         cmd.extend(["--baud", str(args.baud)])
-    if args.sample:
-        cmd.extend(["--sample", args.sample])
+    for sample in cli_sample_values(args):
+        cmd.extend(["--sample", sample])
     if args.dry_run:
         cmd.append("--dry-run")
     run(cmd, cwd=root, env=env, dry_run=False)
@@ -3165,7 +3233,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--include", type=Path, action="append", default=[], help="For sim:cva6-run --asm, extra include directory.")
     parser.add_argument("--cflag", action="append", default=[], help="For sim:cva6-run --asm, extra compiler flag.")
     parser.add_argument("--no-runtime", action="store_true", help="For sim:cva6-run --asm, do not link the rv-maltrace runtime.")
-    parser.add_argument("--sample", help="For demo and exp:35t tasks, sample id.")
+    parser.add_argument("--sample", action="append", help="For demo and exp:35t tasks, sample id. May repeat for exp:35t.")
     parser.add_argument(
         "--stage",
         choices=("groundtruth", "rootfs", "board", "analyze", "report", "all", "self-test"),
@@ -3209,8 +3277,22 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument(
         "--trace-records",
         type=int,
-        help="For Artix-7 trace-dump and exp:35t, records to read from rvmt_trace. Defaults to 64, except exp:35t defaults to 256.",
+        help=(
+            "For Artix-7 trace-build/trace-dump and exp:35t, records to allocate/read from rvmt_trace. "
+            "Defaults to 64 for trace-dump, 256 for trace-build, and 256 for exp:35t."
+        ),
     )
+    parser.add_argument(
+        "--trace-profile",
+        choices=profile_names(),
+        help="For exp:35t, select the 35T trace profile recorded in run_config and enforced by the board profile mask.",
+    )
+    parser.add_argument(
+        "--runtime-order",
+        choices=("classic", "abba"),
+        help="For exp:35t, choose classic trace-off/trace-on batches or ABBA timing order.",
+    )
+    parser.add_argument("--warmup", type=int, help="For exp:35t, warmup reps per sample/mode excluded from aggregate metrics.")
     parser.add_argument(
         "--board-step",
         choices=("03_uart_hello", "04_litex_ddr", "05_baremetal", "06_linux_boot", "07_trace_minimal", "08_trace_jsonl_compare"),
@@ -3234,7 +3316,7 @@ def main(argv: list[str] | None = None) -> int:
         if args.duration is None and not exp_only:
             args.duration = 60.0
         if args.trace_records is None and not exp_only:
-            args.trace_records = 64
+            args.trace_records = 64 if "board:artix7:trace-dump" in tasks else 256
         for task in tasks:
             if task == "config:show":
                 show_config(root, config)

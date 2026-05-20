@@ -55,6 +55,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--uart-baudrate", default=115200, type=float)
     parser.add_argument("--rootfs", choices=("ram0", "mmcblk0p2"), default="ram0")
     parser.add_argument("--trace-depth", default=256, type=int)
+    parser.add_argument("--output-dir", default="build/embedfire_rise_pro_trace")
     parser.add_argument("--build", action="store_true")
     parser.add_argument("--load", action="store_true")
     parser.add_argument("--no-compile-software", action="store_true")
@@ -98,12 +99,13 @@ def main() -> int:
     soc.csr.add("rvmt_trace", n=8)
     soc.add_constant("RVMT_TRACE_ENTRY_WORDS", 16)
     soc.add_constant("RVMT_TRACE_DEPTH", args.trace_depth)
+    output_dir = args.output_dir
     builder = Builder(
         soc,
-        output_dir="build/embedfire_rise_pro_trace",
+        output_dir=output_dir,
         bios_console="lite",
-        csr_json="build/embedfire_rise_pro_trace/csr.json",
-        csr_csv="build/embedfire_rise_pro_trace/csr.csv",
+        csr_json=str(Path(output_dir) / "csr.json"),
+        csr_csv=str(Path(output_dir) / "csr.csv"),
         compile_gateware=False,
         compile_software=not args.no_compile_software,
     )

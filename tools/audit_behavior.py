@@ -9,6 +9,7 @@ from typing import Any
 
 
 DEFAULT_RULES = Path("experiments/linux_behavior/behavior_audit_rules.json")
+DEFAULT_FIXTURES = Path("experiments/linux_behavior/rule_regression_fixtures/manifest.json")
 TRAP_CAUSE_ALIASES = {
     "illegal_instruction": "0x2",
     "breakpoint": "0x3",
@@ -95,6 +96,13 @@ def trap_causes(semantic: dict[str, Any]) -> list[str]:
         if cause is not None:
             causes.append(cause)
     return causes
+
+
+def evidence_tags(semantic: dict[str, Any]) -> set[str]:
+    tags = semantic.get("evidence_tags", [])
+    if not isinstance(tags, list):
+        return set()
+    return {str(item) for item in tags}
 
 
 def has_ordered_subsequence(values: list[str], expected: list[str]) -> bool:
@@ -209,7 +217,13 @@ def match_rule(rule_id: str, rule: dict[str, Any], semantic: dict[str, Any]) -> 
             if not found:
                 arg_failures.append(f"{syscall}.{arg}&0x{mask:x}")
 
-    matched = not missing and not count_failures and not sequence_failures and not missing_causes and not arg_failures
+    tag_failures = []
+    required_tags = rule.get("required_evidence_tags", [])
+    if isinstance(required_tags, list):
+        present_tags = evidence_tags(semantic)
+        tag_failures = [str(tag) for tag in required_tags if str(tag) not in present_tags]
+
+    matched = not missing and not count_failures and not sequence_failures and not missing_causes and not arg_failures and not tag_failures
     return {
         "rule": rule_id,
         "family": rule.get("family"),
@@ -223,6 +237,7 @@ def match_rule(rule_id: str, rule: dict[str, Any], semantic: dict[str, Any]) -> 
         "failed_syscalls": failed_syscalls,
         "scoped_failed_syscalls": scoped_failed_syscalls,
         "arg_failures": arg_failures,
+        "tag_failures": tag_failures,
     }
 
 
@@ -237,6 +252,9 @@ def audit(
     rule_ids = sorted(set(expected) | set(rules))
     matches = [match_rule(rule_id, rules[rule_id], semantic) for rule_id in rule_ids if rule_id in rules]
     matched_expected = [item["rule"] for item in matches if item["rule"] in expected and item["matched"]]
+    matched_rules = [item["rule"] for item in matches if item["matched"]]
+    missing_expected = [rule_id for rule_id in expected if rule_id not in matched_expected]
+    unexpected_matched = [rule_id for rule_id in matched_rules if rule_id not in expected]
     unknown_expected = [rule_id for rule_id in expected if rule_id not in rules]
     warnings = []
     if unknown_expected:
@@ -251,6 +269,8 @@ def audit(
         "status": "DERIVED_AUDIT",
         "expected_behavior": expected,
         "matched_expected_behavior": matched_expected,
+        "missing_expected_behavior": missing_expected,
+        "unexpected_matched_behavior": unexpected_matched,
         "all_expected_matched": bool(expected) and len(matched_expected) == len(expected) and not unknown_expected,
         "matches": matches,
         "warnings": warnings,
@@ -269,11 +289,14 @@ def render_report(result: dict[str, Any]) -> str:
         f"- Sample: `{result.get('sample_id') or 'unspecified'}`",
         f"- Expected behaviors: {', '.join(result.get('expected_behavior') or ['none'])}",
         f"- Expected behaviors matched: {', '.join(result.get('matched_expected_behavior') or ['none'])}",
+        f"- Expected behaviors missing: {', '.join(result.get('missing_expected_behavior') or ['none'])}",
+        f"- Unexpected matched behaviors: {', '.join(result.get('unexpected_matched_behavior') or ['none'])}",
         f"- All expected matched: {result.get('all_expected_matched')}",
         "",
-        "| Rule | Family | Matched | Missing |",
-        "| --- | --- | --- | --- |",
+        "| Rule | Family | Matched | Expected | Missing | Unexpected |",
+        "| --- | --- | --- | --- | --- | --- |",
     ]
+    expected = set(result.get("expected_behavior") or [])
     for item in result.get("matches", []):
         if not isinstance(item, dict):
             continue
@@ -283,10 +306,14 @@ def render_report(result: dict[str, Any]) -> str:
             or item.get("sequence_failures")
             or item.get("missing_trap_causes")
             or item.get("arg_failures")
+            or item.get("tag_failures")
             or []
         )
+        rule = str(item.get("rule"))
+        unexpected = bool(item.get("matched")) and rule not in expected
         lines.append(
-            f"| `{item.get('rule')}` | {item.get('family')} | {item.get('matched')} | {', '.join(missing) if missing else 'none'} |"
+            f"| `{rule}` | {item.get('family')} | {item.get('matched')} | {rule in expected} | "
+            f"{', '.join(missing) if missing else 'none'} | {unexpected} |"
         )
     lines.extend(
         [
@@ -314,6 +341,36 @@ def write_outputs(
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "behavior_audit.json").write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     (out_dir / "behavior_audit_report.md").write_text(render_report(result), encoding="utf-8", newline="\n")
+
+
+def run_regression_fixtures(fixtures_path: Path, rules_path: Path) -> list[str]:
+    if not fixtures_path.exists():
+        return []
+    fixtures = load_json(fixtures_path)
+    rules = load_rule_definitions(rules_path)
+    errors: list[str] = []
+    for fixture in fixtures.get("fixtures", []):
+        if not isinstance(fixture, dict):
+            errors.append("fixture entry must be an object")
+            continue
+        name = str(fixture.get("name", "unnamed"))
+        semantic = fixture.get("semantic", {})
+        if not isinstance(semantic, dict):
+            errors.append(f"{name}: semantic must be an object")
+            continue
+        graph = fixture.get("graph", {"schema": "rvmt.behavior.graph.v1", "nodes": [], "edges": []})
+        if not isinstance(graph, dict):
+            graph = {"schema": "rvmt.behavior.graph.v1", "nodes": [], "edges": []}
+        result = audit(semantic, graph, rules, {"samples": [{"id": name, "expected_behavior": fixture.get("expected_behavior", [])}]}, name)
+        matched = set(result.get("matched_expected_behavior", []))
+        expected_matched = {str(item) for item in fixture.get("expected_matched", [])}
+        forbidden_matched = {str(item) for item in fixture.get("forbidden_matched", [])}
+        if not expected_matched <= matched:
+            errors.append(f"{name}: missing expected matched rules {sorted(expected_matched - matched)}")
+        all_matched = {str(item.get("rule")) for item in result.get("matches", []) if isinstance(item, dict) and item.get("matched")}
+        if forbidden_matched & all_matched:
+            errors.append(f"{name}: forbidden rules matched {sorted(forbidden_matched & all_matched)}")
+    return errors
 
 
 def self_test() -> int:
@@ -466,6 +523,12 @@ def self_test() -> int:
         if "many_file_scan" not in report or "not malware detection quality evidence" not in report:
             print("[FAIL] self-test missed report content", file=sys.stderr)
             return 1
+    fixture_errors = run_regression_fixtures(DEFAULT_FIXTURES, DEFAULT_RULES)
+    if fixture_errors:
+        print("[FAIL] rule regression fixtures failed:", file=sys.stderr)
+        for error in fixture_errors:
+            print(error, file=sys.stderr)
+        return 1
     print("[PASS] behavior audit self-test")
     return 0
 

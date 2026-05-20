@@ -18,6 +18,9 @@
 #define RVMT_TRACE_DROP_WORD 5u
 #define RVMT_TRACE_READ_INDEX_WORD 6u
 #define RVMT_TRACE_READ_WORD_WORD 7u
+#define RVMT_TRACE_CONTROL_ENABLE 0x0001u
+#define RVMT_TRACE_CONTROL_CLEAR 0x0002u
+#define RVMT_TRACE_DEFAULT_PROFILE_MASK 0x003cu
 
 typedef struct {
     const char *sample_class;
@@ -25,6 +28,12 @@ typedef struct {
     const char *argv0;
     const char *argv1;
 } sample_spec_t;
+
+typedef struct {
+    unsigned long control_mask;
+    unsigned long warmup;
+    int first_sample_arg;
+} runner_options_t;
 
 static const sample_spec_t samples[] = {
     {"benign", "hello", "/usr/bin/rvmt_benign_workload", "hello"},
@@ -86,10 +95,11 @@ static volatile uint32_t *map_trace_csr(unsigned long base, unsigned long *map_l
     return (volatile uint32_t *)((volatile uint8_t *)csr + page_off);
 }
 
-static void trace_set_mode(volatile uint32_t *csr, int enabled) {
-    csr[0] = enabled ? 0x3u : 0x2u;
+static void trace_set_mode(volatile uint32_t *csr, int enabled, uint32_t control_mask) {
+    uint32_t base = control_mask & ~(RVMT_TRACE_CONTROL_ENABLE | RVMT_TRACE_CONTROL_CLEAR);
+    csr[0] = base | RVMT_TRACE_CONTROL_CLEAR | (enabled ? RVMT_TRACE_CONTROL_ENABLE : 0u);
     (void)csr[RVMT_TRACE_STATUS_WORD];
-    csr[0] = enabled ? 0x1u : 0x0u;
+    csr[0] = base | (enabled ? RVMT_TRACE_CONTROL_ENABLE : 0u);
     (void)csr[RVMT_TRACE_STATUS_WORD];
 }
 
@@ -159,9 +169,95 @@ static int sample_selected(const sample_spec_t *sample, int argc, char **argv, i
     return 0;
 }
 
+static runner_options_t parse_runner_options(int argc, char **argv) {
+    runner_options_t opts;
+    opts.control_mask = RVMT_TRACE_DEFAULT_PROFILE_MASK;
+    opts.warmup = 0;
+    opts.first_sample_arg = 5;
+
+    int index = 5;
+    while (index < argc) {
+        if (strcmp(argv[index], "--control-mask") == 0) {
+            if (index + 1 >= argc) {
+                fprintf(stderr, "--control-mask requires a value\n");
+                exit(2);
+            }
+            opts.control_mask = parse_ulong(argv[index + 1], "control-mask");
+            index += 2;
+            continue;
+        }
+        if (strcmp(argv[index], "--warmup") == 0) {
+            if (index + 1 >= argc) {
+                fprintf(stderr, "--warmup requires a value\n");
+                exit(2);
+            }
+            opts.warmup = parse_ulong(argv[index + 1], "warmup");
+            index += 2;
+            continue;
+        }
+        break;
+    }
+    opts.first_sample_arg = index;
+    return opts;
+}
+
+static void run_one_rep(
+    volatile uint32_t *csr,
+    const sample_spec_t *sample,
+    unsigned long records,
+    unsigned long rep,
+    const char *mode,
+    int trace_on,
+    int warmup,
+    unsigned long order_index,
+    uint32_t control_mask
+) {
+    printf(
+        "RVMT_EXP_REP_BEGIN class=%s sample=%s mode=%s rep=%lu order_index=%lu warmup=%d\n",
+        sample->sample_class,
+        sample->sample_id,
+        mode,
+        rep,
+        order_index,
+        warmup
+    );
+    trace_set_mode(csr, trace_on, control_mask);
+    uint64_t start = monotonic_ns();
+    int exit_code = run_sample(sample);
+    uint64_t end = monotonic_ns();
+    uint32_t count = csr[RVMT_TRACE_COUNT_WORD];
+    uint32_t drop = csr[RVMT_TRACE_DROP_WORD];
+    printf(
+        "RVMT_EXP_REP_RESULT class=%s sample=%s mode=%s rep=%lu order_index=%lu warmup=%d exit=%d runtime_ns=%" PRIu64 " trace_count=%" PRIu32 " drop=%" PRIu32 "\n",
+        sample->sample_class,
+        sample->sample_id,
+        mode,
+        rep,
+        order_index,
+        warmup,
+        exit_code,
+        end - start,
+        count,
+        drop
+    );
+    if (trace_on) {
+        dump_trace(csr, records);
+    }
+    trace_set_mode(csr, 0, control_mask);
+    printf(
+        "RVMT_EXP_REP_END class=%s sample=%s mode=%s rep=%lu order_index=%lu warmup=%d\n",
+        sample->sample_class,
+        sample->sample_id,
+        mode,
+        rep,
+        order_index,
+        warmup
+    );
+}
+
 int main(int argc, char **argv) {
     if (argc < 5) {
-        fprintf(stderr, "usage: %s <trace-csr-base> <records> <reps> <trace-on|trace-off> [sample-id|class ...]\n", argv[0]);
+        fprintf(stderr, "usage: %s <trace-csr-base> <records> <reps> <trace-on|trace-off|abba> [--control-mask hex] [--warmup n] [sample-id|class ...]\n", argv[0]);
         return 2;
     }
 
@@ -169,49 +265,59 @@ int main(int argc, char **argv) {
     unsigned long records = parse_ulong(argv[2], "records");
     unsigned long reps = parse_ulong(argv[3], "reps");
     int trace_on = strcmp(argv[4], "trace-on") == 0;
-    if (!trace_on && strcmp(argv[4], "trace-off") != 0) {
-        fprintf(stderr, "mode must be trace-on or trace-off\n");
+    int abba = strcmp(argv[4], "abba") == 0;
+    if (!trace_on && strcmp(argv[4], "trace-off") != 0 && !abba) {
+        fprintf(stderr, "mode must be trace-on, trace-off, or abba\n");
         return 2;
     }
+    runner_options_t opts = parse_runner_options(argc, argv);
+    uint32_t control_mask = (uint32_t)opts.control_mask;
 
     unsigned long map_len = 0;
     unsigned long page_off = 0;
     volatile uint32_t *csr = map_trace_csr(csr_base, &map_len, &page_off);
     setvbuf(stdout, NULL, _IOLBF, 0);
 
-    printf("RVMT_EXP_BEGIN mode=%s reps=%lu records=%lu csr_base=0x%08lx\n", trace_on ? "trace-on" : "trace-off", reps, records, csr_base);
+    printf(
+        "RVMT_EXP_BEGIN mode=%s reps=%lu warmup=%lu records=%lu csr_base=0x%08lx control_mask=0x%08" PRIx32 "\n",
+        argv[4],
+        reps,
+        opts.warmup,
+        records,
+        csr_base,
+        control_mask
+    );
     for (size_t sample_index = 0; sample_index < sizeof(samples) / sizeof(samples[0]); ++sample_index) {
         const sample_spec_t *sample = &samples[sample_index];
-        if (!sample_selected(sample, argc, argv, 5)) {
+        if (!sample_selected(sample, argc, argv, opts.first_sample_arg)) {
             continue;
         }
-        printf("RVMT_EXP_SAMPLE_BEGIN class=%s sample=%s mode=%s\n", sample->sample_class, sample->sample_id, trace_on ? "trace-on" : "trace-off");
-        for (unsigned long rep = 0; rep < reps; ++rep) {
-            printf("RVMT_EXP_REP_BEGIN class=%s sample=%s mode=%s rep=%lu\n", sample->sample_class, sample->sample_id, trace_on ? "trace-on" : "trace-off", rep);
-            trace_set_mode(csr, trace_on);
-            uint64_t start = monotonic_ns();
-            int exit_code = run_sample(sample);
-            uint64_t end = monotonic_ns();
-            uint32_t count = csr[RVMT_TRACE_COUNT_WORD];
-            uint32_t drop = csr[RVMT_TRACE_DROP_WORD];
-            printf(
-                "RVMT_EXP_REP_RESULT class=%s sample=%s mode=%s rep=%lu exit=%d runtime_ns=%" PRIu64 " trace_count=%" PRIu32 " drop=%" PRIu32 "\n",
-                sample->sample_class,
-                sample->sample_id,
-                trace_on ? "trace-on" : "trace-off",
-                rep,
-                exit_code,
-                end - start,
-                count,
-                drop
-            );
-            if (trace_on) {
-                dump_trace(csr, records);
+        printf("RVMT_EXP_SAMPLE_BEGIN class=%s sample=%s mode=%s\n", sample->sample_class, sample->sample_id, argv[4]);
+        unsigned long order_index = 0;
+        if (abba) {
+            for (unsigned long warm = 0; warm < opts.warmup; ++warm) {
+                run_one_rep(csr, sample, records, warm, "trace-off", 0, 1, order_index++, control_mask);
+                run_one_rep(csr, sample, records, warm, "trace-on", 1, 1, order_index++, control_mask);
             }
-            trace_set_mode(csr, 0);
-            printf("RVMT_EXP_REP_END class=%s sample=%s mode=%s rep=%lu\n", sample->sample_class, sample->sample_id, trace_on ? "trace-on" : "trace-off", rep);
+            for (unsigned long rep = 0; rep < reps; ++rep) {
+                if ((rep & 1u) == 0u) {
+                    run_one_rep(csr, sample, records, rep, "trace-off", 0, 0, order_index++, control_mask);
+                    run_one_rep(csr, sample, records, rep, "trace-on", 1, 0, order_index++, control_mask);
+                } else {
+                    run_one_rep(csr, sample, records, rep, "trace-on", 1, 0, order_index++, control_mask);
+                    run_one_rep(csr, sample, records, rep, "trace-off", 0, 0, order_index++, control_mask);
+                }
+            }
+        } else {
+            const char *mode = trace_on ? "trace-on" : "trace-off";
+            for (unsigned long warm = 0; warm < opts.warmup; ++warm) {
+                run_one_rep(csr, sample, records, warm, mode, trace_on, 1, order_index++, control_mask);
+            }
+            for (unsigned long rep = 0; rep < reps; ++rep) {
+                run_one_rep(csr, sample, records, rep, mode, trace_on, 0, order_index++, control_mask);
+            }
         }
-        printf("RVMT_EXP_SAMPLE_END class=%s sample=%s mode=%s\n", sample->sample_class, sample->sample_id, trace_on ? "trace-on" : "trace-off");
+        printf("RVMT_EXP_SAMPLE_END class=%s sample=%s mode=%s\n", sample->sample_class, sample->sample_id, argv[4]);
     }
     puts("RVMT_EXP_END status=PASS");
 

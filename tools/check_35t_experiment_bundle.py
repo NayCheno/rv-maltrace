@@ -23,6 +23,10 @@ AGGREGATE_ARTIFACTS = (
     "bandwidth_report.md",
     "artifact_index.md",
 )
+GATE_ARTIFACTS = (
+    "gate_report.json",
+    "gate_report.md",
+)
 TRACE_ANALYSIS_ARTIFACTS = (
     "behavior_recovery/semantic_events.json",
     "behavior_recovery/behavior_graph.json",
@@ -139,6 +143,19 @@ def check_aggregate(run_root: Path) -> list[str]:
     aggregate = run_root / "aggregate"
     for artifact in AGGREGATE_ARTIFACTS:
         require_file(errors, aggregate / artifact, f"aggregate {artifact}")
+    run_config = load_json(run_root / "run_config.json") if (run_root / "run_config.json").exists() else {}
+    gate_required = bool(run_config.get("next_gate_required") or run_config.get("gate_checked")) or any((aggregate / artifact).exists() for artifact in GATE_ARTIFACTS)
+    if gate_required:
+        for artifact in GATE_ARTIFACTS:
+            require_file(errors, aggregate / artifact, f"aggregate {artifact}")
+        gate_json = aggregate / "gate_report.json"
+        if gate_json.exists():
+            try:
+                gate = load_json(gate_json)
+                if gate.get("schema") != "rvmt.35t.next_gate.v1":
+                    errors.append(f"{gate_json}: unexpected gate report schema")
+            except Exception as exc:  # noqa: BLE001 - collect checker errors.
+                errors.append(f"{gate_json}: invalid gate report JSON: {exc}")
     accuracy = aggregate / "accuracy_report.md"
     if accuracy.exists():
         text = accuracy.read_text(encoding="utf-8")
@@ -206,7 +223,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Validate a 35T experiment artifact bundle.")
     parser.add_argument("--run-id", default="manual")
     parser.add_argument("--root", type=Path, default=DEFAULT_RESULT_ROOT)
-    parser.add_argument("--reps", type=int, default=5)
+    parser.add_argument("--reps", type=int)
     parser.add_argument("--sample", action="append", default=[])
     parser.add_argument("--self-test", action="store_true")
     args = parser.parse_args(argv)
@@ -214,8 +231,13 @@ def main(argv: list[str] | None = None) -> int:
         return self_test()
     result_root = resolve(ROOT, args.root)
     run_root = result_root / args.run_id
-    samples = load_samples(ROOT, args.sample)
-    errors = check_run(run_root, samples, args.reps)
+    run_config = load_json(run_root / "run_config.json")
+    selectors = args.sample or run_config.get("samples", [])
+    if not isinstance(selectors, list):
+        selectors = []
+    reps = args.reps if args.reps is not None else int(run_config.get("reps", 5))
+    samples = load_samples(ROOT, [str(item) for item in selectors])
+    errors = check_run(run_root, samples, reps)
     if errors:
         for error in errors:
             print(error, file=sys.stderr)

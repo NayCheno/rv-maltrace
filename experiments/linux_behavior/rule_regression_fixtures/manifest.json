@@ -1,0 +1,235 @@
+{
+  "schema": "rvmt.behavior.rule_regression_fixtures.v1",
+  "fixtures": [
+    {
+      "name": "many_file_scan_positive",
+      "expected_behavior": ["many_file_scan"],
+      "expected_matched": ["many_file_scan"],
+      "semantic": {
+        "schema": "rvmt.behavior.semantic.v1",
+        "syscall_sequence": [
+          {"name": "openat", "return_value": "0x3"},
+          {"name": "getdents64", "return_value": "0x20"},
+          {"name": "getdents64", "return_value": "0x0"},
+          {"name": "close", "return_value": "0x0"}
+        ],
+        "trap_context_transitions": []
+      }
+    },
+    {
+      "name": "many_file_scan_negative_ls_once",
+      "expected_behavior": [],
+      "forbidden_matched": ["many_file_scan"],
+      "semantic": {
+        "schema": "rvmt.behavior.semantic.v1",
+        "syscall_sequence": [
+          {"name": "openat", "return_value": "0x3"},
+          {"name": "getdents64", "return_value": "0x20"},
+          {"name": "close", "return_value": "0x0"}
+        ],
+        "trap_context_transitions": []
+      }
+    },
+    {
+      "name": "batch_file_read_write_positive",
+      "expected_behavior": ["batch_file_read_write"],
+      "expected_matched": ["batch_file_read_write"],
+      "semantic": {
+        "schema": "rvmt.behavior.semantic.v1",
+        "syscall_sequence": [
+          {"name": "openat", "return_value": "0x3"},
+          {"name": "read", "return_value": "0x10"},
+          {"name": "close", "return_value": "0x0"},
+          {"name": "openat", "return_value": "0x4"},
+          {"name": "write", "return_value": "0x10"},
+          {"name": "close", "return_value": "0x0"},
+          {"name": "openat", "return_value": "0x3"},
+          {"name": "read", "return_value": "0x10"},
+          {"name": "close", "return_value": "0x0"},
+          {"name": "openat", "return_value": "0x4"},
+          {"name": "write", "return_value": "0x10"},
+          {"name": "close", "return_value": "0x0"}
+        ],
+        "trap_context_transitions": []
+      }
+    },
+    {
+      "name": "batch_file_read_write_negative_single_copy",
+      "expected_behavior": [],
+      "forbidden_matched": ["batch_file_read_write"],
+      "semantic": {
+        "schema": "rvmt.behavior.semantic.v1",
+        "syscall_sequence": [
+          {"name": "openat", "return_value": "0x3"},
+          {"name": "read", "return_value": "0x10"},
+          {"name": "openat", "return_value": "0x4"},
+          {"name": "write", "return_value": "0x10"},
+          {"name": "close", "return_value": "0x0"},
+          {"name": "close", "return_value": "0x0"}
+        ],
+        "trap_context_transitions": []
+      }
+    },
+    {
+      "name": "self_copy_simulation_positive",
+      "expected_behavior": ["self_copy_simulation"],
+      "expected_matched": ["self_copy_simulation"],
+      "semantic": {
+        "schema": "rvmt.behavior.semantic.v1",
+        "evidence_tags": ["self_path", "executable_output"],
+        "syscall_sequence": [
+          {"name": "openat", "return_value": "0x3"},
+          {"name": "read", "return_value": "0x20"},
+          {"name": "openat", "return_value": "0x4"},
+          {"name": "write", "return_value": "0x20"},
+          {"name": "close", "return_value": "0x0"},
+          {"name": "close", "return_value": "0x0"}
+        ],
+        "trap_context_transitions": []
+      }
+    },
+    {
+      "name": "self_copy_simulation_negative_plain_copy",
+      "expected_behavior": [],
+      "forbidden_matched": ["self_copy_simulation"],
+      "semantic": {
+        "schema": "rvmt.behavior.semantic.v1",
+        "syscall_sequence": [
+          {"name": "openat", "return_value": "0x3"},
+          {"name": "read", "return_value": "0x20"},
+          {"name": "openat", "return_value": "0x4"},
+          {"name": "write", "return_value": "0x20"},
+          {"name": "close", "return_value": "0x0"},
+          {"name": "close", "return_value": "0x0"}
+        ],
+        "trap_context_transitions": []
+      }
+    },
+    {
+      "name": "abnormal_syscall_sequence_positive",
+      "expected_behavior": ["abnormal_syscall_sequence"],
+      "expected_matched": ["abnormal_syscall_sequence"],
+      "semantic": {
+        "schema": "rvmt.behavior.semantic.v1",
+        "syscall_sequence": [
+          {"name": "close", "return_value": "0xfffffffffffffff7"},
+          {"name": "close", "return_value": "0x0"},
+          {"name": "openat", "return_value": "0x3"},
+          {"name": "read", "return_value": "0x1"},
+          {"name": "write", "return_value": "0x1"}
+        ],
+        "trap_context_transitions": []
+      }
+    },
+    {
+      "name": "abnormal_syscall_sequence_negative_unrelated_failure",
+      "expected_behavior": [],
+      "forbidden_matched": ["abnormal_syscall_sequence"],
+      "semantic": {
+        "schema": "rvmt.behavior.semantic.v1",
+        "syscall_sequence": [
+          {"name": "close", "return_value": "0x0"},
+          {"name": "close", "return_value": "0x0"},
+          {"name": "openat", "return_value": "0x3"},
+          {"name": "read", "return_value": "0x1"},
+          {"name": "write", "return_value": "0x1"},
+          {"name": "brk", "return_value": "0xffffffffffffffff"}
+        ],
+        "trap_context_transitions": []
+      }
+    },
+    {
+      "name": "illegal_instruction_trap_positive",
+      "expected_behavior": ["illegal_instruction_trap"],
+      "expected_matched": ["illegal_instruction_trap"],
+      "semantic": {
+        "schema": "rvmt.behavior.semantic.v1",
+        "syscall_sequence": [{"name": "write", "return_value": "0x4"}],
+        "trap_context_transitions": [{"evt": "TRAP", "cause": "0x2"}]
+      }
+    },
+    {
+      "name": "illegal_instruction_trap_negative_write_only",
+      "expected_behavior": [],
+      "forbidden_matched": ["illegal_instruction_trap"],
+      "semantic": {
+        "schema": "rvmt.behavior.semantic.v1",
+        "syscall_sequence": [{"name": "write", "return_value": "0x4"}],
+        "trap_context_transitions": []
+      }
+    },
+    {
+      "name": "process_creation_chain_positive",
+      "expected_behavior": ["process_creation_chain"],
+      "expected_matched": ["process_creation_chain"],
+      "semantic": {
+        "schema": "rvmt.behavior.semantic.v1",
+        "syscall_sequence": [
+          {"name": "clone", "return_value": "0x10"},
+          {"name": "execve", "return_value": "0x0"},
+          {"name": "waitid", "return_value": "0x0"}
+        ],
+        "trap_context_transitions": []
+      }
+    },
+    {
+      "name": "process_creation_chain_negative_wait_only",
+      "expected_behavior": [],
+      "forbidden_matched": ["process_creation_chain"],
+      "semantic": {
+        "schema": "rvmt.behavior.semantic.v1",
+        "syscall_sequence": [{"name": "waitid", "return_value": "0x0"}],
+        "trap_context_transitions": []
+      }
+    },
+    {
+      "name": "dynamic_executable_memory_positive",
+      "expected_behavior": ["dynamic_executable_memory"],
+      "expected_matched": ["dynamic_executable_memory"],
+      "semantic": {
+        "schema": "rvmt.behavior.semantic.v1",
+        "syscall_sequence": [
+          {"name": "mmap", "return_value": "0x4000", "args": {"a2": "0x3"}},
+          {"name": "mprotect", "return_value": "0x0", "args": {"a2": "0x5"}}
+        ],
+        "trap_context_transitions": []
+      }
+    },
+    {
+      "name": "dynamic_executable_memory_negative_no_exec",
+      "expected_behavior": [],
+      "forbidden_matched": ["dynamic_executable_memory"],
+      "semantic": {
+        "schema": "rvmt.behavior.semantic.v1",
+        "syscall_sequence": [
+          {"name": "mmap", "return_value": "0x4000", "args": {"a2": "0x3"}},
+          {"name": "mprotect", "return_value": "0x0", "args": {"a2": "0x1"}}
+        ],
+        "trap_context_transitions": []
+      }
+    },
+    {
+      "name": "anti_analysis_indicator_positive",
+      "expected_behavior": ["anti_analysis_indicator"],
+      "expected_matched": ["anti_analysis_indicator"],
+      "semantic": {
+        "schema": "rvmt.behavior.semantic.v1",
+        "syscall_sequence": [
+          {"name": "clock_gettime", "return_value": "0x0"},
+          {"name": "ptrace", "return_value": "0xffffffffffffffff"}
+        ],
+        "trap_context_transitions": []
+      }
+    },
+    {
+      "name": "anti_analysis_indicator_negative_time_only",
+      "expected_behavior": [],
+      "forbidden_matched": ["anti_analysis_indicator"],
+      "semantic": {
+        "schema": "rvmt.behavior.semantic.v1",
+        "syscall_sequence": [{"name": "clock_gettime", "return_value": "0x0"}],
+        "trap_context_transitions": []
+      }
+    }
+  ]
+}

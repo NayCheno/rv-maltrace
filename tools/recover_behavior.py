@@ -82,26 +82,51 @@ def event_base(event: dict[str, Any], index: int) -> dict[str, Any]:
     }
 
 
+def drop_value(event: dict[str, Any]) -> int:
+    if event.get("evt") != "DROP":
+        return 0
+    value = parse_int(event.get("value"))
+    return value if value is not None else 0
+
+
+def empty_args() -> dict[str, None]:
+    return {f"a{arg}": None for arg in range(8)}
+
+
 def recover_syscalls(events: list[dict[str, Any]]) -> list[dict[str, Any]]:
     syscalls: list[dict[str, Any]] = []
     pending_by_id: dict[int, dict[str, Any]] = {}
     pending_without_id: list[dict[str, Any]] = []
+    drop_total = 0
+    seq = 0
     for index, event in enumerate(events):
         evt = event.get("evt")
+        drop_total += drop_value(event)
         if evt not in {"ECALL", "SYSCALL_ENTRY", "SYSCALL_RET"}:
             continue
         if evt in {"ECALL", "SYSCALL_ENTRY"}:
             number = parse_int(event.get("a7"))
+            args = {f"a{arg}": hex_or_none(event.get(f"a{arg}")) for arg in range(8)}
             syscall = {
                 **event_base(event, index),
                 "evt": "SYSCALL_ENTRY",
+                "seq": seq,
                 "syscall_id": hex_or_none(event.get("syscall_id")),
+                "nr": number,
                 "number": number,
                 "name": SYSCALL_NAMES.get(number, f"sys_{number}" if number is not None else "unknown"),
+                "entry_pc": hex_or_none(event.get("pc")),
+                "return_pc": None,
                 "priv": event.get("priv"),
                 "a7": hex_or_none(event.get("a7")),
-                "args": {f"a{arg}": hex_or_none(event.get(f"a{arg}")) for arg in range(6)},
+                "args": args,
+                "return_value": None,
+                "duration": None,
+                "drop_before": drop_total,
+                "drop_after": None,
+                "confidence": "entry_only",
             }
+            seq += 1
             syscalls.append(syscall)
             syscall_id = parse_int(event.get("syscall_id"))
             if syscall_id is None:
@@ -113,7 +138,7 @@ def recover_syscalls(events: list[dict[str, Any]]) -> list[dict[str, Any]]:
         syscall_id = parse_int(event.get("syscall_id"))
         match = pending_by_id.pop(syscall_id, None) if syscall_id is not None else None
         if match is None and pending_without_id:
-            match = pending_without_id.pop()
+            match = pending_without_id.pop(0)
         ret = {
             **event_base(event, index),
             "return_value": hex_or_none(event.get("a0")),
@@ -125,16 +150,33 @@ def recover_syscalls(events: list[dict[str, Any]]) -> list[dict[str, Any]]:
                 {
                     **event_base(event, index),
                     "evt": "SYSCALL_RET",
+                    "seq": seq,
                     "syscall_id": hex_or_none(event.get("syscall_id")),
+                    "nr": None,
                     "name": "unmatched_return",
+                    "entry_pc": None,
+                    "return_pc": ret["return_pc"],
+                    "args": empty_args(),
+                    "return_value": ret["return_value"],
+                    "duration": ret["duration"],
+                    "drop_before": drop_total,
+                    "drop_after": drop_total,
+                    "confidence": "return_only",
                     "return": ret,
                 }
             )
+            seq += 1
         else:
             match["return"] = ret
             match["return_value"] = ret["return_value"]
             match["return_pc"] = ret["return_pc"]
             match["duration"] = ret["duration"]
+            match["drop_after"] = drop_total
+            match["confidence"] = "paired_entry_return"
+    for syscall in pending_by_id.values():
+        syscall["drop_after"] = drop_total
+    for syscall in pending_without_id:
+        syscall["drop_after"] = drop_total
     return syscalls
 
 
@@ -305,6 +347,12 @@ def self_test() -> int:
             return 1
         if syscall.get("return_pc") != "0x0000000000001004" or syscall.get("duration") != 1:
             print("[FAIL] self-test missed flattened syscall return fields", file=sys.stderr)
+            return 1
+        if syscall.get("nr") != 64 or syscall.get("seq") != 0 or syscall.get("confidence") != "paired_entry_return":
+            print("[FAIL] self-test missed stable syscall schema fields", file=sys.stderr)
+            return 1
+        if sorted(syscall.get("args", {})) != [f"a{arg}" for arg in range(8)]:
+            print("[FAIL] self-test missed full argument field set", file=sys.stderr)
             return 1
         if not semantic["control_flow_segments"]:
             print("[FAIL] self-test missed control-flow recovery", file=sys.stderr)

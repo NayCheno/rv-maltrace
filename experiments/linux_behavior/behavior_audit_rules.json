@@ -23,7 +23,7 @@
       "id": "batch_file_read_write",
       "family": "collection_staging",
       "expected_syscalls": ["openat", "read", "write", "close"],
-      "min_counts": {"openat": 2, "close": 2},
+      "min_counts": {"openat": 4, "read": 2, "write": 2, "close": 4},
       "ordered_syscalls": ["openat", "read", "close", "openat", "write", "close"],
       "evidence": "batch file read/write syscall shape"
     },
@@ -33,6 +33,7 @@
       "expected_syscalls": ["openat", "read", "write", "close"],
       "min_counts": {"openat": 2, "close": 2},
       "ordered_syscalls": ["openat", "read", "openat", "write", "close"],
+      "required_evidence_tags": ["self_path", "executable_output"],
       "evidence": "source-to-output copy shape without executing the copy"
     },
     {
@@ -71,8 +72,8 @@
     {
       "id": "anti_analysis_indicator",
       "family": "anti_analysis",
-      "any_syscalls": ["ptrace", "clock_gettime"],
-      "evidence": "anti-debug or timing-oriented syscall indicator"
+      "expected_syscalls": ["ptrace"],
+      "evidence": "ptrace-oriented anti-debug syscall indicator; clock_gettime alone is not sufficient"
     }
   ],
   "non_goals": [
