@@ -8,3 +8,21 @@
 [submodule "rtl/vex-riscv"]
 	path = rtl/vex-riscv
 	url = git@github.com:NayCheno/VexRiscv.git
+[submodule "vendor/litex/litex"]
+	path = vendor/litex/litex
+	url = https://github.com/enjoy-digital/litex
+[submodule "vendor/litex/litex-boards"]
+	path = vendor/litex/litex-boards
+	url = https://github.com/litex-hub/litex-boards
+[submodule "vendor/litex/migen"]
+	path = vendor/litex/migen
+	url = https://github.com/m-labs/migen
+[submodule "vendor/litex/litedram"]
+	path = vendor/litex/litedram
+	url = https://github.com/enjoy-digital/litedram
+[submodule "vendor/litex/pythondata-cpu-vexriscv_smp"]
+	path = vendor/litex/pythondata-cpu-vexriscv_smp
+	url = https://github.com/litex-hub/pythondata-cpu-vexriscv_smp
+[submodule "vendor/litex/linux-on-litex-vexriscv"]
+	path = vendor/litex/linux-on-litex-vexriscv
+	url = https://github.com/litex-hub/linux-on-litex-vexriscv

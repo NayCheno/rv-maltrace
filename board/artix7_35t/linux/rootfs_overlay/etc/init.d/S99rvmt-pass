@@ -1,0 +1,13 @@
+#!/bin/sh
+
+case "$1" in
+    start)
+        if [ -x /usr/bin/rvmt_linux_user_pass ]; then
+            /usr/bin/rvmt_linux_user_pass
+        else
+            echo "RVMT_LINUX_USER_PASS"
+        fi
+        ;;
+esac
+
+exit 0

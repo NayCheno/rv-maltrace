@@ -67,6 +67,9 @@ string name for readability.
 | `mem_last` | 1 | Marks the last captured record for a watched pointer. |
 | `a0`-`a7` | 64 each | Syscall argument shadow registers. |
 
+Artix-7 35T LiteX board dumps carry 32-bit RV32 values in a 16-word raw record
+and the host converter zero-extends them into this JSONL schema.
+
 ## JSONL Example
 
 ```json

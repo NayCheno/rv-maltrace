@@ -148,7 +148,7 @@ def self_test() -> int:
     trace = [
         {"cycle": 1, "evt": "SYSCALL_ENTRY", "pc": "0x0000000000001000", "instr": "0x00000073", "priv": "U", "syscall_id": "0x0", "a0": "0x1", "a1": "0x0", "a2": "0x0", "a3": "0x0", "a4": "0x0", "a5": "0x0", "a6": "0x0", "a7": "0x40"},
         {"cycle": 2, "evt": "TRAP", "pc": "0x0000000000001000", "cause": "0x8", "tval": "0x0", "priv": "U"},
-        {"cycle": 3, "evt": "PRIV", "pc": "0x0000000000001000", "old_priv": "U", "new_priv": "S"},
+        {"cycle": 3, "evt": "PRIV", "pc": "0x0000000000001000", "old_priv": "U", "new_priv": "S", "target": "0x0000000000002000"},
         {"cycle": 4, "evt": "BRANCH", "pc": "0x0000000000001010", "instr": "0x00050863", "priv": "S", "taken": True, "target": "0x0000000000001020"},
         {"cycle": 5, "evt": "DROP", "value": "0x2"},
     ]

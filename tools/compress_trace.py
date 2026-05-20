@@ -42,7 +42,7 @@ CONTEXT_FIELDS: dict[str, tuple[str, ...]] = {
     "SATP": ("priv", "satp"),
 }
 
-TARGET_DELTA_EVENTS = {"BRANCH", "JUMP", "SYSCALL_RET"}
+TARGET_DELTA_EVENTS = {"BRANCH", "JUMP", "SYSCALL_RET", "PRIV"}
 
 
 def parse_int(value: Any) -> int:

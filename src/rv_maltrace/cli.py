@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import argparse
+import binascii
+import datetime as dt
 import json
 import os
 import re
@@ -8,6 +10,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import time
 import tomllib
 from pathlib import Path
 from typing import Iterable
@@ -45,6 +48,42 @@ TASK_ALIASES = {
     "vivado:check": "vivado:check",
     "vivado:project": "vivado:project",
     "vivado:xpr": "vivado:project",
+    "board:artix7:jtag-scan": "board:artix7:jtag-scan",
+    "board:artix7:led-build": "board:artix7:led-build",
+    "board:artix7:led-load": "board:artix7:led-load",
+    "board:artix7:litex-prep-docker": "board:artix7:litex-prep-docker",
+    "board:artix7:litex-build": "board:artix7:litex-build",
+    "board:artix7:litex-load": "board:artix7:litex-load",
+    "board:artix7:serial-capture": "board:artix7:serial-capture",
+    "board:artix7:baremetal-build": "board:artix7:baremetal-build",
+    "board:artix7:baremetal-load": "board:artix7:baremetal-load",
+    "board:artix7:baremetal-run": "board:artix7:baremetal-run",
+    "board:artix7:linux-images-prep": "board:artix7:linux-images-prep",
+    "board:artix7:linux-build": "board:artix7:linux-build",
+    "board:artix7:linux-load": "board:artix7:linux-load",
+    "board:artix7:linux-boot-capture": "board:artix7:linux-boot-capture",
+    "board:artix7:trace-build": "board:artix7:trace-build",
+    "board:artix7:trace-load": "board:artix7:trace-load",
+    "board:artix7:trace-dump": "board:artix7:trace-dump",
+    "board:artix7:trace-jsonl-compare": "board:artix7:trace-jsonl-compare",
+    "artix7:jtag-scan": "board:artix7:jtag-scan",
+    "artix7:led-build": "board:artix7:led-build",
+    "artix7:led-load": "board:artix7:led-load",
+    "artix7:litex-prep-docker": "board:artix7:litex-prep-docker",
+    "artix7:litex-build": "board:artix7:litex-build",
+    "artix7:litex-load": "board:artix7:litex-load",
+    "artix7:serial-capture": "board:artix7:serial-capture",
+    "artix7:baremetal-build": "board:artix7:baremetal-build",
+    "artix7:baremetal-load": "board:artix7:baremetal-load",
+    "artix7:baremetal-run": "board:artix7:baremetal-run",
+    "artix7:linux-images-prep": "board:artix7:linux-images-prep",
+    "artix7:linux-build": "board:artix7:linux-build",
+    "artix7:linux-load": "board:artix7:linux-load",
+    "artix7:linux-boot-capture": "board:artix7:linux-boot-capture",
+    "artix7:trace-build": "board:artix7:trace-build",
+    "artix7:trace-load": "board:artix7:trace-load",
+    "artix7:trace-dump": "board:artix7:trace-dump",
+    "artix7:trace-jsonl-compare": "board:artix7:trace-jsonl-compare",
     "sim": "sim:trace-unit",
     "sim:unit": "sim:trace-unit",
     "sim:trace": "sim:trace-unit",
@@ -91,6 +130,24 @@ DISPLAY_TASKS = [
     "bootrom:build",
     "vivado:check",
     "vivado:project",
+    "board:artix7:jtag-scan",
+    "board:artix7:led-build",
+    "board:artix7:led-load",
+    "board:artix7:litex-prep-docker",
+    "board:artix7:litex-build",
+    "board:artix7:litex-load",
+    "board:artix7:serial-capture",
+    "board:artix7:baremetal-build",
+    "board:artix7:baremetal-load",
+    "board:artix7:baremetal-run",
+    "board:artix7:linux-images-prep",
+    "board:artix7:linux-build",
+    "board:artix7:linux-load",
+    "board:artix7:linux-boot-capture",
+    "board:artix7:trace-build",
+    "board:artix7:trace-load",
+    "board:artix7:trace-dump",
+    "board:artix7:trace-jsonl-compare",
     "bitstream:build",
     "bitstream:build-trace",
     "bitstream:collect",
@@ -130,6 +187,11 @@ COMPLETION_CANDIDATES = sorted(
         "--sample",
         "--no-runtime",
         "--out-dir",
+        "--port",
+        "--baud",
+        "--board-step",
+        "--duration",
+        "--send",
         "--tool-mode",
         "--tool-prefix",
         "--trace",
@@ -705,6 +767,35 @@ def run(cmd: list[str], *, cwd: Path, env: dict[str, str], dry_run: bool) -> Non
         raise TaskError(f"Command failed with exit code {completed.returncode}: {printable}")
 
 
+def run_capture(
+    cmd: list[str],
+    *,
+    cwd: Path,
+    env: dict[str, str],
+    dry_run: bool,
+    log_path: Path,
+) -> str:
+    printable = " ".join(quote_for_display(part) for part in cmd)
+    print(f"+ {printable} > {quote_for_display(str(log_path))}")
+    if dry_run:
+        return ""
+
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    completed = subprocess.run(
+        cmd,
+        cwd=str(cwd),
+        env=env,
+        capture_output=True,
+        encoding="utf-8",
+        errors="replace",
+    )
+    output = "\n".join(part for part in (completed.stdout, completed.stderr) if part)
+    log_path.write_text(output, encoding="utf-8", newline="\n")
+    if completed.returncode:
+        raise TaskError(f"Command failed with exit code {completed.returncode}: {printable}. See {log_path}")
+    return output
+
+
 def quote_for_display(value: str) -> str:
     if not value or any(ch.isspace() for ch in value):
         return f'"{value}"'
@@ -756,6 +847,1415 @@ def tcl_braced(value: str | os.PathLike[str]) -> str:
 
 def tcl_list(values: Iterable[str | os.PathLike[str]]) -> str:
     return "[list " + " ".join(tcl_braced(as_posix_path(value)) for value in values) + "]"
+
+
+ARTIX7_LITEX_PYTHONPATHS = (
+    "vendor/litex/migen",
+    "vendor/litex/litex",
+    "vendor/litex/litex-boards",
+    "vendor/litex/litedram",
+    "vendor/litex/pythondata-cpu-vexriscv_smp",
+)
+ARTIX7_DEFAULT_LITEX_BUILD = Path("build/litex/artix7_35t_embedfire_rise_pro")
+ARTIX7_LED_BUILD = Path("build/vivado/artix7_35t_led_blink")
+ARTIX7_BAREMETAL_SRC = Path("board/artix7_35t/baremetal")
+ARTIX7_BAREMETAL_BUILD = Path("build/board/artix7_35t/baremetal")
+ARTIX7_BAREMETAL_BIN = ARTIX7_BAREMETAL_BUILD / "rvmt_baremetal_pass.bin"
+ARTIX7_LINUX_SRC = Path("board/artix7_35t/linux")
+ARTIX7_LINUX_BUILD = Path("build/board/artix7_35t/linux")
+ARTIX7_LOLV_DIR = Path("vendor/litex/linux-on-litex-vexriscv")
+ARTIX7_LOLV_BUILD = ARTIX7_LOLV_DIR / "build" / "embedfire_rise_pro"
+ARTIX7_LOLV_TRACE_BUILD = ARTIX7_LOLV_DIR / "build" / "embedfire_rise_pro_trace"
+ARTIX7_LOLV_IMAGES = ARTIX7_LOLV_DIR / "images"
+ARTIX7_TRACE_RAW_RECORD_WORDS = 16
+ARTIX7_TRACE_DEFAULT_CSR_BASE = 0xF0004000
+
+SFL_PROMPT_REQ = b"F7:    boot from serial\n"
+SFL_PROMPT_ACK = b"\x06"
+SFL_MAGIC_REQ = b"sL5DdSMmkekro\n"
+SFL_MAGIC_ACK = b"z6IHG7cYDID6o\n"
+SFL_CMD_LOAD = b"\x01"
+SFL_CMD_JUMP = b"\x02"
+SFL_ACK_SUCCESS = b"K"
+SFL_ACK_CRCERROR = b"C"
+SFL_SAFE_DATA_LENGTH = 251
+
+
+def artix7_run_id(args: argparse.Namespace) -> str:
+    if args.run_id and args.run_id != "manual":
+        return safe_artifact_segment(args.run_id)
+    date = dt.datetime.now().strftime("%Y-%m-%d")
+    port = safe_artifact_segment(str(args.port or "COM5")).lower()
+    return f"{date}-{port}-ddr"
+
+
+def artix7_run_dir(root: Path, args: argparse.Namespace) -> Path:
+    return root / "results" / "board" / "artix7_35t_litex" / artix7_run_id(args)
+
+
+def artix7_step_dir(root: Path, args: argparse.Namespace, step: str) -> Path:
+    return artix7_run_dir(root, args) / step
+
+
+def artix7_litex_build_dir(root: Path, args: argparse.Namespace) -> Path:
+    if args.out_dir is not None:
+        return args.out_dir if args.out_dir.is_absolute() else root / args.out_dir
+    return root / ARTIX7_DEFAULT_LITEX_BUILD
+
+
+def artix7_litex_env(root: Path, env: dict[str, str]) -> dict[str, str]:
+    resolved = [str((root / path).resolve()) for path in ARTIX7_LITEX_PYTHONPATHS]
+    result = env.copy()
+    existing = result.get("PYTHONPATH", "")
+    result["PYTHONPATH"] = os.pathsep.join([*resolved, existing]) if existing else os.pathsep.join(resolved)
+    return result
+
+
+def artix7_litex_vivado_env(root: Path, config: dict, env: dict[str, str]) -> dict[str, str]:
+    return artix7_litex_env(root, artix7_vivado_env(config, env))
+
+
+def artix7_vivado_env(config: dict, env: dict[str, str]) -> dict[str, str]:
+    vivado = resolve_vivado(config)
+    return prepend_env_path(env, Path(vivado).parent)
+
+
+def serial_port_inventory() -> list[str]:
+    try:
+        from serial.tools import list_ports
+    except ImportError:
+        return ["pyserial unavailable; serial ports were not enumerated"]
+    ports = []
+    for port in list_ports.comports():
+        description = port.description or ""
+        hwid = port.hwid or ""
+        ports.append(f"{port.device}: {description} [{hwid}]")
+    return ports or ["no serial ports reported by pyserial"]
+
+
+def write_artix7_observation(step_dir: Path, status: str, lines: Iterable[str]) -> None:
+    step_dir.mkdir(parents=True, exist_ok=True)
+    body = [f"# Observation", "", f"Status: {status}", "", *lines, ""]
+    (step_dir / "observation.md").write_text("\n".join(body), encoding="utf-8", newline="\n")
+
+
+def write_artix7_failure(step_dir: Path, exc: Exception, log_path: Path) -> None:
+    lines = [f"- Command failed: {exc}."]
+    if log_path.exists():
+        lines.append(f"- Transcript: `{log_path}`.")
+    write_artix7_observation(step_dir, "FAIL", lines)
+
+
+def record_artix7_board_identity(root: Path, config: dict, env: dict[str, str], args: argparse.Namespace, dry_run: bool) -> None:
+    step_dir = artix7_step_dir(root, args, "00_board_identity")
+    if dry_run:
+        print(f"+ record Artix-7 35T board identity in {step_dir}")
+        return
+
+    step_dir.mkdir(parents=True, exist_ok=True)
+    vivado = resolve_vivado(config)
+    completed = subprocess.run(
+        [vivado, "-version"],
+        cwd=str(root),
+        env=artix7_vivado_env(config, env),
+        capture_output=True,
+        encoding="utf-8",
+        errors="replace",
+    )
+    version_text = "\n".join(part for part in (completed.stdout, completed.stderr) if part).strip()
+    (step_dir / "vivado_version.txt").write_text(version_text + "\n", encoding="utf-8", newline="\n")
+    (step_dir / "serial_ports.txt").write_text("\n".join(serial_port_inventory()) + "\n", encoding="utf-8", newline="\n")
+    observation = [
+        "- Board path: EmbedFire Shengteng Pro A35T / XC7A35T-FGG484-2.",
+        f"- Primary UART: board CH340 on `{args.port}` at `{args.baud} 8N1`.",
+        "- Source material: `docs/board/artix7_35t_pinmap.xlsx` and `docs/board/artix8_35t_hw_spec.pdf`.",
+        "- Vivado executable: `" + vivado + "`.",
+        "- Notes: repository hardware spec PDF is currently named `artix8_35t_hw_spec.pdf`.",
+    ]
+    write_artix7_observation(step_dir, "PASS", observation)
+
+
+def artix7_vivado_capture(
+    root: Path,
+    config: dict,
+    env: dict[str, str],
+    args: argparse.Namespace,
+    script: Path,
+    tclargs: list[str],
+    transcript: Path,
+    dry_run: bool,
+) -> str:
+    vivado = resolve_vivado(config)
+    cmd = [
+        vivado,
+        "-mode",
+        "batch",
+        "-nojournal",
+        "-nolog",
+        "-notrace",
+        "-source",
+        str(script),
+    ]
+    if tclargs:
+        cmd.extend(["-tclargs", *tclargs])
+    return run_capture(cmd, cwd=root, env=artix7_vivado_env(config, env), dry_run=dry_run, log_path=transcript)
+
+
+def find_artix7_litex_bitstream(build_dir: Path) -> Path:
+    candidates = sorted((build_dir / "gateware").glob("*.bit"))
+    if not candidates:
+        candidates = sorted(build_dir.glob("**/*.bit"))
+    if not candidates:
+        raise TaskError(f"No LiteX bitstream found under {build_dir}. Run board:artix7:litex-build first.")
+    return candidates[0]
+
+
+def artix7_litex_target_path(root: Path | str) -> str:
+    base = Path(root) if not isinstance(root, str) else root.rstrip("/\\")
+    if isinstance(base, Path):
+        return str(base / "vendor" / "litex" / "litex-boards" / "litex_boards" / "targets" / "embedfire_rise_pro.py")
+    return f"{base}/vendor/litex/litex-boards/litex_boards/targets/embedfire_rise_pro.py"
+
+
+def artix7_litex_base_cmd(
+    root: Path,
+    args: argparse.Namespace,
+    *,
+    build: bool,
+    load: bool,
+    no_compile_gateware: bool = False,
+    no_compile_software: bool = False,
+    integrated_rom_init: Path | None = None,
+) -> list[str]:
+    target = artix7_litex_target_path(root)
+    build_dir = artix7_litex_build_dir(root, args)
+    cmd = [
+        sys.executable,
+        target,
+        "--variant",
+        "a7-35",
+        "--sys-clk-freq",
+        "50e6",
+        "--uart-baudrate",
+        str(args.baud),
+        "--cpu-type",
+        "vexriscv",
+        "--output-dir",
+        str(build_dir),
+    ]
+    if no_compile_gateware:
+        cmd.append("--no-compile-gateware")
+    if no_compile_software:
+        cmd.append("--no-compile-software")
+    if integrated_rom_init is not None:
+        cmd.extend(["--integrated-rom-init", str(integrated_rom_init)])
+    if build:
+        cmd.append("--build")
+    if load:
+        cmd.append("--load")
+    return cmd
+
+
+def artix7_litex_docker_cmd(root: Path, config: dict, args: argparse.Namespace) -> list[str]:
+    build_dir = artix7_litex_build_dir(root, args)
+    try:
+        build_dir_in_repo = as_posix_path(build_dir.relative_to(root))
+    except ValueError as exc:
+        raise TaskError("Artix-7 LiteX Docker build output must be inside the repository.") from exc
+    docker_build_dir = f"/workspace/rv-maltrace/{build_dir_in_repo}"
+    target = artix7_litex_target_path("/workspace/rv-maltrace")
+    return [
+        *docker_compose_base(config),
+        "run",
+        "--rm",
+        "--build",
+        "litex-build",
+        "python3",
+        target,
+        "--variant",
+        "a7-35",
+        "--sys-clk-freq",
+        "50e6",
+        "--uart-baudrate",
+        str(args.baud),
+        "--cpu-type",
+        "vexriscv",
+        "--output-dir",
+        docker_build_dir,
+        "--no-compile-gateware",
+        "--build",
+    ]
+
+
+def artix7_litex_bios_path(root: Path, args: argparse.Namespace) -> Path:
+    return artix7_litex_build_dir(root, args) / "software" / "bios" / "bios.bin"
+
+
+def artix7_baremetal_build_dir(root: Path) -> Path:
+    return root / ARTIX7_BAREMETAL_BUILD
+
+
+def artix7_baremetal_bin(root: Path) -> Path:
+    return root / ARTIX7_BAREMETAL_BIN
+
+
+def artix7_lolv_dir(root: Path) -> Path:
+    return root / ARTIX7_LOLV_DIR
+
+
+def artix7_lolv_images_dir(root: Path) -> Path:
+    return root / ARTIX7_LOLV_IMAGES
+
+
+def artix7_lolv_make_cmd(
+    root: Path,
+    args: argparse.Namespace,
+    *,
+    build: bool = False,
+    load: bool = False,
+) -> list[str]:
+    wrapper = root / "fpga" / "artix7_35t" / "litex" / "linux_nosd.py"
+    cmd = [
+        sys.executable,
+        str(wrapper),
+        "--variant",
+        "a7-35",
+        "--uart-baudrate",
+        str(args.baud),
+        "--rootfs",
+        "ram0",
+    ]
+    if build:
+        cmd.append("--build")
+    if load:
+        cmd.append("--load")
+    return cmd
+
+
+def artix7_lolv_docker_cmd(
+    root: Path,
+    config: dict,
+    args: argparse.Namespace,
+    *,
+    build: bool = False,
+    load: bool = False,
+    no_compile_gateware: bool = False,
+    no_compile_software: bool = False,
+    integrated_rom_init: Path | None = None,
+    skip_dts: bool = False,
+) -> list[str]:
+    wrapper = "/workspace/rv-maltrace/fpga/artix7_35t/litex/linux_nosd.py"
+    cmd = [
+        *docker_compose_base(config),
+        "run",
+        "--rm",
+        "--build",
+        "litex-build",
+        "python3",
+        wrapper,
+        "--variant",
+        "a7-35",
+        "--uart-baudrate",
+        str(args.baud),
+        "--rootfs",
+        "ram0",
+    ]
+    if build:
+        cmd.append("--build")
+    if load:
+        cmd.append("--load")
+    if no_compile_gateware:
+        cmd.append("--no-compile-gateware")
+    if no_compile_software:
+        cmd.append("--no-compile-software")
+    if integrated_rom_init is not None:
+        try:
+            rom_in_repo = as_posix_path(integrated_rom_init.relative_to(root))
+        except ValueError as exc:
+            raise TaskError("Linux integrated ROM image must be inside the repository.") from exc
+        cmd.extend(["--integrated-rom-init", f"/workspace/rv-maltrace/{rom_in_repo}"])
+    if skip_dts:
+        cmd.append("--skip-dts")
+    return cmd
+
+
+def artix7_linux_boot_json(root: Path) -> Path:
+    boot = artix7_lolv_images_dir(root) / "boot.json"
+    return boot if boot.exists() else artix7_lolv_images_dir(root) / "boot_ram0.json"
+
+
+def artix7_linux_bios_path(root: Path) -> Path:
+    return root / ARTIX7_LOLV_BUILD / "software" / "bios" / "bios.bin"
+
+
+def artix7_trace_bios_path(root: Path) -> Path:
+    return root / ARTIX7_LOLV_TRACE_BUILD / "software" / "bios" / "bios.bin"
+
+
+def artix7_trace_jsonl_path(root: Path, args: argparse.Namespace) -> Path:
+    return artix7_step_dir(root, args, "08_trace_jsonl_compare") / "trace.jsonl"
+
+
+def artix7_trace_csr_csv(root: Path) -> Path:
+    return root / ARTIX7_LOLV_TRACE_BUILD / "csr.csv"
+
+
+def artix7_trace_csr_base(root: Path, *, allow_default: bool = False) -> int:
+    csr_csv = artix7_trace_csr_csv(root)
+    if not csr_csv.exists():
+        if allow_default:
+            return ARTIX7_TRACE_DEFAULT_CSR_BASE
+        raise TaskError(f"Missing trace CSR map: {csr_csv}. Run board:artix7:trace-build first.")
+    for line in csr_csv.read_text(encoding="utf-8", errors="replace").splitlines():
+        parts = [part.strip() for part in line.split(",")]
+        if len(parts) >= 3 and parts[0] == "csr_base" and parts[1] == "rvmt_trace":
+            return int(parts[2], 0)
+    if allow_default:
+        return ARTIX7_TRACE_DEFAULT_CSR_BASE
+    raise TaskError(f"`rvmt_trace` CSR base was not found in {csr_csv}")
+
+
+def sfl_frame(cmd: bytes, payload: bytes) -> bytes:
+    crc = binascii.crc_hqx(cmd + payload, 0)
+    return bytes([len(payload)]) + crc.to_bytes(2, "big") + cmd + payload
+
+
+def sfl_read_reply(ser, timeout: float) -> bytes:
+    old_timeout = ser.timeout
+    ser.timeout = timeout
+    try:
+        reply = ser.read(1)
+    finally:
+        ser.timeout = old_timeout
+    if not reply:
+        raise TaskError("timed out waiting for LiteX serial loader reply")
+    return reply
+
+
+def sfl_send_frame(ser, cmd: bytes, payload: bytes, timeout: float = 1.0, retries: int = 16) -> int:
+    frame = sfl_frame(cmd, payload)
+    crc_retries = 0
+    for _attempt in range(retries):
+        ser.write(frame)
+        ser.flush()
+        reply = sfl_read_reply(ser, timeout)
+        if reply == SFL_ACK_SUCCESS:
+            return crc_retries
+        if reply == SFL_ACK_CRCERROR:
+            crc_retries += 1
+            continue
+        raise TaskError(f"LiteX serial loader returned unexpected reply {reply!r}")
+    raise TaskError("LiteX serial loader reported too many CRC errors")
+
+
+def serialboot_theoretical_seconds(total_bytes: int, baud: int) -> float:
+    if baud <= 0:
+        return 0.0
+    return (total_bytes * 10.0) / baud
+
+
+def append_timestamped_text(log, start: float, text: str) -> None:
+    for line in text.splitlines(keepends=True):
+        log.write(f"[{time.monotonic() - start:010.3f}] {line}")
+
+
+def read_serial_text(ser, log, start: float, buffer: bytearray) -> None:
+    chunk = ser.read(4096)
+    if not chunk:
+        return
+    buffer.extend(chunk)
+    text = chunk.decode("utf-8", errors="replace")
+    append_timestamped_text(log, start, text)
+    log.flush()
+
+
+def serial_boot_images(
+    *,
+    port: str,
+    baud: int,
+    images: list[tuple[Path, int]],
+    boot_address: int,
+    log_path: Path,
+    marker: str | None,
+    timeout: float,
+    send_serialboot_command: bool = True,
+) -> str:
+    try:
+        import serial
+    except ImportError as exc:
+        raise TaskError("pyserial is required for Artix-7 serial boot tasks. Run `uv sync` first.") from exc
+
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    start = time.monotonic()
+    deadline = start + timeout
+    raw = bytearray()
+    image_sizes = [(image, address, image.stat().st_size if image.exists() else 0) for image, address in images]
+    total_bytes = sum(size for _image, _address, size in image_sizes)
+    theoretical = serialboot_theoretical_seconds(total_bytes, baud)
+    with serial.Serial(port, baud, timeout=0.05) as ser, log_path.open("w", encoding="utf-8", newline="\n") as log:
+        log.write(f"# port={port} baud={baud} framing=8N1\n")
+        log.write(
+            f"# serialboot_total_bytes={total_bytes} theoretical_raw_seconds={theoretical:.1f} "
+            f"theoretical_raw_minutes={theoretical / 60.0:.2f}\n"
+        )
+        if send_serialboot_command:
+            ser.write(b"\nserialboot\n")
+            ser.flush()
+            log.write(f"[{time.monotonic() - start:010.3f}] >> serialboot\n")
+
+        entered_loader = False
+        while time.monotonic() < deadline:
+            read_serial_text(ser, log, start, raw)
+            if SFL_PROMPT_REQ in raw:
+                ser.write(SFL_PROMPT_ACK)
+                ser.flush()
+                log.write(f"[{time.monotonic() - start:010.3f}] LiteX serial prompt acknowledged\n")
+                raw.clear()
+            if SFL_MAGIC_REQ in raw:
+                ser.write(SFL_MAGIC_ACK)
+                ser.flush()
+                log.write(f"[{time.monotonic() - start:010.3f}] LiteX serial loader magic acknowledged\n")
+                entered_loader = True
+                break
+        if not entered_loader:
+            raise TaskError(f"LiteX serial loader did not request firmware download before timeout. See {log_path}")
+
+        upload_start = time.monotonic()
+        uploaded_total = 0
+        crc_retry_total = 0
+        next_progress = 1024 * 1024
+        for image, address, image_size in image_sizes:
+            payload = image.read_bytes()
+            image_start = time.monotonic()
+            image_crc_retries = 0
+            log.write(f"[{time.monotonic() - start:010.3f}] uploading {image} to 0x{address:08x} ({len(payload)} bytes)\n")
+            for offset in range(0, len(payload), SFL_SAFE_DATA_LENGTH):
+                chunk = payload[offset:offset + SFL_SAFE_DATA_LENGTH]
+                retries_for_frame = sfl_send_frame(ser, SFL_CMD_LOAD, (address + offset).to_bytes(4, "big") + chunk)
+                crc_retry_total += retries_for_frame
+                image_crc_retries += retries_for_frame
+                uploaded_total += len(chunk)
+                if uploaded_total >= next_progress or uploaded_total == total_bytes:
+                    elapsed = max(time.monotonic() - upload_start, 1e-6)
+                    throughput = uploaded_total / elapsed
+                    percent = (uploaded_total * 100.0 / total_bytes) if total_bytes else 100.0
+                    log.write(
+                        f"[{time.monotonic() - start:010.3f}] serialboot progress "
+                        f"{uploaded_total}/{total_bytes} bytes ({percent:.1f}%) "
+                        f"{throughput:.0f} B/s crc_retries={crc_retry_total}\n"
+                    )
+                    log.flush()
+                    while next_progress <= uploaded_total:
+                        next_progress += 1024 * 1024
+            image_elapsed = max(time.monotonic() - image_start, 1e-6)
+            log.write(
+                f"[{time.monotonic() - start:010.3f}] upload complete: {image} "
+                f"bytes={image_size} throughput={image_size / image_elapsed:.0f} B/s "
+                f"crc_retries={image_crc_retries}\n"
+            )
+
+        upload_elapsed = max(time.monotonic() - upload_start, 1e-6)
+        log.write(
+            f"[{time.monotonic() - start:010.3f}] serialboot upload summary "
+            f"bytes={uploaded_total} elapsed={upload_elapsed:.1f}s throughput={uploaded_total / upload_elapsed:.0f} B/s "
+            f"crc_retries={crc_retry_total}\n"
+        )
+        jump_crc_retries = sfl_send_frame(ser, SFL_CMD_JUMP, boot_address.to_bytes(4, "big"))
+        log.write(f"[{time.monotonic() - start:010.3f}] jumped to 0x{boot_address:08x} crc_retries={jump_crc_retries}\n")
+        marker_text = marker or ""
+        while time.monotonic() < deadline:
+            read_serial_text(ser, log, start, raw)
+            decoded = raw.decode("utf-8", errors="replace")
+            if marker_text and marker_text in decoded:
+                log.write(f"[{time.monotonic() - start:010.3f}] marker detected: {marker_text}\n")
+                return decoded
+        return raw.decode("utf-8", errors="replace")
+
+
+def load_litex_images_json(images_json: Path) -> list[tuple[Path, int]]:
+    payload = json.loads(images_json.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise TaskError(f"{images_json} must contain a JSON object")
+    images: list[tuple[Path, int]] = []
+    for name, address in payload.items():
+        image = images_json.parent / str(name)
+        images.append((image, int(str(address), 0)))
+    return images
+
+
+def task_artix7_litex_prep_docker(root: Path, config: dict, env: dict[str, str], args: argparse.Namespace) -> None:
+    record_artix7_board_identity(root, config, env, args, args.dry_run)
+    step_dir = artix7_step_dir(root, args, "04_litex_ddr")
+    build_dir = artix7_litex_build_dir(root, args)
+    bios = artix7_litex_bios_path(root, args)
+    log_path = step_dir / "litex_docker_prep.log"
+    cmd = artix7_litex_docker_cmd(root, config, args)
+    try:
+        run_capture(cmd, cwd=root, env=env, dry_run=args.dry_run, log_path=log_path)
+    except TaskError as exc:
+        if not args.dry_run:
+            write_artix7_failure(step_dir, exc, log_path)
+        raise
+    if args.dry_run:
+        return
+    if not bios.exists():
+        write_artix7_observation(
+            step_dir,
+            "FAIL",
+            [
+                "- Docker LiteX software preparation completed, but BIOS output was not found.",
+                f"- Expected BIOS: `{bios}`.",
+            ],
+        )
+        raise TaskError(f"LiteX Docker prep did not produce {bios}")
+    write_artix7_observation(
+        step_dir,
+        "PASS",
+        [
+            "- Docker LiteX software preparation completed.",
+            f"- BIOS image: `{bios}`.",
+            f"- Build directory: `{build_dir}`.",
+            "- DDR PASS is not claimed until the UART BIOS memory-test log is captured.",
+        ],
+    )
+
+
+def task_artix7_jtag_scan(root: Path, config: dict, env: dict[str, str], args: argparse.Namespace) -> None:
+    record_artix7_board_identity(root, config, env, args, args.dry_run)
+    step_dir = artix7_step_dir(root, args, "01_vivado_jtag")
+    script = root / "fpga" / "artix7_35t" / "scripts" / "jtag_scan.tcl"
+    log_path = step_dir / "vivado_jtag_scan.log"
+    try:
+        output = artix7_vivado_capture(root, config, env, args, script, [], log_path, args.dry_run)
+    except TaskError as exc:
+        if not args.dry_run:
+            write_artix7_failure(step_dir, exc, log_path)
+        raise
+    if args.dry_run:
+        return
+    if "xc7a35t" not in output.lower():
+        write_artix7_observation(step_dir, "FAIL", ["- JTAG scan completed but did not report an `xc7a35t` device."])
+        raise TaskError(f"JTAG scan did not identify xc7a35t. See {step_dir / 'vivado_jtag_scan.log'}")
+    write_artix7_observation(step_dir, "PASS", ["- Vivado hardware scan reported an `xc7a35t`-compatible device."])
+
+
+def task_artix7_led_build(root: Path, config: dict, env: dict[str, str], args: argparse.Namespace) -> None:
+    record_artix7_board_identity(root, config, env, args, args.dry_run)
+    step_dir = artix7_step_dir(root, args, "02_led_clock_reset")
+    build_dir = root / ARTIX7_LED_BUILD
+    script = root / "fpga" / "artix7_35t" / "scripts" / "build_led_blink.tcl"
+    log_path = step_dir / "vivado_led_build.log"
+    try:
+        artix7_vivado_capture(root, config, env, args, script, [str(build_dir)], log_path, args.dry_run)
+    except TaskError as exc:
+        if not args.dry_run:
+            write_artix7_failure(step_dir, exc, log_path)
+        raise
+    if args.dry_run:
+        return
+    bitstream = build_dir / "led_blink.bit"
+    if not bitstream.exists():
+        write_artix7_observation(step_dir, "FAIL", [f"- LED build did not produce `{bitstream}`."])
+        raise TaskError(f"LED build did not produce {bitstream}")
+    write_artix7_observation(
+        step_dir,
+        "PASS",
+        [
+            f"- LED blink bitstream built: `{bitstream}`.",
+            f"- Timing/utilization reports are under `{build_dir}`.",
+        ],
+    )
+
+
+def task_artix7_led_load(root: Path, config: dict, env: dict[str, str], args: argparse.Namespace) -> None:
+    record_artix7_board_identity(root, config, env, args, args.dry_run)
+    step_dir = artix7_step_dir(root, args, "02_led_clock_reset")
+    bitstream = root / ARTIX7_LED_BUILD / "led_blink.bit"
+    if not args.dry_run and not bitstream.exists():
+        raise TaskError(f"Missing LED bitstream: {bitstream}. Run board:artix7:led-build first.")
+    script = root / "fpga" / "artix7_35t" / "scripts" / "program_bitstream.tcl"
+    log_path = step_dir / "vivado_led_program.log"
+    try:
+        artix7_vivado_capture(root, config, env, args, script, [str(bitstream)], log_path, args.dry_run)
+    except TaskError as exc:
+        if not args.dry_run:
+            write_artix7_failure(step_dir, exc, log_path)
+        raise
+    if args.dry_run:
+        return
+    write_artix7_observation(
+        step_dir,
+        "PASS",
+        [
+            f"- Programmed LED blink bitstream through Vivado: `{bitstream}`.",
+            "- Operator still needs to append visual LED/reset behavior if using this as final board evidence.",
+        ],
+    )
+
+
+def task_artix7_litex_build(root: Path, config: dict, env: dict[str, str], args: argparse.Namespace) -> None:
+    record_artix7_board_identity(root, config, env, args, args.dry_run)
+    step_dir = artix7_step_dir(root, args, "04_litex_ddr")
+    build_dir = artix7_litex_build_dir(root, args)
+    bios = artix7_litex_bios_path(root, args)
+    docker_log = step_dir / "litex_docker_prep.log"
+    vivado_log = step_dir / "litex_vivado_build.log"
+    docker_cmd = artix7_litex_docker_cmd(root, config, args)
+    try:
+        run_capture(docker_cmd, cwd=root, env=env, dry_run=args.dry_run, log_path=docker_log)
+    except TaskError as exc:
+        if not args.dry_run:
+            write_artix7_failure(step_dir, exc, docker_log)
+        raise
+    if args.dry_run:
+        cmd = artix7_litex_base_cmd(
+            root,
+            args,
+            build=True,
+            load=False,
+            no_compile_software=True,
+            integrated_rom_init=bios,
+        )
+        run_capture(cmd, cwd=root, env=artix7_litex_vivado_env(root, config, env), dry_run=True, log_path=vivado_log)
+        return
+    if not bios.exists():
+        write_artix7_observation(
+            step_dir,
+            "FAIL",
+            [
+                "- Docker LiteX software preparation did not produce the BIOS image required for Windows Vivado build.",
+                f"- Expected BIOS: `{bios}`.",
+            ],
+        )
+        raise TaskError(f"LiteX Docker prep did not produce {bios}")
+    cmd = artix7_litex_base_cmd(
+        root,
+        args,
+        build=True,
+        load=False,
+        no_compile_software=True,
+        integrated_rom_init=bios,
+    )
+    try:
+        run_capture(cmd, cwd=root, env=artix7_litex_vivado_env(root, config, env), dry_run=False, log_path=vivado_log)
+    except TaskError as exc:
+        write_artix7_failure(step_dir, exc, vivado_log)
+        raise
+    bitstream = find_artix7_litex_bitstream(build_dir)
+    write_artix7_observation(
+        step_dir,
+        "PASS",
+        [
+            "- Docker built the LiteX BIOS/software artifacts.",
+            "- Windows Vivado built the no-trace LiteX/VexRiscv gateware for `embedfire_rise_pro --variant a7-35`.",
+            f"- BIOS image: `{bios}`.",
+            f"- Bitstream: `{bitstream}`.",
+            f"- Build directory: `{build_dir}`.",
+            "- DDR PASS is not claimed until the UART BIOS memory-test log is captured.",
+        ],
+    )
+
+
+def task_artix7_litex_load(root: Path, config: dict, env: dict[str, str], args: argparse.Namespace) -> None:
+    record_artix7_board_identity(root, config, env, args, args.dry_run)
+    step_dir = artix7_step_dir(root, args, "04_litex_ddr")
+    bios = artix7_litex_bios_path(root, args)
+    if not args.dry_run:
+        find_artix7_litex_bitstream(artix7_litex_build_dir(root, args))
+    cmd = artix7_litex_base_cmd(
+        root,
+        args,
+        build=False,
+        load=True,
+        no_compile_software=True,
+        integrated_rom_init=bios if bios.exists() or args.dry_run else None,
+    )
+    log_path = step_dir / "litex_load.log"
+    try:
+        run_capture(cmd, cwd=root, env=artix7_litex_vivado_env(root, config, env), dry_run=args.dry_run, log_path=log_path)
+    except TaskError as exc:
+        if not args.dry_run:
+            write_artix7_failure(step_dir, exc, log_path)
+        raise
+    if args.dry_run:
+        return
+    write_artix7_observation(
+        step_dir,
+        "PASS",
+        [
+            "- Programmed the no-trace LiteX bitstream through the LiteX/Vivado programmer path.",
+            "- DDR PASS is not claimed until the UART BIOS memory-test log is captured.",
+        ],
+    )
+
+
+def task_artix7_serial_capture(root: Path, config: dict, env: dict[str, str], args: argparse.Namespace) -> None:
+    record_artix7_board_identity(root, config, env, args, args.dry_run)
+    step = str(args.board_step)
+    step_dir = artix7_step_dir(root, args, step)
+    if step == "04_litex_ddr":
+        log_name = "uart_ddr.log"
+    elif step == "08_trace_jsonl_compare":
+        log_name = "trace_raw_uart.log"
+    else:
+        log_name = "raw_uart.log"
+    log_path = step_dir / log_name
+    print(
+        f"+ capture serial {args.port} {args.baud} 8N1 for {args.duration:g}s "
+        f"to {quote_for_display(str(log_path))}"
+    )
+    if args.dry_run:
+        return
+    try:
+        import serial
+    except ImportError as exc:
+        raise TaskError("pyserial is required for board:artix7:serial-capture. Run `uv sync` first.") from exc
+
+    step_dir.mkdir(parents=True, exist_ok=True)
+    start = time.monotonic()
+    deadline = start + float(args.duration)
+    sent_commands = [str(command) for command in args.send]
+    send_char_delay = max(0.0, float(getattr(args, "send_char_delay", 0.0)))
+    send_delay = max(0.0, float(getattr(args, "send_delay", 0.0)))
+    with serial.Serial(args.port, args.baud, timeout=0.1) as ser, log_path.open("w", encoding="utf-8", newline="\n") as log:
+        log.write(f"# port={args.port} baud={args.baud} framing=8N1 send_char_delay={send_char_delay:g} send_delay={send_delay:g}\n")
+        pending_text = ""
+
+        def write_serial_text(text: str) -> None:
+            nonlocal pending_text
+            text = pending_text + text
+            pending_text = ""
+            lines = text.splitlines(keepends=True)
+            if lines and not lines[-1].endswith(("\n", "\r")):
+                pending_text = lines.pop()
+            for line in lines:
+                log.write(f"[{time.monotonic() - start:010.3f}] {line}")
+            log.flush()
+
+        def flush_pending_text() -> None:
+            nonlocal pending_text
+            if pending_text:
+                log.write(f"[{time.monotonic() - start:010.3f}] {pending_text}")
+                pending_text = ""
+                log.flush()
+
+        def drain(seconds: float) -> None:
+            until = min(deadline, time.monotonic() + seconds)
+            while time.monotonic() < until:
+                chunk = ser.read(4096)
+                if not chunk:
+                    continue
+                write_serial_text(chunk.decode("utf-8", errors="replace"))
+
+        drain(send_delay)
+        for command in sent_commands:
+            flush_pending_text()
+            log.write(f"[{time.monotonic() - start:010.3f}] >> {command}\n")
+            log.flush()
+            for char in command:
+                ser.write(char.encode("utf-8"))
+                ser.flush()
+                if send_char_delay:
+                    time.sleep(send_char_delay)
+            ser.write(b"\r")
+            ser.flush()
+            drain(send_delay)
+        while time.monotonic() < deadline:
+            chunk = ser.read(4096)
+            if not chunk:
+                continue
+            write_serial_text(chunk.decode("utf-8", errors="replace"))
+        flush_pending_text()
+    lines = [
+        f"- Captured UART log from `{args.port}` at `{args.baud} 8N1`.",
+        f"- Raw log: `{log_path}`.",
+    ]
+    if step == "04_litex_ddr":
+        text = log_path.read_text(encoding="utf-8", errors="replace").lower()
+        if "fail" in text or "error" in text:
+            status = "FAIL"
+            lines.append("- DDR log contains `fail` or `error`; inspect the raw UART log.")
+        elif "sdram" in text and ("ok" in text or "pass" in text):
+            status = "PASS"
+            lines.append("- UART log contains SDRAM test success text.")
+        else:
+            status = "FAIL"
+            lines.append("- DDR PASS was not detected automatically; keep the raw log as evidence and inspect manually.")
+    else:
+        status = "PASS" if log_path.stat().st_size > 0 else "FAIL"
+    write_artix7_observation(step_dir, status, lines)
+    if status != "PASS":
+        raise TaskError(f"Serial capture did not meet PASS criteria. See {log_path}")
+
+
+def task_artix7_baremetal_build(root: Path, config: dict, env: dict[str, str], args: argparse.Namespace) -> None:
+    record_artix7_board_identity(root, config, env, args, args.dry_run)
+    step_dir = artix7_step_dir(root, args, "05_baremetal")
+    build_dir = artix7_baremetal_build_dir(root)
+    src_dir = root / ARTIX7_BAREMETAL_SRC
+    log_path = step_dir / "baremetal_build.log"
+    docker_build_dir = "/workspace/rv-maltrace/" + as_posix_path(ARTIX7_BAREMETAL_BUILD)
+    docker_src_dir = "/workspace/rv-maltrace/" + as_posix_path(ARTIX7_BAREMETAL_SRC)
+    cmd = [
+        *docker_compose_base(config),
+        "run",
+        "--rm",
+        "--build",
+        "litex-build",
+        "bash",
+        "-lc",
+        (
+            f"mkdir -p {docker_build_dir} && "
+            "riscv64-unknown-elf-gcc -march=rv32ima -mabi=ilp32 -nostdlib -ffreestanding "
+            f"-Wl,-T,{docker_src_dir}/linker.ld -Wl,-Map,{docker_build_dir}/rvmt_baremetal_pass.map "
+            f"-o {docker_build_dir}/rvmt_baremetal_pass.elf "
+            f"{docker_src_dir}/start.S {docker_src_dir}/rvmt_baremetal_pass.c && "
+            f"riscv64-unknown-elf-objcopy -O binary {docker_build_dir}/rvmt_baremetal_pass.elf "
+            f"{docker_build_dir}/rvmt_baremetal_pass.bin && "
+            f"riscv64-unknown-elf-objdump -d {docker_build_dir}/rvmt_baremetal_pass.elf > "
+            f"{docker_build_dir}/rvmt_baremetal_pass.dis"
+        ),
+    ]
+    try:
+        run_capture(cmd, cwd=root, env=env, dry_run=args.dry_run, log_path=log_path)
+    except TaskError as exc:
+        if not args.dry_run:
+            write_artix7_failure(step_dir, exc, log_path)
+        raise
+    if args.dry_run:
+        return
+    binary = artix7_baremetal_bin(root)
+    if not binary.exists():
+        write_artix7_observation(step_dir, "FAIL", [f"- Bare-metal build did not produce `{binary}`."])
+        raise TaskError(f"Bare-metal build did not produce {binary}")
+    write_artix7_observation(
+        step_dir,
+        "PASS",
+        [
+            f"- Source directory: `{src_dir}`.",
+            f"- Build directory: `{build_dir}`.",
+            f"- Binary image: `{binary}`.",
+            "- Hardware PASS is not claimed until `RVMT_BAREMETAL_PASS` appears in raw UART evidence.",
+        ],
+    )
+
+
+def task_artix7_baremetal_load(root: Path, config: dict, env: dict[str, str], args: argparse.Namespace) -> None:
+    record_artix7_board_identity(root, config, env, args, args.dry_run)
+    step_dir = artix7_step_dir(root, args, "05_baremetal")
+    binary = artix7_baremetal_bin(root)
+    log_path = step_dir / "uart_baremetal_load.log"
+    if args.dry_run:
+        print(
+            f"+ serial boot {args.port} {args.baud} 8N1 "
+            f"{quote_for_display(str(binary))} @ 0x40000000 > {quote_for_display(str(log_path))}"
+        )
+        return
+    if not binary.exists():
+        raise TaskError(f"Missing bare-metal binary: {binary}. Run board:artix7:baremetal-build first.")
+    text = serial_boot_images(
+        port=args.port,
+        baud=args.baud,
+        images=[(binary, 0x40000000)],
+        boot_address=0x40000000,
+        log_path=log_path,
+        marker=None,
+        timeout=float(args.duration),
+    )
+    write_artix7_observation(
+        step_dir,
+        "PASS",
+        [
+            f"- Loaded `{binary}` through LiteX serial boot on `{args.port}`.",
+            f"- Raw UART/load log: `{log_path}`.",
+            "- Use `board:artix7:baremetal-run` to require the `RVMT_BAREMETAL_PASS` marker.",
+        ],
+    )
+
+
+def task_artix7_baremetal_run(root: Path, config: dict, env: dict[str, str], args: argparse.Namespace) -> None:
+    record_artix7_board_identity(root, config, env, args, args.dry_run)
+    step_dir = artix7_step_dir(root, args, "05_baremetal")
+    binary = artix7_baremetal_bin(root)
+    log_path = step_dir / "uart_baremetal_run.log"
+    if args.dry_run:
+        print(
+            f"+ serial boot/run {args.port} {args.baud} 8N1 "
+            f"{quote_for_display(str(binary))} @ 0x40000000; require RVMT_BAREMETAL_PASS"
+        )
+        return
+    if not binary.exists():
+        task_artix7_baremetal_build(root, config, env, args)
+    text = serial_boot_images(
+        port=args.port,
+        baud=args.baud,
+        images=[(binary, 0x40000000)],
+        boot_address=0x40000000,
+        log_path=log_path,
+        marker="RVMT_BAREMETAL_PASS",
+        timeout=float(args.duration),
+    )
+    if "RVMT_BAREMETAL_PASS" not in text:
+        write_artix7_observation(
+            step_dir,
+            "FAIL",
+            [
+                "- Bare-metal program loaded, but `RVMT_BAREMETAL_PASS` was not found.",
+                f"- Raw UART log: `{log_path}`.",
+            ],
+        )
+        raise TaskError(f"Bare-metal PASS marker not found. See {log_path}")
+    write_artix7_observation(
+        step_dir,
+        "PASS",
+        [
+            "- Proved build -> LiteX BIOS serial load -> execute -> UART evidence for RV32 bare-metal.",
+            f"- Binary image: `{binary}`.",
+            f"- Raw UART log: `{log_path}`.",
+        ],
+    )
+
+
+def task_artix7_linux_images_prep(root: Path, config: dict, env: dict[str, str], args: argparse.Namespace) -> None:
+    record_artix7_board_identity(root, config, env, args, args.dry_run)
+    step_dir = artix7_step_dir(root, args, "06_linux_boot")
+    log_path = step_dir / "linux_images_prep.log"
+    lolv = artix7_lolv_dir(root)
+    cmd = artix7_lolv_docker_cmd(root, config, args, no_compile_gateware=True)
+    try:
+        run_capture(cmd, cwd=root, env=env, dry_run=args.dry_run, log_path=log_path)
+    except TaskError as exc:
+        if not args.dry_run:
+            write_artix7_failure(step_dir, exc, log_path)
+        raise
+    if args.dry_run:
+        return
+
+    images_json = artix7_linux_boot_json(root)
+    missing: list[Path] = []
+    try:
+        images = load_litex_images_json(images_json)
+    except TaskError as exc:
+        write_artix7_failure(step_dir, exc, log_path)
+        raise
+    for image, _address in images:
+        if not image.exists():
+            missing.append(image)
+    if missing:
+        write_artix7_observation(
+            step_dir,
+            "FAIL",
+            [
+                f"- Linux-on-LiteX metadata was prepared in `{lolv}`.",
+                "- Required boot payloads are missing:",
+                *(f"  - `{path}`" for path in missing),
+                "- Provide/build these Linux payloads before claiming gate 06.",
+            ],
+        )
+        raise TaskError("Linux boot payloads are missing; see observation.md")
+    write_artix7_observation(
+        step_dir,
+        "PASS",
+        [
+            f"- Linux-on-LiteX metadata prepared in `{lolv}`.",
+            f"- Boot image manifest: `{images_json}`.",
+            "- Required ram0 boot payloads exist.",
+        ],
+    )
+
+
+def task_artix7_linux_build(root: Path, config: dict, env: dict[str, str], args: argparse.Namespace) -> None:
+    record_artix7_board_identity(root, config, env, args, args.dry_run)
+    step_dir = artix7_step_dir(root, args, "06_linux_boot")
+    log_path = step_dir / "linux_vivado_build.log"
+    bios = artix7_linux_bios_path(root)
+    if not args.dry_run and not bios.exists():
+        raise TaskError(f"Missing Linux BIOS image: {bios}. Run board:artix7:linux-images-prep first.")
+    cmd = artix7_lolv_make_cmd(root, args, build=True)
+    cmd.extend(["--no-compile-software", "--skip-dts"])
+    if bios.exists() or args.dry_run:
+        cmd.extend(["--integrated-rom-init", str(bios)])
+    try:
+        run_capture(cmd, cwd=artix7_lolv_dir(root), env=artix7_litex_vivado_env(root, config, env), dry_run=args.dry_run, log_path=log_path)
+    except TaskError as exc:
+        if not args.dry_run:
+            write_artix7_failure(step_dir, exc, log_path)
+        raise
+    if args.dry_run:
+        return
+    bitstreams = sorted((root / ARTIX7_LOLV_BUILD / "gateware").glob("*.bit"))
+    if not bitstreams:
+        write_artix7_observation(step_dir, "FAIL", [f"- Linux build did not produce a bitstream under `{root / ARTIX7_LOLV_BUILD}`."])
+        raise TaskError("Linux-on-LiteX build did not produce a bitstream")
+    write_artix7_observation(
+        step_dir,
+        "PASS",
+        [
+            "- Built Linux-capable LiteX SoC with `vexriscv_smp` / `cpu_variant=linux` through linux-on-litex-vexriscv.",
+            f"- Bitstream: `{bitstreams[0]}`.",
+            f"- Build log: `{log_path}`.",
+        ],
+    )
+
+
+def task_artix7_linux_load(root: Path, config: dict, env: dict[str, str], args: argparse.Namespace) -> None:
+    record_artix7_board_identity(root, config, env, args, args.dry_run)
+    step_dir = artix7_step_dir(root, args, "06_linux_boot")
+    log_path = step_dir / "linux_load.log"
+    cmd = artix7_lolv_make_cmd(root, args, load=True)
+    cmd.extend(["--no-compile-software", "--skip-dts"])
+    bios = artix7_linux_bios_path(root)
+    if bios.exists() or args.dry_run:
+        cmd.extend(["--integrated-rom-init", str(bios)])
+    try:
+        run_capture(cmd, cwd=artix7_lolv_dir(root), env=artix7_litex_vivado_env(root, config, env), dry_run=args.dry_run, log_path=log_path)
+    except TaskError as exc:
+        if not args.dry_run:
+            write_artix7_failure(step_dir, exc, log_path)
+        raise
+    if args.dry_run:
+        return
+    write_artix7_observation(
+        step_dir,
+        "PASS",
+        [
+            "- Loaded Linux-capable LiteX bitstream through linux-on-litex-vexriscv.",
+            f"- Load log: `{log_path}`.",
+            "- Linux userspace PASS is not claimed until `RVMT_LINUX_USER_PASS` appears in UART evidence.",
+        ],
+    )
+
+
+def task_artix7_linux_boot_capture(root: Path, config: dict, env: dict[str, str], args: argparse.Namespace) -> None:
+    record_artix7_board_identity(root, config, env, args, args.dry_run)
+    step_dir = artix7_step_dir(root, args, "06_linux_boot")
+    images_json = artix7_linux_boot_json(root)
+    log_path = step_dir / "uart_linux_boot.log"
+    if args.dry_run:
+        upload_note = ""
+        if images_json.exists():
+            try:
+                dry_images = load_litex_images_json(images_json)
+                total_bytes = sum(image.stat().st_size for image, _address in dry_images if image.exists())
+                upload_note = (
+                    f"; serialboot payload {total_bytes} bytes, "
+                    f"raw 8N1 lower bound {serialboot_theoretical_seconds(total_bytes, args.baud) / 60.0:.2f} min"
+                )
+            except (OSError, TaskError, ValueError):
+                upload_note = ""
+        print(
+            f"+ serial boot Linux images from {quote_for_display(str(images_json))} "
+            f"on {args.port} {args.baud} 8N1; require RVMT_LINUX_USER_PASS{upload_note}"
+        )
+        return
+    images = load_litex_images_json(images_json)
+    missing = [image for image, _address in images if not image.exists()]
+    if missing:
+        write_artix7_observation(
+            step_dir,
+            "FAIL",
+            [
+                "- Linux boot payloads are missing:",
+                *(f"  - `{path}`" for path in missing),
+            ],
+        )
+        raise TaskError("Linux boot payloads are missing; run board:artix7:linux-images-prep first")
+    boot_address = images[-1][1]
+    text = serial_boot_images(
+        port=args.port,
+        baud=args.baud,
+        images=images,
+        boot_address=boot_address,
+        log_path=log_path,
+        marker="RVMT_LINUX_USER_PASS",
+        timeout=float(args.duration),
+    )
+    if "RVMT_LINUX_USER_PASS" not in text:
+        write_artix7_observation(
+            step_dir,
+            "FAIL",
+            [
+                "- Linux boot capture did not contain `RVMT_LINUX_USER_PASS`.",
+                f"- Raw UART log: `{log_path}`.",
+            ],
+        )
+        raise TaskError(f"Linux userspace PASS marker not found. See {log_path}")
+    write_artix7_observation(
+        step_dir,
+        "PASS",
+        [
+            "- Linux boot reached userspace and produced the tiny program PASS marker.",
+            f"- Boot image manifest: `{images_json}`.",
+            f"- Raw UART log: `{log_path}`.",
+        ],
+    )
+
+
+def task_artix7_trace_build(root: Path, config: dict, env: dict[str, str], args: argparse.Namespace) -> None:
+    record_artix7_board_identity(root, config, env, args, args.dry_run)
+    step_dir = artix7_step_dir(root, args, "07_trace_minimal")
+    trace_soc = root / "fpga" / "artix7_35t" / "litex" / "rvmt_trace_soc.py"
+    log_path = step_dir / "trace_build.log"
+    cmd = [
+        sys.executable,
+        str(trace_soc),
+        "--variant",
+        "a7-35",
+        "--sys-clk-freq",
+        "50e6",
+        "--uart-baudrate",
+        str(args.baud),
+        "--rootfs",
+        "ram0",
+        "--build",
+        "--no-compile-software",
+        "--skip-dts",
+        "--vivado",
+        resolve_vivado(config),
+    ]
+    linux_bios = artix7_linux_bios_path(root)
+    if linux_bios.exists() or args.dry_run:
+        cmd.extend(["--integrated-rom-init", str(linux_bios)])
+    if args.dry_run:
+        run_capture(cmd, cwd=root, env=artix7_litex_vivado_env(root, config, env), dry_run=True, log_path=log_path)
+        return
+    if not trace_soc.exists():
+        write_artix7_observation(
+            step_dir,
+            "FAIL",
+            [
+                f"- Missing trace SoC integration: `{trace_soc}`.",
+                "- Gate 07 must not claim PASS until a real VexRiscvSMP trace adapter emits syscall/trap/context/drop events.",
+            ],
+        )
+        raise TaskError(f"Missing trace SoC integration: {trace_soc}")
+    run_capture(cmd, cwd=root, env=artix7_litex_vivado_env(root, config, env), dry_run=False, log_path=log_path)
+    bitstream = root / ARTIX7_LOLV_TRACE_BUILD / "gateware" / "embedfire_rise_pro.bit"
+    if not bitstream.exists():
+        write_artix7_observation(step_dir, "FAIL", [f"- Trace build did not produce `{bitstream}`."])
+        raise TaskError(f"Trace build did not produce {bitstream}")
+    write_artix7_observation(
+        step_dir,
+        "PASS",
+        [
+            "- Built trace-instrumented Linux-capable SoC with a repo-owned CSR/BRAM trace ring.",
+            "- CPU trace outputs are connected by generated gateware patching, not by editing vendor netlists in place.",
+            f"- Bitstream: `{bitstream}`.",
+            f"- Build transcript: `{log_path}`.",
+        ],
+    )
+
+
+def task_artix7_trace_load(root: Path, config: dict, env: dict[str, str], args: argparse.Namespace) -> None:
+    record_artix7_board_identity(root, config, env, args, args.dry_run)
+    step_dir = artix7_step_dir(root, args, "07_trace_minimal")
+    bitstreams = sorted((root / ARTIX7_LOLV_TRACE_BUILD / "gateware").glob("*.bit"))
+    log_path = step_dir / "trace_load.log"
+    if args.dry_run:
+        print(f"+ load Artix-7 minimal trace bitstream > {quote_for_display(str(log_path))}")
+        return
+    if not bitstreams:
+        write_artix7_observation(step_dir, "FAIL", [f"- No trace bitstream found under `{root / ARTIX7_LOLV_TRACE_BUILD / 'gateware'}`."])
+        raise TaskError("No Artix-7 trace bitstream found")
+    script = root / "fpga" / "artix7_35t" / "scripts" / "program_bitstream.tcl"
+    artix7_vivado_capture(root, config, env, args, script, [str(bitstreams[0])], log_path, False)
+    write_artix7_observation(step_dir, "PASS", [f"- Programmed trace bitstream: `{bitstreams[0]}`."])
+
+
+def task_artix7_trace_dump(root: Path, config: dict, env: dict[str, str], args: argparse.Namespace) -> None:
+    record_artix7_board_identity(root, config, env, args, args.dry_run)
+    step_dir = artix7_step_dir(root, args, "08_trace_jsonl_compare")
+    log_path = step_dir / "trace_raw_uart.log"
+    csr_base = artix7_trace_csr_base(root, allow_default=args.dry_run)
+    dump_command = f"/usr/bin/rvmt_trace_dump 0x{csr_base:08x} {args.trace_records}"
+    print(
+        f"+ capture trace dump from {args.port} {args.baud} 8N1 for {args.duration:g}s "
+        f"to {quote_for_display(str(log_path))}; clear ring, run linux pass, send {quote_for_display(dump_command)}"
+    )
+    if args.dry_run:
+        return
+    args_for_capture = argparse.Namespace(**vars(args))
+    args_for_capture.board_step = "08_trace_jsonl_compare"
+    args_for_capture.send_char_delay = max(float(getattr(args, "send_char_delay", 0.0)), 0.004)
+    args_for_capture.send_delay = max(float(getattr(args, "send_delay", 0.0)), 1.5)
+    args_for_capture.send = [
+        "root",
+        f"devmem 0x{csr_base:08x} 32 0x3",
+        f"devmem 0x{csr_base:08x} 32 0x1",
+        "/usr/bin/rvmt_linux_user_pass",
+        dump_command,
+    ]
+    task_artix7_serial_capture(root, config, env, args_for_capture)
+    raw = log_path.read_text(encoding="utf-8", errors="replace") if log_path.exists() else ""
+    status = "PASS" if "RVMT_TRACE_DUMP_BEGIN" in raw and "RVMT_TRACE_DUMP_END" in raw else "FAIL"
+    write_artix7_observation(
+        step_dir,
+        status,
+        [
+            f"- Raw trace UART log: `{log_path}`.",
+            f"- Trace CSR base: `0x{csr_base:08x}` from `{artix7_trace_csr_csv(root)}`.",
+            f"- Records requested: `{args.trace_records}`.",
+            "- Required markers: `RVMT_TRACE_DUMP_BEGIN` and `RVMT_TRACE_DUMP_END`.",
+        ],
+    )
+    if status != "PASS":
+        raise TaskError(f"Trace dump markers not found. See {log_path}")
+
+
+def artix7_hex32(value: int) -> str:
+    return f"0x{value & 0xffffffff:08x}"
+
+
+def artix7_pc_hex(value: int) -> str:
+    return f"0x{value & 0xffffffff:016x}"
+
+
+def artix7_priv_name(value: int) -> str:
+    return {0: "U", 1: "S", 3: "M"}.get(value & 0x3, f"0x{value & 0x3:x}")
+
+
+def raw_trace_record_to_event(index: int, words: list[int]) -> dict[str, object]:
+    event_names = {
+        4: "SYSCALL_ENTRY",
+        5: "SYSCALL_RET",
+        6: "TRAP",
+        9: "PRIV",
+        11: "DROP",
+    }
+    if len(words) < ARTIX7_TRACE_RAW_RECORD_WORDS:
+        words = [*words, *([0] * (ARTIX7_TRACE_RAW_RECORD_WORDS - len(words)))]
+    header = words[0]
+    evt = event_names.get(header & 0xf, "DROP")
+    priv = artix7_priv_name((header >> 4) & 0x3)
+    old_priv = artix7_priv_name((header >> 6) & 0x3)
+    new_priv = artix7_priv_name((header >> 8) & 0x3)
+    event: dict[str, object] = {
+        "cycle": words[1],
+        "evt": evt,
+        "pc": artix7_pc_hex(words[2]),
+    }
+    if evt == "SYSCALL_ENTRY":
+        event.update(
+            {
+                "instr": artix7_hex32(words[3]),
+                "priv": priv,
+                "syscall_id": artix7_hex32(words[6]),
+                **{f"a{arg}": artix7_hex32(words[8 + arg]) for arg in range(8)},
+            }
+        )
+    elif evt == "SYSCALL_RET":
+        event.update(
+            {
+                "instr": artix7_hex32(words[3]),
+                "priv": priv,
+                "syscall_id": artix7_hex32(words[6]),
+                "target": artix7_pc_hex(words[4]),
+                "duration": words[5],
+                "a0": artix7_hex32(words[8]),
+            }
+        )
+    elif evt == "TRAP":
+        event.update({"cause": artix7_hex32(words[4]), "tval": artix7_hex32(words[5]), "priv": priv})
+    elif evt == "PRIV":
+        event.update({"old_priv": old_priv, "new_priv": new_priv, "target": artix7_pc_hex(words[4])})
+    elif evt == "DROP":
+        event.update({"value": artix7_hex32(words[7] or words[6] or index)})
+    return event
+
+
+def convert_artix7_raw_trace_to_jsonl(raw_path: Path, jsonl_path: Path) -> int:
+    events: list[dict[str, object]] = []
+    pending_scalar: str | None = None
+    for line in raw_path.read_text(encoding="utf-8", errors="replace").splitlines():
+        stripped = re.sub(r"\[[0-9.]+\]", " ", line).strip()
+        if not stripped:
+            continue
+        same_line_drop = re.search(r"\bRVMT_TRACE_DROP\s+(?:0x)?([0-9a-fA-F]+)\b", stripped)
+        if same_line_drop:
+            events.append({"cycle": 0, "evt": "DROP", "value": f"0x{int(same_line_drop.group(1), 16):x}"})
+            pending_scalar = None
+            continue
+        if pending_scalar is not None:
+            scalar_match = re.match(r"^0x[0-9a-fA-F]+$", stripped)
+            if scalar_match:
+                if pending_scalar == "RVMT_TRACE_DROP":
+                    events.append({"cycle": 0, "evt": "DROP", "value": f"0x{int(stripped, 16):x}"})
+                pending_scalar = None
+                continue
+        if stripped == "RVMT_TRACE_DROP":
+            pending_scalar = stripped
+            continue
+        if stripped.startswith("{"):
+            value = json.loads(stripped)
+            if isinstance(value, dict):
+                events.append(value)
+            continue
+        match = re.search(r"RVMT_TRACE_RECORD\s+(\d+)\s+(.+)$", stripped)
+        if not match:
+            continue
+        word_tokens = re.findall(r"\b[0-9a-fA-F]{8}\b", match.group(2))
+        words = [int(item, 16) for item in word_tokens[:ARTIX7_TRACE_RAW_RECORD_WORDS]]
+        if len(words) not in (8, ARTIX7_TRACE_RAW_RECORD_WORDS):
+            continue
+        events.append(raw_trace_record_to_event(int(match.group(1)), words))
+    jsonl_path.parent.mkdir(parents=True, exist_ok=True)
+    jsonl_path.write_text("".join(json.dumps(event, sort_keys=True) + "\n" for event in events), encoding="utf-8", newline="\n")
+    return len(events)
+
+
+def task_artix7_trace_jsonl_compare(root: Path, config: dict, env: dict[str, str], args: argparse.Namespace) -> None:
+    record_artix7_board_identity(root, config, env, args, args.dry_run)
+    step_dir = artix7_step_dir(root, args, "08_trace_jsonl_compare")
+    raw_path = step_dir / "trace_raw_uart.log"
+    jsonl_path = artix7_trace_jsonl_path(root, args)
+    parse_log = step_dir / "parse_trace_summary.log"
+    recover_dir = step_dir / "behavior_recovery"
+    lightweight_dir = step_dir / "lightweight"
+    lightweight_log = step_dir / "lightweight_board_minimal.log"
+    if args.dry_run:
+        print(f"+ convert {quote_for_display(str(raw_path))} to {quote_for_display(str(jsonl_path))}")
+        print(f"+ {sys.executable} tools/parse_trace.py {quote_for_display(str(jsonl_path))} --summary > {quote_for_display(str(parse_log))}")
+        print(
+            f"+ {sys.executable} tools/analyze_trace_lightweight.py --trace {quote_for_display(str(jsonl_path))} "
+            f"--out-dir {quote_for_display(str(lightweight_dir))} --profile board_minimal > {quote_for_display(str(lightweight_log))}"
+        )
+        return
+    if not raw_path.exists():
+        raise TaskError(f"Missing raw trace dump: {raw_path}. Run board:artix7:trace-dump first.")
+    count = convert_artix7_raw_trace_to_jsonl(raw_path, jsonl_path)
+    if count == 0:
+        write_artix7_observation(step_dir, "FAIL", [f"- No trace events were converted from `{raw_path}`."])
+        raise TaskError("No trace events converted")
+    run_capture([sys.executable, "tools/parse_trace.py", str(jsonl_path), "--summary"], cwd=root, env=env, dry_run=False, log_path=parse_log)
+    recover_log = step_dir / "recover_behavior.log"
+    run_capture([sys.executable, "tools/recover_behavior.py", "--trace", str(jsonl_path), "--out-dir", str(recover_dir)], cwd=root, env=env, dry_run=False, log_path=recover_log)
+    run_capture(
+        [
+            sys.executable,
+            "tools/analyze_trace_lightweight.py",
+            "--trace",
+            str(jsonl_path),
+            "--out-dir",
+            str(lightweight_dir),
+            "--profile",
+            "board_minimal",
+        ],
+        cwd=root,
+        env=env,
+        dry_run=False,
+        log_path=lightweight_log,
+    )
+    write_artix7_observation(
+        step_dir,
+        "PASS",
+        [
+            f"- Converted `{raw_path}` to `{jsonl_path}`.",
+            f"- Event count: `{count}`.",
+            f"- Parser summary: `{parse_log}`.",
+            f"- Board-minimal lightweight profile: `{lightweight_dir}`.",
+            f"- Behavior recovery output: `{recover_dir}`.",
+        ],
+    )
 
 
 def normalize_vivado_source_path(fpga_dir: Path, repo_root: Path, value: str) -> Path:
@@ -1612,7 +3112,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
             "Tasks to run. Supports docker:build, toolchain:build, bootrom:build, "
             "vivado:check, bitstream:build, bitstream:build-trace, sim:trace-unit, sim:cva6-smoke, "
             "sim:cva6-full-soc, sim:cva6-full-soc-tohost, sim:cva6-full-soc-rv64gc, sim:cva6-run, baremetal:build, "
-            "config:show, completion:powershell. Slash groups such as "
+            "board:artix7:jtag-scan, board:artix7:litex-build, config:show, completion:powershell. Slash groups such as "
             "tool/bootrom are expanded."
         ),
     )
@@ -1643,6 +3143,29 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--trace", type=Path, help="For demo:behavior --backend trace, input RV-MalTrace JSONL trace.")
     parser.add_argument("--run-id", default="manual", help="For demo tasks, run directory under the output root.")
     parser.add_argument("--out-dir", type=Path, help="For demo tasks, output root. Defaults to results/demo.")
+    parser.add_argument("--port", default="COM5", help="For Artix-7 board tasks, serial port. Defaults to COM5.")
+    parser.add_argument("--baud", type=int, default=115200, help="For Artix-7 serial capture, baud rate. Defaults to 115200.")
+    parser.add_argument("--duration", type=float, default=60.0, help="For Artix-7 serial capture, capture duration in seconds.")
+    parser.add_argument("--send", action="append", default=[], help="For Artix-7 serial capture, command to write to UART. May repeat.")
+    parser.add_argument(
+        "--send-char-delay",
+        type=float,
+        default=0.004,
+        help="For Artix-7 serial capture, seconds to pause between transmitted shell characters.",
+    )
+    parser.add_argument(
+        "--send-delay",
+        type=float,
+        default=1.0,
+        help="For Artix-7 serial capture, seconds to capture after each sent shell command.",
+    )
+    parser.add_argument("--trace-records", type=int, default=64, help="For Artix-7 trace-dump, records to read from rvmt_trace.")
+    parser.add_argument(
+        "--board-step",
+        choices=("03_uart_hello", "04_litex_ddr", "05_baremetal", "06_linux_boot", "07_trace_minimal", "08_trace_jsonl_compare"),
+        default="03_uart_hello",
+        help="For Artix-7 serial capture, evidence step directory.",
+    )
     return parser.parse_args(argv)
 
 
@@ -1677,6 +3200,42 @@ def main(argv: list[str] | None = None) -> int:
                 task_vivado_check(root, config, env, args.dry_run)
             elif task == "vivado:project":
                 task_vivado_project(root, config, env, args.dry_run)
+            elif task == "board:artix7:jtag-scan":
+                task_artix7_jtag_scan(root, config, env, args)
+            elif task == "board:artix7:led-build":
+                task_artix7_led_build(root, config, env, args)
+            elif task == "board:artix7:led-load":
+                task_artix7_led_load(root, config, env, args)
+            elif task == "board:artix7:litex-prep-docker":
+                task_artix7_litex_prep_docker(root, config, env, args)
+            elif task == "board:artix7:litex-build":
+                task_artix7_litex_build(root, config, env, args)
+            elif task == "board:artix7:litex-load":
+                task_artix7_litex_load(root, config, env, args)
+            elif task == "board:artix7:serial-capture":
+                task_artix7_serial_capture(root, config, env, args)
+            elif task == "board:artix7:baremetal-build":
+                task_artix7_baremetal_build(root, config, env, args)
+            elif task == "board:artix7:baremetal-load":
+                task_artix7_baremetal_load(root, config, env, args)
+            elif task == "board:artix7:baremetal-run":
+                task_artix7_baremetal_run(root, config, env, args)
+            elif task == "board:artix7:linux-images-prep":
+                task_artix7_linux_images_prep(root, config, env, args)
+            elif task == "board:artix7:linux-build":
+                task_artix7_linux_build(root, config, env, args)
+            elif task == "board:artix7:linux-load":
+                task_artix7_linux_load(root, config, env, args)
+            elif task == "board:artix7:linux-boot-capture":
+                task_artix7_linux_boot_capture(root, config, env, args)
+            elif task == "board:artix7:trace-build":
+                task_artix7_trace_build(root, config, env, args)
+            elif task == "board:artix7:trace-load":
+                task_artix7_trace_load(root, config, env, args)
+            elif task == "board:artix7:trace-dump":
+                task_artix7_trace_dump(root, config, env, args)
+            elif task == "board:artix7:trace-jsonl-compare":
+                task_artix7_trace_jsonl_compare(root, config, env, args)
             elif task == "bitstream:build":
                 task_bitstream_build(root, config, env, args.dry_run)
             elif task == "bitstream:build-trace":

@@ -29,7 +29,22 @@ services:
       - .:/workspace/rv-maltrace
     command: bash
 
+  litex-build:
+    build:
+      context: .
+      dockerfile: docker/litex/Dockerfile
+    image: rv-maltrace/litex-build:ubuntu24.04
+    working_dir: /workspace/rv-maltrace
+    volumes:
+      - .:/workspace/rv-maltrace
+      - litex_buildroot:/workspace/buildroot
+    environment:
+      PYTHONPATH: /opt/pythondata-software-picolibc:/workspace/rv-maltrace/vendor/litex/migen:/workspace/rv-maltrace/vendor/litex/litex:/workspace/rv-maltrace/vendor/litex/litex-boards:/workspace/rv-maltrace/vendor/litex/litedram:/workspace/rv-maltrace/vendor/litex/pythondata-cpu-vexriscv_smp
+      LITEX_ENV_CC_TRIPLE: riscv64-unknown-elf
+    command: bash
+
 volumes:
   cva6_toolchain_src:
   cva6_toolchain_build:
   cva6_toolchain_install:
+  litex_buildroot:

@@ -7,7 +7,16 @@ name = "rv-maltrace"
 version = "0.1.0"
 description = "Build and simulation helpers for the rv-maltrace CVA6 workflow."
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+    "liteeth",
+    "packaging",
+    "pythondata-cpu-vexriscv",
+    "pythondata-software-compiler_rt",
+    "pythondata-software-picolibc",
+    "pyserial",
+    "pyyaml",
+    "requests",
+]
 
 [project.scripts]
 rvmt = "rv_maltrace.cli:main"
