@@ -113,6 +113,9 @@ TASK_ALIASES = {
     "demo": "demo:behavior",
     "demo:behavior": "demo:behavior",
     "demo:groundtruth": "demo:groundtruth",
+    "exp:35t": "exp:35t",
+    "experiment:35t": "exp:35t",
+    "35t": "exp:35t",
     "config": "config:show",
     "config:show": "config:show",
     "tasks": "tasks:list",
@@ -162,6 +165,7 @@ DISPLAY_TASKS = [
     "baremetal:build",
     "demo:behavior",
     "demo:groundtruth",
+    "exp:35t",
     "config:show",
     "tasks:list",
     "completion:powershell",
@@ -185,6 +189,8 @@ COMPLETION_CANDIDATES = sorted(
         "--backend",
         "--run-id",
         "--sample",
+        "--stage",
+        "--reps",
         "--no-runtime",
         "--out-dir",
         "--port",
@@ -2990,6 +2996,32 @@ exit 0
     print(f"demo groundtruth artifacts: {run_dir}")
 
 
+def task_exp_35t(root: Path, env: dict[str, str], args: argparse.Namespace) -> None:
+    cmd = [
+        sys.executable,
+        "tools/experiment_35t.py",
+        "--stage",
+        args.stage,
+        "--run-id",
+        args.run_id,
+        "--port",
+        args.port,
+        "--reps",
+        str(args.reps),
+    ]
+    if args.duration is not None:
+        cmd.extend(["--duration", str(args.duration)])
+    if args.trace_records is not None:
+        cmd.extend(["--trace-records", str(args.trace_records)])
+    if args.baud is not None:
+        cmd.extend(["--baud", str(args.baud)])
+    if args.sample:
+        cmd.extend(["--sample", args.sample])
+    if args.dry_run:
+        cmd.append("--dry-run")
+    run(cmd, cwd=root, env=env, dry_run=False)
+
+
 def show_config(root: Path, config: dict) -> None:
     cva6_dir = configured_path(root, str(config.get("cva6_dir", "rtl/cva6")))
     print(f"repo_root            = {root}")
@@ -3112,7 +3144,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
             "Tasks to run. Supports docker:build, toolchain:build, bootrom:build, "
             "vivado:check, bitstream:build, bitstream:build-trace, sim:trace-unit, sim:cva6-smoke, "
             "sim:cva6-full-soc, sim:cva6-full-soc-tohost, sim:cva6-full-soc-rv64gc, sim:cva6-run, baremetal:build, "
-            "board:artix7:jtag-scan, board:artix7:litex-build, config:show, completion:powershell. Slash groups such as "
+            "board:artix7:jtag-scan, board:artix7:litex-build, exp:35t, config:show, completion:powershell. Slash groups such as "
             "tool/bootrom are expanded."
         ),
     )
@@ -3133,7 +3165,14 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--include", type=Path, action="append", default=[], help="For sim:cva6-run --asm, extra include directory.")
     parser.add_argument("--cflag", action="append", default=[], help="For sim:cva6-run --asm, extra compiler flag.")
     parser.add_argument("--no-runtime", action="store_true", help="For sim:cva6-run --asm, do not link the rv-maltrace runtime.")
-    parser.add_argument("--sample", default="anti_debug_like", help="For demo tasks, malware-like synthetic sample id.")
+    parser.add_argument("--sample", help="For demo and exp:35t tasks, sample id.")
+    parser.add_argument(
+        "--stage",
+        choices=("groundtruth", "rootfs", "board", "analyze", "report", "all", "self-test"),
+        default="all",
+        help="For exp:35t, experiment stage to run.",
+    )
+    parser.add_argument("--reps", type=int, default=5, help="For exp:35t, repetitions per workload and mode.")
     parser.add_argument(
         "--backend",
         choices=("fixture", "trace"),
@@ -3144,8 +3183,16 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--run-id", default="manual", help="For demo tasks, run directory under the output root.")
     parser.add_argument("--out-dir", type=Path, help="For demo tasks, output root. Defaults to results/demo.")
     parser.add_argument("--port", default="COM5", help="For Artix-7 board tasks, serial port. Defaults to COM5.")
-    parser.add_argument("--baud", type=int, default=115200, help="For Artix-7 serial capture, baud rate. Defaults to 115200.")
-    parser.add_argument("--duration", type=float, default=60.0, help="For Artix-7 serial capture, capture duration in seconds.")
+    parser.add_argument(
+        "--baud",
+        type=int,
+        help="For Artix-7 board tasks, serial baud rate. Defaults to 115200, except exp:35t defaults to 921600.",
+    )
+    parser.add_argument(
+        "--duration",
+        type=float,
+        help="For Artix-7 serial capture, capture duration in seconds. Defaults to 60, except exp:35t defaults to 3600.",
+    )
     parser.add_argument("--send", action="append", default=[], help="For Artix-7 serial capture, command to write to UART. May repeat.")
     parser.add_argument(
         "--send-char-delay",
@@ -3159,7 +3206,11 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         default=1.0,
         help="For Artix-7 serial capture, seconds to capture after each sent shell command.",
     )
-    parser.add_argument("--trace-records", type=int, default=64, help="For Artix-7 trace-dump, records to read from rvmt_trace.")
+    parser.add_argument(
+        "--trace-records",
+        type=int,
+        help="For Artix-7 trace-dump and exp:35t, records to read from rvmt_trace. Defaults to 64, except exp:35t defaults to 256.",
+    )
     parser.add_argument(
         "--board-step",
         choices=("03_uart_hello", "04_litex_ddr", "05_baremetal", "06_linux_boot", "07_trace_minimal", "08_trace_jsonl_compare"),
@@ -3177,6 +3228,13 @@ def main(argv: list[str] | None = None) -> int:
 
     try:
         tasks = task_list(args.tasks or ["config:show"])
+        exp_only = len(tasks) == 1 and tasks[0] == "exp:35t"
+        if args.baud is None and not exp_only:
+            args.baud = 115200
+        if args.duration is None and not exp_only:
+            args.duration = 60.0
+        if args.trace_records is None and not exp_only:
+            args.trace_records = 64
         for task in tasks:
             if task == "config:show":
                 show_config(root, config)
@@ -3264,6 +3322,8 @@ def main(argv: list[str] | None = None) -> int:
                 task_demo_behavior(root, env, args)
             elif task == "demo:groundtruth":
                 task_demo_groundtruth(root, config, env, args)
+            elif task == "exp:35t":
+                task_exp_35t(root, env, args)
             else:
                 raise TaskError(f"Unhandled task: {task}")
     except TaskError as exc:

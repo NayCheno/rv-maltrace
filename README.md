@@ -39,6 +39,7 @@ uv run rvmt sim:cva6-full-soc-tohost
 uv run rvmt sim:cva6-full-soc-rv64gc
 uv run rvmt sim:summary
 uv run rvmt demo:behavior --sample anti_debug_like --backend fixture
+uv run rvmt exp:35t --stage all --run-id dryrun --dry-run
 ```
 
 For documentation and experiment gates, run the narrow checker that matches the
@@ -54,6 +55,7 @@ uv run python tools/check_linux_behavior_recovery.py
 uv run python tools/check_semantic_enrichment_strategy.py
 uv run python tools/recover_behavior.py --self-test
 uv run python tools/check_behavior_demo.py
+uv run python tools/check_35t_experiment_bundle.py --self-test
 ```
 
 ## Behavior Demo

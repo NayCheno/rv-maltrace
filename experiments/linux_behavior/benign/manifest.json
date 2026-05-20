@@ -15,7 +15,8 @@
       "provenance": "known_benign_rootfs",
       "network_required": false,
       "default_enabled": true,
-      "command": ["echo", "rv-maltrace benign hello"],
+      "source": "board/artix7_35t/linux/rvmt_benign_workload.c",
+      "command": ["./rvmt_benign_workload", "hello"],
       "evidence_dir": "01_hello",
       "expected_syscalls": ["write"],
       "expected_behavior": ["stdout_write"]
@@ -27,7 +28,8 @@
       "provenance": "known_benign_rootfs",
       "network_required": false,
       "default_enabled": true,
-      "command": ["ls", "-la", "/tmp"],
+      "source": "board/artix7_35t/linux/rvmt_benign_workload.c",
+      "command": ["./rvmt_benign_workload", "ls"],
       "evidence_dir": "02_ls",
       "expected_syscalls": ["openat", "getdents64", "write", "close"],
       "expected_behavior": ["directory_listing"]
@@ -39,7 +41,8 @@
       "provenance": "known_benign_rootfs",
       "network_required": false,
       "default_enabled": true,
-      "command": ["cat", "experiments/linux_behavior/benign/fixtures/input.txt"],
+      "source": "board/artix7_35t/linux/rvmt_benign_workload.c",
+      "command": ["./rvmt_benign_workload", "cat"],
       "evidence_dir": "03_cat",
       "expected_syscalls": ["openat", "read", "write", "close"],
       "expected_behavior": ["file_read", "stdout_write"]
@@ -51,10 +54,10 @@
       "provenance": "known_benign_rootfs",
       "network_required": false,
       "default_enabled": true,
+      "source": "board/artix7_35t/linux/rvmt_benign_workload.c",
       "command": [
-        "cp",
-        "experiments/linux_behavior/benign/fixtures/input.txt",
-        "/tmp/rvmt_benign_copy.txt"
+        "./rvmt_benign_workload",
+        "cp"
       ],
       "evidence_dir": "04_cp",
       "expected_syscalls": ["openat", "read", "write", "close"],
@@ -67,7 +70,8 @@
       "provenance": "known_benign_rootfs",
       "network_required": false,
       "default_enabled": true,
-      "command": ["sha256sum", "experiments/linux_behavior/benign/fixtures/input.txt"],
+      "source": "board/artix7_35t/linux/rvmt_benign_workload.c",
+      "command": ["./rvmt_benign_workload", "sha256sum"],
       "evidence_dir": "05_sha256sum",
       "expected_syscalls": ["openat", "read", "write", "close"],
       "expected_behavior": ["file_hash"]

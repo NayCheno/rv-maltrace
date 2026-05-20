@@ -51,6 +51,16 @@ claims must not reuse a perturbed ground-truth run as the uninstrumented runtime
 Real malware samples are optional and must stay isolated from the main success
 criteria until legal, ethical, and containment procedures are documented.
 
+### 35T/VexRiscv Matrix Route
+
+The 35T line has a separate LiteX/VexRiscv experiment route so paper artifacts
+do not blur into CVA6 production RTL claims. The route is invoked with
+`uv run rvmt exp:35t --stage all --run-id <run-id> --port COM5 --baud 921600 --reps 5`
+and writes to `results/experiments/35t/<run-id>/`. It covers five non-network
+benign workloads and eight malware-like synthetic samples, excludes
+`small_network_client`, and labels the rule result as malware-like behavior
+audit accuracy rather than real malware detection accuracy.
+
 ## Metrics
 
 | Metric | Definition | Gate |

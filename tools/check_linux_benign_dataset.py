@@ -22,7 +22,8 @@ EXPECTED_SAMPLES = {
         "provenance": "known_benign_rootfs",
         "network_required": False,
         "default_enabled": True,
-        "command": ["echo", "rv-maltrace benign hello"],
+        "source": "board/artix7_35t/linux/rvmt_benign_workload.c",
+        "command": ["./rvmt_benign_workload", "hello"],
         "evidence_dir": "01_hello",
         "expected_syscalls": ["write"],
         "expected_behavior": ["stdout_write"],
@@ -33,7 +34,8 @@ EXPECTED_SAMPLES = {
         "provenance": "known_benign_rootfs",
         "network_required": False,
         "default_enabled": True,
-        "command": ["ls", "-la", "/tmp"],
+        "source": "board/artix7_35t/linux/rvmt_benign_workload.c",
+        "command": ["./rvmt_benign_workload", "ls"],
         "evidence_dir": "02_ls",
         "expected_syscalls": ["openat", "getdents64", "write", "close"],
         "expected_behavior": ["directory_listing"],
@@ -44,7 +46,8 @@ EXPECTED_SAMPLES = {
         "provenance": "known_benign_rootfs",
         "network_required": False,
         "default_enabled": True,
-        "command": ["cat", "experiments/linux_behavior/benign/fixtures/input.txt"],
+        "source": "board/artix7_35t/linux/rvmt_benign_workload.c",
+        "command": ["./rvmt_benign_workload", "cat"],
         "evidence_dir": "03_cat",
         "expected_syscalls": ["openat", "read", "write", "close"],
         "expected_behavior": ["file_read", "stdout_write"],
@@ -55,11 +58,8 @@ EXPECTED_SAMPLES = {
         "provenance": "known_benign_rootfs",
         "network_required": False,
         "default_enabled": True,
-        "command": [
-            "cp",
-            "experiments/linux_behavior/benign/fixtures/input.txt",
-            "/tmp/rvmt_benign_copy.txt",
-        ],
+        "source": "board/artix7_35t/linux/rvmt_benign_workload.c",
+        "command": ["./rvmt_benign_workload", "cp"],
         "evidence_dir": "04_cp",
         "expected_syscalls": ["openat", "read", "write", "close"],
         "expected_behavior": ["file_copy"],
@@ -70,7 +70,8 @@ EXPECTED_SAMPLES = {
         "provenance": "known_benign_rootfs",
         "network_required": False,
         "default_enabled": True,
-        "command": ["sha256sum", "experiments/linux_behavior/benign/fixtures/input.txt"],
+        "source": "board/artix7_35t/linux/rvmt_benign_workload.c",
+        "command": ["./rvmt_benign_workload", "sha256sum"],
         "evidence_dir": "05_sha256sum",
         "expected_syscalls": ["openat", "read", "write", "close"],
         "expected_behavior": ["file_hash"],
@@ -311,7 +312,8 @@ def run_checks(root: Path, manifest: Path, doc: Path, policy: Path, uv_doc: Path
 def write_fixture(root: Path) -> None:
     (root / "experiments/linux_behavior/benign/fixtures").mkdir(parents=True)
     (root / "experiments/linux_behavior/benign/programs").mkdir(parents=True)
-    (root / "docs").mkdir(parents=True)
+    (root / "docs/linux").mkdir(parents=True)
+    (root / "docs/process").mkdir(parents=True)
     (root / EXPECTED_FIXTURES[0]).write_text("fixture\n", encoding="utf-8")
     (root / EXPECTED_SAMPLES["small_network_client"]["source"]).write_text("SYS_socket\n", encoding="utf-8")
     (root / DEFAULT_POLICY).write_text(

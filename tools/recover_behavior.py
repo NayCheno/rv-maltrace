@@ -22,6 +22,7 @@ SYSCALL_NAMES = {
     80: "fstat",
     93: "exit",
     94: "exit_group",
+    95: "waitid",
     113: "clock_gettime",
     117: "ptrace",
     198: "socket",

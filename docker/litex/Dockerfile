@@ -16,8 +16,11 @@ RUN apt-get update \
         device-tree-compiler \
         file \
         flex \
+        binutils-riscv64-linux-gnu \
+        gcc-riscv64-linux-gnu \
         gcc-riscv64-unknown-elf \
         git \
+        libc6-dev-riscv64-cross \
         libssl-dev \
         make \
         meson \

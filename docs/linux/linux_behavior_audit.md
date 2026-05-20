@@ -40,7 +40,7 @@ RV-MalTrace packets, fixed PCs, trace markers, MMIO, or circuit-only state.
 | 3 | self_copy_simulation | dropper_like | at least two `openat` events plus `read`, `write`, `close` | TODO(EXPERIMENT) |
 | 4 | abnormal_syscall_sequence | abnormal_sequence | invalid descriptor or path failure on `close`, `openat`, `read`, or `write` | TODO(EXPERIMENT) |
 | 5 | illegal_instruction_trap | trap_behavior | illegal-instruction trap context plus handler-visible `write` | TODO(EXPERIMENT) |
-| 6 | process_creation_chain | process_chain | `clone`, `execve`, `wait4` syscall shape | TODO(EXPERIMENT) |
+| 6 | process_creation_chain | process_chain | `clone`, `execve`, `waitid` syscall shape | TODO(EXPERIMENT) |
 | 7 | dynamic_executable_memory | memory_permission | `mmap` followed by `mprotect` with `PROT_EXEC` set | TODO(EXPERIMENT) |
 | 8 | anti_analysis_indicator | anti_analysis | `ptrace` or timing-oriented syscall indicator | TODO(EXPERIMENT) |
 

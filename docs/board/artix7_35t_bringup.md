@@ -253,6 +253,29 @@ console. The second `linux-boot-capture` is required after `trace-load` because
 programming the trace bitstream resets the SoC and the ram0 Linux payload must
 be uploaded again.
 
+## 35T Paper Experiment Route
+
+For the 35T/VexRiscv line, keep the paper experiment matrix separate from CVA6
+production RTL claims. The unified entrypoint is:
+
+```text
+uv run rvmt exp:35t --stage all --run-id <run-id> --port COM5 --baud 921600 --reps 5
+```
+
+The route covers the five default non-network benign workloads and the eight
+malware-like synthetic samples. `small_network_client`, real malware, and
+unknown-provenance binaries stay outside this matrix. Artifacts are written
+under:
+
+```text
+results/experiments/35t/<run-id>/
+```
+
+Use `--stage groundtruth`, `rootfs`, `board`, `analyze`, or `report` to resume a
+specific phase. Use `--dry-run` to list samples, commands, and output paths
+without touching the board. A finished bundle should be checked with
+`uv run python tools/check_35t_experiment_bundle.py --run-id <run-id> --reps 5`.
+
 ## Bring-up Sequence
 
 ### 0. Board Identity

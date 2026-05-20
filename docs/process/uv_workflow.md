@@ -574,6 +574,43 @@ uv run python tools/check_behavior_demo.py --self-test
 The demo output is not malware detection quality evidence, Linux-on-board
 evidence, or physical hardware validation.
 
+## 35T Experiment Matrix
+
+The Artix-7 35T LiteX/VexRiscv paper route uses a unified runner for the
+non-network benign set plus the eight malware-like synthetic samples. It writes
+artifacts under:
+
+```text
+results/experiments/35t/<run-id>/
+```
+
+Dry-run the full matrix without accessing the board:
+
+```powershell
+uv run rvmt exp:35t --stage all --run-id dryrun --dry-run
+```
+
+Run the default 35T route on the connected CH340 console after the trace image
+and experiment rootfs are ready:
+
+```powershell
+uv run rvmt exp:35t --stage all --run-id <run-id> --port COM5 --baud 921600 --reps 5
+```
+
+Stages may be run separately with `--stage groundtruth`, `rootfs`, `board`,
+`analyze`, or `report`. The board rootfs includes `/usr/bin/rvmt_exp_runner` and
+`/usr/bin/rvmt_benign_workload`; the runner emits `RVMT_EXP_*` markers, captures
+trace-on and trace-off repetitions, and keeps real malware plus network samples
+out of this matrix.
+
+Validate a finished bundle with:
+
+```powershell
+uv run python tools/experiment_35t.py --stage self-test
+uv run python tools/check_35t_experiment_bundle.py --run-id <run-id> --reps 5
+uv run python tools/check_35t_experiment_bundle.py --self-test
+```
+
 ## Bounded Fuzz Trace Validation
 
 Phase 8 trace-validator fuzzing is tracked in `docs/validation/fuzz_trace_validation.md`

@@ -1,0 +1,1107 @@
+from __future__ import annotations
+
+import argparse
+import csv
+import json
+import os
+import re
+import shutil
+import statistics
+import subprocess
+import sys
+import tempfile
+import time
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Any, Iterable
+
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(ROOT / "tools"))
+
+from rv_maltrace.cli import (  # noqa: E402
+    ARTIX7_TRACE_RAW_RECORD_WORDS,
+    artix7_trace_csr_base,
+    raw_trace_record_to_event,
+)
+
+
+BENIGN_MANIFEST = Path("experiments/linux_behavior/benign/manifest.json")
+MALWARE_MANIFEST = Path("experiments/linux_behavior/malware_like/manifest.json")
+RULES_PATH = Path("experiments/linux_behavior/behavior_audit_rules.json")
+TRACE_OFF = "trace-off"
+TRACE_ON = "trace-on"
+REQUIRED_BASELINES = ("host_native", "host_strace", "qemu_native", "qemu_strace")
+OPTIONAL_BASELINES = ("ebpf_only", "qemu_plugin", "software_instrumentation")
+UART_TIMESTAMP_RE = re.compile(r"\[[0-9]+(?:\.[0-9]+)?\]\s*")
+UART_MARKERS = (
+    "RVMT_EXP_REP_BEGIN",
+    "RVMT_EXP_REP_RESULT",
+    "RVMT_EXP_REP_END",
+    "RVMT_EXP_END",
+    "RVMT_TRACE_DUMP_BEGIN",
+    "RVMT_TRACE_DUMP_END",
+    "RVMT_TRACE_RECORD",
+)
+UART_MARKER_PATTERNS = tuple((re.compile(r"\s*".join(re.escape(char) for char in marker)), marker) for marker in UART_MARKERS)
+
+
+@dataclass(frozen=True)
+class Sample:
+    sample_class: str
+    sample_id: str
+    source: str
+    command: list[str]
+    expected_behavior: list[str]
+    evidence_dir: str
+
+
+def load_json(path: Path) -> dict[str, Any]:
+    value = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(value, dict):
+        raise ValueError(f"{path}: expected JSON object")
+    return value
+
+
+def repo_rel(path: Path) -> str:
+    try:
+        return path.relative_to(ROOT).as_posix()
+    except ValueError:
+        return path.as_posix()
+
+
+def sh_quote(value: str | os.PathLike[str]) -> str:
+    text = str(value)
+    return "'" + text.replace("'", "'\"'\"'") + "'"
+
+
+def result_root(run_id: str) -> Path:
+    return ROOT / "results" / "experiments" / "35t" / run_id
+
+
+def sample_root(run_id: str, sample: Sample) -> Path:
+    return result_root(run_id) / "samples" / sample.sample_class / sample.sample_id
+
+
+def aggregate_root(run_id: str) -> Path:
+    return result_root(run_id) / "aggregate"
+
+
+def load_samples() -> list[Sample]:
+    benign = load_json(ROOT / BENIGN_MANIFEST)
+    malware = load_json(ROOT / MALWARE_MANIFEST)
+    samples: list[Sample] = []
+    for row in benign.get("samples", []):
+        if not isinstance(row, dict) or row.get("default_enabled") is not True:
+            continue
+        if row.get("network_required"):
+            continue
+        source = row.get("source")
+        if not isinstance(source, str):
+            raise ValueError(f"{BENIGN_MANIFEST}: benign sample {row.get('id')} is missing source")
+        samples.append(
+            Sample(
+                sample_class="benign",
+                sample_id=str(row["id"]),
+                source=source,
+                command=[str(item) for item in row.get("command", [])],
+                expected_behavior=[str(item) for item in row.get("expected_behavior", [])],
+                evidence_dir=str(row.get("evidence_dir", "")),
+            )
+        )
+    for row in malware.get("samples", []):
+        if not isinstance(row, dict):
+            continue
+        samples.append(
+            Sample(
+                sample_class="malware_like_synthetic",
+                sample_id=str(row["id"]),
+                source=str(row["source"]),
+                command=[str(item) for item in row.get("command", [])],
+                expected_behavior=[str(item) for item in row.get("expected_behavior", [])],
+                evidence_dir=str(row.get("evidence_dir", "")),
+            )
+        )
+    return samples
+
+
+def selected_samples(sample_ids: Iterable[str] | None = None) -> list[Sample]:
+    samples = load_samples()
+    wanted = {item for item in (sample_ids or []) if item}
+    if not wanted:
+        return samples
+    result = [sample for sample in samples if sample.sample_id in wanted or sample.sample_class in wanted]
+    missing = sorted(wanted - {sample.sample_id for sample in result} - {sample.sample_class for sample in result})
+    if missing:
+        raise ValueError(f"unknown sample selectors: {', '.join(missing)}")
+    return result
+
+
+def run_command(cmd: list[str], *, cwd: Path = ROOT, dry_run: bool = False, log_path: Path | None = None) -> int:
+    display = " ".join(sh_quote(part) if " " in str(part) else str(part) for part in cmd)
+    if dry_run:
+        print(f"+ {display}" + (f" > {log_path}" if log_path else ""))
+        return 0
+    if log_path is not None:
+        log_path.parent.mkdir(parents=True, exist_ok=True)
+    if log_path is None:
+        completed = subprocess.run(cmd, cwd=str(cwd))
+        return completed.returncode
+    with log_path.open("w", encoding="utf-8", newline="\n") as handle:
+        handle.write(f"$ {display}\n")
+        handle.flush()
+        completed = subprocess.run(cmd, cwd=str(cwd), stdout=handle, stderr=subprocess.STDOUT)
+    return completed.returncode
+
+
+def docker_compose_base() -> list[str]:
+    return ["docker", "compose", "-f", "docker-compose.toolchain.yml"]
+
+
+def groundtruth_shell(sample: Sample, run_id: str, reps: int) -> str:
+    out_dir = sample_root(run_id, sample)
+    build_dir = out_dir / "build"
+    gt_dir = out_dir / "groundtruth"
+    source = ROOT / sample.source
+    build_dir_posix = repo_rel(build_dir)
+    gt_dir_posix = repo_rel(gt_dir)
+    source_posix = repo_rel(source)
+    host_bin_posix = f"{build_dir_posix}/{sample.sample_id}.host"
+    rv_bin_posix = f"{build_dir_posix}/{sample.sample_id}.riscv"
+    if sample.source.endswith("rvmt_benign_workload.c"):
+        host_args = [sample.sample_id]
+        rv_args = [sample.sample_id]
+    else:
+        host_args = []
+        rv_args = []
+    host_args_shell = " ".join(sh_quote(arg) for arg in host_args)
+    rv_args_shell = " ".join(sh_quote(arg) for arg in rv_args)
+    fixture_env = "env RVMT_FIXTURE_ROOT=experiments/linux_behavior/benign/fixtures"
+    return f"""
+set -u
+sample={sh_quote(sample.sample_id)}
+mkdir -p {sh_quote(build_dir_posix)} {sh_quote(gt_dir_posix)}
+sha256sum {sh_quote(source_posix)} > {sh_quote(f"{build_dir_posix}/source.sha256")}
+gcc --version | head -n 1 > {sh_quote(f"{build_dir_posix}/compiler.txt")}
+riscv64-linux-gnu-gcc --version | head -n 1 >> {sh_quote(f"{build_dir_posix}/compiler.txt")}
+gcc -O2 -Wall -Wextra -o {sh_quote(host_bin_posix)} {sh_quote(source_posix)}
+riscv64-linux-gnu-gcc -O2 -static -o {sh_quote(rv_bin_posix)} {sh_quote(source_posix)}
+sha256sum {sh_quote(host_bin_posix)} > {sh_quote(f"{build_dir_posix}/host_elf.sha256")}
+sha256sum {sh_quote(rv_bin_posix)} > {sh_quote(f"{build_dir_posix}/riscv_elf.sha256")}
+: > {sh_quote(f"{gt_dir_posix}/timings.jsonl")}
+fail_count=0
+run_timed() {{
+  label="$1"
+  rep="$2"
+  stdout="$3"
+  stderr="$4"
+  shift 4
+  start="$(date +%s%N)"
+  "$@" > "$stdout" 2> "$stderr"
+  code="$?"
+  end="$(date +%s%N)"
+  runtime="$((end - start))"
+  printf '{{"baseline":"%s","rep":%s,"exit_code":%s,"runtime_ns":%s}}\\n' "$label" "$rep" "$code" "$runtime" >> {sh_quote(f"{gt_dir_posix}/timings.jsonl")}
+  if [ "$code" -ne 0 ]; then
+    fail_count="$((fail_count + 1))"
+  fi
+}}
+rep=0
+while [ "$rep" -lt {reps} ]; do
+  run_timed host_native "$rep" {sh_quote(gt_dir_posix)}/host_native.$rep.stdout.txt {sh_quote(gt_dir_posix)}/host_native.$rep.stderr.txt {fixture_env} {sh_quote(host_bin_posix)} {host_args_shell}
+  run_timed host_strace "$rep" {sh_quote(gt_dir_posix)}/host_strace.$rep.stdout.txt {sh_quote(gt_dir_posix)}/host_strace.$rep.stderr.txt {fixture_env} strace -f -o {sh_quote(gt_dir_posix)}/host_strace.$rep.strace.log {sh_quote(host_bin_posix)} {host_args_shell}
+  run_timed qemu_native "$rep" {sh_quote(gt_dir_posix)}/qemu_native.$rep.stdout.txt {sh_quote(gt_dir_posix)}/qemu_native.$rep.stderr.txt {fixture_env} qemu-riscv64 {sh_quote(rv_bin_posix)} {rv_args_shell}
+  run_timed qemu_strace "$rep" {sh_quote(gt_dir_posix)}/qemu_strace.$rep.stdout.txt {sh_quote(gt_dir_posix)}/qemu_strace.$rep.strace.log {fixture_env} qemu-riscv64 -strace {sh_quote(rv_bin_posix)} {rv_args_shell}
+  rep="$((rep + 1))"
+done
+cat > {sh_quote(f"{gt_dir_posix}/optional_baselines.json")} <<'JSON'
+{{
+  "ebpf_only": {{"status": "BLOCKED", "reason": "No privileged eBPF collector is implemented for the 35T experiment runner."}},
+  "qemu_plugin": {{"status": "BLOCKED", "reason": "No RV-MalTrace QEMU plugin path is configured; set RVMT_QEMU_PLUGIN in a future extension."}},
+  "software_instrumentation": {{"status": "BLOCKED", "reason": "No software instrumentation command is configured; set RVMT_INSTRUMENTATION_CMD in a future extension."}}
+}}
+JSON
+if [ "$fail_count" -eq 0 ]; then
+  status=PASS
+else
+  status=FAIL
+fi
+cat > {sh_quote(f"{gt_dir_posix}/status.json")} <<JSON
+{{"status":"$status","sample":"{sample.sample_id}","class":"{sample.sample_class}","reps":{reps},"failed_required_baseline_runs":$fail_count}}
+JSON
+""".strip()
+
+
+def stage_groundtruth(args: argparse.Namespace, samples: list[Sample]) -> None:
+    for sample in samples:
+        shell = groundtruth_shell(sample, args.run_id, args.reps)
+        log_path = sample_root(args.run_id, sample) / "groundtruth" / "groundtruth_build_run.log"
+        cmd = [*docker_compose_base(), "run", "--rm", "--build", "linux-behavior", "bash", "-lc", shell]
+        code = run_command(cmd, dry_run=args.dry_run, log_path=log_path)
+        if code != 0 and not args.dry_run:
+            status = {
+                "status": "FAIL",
+                "sample": sample.sample_id,
+                "class": sample.sample_class,
+                "stage": "groundtruth",
+                "exit_code": code,
+                "log": repo_rel(log_path),
+            }
+            status_path = sample_root(args.run_id, sample) / "groundtruth" / "status.json"
+            status_path.parent.mkdir(parents=True, exist_ok=True)
+            status_path.write_text(json.dumps(status, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        if code != 0 and not args.keep_going:
+            raise SystemExit(code)
+
+
+def stage_rootfs(args: argparse.Namespace) -> None:
+    log_path = result_root(args.run_id) / "rootfs" / "build-artix7-linux-images.log"
+    cmd = [*docker_compose_base(), "run", "--rm", "--build", "litex-build", "bash", "docker/litex/build-artix7-linux-images.sh"]
+    code = run_command(cmd, dry_run=args.dry_run, log_path=log_path)
+    if code != 0:
+        raise SystemExit(code)
+
+
+def serial_capture(port: str, baud: int, duration: float, commands: list[str], log_path: Path, *, dry_run: bool) -> None:
+    print(f"+ capture 35T experiment UART on {port} {baud} 8N1 for {duration:g}s to {log_path}")
+    for command in commands:
+        print(f"+ send: {command}")
+    if dry_run:
+        return
+    try:
+        import serial
+    except ImportError as exc:
+        raise RuntimeError("pyserial is required for exp:35t board stage") from exc
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    start = time.monotonic()
+    deadline = start + duration
+    expected_exp_ends = sum(1 for command in commands if "rvmt_exp_runner" in command)
+    exp_end_count = 0
+    marker_buffer = ""
+
+    def write_log(handle, text: str) -> None:
+        nonlocal exp_end_count, marker_buffer
+        for line in text.splitlines(keepends=True):
+            handle.write(f"[{time.monotonic() - start:010.3f}] {line}")
+            marker_buffer += line
+            if not line.endswith(("\n", "\r")):
+                marker_buffer = marker_buffer[-512:]
+                continue
+            if "RVMT_EXP_END status=" in clean_uart_line(marker_buffer):
+                exp_end_count += 1
+            marker_buffer = ""
+        handle.flush()
+
+    with serial.Serial(port, baud, timeout=0.1) as ser, log_path.open("w", encoding="utf-8", newline="\n") as log:
+        log.write(f"# port={port} baud={baud} framing=8N1\n")
+        time.sleep(1.0)
+        while ser.in_waiting:
+            write_log(log, ser.read(4096).decode("utf-8", errors="replace"))
+        for command in commands:
+            log.write(f"[{time.monotonic() - start:010.3f}] >> {command}\n")
+            for char in command:
+                ser.write(char.encode("utf-8"))
+                ser.flush()
+                time.sleep(0.004)
+            ser.write(b"\r")
+            ser.flush()
+            until = min(deadline, time.monotonic() + 2.0)
+            while time.monotonic() < until:
+                chunk = ser.read(4096)
+                if chunk:
+                    write_log(log, chunk.decode("utf-8", errors="replace"))
+        while time.monotonic() < deadline:
+            chunk = ser.read(4096)
+            if chunk:
+                write_log(log, chunk.decode("utf-8", errors="replace"))
+                if expected_exp_ends and exp_end_count >= expected_exp_ends:
+                    break
+
+
+def stage_board(args: argparse.Namespace, samples: list[Sample]) -> None:
+    csr_base = artix7_trace_csr_base(ROOT, allow_default=args.dry_run)
+    selectors = " ".join(sample.sample_id for sample in samples)
+    commands = [
+        "root",
+        "cd /opt/rvmt",
+        f"/usr/bin/rvmt_exp_runner 0x{csr_base:08x} {args.trace_records} {args.reps} trace-off {selectors}",
+        f"/usr/bin/rvmt_exp_runner 0x{csr_base:08x} {args.trace_records} {args.reps} trace-on {selectors}",
+    ]
+    raw_log = result_root(args.run_id) / "board" / "raw_uart.log"
+    serial_capture(args.port, args.baud, args.duration, commands, raw_log, dry_run=args.dry_run)
+    if not args.dry_run:
+        parse_board_log(raw_log, args.run_id)
+
+
+def clean_uart_line(line: str) -> str:
+    line = UART_TIMESTAMP_RE.sub(" ", line).strip()
+    for pattern, marker in UART_MARKER_PATTERNS:
+        line = pattern.sub(marker, line)
+    if line.startswith(">> "):
+        return ""
+    return line
+
+
+def marker_fragment(line: str, marker: str) -> str:
+    index = line.find(marker)
+    if index < 0:
+        return ""
+    return line[index:]
+
+
+def trace_payload_words(payload: str) -> list[str]:
+    words: list[str] = []
+    pending = ""
+    for token in re.findall(r"\b[0-9a-fA-F]+\b", payload):
+        if len(token) > 8 and not pending:
+            if len(token) == 9:
+                token = token[1:] if token[0] != "0" else token[:-1]
+                words.append(token)
+                continue
+            if len(token) % 8 == 0:
+                words.extend(token[index : index + 8] for index in range(0, len(token), 8))
+                continue
+            token = token[-8:]
+        if len(token) == 8 and not pending:
+            words.append(token)
+            continue
+        pending += token
+        if len(pending) == 8:
+            words.append(pending)
+            pending = ""
+        elif len(pending) > 8:
+            if len(pending) == 9:
+                words.append(pending[1:] if pending[0] != "0" else pending[:-1])
+            pending = ""
+    return words
+
+
+def trace_record_index_and_payload(payload: str) -> tuple[int, str] | None:
+    parts = payload.split()
+    if not parts:
+        return None
+    index_text = parts[0]
+    payload_start = 1
+    if len(index_text) < 3 and len(parts) > 2 and parts[1].isdigit() and len(parts[1]) < 3:
+        joined = index_text + parts[1]
+        if joined.isdigit():
+            index_text = joined
+            payload_start = 2
+    if not index_text.isdigit():
+        return None
+    return int(index_text), " ".join(parts[payload_start:])
+
+
+def marker_fields(line: str) -> dict[str, str]:
+    result: dict[str, str] = {}
+    for key, value in re.findall(r"([A-Za-z_]+)=([^ ]+)", line):
+        result[key] = value
+    return result
+
+
+def trace_lines_to_events(lines: list[str]) -> list[dict[str, object]]:
+    events: list[dict[str, object]] = []
+    for line in lines:
+        stripped = clean_uart_line(line)
+        if not stripped:
+            continue
+        same_line_drop = re.search(r"\bRVMT_TRACE_DROP\s+(?:0x)?([0-9a-fA-F]+)\b", stripped)
+        if same_line_drop:
+            drop_count = int(same_line_drop.group(1), 16)
+            if drop_count:
+                events.append({"cycle": 0, "evt": "DROP", "value": f"0x{drop_count:x}"})
+            continue
+        match = re.search(r"RVMT_TRACE_RECORD\s+(.+)$", stripped)
+        if not match:
+            continue
+        record = trace_record_index_and_payload(match.group(1))
+        if record is None:
+            continue
+        record_index, payload = record
+        word_tokens = trace_payload_words(payload)
+        words = [int(item, 16) for item in word_tokens[:ARTIX7_TRACE_RAW_RECORD_WORDS]]
+        if len(words) in (8, ARTIX7_TRACE_RAW_RECORD_WORDS):
+            events.append(raw_trace_record_to_event(record_index, words))
+    return events
+
+
+def write_board_rep(run_id: str, current: dict[str, Any], trace_lines: list[str]) -> None:
+    sample = Sample(
+        sample_class=current["class"],
+        sample_id=current["sample"],
+        source="",
+        command=[],
+        expected_behavior=[],
+        evidence_dir="",
+    )
+    mode = current["mode"]
+    rep = int(current["rep"])
+    rep_dir = sample_root(run_id, sample) / "board" / mode / f"rep_{rep:02d}"
+    rep_dir.mkdir(parents=True, exist_ok=True)
+    (rep_dir / "status.json").write_text(json.dumps(current, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    if trace_lines:
+        (rep_dir / "trace_raw_uart.log").write_text("\n".join(trace_lines) + "\n", encoding="utf-8")
+        events = trace_lines_to_events(trace_lines)
+        (rep_dir / "trace.jsonl").write_text("".join(json.dumps(event, sort_keys=True) + "\n" for event in events), encoding="utf-8")
+
+
+def parse_board_log(raw_log: Path, run_id: str) -> None:
+    current: dict[str, Any] | None = None
+    capturing_trace = False
+    trace_lines: list[str] = []
+    for raw_line in raw_log.read_text(encoding="utf-8", errors="replace").splitlines():
+        line = clean_uart_line(raw_line)
+        if not line:
+            continue
+        marker = marker_fragment(line, "RVMT_EXP_REP_BEGIN")
+        if marker:
+            fields = marker_fields(marker)
+            current = {
+                "class": fields.get("class", "unknown"),
+                "sample": fields.get("sample", "unknown"),
+                "mode": fields.get("mode", "unknown"),
+                "rep": int(fields.get("rep", "0")),
+                "status": "STARTED",
+            }
+            trace_lines = []
+            capturing_trace = False
+            continue
+        marker = marker_fragment(line, "RVMT_EXP_REP_RESULT")
+        if current is not None and marker:
+            fields = marker_fields(marker)
+            current.update(
+                {
+                    "status": "PASS" if fields.get("exit") == "0" else "FAIL",
+                    "exit_code": int(fields.get("exit", "127")),
+                    "runtime_ns": int(fields.get("runtime_ns", "0")),
+                    "trace_count": int(fields.get("trace_count", "0")),
+                    "drop": int(fields.get("drop", "0")),
+                }
+            )
+            continue
+        if current is not None and marker_fragment(line, "RVMT_TRACE_DUMP_BEGIN"):
+            capturing_trace = True
+            trace_lines.append(line)
+            continue
+        if current is not None and marker_fragment(line, "RVMT_TRACE_DUMP_END"):
+            trace_lines.append(line)
+            capturing_trace = False
+            continue
+        if current is not None and capturing_trace:
+            trace_lines.append(line)
+            continue
+        if current is not None and marker_fragment(line, "RVMT_EXP_REP_END"):
+            write_board_rep(run_id, current, trace_lines)
+            current = None
+            trace_lines = []
+            capturing_trace = False
+    if current is not None:
+        current["status"] = "FAIL"
+        current["error"] = "missing RVMT_EXP_REP_END"
+        write_board_rep(run_id, current, trace_lines)
+
+
+def parse_strace_names(path: Path) -> list[dict[str, Any]]:
+    if not path.exists():
+        return []
+    rows: list[dict[str, Any]] = []
+    syscall_re = re.compile(r"(?:^\s*\d+\s+)?([A-Za-z_][A-Za-z0-9_]*)\(")
+    ret_re = re.compile(r"\)\s+=\s+(-?[0-9]+)")
+    for line in path.read_text(encoding="utf-8", errors="replace").splitlines():
+        match = syscall_re.search(line)
+        if not match:
+            continue
+        name = match.group(1)
+        if name in {"strace", "qemu"}:
+            continue
+        ret_match = ret_re.search(line)
+        rows.append({"name": name, "return_sign": "neg" if ret_match and ret_match.group(1).startswith("-") else "nonneg", "text": line})
+    return rows
+
+
+def semantic_syscalls(path: Path) -> list[dict[str, Any]]:
+    if not path.exists():
+        return []
+    semantic = load_json(path)
+    rows = semantic.get("syscall_sequence", [])
+    return [row for row in rows if isinstance(row, dict)]
+
+
+def lcs_len(left: list[str], right: list[str]) -> int:
+    previous = [0] * (len(right) + 1)
+    for item in left:
+        current = [0]
+        for j, other in enumerate(right, start=1):
+            current.append(previous[j - 1] + 1 if item == other else max(previous[j], current[-1]))
+        previous = current
+    return previous[-1]
+
+
+def return_sign(value: Any) -> str:
+    if value is None:
+        return "unknown"
+    try:
+        number = int(str(value), 0)
+    except ValueError:
+        return "unknown"
+    if number < 0 or ((1 << 64) - 4095 <= number <= (1 << 64) - 1) or ((1 << 32) - 4095 <= number <= (1 << 32) - 1):
+        return "neg"
+    return "nonneg"
+
+
+def align_trace_to_groundtruth(gt_path: Path, semantic_path: Path, out_dir: Path) -> dict[str, Any]:
+    gt = parse_strace_names(gt_path)
+    sem = semantic_syscalls(semantic_path)
+    gt_names = [row["name"] for row in gt]
+    sem_names = [str(row.get("name")) for row in sem]
+    gt_set = set(gt_names)
+    sem_set = set(sem_names)
+    tp = len(gt_set & sem_set)
+    precision = tp / len(sem_set) if sem_set else 0.0
+    recall = tp / len(gt_set) if gt_set else 0.0
+    ordered = lcs_len(gt_names, sem_names)
+    paired = min(len(gt), len(sem))
+    sign_matches = 0
+    arg_values = 0
+    arg_matches = 0
+    for index in range(paired):
+        if return_sign(sem[index].get("return_value")) == gt[index].get("return_sign"):
+            sign_matches += 1
+        gt_text = str(gt[index].get("text", "")).lower()
+        args = sem[index].get("args")
+        if not isinstance(args, dict):
+            continue
+        for value in args.values():
+            if value in (None, ""):
+                continue
+            arg_values += 1
+            tokens = {str(value).lower()}
+            try:
+                number = int(str(value), 0)
+            except ValueError:
+                number = None
+            if number is not None:
+                tokens.add(str(number))
+                tokens.add(hex(number))
+            if any(token in gt_text for token in tokens if token):
+                arg_matches += 1
+    args_present = sum(1 for row in sem if isinstance(row.get("args"), dict) and any(row["args"].values()))
+    result = {
+        "schema": "rvmt.35t.alignment.v1",
+        "groundtruth": repo_rel(gt_path),
+        "semantic": repo_rel(semantic_path),
+        "groundtruth_syscalls": len(gt),
+        "semantic_syscalls": len(sem),
+        "syscall_family_precision": precision,
+        "syscall_family_recall": recall,
+        "ordered_lcs": ordered,
+        "ordered_lcs_ratio": ordered / len(gt_names) if gt_names else 0.0,
+        "return_sign_match_ratio": sign_matches / paired if paired else 0.0,
+        "argument_availability_ratio": args_present / len(sem) if sem else 0.0,
+        "argument_accuracy_ratio": (arg_matches / arg_values) if arg_values else None,
+        "argument_accuracy_method": "best-effort scalar-token overlap with QEMU -strace text",
+    }
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / "alignment.json").write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return result
+
+
+def run_analysis_command(cmd: list[str], log_path: Path, *, dry_run: bool) -> int:
+    return run_command(cmd, dry_run=dry_run, log_path=log_path)
+
+
+def stage_analyze(args: argparse.Namespace, samples: list[Sample]) -> None:
+    for sample in samples:
+        sample_dir = sample_root(args.run_id, sample)
+        gt_strace = sample_dir / "groundtruth" / "qemu_strace.0.strace.log"
+        rep_dirs = sorted((sample_dir / "board" / TRACE_ON).glob("rep_*"))
+        if args.dry_run and not rep_dirs:
+            rep_dirs = [sample_dir / "board" / TRACE_ON / f"rep_{rep:02d}" for rep in range(args.reps)]
+        for rep_dir in rep_dirs:
+            trace = rep_dir / "trace.jsonl"
+            if not trace.exists() and not args.dry_run:
+                continue
+            semantic_dir = rep_dir / "behavior_recovery"
+            audit_dir = rep_dir / "behavior_audit"
+            lightweight_dir = rep_dir / "lightweight"
+            align_dir = rep_dir / "alignment"
+            failures = []
+            code = run_analysis_command(
+                [sys.executable, "tools/recover_behavior.py", "--trace", str(trace), "--out-dir", str(semantic_dir)],
+                rep_dir / "recover_behavior.log",
+                dry_run=args.dry_run,
+            )
+            if code != 0:
+                failures.append({"stage": "recover_behavior", "exit_code": code})
+            code = run_analysis_command(
+                [
+                    sys.executable,
+                    "tools/analyze_trace_lightweight.py",
+                    "--trace",
+                    str(trace),
+                    "--out-dir",
+                    str(lightweight_dir),
+                    "--profile",
+                    "board_minimal",
+                ],
+                rep_dir / "lightweight.log",
+                dry_run=args.dry_run,
+            )
+            if code != 0:
+                failures.append({"stage": "lightweight", "exit_code": code})
+            audit_cmd = [
+                sys.executable,
+                "tools/audit_behavior.py",
+                "--semantic",
+                str(semantic_dir / "semantic_events.json"),
+                "--graph",
+                str(semantic_dir / "behavior_graph.json"),
+                "--rules",
+                str(ROOT / RULES_PATH),
+                "--out-dir",
+                str(audit_dir),
+            ]
+            if sample.sample_class == "malware_like_synthetic":
+                audit_cmd.extend(["--manifest", str(ROOT / MALWARE_MANIFEST), "--sample-id", sample.sample_id])
+            code = run_analysis_command(audit_cmd, rep_dir / "audit_behavior.log", dry_run=args.dry_run)
+            if code != 0:
+                failures.append({"stage": "audit_behavior", "exit_code": code})
+            if args.dry_run:
+                print(f"+ align {gt_strace} {semantic_dir / 'semantic_events.json'} -> {align_dir / 'alignment.json'}")
+            else:
+                try:
+                    align_trace_to_groundtruth(gt_strace, semantic_dir / "semantic_events.json", align_dir)
+                except Exception as exc:  # noqa: BLE001 - keep batch execution moving and record the failed rep.
+                    failures.append({"stage": "alignment", "error": str(exc)})
+                status = {"status": "PASS" if not failures else "FAIL", "failures": failures}
+                (rep_dir / "analysis_status.json").write_text(json.dumps(status, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def load_jsonl(path: Path) -> list[dict[str, Any]]:
+    if not path.exists():
+        return []
+    return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+
+
+def median(values: list[float]) -> float | None:
+    return statistics.median(values) if values else None
+
+
+def summarize_numbers(values: list[float]) -> dict[str, float | None]:
+    return {
+        "median": median(values),
+        "min": min(values) if values else None,
+        "max": max(values) if values else None,
+        "spread": (max(values) - min(values)) if values else None,
+    }
+
+
+def trace_event_count(path: Path) -> int:
+    return len(load_jsonl(path))
+
+
+def collect_metrics(run_id: str, samples: list[Sample]) -> dict[str, Any]:
+    rows: list[dict[str, Any]] = []
+    confusion = {"tp": 0, "fp": 0, "tn": 0, "fn": 0}
+    rule_confusion = {"tp": 0, "fp": 0, "tn": 0, "fn": 0}
+    for sample in samples:
+        sample_dir = sample_root(run_id, sample)
+        gt_timings = load_jsonl(sample_dir / "groundtruth" / "timings.jsonl")
+        gt_by_baseline: dict[str, list[float]] = {}
+        for row in gt_timings:
+            gt_by_baseline.setdefault(str(row.get("baseline")), []).append(float(row.get("runtime_ns", 0)))
+
+        board_by_mode: dict[str, list[dict[str, Any]]] = {TRACE_OFF: [], TRACE_ON: []}
+        for mode in (TRACE_OFF, TRACE_ON):
+            for status_path in sorted((sample_dir / "board" / mode).glob("rep_*/status.json")):
+                board_by_mode[mode].append(load_json(status_path))
+
+        audit_matches = False
+        expected_matched = False
+        audit_paths = sorted((sample_dir / "board" / TRACE_ON).glob("rep_*/behavior_audit/behavior_audit.json"))
+        expected_rules = set(sample.expected_behavior) if sample.sample_class == "malware_like_synthetic" else set()
+        for audit_path in audit_paths:
+            audit = load_json(audit_path)
+            matches = audit.get("matches", [])
+            if isinstance(matches, list):
+                if any(isinstance(item, dict) and item.get("matched") for item in matches):
+                    audit_matches = True
+                for item in matches:
+                    if not isinstance(item, dict):
+                        continue
+                    expected_rule = str(item.get("rule")) in expected_rules
+                    matched_rule = bool(item.get("matched"))
+                    if expected_rule and matched_rule:
+                        rule_confusion["tp"] += 1
+                    elif expected_rule and not matched_rule:
+                        rule_confusion["fn"] += 1
+                    elif not expected_rule and matched_rule:
+                        rule_confusion["fp"] += 1
+                    else:
+                        rule_confusion["tn"] += 1
+            if audit.get("all_expected_matched"):
+                expected_matched = True
+
+        if audit_paths:
+            if sample.sample_class == "malware_like_synthetic":
+                if expected_matched:
+                    confusion["tp"] += 1
+                else:
+                    confusion["fn"] += 1
+            else:
+                if audit_matches:
+                    confusion["fp"] += 1
+                else:
+                    confusion["tn"] += 1
+
+        trace_on_runtime = [float(row.get("runtime_ns", 0)) for row in board_by_mode[TRACE_ON] if row.get("status") == "PASS"]
+        trace_off_runtime = [float(row.get("runtime_ns", 0)) for row in board_by_mode[TRACE_OFF] if row.get("status") == "PASS"]
+        trace_events: list[float] = []
+        trace_bytes: list[float] = []
+        compact_bytes: list[float] = []
+        events_per_sec: list[float] = []
+        jsonl_bytes_per_sec: list[float] = []
+        compact_bytes_per_sec: list[float] = []
+        drop_rates: list[float] = []
+        drops = [float(row.get("drop", 0)) for row in board_by_mode[TRACE_ON]]
+        for rep_dir in sorted((sample_dir / "board" / TRACE_ON).glob("rep_*")):
+            status = load_json(rep_dir / "status.json") if (rep_dir / "status.json").exists() else {}
+            runtime_s = float(status.get("runtime_ns", 0)) / 1_000_000_000.0
+            trace_path = rep_dir / "trace.jsonl"
+            events = float(trace_event_count(trace_path))
+            jsonl_bytes = float(trace_path.stat().st_size) if trace_path.exists() else 0.0
+            lightweight = rep_dir / "lightweight" / "lightweight_trace_analysis.json"
+            compact = 0.0
+            if lightweight.exists():
+                compact = float(load_json(lightweight).get("bytes", {}).get("compact_jsonl", 0))
+            drop_count = float(status.get("drop", 0))
+            trace_events.append(events)
+            trace_bytes.append(jsonl_bytes)
+            compact_bytes.append(compact)
+            if runtime_s > 0:
+                events_per_sec.append(events / runtime_s)
+                jsonl_bytes_per_sec.append(jsonl_bytes / runtime_s)
+                compact_bytes_per_sec.append(compact / runtime_s)
+            drop_rates.append(drop_count / (drop_count + events) if (drop_count + events) > 0 else 0.0)
+        alignments = [load_json(path) for path in sorted((sample_dir / "board" / TRACE_ON).glob("rep_*/alignment/alignment.json"))]
+        alignment_precision = [float(row.get("syscall_family_precision", 0)) for row in alignments]
+        alignment_recall = [float(row.get("syscall_family_recall", 0)) for row in alignments]
+        alignment_arg_accuracy = [float(row["argument_accuracy_ratio"]) for row in alignments if row.get("argument_accuracy_ratio") is not None]
+        rows.append(
+            {
+                "sample_class": sample.sample_class,
+                "sample_id": sample.sample_id,
+                "groundtruth": {baseline: summarize_numbers(values) for baseline, values in sorted(gt_by_baseline.items())},
+                "board_trace_on_runtime_ns": summarize_numbers(trace_on_runtime),
+                "board_trace_off_runtime_ns": summarize_numbers(trace_off_runtime),
+                "trace_events": summarize_numbers([float(value) for value in trace_events]),
+                "trace_jsonl_bytes": summarize_numbers([float(value) for value in trace_bytes]),
+                "trace_compact_bytes": summarize_numbers([float(value) for value in compact_bytes]),
+                "trace_events_per_sec": summarize_numbers(events_per_sec),
+                "trace_jsonl_bytes_per_sec": summarize_numbers(jsonl_bytes_per_sec),
+                "trace_compact_bytes_per_sec": summarize_numbers(compact_bytes_per_sec),
+                "drop_count": summarize_numbers(drops),
+                "drop_rate": summarize_numbers(drop_rates),
+                "alignment_precision": summarize_numbers(alignment_precision),
+                "alignment_recall": summarize_numbers(alignment_recall),
+                "alignment_argument_accuracy": summarize_numbers(alignment_arg_accuracy),
+                "expected_behavior_matched": expected_matched,
+                "any_behavior_rule_matched": audit_matches,
+                "status": "PASS" if len(trace_on_runtime) > 0 and len(trace_off_runtime) > 0 else "INCOMPLETE",
+            }
+        )
+    return {"schema": "rvmt.35t.metrics.v1", "samples": rows, "confusion": confusion, "rule_confusion": rule_confusion}
+
+
+def write_reports(run_id: str, samples: list[Sample]) -> None:
+    aggregate = aggregate_root(run_id)
+    aggregate.mkdir(parents=True, exist_ok=True)
+    metrics = collect_metrics(run_id, samples)
+    (aggregate / "metrics.json").write_text(json.dumps(metrics, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    with (aggregate / "metrics.csv").open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.writer(handle)
+        writer.writerow(
+            [
+                "class",
+                "sample",
+                "status",
+                "trace_on_median_ns",
+                "trace_off_median_ns",
+                "events_median",
+                "jsonl_bytes_median",
+                "compact_bytes_median",
+                "events_per_sec_median",
+                "jsonl_bytes_per_sec_median",
+                "drop_median",
+                "drop_rate_median",
+                "precision_median",
+                "recall_median",
+                "argument_accuracy_median",
+            ]
+        )
+        for row in metrics["samples"]:
+            writer.writerow(
+                [
+                    row["sample_class"],
+                    row["sample_id"],
+                    row["status"],
+                    row["board_trace_on_runtime_ns"]["median"],
+                    row["board_trace_off_runtime_ns"]["median"],
+                    row["trace_events"]["median"],
+                    row["trace_jsonl_bytes"]["median"],
+                    row["trace_compact_bytes"]["median"],
+                    row["trace_events_per_sec"]["median"],
+                    row["trace_jsonl_bytes_per_sec"]["median"],
+                    row["drop_count"]["median"],
+                    row["drop_rate"]["median"],
+                    row["alignment_precision"]["median"],
+                    row["alignment_recall"]["median"],
+                    row["alignment_argument_accuracy"]["median"],
+                ]
+            )
+    confusion = metrics["confusion"]
+    rule_confusion = metrics["rule_confusion"]
+    (aggregate / "accuracy_report.md").write_text(
+        "\n".join(
+            [
+                "# 35T Malware-like Behavior Audit Accuracy",
+                "",
+                "This report measures synthetic malware-like behavior audit accuracy. It is not a real malware detection claim.",
+                "",
+                "## Sample-level confusion matrix",
+                "",
+                f"- TP: {confusion['tp']}",
+                f"- FP: {confusion['fp']}",
+                f"- TN: {confusion['tn']}",
+                f"- FN: {confusion['fn']}",
+                "",
+                "## Rule-level confusion matrix",
+                "",
+                f"- TP: {rule_confusion['tp']}",
+                f"- FP: {rule_confusion['fp']}",
+                f"- TN: {rule_confusion['tn']}",
+                f"- FN: {rule_confusion['fn']}",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+        newline="\n",
+    )
+    (aggregate / "overhead_report.md").write_text(render_overhead_report(metrics), encoding="utf-8", newline="\n")
+    (aggregate / "bandwidth_report.md").write_text(render_bandwidth_report(metrics), encoding="utf-8", newline="\n")
+    (aggregate / "artifact_index.md").write_text(render_artifact_index(run_id, samples), encoding="utf-8", newline="\n")
+
+
+def render_overhead_report(metrics: dict[str, Any]) -> str:
+    lines = [
+        "# 35T Runtime And Perturbation Report",
+        "",
+        "| Sample | Trace-off median ns | Trace-off min/max ns | Trace-off spread ns | Trace-on median ns | Trace-on min/max ns | Trace-on spread ns | Trace ratio | Host native ns | Host strace ratio | QEMU native ns | QEMU strace ratio |",
+        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+    ]
+    for row in metrics["samples"]:
+        off_stats = row["board_trace_off_runtime_ns"]
+        on_stats = row["board_trace_on_runtime_ns"]
+        off = off_stats["median"]
+        on = on_stats["median"]
+        ratio = (on / off) if on is not None and off not in (None, 0) else None
+        groundtruth = row.get("groundtruth", {})
+        host_native = groundtruth.get("host_native", {}).get("median")
+        host_strace = groundtruth.get("host_strace", {}).get("median")
+        qemu_native = groundtruth.get("qemu_native", {}).get("median")
+        qemu_strace = groundtruth.get("qemu_strace", {}).get("median")
+        host_ratio = (host_strace / host_native) if host_strace is not None and host_native not in (None, 0) else None
+        qemu_ratio = (qemu_strace / qemu_native) if qemu_strace is not None and qemu_native not in (None, 0) else None
+        lines.append(
+            f"| `{row['sample_id']}` | {off} | {off_stats['min']} / {off_stats['max']} | {off_stats['spread']} | "
+            f"{on} | {on_stats['min']} / {on_stats['max']} | {on_stats['spread']} | {ratio if ratio is not None else 'n/a'} | "
+            f"{host_native} | {host_ratio if host_ratio is not None else 'n/a'} | "
+            f"{qemu_native} | {qemu_ratio if qemu_ratio is not None else 'n/a'} |"
+        )
+    lines.extend(["", "Trace-off and trace-on are both executed on the 35T trace-capable image; trace-off disables capture through the trace CSR.", ""])
+    return "\n".join(lines)
+
+
+def render_bandwidth_report(metrics: dict[str, Any]) -> str:
+    lines = [
+        "# 35T Trace Bandwidth And Drop Report",
+        "",
+        "| Sample | Events median | JSONL bytes median | Compact bytes median | Events/sec median | JSONL bytes/sec median | DROP median | Drop rate median |",
+        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+    ]
+    for row in metrics["samples"]:
+        lines.append(
+            f"| `{row['sample_id']}` | {row['trace_events']['median']} | {row['trace_jsonl_bytes']['median']} | "
+            f"{row['trace_compact_bytes']['median']} | {row['trace_events_per_sec']['median']} | "
+            f"{row['trace_jsonl_bytes_per_sec']['median']} | {row['drop_count']['median']} | {row['drop_rate']['median']} |"
+        )
+    lines.extend(["", "This report covers captured trace volume and DROP accounting, not high-bandwidth streaming capacity.", ""])
+    return "\n".join(lines)
+
+
+def render_artifact_index(run_id: str, samples: list[Sample]) -> str:
+    lines = ["# 35T Experiment Artifact Index", "", f"Run ID: `{run_id}`", ""]
+    for sample in samples:
+        root = repo_rel(sample_root(run_id, sample))
+        lines.append(f"- `{sample.sample_class}/{sample.sample_id}`: `{root}`")
+    lines.append("")
+    return "\n".join(lines)
+
+
+def stage_report(args: argparse.Namespace, samples: list[Sample]) -> None:
+    if args.dry_run:
+        print(f"+ write aggregate reports under {aggregate_root(args.run_id)}")
+        return
+    write_reports(args.run_id, samples)
+
+
+def self_test() -> int:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        strace = root / "qemu.strace"
+        semantic = root / "semantic.json"
+        out = root / "align"
+        strace.write_text("123 openat(AT_FDCWD, \"x\", O_RDONLY) = 3\n123 read(3, \"a\", 1) = 1\n123 close(3) = 0\n", encoding="utf-8")
+        semantic.write_text(
+            json.dumps(
+                {
+                    "syscall_sequence": [
+                        {"name": "openat", "return_value": "0x3", "args": {"a0": "0x0"}},
+                        {"name": "read", "return_value": "0x1", "args": {"a0": "0x3"}},
+                        {"name": "close", "return_value": "0x0", "args": {"a0": "0x3"}},
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        alignment = align_trace_to_groundtruth(strace, semantic, out)
+        if alignment["syscall_family_precision"] != 1.0 or alignment["ordered_lcs"] != 3:
+            print("[FAIL] alignment self-test failed", file=sys.stderr)
+            return 1
+        repaired_words = trace_payload_words("00000001 c0000ffff 000000020")
+        if repaired_words != ["00000001", "0000ffff", "00000002"]:
+            print("[FAIL] trace payload word repair self-test failed", file=sys.stderr)
+            return 1
+        split_index = trace_record_index_and_payload("1 46 00000004")
+        if split_index != (146, "00000004"):
+            print("[FAIL] trace record index repair self-test failed", file=sys.stderr)
+            return 1
+
+        raw = root / "raw_uart.log"
+        raw.write_text(
+            "\n".join(
+                [
+                    "RVMT_EXP_REP_BEGIN class=benign sample=hello mode=trace-on rep=0",
+                    "command echo RVMT_EXP_REP_RESULT class=benign sample=hello mode=trace-on rep=0 exit=0 runtime_ns=10 trace_count=2 drop=0",
+                    "RVMT_TRACE_DUMP_BEGIN",
+                    "RVMT_TRACE_RECORD 0 00000004 00000001 00001000 00000073 00000000 00000000 00000000 00000000 00000001 00000000 00000000 00000000 00000000 00000000 00000000 00000040",
+                    "[000001.000] RVMT_TRACE_RE[000001.100] CORD 1 00000004 00000001 00001000 00000073 00000000 00000000 00000000 00000000 00000001 00000000 00000000 00000000 00000000 00000000 00000000 00000[000001.200] 040",
+                    "RVMT_TRACE_DUMP_END",
+                    "prompt-noise RVMT_EXP_REP_END class=benign sample=hello mode=trace-on rep=0",
+                ]
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        old_root = result_root("self-test")
+        if old_root.exists():
+            shutil.rmtree(old_root)
+        parse_board_log(raw, "self-test")
+        trace = result_root("self-test") / "samples" / "benign" / "hello" / "board" / TRACE_ON / "rep_00" / "trace.jsonl"
+        if not trace.exists() or trace_event_count(trace) != 2:
+            print("[FAIL] board log parser self-test failed", file=sys.stderr)
+            return 1
+        sample = Sample("benign", "hello", "board/artix7_35t/linux/rvmt_benign_workload.c", ["./rvmt_benign_workload", "hello"], [], "01_hello")
+        sample_dir = sample_root("self-test", sample)
+        gt_dir = sample_dir / "groundtruth"
+        gt_dir.mkdir(parents=True, exist_ok=True)
+        (gt_dir / "timings.jsonl").write_text(
+            "".join(json.dumps({"baseline": baseline, "rep": 0, "exit_code": 0, "runtime_ns": 10}) + "\n" for baseline in REQUIRED_BASELINES),
+            encoding="utf-8",
+        )
+        (gt_dir / "status.json").write_text('{"status":"PASS"}\n', encoding="utf-8")
+        (gt_dir / "optional_baselines.json").write_text(
+            json.dumps({baseline: {"status": "BLOCKED", "reason": "self-test"} for baseline in OPTIONAL_BASELINES}) + "\n",
+            encoding="utf-8",
+        )
+        off_dir = sample_dir / "board" / TRACE_OFF / "rep_00"
+        off_dir.mkdir(parents=True, exist_ok=True)
+        (off_dir / "status.json").write_text('{"status":"PASS","runtime_ns":10,"drop":0}\n', encoding="utf-8")
+        rep_dir = trace.parent
+        for rel, payload in (
+            ("behavior_recovery/semantic_events.json", {"syscall_sequence": []}),
+            ("behavior_recovery/behavior_graph.json", {"nodes": [], "edges": []}),
+            ("behavior_audit/behavior_audit.json", {"matches": [], "all_expected_matched": False}),
+            ("lightweight/lightweight_trace_analysis.json", {"bytes": {"compact_jsonl": 1}}),
+            ("alignment/alignment.json", {"syscall_family_precision": 1.0, "syscall_family_recall": 1.0}),
+        ):
+            path = rep_dir / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
+        for rel in ("behavior_recovery/recovery_report.md", "behavior_audit/behavior_audit_report.md", "lightweight/lightweight_trace_report.md"):
+            path = rep_dir / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text("# self-test\n", encoding="utf-8")
+        write_reports("self-test", [sample])
+        if not (aggregate_root("self-test") / "metrics.csv").exists():
+            print("[FAIL] aggregate renderer self-test failed", file=sys.stderr)
+            return 1
+        shutil.rmtree(old_root)
+    print("[PASS] 35T experiment self-test")
+    return 0
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description="Run and analyze the Artix-7 35T RV-MalTrace experiment matrix.")
+    parser.add_argument("--stage", choices=("groundtruth", "rootfs", "board", "analyze", "report", "all", "self-test"), default="all")
+    parser.add_argument("--run-id", default="manual")
+    parser.add_argument("--port", default="COM5")
+    parser.add_argument("--baud", type=int, default=921600)
+    parser.add_argument("--reps", type=int, default=5)
+    parser.add_argument("--duration", type=float, default=3600.0)
+    parser.add_argument("--trace-records", type=int, default=256)
+    parser.add_argument("--sample", action="append", default=[])
+    parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--keep-going", action="store_true", default=True)
+    args = parser.parse_args(argv)
+
+    if args.stage == "self-test":
+        return self_test()
+    samples = selected_samples(args.sample)
+    config = {
+        "run_id": args.run_id,
+        "port": args.port,
+        "baud": args.baud,
+        "reps": args.reps,
+        "duration": args.duration,
+        "trace_records": args.trace_records,
+        "samples": [sample.sample_id for sample in samples],
+        "network": "disabled",
+        "real_malware": "forbidden",
+        "artifact_root": repo_rel(result_root(args.run_id)),
+    }
+    if args.dry_run:
+        print(json.dumps({"dry_run": True, **config}, indent=2, sort_keys=True))
+    else:
+        result_root(args.run_id).mkdir(parents=True, exist_ok=True)
+        (result_root(args.run_id) / "run_config.json").write_text(json.dumps(config, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    stages = ["groundtruth", "rootfs", "board", "analyze", "report"] if args.stage == "all" else [args.stage]
+    for stage in stages:
+        if stage == "groundtruth":
+            stage_groundtruth(args, samples)
+        elif stage == "rootfs":
+            stage_rootfs(args)
+        elif stage == "board":
+            stage_board(args, samples)
+        elif stage == "analyze":
+            stage_analyze(args, samples)
+        elif stage == "report":
+            stage_report(args, samples)
+        else:
+            raise ValueError(stage)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

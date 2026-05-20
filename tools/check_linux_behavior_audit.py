@@ -72,8 +72,8 @@ EXPECTED_RULES: dict[str, dict[str, Any]] = {
     },
     "process_creation_chain": {
         "family": "process_chain",
-        "expected_syscalls": ["clone", "execve", "wait4"],
-        "ordered_syscalls": ["clone", "execve", "wait4"],
+        "expected_syscalls": ["clone", "execve", "waitid"],
+        "ordered_syscalls": ["clone", "execve", "waitid"],
     },
     "dynamic_executable_memory": {
         "family": "memory_permission",
@@ -370,7 +370,7 @@ experiments/linux_behavior/malware_like/manifest.json
 | 3 | self_copy_simulation | dropper_like | copy shape | TODO(EXPERIMENT) |
 | 4 | abnormal_syscall_sequence | abnormal_sequence | failed syscall | TODO(EXPERIMENT) |
 | 5 | illegal_instruction_trap | trap_behavior | illegal trap | TODO(EXPERIMENT) |
-| 6 | process_creation_chain | process_chain | clone/execve/wait4 | TODO(EXPERIMENT) |
+| 6 | process_creation_chain | process_chain | clone/execve/waitid | TODO(EXPERIMENT) |
 | 7 | dynamic_executable_memory | memory_permission | mmap/mprotect | TODO(EXPERIMENT) |
 | 8 | anti_analysis_indicator | anti_analysis | ptrace/timing | TODO(EXPERIMENT) |
 
