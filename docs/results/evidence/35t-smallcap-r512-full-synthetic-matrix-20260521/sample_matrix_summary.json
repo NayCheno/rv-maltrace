@@ -1,0 +1,327 @@
+{
+  "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+  "cva6_in_scope": false,
+  "full_matrix_ready": true,
+  "gate": "13/13 PASS",
+  "limitations": [
+    "This summary is a committed lightweight index over aggregate artifacts, not a trace dump.",
+    "Benign overlap is reported as overlap, not malware detection success."
+  ],
+  "real_malware": false,
+  "run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "sample_matrix": [
+    {
+      "benign_expected_rule_overlap": [],
+      "class": "benign",
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.0,
+      "event_counts": {
+        "MARKER": 10,
+        "SYSCALL_ENTRY": 85,
+        "SYSCALL_RET": 85
+      },
+      "expected_rules": [],
+      "gate_status": "PASS",
+      "marker_scope_status": "PASS",
+      "matched_expected_rules": [],
+      "runtime_process_attribution_status": "PASS",
+      "sample": "hello",
+      "trace_off_pass": 5,
+      "trace_on_pass": 5,
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "benign_expected_rule_overlap": [
+        "many_file_scan"
+      ],
+      "class": "benign",
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.0,
+      "event_counts": {
+        "MARKER": 10,
+        "SYSCALL_ENTRY": 125,
+        "SYSCALL_RET": 125
+      },
+      "expected_rules": [],
+      "gate_status": "PASS",
+      "marker_scope_status": "PASS",
+      "matched_expected_rules": [],
+      "runtime_process_attribution_status": "PASS",
+      "sample": "ls",
+      "trace_off_pass": 5,
+      "trace_on_pass": 5,
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "benign_expected_rule_overlap": [],
+      "class": "benign",
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.0,
+      "event_counts": {
+        "MARKER": 10,
+        "SYSCALL_ENTRY": 105,
+        "SYSCALL_RET": 105
+      },
+      "expected_rules": [],
+      "gate_status": "PASS",
+      "marker_scope_status": "PASS",
+      "matched_expected_rules": [],
+      "runtime_process_attribution_status": "PASS",
+      "sample": "cat",
+      "trace_off_pass": 5,
+      "trace_on_pass": 5,
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "benign_expected_rule_overlap": [],
+      "class": "benign",
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.0,
+      "event_counts": {
+        "MARKER": 10,
+        "SYSCALL_ENTRY": 115,
+        "SYSCALL_RET": 115
+      },
+      "expected_rules": [],
+      "gate_status": "PASS",
+      "marker_scope_status": "PASS",
+      "matched_expected_rules": [],
+      "runtime_process_attribution_status": "PASS",
+      "sample": "cp",
+      "trace_off_pass": 5,
+      "trace_on_pass": 5,
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "benign_expected_rule_overlap": [],
+      "class": "benign",
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.0,
+      "event_counts": {
+        "MARKER": 10,
+        "SYSCALL_ENTRY": 115,
+        "SYSCALL_RET": 115
+      },
+      "expected_rules": [],
+      "gate_status": "PASS",
+      "marker_scope_status": "PASS",
+      "matched_expected_rules": [],
+      "runtime_process_attribution_status": "PASS",
+      "sample": "sha256sum",
+      "trace_off_pass": 5,
+      "trace_on_pass": 5,
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "benign_expected_rule_overlap": [],
+      "class": "malware_like_synthetic",
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.0,
+      "event_counts": {
+        "MARKER": 10,
+        "SYSCALL_ENTRY": 100,
+        "SYSCALL_RET": 100
+      },
+      "expected_rules": [
+        "many_file_scan"
+      ],
+      "gate_status": "PASS",
+      "marker_scope_status": "PASS",
+      "matched_expected_rules": [
+        "many_file_scan"
+      ],
+      "runtime_process_attribution_status": "PASS",
+      "sample": "file_scan",
+      "trace_off_pass": 5,
+      "trace_on_pass": 5,
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "benign_expected_rule_overlap": [],
+      "class": "malware_like_synthetic",
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.0,
+      "event_counts": {
+        "MARKER": 10,
+        "SYSCALL_ENTRY": 140,
+        "SYSCALL_RET": 140
+      },
+      "expected_rules": [
+        "batch_file_read_write"
+      ],
+      "gate_status": "PASS",
+      "marker_scope_status": "PASS",
+      "matched_expected_rules": [
+        "batch_file_read_write"
+      ],
+      "runtime_process_attribution_status": "PASS",
+      "sample": "batch_open_read_write",
+      "trace_off_pass": 5,
+      "trace_on_pass": 5,
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "benign_expected_rule_overlap": [],
+      "class": "malware_like_synthetic",
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.0,
+      "event_counts": {
+        "MARKER": 10,
+        "SYSCALL_ENTRY": 110,
+        "SYSCALL_RET": 110
+      },
+      "expected_rules": [
+        "self_copy_simulation"
+      ],
+      "gate_status": "PASS",
+      "marker_scope_status": "PASS",
+      "matched_expected_rules": [
+        "self_copy_simulation"
+      ],
+      "runtime_process_attribution_status": "PASS",
+      "sample": "self_copy_sim",
+      "trace_off_pass": 5,
+      "trace_on_pass": 5,
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "benign_expected_rule_overlap": [],
+      "class": "malware_like_synthetic",
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.0,
+      "event_counts": {
+        "MARKER": 10,
+        "SYSCALL_ENTRY": 110,
+        "SYSCALL_RET": 110
+      },
+      "expected_rules": [
+        "abnormal_syscall_sequence"
+      ],
+      "gate_status": "PASS",
+      "marker_scope_status": "PASS",
+      "matched_expected_rules": [
+        "abnormal_syscall_sequence"
+      ],
+      "runtime_process_attribution_status": "PASS",
+      "sample": "abnormal_syscall_sequence",
+      "trace_off_pass": 5,
+      "trace_on_pass": 5,
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "benign_expected_rule_overlap": [],
+      "class": "malware_like_synthetic",
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.03067484662576687,
+      "event_counts": {
+        "MARKER": 10,
+        "SYSCALL_ENTRY": 90,
+        "SYSCALL_RET": 90,
+        "TRAP": 596
+      },
+      "expected_rules": [
+        "illegal_instruction_trap"
+      ],
+      "gate_status": "PASS",
+      "marker_scope_status": "PASS",
+      "matched_expected_rules": [
+        "illegal_instruction_trap"
+      ],
+      "runtime_process_attribution_status": "PASS",
+      "sample": "illegal_trap",
+      "trace_off_pass": 5,
+      "trace_on_pass": 5,
+      "trace_profile": "p0c_syscall_trap_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "benign_expected_rule_overlap": [],
+      "class": "malware_like_synthetic",
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.0,
+      "event_counts": {
+        "MARKER": 10,
+        "SYSCALL_ENTRY": 380,
+        "SYSCALL_RET": 380
+      },
+      "expected_rules": [
+        "process_creation_chain"
+      ],
+      "gate_status": "PASS",
+      "marker_scope_status": "PASS",
+      "matched_expected_rules": [
+        "process_creation_chain"
+      ],
+      "runtime_process_attribution_status": "PASS",
+      "sample": "process_chain",
+      "trace_off_pass": 5,
+      "trace_on_pass": 5,
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "benign_expected_rule_overlap": [],
+      "class": "malware_like_synthetic",
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.0,
+      "event_counts": {
+        "MARKER": 10,
+        "SYSCALL_ENTRY": 100,
+        "SYSCALL_RET": 100
+      },
+      "expected_rules": [
+        "dynamic_executable_memory"
+      ],
+      "gate_status": "PASS",
+      "marker_scope_status": "PASS",
+      "matched_expected_rules": [
+        "dynamic_executable_memory"
+      ],
+      "runtime_process_attribution_status": "PASS",
+      "sample": "dynamic_executable_memory",
+      "trace_off_pass": 5,
+      "trace_on_pass": 5,
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "benign_expected_rule_overlap": [],
+      "class": "malware_like_synthetic",
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.0,
+      "event_counts": {
+        "MARKER": 10,
+        "SYSCALL_ENTRY": 110,
+        "SYSCALL_RET": 110
+      },
+      "expected_rules": [
+        "anti_analysis_indicator"
+      ],
+      "gate_status": "PASS",
+      "marker_scope_status": "PASS",
+      "matched_expected_rules": [
+        "anti_analysis_indicator"
+      ],
+      "runtime_process_attribution_status": "PASS",
+      "sample": "anti_debug_like",
+      "trace_off_pass": 5,
+      "trace_on_pass": 5,
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    }
+  ],
+  "samples": 13,
+  "schema": "rvmt.35t.sample_matrix_summary.v1",
+  "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "trace_profile_policy": "35t_small_capacity",
+  "trace_records": 512
+}

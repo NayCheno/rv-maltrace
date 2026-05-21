@@ -1,0 +1,195 @@
+{
+  "case_studies": [
+    {
+      "class": "malware_like_synthetic",
+      "sample": "illegal_trap",
+      "source_artifacts": [
+        {
+          "bytes": 356574,
+          "committed": false,
+          "kind": "code_map",
+          "reason_not_committed": "indexed only; avoids committing per-rep trace/code-map artifacts in the lightweight evidence snapshot",
+          "source_exists": true,
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/illegal_trap/build/illegal_trap.code_map.json"
+        },
+        {
+          "bytes": 2187,
+          "committed": false,
+          "kind": "trace_code_map_summary",
+          "reason_not_committed": "indexed only; avoids committing per-rep trace/code-map artifacts in the lightweight evidence snapshot",
+          "source_exists": true,
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/illegal_trap/board/trace-on/rep_00/trace_code_map/trace_code_map_summary.json"
+        },
+        {
+          "bytes": 939,
+          "committed": false,
+          "kind": "behavior_recovery_summary",
+          "reason_not_committed": "indexed only; avoids committing per-rep trace/code-map artifacts in the lightweight evidence snapshot",
+          "source_exists": true,
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/illegal_trap/board/trace-on/rep_00/behavior_recovery/recovery_report.md"
+        },
+        {
+          "bytes": 11300,
+          "committed": false,
+          "kind": "behavior_audit",
+          "reason_not_committed": "indexed only; avoids committing per-rep trace/code-map artifacts in the lightweight evidence snapshot",
+          "source_exists": true,
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/illegal_trap/board/trace-on/rep_00/behavior_audit/behavior_audit.json"
+        },
+        {
+          "bytes": 11556,
+          "committed": false,
+          "kind": "runtime_process_map",
+          "reason_not_committed": "indexed only; avoids committing per-rep trace/code-map artifacts in the lightweight evidence snapshot",
+          "source_exists": true,
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/illegal_trap/board/trace-on/rep_00/runtime_process_map.json"
+        }
+      ]
+    },
+    {
+      "class": "malware_like_synthetic",
+      "sample": "process_chain",
+      "source_artifacts": [
+        {
+          "bytes": 355109,
+          "committed": false,
+          "kind": "code_map",
+          "reason_not_committed": "indexed only; avoids committing per-rep trace/code-map artifacts in the lightweight evidence snapshot",
+          "source_exists": true,
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/process_chain/build/process_chain.code_map.json"
+        },
+        {
+          "bytes": 2082,
+          "committed": false,
+          "kind": "trace_code_map_summary",
+          "reason_not_committed": "indexed only; avoids committing per-rep trace/code-map artifacts in the lightweight evidence snapshot",
+          "source_exists": true,
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/process_chain/board/trace-on/rep_00/trace_code_map/trace_code_map_summary.json"
+        },
+        {
+          "bytes": 942,
+          "committed": false,
+          "kind": "behavior_recovery_summary",
+          "reason_not_committed": "indexed only; avoids committing per-rep trace/code-map artifacts in the lightweight evidence snapshot",
+          "source_exists": true,
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/process_chain/board/trace-on/rep_00/behavior_recovery/recovery_report.md"
+        },
+        {
+          "bytes": 15408,
+          "committed": false,
+          "kind": "behavior_audit",
+          "reason_not_committed": "indexed only; avoids committing per-rep trace/code-map artifacts in the lightweight evidence snapshot",
+          "source_exists": true,
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/process_chain/board/trace-on/rep_00/behavior_audit/behavior_audit.json"
+        },
+        {
+          "bytes": 11569,
+          "committed": false,
+          "kind": "runtime_process_map",
+          "reason_not_committed": "indexed only; avoids committing per-rep trace/code-map artifacts in the lightweight evidence snapshot",
+          "source_exists": true,
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/process_chain/board/trace-on/rep_00/runtime_process_map.json"
+        }
+      ]
+    },
+    {
+      "class": "malware_like_synthetic",
+      "sample": "dynamic_executable_memory",
+      "source_artifacts": [
+        {
+          "bytes": 354608,
+          "committed": false,
+          "kind": "code_map",
+          "reason_not_committed": "indexed only; avoids committing per-rep trace/code-map artifacts in the lightweight evidence snapshot",
+          "source_exists": true,
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/dynamic_executable_memory/build/dynamic_executable_memory.code_map.json"
+        },
+        {
+          "bytes": 2159,
+          "committed": false,
+          "kind": "trace_code_map_summary",
+          "reason_not_committed": "indexed only; avoids committing per-rep trace/code-map artifacts in the lightweight evidence snapshot",
+          "source_exists": true,
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/dynamic_executable_memory/board/trace-on/rep_00/trace_code_map/trace_code_map_summary.json"
+        },
+        {
+          "bytes": 986,
+          "committed": false,
+          "kind": "behavior_recovery_summary",
+          "reason_not_committed": "indexed only; avoids committing per-rep trace/code-map artifacts in the lightweight evidence snapshot",
+          "source_exists": true,
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/dynamic_executable_memory/board/trace-on/rep_00/behavior_recovery/recovery_report.md"
+        },
+        {
+          "bytes": 11170,
+          "committed": false,
+          "kind": "behavior_audit",
+          "reason_not_committed": "indexed only; avoids committing per-rep trace/code-map artifacts in the lightweight evidence snapshot",
+          "source_exists": true,
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/dynamic_executable_memory/board/trace-on/rep_00/behavior_audit/behavior_audit.json"
+        },
+        {
+          "bytes": 11695,
+          "committed": false,
+          "kind": "runtime_process_map",
+          "reason_not_committed": "indexed only; avoids committing per-rep trace/code-map artifacts in the lightweight evidence snapshot",
+          "source_exists": true,
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/dynamic_executable_memory/board/trace-on/rep_00/runtime_process_map.json"
+        }
+      ]
+    },
+    {
+      "class": "malware_like_synthetic",
+      "sample": "file_scan",
+      "source_artifacts": [
+        {
+          "bytes": 355243,
+          "committed": false,
+          "kind": "code_map",
+          "reason_not_committed": "indexed only; avoids committing per-rep trace/code-map artifacts in the lightweight evidence snapshot",
+          "source_exists": true,
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/file_scan/build/file_scan.code_map.json"
+        },
+        {
+          "bytes": 2047,
+          "committed": false,
+          "kind": "trace_code_map_summary",
+          "reason_not_committed": "indexed only; avoids committing per-rep trace/code-map artifacts in the lightweight evidence snapshot",
+          "source_exists": true,
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/file_scan/board/trace-on/rep_00/trace_code_map/trace_code_map_summary.json"
+        },
+        {
+          "bytes": 922,
+          "committed": false,
+          "kind": "behavior_recovery_summary",
+          "reason_not_committed": "indexed only; avoids committing per-rep trace/code-map artifacts in the lightweight evidence snapshot",
+          "source_exists": true,
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/file_scan/board/trace-on/rep_00/behavior_recovery/recovery_report.md"
+        },
+        {
+          "bytes": 11637,
+          "committed": false,
+          "kind": "behavior_audit",
+          "reason_not_committed": "indexed only; avoids committing per-rep trace/code-map artifacts in the lightweight evidence snapshot",
+          "source_exists": true,
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/file_scan/board/trace-on/rep_00/behavior_audit/behavior_audit.json"
+        },
+        {
+          "bytes": 11517,
+          "committed": false,
+          "kind": "runtime_process_map",
+          "reason_not_committed": "indexed only; avoids committing per-rep trace/code-map artifacts in the lightweight evidence snapshot",
+          "source_exists": true,
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/file_scan/board/trace-on/rep_00/runtime_process_map.json"
+        }
+      ]
+    }
+  ],
+  "full_matrix_ready": true,
+  "gate": "13/13 PASS",
+  "run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "samples": 13,
+  "schema": "rvmt.35t.case_study_artifact_index.v1",
+  "trace_profile_policy": "35t_small_capacity",
+  "trace_records": 512
+}

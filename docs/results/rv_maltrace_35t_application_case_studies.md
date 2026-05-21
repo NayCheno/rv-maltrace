@@ -24,6 +24,7 @@ Non-claims:
 - no CVA6 board claim
 - no real malware detection claim
 - no mature detector claim
+- no classifier accuracy claim
 - no complete semantic reconstruction claim
 
 ## Case Study: illegal_trap
@@ -299,7 +300,16 @@ Strong evidence is the combination of:
 
 Strict parent-child closure is not fully proven in the current evidence bundle. `process_chain_capacity_debug.md` records `Boundary closed: False` and reports missing or non-overlapping strict clone-parent return and wait-pid evidence for the reps.
 
-Needed next: implement explicit process tree explanation that links clone return values, child PID, exec boundary, and wait PID with stronger ownership semantics.
+The committed `process_tree_summary` now makes that boundary explicit as `PARTIAL`:
+it observes target-attributed `clone`, `waitid`, and `execve` shapes, but does
+not close parent-child edges because positive clone-return child PID evidence and
+dereferenced exec paths are unavailable in the current trace evidence.
+
+Committed summary:
+
+```text
+docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/process_tree_summary.md
+```
 
 The audit also records weak `anti_analysis_indicator` due to a `ptrace` syscall without target code-site attribution. This is not part of the strong process-chain evidence.
 
@@ -531,8 +541,17 @@ Trace-code join:
 - PC owner counts: `kernel: 17`, `target_sample: 16`, `unknown: 9`.
 - Callsite kind counts: `syscall_site: 16`, `unknown: 26`.
 
-Path and fd flow reconstruction: Not available in current evidence bundle.
-Needed next: add fd/path flow recovery linking `openat`, `getdents64`, and `close` across syscall arguments and return values.
+Path and fd flow reconstruction: Partial in the committed evidence snapshot.
+The initial `fd_path_flow_summary` observes target-attributed fd/path syscall
+shape but does not fully link `openat(path) -> fd -> getdents64/close`, because
+the current evidence does not include dereferenced path strings and the
+representative `openat` lacks paired successful fd-return evidence.
+
+Committed summary:
+
+```text
+docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/fd_path_flow_summary.md
+```
 
 ### Recovered Behavior
 

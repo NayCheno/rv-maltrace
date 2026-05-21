@@ -35,7 +35,17 @@ gate: 13/13 PASS
 full_matrix_ready: True
 ```
 
-Primary evidence paths:
+Primary committed evidence snapshot:
+
+```text
+docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/README.md
+docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/evidence_manifest.json
+docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/sample_matrix_summary.md
+docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/case_study_artifact_index.json
+docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/command_log.md
+```
+
+Source result paths retained for local provenance:
 
 ```text
 results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/run_config.json
@@ -182,6 +192,7 @@ Covered cases:
 - no CVA6 board claim
 - no real malware detection claim
 - no mature detector claim
+- no classifier accuracy claim
 - no complete semantic reconstruction claim
 - no real malware accuracy, classifier accuracy, family coverage, IOC coverage, or TTP coverage claim
 - no claim that static PC-in-ELF evidence alone proves complete process ownership
@@ -206,12 +217,14 @@ No command was hidden, skipped, or converted to PASS without execution.
 Priority backlog:
 
 1. `fd/path flow recovery`
-   - Goal: recover `openat`, `read`, `write`, `execve`, fd, and path relations.
-   - Value: improves `file_scan`, `batch_open_read_write`, and `self_copy_sim` explanations.
+   - Current status: initial committed summary is `PARTIAL` for `file_scan`.
+   - Remaining goal: recover dereferenced path strings and stronger paired `openat(path) -> fd -> read/write/getdents64/close` relations where trace evidence supports them.
+   - Value: improves `file_scan`, `batch_open_read_write`, and `self_copy_sim` explanations without raising the claim beyond synthetic behavior audit.
 
 2. `process tree explanation`
-   - Goal: explicitly output fork/clone/exec/wait parent-child relations.
-   - Value: improves `process_chain` presentation beyond current syscall-shape evidence.
+   - Current status: initial committed summary is `PARTIAL` for `process_chain`.
+   - Remaining goal: link positive clone-return child PID, exec boundary, and wait PID evidence when available.
+   - Value: improves `process_chain` presentation beyond current syscall-shape evidence without claiming complete process-tree reconstruction.
 
 3. `function/source-line attribution`
    - Goal: upgrade PC attribution from ELF section/symbol to function or source line.

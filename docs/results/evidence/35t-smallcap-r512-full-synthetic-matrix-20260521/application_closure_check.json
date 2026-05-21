@@ -1,0 +1,91 @@
+{
+  "case_study_coverage": {
+    "dynamic_executable_memory": {
+      "alternatives": null,
+      "ok": true
+    },
+    "file_scan or batch_open_read_write": {
+      "alternatives": [
+        "file_scan",
+        "batch_open_read_write"
+      ],
+      "ok": true
+    },
+    "illegal_trap": {
+      "alternatives": null,
+      "ok": true
+    },
+    "process_chain": {
+      "alternatives": null,
+      "ok": true
+    }
+  },
+  "checked_files": [
+    "docs/results/rv_maltrace_35t_application_closure.md",
+    "docs/results/rv_maltrace_35t_application_case_studies.md",
+    "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/evidence_manifest.json"
+  ],
+  "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+  "failures": [],
+  "non_claims": {
+    "no CVA6 board claim": true,
+    "no classifier accuracy claim": true,
+    "no complete semantic reconstruction claim": true,
+    "no mature detector claim": true,
+    "no real malware detection claim": true
+  },
+  "required_fields": {
+    "full_matrix_ready": {
+      "case_study_doc_ok": true,
+      "closure_doc_ok": true,
+      "expected": true,
+      "manifest_ok": true,
+      "manifest_value": true,
+      "ok": true
+    },
+    "gate": {
+      "case_study_doc_ok": true,
+      "closure_doc_ok": true,
+      "expected": "13/13 PASS",
+      "manifest_ok": true,
+      "manifest_value": "13/13 PASS",
+      "ok": true
+    },
+    "run_id": {
+      "case_study_doc_ok": true,
+      "closure_doc_ok": true,
+      "expected": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+      "manifest_ok": true,
+      "manifest_value": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+      "ok": true
+    },
+    "samples": {
+      "case_study_doc_ok": true,
+      "closure_doc_ok": true,
+      "expected": 13,
+      "manifest_ok": true,
+      "manifest_value": 13,
+      "ok": true
+    },
+    "trace_profile_policy": {
+      "case_study_doc_ok": true,
+      "closure_doc_ok": true,
+      "expected": "35t_small_capacity",
+      "manifest_ok": true,
+      "manifest_value": "35t_small_capacity",
+      "ok": true
+    },
+    "trace_records": {
+      "case_study_doc_ok": true,
+      "closure_doc_ok": true,
+      "expected": 512,
+      "manifest_ok": true,
+      "manifest_value": 512,
+      "ok": true
+    }
+  },
+  "run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "schema": "rvmt.35t.application_closure_check.v1",
+  "status": "PASS",
+  "warnings": []
+}

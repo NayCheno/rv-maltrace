@@ -1,0 +1,89 @@
+{
+  "edges": [],
+  "events": [
+    {
+      "confidence": "paired_target_ecall_return",
+      "limitation": "clone return did not provide a positive child PID in current semantic evidence",
+      "name": "clone",
+      "process_owner": "target_child",
+      "return_value": "0x0000000000000000",
+      "seq": 21
+    },
+    {
+      "confidence": "target_ecall_boundary",
+      "name": "waitid",
+      "process_owner": "target_child",
+      "seq": 23,
+      "wait_pid_arg": 463
+    },
+    {
+      "confidence": "target_ecall_boundary",
+      "limitation": "execve path string unavailable and no pending child PID from clone return",
+      "name": "execve",
+      "path_pointer": "0x0000000000065904",
+      "process_owner": "target_child",
+      "seq": 24
+    },
+    {
+      "confidence": "target_ecall_boundary",
+      "limitation": "clone return did not provide a positive child PID in current semantic evidence",
+      "name": "clone",
+      "process_owner": "target_child",
+      "seq": 73
+    },
+    {
+      "confidence": "target_ecall_boundary",
+      "name": "waitid",
+      "process_owner": "target_child",
+      "seq": 75,
+      "wait_pid_arg": 464
+    },
+    {
+      "confidence": "target_ecall_boundary",
+      "limitation": "execve path string unavailable and no pending child PID from clone return",
+      "name": "execve",
+      "path_pointer": "0x0000000000065904",
+      "process_owner": "target_child",
+      "seq": 77
+    }
+  ],
+  "limitations": [
+    "clone/wait shape exists, but strict parent-child edge closure is unavailable",
+    "execve path strings are unavailable; pointers are not dereferenced",
+    "one or more clone/fork events lack a positive child PID return"
+  ],
+  "non_claims": [
+    "no real malware detection claim",
+    "no classifier accuracy claim",
+    "no complete semantic reconstruction claim"
+  ],
+  "observed_counts": {
+    "clone_or_fork": 2,
+    "execve": 2,
+    "wait": 2
+  },
+  "processes": [
+    {
+      "confidence": "weak",
+      "exec": null,
+      "observed_events": [
+        "waitid"
+      ],
+      "pid": 463,
+      "ppid": "target_parent_unresolved"
+    },
+    {
+      "confidence": "weak",
+      "exec": null,
+      "observed_events": [
+        "waitid"
+      ],
+      "pid": 464,
+      "ppid": "target_parent_unresolved"
+    }
+  ],
+  "root_process": "target_process",
+  "sample": "process_chain",
+  "schema": "rvmt.process_tree.summary.v1",
+  "status": "PARTIAL"
+}

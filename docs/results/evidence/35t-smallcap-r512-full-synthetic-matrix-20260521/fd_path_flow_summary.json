@@ -1,0 +1,60 @@
+{
+  "execve_events": [],
+  "flows": [],
+  "limitations": [
+    "argument-level path strings are unavailable in current evidence; pointers are not dereferenced",
+    "some fd operations cannot be linked to a prior successful openat return",
+    "some openat entries do not have paired successful fd return evidence"
+  ],
+  "non_claims": [
+    "no real malware detection claim",
+    "no classifier accuracy claim",
+    "no complete semantic reconstruction claim"
+  ],
+  "pending_openats": [
+    {
+      "confidence": "target_ecall_boundary",
+      "name": "openat",
+      "path_pointer": "0x000000009d408b1c",
+      "process_owner": "target_child",
+      "seq": 23
+    }
+  ],
+  "sample": "file_scan",
+  "schema": "rvmt.fd_path_flow.summary.v1",
+  "status": "PARTIAL",
+  "unresolved_fds": [
+    {
+      "fd": 112,
+      "reason": "fd operation observed without a prior successful openat fd return in current semantic evidence",
+      "seq": 24,
+      "syscall": "getdents64"
+    },
+    {
+      "fd": 3,
+      "reason": "fd operation observed without a prior successful openat fd return in current semantic evidence",
+      "seq": 25,
+      "syscall": "getdents64"
+    },
+    {
+      "fd": 3,
+      "reason": "fd operation observed without a prior successful openat fd return in current semantic evidence",
+      "seq": 26,
+      "syscall": "getdents64"
+    },
+    {
+      "fd": 0,
+      "reason": "fd operation observed without a prior successful openat fd return in current semantic evidence",
+      "seq": 27,
+      "syscall": "close"
+    }
+  ],
+  "unresolved_paths": [
+    {
+      "path_pointer": "0x000000009d408b1c",
+      "reason": "openat return fd unavailable or failed in current semantic evidence",
+      "seq": 23,
+      "syscall": "openat"
+    }
+  ]
+}
