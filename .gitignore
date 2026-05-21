@@ -85,6 +85,8 @@ work-*/
 # Project results and local build artifacts
 build/
 results/
+!docs/results/
+!docs/results/*.md
 
 # CVA6 generated artifacts in the submodule working tree
 rtl/cva6/Bender.lock
