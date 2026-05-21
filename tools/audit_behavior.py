@@ -65,7 +65,7 @@ def is_linux_error(value: Any) -> bool:
         return False
     if number < 0:
         return True
-    return (1 << 64) - 4095 <= number <= (1 << 64) - 1
+    return ((1 << 64) - 4095 <= number <= (1 << 64) - 1) or ((1 << 32) - 4095 <= number <= (1 << 32) - 1)
 
 
 def syscall_rows(semantic: dict[str, Any]) -> list[dict[str, Any]]:
@@ -98,6 +98,24 @@ def trap_causes(semantic: dict[str, Any]) -> list[str]:
     return causes
 
 
+def trap_rows(semantic: dict[str, Any]) -> list[dict[str, Any]]:
+    rows = semantic.get("trap_context_transitions", [])
+    return [row for row in rows if isinstance(row, dict)] if isinstance(rows, list) else []
+
+
+def target_illegal_trap_rows(semantic: dict[str, Any]) -> list[dict[str, Any]]:
+    result: list[dict[str, Any]] = []
+    for row in trap_rows(semantic):
+        if canonical_hex(row.get("cause")) != "0x2":
+            continue
+        if row.get("pc_owner") != "target_sample":
+            continue
+        if row.get("callsite_kind") != "illegal_instruction_site":
+            continue
+        result.append(row)
+    return result
+
+
 def evidence_tags(semantic: dict[str, Any]) -> set[str]:
     tags = semantic.get("evidence_tags", [])
     if not isinstance(tags, list):
@@ -114,6 +132,66 @@ def has_ordered_subsequence(values: list[str], expected: list[str]) -> bool:
             index += 1
             if index == len(expected):
                 return True
+    return False
+
+
+def has_self_copy_shape(names: list[str], counts: dict[str, int]) -> bool:
+    if counts.get("openat", 0) < 2 or counts.get("read", 0) < 1 or counts.get("write", 0) < 1 or counts.get("close", 0) < 1:
+        return False
+    return has_ordered_subsequence(names, ["openat", "openat", "read", "write", "close"]) or has_ordered_subsequence(
+        names, ["openat", "read", "openat", "write", "close"]
+    )
+
+
+def has_dynamic_exec_shape(names: list[str]) -> bool:
+    return has_ordered_subsequence(names, ["mmap", "mprotect"])
+
+
+WAIT_SYSCALL_NAMES = {"waitid", "wait4", "waitpid"}
+
+
+def wait_syscall_present(name: str) -> bool:
+    return name in WAIT_SYSCALL_NAMES
+
+
+def has_process_chain_shape(names: list[str]) -> bool:
+    index = 0
+    for name in names:
+        if index == 0 and name == "clone":
+            index = 1
+        elif index == 1 and name == "execve":
+            index = 2
+        elif index == 2 and wait_syscall_present(name):
+            return True
+    return False
+
+
+def successful_positive_return(row: dict[str, Any]) -> int | None:
+    value = parse_int(row.get("return_value"))
+    if value is None or value <= 0 or is_linux_error(value):
+        return None
+    return value
+
+
+def has_target_scoped_process_chain(rows: list[dict[str, Any]]) -> bool:
+    required = {"clone", "execve", "waitid"}
+    scoped = {
+        str(row.get("name"))
+        for row in rows
+        if str(row.get("name")) in required and row.get("pc_owner") == "target_sample"
+    }
+    return required <= scoped
+
+
+def has_parent_child_boundary(rows: list[dict[str, Any]]) -> bool:
+    clone_pids = {pid for row in rows if row.get("name") == "clone" for pid in [successful_positive_return(row)] if pid is not None}
+    if not clone_pids:
+        return False
+    for row in rows:
+        if row.get("name") == "waitid" and parse_int(syscall_arg(row, "a1")) in clone_pids:
+            return True
+        if row.get("name") in {"wait4", "waitpid"} and parse_int(syscall_arg(row, "a0")) in clone_pids:
+            return True
     return False
 
 
@@ -149,7 +227,7 @@ def manifest_expected_behaviors(manifest: dict[str, Any], sample_id: str | None)
     return []
 
 
-def match_rule(rule_id: str, rule: dict[str, Any], semantic: dict[str, Any]) -> dict[str, Any]:
+def match_rule(rule_id: str, rule: dict[str, Any], semantic: dict[str, Any], sample_id: str | None = None) -> dict[str, Any]:
     names = syscall_names(semantic)
     counts = {name: names.count(name) for name in sorted(set(names))}
     missing = [name for name in rule.get("expected_syscalls", []) if name not in counts]
@@ -224,11 +302,123 @@ def match_rule(rule_id: str, rule: dict[str, Any], semantic: dict[str, Any]) -> 
         tag_failures = [str(tag) for tag in required_tags if str(tag) not in present_tags]
 
     matched = not missing and not count_failures and not sequence_failures and not missing_causes and not arg_failures and not tag_failures
+    evidence_strength = "strong" if matched else "none"
+    weak_matched = False
+    weak_reasons: list[str] = []
+    weak_behavior: list[str] = []
+    strong_failures: list[str] = []
+
+    if rule_id == "illegal_instruction_trap":
+        write_present = counts.get("write", 0) > 0
+        cause_present = "0x2" in observed_causes
+        target_traps = target_illegal_trap_rows(semantic)
+        matched = write_present and bool(target_traps)
+        if not write_present:
+            strong_failures.append("write")
+        if not cause_present:
+            strong_failures.append("illegal_instruction_trap_cause")
+        if not target_traps:
+            strong_failures.append("target_illegal_instruction_site")
+        weak_matched = (not matched) and write_present and cause_present
+        if weak_matched:
+            weak_reasons.append("illegal trap cause and write are present, but target ELF/code-site attribution is missing")
+        evidence_strength = "strong" if matched else ("weak" if weak_matched else "none")
+
+    if rule_id == "batch_file_read_write":
+        weak_matched = (not matched) and sample_id == "batch_open_read_write" and counts.get("write", 0) >= 2
+        if weak_matched:
+            weak_reasons.append(
+                "batch write shape is visible, but open/read/close fd-flow or path semantics are not recoverable from this p0c trace"
+            )
+            evidence_strength = "weak"
+
+    if rule_id == "many_file_scan":
+        weak_matched = (
+            (not matched)
+            and (sample_id == "file_scan" or str(sample_id or "").startswith("many_file_scan"))
+            and counts.get("openat", 0) >= 1
+            and counts.get("getdents64", 0) >= 2
+        )
+        if weak_matched:
+            weak_behavior.append("many_file_scan_shape")
+            weak_reasons.append(
+                "openat plus repeated getdents64 is visible in the target run, but close is not recovered strongly from this p0c trace"
+            )
+            evidence_strength = "weak"
+
+    if rule_id == "self_copy_simulation":
+        weak_matched = (
+            (not matched)
+            and (sample_id == "self_copy_sim" or str(sample_id or "").startswith("self_copy_simulation"))
+            and has_self_copy_shape(names, counts)
+        )
+        if weak_matched:
+            weak_behavior.append("self_copy_shape_without_path_tags")
+            weak_reasons.append(
+                "openat/openat/read/write/close copy shape is visible, but self_path and executable_output path tags are not trace-proven"
+            )
+            evidence_strength = "weak"
+
+    if rule_id == "abnormal_syscall_sequence":
+        weak_matched = (
+            not matched
+            and (sample_id == "abnormal_syscall_sequence" or str(sample_id or "").startswith("abnormal_syscall_sequence"))
+            and counts.get("close", 0) >= 2
+            and all(counts.get(name, 0) >= 1 for name in ("openat", "read", "write"))
+        )
+        if weak_matched:
+            weak_behavior.append("abnormal_failed_syscall_shape")
+            weak_reasons.append(
+                "close/openat/read/write abnormal syscall shape is visible, but failed return evidence is not complete enough for a strong match"
+            )
+            evidence_strength = "weak"
+
+    if rule_id == "dynamic_executable_memory":
+        weak_matched = (
+            (not matched)
+            and (sample_id == "dynamic_executable_memory" or str(sample_id or "").startswith("dynamic_executable_memory"))
+            and has_dynamic_exec_shape(names)
+        )
+        if weak_matched:
+            weak_behavior.append("dynamic_exec_memory_shape_without_arg_bits")
+            weak_reasons.append(
+                "mmap followed by mprotect is visible, but mprotect PROT_EXEC argument bits are not proven"
+            )
+            evidence_strength = "weak"
+
+    if rule_id == "process_creation_chain":
+        rows = syscall_rows(semantic)
+        target_scoped = has_target_scoped_process_chain(rows)
+        parent_child_boundary = has_parent_child_boundary(rows)
+        if matched:
+            if not target_scoped:
+                strong_failures.append("target_process_syscall_attribution")
+            if not parent_child_boundary:
+                strong_failures.append("parent_child_wait_boundary")
+            matched = matched and not strong_failures
+            evidence_strength = "strong" if matched else "none"
+        weak_matched = (
+            (not matched)
+            and (sample_id == "process_chain" or str(sample_id or "").startswith("process_creation_chain"))
+            and has_process_chain_shape(names)
+        )
+        if weak_matched:
+            weak_behavior.append("process_chain_shape")
+            weak_reasons.append(
+                "clone followed by execve followed by a wait-like syscall is visible, but target/process-boundary evidence is not complete enough for strong process_creation_chain"
+            )
+            evidence_strength = "weak"
+
     return {
         "rule": rule_id,
         "family": rule.get("family"),
         "description": rule.get("evidence"),
         "matched": matched,
+        "evidence_strength": evidence_strength,
+        "weak_matched": weak_matched,
+        "weak_behavior": weak_behavior,
+        "weak_reasons": weak_reasons,
+        "strong_failures": strong_failures,
         "observed_syscall_counts": counts,
         "missing": missing,
         "count_failures": count_failures,
@@ -250,9 +440,20 @@ def audit(
 ) -> dict[str, Any]:
     expected = manifest_expected_behaviors(manifest or {}, sample_id)
     rule_ids = sorted(set(expected) | set(rules))
-    matches = [match_rule(rule_id, rules[rule_id], semantic) for rule_id in rule_ids if rule_id in rules]
+    matches = [match_rule(rule_id, rules[rule_id], semantic, sample_id) for rule_id in rule_ids if rule_id in rules]
     matched_expected = [item["rule"] for item in matches if item["rule"] in expected and item["matched"]]
     matched_rules = [item["rule"] for item in matches if item["matched"]]
+    weak_matched_rules = [item["rule"] for item in matches if item.get("weak_matched")]
+    weak_matched_expected = [rule_id for rule_id in weak_matched_rules if rule_id in expected]
+    weak_expected_behavior = sorted(
+        {
+            str(shape)
+            for item in matches
+            if item.get("rule") in expected
+            for shape in (item.get("weak_behavior") or [])
+            if isinstance(shape, str)
+        }
+    )
     missing_expected = [rule_id for rule_id in expected if rule_id not in matched_expected]
     unexpected_matched = [rule_id for rule_id in matched_rules if rule_id not in expected]
     unknown_expected = [rule_id for rule_id in expected if rule_id not in rules]
@@ -269,6 +470,9 @@ def audit(
         "status": "DERIVED_AUDIT",
         "expected_behavior": expected,
         "matched_expected_behavior": matched_expected,
+        "weak_matched_behavior": weak_matched_rules,
+        "weak_matched_expected_behavior": weak_matched_expected,
+        "weak_expected_behavior": weak_expected_behavior,
         "missing_expected_behavior": missing_expected,
         "unexpected_matched_behavior": unexpected_matched,
         "all_expected_matched": bool(expected) and len(matched_expected) == len(expected) and not unknown_expected,
@@ -289,12 +493,14 @@ def render_report(result: dict[str, Any]) -> str:
         f"- Sample: `{result.get('sample_id') or 'unspecified'}`",
         f"- Expected behaviors: {', '.join(result.get('expected_behavior') or ['none'])}",
         f"- Expected behaviors matched: {', '.join(result.get('matched_expected_behavior') or ['none'])}",
+        f"- Weak expected evidence: {', '.join(result.get('weak_matched_expected_behavior') or ['none'])}",
+        f"- Weak expected behavior shapes: {', '.join(result.get('weak_expected_behavior') or ['none'])}",
         f"- Expected behaviors missing: {', '.join(result.get('missing_expected_behavior') or ['none'])}",
         f"- Unexpected matched behaviors: {', '.join(result.get('unexpected_matched_behavior') or ['none'])}",
         f"- All expected matched: {result.get('all_expected_matched')}",
         "",
-        "| Rule | Family | Matched | Expected | Missing | Unexpected |",
-        "| --- | --- | --- | --- | --- | --- |",
+        "| Rule | Family | Matched | Strength | Expected | Weak shape | Missing | Unexpected |",
+        "| --- | --- | --- | --- | --- | --- | --- | --- |",
     ]
     expected = set(result.get("expected_behavior") or [])
     for item in result.get("matches", []):
@@ -307,12 +513,14 @@ def render_report(result: dict[str, Any]) -> str:
             or item.get("missing_trap_causes")
             or item.get("arg_failures")
             or item.get("tag_failures")
+            or item.get("strong_failures")
             or []
         )
         rule = str(item.get("rule"))
         unexpected = bool(item.get("matched")) and rule not in expected
         lines.append(
-            f"| `{rule}` | {item.get('family')} | {item.get('matched')} | {rule in expected} | "
+            f"| `{rule}` | {item.get('family')} | {item.get('matched')} | {item.get('evidence_strength', 'none')} | "
+            f"{rule in expected} | {', '.join(item.get('weak_behavior') or []) or 'none'} | "
             f"{', '.join(missing) if missing else 'none'} | {unexpected} |"
         )
     lines.extend(
@@ -363,13 +571,24 @@ def run_regression_fixtures(fixtures_path: Path, rules_path: Path) -> list[str]:
             graph = {"schema": "rvmt.behavior.graph.v1", "nodes": [], "edges": []}
         result = audit(semantic, graph, rules, {"samples": [{"id": name, "expected_behavior": fixture.get("expected_behavior", [])}]}, name)
         matched = set(result.get("matched_expected_behavior", []))
+        weak_matched = set(result.get("weak_matched_expected_behavior", []))
+        weak_behavior = set(result.get("weak_expected_behavior", []))
         expected_matched = {str(item) for item in fixture.get("expected_matched", [])}
+        expected_weak_matched = {str(item) for item in fixture.get("expected_weak_matched", [])}
+        expected_weak_behavior = {str(item) for item in fixture.get("expected_weak_behavior", [])}
         forbidden_matched = {str(item) for item in fixture.get("forbidden_matched", [])}
+        forbidden_weak_behavior = {str(item) for item in fixture.get("forbidden_weak_behavior", [])}
         if not expected_matched <= matched:
             errors.append(f"{name}: missing expected matched rules {sorted(expected_matched - matched)}")
+        if not expected_weak_matched <= weak_matched:
+            errors.append(f"{name}: missing expected weak rules {sorted(expected_weak_matched - weak_matched)}")
+        if not expected_weak_behavior <= weak_behavior:
+            errors.append(f"{name}: missing expected weak behavior {sorted(expected_weak_behavior - weak_behavior)}")
         all_matched = {str(item.get("rule")) for item in result.get("matches", []) if isinstance(item, dict) and item.get("matched")}
         if forbidden_matched & all_matched:
             errors.append(f"{name}: forbidden rules matched {sorted(forbidden_matched & all_matched)}")
+        if forbidden_weak_behavior & weak_behavior:
+            errors.append(f"{name}: forbidden weak behavior matched {sorted(forbidden_weak_behavior & weak_behavior)}")
     return errors
 
 
@@ -384,7 +603,14 @@ def self_test() -> int:
             {"name": "close", "return_value": "0x0"},
             {"name": "write", "return_value": "0x4"},
         ],
-        "trap_context_transitions": [{"evt": "TRAP", "cause": "0x2"}],
+        "trap_context_transitions": [
+            {
+                "evt": "TRAP",
+                "cause": "0x2",
+                "pc_owner": "target_sample",
+                "callsite_kind": "illegal_instruction_site",
+            }
+        ],
     }
     weak_semantic = {
         "schema": "rvmt.behavior.semantic.v1",

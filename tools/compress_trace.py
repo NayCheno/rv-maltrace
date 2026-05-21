@@ -19,15 +19,18 @@ EVENT_PAYLOAD_FIELDS: dict[str, tuple[str, ...]] = {
     "JUMP": (),
     "ECALL": ARG_FIELDS,
     "SYSCALL_ENTRY": ("syscall_id", *ARG_FIELDS),
-    "SYSCALL_RET": ("syscall_id", "duration", "a0"),
+    "SYSCALL_RET": ("syscall_id", "duration", *ARG_FIELDS),
     "ARG_MEM": ("syscall_id", "arg_index", "mem_addr", "mem_data", "mem_size", "mem_last"),
-    "TRAP": ("cause", "tval"),
+    "TRAP": ("syscall_id", "cause", "tval", *ARG_FIELDS),
     "CSR": ("csr", "value"),
     "SATP": ("csr", "value"),
     "PRIV": ("old_priv", "new_priv"),
     "MARKER": ("value",),
     "DROP": ("value",),
+    "UNKNOWN": ("evt_code", "raw_header", "raw_words", "parser_warnings", "record_index"),
 }
+
+METADATA_FIELDS = ("evt_code", "raw_header", "raw_words", "parser_warnings", "record_index")
 
 CONTEXT_FIELDS: dict[str, tuple[str, ...]] = {
     "RETIRE": ("priv",),
@@ -127,6 +130,10 @@ def compress_events(events: list[dict[str, Any]]) -> list[dict[str, Any]]:
         for field in EVENT_PAYLOAD_FIELDS.get(evt, ()):
             if field in event:
                 payload[field] = event[field]
+        if evt != "UNKNOWN":
+            for field in METADATA_FIELDS:
+                if field in event:
+                    payload[field] = event[field]
 
         if pc is not None and evt in TARGET_DELTA_EVENTS and "target" in event:
             payload["target_delta"] = delta_hex(parse_int(event["target"]) - pc)
@@ -222,6 +229,10 @@ def decompress_records(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
         for field in EVENT_PAYLOAD_FIELDS.get(evt, ()):
             if field in payload:
                 event[field] = payload[field]
+        if evt != "UNKNOWN":
+            for field in METADATA_FIELDS:
+                if field in payload:
+                    event[field] = payload[field]
 
         if pc is not None and evt in TARGET_DELTA_EVENTS and "target_delta" in payload:
             event["target"] = hex64(pc + parse_int(payload["target_delta"]))

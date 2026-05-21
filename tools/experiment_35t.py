@@ -35,6 +35,7 @@ from rv_maltrace.trace_profiles import (  # noqa: E402
 BENIGN_MANIFEST = Path("experiments/linux_behavior/benign/manifest.json")
 MALWARE_MANIFEST = Path("experiments/linux_behavior/malware_like/manifest.json")
 RULES_PATH = Path("experiments/linux_behavior/behavior_audit_rules.json")
+ROOTFS_EXP_BIN_DIR = Path("build/board/artix7_35t/rootfs_exp_overlay/usr/bin")
 TRACE_OFF = "trace-off"
 TRACE_ON = "trace-on"
 RUNTIME_CLASSIC = "classic"
@@ -399,6 +400,11 @@ def trace_record_index_and_payload(payload: str) -> tuple[int, str] | None:
         return None
     index_text = parts[0]
     payload_start = 1
+    if len(index_text) > 8 and index_text.isdigit():
+        repaired_index = index_text[:-8]
+        repaired_first_word = index_text[-8:]
+        if repaired_index:
+            return int(repaired_index), " ".join([repaired_first_word, *parts[1:]])
     if len(index_text) < 3 and len(parts) > 2 and parts[1].isdigit() and len(parts[1]) < 3:
         joined = index_text + parts[1]
         if joined.isdigit():
@@ -447,7 +453,55 @@ def trace_lines_to_events(lines: list[str]) -> list[dict[str, object]]:
         words = [int(item, 16) for item in word_tokens[:ARTIX7_TRACE_RAW_RECORD_WORDS]]
         if len(words) in (8, ARTIX7_TRACE_RAW_RECORD_WORDS):
             events.append(raw_trace_record_to_event(record_index, words))
+        else:
+            events.append(
+                {
+                    "cycle": 0,
+                    "evt": "UNKNOWN",
+                    "evt_code": None,
+                    "parser_warnings": ["corrupt_raw_record_word_count"],
+                    "raw_header": f"0x{words[0] & 0xffffffff:08x}" if words else None,
+                    "raw_words": [f"0x{word & 0xffffffff:08x}" for word in words],
+                    "record_index": record_index,
+                }
+            )
     return events
+
+
+def parser_warning_rows(events: list[dict[str, object]]) -> list[dict[str, object]]:
+    rows: list[dict[str, object]] = []
+    for index, event in enumerate(events):
+        warnings = event.get("parser_warnings", [])
+        if not isinstance(warnings, list) or not warnings:
+            continue
+        rows.append(
+            {
+                "event_index": index,
+                "record_index": event.get("record_index"),
+                "evt": event.get("evt"),
+                "evt_code": event.get("evt_code"),
+                "warnings": warnings,
+                "raw_header": event.get("raw_header"),
+                "raw_words": event.get("raw_words"),
+            }
+        )
+    return rows
+
+
+def write_parser_warnings(rep_dir: Path, events: list[dict[str, object]]) -> None:
+    warnings = parser_warning_rows(events)
+    payload = {
+        "schema": "rvmt.trace.parser_warnings.v1",
+        "warning_count": len(warnings),
+        "unknown_event_count": sum(1 for event in events if event.get("evt") == "UNKNOWN"),
+        "corrupt_record_count": sum(
+            1
+            for row in warnings
+            if any(str(item).startswith("corrupt_") for item in row.get("warnings", []))
+        ),
+        "warnings": warnings,
+    }
+    (rep_dir / "parser_warnings.json").write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
 def write_board_rep(run_id: str, current: dict[str, Any], trace_lines: list[str]) -> None:
@@ -470,6 +524,7 @@ def write_board_rep(run_id: str, current: dict[str, Any], trace_lines: list[str]
         (rep_dir / "trace_raw_uart.log").write_text("\n".join(trace_lines) + "\n", encoding="utf-8")
         events = trace_lines_to_events(trace_lines)
         (rep_dir / "trace.jsonl").write_text("".join(json.dumps(event, sort_keys=True) + "\n" for event in events), encoding="utf-8")
+        write_parser_warnings(rep_dir, events)
 
 
 def write_board_timing_rows(run_id: str, rows: list[dict[str, Any]]) -> None:
@@ -724,14 +779,97 @@ def run_analysis_command(cmd: list[str], log_path: Path, *, dry_run: bool) -> in
     return run_command(cmd, dry_run=dry_run, log_path=log_path)
 
 
+def board_runtime_elf(sample: Sample) -> Path:
+    if sample.source.endswith("rvmt_benign_workload.c"):
+        name = "rvmt_benign_workload"
+    elif sample.command:
+        name = Path(sample.command[0]).name
+    else:
+        name = sample.sample_id
+    if not name:
+        name = sample.sample_id
+    return ROOT / ROOTFS_EXP_BIN_DIR / name
+
+
+def code_map_candidates(sample: Sample, build_dir: Path) -> list[dict[str, str | Path | None]]:
+    candidates: list[dict[str, str | Path | None]] = []
+    board_elf = board_runtime_elf(sample)
+    if board_elf.exists():
+        candidates.append(
+            {
+                "elf": board_elf,
+                "binary_role": "board_rootfs_overlay",
+                "runtime_path": f"/usr/bin/{board_elf.name}",
+            }
+        )
+    groundtruth_elf = build_dir / f"{sample.sample_id}.riscv"
+    if groundtruth_elf.exists():
+        candidates.append(
+            {
+                "elf": groundtruth_elf,
+                "binary_role": "groundtruth_qemu_static",
+                "runtime_path": None,
+            }
+        )
+    return candidates
+
+
+def refresh_decoded_trace(rep_dir: Path) -> None:
+    raw = rep_dir / "trace_raw_uart.log"
+    if not raw.exists():
+        return
+    events = trace_lines_to_events(raw.read_text(encoding="utf-8", errors="replace").splitlines())
+    (rep_dir / "trace.jsonl").write_text("".join(json.dumps(event, sort_keys=True) + "\n" for event in events), encoding="utf-8")
+    write_parser_warnings(rep_dir, events)
+
+
+def ensure_code_map(args: argparse.Namespace, sample: Sample) -> Path | None:
+    build_dir = sample_root(args.run_id, sample) / "build"
+    code_map = build_dir / f"{sample.sample_id}.code_map.json"
+    candidates = code_map_candidates(sample, build_dir)
+    if args.dry_run:
+        display = candidates[0]["elf"] if candidates else build_dir / f"{sample.sample_id}.riscv"
+        print(f"+ build code map {display} -> {code_map}")
+        return code_map
+    if not candidates:
+        return None
+    selected = candidates[0]
+    elf = selected["elf"]
+    if not isinstance(elf, Path):
+        return None
+    log_path = build_dir / "build_code_map.log"
+    cmd = [
+        sys.executable,
+        "tools/build_code_map.py",
+        "--elf",
+        str(elf),
+        "--sample-id",
+        sample.sample_id,
+        "--source",
+        sample.source,
+        "--binary-role",
+        str(selected["binary_role"]),
+        "--out-dir",
+        str(build_dir),
+    ]
+    runtime_path = selected.get("runtime_path")
+    if runtime_path:
+        cmd.extend(["--runtime-path", str(runtime_path)])
+    code = run_analysis_command(cmd, log_path, dry_run=False)
+    return code_map if code == 0 and code_map.exists() else None
+
+
 def stage_analyze(args: argparse.Namespace, samples: list[Sample]) -> None:
     for sample in samples:
         sample_dir = sample_root(args.run_id, sample)
+        code_map = ensure_code_map(args, sample)
         gt_strace = sample_dir / "groundtruth" / "qemu_strace.0.strace.log"
         rep_dirs = sorted((sample_dir / "board" / TRACE_ON).glob("rep_*"))
         if args.dry_run and not rep_dirs:
             rep_dirs = [sample_dir / "board" / TRACE_ON / f"rep_{rep:02d}" for rep in range(args.reps)]
         for rep_dir in rep_dirs:
+            if not args.dry_run:
+                refresh_decoded_trace(rep_dir)
             trace = rep_dir / "trace.jsonl"
             if not trace.exists() and not args.dry_run:
                 continue
@@ -739,9 +877,34 @@ def stage_analyze(args: argparse.Namespace, samples: list[Sample]) -> None:
             audit_dir = rep_dir / "behavior_audit"
             lightweight_dir = rep_dir / "lightweight"
             align_dir = rep_dir / "alignment"
+            trace_code_dir = rep_dir / "trace_code_map"
             failures = []
+            if code_map is None:
+                failures.append({"stage": "build_code_map", "error": "missing code map"})
+            else:
+                code = run_analysis_command(
+                    [
+                        sys.executable,
+                        "tools/join_trace_code_map.py",
+                        "--trace",
+                        str(trace),
+                        "--code-map",
+                        str(code_map),
+                        "--out",
+                        str(trace_code_dir / "trace.code_map.jsonl"),
+                        "--summary-out",
+                        str(trace_code_dir / "trace_code_map_summary.json"),
+                    ],
+                    rep_dir / "join_trace_code_map.log",
+                    dry_run=args.dry_run,
+                )
+                if code != 0:
+                    failures.append({"stage": "join_trace_code_map", "exit_code": code})
+            recover_cmd = [sys.executable, "tools/recover_behavior.py", "--trace", str(trace), "--out-dir", str(semantic_dir)]
+            if code_map is not None:
+                recover_cmd.extend(["--code-map", str(code_map)])
             code = run_analysis_command(
-                [sys.executable, "tools/recover_behavior.py", "--trace", str(trace), "--out-dir", str(semantic_dir)],
+                recover_cmd,
                 rep_dir / "recover_behavior.log",
                 dry_run=args.dry_run,
             )
@@ -795,6 +958,14 @@ def stage_analyze(args: argparse.Namespace, samples: list[Sample]) -> None:
                     failures.append({"stage": "alignment", "error": str(exc)})
                 status = {"status": "PASS" if not failures else "FAIL", "failures": failures}
                 (rep_dir / "analysis_status.json").write_text(json.dumps(status, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    debug_cmd = [sys.executable, "tools/debug_rule_evidence.py", "--run-id", args.run_id]
+    for sample in samples:
+        debug_cmd.extend(["--sample", sample.sample_id])
+    run_analysis_command(
+        debug_cmd,
+        aggregate_root(args.run_id) / "debug_rule_evidence.log",
+        dry_run=args.dry_run,
+    )
 
 
 def load_jsonl(path: Path) -> list[dict[str, Any]]:

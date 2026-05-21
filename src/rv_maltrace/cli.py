@@ -2153,18 +2153,29 @@ def raw_trace_record_to_event(index: int, words: list[int]) -> dict[str, object]
         9: "PRIV",
         10: "ARG_MEM",
         11: "DROP",
+        12: "MARKER",
     }
+    original_words = list(words)
     if len(words) < ARTIX7_TRACE_RAW_RECORD_WORDS:
         words = [*words, *([0] * (ARTIX7_TRACE_RAW_RECORD_WORDS - len(words)))]
     header = words[0]
-    evt = event_names.get(header & 0xf, "DROP")
+    evt_code = header & 0xF
+    evt = event_names.get(evt_code, "UNKNOWN")
     priv = artix7_priv_name((header >> 4) & 0x3)
     old_priv = artix7_priv_name((header >> 6) & 0x3)
     new_priv = artix7_priv_name((header >> 8) & 0x3)
+    parser_warnings = []
+    if evt == "UNKNOWN":
+        parser_warnings.append("unknown_event_code")
     event: dict[str, object] = {
         "cycle": words[1],
         "evt": evt,
+        "evt_code": evt_code,
         "pc": artix7_pc_hex(words[2]),
+        "parser_warnings": parser_warnings,
+        "raw_header": artix7_hex32(header),
+        "raw_words": [artix7_hex32(word) for word in original_words],
+        "record_index": index,
     }
     if evt == "SYSCALL_ENTRY":
         event.update(
@@ -2183,11 +2194,20 @@ def raw_trace_record_to_event(index: int, words: list[int]) -> dict[str, object]
                 "syscall_id": artix7_hex32(words[6]),
                 "target": artix7_pc_hex(words[4]),
                 "duration": words[5],
-                "a0": artix7_hex32(words[8]),
+                **{f"a{arg}": artix7_hex32(words[8 + arg]) for arg in range(8)},
             }
         )
     elif evt == "TRAP":
-        event.update({"cause": artix7_hex32(words[4]), "tval": artix7_hex32(words[5]), "priv": priv})
+        event.update(
+            {
+                "instr": artix7_hex32(words[3]),
+                "cause": artix7_hex32(words[4]),
+                "tval": artix7_hex32(words[5]),
+                "priv": priv,
+                "syscall_id": artix7_hex32(words[6]),
+                **{f"a{arg}": artix7_hex32(words[8 + arg]) for arg in range(8)},
+            }
+        )
     elif evt in {"RETIRE", "BRANCH", "JUMP"}:
         event.update({"instr": artix7_hex32(words[3]), "priv": priv})
         if evt in {"BRANCH", "JUMP"}:
@@ -2214,6 +2234,8 @@ def raw_trace_record_to_event(index: int, words: list[int]) -> dict[str, object]
         event.update({"old_priv": old_priv, "new_priv": new_priv, "target": artix7_pc_hex(words[4])})
     elif evt == "DROP":
         event.update({"value": artix7_hex32(words[7] or words[6] or index)})
+    elif evt == "MARKER":
+        event.update({"value": artix7_hex32(words[7] or words[6] or words[4])})
     return event
 
 
@@ -2247,11 +2269,27 @@ def convert_artix7_raw_trace_to_jsonl(raw_path: Path, jsonl_path: Path) -> int:
         match = re.search(r"RVMT_TRACE_RECORD\s+(\d+)\s+(.+)$", stripped)
         if not match:
             continue
-        word_tokens = re.findall(r"\b[0-9a-fA-F]{8}\b", match.group(2))
+        index_text = match.group(1)
+        payload_text = match.group(2)
+        if len(index_text) > 8 and index_text.isdigit():
+            payload_text = f"{index_text[-8:]} {payload_text}"
+            index_text = index_text[:-8]
+        word_tokens = re.findall(r"\b[0-9a-fA-F]{8}\b", payload_text)
         words = [int(item, 16) for item in word_tokens[:ARTIX7_TRACE_RAW_RECORD_WORDS]]
         if len(words) not in (8, ARTIX7_TRACE_RAW_RECORD_WORDS):
+            events.append(
+                {
+                    "cycle": 0,
+                    "evt": "UNKNOWN",
+                    "evt_code": None,
+                    "parser_warnings": ["corrupt_raw_record_word_count"],
+                    "raw_header": artix7_hex32(words[0]) if words else None,
+                    "raw_words": [artix7_hex32(word) for word in words],
+                    "record_index": int(index_text),
+                }
+            )
             continue
-        events.append(raw_trace_record_to_event(int(match.group(1)), words))
+        events.append(raw_trace_record_to_event(int(index_text), words))
     jsonl_path.parent.mkdir(parents=True, exist_ok=True)
     jsonl_path.write_text("".join(json.dumps(event, sort_keys=True) + "\n" for event in events), encoding="utf-8", newline="\n")
     return len(events)

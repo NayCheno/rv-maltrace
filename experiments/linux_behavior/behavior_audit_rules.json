@@ -32,7 +32,7 @@
       "family": "dropper_like",
       "expected_syscalls": ["openat", "read", "write", "close"],
       "min_counts": {"openat": 2, "close": 2},
-      "ordered_syscalls": ["openat", "read", "openat", "write", "close"],
+      "ordered_syscalls": ["openat", "openat", "read", "write", "close"],
       "required_evidence_tags": ["self_path", "executable_output"],
       "evidence": "source-to-output copy shape without executing the copy"
     },
@@ -57,7 +57,7 @@
       "family": "process_chain",
       "expected_syscalls": ["clone", "execve", "waitid"],
       "ordered_syscalls": ["clone", "execve", "waitid"],
-      "evidence": "parent/child process creation syscall shape"
+      "evidence": "parent/child process creation syscall shape with target attribution and wait boundary"
     },
     {
       "id": "dynamic_executable_memory",

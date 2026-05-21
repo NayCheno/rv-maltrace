@@ -152,7 +152,7 @@ def check_aggregate(run_root: Path) -> list[str]:
         if gate_json.exists():
             try:
                 gate = load_json(gate_json)
-                if gate.get("schema") != "rvmt.35t.next_gate.v1":
+                if gate.get("schema") not in {"rvmt.35t.next_gate.v1", "rvmt.35t.next_gate.v2"}:
                     errors.append(f"{gate_json}: unexpected gate report schema")
             except Exception as exc:  # noqa: BLE001 - collect checker errors.
                 errors.append(f"{gate_json}: invalid gate report JSON: {exc}")
