@@ -399,12 +399,31 @@ def package_bundle(
     else:
         write_generated_command_log(out_dir, repo_root, records)
 
+    run_config_path = out_dir / "run_config.json"
+    validation_run_id = source_results_root.name
+    if run_config_path.exists():
+        try:
+            run_config = load_json(run_config_path)
+            if isinstance(run_config.get("run_id"), str) and run_config.get("run_id"):
+                validation_run_id = str(run_config["run_id"])
+        except Exception:
+            validation_run_id = source_results_root.name
+
+    provisional_manifest = {
+        "schema": "rvmt.35t.board_validation_bundle.v1",
+        "source_run_id": RUN_ID,
+        "validation_run_id": validation_run_id,
+        "scope": EXPECTED_SCOPE,
+        "claim_level": EXPECTED_CLAIM_LEVEL,
+    }
+    write_json(out_dir / "bundle_manifest.json", provisional_manifest)
     checker_report = check_board_validation(repo_root, evidence_root, out_dir, require_results=True, write_outputs=False)
     checker_status = checker_report["status"]
     status = "PASS" if checker_status == "PASS" else "CANDIDATE_PARTIAL"
     manifest = {
         "schema": "rvmt.35t.board_validation_bundle.v1",
         "source_run_id": RUN_ID,
+        "validation_run_id": validation_run_id,
         "generated_utc": utc_now(),
         "status": status,
         "checker_status": checker_status,
@@ -435,16 +454,16 @@ def write_semantic(path: Path, rows: list[dict[str, Any]]) -> None:
     write_json(path, {"schema": "rvmt.behavior.semantic.v1", "syscall_sequence": rows})
 
 
-def write_self_test_run(root: Path, results: Path, *, complete: bool) -> None:
+def write_self_test_run(root: Path, results: Path, *, complete: bool, run_id: str = RUN_ID) -> None:
     results.mkdir(parents=True)
-    write_json(results / "run_config.json", {"run_id": RUN_ID, "trace_records": 512, "trace_profile_policy": "35t_small_capacity"})
+    write_json(results / "run_config.json", {"run_id": run_id, "trace_records": 512, "trace_profile_policy": "35t_small_capacity"})
     aggregate = results / "aggregate"
     aggregate.mkdir()
     write_json(
         aggregate / "gate_report.json",
         {
             "schema": "rvmt.35t.next_gate.v2",
-            "run_id": RUN_ID,
+            "run_id": run_id,
             "trace_records": 512,
             "trace_profile_policy": "35t_small_capacity",
             "sample_status": {"file_scan": {"status": "PASS"}, "process_chain": {"status": "PASS"}},
@@ -551,12 +570,15 @@ def self_test() -> int:
         write_self_test_evidence(evidence)
 
         complete_results = root / "complete-results"
-        write_self_test_run(root, complete_results, complete=True)
+        write_self_test_run(root, complete_results, complete=True, run_id="35t-targeted-board-validation-self-test")
         complete_out = root / "complete-bundle"
         complete_manifest = package_bundle(root, complete_results, DEFAULT_EVIDENCE_ROOT, complete_out, None)
         if complete_manifest["status"] != "PASS" or not complete_manifest["hardware_validated"]:
             print("[FAIL] expected complete self-test bundle to pass board-validation checker", file=sys.stderr)
             print(json.dumps(complete_manifest, indent=2), file=sys.stderr)
+            return 1
+        if complete_manifest.get("validation_run_id") != "35t-targeted-board-validation-self-test":
+            print("[FAIL] expected package manifest to preserve validation_run_id", file=sys.stderr)
             return 1
 
         partial_results = root / "partial-results"

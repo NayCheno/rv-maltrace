@@ -159,6 +159,11 @@ def write_report(report: dict[str, Any], evidence_root: Path) -> None:
     lines.append(f"- schema: {'PASS' if board_status.get('schema_ok') else 'FAIL'}")
     lines.append(f"- status: {board_status.get('status')}")
     lines.append(f"- hardware_validated: {board_status.get('hardware_validated')}")
+    lines += ["", "## Board Validation Runbook", ""]
+    board_runbook = report.get("board_validation_runbook", {})
+    lines.append(f"- schema: {'PASS' if board_runbook.get('schema_ok') else 'FAIL'}")
+    lines.append(f"- status: {board_runbook.get('status')}")
+    lines.append(f"- hardware_required: {'PASS' if board_runbook.get('hardware_required_ok') else 'FAIL'}")
     lines += ["", "## Warnings", ""]
     if report["warnings"]:
         for item in report["warnings"]:
@@ -182,8 +187,9 @@ def check_repo(repo_root: Path, evidence_root_arg: Path, write_outputs: bool) ->
     manifest_path = evidence_root / "evidence_manifest.json"
     readiness_path = evidence_root / "explanation_readiness_summary.json"
     board_status_path = evidence_root / "board_validation_status.json"
+    board_runbook_path = evidence_root / "board_validation_runbook.json"
     source_attr_path = evidence_root / "source_attribution_summary.json"
-    checked = [closure_path, case_path, manifest_path, readiness_path, source_attr_path, board_status_path]
+    checked = [closure_path, case_path, manifest_path, readiness_path, source_attr_path, board_status_path, board_runbook_path]
     failures: list[str] = []
     warnings: list[str] = []
 
@@ -211,6 +217,12 @@ def check_repo(repo_root: Path, evidence_root_arg: Path, write_outputs: bool) ->
             board_status = load_json(board_status_path)
         except Exception as exc:  # pragma: no cover - covered through CLI behavior
             failures.append(f"invalid board validation status JSON: {exc}")
+    board_runbook: dict[str, Any] = {}
+    if board_runbook_path.exists():
+        try:
+            board_runbook = load_json(board_runbook_path)
+        except Exception as exc:  # pragma: no cover - covered through CLI behavior
+            failures.append(f"invalid board validation runbook JSON: {exc}")
     source_attr: dict[str, Any] = {}
     if source_attr_path.exists():
         try:
@@ -226,6 +238,7 @@ def check_repo(repo_root: Path, evidence_root_arg: Path, write_outputs: bool) ->
             json.dumps(readiness, sort_keys=True),
             json.dumps(source_attr, sort_keys=True),
             json.dumps(board_status, sort_keys=True),
+            json.dumps(board_runbook, sort_keys=True),
         ]
     )
     field_results: dict[str, Any] = {}
@@ -317,6 +330,23 @@ def check_repo(repo_root: Path, evidence_root_arg: Path, write_outputs: bool) ->
         failures.append("board validation status must be AWAITING_BOARD_RUN or PASS")
     if not board_status_results["hardware_validated_ok"]:
         failures.append("board validation hardware_validated flag is inconsistent with status")
+    board_runbook_non_claims = board_runbook.get("non_claims", [])
+    board_runbook_non_claim_text = "\n".join(str(item) for item in board_runbook_non_claims) if isinstance(board_runbook_non_claims, list) else ""
+    board_runbook_results = {
+        "schema_ok": board_runbook.get("schema") == "rvmt.35t.board_validation_runbook.v1",
+        "source_run_id_ok": board_runbook.get("source_run_id") == RUN_ID,
+        "scope_ok": board_runbook.get("scope") == "Artix-7 35T / LiteX / VexRiscv",
+        "claim_level_ok": board_runbook.get("claim_level") == EXPECTED_CLAIM_LEVEL,
+        "hardware_required_ok": board_runbook.get("hardware_required") is True,
+        "status": board_runbook.get("status"),
+        "status_ok": board_runbook.get("status") == "READY_TO_RUN_ON_35T_BOARD",
+        "non_claims_ok": all(item.lower() in board_runbook_non_claim_text.lower() for item in REQUIRED_NON_CLAIMS),
+    }
+    for key, ok in board_runbook_results.items():
+        if key == "status":
+            continue
+        if not ok:
+            failures.append(f"board validation runbook check failed: {key}")
     source_attr_results = {
         "schema_ok": source_attr.get("schema") == "rvmt.35t.source_attribution_summary.v1",
         "status": source_attr.get("status"),
@@ -344,6 +374,7 @@ def check_repo(repo_root: Path, evidence_root_arg: Path, write_outputs: bool) ->
         "explanation_readiness": readiness_results,
         "source_attribution": source_attr_results,
         "board_validation_status": board_status_results,
+        "board_validation_runbook": board_runbook_results,
         "warnings": warnings,
         "failures": failures,
     }
@@ -414,6 +445,17 @@ def self_test() -> int:
             "non_claims": REQUIRED_NON_CLAIMS,
         }
         (evidence / "board_validation_status.json").write_text(json.dumps(board_status), encoding="utf-8")
+        board_runbook = {
+            "schema": "rvmt.35t.board_validation_runbook.v1",
+            "source_run_id": RUN_ID,
+            "validation_run_id": "35t-targeted-board-validation-self-test",
+            "scope": "Artix-7 35T / LiteX / VexRiscv",
+            "claim_level": EXPECTED_CLAIM_LEVEL,
+            "hardware_required": True,
+            "status": "READY_TO_RUN_ON_35T_BOARD",
+            "non_claims": REQUIRED_NON_CLAIMS,
+        }
+        (evidence / "board_validation_runbook.json").write_text(json.dumps(board_runbook), encoding="utf-8")
         report = check_repo(root, DEFAULT_EVIDENCE_ROOT, write_outputs=True)
         if report["status"] != "PASS":
             print("[FAIL] expected valid self-test fixture to pass", file=sys.stderr)

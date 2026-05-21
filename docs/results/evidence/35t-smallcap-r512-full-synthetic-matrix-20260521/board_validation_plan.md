@@ -46,6 +46,16 @@ uv run python tools/package_35t_board_validation.py --repo-root .
 uv run python tools/check_35t_board_validation.py --repo-root . --results-root results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_bundle --require-results
 ```
 
+## Runbook
+
+Use `tools/prepare_35t_board_validation_run.py` before the real board run. The runbook keeps this source run fixed and assigns a separate validation run id for the future 35T capture:
+
+```bash
+uv run python tools/prepare_35t_board_validation_run.py --repo-root . --validation-run-id 35t-targeted-board-validation-20260522
+```
+
+The committed `board_validation_runbook.md` lists the `groundtruth`, `rootfs`, `board`, `analyze`, `report`, `package`, and `check` commands. Commands that require the Artix-7 35T board remain not run in this snapshot.
+
 ## Non-claims
 
 - no CVA6 board claim

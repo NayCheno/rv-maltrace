@@ -35,6 +35,15 @@ Non-claims: no CVA6 board claim; no real malware detection claim; no mature dete
 | board-validation-package | `uv run python tools/package_35t_board_validation.py --repo-root .` | PASS | exit_code=0, status=CANDIDATE_PARTIAL |
 | board-validation-package-negative | `uv run python tools/check_35t_board_validation.py --repo-root . --results-root results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_bundle --require-results` | FAIL | exit_code=1, expected negative check: packaged current run still has PARTIAL fd/path and process-tree summaries |
 | board-validation | `uv run python tools/check_35t_board_validation.py --repo-root .` | PASS | exit_code=0, status=AWAITING_BOARD_RUN |
+| board-validation-runbook | `uv run python tools/prepare_35t_board_validation_run.py --self-test` | PASS | exit_code=0 |
+| board-validation-runbook | `uv run python tools/prepare_35t_board_validation_run.py --repo-root . --validation-run-id 35t-targeted-board-validation-20260522` | PASS | exit_code=0, status=READY_TO_RUN_ON_35T_BOARD |
+| actual-board-run | `uv run python tools/experiment_35t.py --stage groundtruth --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic` | NOT_RUN | requires starting the targeted board-validation sequence; deferred until actual 35T validation run |
+| actual-board-run | `uv run python tools/experiment_35t.py --stage rootfs --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic` | NOT_RUN | requires rebuilding the 35T rootfs/board image for the targeted validation run |
+| actual-board-run | `uv run python tools/experiment_35t.py --stage board --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic --port COM5 --baud 921600 --duration 3600.0` | NOT_RUN | requires connected Artix-7 35T board and UART capture |
+| actual-board-run | `uv run python tools/experiment_35t.py --stage analyze --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic` | NOT_RUN | depends on targeted board capture results |
+| actual-board-run | `uv run python tools/experiment_35t.py --stage report --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic` | NOT_RUN | depends on targeted board analysis results |
+| actual-board-run | `uv run python tools/package_35t_board_validation.py --repo-root . --source-results-root results/experiments/35t/35t-targeted-board-validation-20260522 --out-dir results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle` | NOT_RUN | depends on targeted board run artifacts |
+| actual-board-run | `uv run python tools/check_35t_board_validation.py --repo-root . --results-root results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle --require-results` | NOT_RUN | depends on targeted board-validation bundle |
 | final | `uv run python tools/check_35t_application_closure.py --repo-root .` | PASS | exit_code=0 |
 | final | `uv run python -m compileall tools src/rv_maltrace` | PASS | exit_code=0 |
 | final | `git diff --check` | PASS | exit_code=0 |
@@ -301,6 +310,37 @@ stderr:
 ```text
 FAIL: board validation result content check failed: fd_path_flow
 FAIL: board validation result content check failed: process_tree
+```
+
+### `uv run python tools/prepare_35t_board_validation_run.py --self-test`
+
+Phase: board-validation-runbook
+
+Status: PASS (exit_code=0)
+
+stdout:
+
+```text
+[PASS] 35T board validation runbook self-test
+```
+
+### `uv run python tools/prepare_35t_board_validation_run.py --repo-root . --validation-run-id 35t-targeted-board-validation-20260522`
+
+Phase: board-validation-runbook
+
+Status: PASS (exit_code=0)
+
+stdout:
+
+```text
+[READY_TO_RUN_ON_35T_BOARD] 35T board validation runbook for 35t-targeted-board-validation-20260522
+groundtruth: uv run python tools/experiment_35t.py --stage groundtruth --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic
+rootfs: uv run python tools/experiment_35t.py --stage rootfs --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic
+board: uv run python tools/experiment_35t.py --stage board --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic --port COM5 --baud 921600 --duration 3600.0
+analyze: uv run python tools/experiment_35t.py --stage analyze --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic
+report: uv run python tools/experiment_35t.py --stage report --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic
+package: uv run python tools/package_35t_board_validation.py --repo-root . --source-results-root results/experiments/35t/35t-targeted-board-validation-20260522 --out-dir results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle
+check: uv run python tools/check_35t_board_validation.py --repo-root . --results-root results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle --require-results
 ```
 
 ### `uv run python tools/package_35t_board_validation.py --self-test`

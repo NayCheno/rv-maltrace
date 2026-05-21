@@ -1,0 +1,97 @@
+{
+  "baud": 921600,
+  "board_target": "Artix-7 35T / LiteX / VexRiscv",
+  "bundle_root": "results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle",
+  "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+  "commands": [
+    {
+      "command": "uv run python tools/experiment_35t.py --stage groundtruth --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic",
+      "expected_output": "results/experiments/35t/35t-targeted-board-validation-20260522/samples",
+      "hardware_required": false,
+      "pass_condition": "required host/qemu baselines complete or failures are recorded explicitly",
+      "phase": "groundtruth"
+    },
+    {
+      "command": "uv run python tools/experiment_35t.py --stage rootfs --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic",
+      "expected_output": "build/board/artix7_35t",
+      "hardware_required": false,
+      "pass_condition": "35T LiteX/VexRiscv rootfs experiment overlay is rebuilt",
+      "phase": "rootfs"
+    },
+    {
+      "command": "uv run python tools/experiment_35t.py --stage board --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic --port COM5 --baud 921600 --duration 3600.0",
+      "expected_output": "results/experiments/35t/35t-targeted-board-validation-20260522/board/raw_uart.log",
+      "hardware_required": true,
+      "pass_condition": "UART capture contains target-scoped markers and trace dumps for the full 13-sample matrix",
+      "phase": "board"
+    },
+    {
+      "command": "uv run python tools/experiment_35t.py --stage analyze --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic",
+      "expected_output": "results/experiments/35t/35t-targeted-board-validation-20260522/samples",
+      "hardware_required": false,
+      "pass_condition": "semantic recovery, behavior audit, lightweight trace analysis, alignment, and trace-code joins are regenerated",
+      "phase": "analyze"
+    },
+    {
+      "command": "uv run python tools/experiment_35t.py --stage report --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic",
+      "expected_output": "results/experiments/35t/35t-targeted-board-validation-20260522/aggregate",
+      "hardware_required": false,
+      "pass_condition": "aggregate 35T reports are regenerated and failures remain explicit",
+      "phase": "report"
+    },
+    {
+      "command": "uv run python tools/package_35t_board_validation.py --repo-root . --source-results-root results/experiments/35t/35t-targeted-board-validation-20260522 --out-dir results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle",
+      "expected_output": "results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle/bundle_manifest.json",
+      "hardware_required": false,
+      "pass_condition": "bundle is PASS only if fd/path and process-tree summaries are PASS; otherwise it remains CANDIDATE_PARTIAL",
+      "phase": "package"
+    },
+    {
+      "command": "uv run python tools/check_35t_board_validation.py --repo-root . --results-root results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle --require-results",
+      "expected_output": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_status.json",
+      "hardware_required": false,
+      "pass_condition": "status is PASS only when required artifacts and content checks pass",
+      "phase": "check"
+    }
+  ],
+  "duration": 3600.0,
+  "focus_samples": [
+    "illegal_trap",
+    "process_chain",
+    "dynamic_executable_memory",
+    "file_scan",
+    "batch_open_read_write",
+    "self_copy_sim"
+  ],
+  "generated_utc": "2026-05-21T19:00:54Z",
+  "hardware_required": true,
+  "matrix_scope": "full 13-sample 35T matrix",
+  "non_claims": [
+    "no CVA6 board claim",
+    "no real malware detection claim",
+    "no mature detector claim",
+    "no classifier accuracy claim",
+    "no complete semantic reconstruction claim"
+  ],
+  "port": "COM5",
+  "reps": 5,
+  "required_capture_items": [
+    "target-scoped marker begin/end around each sample repetition",
+    "runtime process map for runner_parent, target_child, kernel, and unknown roles",
+    "reliable target syscall entry/return pairing for fd operations",
+    "openat and execve path strings or a board-side/runner-side path side channel tied to target syscall events",
+    "clone/fork return value from the parent side and wait PID in the same evidence window",
+    "child runtime process ownership evidence across exec",
+    "exact board runtime ELF/code-map identity",
+    "DWARF/debug-line metadata or an addr2line-compatible source-location side channel if source-line attribution is claimed"
+  ],
+  "results_root": "results/experiments/35t/35t-targeted-board-validation-20260522",
+  "runtime_order": "classic",
+  "schema": "rvmt.35t.board_validation_runbook.v1",
+  "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "source_run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "status": "READY_TO_RUN_ON_35T_BOARD",
+  "trace_profile_policy": "35t_small_capacity",
+  "trace_records": 512,
+  "validation_run_id": "35t-targeted-board-validation-20260522"
+}

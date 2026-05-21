@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import shutil
 import sys
 import tempfile
 from pathlib import Path
@@ -76,16 +77,39 @@ def check_result_contents(results_root: Path) -> dict[str, Any]:
         except Exception as exc:
             return {"ok": False, "reason": f"invalid JSON: {exc}"}
 
+    bundle_manifest = check_json("bundle_manifest.json")
+    bundle_json = bundle_manifest.get("json", {}) if bundle_manifest.get("ok") else {}
+    manifest_present = (results_root / "bundle_manifest.json").exists()
+    validation_run_id = RUN_ID
+    if manifest_present and isinstance(bundle_json.get("validation_run_id"), str) and bundle_json.get("validation_run_id"):
+        validation_run_id = str(bundle_json["validation_run_id"])
+    checks["bundle_manifest"] = {
+        "ok": bool(
+            not manifest_present
+            or (
+                bundle_manifest.get("ok")
+                and bundle_json.get("schema") == "rvmt.35t.board_validation_bundle.v1"
+                and bundle_json.get("source_run_id") == RUN_ID
+                and bundle_json.get("scope") == EXPECTED_SCOPE
+                and bundle_json.get("claim_level") == EXPECTED_CLAIM_LEVEL
+                and bundle_json.get("validation_run_id") == validation_run_id
+            )
+        ),
+        "status": "checked" if manifest_present else "not present; validation_run_id defaults to source run",
+        "validation_run_id": validation_run_id,
+    }
+
     run_config = check_json("run_config.json")
     run_config_json = run_config.get("json", {}) if run_config.get("ok") else {}
     checks["run_config"] = {
         "ok": bool(
             run_config.get("ok")
-            and run_config_json.get("run_id") == RUN_ID
+            and run_config_json.get("run_id") == validation_run_id
             and run_config_json.get("trace_records") == 512
             and run_config_json.get("trace_profile_policy") == "35t_small_capacity"
         ),
         "status": run_config.get("reason", "checked"),
+        "validation_run_id": validation_run_id,
     }
 
     gate_report = check_json("gate_report.json")
@@ -94,12 +118,13 @@ def check_result_contents(results_root: Path) -> dict[str, Any]:
         "ok": bool(
             gate_report.get("ok")
             and gate_json.get("schema") == "rvmt.35t.next_gate.v2"
-            and gate_json.get("run_id") == RUN_ID
+            and gate_json.get("run_id") == validation_run_id
             and gate_json.get("trace_records") == 512
             and gate_json.get("trace_profile_policy") == "35t_small_capacity"
             and all_gate_samples_pass(gate_json)
         ),
         "status": gate_report.get("reason", "checked"),
+        "validation_run_id": validation_run_id,
     }
 
     fd_flow = check_json("fd_path_flow_summary.json")
@@ -346,6 +371,44 @@ def self_test() -> int:
         passed = check_board_validation(root, DEFAULT_EVIDENCE_ROOT, results, require_results=True, write_outputs=False)
         if passed["status"] != "PASS" or not passed["hardware_validated"]:
             print("[FAIL] expected complete fake board artifact set to pass", file=sys.stderr)
+            return 1
+        alt_run_id = "35t-targeted-board-validation-self-test"
+        alt_results = root / "alt-board-results"
+        alt_results.mkdir()
+        for artifact in REQUIRED_OUTPUT_ARTIFACTS:
+            shutil.copyfile(results / artifact, alt_results / artifact)
+        (alt_results / "run_config.json").write_text(
+            json.dumps({"run_id": alt_run_id, "trace_records": 512, "trace_profile_policy": "35t_small_capacity"}),
+            encoding="utf-8",
+        )
+        (alt_results / "gate_report.json").write_text(
+            json.dumps(
+                {
+                    "schema": "rvmt.35t.next_gate.v2",
+                    "run_id": alt_run_id,
+                    "trace_records": 512,
+                    "trace_profile_policy": "35t_small_capacity",
+                    "sample_status": {"file_scan": {"status": "PASS"}},
+                }
+            ),
+            encoding="utf-8",
+        )
+        (alt_results / "bundle_manifest.json").write_text(
+            json.dumps(
+                {
+                    "schema": "rvmt.35t.board_validation_bundle.v1",
+                    "source_run_id": RUN_ID,
+                    "validation_run_id": alt_run_id,
+                    "scope": EXPECTED_SCOPE,
+                    "claim_level": EXPECTED_CLAIM_LEVEL,
+                }
+            ),
+            encoding="utf-8",
+        )
+        alt_passed = check_board_validation(root, DEFAULT_EVIDENCE_ROOT, alt_results, require_results=True, write_outputs=False)
+        if alt_passed["status"] != "PASS" or not alt_passed["hardware_validated"]:
+            print("[FAIL] expected alternate validation_run_id bundle to pass", file=sys.stderr)
+            print(json.dumps(alt_passed, indent=2), file=sys.stderr)
             return 1
     print("[PASS] 35T board validation checker self-test")
     return 0

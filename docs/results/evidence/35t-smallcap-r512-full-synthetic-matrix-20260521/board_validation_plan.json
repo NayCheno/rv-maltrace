@@ -35,6 +35,10 @@
     "source_attribution_summary.md",
     "command_log.md"
   ],
+  "runbook_artifacts": [
+    "board_validation_runbook.json",
+    "board_validation_runbook.md"
+  ],
   "pass_criteria": [
     "35T closure checker remains PASS",
     "baseline 13-sample gate remains 13/13 PASS or any rerun failure is explicitly marked FAIL",

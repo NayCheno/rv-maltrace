@@ -23,6 +23,7 @@ This directory contains committed lightweight summary artifacts for the primary 
 - `source_attribution_summary.json` and `source_attribution_summary.md`
 - `explanation_readiness_summary.json` and `explanation_readiness_summary.md`
 - `board_validation_plan.json` and `board_validation_plan.md`
+- `board_validation_runbook.json` and `board_validation_runbook.md`
 - `board_validation_status.json` and `board_validation_status.md`
 - `command_log.md`
 
@@ -49,6 +50,14 @@ uv run python tools/check_35t_board_validation.py --repo-root . --results-root r
 
 The current local bundle remains `CANDIDATE_PARTIAL` because fd/path flow and process-tree closure are still `PARTIAL`. That failure is expected until a targeted 35T board run captures the required path, fd, clone/wait, and ownership evidence.
 
+To run the actual targeted 35T board-validation sequence, follow:
+
+```bash
+uv run python tools/prepare_35t_board_validation_run.py --repo-root . --validation-run-id 35t-targeted-board-validation-20260522
+```
+
+The generated `board_validation_runbook.md` keeps the source evidence run fixed at `35t-smallcap-r512-full-synthetic-matrix-20260521` while using a separate validation run id for the future board capture.
+
 ## Artifact Index
 
 See `evidence_manifest.json` for hashes and source paths. See `case_study_artifact_index.json` for indexed case-study source artifacts that are referenced but not committed in this lightweight snapshot. The fd/path and process-tree summaries are initial `PARTIAL` interpretation artifacts and do not claim complete semantic reconstruction.
@@ -58,6 +67,8 @@ See `evidence_manifest.json` for hashes and source paths. See `case_study_artifa
 `source_attribution_summary.md` records function-level attribution availability and keeps source-line attribution explicitly unavailable until source-location evidence exists.
 
 `board_validation_plan.md` and `board_validation_status.md` define the targeted 35T board-validation artifact set. The current status is `AWAITING_BOARD_RUN`; hardware validation remains false until those board artifacts are captured.
+
+`board_validation_runbook.md` records the exact command sequence for the next real 35T board run. It is a run plan, not board evidence.
 
 ## Non-claims
 

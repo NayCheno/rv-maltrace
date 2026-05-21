@@ -10,6 +10,7 @@ Status: PASS
 - docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/explanation_readiness_summary.json
 - docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/source_attribution_summary.json
 - docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_status.json
+- docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_runbook.json
 
 ## Required Fields
 
@@ -52,6 +53,12 @@ Status: PASS
 - schema: PASS
 - status: AWAITING_BOARD_RUN
 - hardware_validated: False
+
+## Board Validation Runbook
+
+- schema: PASS
+- status: READY_TO_RUN_ON_35T_BOARD
+- hardware_required: PASS
 
 ## Warnings
 
