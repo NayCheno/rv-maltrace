@@ -50,15 +50,15 @@ uv run python tools/package_35t_board_validation.py --repo-root .
 uv run python tools/check_35t_board_validation.py --repo-root . --results-root results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_bundle --require-results
 ```
 
-The current local bundle remains `CANDIDATE_PARTIAL` because fd/path flow and process-tree closure are still `PARTIAL`. That failure is expected until a targeted 35T board run captures the required path, fd, clone/wait, and ownership evidence.
+The primary evidence run bundle remains useful as a local candidate check. The completed board-validation evidence is the separate targeted run `35t-targeted-board-validation-20260522`, which was captured on the 35T board with the syscall side channel enabled.
 
-To run the actual targeted 35T board-validation sequence, follow:
+To inspect the targeted 35T board-validation sequence, follow:
 
 ```bash
 uv run python tools/prepare_35t_board_validation_run.py --repo-root . --validation-run-id 35t-targeted-board-validation-20260522
 ```
 
-The generated `board_validation_runbook.md` keeps the source evidence run fixed at `35t-smallcap-r512-full-synthetic-matrix-20260521` while using a separate validation run id for the future board capture.
+The generated `board_validation_runbook.md` keeps the source evidence run fixed at `35t-smallcap-r512-full-synthetic-matrix-20260521` while using a separate validation run id for the board capture.
 
 Before running the board stage, use the preflight checker:
 
@@ -68,23 +68,31 @@ uv run python tools/check_35t_board_preflight.py --repo-root .
 
 The preflight status only checks host tools, scripts, runbook consistency, and whether the requested UART port is visible. It does not prove the 35T board image is running and does not count as board validation.
 
+The completed targeted validation bundle is checked with:
+
+```bash
+uv run python tools/check_35t_board_validation.py --repo-root . --results-root results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle --require-results
+```
+
+Current result: `PASS`; hardware validation is true for this 35T prototype closure. Source attribution remains `PARTIAL`, so this still does not claim complete semantic reconstruction.
+
 ## Artifact Index
 
-See `evidence_manifest.json` for hashes and source paths. See `case_study_artifact_index.json` for indexed case-study source artifacts that are referenced but not committed in this lightweight snapshot. The fd/path and process-tree summaries are initial `PARTIAL` interpretation artifacts and do not claim complete semantic reconstruction.
+See `evidence_manifest.json` for hashes and source paths. See `case_study_artifact_index.json` for indexed case-study source artifacts that are referenced but not committed in this lightweight snapshot. The primary-run fd/path and process-tree summaries remain initial `PARTIAL` interpretation artifacts; the targeted board-validation bundle records fd/path and process-tree `PASS`. Neither claim complete semantic reconstruction.
 
 `explanation_readiness_summary.md` records the current local closure boundary: the 35T synthetic behavior-audit prototype evidence chain is ready for targeted board validation, while fd/path strings, strict process-tree parent-child closure, and source-line attribution still require stronger capture or side-channel evidence.
 
 `source_attribution_summary.md` records function-level attribution availability and keeps source-line attribution explicitly unavailable until source-location evidence exists.
 
-`board_validation_plan.md` and `board_validation_status.md` define the targeted 35T board-validation artifact set. The current status is `RESULTS_PARTIAL`; hardware validation remains false until the strict result bundle passes.
+`board_validation_plan.md` and `board_validation_status.md` define the targeted 35T board-validation artifact set. The current status is `PASS`; hardware validation is true for the 35T targeted validation bundle.
 
 `board_validation_runbook.md` records the exact command sequence for the next real 35T board run. It is a run plan, not board evidence.
 
 `board_validation_preflight.md` records the current host and UART readiness for that run plan. It is a readiness check, not board evidence.
 
-`board_validation_attempt_summary.md` records the targeted 35T validation attempt `35t-targeted-board-validation-20260522`: groundtruth, rootfs, board capture, analyze, report, and next-gate completed with 13/13 sample status PASS and `full_matrix_ready`, but the strict board-validation bundle remains `CANDIDATE_PARTIAL` because fd/path flow and process-tree summaries are still `PARTIAL`.
+`board_validation_attempt_summary.md` records the targeted 35T validation attempt `35t-targeted-board-validation-20260522`: groundtruth, rootfs, board capture, analyze, report, and next-gate completed with 13/13 sample status PASS and `full_matrix_ready`; the strict board-validation bundle is `PASS`, with fd/path flow and process-tree summaries also `PASS`.
 
-`board_syscall_side_channel_smoke.md` records the follow-up syscall side-channel work: the new runner builds into the 35T rootfs and a temporary `PTRACE_GETREGSET` runner captured board UART syscall rows, but strict validation is still not closed. The next required action is to boot the board from the newly generated rootfs/sdcard image, or use a reliable hash-verified transfer path, then rerun the full 13-sample validation command with `--syscall-side-channel`.
+`board_syscall_side_channel_smoke.md` records the follow-up syscall side-channel work: the new runner builds into the 35T rootfs, the board was rebooted through the LiteX serial image path, and `35t-sidechannel-smoke-20260522e` closed fd/path and process-tree smoke evidence. The strict full 13-sample validation command with `--syscall-side-channel` passed after that boot.
 
 ## Non-claims
 

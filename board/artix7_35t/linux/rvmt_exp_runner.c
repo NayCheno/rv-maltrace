@@ -651,12 +651,7 @@ static int wait_sample_exit_with_syscalls(
         if (ptrace_event == PTRACE_EVENT_CLONE || ptrace_event == PTRACE_EVENT_FORK || ptrace_event == PTRACE_EVENT_VFORK) {
             unsigned long child_pid = 0;
             if (ptrace(PTRACE_GETEVENTMSG, pid, NULL, &child_pid) == 0 && child_pid > 0) {
-                traced_pid_t *child_slot = tracked_add(tracked, (pid_t)child_pid);
-                if (child_slot != NULL) {
-                    child_slot->in_syscall = 1;
-                    child_slot->nr = RVMT_SC_CLONE;
-                    child_slot->seq = 0;
-                }
+                (void)tracked_add(tracked, (pid_t)child_pid);
             }
             if (continue_syscall(pid, 0) != 0) {
                 return 127;

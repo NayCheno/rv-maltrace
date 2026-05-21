@@ -53,14 +53,14 @@ Status: PASS
 ## Board Validation Attempt
 
 - schema: PASS
-- status: BOARD_RUN_COMPLETE_VALIDATION_PARTIAL
+- status: BOARD_VALIDATION_PASS
 - hardware_validated_consistent: PASS
 
 ## Board Validation Status
 
 - schema: PASS
-- status: RESULTS_PARTIAL
-- hardware_validated: False
+- status: PASS
+- hardware_validated: True
 
 ## Board Validation Runbook
 

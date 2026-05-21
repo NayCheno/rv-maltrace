@@ -1,6 +1,6 @@
 # 35T Command Log: 35t-smallcap-r512-full-synthetic-matrix-20260521
 
-Generated UTC: 2026-05-21T18:42:29+00:00
+Generated UTC: 2026-05-21T21:27:56+00:00
 
 Scope: Artix-7 35T / LiteX / VexRiscv only.
 
@@ -56,6 +56,16 @@ Non-claims: no CVA6 board claim; no real malware detection claim; no mature dete
 | side-channel-smoke | `uv run python tools/experiment_35t.py --stage board --run-id 35t-sidechannel-smoke-20260522c --reps 1 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic --port COM5 --baud 921600 --duration 120 --sample file_scan --sample process_chain --syscall-side-channel --board-runner-path /tmp/rvmt_exp_runner` | PASS_WITH_PARTIAL_EVIDENCE | exit_code=0; captured 56 `RVMT_SYSCALL_OBS` rows and 2 `syscall_side_channel.json` files, but packaged fd/path and process-tree summaries stayed PARTIAL because the smoke used the pre state-machine-fix runner |
 | side-channel-smoke | UART temporary install of state-machine-fix `/tmp/rvmt_exp_runner` | FAIL | decoded board binary hash mismatched local runner hash and crashed; not valid board evidence; requires booting the updated rootfs/sdcard image or a reliable transfer path |
 | side-channel-smoke | `uv run python tools/package_35t_board_validation.py --repo-root . --source-results-root results/experiments/35t/35t-sidechannel-smoke-20260522c --out-dir results/experiments/35t/35t-sidechannel-smoke-20260522c/board_validation_bundle` | PASS_WITH_PARTIAL_EVIDENCE | exit_code=0, status=CANDIDATE_PARTIAL; artifact set incomplete by design and fd/path/process-tree remained PARTIAL |
+| side-channel-image-boot | LiteX serial image boot from `vendor/litex/linux-on-litex-vexriscv/images/boot.json` into updated 35T rootfs | PASS | uploaded updated Linux image; `/usr/bin/rvmt_exp_runner --syscall-side-channel hello` confirmed `syscall_side_channel=1` on board |
+| side-channel-smoke | `uv run python tools/experiment_35t.py --stage board --run-id 35t-sidechannel-smoke-20260522e --reps 1 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic --port COM5 --baud 921600 --duration 180 --sample file_scan --sample process_chain --syscall-side-channel` | PASS | exit_code=0; captured 48 `RVMT_SYSCALL_OBS` rows and 2 `syscall_side_channel.json` files |
+| side-channel-smoke | `uv run python tools/package_35t_board_validation.py --repo-root . --source-results-root results/experiments/35t/35t-sidechannel-smoke-20260522e --out-dir results/experiments/35t/35t-sidechannel-smoke-20260522e/board_validation_bundle` | PASS_WITH_PARTIAL_EVIDENCE | exit_code=0; smoke bundle has fd/path PASS and process-tree PASS, but is not a full 13-sample validation bundle |
+| actual-board-run-sidechannel | `uv run python tools/experiment_35t.py --stage board --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic --port COM5 --baud 921600 --duration 3600.0 --syscall-side-channel` | PASS | exit_code=0; trace-off 65/65 PASS and trace-on 65/65 PASS |
+| actual-board-run-sidechannel | `uv run python tools/experiment_35t.py --stage analyze --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic --syscall-side-channel` | PASS | exit_code=0 |
+| actual-board-run-sidechannel | `uv run python tools/experiment_35t.py --stage report --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic --syscall-side-channel` | PASS | exit_code=0 |
+| actual-board-run-sidechannel | `uv run python tools/check_35t_next_gate.py --run-id 35t-targeted-board-validation-20260522` | PASS | exit_code=0, samples=13/13 PASS, trace_records=512, trace_profile_policy=35t_small_capacity |
+| actual-board-run-sidechannel | `uv run python tools/package_35t_board_validation.py --repo-root . --source-results-root results/experiments/35t/35t-targeted-board-validation-20260522 --out-dir results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle` | PASS | exit_code=0, status=PASS |
+| actual-board-run-sidechannel | `uv run python tools/check_35t_board_validation.py --repo-root . --results-root results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle --require-results` | PASS | exit_code=0, hardware_validated=true; fd/path PASS, process-tree PASS, source-attribution PARTIAL |
+| actual-board-run-sidechannel | `uv run python tools/summarize_35t_board_validation_attempt.py --repo-root . --validation-run-id 35t-targeted-board-validation-20260522` | PASS | exit_code=0, status=BOARD_VALIDATION_PASS |
 | final | `uv run python tools/check_35t_application_closure.py --repo-root .` | PASS | exit_code=0 |
 | final | `uv run python -m compileall tools src/rv_maltrace` | PASS | exit_code=0 |
 | final | `git diff --check` | PASS | exit_code=0 |
@@ -182,6 +192,44 @@ stdout:
 Listing 'tools'...
 Listing 'src/rv_maltrace'...
 ```
+
+### LiteX serial image boot from `images/boot.json`
+
+Phase: side-channel-image-boot
+
+Status: PASS
+
+Result: the 35T board booted the updated Linux image/rootfs through the LiteX serial image loader. A direct board smoke of `/usr/bin/rvmt_exp_runner --syscall-side-channel hello` reported `syscall_side_channel=1`.
+
+### `uv run python tools/experiment_35t.py --stage board --run-id 35t-sidechannel-smoke-20260522e --reps 1 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic --port COM5 --baud 921600 --duration 180 --sample file_scan --sample process_chain --syscall-side-channel`
+
+Phase: side-channel-smoke
+
+Status: PASS (exit_code=0)
+
+Result: 48 `RVMT_SYSCALL_OBS` rows and two `syscall_side_channel.json` files were captured on board. The packaged smoke summaries reported fd/path `PASS` and process-tree `PASS`.
+
+### `uv run python tools/experiment_35t.py --stage board --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic --port COM5 --baud 921600 --duration 3600.0 --syscall-side-channel`
+
+Phase: actual-board-run-sidechannel
+
+Status: PASS (exit_code=0)
+
+Result: the full 13-sample targeted 35T board run completed with trace-off 65/65 PASS and trace-on 65/65 PASS.
+
+### `uv run python tools/check_35t_board_validation.py --repo-root . --results-root results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle --require-results`
+
+Phase: actual-board-run-sidechannel
+
+Status: PASS (exit_code=0)
+
+stdout:
+
+```text
+[PASS] 35T board validation status
+```
+
+Result: strict 35T board validation is closed for the current prototype claim. fd/path flow is `PASS`, process-tree explanation is `PASS`, and source attribution remains `PARTIAL`.
 
 ### `uv run python tools/recover_fd_path_flow.py --self-test`
 

@@ -1,35 +1,29 @@
 {
-  "assessment": "actual 35T board run completed and full-matrix gate passed, but strict fd/path and process-tree validation remain partial",
+  "assessment": "strict 35T board-validation bundle passed",
   "board_validation_status": {
-    "failures": [
-      "board validation result content check failed: fd_path_flow",
-      "board validation result content check failed: process_tree"
-    ],
-    "hardware_validated": false,
+    "failures": [],
+    "hardware_validated": true,
     "path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_status.json",
-    "status": "RESULTS_PARTIAL"
+    "status": "PASS"
   },
   "bundle": {
-    "checker_failures": [
-      "board validation result content check failed: fd_path_flow",
-      "board validation result content check failed: process_tree"
-    ],
-    "checker_status": "RESULTS_PARTIAL",
+    "checker_failures": [],
+    "checker_status": "PASS",
     "manifest": "results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle/bundle_manifest.json",
     "missing_artifacts": [],
     "selected_statuses": {
-      "fd_path_flow": "PARTIAL",
-      "process_tree": "PARTIAL",
+      "fd_path_flow": "PASS",
+      "process_tree": "PASS",
       "source_attribution": "PARTIAL"
     },
-    "status": "CANDIDATE_PARTIAL"
+    "status": "PASS"
   },
   "bundle_root": "results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle",
   "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
-  "hardware_validated": false,
+  "hardware_validated": true,
   "next_gate": {
     "all_samples_pass": true,
-    "claim_level": "full_matrix_ready",
+    "claim_level": "prototype_only",
     "gate_report": "results/experiments/35t/35t-targeted-board-validation-20260522/aggregate/gate_report.json",
     "sample_count": 13,
     "sample_pass_count": 13,
@@ -76,6 +70,6 @@
   "schema": "rvmt.35t.board_validation_attempt_summary.v1",
   "scope": "Artix-7 35T / LiteX / VexRiscv",
   "source_run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
-  "status": "BOARD_RUN_COMPLETE_VALIDATION_PARTIAL",
+  "status": "BOARD_VALIDATION_PASS",
   "validation_run_id": "35t-targeted-board-validation-20260522"
 }

@@ -1,10 +1,7 @@
 {
   "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
-  "failures": [
-    "board validation result content check failed: fd_path_flow",
-    "board validation result content check failed: process_tree"
-  ],
-  "hardware_validated": false,
+  "failures": [],
+  "hardware_validated": true,
   "non_claims": [
     "no CVA6 board claim",
     "no real malware detection claim",
@@ -61,8 +58,8 @@
       "status": "present"
     },
     "fd_path_flow": {
-      "ok": false,
-      "status": "PARTIAL"
+      "ok": true,
+      "status": "PASS"
     },
     "gate_report": {
       "ok": true,
@@ -70,8 +67,8 @@
       "validation_run_id": "35t-targeted-board-validation-20260522"
     },
     "process_tree": {
-      "ok": false,
-      "status": "PARTIAL"
+      "ok": true,
+      "status": "PASS"
     },
     "run_config": {
       "ok": true,
@@ -86,5 +83,5 @@
   "schema": "rvmt.35t.board_validation_status.v1",
   "scope": "Artix-7 35T / LiteX / VexRiscv",
   "source_run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
-  "status": "RESULTS_PARTIAL"
+  "status": "PASS"
 }

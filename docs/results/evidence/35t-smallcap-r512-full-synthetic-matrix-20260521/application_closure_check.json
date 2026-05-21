@@ -5,7 +5,7 @@
     "schema_ok": true,
     "scope_ok": true,
     "source_run_id_ok": true,
-    "status": "BOARD_RUN_COMPLETE_VALIDATION_PARTIAL",
+    "status": "BOARD_VALIDATION_PASS",
     "status_ok": true
   },
   "board_validation_preflight": {
@@ -31,10 +31,10 @@
     "syscall_side_channel_ok": true
   },
   "board_validation_status": {
-    "hardware_validated": false,
+    "hardware_validated": true,
     "hardware_validated_ok": true,
     "schema_ok": true,
-    "status": "RESULTS_PARTIAL",
+    "status": "PASS",
     "status_ok": true
   },
   "case_study_coverage": {
