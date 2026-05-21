@@ -271,12 +271,20 @@ def check_board_validation(
             if not row.get("ok"):
                 failures.append(f"board validation result content check failed: {key}")
 
-    hardware_validated = bool(results_available and not missing)
-    if content_checks and not all(row.get("ok") for row in content_checks.values()):
-        hardware_validated = False
-    status = "PASS" if hardware_validated else "AWAITING_BOARD_RUN"
-    if failures and (require_results or plan_path.exists()):
-        status = "FAIL" if require_results or any("plan check failed" in item for item in failures) else status
+    content_checked = bool(content_checks)
+    content_ok = bool(content_checked and all(row.get("ok") for row in content_checks.values()))
+    hardware_validated = bool(results_available and not missing and content_ok)
+    plan_failed = any("plan check failed" in item for item in failures)
+    if plan_failed:
+        status = "FAIL"
+    elif hardware_validated:
+        status = "PASS"
+    elif results_available and not missing and content_checked:
+        status = "RESULTS_PARTIAL"
+    elif require_results:
+        status = "FAIL"
+    else:
+        status = "AWAITING_BOARD_RUN"
 
     report = {
         "schema": "rvmt.35t.board_validation_status.v1",
@@ -372,6 +380,19 @@ def self_test() -> int:
         if passed["status"] != "PASS" or not passed["hardware_validated"]:
             print("[FAIL] expected complete fake board artifact set to pass", file=sys.stderr)
             return 1
+        (results / "fd_path_flow_summary.json").write_text(
+            json.dumps({"schema": "rvmt.fd_path_flow.summary.v1", "status": "PARTIAL"}),
+            encoding="utf-8",
+        )
+        partial = check_board_validation(root, DEFAULT_EVIDENCE_ROOT, results, require_results=True, write_outputs=False)
+        if partial["status"] != "RESULTS_PARTIAL" or partial["hardware_validated"]:
+            print("[FAIL] expected partial fake board artifact set to be RESULTS_PARTIAL", file=sys.stderr)
+            print(json.dumps(partial, indent=2), file=sys.stderr)
+            return 1
+        (results / "fd_path_flow_summary.json").write_text(
+            json.dumps({"schema": "rvmt.fd_path_flow.summary.v1", "status": "PASS"}),
+            encoding="utf-8",
+        )
         alt_run_id = "35t-targeted-board-validation-self-test"
         alt_results = root / "alt-board-results"
         alt_results.mkdir()
@@ -432,7 +453,11 @@ def main(argv: list[str] | None = None) -> int:
     print(f"[{report['status']}] 35T board validation status")
     for failure in report["failures"]:
         print(f"FAIL: {failure}", file=sys.stderr)
-    return 0 if report["status"] in {"PASS", "AWAITING_BOARD_RUN"} else 1
+    if report["status"] == "PASS":
+        return 0
+    if report["status"] in {"AWAITING_BOARD_RUN", "RESULTS_PARTIAL"} and not args.require_results:
+        return 0
+    return 1
 
 
 if __name__ == "__main__":

@@ -22,7 +22,9 @@ This directory contains committed lightweight summary artifacts for the primary 
 - `process_tree_summary.json` and `process_tree_summary.md`
 - `source_attribution_summary.json` and `source_attribution_summary.md`
 - `explanation_readiness_summary.json` and `explanation_readiness_summary.md`
+- `board_validation_attempt_summary.json` and `board_validation_attempt_summary.md`
 - `board_validation_plan.json` and `board_validation_plan.md`
+- `board_validation_preflight.json` and `board_validation_preflight.md`
 - `board_validation_runbook.json` and `board_validation_runbook.md`
 - `board_validation_status.json` and `board_validation_status.md`
 - `command_log.md`
@@ -58,6 +60,14 @@ uv run python tools/prepare_35t_board_validation_run.py --repo-root . --validati
 
 The generated `board_validation_runbook.md` keeps the source evidence run fixed at `35t-smallcap-r512-full-synthetic-matrix-20260521` while using a separate validation run id for the future board capture.
 
+Before running the board stage, use the preflight checker:
+
+```bash
+uv run python tools/check_35t_board_preflight.py --repo-root .
+```
+
+The preflight status only checks host tools, scripts, runbook consistency, and whether the requested UART port is visible. It does not prove the 35T board image is running and does not count as board validation.
+
 ## Artifact Index
 
 See `evidence_manifest.json` for hashes and source paths. See `case_study_artifact_index.json` for indexed case-study source artifacts that are referenced but not committed in this lightweight snapshot. The fd/path and process-tree summaries are initial `PARTIAL` interpretation artifacts and do not claim complete semantic reconstruction.
@@ -69,6 +79,10 @@ See `evidence_manifest.json` for hashes and source paths. See `case_study_artifa
 `board_validation_plan.md` and `board_validation_status.md` define the targeted 35T board-validation artifact set. The current status is `AWAITING_BOARD_RUN`; hardware validation remains false until those board artifacts are captured.
 
 `board_validation_runbook.md` records the exact command sequence for the next real 35T board run. It is a run plan, not board evidence.
+
+`board_validation_preflight.md` records the current host and UART readiness for that run plan. It is a readiness check, not board evidence.
+
+`board_validation_attempt_summary.md` records the targeted 35T validation attempt `35t-targeted-board-validation-20260522`: groundtruth, rootfs, board capture, analyze, report, and next-gate completed with 13/13 sample status PASS and `full_matrix_ready`, but the strict board-validation bundle remains `CANDIDATE_PARTIAL` because fd/path flow and process-tree summaries are still `PARTIAL`.
 
 ## Non-claims
 

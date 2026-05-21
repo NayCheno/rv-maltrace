@@ -1,6 +1,6 @@
 # 35T Board Validation Status: 35t-smallcap-r512-full-synthetic-matrix-20260521
 
-Status: AWAITING_BOARD_RUN
+Status: RESULTS_PARTIAL
 
 Scope: Artix-7 35T / LiteX / VexRiscv only.
 
@@ -19,11 +19,17 @@ Hardware validated: false
 
 ## Result Artifacts
 
-- not checked: no board validation results root was provided
+- all required result artifacts present
 
 ## Result Content Checks
 
-- not checked
+- bundle_manifest: PASS (checked)
+- run_config: PASS (checked)
+- gate_report: PASS (checked)
+- fd_path_flow: FAIL (PARTIAL)
+- process_tree: FAIL (PARTIAL)
+- source_attribution: PASS (PARTIAL)
+- command_log: PASS (present)
 
 ## Required Capture
 
@@ -43,3 +49,8 @@ Hardware validated: false
 - no mature detector claim
 - no classifier accuracy claim
 - no complete semantic reconstruction claim
+
+## Failures
+
+- board validation result content check failed: fd_path_flow
+- board validation result content check failed: process_tree

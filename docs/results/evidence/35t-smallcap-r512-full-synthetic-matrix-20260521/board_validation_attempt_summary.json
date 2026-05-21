@@ -1,0 +1,81 @@
+{
+  "assessment": "actual 35T board run completed and full-matrix gate passed, but strict fd/path and process-tree validation remain partial",
+  "board_validation_status": {
+    "failures": [
+      "board validation result content check failed: fd_path_flow",
+      "board validation result content check failed: process_tree"
+    ],
+    "hardware_validated": false,
+    "path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_status.json",
+    "status": "RESULTS_PARTIAL"
+  },
+  "bundle": {
+    "checker_failures": [
+      "board validation result content check failed: fd_path_flow",
+      "board validation result content check failed: process_tree"
+    ],
+    "checker_status": "RESULTS_PARTIAL",
+    "manifest": "results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle/bundle_manifest.json",
+    "missing_artifacts": [],
+    "selected_statuses": {
+      "fd_path_flow": "PARTIAL",
+      "process_tree": "PARTIAL",
+      "source_attribution": "PARTIAL"
+    },
+    "status": "CANDIDATE_PARTIAL"
+  },
+  "bundle_root": "results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle",
+  "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+  "hardware_validated": false,
+  "next_gate": {
+    "all_samples_pass": true,
+    "claim_level": "full_matrix_ready",
+    "gate_report": "results/experiments/35t/35t-targeted-board-validation-20260522/aggregate/gate_report.json",
+    "sample_count": 13,
+    "sample_pass_count": 13,
+    "schema": "rvmt.35t.next_gate.v2",
+    "trace_profile_policy": "35t_small_capacity",
+    "trace_records": 512
+  },
+  "non_claims": [
+    "no CVA6 board claim",
+    "no real malware detection claim",
+    "no mature detector claim",
+    "no classifier accuracy claim",
+    "no complete semantic reconstruction claim"
+  ],
+  "phase_statuses": {
+    "analyze": {
+      "semantic_event_files": 65,
+      "status": "PASS"
+    },
+    "board": {
+      "raw_uart": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-targeted-board-validation-20260522/board/raw_uart.log",
+      "status": "PASS",
+      "trace_off_pass": 65,
+      "trace_off_reps": 65,
+      "trace_on_pass": 65,
+      "trace_on_reps": 65
+    },
+    "groundtruth": {
+      "pass_count": 13,
+      "status": "PASS",
+      "status_files": 13
+    },
+    "report": {
+      "gate_report": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-targeted-board-validation-20260522/aggregate/gate_report.json",
+      "metrics": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-targeted-board-validation-20260522/aggregate/metrics.json",
+      "status": "PASS"
+    },
+    "rootfs": {
+      "log": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-targeted-board-validation-20260522/rootfs/build-artix7-linux-images.log",
+      "status": "PASS"
+    }
+  },
+  "results_root": "results/experiments/35t/35t-targeted-board-validation-20260522",
+  "schema": "rvmt.35t.board_validation_attempt_summary.v1",
+  "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "source_run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "status": "BOARD_RUN_COMPLETE_VALIDATION_PARTIAL",
+  "validation_run_id": "35t-targeted-board-validation-20260522"
+}

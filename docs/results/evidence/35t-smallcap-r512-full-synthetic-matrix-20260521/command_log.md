@@ -37,13 +37,19 @@ Non-claims: no CVA6 board claim; no real malware detection claim; no mature dete
 | board-validation | `uv run python tools/check_35t_board_validation.py --repo-root .` | PASS | exit_code=0, status=AWAITING_BOARD_RUN |
 | board-validation-runbook | `uv run python tools/prepare_35t_board_validation_run.py --self-test` | PASS | exit_code=0 |
 | board-validation-runbook | `uv run python tools/prepare_35t_board_validation_run.py --repo-root . --validation-run-id 35t-targeted-board-validation-20260522` | PASS | exit_code=0, status=READY_TO_RUN_ON_35T_BOARD |
-| actual-board-run | `uv run python tools/experiment_35t.py --stage groundtruth --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic` | NOT_RUN | requires starting the targeted board-validation sequence; deferred until actual 35T validation run |
-| actual-board-run | `uv run python tools/experiment_35t.py --stage rootfs --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic` | NOT_RUN | requires rebuilding the 35T rootfs/board image for the targeted validation run |
-| actual-board-run | `uv run python tools/experiment_35t.py --stage board --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic --port COM5 --baud 921600 --duration 3600.0` | NOT_RUN | requires connected Artix-7 35T board and UART capture |
-| actual-board-run | `uv run python tools/experiment_35t.py --stage analyze --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic` | NOT_RUN | depends on targeted board capture results |
-| actual-board-run | `uv run python tools/experiment_35t.py --stage report --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic` | NOT_RUN | depends on targeted board analysis results |
-| actual-board-run | `uv run python tools/package_35t_board_validation.py --repo-root . --source-results-root results/experiments/35t/35t-targeted-board-validation-20260522 --out-dir results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle` | NOT_RUN | depends on targeted board run artifacts |
-| actual-board-run | `uv run python tools/check_35t_board_validation.py --repo-root . --results-root results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle --require-results` | NOT_RUN | depends on targeted board-validation bundle |
+| board-validation-preflight | `uv run python tools/check_35t_board_preflight.py --self-test` | PASS | exit_code=0 |
+| board-validation-preflight | `uv run python tools/check_35t_board_preflight.py --repo-root .` | PASS | exit_code=0, status=READY_FOR_BOARD_RUN |
+| board-validation-preflight | `uv run python tools/check_35t_board_preflight.py --repo-root . --require-board --no-write` | PASS | exit_code=0, status=READY_FOR_BOARD_RUN |
+| actual-board-run | `uv run python tools/experiment_35t.py --stage groundtruth --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic` | PASS | exit_code=0 |
+| actual-board-run | `uv run python tools/experiment_35t.py --stage rootfs --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic` | PASS | exit_code=0 |
+| actual-board-run | `uv run python tools/experiment_35t.py --stage board --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic --port COM5 --baud 921600 --duration 3600.0` | PASS | exit_code=0 |
+| actual-board-run | `uv run python tools/experiment_35t.py --stage analyze --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic` | PASS | exit_code=0 |
+| actual-board-run | `uv run python tools/experiment_35t.py --stage report --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic` | PASS | exit_code=0 |
+| actual-board-run | `uv run python tools/check_35t_next_gate.py --run-id 35t-targeted-board-validation-20260522` | PASS | exit_code=0, gate claim_level=full_matrix_ready, samples=13/13 PASS |
+| actual-board-run | `uv run python tools/package_35t_board_validation.py --repo-root . --source-results-root results/experiments/35t/35t-targeted-board-validation-20260522 --out-dir results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle` | PASS | exit_code=0, status=CANDIDATE_PARTIAL |
+| actual-board-run | `uv run python tools/check_35t_board_validation.py --repo-root . --results-root results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle --require-results` | FAIL | exit_code=1, status=RESULTS_PARTIAL; fd/path and process-tree remain PARTIAL |
+| actual-board-run | `uv run python tools/summarize_35t_board_validation_attempt.py --self-test` | PASS | exit_code=0 |
+| actual-board-run | `uv run python tools/summarize_35t_board_validation_attempt.py --repo-root . --validation-run-id 35t-targeted-board-validation-20260522` | PASS | exit_code=0, status=BOARD_RUN_COMPLETE_VALIDATION_PARTIAL |
 | final | `uv run python tools/check_35t_application_closure.py --repo-root .` | PASS | exit_code=0 |
 | final | `uv run python -m compileall tools src/rv_maltrace` | PASS | exit_code=0 |
 | final | `git diff --check` | PASS | exit_code=0 |
@@ -341,6 +347,107 @@ analyze: uv run python tools/experiment_35t.py --stage analyze --run-id 35t-targ
 report: uv run python tools/experiment_35t.py --stage report --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic
 package: uv run python tools/package_35t_board_validation.py --repo-root . --source-results-root results/experiments/35t/35t-targeted-board-validation-20260522 --out-dir results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle
 check: uv run python tools/check_35t_board_validation.py --repo-root . --results-root results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle --require-results
+```
+
+### `uv run python tools/check_35t_board_preflight.py --self-test`
+
+Phase: board-validation-preflight
+
+Status: PASS (exit_code=0)
+
+stdout:
+
+```text
+[PASS] 35T board preflight self-test
+```
+
+### `uv run python tools/check_35t_board_preflight.py --repo-root .`
+
+Phase: board-validation-preflight
+
+Status: PASS (exit_code=0)
+
+stdout:
+
+```text
+[READY_FOR_BOARD_RUN] 35T board validation preflight
+```
+
+### `uv run python tools/check_35t_board_preflight.py --repo-root . --require-board --no-write`
+
+Phase: board-validation-preflight
+
+Status: PASS (exit_code=0)
+
+Reason: the requested UART port is visible through pyserial. This is still only preflight readiness and does not prove the 35T board image is running.
+
+stdout:
+
+```text
+[READY_FOR_BOARD_RUN] 35T board validation preflight
+```
+
+### `uv run python tools/experiment_35t.py --stage board --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic --port COM5 --baud 921600 --duration 3600.0`
+
+Phase: actual-board-run
+
+Status: PASS (exit_code=0)
+
+stdout excerpt:
+
+```text
++ capture 35T experiment UART on COM5 921600 8N1 for 3600s to results/experiments/35t/35t-targeted-board-validation-20260522/board/raw_uart.log
++ send: /usr/bin/rvmt_exp_runner ... trace-off ... hello ls cat cp sha256sum file_scan batch_open_read_write self_copy_sim abnormal_syscall_sequence process_chain dynamic_executable_memory anti_debug_like
++ send: /usr/bin/rvmt_exp_runner ... trace-on ... hello ls cat cp sha256sum file_scan batch_open_read_write self_copy_sim abnormal_syscall_sequence process_chain dynamic_executable_memory anti_debug_like
++ send: /usr/bin/rvmt_exp_runner ... trace-off ... illegal_trap
++ send: /usr/bin/rvmt_exp_runner ... trace-on ... illegal_trap
+```
+
+### `uv run python tools/check_35t_next_gate.py --run-id 35t-targeted-board-validation-20260522`
+
+Phase: actual-board-run
+
+Status: PASS (exit_code=0)
+
+stdout:
+
+```text
+[PASS] 35T next gate report written: results/experiments/35t/35t-targeted-board-validation-20260522/aggregate/gate_report.json
+```
+
+Result: `full_matrix_ready`, 13/13 sample status PASS.
+
+### `uv run python tools/check_35t_board_validation.py --repo-root . --results-root results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle --require-results`
+
+Phase: actual-board-run
+
+Status: FAIL (exit_code=1)
+
+Reason: actual 35T board run completed, but strict validation remains partial because fd/path flow and process-tree summaries are not PASS.
+
+stdout:
+
+```text
+[RESULTS_PARTIAL] 35T board validation status
+```
+
+stderr:
+
+```text
+FAIL: board validation result content check failed: fd_path_flow
+FAIL: board validation result content check failed: process_tree
+```
+
+### `uv run python tools/summarize_35t_board_validation_attempt.py --repo-root . --validation-run-id 35t-targeted-board-validation-20260522`
+
+Phase: actual-board-run
+
+Status: PASS (exit_code=0)
+
+stdout:
+
+```text
+[BOARD_RUN_COMPLETE_VALIDATION_PARTIAL] 35T board validation attempt summary
 ```
 
 ### `uv run python tools/package_35t_board_validation.py --self-test`

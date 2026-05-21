@@ -56,6 +56,16 @@ uv run python tools/prepare_35t_board_validation_run.py --repo-root . --validati
 
 The committed `board_validation_runbook.md` lists the `groundtruth`, `rootfs`, `board`, `analyze`, `report`, `package`, and `check` commands. Commands that require the Artix-7 35T board remain not run in this snapshot.
 
+Run the preflight checker before the board stage:
+
+```bash
+uv run python tools/check_35t_board_preflight.py --repo-root .
+```
+
+`board_validation_preflight.md` is only a readiness check for host tools, scripts, runbook consistency, and UART port visibility. It does not prove the 35T board image is running.
+
+The validation attempt `35t-targeted-board-validation-20260522` has now completed the runbook through board capture, analyze, report, next-gate, package, and strict check. The attempt summary is committed as `board_validation_attempt_summary.md`. Its status is `BOARD_RUN_COMPLETE_VALIDATION_PARTIAL`: the 13-sample 35T gate is `full_matrix_ready`, but strict board validation is not complete because fd/path and process-tree summaries remain `PARTIAL`.
+
 ## Non-claims
 
 - no CVA6 board claim

@@ -44,7 +44,9 @@ docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/sample_ma
 docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/case_study_artifact_index.json
 docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/source_attribution_summary.md
 docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/explanation_readiness_summary.md
+docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_attempt_summary.md
 docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_plan.md
+docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_preflight.md
 docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_runbook.md
 docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_status.md
 docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/command_log.md
@@ -242,10 +244,11 @@ Priority backlog:
    - Value: prevents benign behavior from being written as malware detection success.
 
 5. `targeted 35T board validation`
-   - Current status: `board_validation_status.md` is `AWAITING_BOARD_RUN`.
+   - Current status: `board_validation_status.md` is `RESULTS_PARTIAL`; the attempted board-validation bundle is not a strict PASS.
+   - Current attempt: `board_validation_attempt_summary.md` records validation run `35t-targeted-board-validation-20260522`; groundtruth, rootfs, board capture, analyze, report, and next-gate completed, with 13/13 sample status PASS and `full_matrix_ready`.
+   - Current preflight: `board_validation_preflight.md` checks host tools, scripts, runbook consistency, and UART visibility only; it is not board validation evidence.
    - Current run entry: `board_validation_runbook.md` lists the exact 35T `groundtruth`, `rootfs`, `board`, `analyze`, `report`, `package`, and `check` commands for validation run `35t-targeted-board-validation-20260522`.
-   - Current packaging path: `tools/package_35t_board_validation.py` can prepare a flat candidate bundle from a local 35T run and then feed it to `tools/check_35t_board_validation.py --require-results`.
-   - Current candidate result: the existing run packages as `CANDIDATE_PARTIAL`; the checker fails fd/path flow and process-tree content checks as expected, so hardware validation remains false.
+   - Current strict-check result: `CANDIDATE_PARTIAL`; fd/path flow and process-tree summaries remain `PARTIAL`, so hardware validation remains false.
    - Goal: capture the required fd/path, process-tree, source-attribution, and benign-overlap artifacts on Artix-7 35T hardware.
    - Value: turns the current local readiness boundary into board-backed evidence without expanding the claim beyond the 35T synthetic prototype.
 

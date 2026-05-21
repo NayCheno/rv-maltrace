@@ -39,6 +39,14 @@
     "board_validation_runbook.json",
     "board_validation_runbook.md"
   ],
+  "preflight_artifacts": [
+    "board_validation_preflight.json",
+    "board_validation_preflight.md"
+  ],
+  "attempt_artifacts": [
+    "board_validation_attempt_summary.json",
+    "board_validation_attempt_summary.md"
+  ],
   "pass_criteria": [
     "35T closure checker remains PASS",
     "baseline 13-sample gate remains 13/13 PASS or any rerun failure is explicitly marked FAIL",

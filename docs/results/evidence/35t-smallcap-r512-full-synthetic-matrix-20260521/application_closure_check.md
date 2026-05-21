@@ -9,8 +9,10 @@ Status: PASS
 - docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/evidence_manifest.json
 - docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/explanation_readiness_summary.json
 - docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/source_attribution_summary.json
+- docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_attempt_summary.json
 - docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_status.json
 - docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_runbook.json
+- docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_preflight.json
 
 ## Required Fields
 
@@ -48,10 +50,16 @@ Status: PASS
 - status: PARTIAL
 - function_level: available
 
+## Board Validation Attempt
+
+- schema: PASS
+- status: BOARD_RUN_COMPLETE_VALIDATION_PARTIAL
+- hardware_validated_consistent: PASS
+
 ## Board Validation Status
 
 - schema: PASS
-- status: AWAITING_BOARD_RUN
+- status: RESULTS_PARTIAL
 - hardware_validated: False
 
 ## Board Validation Runbook
@@ -59,6 +67,13 @@ Status: PASS
 - schema: PASS
 - status: READY_TO_RUN_ON_35T_BOARD
 - hardware_required: PASS
+
+## Board Validation Preflight
+
+- schema: PASS
+- status: READY_FOR_BOARD_RUN
+- hardware_ready_consistent: PASS
+- hardware_ready_basis: PASS
 
 ## Warnings
 

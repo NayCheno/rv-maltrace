@@ -154,6 +154,11 @@ def write_report(report: dict[str, Any], evidence_root: Path) -> None:
     lines.append(f"- schema: {'PASS' if source_attr.get('schema_ok') else 'FAIL'}")
     lines.append(f"- status: {source_attr.get('status')}")
     lines.append(f"- function_level: {source_attr.get('function_level')}")
+    lines += ["", "## Board Validation Attempt", ""]
+    board_attempt = report.get("board_validation_attempt", {})
+    lines.append(f"- schema: {'PASS' if board_attempt.get('schema_ok') else 'FAIL'}")
+    lines.append(f"- status: {board_attempt.get('status')}")
+    lines.append(f"- hardware_validated_consistent: {'PASS' if board_attempt.get('hardware_validated_consistent') else 'FAIL'}")
     lines += ["", "## Board Validation Status", ""]
     board_status = report.get("board_validation_status", {})
     lines.append(f"- schema: {'PASS' if board_status.get('schema_ok') else 'FAIL'}")
@@ -164,6 +169,12 @@ def write_report(report: dict[str, Any], evidence_root: Path) -> None:
     lines.append(f"- schema: {'PASS' if board_runbook.get('schema_ok') else 'FAIL'}")
     lines.append(f"- status: {board_runbook.get('status')}")
     lines.append(f"- hardware_required: {'PASS' if board_runbook.get('hardware_required_ok') else 'FAIL'}")
+    lines += ["", "## Board Validation Preflight", ""]
+    board_preflight = report.get("board_validation_preflight", {})
+    lines.append(f"- schema: {'PASS' if board_preflight.get('schema_ok') else 'FAIL'}")
+    lines.append(f"- status: {board_preflight.get('status')}")
+    lines.append(f"- hardware_ready_consistent: {'PASS' if board_preflight.get('hardware_ready_consistent') else 'FAIL'}")
+    lines.append(f"- hardware_ready_basis: {'PASS' if board_preflight.get('hardware_ready_basis_ok') else 'FAIL'}")
     lines += ["", "## Warnings", ""]
     if report["warnings"]:
         for item in report["warnings"]:
@@ -186,10 +197,22 @@ def check_repo(repo_root: Path, evidence_root_arg: Path, write_outputs: bool) ->
     case_path = repo_root / "docs/results/rv_maltrace_35t_application_case_studies.md"
     manifest_path = evidence_root / "evidence_manifest.json"
     readiness_path = evidence_root / "explanation_readiness_summary.json"
+    board_attempt_path = evidence_root / "board_validation_attempt_summary.json"
     board_status_path = evidence_root / "board_validation_status.json"
     board_runbook_path = evidence_root / "board_validation_runbook.json"
+    board_preflight_path = evidence_root / "board_validation_preflight.json"
     source_attr_path = evidence_root / "source_attribution_summary.json"
-    checked = [closure_path, case_path, manifest_path, readiness_path, source_attr_path, board_status_path, board_runbook_path]
+    checked = [
+        closure_path,
+        case_path,
+        manifest_path,
+        readiness_path,
+        source_attr_path,
+        board_attempt_path,
+        board_status_path,
+        board_runbook_path,
+        board_preflight_path,
+    ]
     failures: list[str] = []
     warnings: list[str] = []
 
@@ -212,6 +235,12 @@ def check_repo(repo_root: Path, evidence_root_arg: Path, write_outputs: bool) ->
         except Exception as exc:  # pragma: no cover - covered through CLI behavior
             failures.append(f"invalid explanation readiness JSON: {exc}")
     board_status: dict[str, Any] = {}
+    board_attempt: dict[str, Any] = {}
+    if board_attempt_path.exists():
+        try:
+            board_attempt = load_json(board_attempt_path)
+        except Exception as exc:  # pragma: no cover - covered through CLI behavior
+            failures.append(f"invalid board validation attempt summary JSON: {exc}")
     if board_status_path.exists():
         try:
             board_status = load_json(board_status_path)
@@ -223,6 +252,12 @@ def check_repo(repo_root: Path, evidence_root_arg: Path, write_outputs: bool) ->
             board_runbook = load_json(board_runbook_path)
         except Exception as exc:  # pragma: no cover - covered through CLI behavior
             failures.append(f"invalid board validation runbook JSON: {exc}")
+    board_preflight: dict[str, Any] = {}
+    if board_preflight_path.exists():
+        try:
+            board_preflight = load_json(board_preflight_path)
+        except Exception as exc:  # pragma: no cover - covered through CLI behavior
+            failures.append(f"invalid board validation preflight JSON: {exc}")
     source_attr: dict[str, Any] = {}
     if source_attr_path.exists():
         try:
@@ -237,8 +272,10 @@ def check_repo(repo_root: Path, evidence_root_arg: Path, write_outputs: bool) ->
             json.dumps(manifest, sort_keys=True),
             json.dumps(readiness, sort_keys=True),
             json.dumps(source_attr, sort_keys=True),
+            json.dumps(board_attempt, sort_keys=True),
             json.dumps(board_status, sort_keys=True),
             json.dumps(board_runbook, sort_keys=True),
+            json.dumps(board_preflight, sort_keys=True),
         ]
     )
     field_results: dict[str, Any] = {}
@@ -314,20 +351,43 @@ def check_repo(repo_root: Path, evidence_root_arg: Path, write_outputs: bool) ->
         failures.append("explanation readiness status must be READY_FOR_TARGETED_BOARD_VALIDATION")
     if not readiness_results["board_validation_required_ok"]:
         failures.append("explanation readiness must keep board_validation_required true")
+    board_attempt_results = {
+        "schema_ok": board_attempt.get("schema") == "rvmt.35t.board_validation_attempt_summary.v1",
+        "source_run_id_ok": board_attempt.get("source_run_id") == RUN_ID,
+        "scope_ok": board_attempt.get("scope") == "Artix-7 35T / LiteX / VexRiscv",
+        "claim_level_ok": board_attempt.get("claim_level") == EXPECTED_CLAIM_LEVEL,
+        "status": board_attempt.get("status"),
+        "status_ok": board_attempt.get("status") in {"BOARD_RUN_COMPLETE_VALIDATION_PARTIAL", "BOARD_VALIDATION_PASS"},
+        "hardware_validated_consistent": (
+            (board_attempt.get("status") == "BOARD_VALIDATION_PASS" and board_attempt.get("hardware_validated") is True)
+            or (
+                board_attempt.get("status") == "BOARD_RUN_COMPLETE_VALIDATION_PARTIAL"
+                and board_attempt.get("hardware_validated") is False
+            )
+        ),
+    }
+    for key, ok in board_attempt_results.items():
+        if key == "status":
+            continue
+        if not ok:
+            failures.append(f"board validation attempt summary check failed: {key}")
     board_status_results = {
         "schema_ok": board_status.get("schema") == "rvmt.35t.board_validation_status.v1",
         "status": board_status.get("status"),
-        "status_ok": board_status.get("status") in {"AWAITING_BOARD_RUN", "PASS"},
+        "status_ok": board_status.get("status") in {"AWAITING_BOARD_RUN", "RESULTS_PARTIAL", "PASS"},
         "hardware_validated": board_status.get("hardware_validated"),
         "hardware_validated_ok": (
             (board_status.get("status") == "PASS" and board_status.get("hardware_validated") is True)
-            or (board_status.get("status") == "AWAITING_BOARD_RUN" and board_status.get("hardware_validated") is False)
+            or (
+                board_status.get("status") in {"AWAITING_BOARD_RUN", "RESULTS_PARTIAL"}
+                and board_status.get("hardware_validated") is False
+            )
         ),
     }
     if not board_status_results["schema_ok"]:
         failures.append("board validation status schema must be rvmt.35t.board_validation_status.v1")
     if not board_status_results["status_ok"]:
-        failures.append("board validation status must be AWAITING_BOARD_RUN or PASS")
+        failures.append("board validation status must be AWAITING_BOARD_RUN, RESULTS_PARTIAL, or PASS")
     if not board_status_results["hardware_validated_ok"]:
         failures.append("board validation hardware_validated flag is inconsistent with status")
     board_runbook_non_claims = board_runbook.get("non_claims", [])
@@ -347,6 +407,30 @@ def check_repo(repo_root: Path, evidence_root_arg: Path, write_outputs: bool) ->
             continue
         if not ok:
             failures.append(f"board validation runbook check failed: {key}")
+    board_preflight_non_claims = board_preflight.get("non_claims", [])
+    board_preflight_non_claim_text = "\n".join(str(item) for item in board_preflight_non_claims) if isinstance(board_preflight_non_claims, list) else ""
+    board_preflight_results = {
+        "schema_ok": board_preflight.get("schema") == "rvmt.35t.board_validation_preflight.v1",
+        "source_run_id_ok": board_preflight.get("source_run_id") == RUN_ID,
+        "scope_ok": board_preflight.get("scope") == "Artix-7 35T / LiteX / VexRiscv",
+        "claim_level_ok": board_preflight.get("claim_level") == EXPECTED_CLAIM_LEVEL,
+        "status": board_preflight.get("status"),
+        "status_ok": board_preflight.get("status") in {"READY_PENDING_BOARD_CONNECTION", "READY_FOR_BOARD_RUN"},
+        "hardware_ready_consistent": (
+            (board_preflight.get("status") == "READY_FOR_BOARD_RUN" and board_preflight.get("hardware_ready") is True)
+            or (
+                board_preflight.get("status") == "READY_PENDING_BOARD_CONNECTION"
+                and board_preflight.get("hardware_ready") is False
+            )
+        ),
+        "hardware_ready_basis_ok": "does not prove" in str(board_preflight.get("hardware_ready_basis", "")).lower(),
+        "non_claims_ok": all(item.lower() in board_preflight_non_claim_text.lower() for item in REQUIRED_NON_CLAIMS),
+    }
+    for key, ok in board_preflight_results.items():
+        if key == "status":
+            continue
+        if not ok:
+            failures.append(f"board validation preflight check failed: {key}")
     source_attr_results = {
         "schema_ok": source_attr.get("schema") == "rvmt.35t.source_attribution_summary.v1",
         "status": source_attr.get("status"),
@@ -373,8 +457,10 @@ def check_repo(repo_root: Path, evidence_root_arg: Path, write_outputs: bool) ->
         "non_claims": non_claim_results,
         "explanation_readiness": readiness_results,
         "source_attribution": source_attr_results,
+        "board_validation_attempt": board_attempt_results,
         "board_validation_status": board_status_results,
         "board_validation_runbook": board_runbook_results,
+        "board_validation_preflight": board_preflight_results,
         "warnings": warnings,
         "failures": failures,
     }
@@ -438,9 +524,20 @@ def self_test() -> int:
             "non_claims": REQUIRED_NON_CLAIMS,
         }
         (evidence / "source_attribution_summary.json").write_text(json.dumps(source_attr), encoding="utf-8")
+        board_attempt = {
+            "schema": "rvmt.35t.board_validation_attempt_summary.v1",
+            "source_run_id": RUN_ID,
+            "validation_run_id": "35t-targeted-board-validation-self-test",
+            "scope": "Artix-7 35T / LiteX / VexRiscv",
+            "claim_level": EXPECTED_CLAIM_LEVEL,
+            "status": "BOARD_RUN_COMPLETE_VALIDATION_PARTIAL",
+            "hardware_validated": False,
+            "non_claims": REQUIRED_NON_CLAIMS,
+        }
+        (evidence / "board_validation_attempt_summary.json").write_text(json.dumps(board_attempt), encoding="utf-8")
         board_status = {
             "schema": "rvmt.35t.board_validation_status.v1",
-            "status": "AWAITING_BOARD_RUN",
+            "status": "RESULTS_PARTIAL",
             "hardware_validated": False,
             "non_claims": REQUIRED_NON_CLAIMS,
         }
@@ -456,6 +553,18 @@ def self_test() -> int:
             "non_claims": REQUIRED_NON_CLAIMS,
         }
         (evidence / "board_validation_runbook.json").write_text(json.dumps(board_runbook), encoding="utf-8")
+        board_preflight = {
+            "schema": "rvmt.35t.board_validation_preflight.v1",
+            "source_run_id": RUN_ID,
+            "validation_run_id": "35t-targeted-board-validation-self-test",
+            "scope": "Artix-7 35T / LiteX / VexRiscv",
+            "claim_level": EXPECTED_CLAIM_LEVEL,
+            "status": "READY_PENDING_BOARD_CONNECTION",
+            "hardware_ready": False,
+            "hardware_ready_basis": "requested UART port is not visible; this does not prove the 35T board image is running",
+            "non_claims": REQUIRED_NON_CLAIMS,
+        }
+        (evidence / "board_validation_preflight.json").write_text(json.dumps(board_preflight), encoding="utf-8")
         report = check_repo(root, DEFAULT_EVIDENCE_ROOT, write_outputs=True)
         if report["status"] != "PASS":
             print("[FAIL] expected valid self-test fixture to pass", file=sys.stderr)

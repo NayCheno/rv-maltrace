@@ -1,6 +1,9 @@
 {
   "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
-  "failures": [],
+  "failures": [
+    "board validation result content check failed: fd_path_flow",
+    "board validation result content check failed: process_tree"
+  ],
   "hardware_validated": false,
   "non_claims": [
     "no CVA6 board claim",
@@ -31,18 +34,7 @@
     "DWARF/debug-line metadata or an addr2line-compatible source-location side channel if source-line attribution is claimed"
   ],
   "result_artifacts": {
-    "missing": [
-      "run_config.json",
-      "gate_report.json",
-      "gate_report.md",
-      "fd_path_flow_summary.json",
-      "fd_path_flow_summary.md",
-      "process_tree_summary.json",
-      "process_tree_summary.md",
-      "source_attribution_summary.json",
-      "source_attribution_summary.md",
-      "command_log.md"
-    ],
+    "missing": [],
     "required": [
       "run_config.json",
       "gate_report.json",
@@ -55,12 +47,44 @@
       "source_attribution_summary.md",
       "command_log.md"
     ],
-    "results_available": false,
-    "results_root": null
+    "results_available": true,
+    "results_root": "results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle"
   },
-  "result_content_checks": {},
+  "result_content_checks": {
+    "bundle_manifest": {
+      "ok": true,
+      "status": "checked",
+      "validation_run_id": "35t-targeted-board-validation-20260522"
+    },
+    "command_log": {
+      "ok": true,
+      "status": "present"
+    },
+    "fd_path_flow": {
+      "ok": false,
+      "status": "PARTIAL"
+    },
+    "gate_report": {
+      "ok": true,
+      "status": "checked",
+      "validation_run_id": "35t-targeted-board-validation-20260522"
+    },
+    "process_tree": {
+      "ok": false,
+      "status": "PARTIAL"
+    },
+    "run_config": {
+      "ok": true,
+      "status": "checked",
+      "validation_run_id": "35t-targeted-board-validation-20260522"
+    },
+    "source_attribution": {
+      "ok": true,
+      "status": "PARTIAL"
+    }
+  },
   "schema": "rvmt.35t.board_validation_status.v1",
   "scope": "Artix-7 35T / LiteX / VexRiscv",
   "source_run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
-  "status": "AWAITING_BOARD_RUN"
+  "status": "RESULTS_PARTIAL"
 }
