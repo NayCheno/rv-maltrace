@@ -76,13 +76,15 @@ See `evidence_manifest.json` for hashes and source paths. See `case_study_artifa
 
 `source_attribution_summary.md` records function-level attribution availability and keeps source-line attribution explicitly unavailable until source-location evidence exists.
 
-`board_validation_plan.md` and `board_validation_status.md` define the targeted 35T board-validation artifact set. The current status is `AWAITING_BOARD_RUN`; hardware validation remains false until those board artifacts are captured.
+`board_validation_plan.md` and `board_validation_status.md` define the targeted 35T board-validation artifact set. The current status is `RESULTS_PARTIAL`; hardware validation remains false until the strict result bundle passes.
 
 `board_validation_runbook.md` records the exact command sequence for the next real 35T board run. It is a run plan, not board evidence.
 
 `board_validation_preflight.md` records the current host and UART readiness for that run plan. It is a readiness check, not board evidence.
 
 `board_validation_attempt_summary.md` records the targeted 35T validation attempt `35t-targeted-board-validation-20260522`: groundtruth, rootfs, board capture, analyze, report, and next-gate completed with 13/13 sample status PASS and `full_matrix_ready`, but the strict board-validation bundle remains `CANDIDATE_PARTIAL` because fd/path flow and process-tree summaries are still `PARTIAL`.
+
+`board_syscall_side_channel_smoke.md` records the follow-up syscall side-channel work: the new runner builds into the 35T rootfs and a temporary `PTRACE_GETREGSET` runner captured board UART syscall rows, but strict validation is still not closed. The next required action is to boot the board from the newly generated rootfs/sdcard image, or use a reliable hash-verified transfer path, then rerun the full 13-sample validation command with `--syscall-side-channel`.
 
 ## Non-claims
 

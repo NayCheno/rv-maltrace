@@ -3,13 +3,16 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <inttypes.h>
+#include <elf.h>
 #include <signal.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <asm/ptrace.h>
 #include <sys/mman.h>
 #include <sys/ptrace.h>
+#include <sys/uio.h>
 #include <sys/wait.h>
 #include <time.h>
 #include <unistd.h>
@@ -40,8 +43,28 @@ typedef struct {
 typedef struct {
     unsigned long control_mask;
     unsigned long warmup;
+    int syscall_side_channel;
     int first_sample_arg;
 } runner_options_t;
+
+typedef struct {
+    pid_t pid;
+    int active;
+    int in_syscall;
+    unsigned long seq;
+    unsigned long nr;
+    unsigned long args[8];
+} traced_pid_t;
+
+#define RVMT_MAX_TRACED_PIDS 32
+#define RVMT_SC_OPENAT 56ul
+#define RVMT_SC_CLOSE 57ul
+#define RVMT_SC_GETDENTS64 61ul
+#define RVMT_SC_READ 63ul
+#define RVMT_SC_WRITE 64ul
+#define RVMT_SC_WAITID 95ul
+#define RVMT_SC_CLONE 220ul
+#define RVMT_SC_EXECVE 221ul
 
 static const sample_spec_t samples[] = {
     {"benign", "hello", "/usr/bin/rvmt_benign_workload", "hello"},
@@ -168,6 +191,154 @@ static void print_hex_text(const char *text) {
     for (const unsigned char *p = (const unsigned char *)text; *p != '\0'; ++p) {
         printf("%02x", (unsigned int)(*p));
     }
+}
+
+static const char *syscall_name(unsigned long nr) {
+    switch (nr) {
+    case RVMT_SC_OPENAT:
+        return "openat";
+    case RVMT_SC_CLOSE:
+        return "close";
+    case RVMT_SC_GETDENTS64:
+        return "getdents64";
+    case RVMT_SC_READ:
+        return "read";
+    case RVMT_SC_WRITE:
+        return "write";
+    case RVMT_SC_WAITID:
+        return "waitid";
+    case RVMT_SC_CLONE:
+        return "clone";
+    case RVMT_SC_EXECVE:
+        return "execve";
+    default:
+        return "unknown";
+    }
+}
+
+static int syscall_side_channel_interesting(unsigned long nr) {
+    return nr == RVMT_SC_OPENAT || nr == RVMT_SC_CLOSE || nr == RVMT_SC_GETDENTS64 || nr == RVMT_SC_READ ||
+           nr == RVMT_SC_WRITE || nr == RVMT_SC_WAITID || nr == RVMT_SC_CLONE || nr == RVMT_SC_EXECVE;
+}
+
+static int read_child_string(pid_t pid, unsigned long addr, char *out, size_t out_len) {
+    if (addr == 0 || out_len == 0) {
+        if (out_len) {
+            out[0] = '\0';
+        }
+        return -1;
+    }
+    size_t offset = 0;
+    errno = 0;
+    while (offset + 1 < out_len) {
+        unsigned long word = (unsigned long)ptrace(PTRACE_PEEKDATA, pid, (void *)(addr + offset), NULL);
+        if (errno != 0) {
+            out[offset] = '\0';
+            return offset > 0 ? 0 : -1;
+        }
+        for (size_t byte = 0; byte < sizeof(word) && offset + 1 < out_len; ++byte) {
+            char value = (char)((word >> (byte * 8)) & 0xffu);
+            out[offset++] = value;
+            if (value == '\0') {
+                return 0;
+            }
+        }
+    }
+    out[out_len - 1] = '\0';
+    return 0;
+}
+
+static traced_pid_t *tracked_slot(traced_pid_t *tracked, pid_t pid) {
+    for (size_t i = 0; i < RVMT_MAX_TRACED_PIDS; ++i) {
+        if (tracked[i].active && tracked[i].pid == pid) {
+            return &tracked[i];
+        }
+    }
+    return NULL;
+}
+
+static traced_pid_t *tracked_add(traced_pid_t *tracked, pid_t pid) {
+    traced_pid_t *slot = tracked_slot(tracked, pid);
+    if (slot != NULL) {
+        return slot;
+    }
+    for (size_t i = 0; i < RVMT_MAX_TRACED_PIDS; ++i) {
+        if (!tracked[i].active) {
+            memset(&tracked[i], 0, sizeof(tracked[i]));
+            tracked[i].pid = pid;
+            tracked[i].active = 1;
+            return &tracked[i];
+        }
+    }
+    return NULL;
+}
+
+static void tracked_remove(traced_pid_t *tracked, pid_t pid) {
+    traced_pid_t *slot = tracked_slot(tracked, pid);
+    if (slot != NULL) {
+        memset(slot, 0, sizeof(*slot));
+    }
+}
+
+static int tracked_count(traced_pid_t *tracked) {
+    int count = 0;
+    for (size_t i = 0; i < RVMT_MAX_TRACED_PIDS; ++i) {
+        if (tracked[i].active) {
+            ++count;
+        }
+    }
+    return count;
+}
+
+static void emit_syscall_obs(
+    const sample_spec_t *sample,
+    const char *mode,
+    unsigned long rep,
+    int warmup,
+    const char *phase,
+    pid_t pid,
+    unsigned long seq,
+    unsigned long nr,
+    const unsigned long *args,
+    unsigned long ret,
+    int have_ret
+) {
+    if (!syscall_side_channel_interesting(nr)) {
+        return;
+    }
+    char path[256];
+    path[0] = '\0';
+    if (nr == RVMT_SC_OPENAT || nr == RVMT_SC_EXECVE) {
+        unsigned long pointer = nr == RVMT_SC_OPENAT ? args[1] : args[0];
+        (void)read_child_string(pid, pointer, path, sizeof(path));
+    }
+    printf(
+        "RVMT_SYSCALL_OBS schema=rvmt.syscall_side_channel.v1 class=%s sample=%s mode=%s rep=%lu warmup=%d phase=%s pid=%ld seq=%lu nr=%lu name=%s a0=0x%016lx a1=0x%016lx a2=0x%016lx a3=0x%016lx a4=0x%016lx a5=0x%016lx a6=0x%016lx a7=0x%016lx",
+        sample->sample_class,
+        sample->sample_id,
+        mode,
+        rep,
+        warmup,
+        phase,
+        (long)pid,
+        seq,
+        nr,
+        syscall_name(nr),
+        args[0],
+        args[1],
+        args[2],
+        args[3],
+        args[4],
+        args[5],
+        args[6],
+        args[7]
+    );
+    if (have_ret) {
+        printf(" ret=0x%016lx", ret);
+    }
+    printf(" path_hex=");
+    print_hex_text(path);
+    putchar('\n');
 }
 
 static int read_proc_link(pid_t pid, const char *name, char *out, size_t out_len) {
@@ -319,7 +490,7 @@ static void exec_sample_child(const sample_spec_t *sample) {
     _exit(127);
 }
 
-static pid_t start_sample_at_exec_stop(const sample_spec_t *sample, char *warning, size_t warning_len) {
+static pid_t start_sample_at_exec_stop(const sample_spec_t *sample, int syscall_side_channel, char *warning, size_t warning_len) {
     pid_t pid = fork();
     if (pid < 0) {
         snprintf(warning, warning_len, "fork_failed_errno_%d", errno);
@@ -340,7 +511,12 @@ static pid_t start_sample_at_exec_stop(const sample_spec_t *sample, char *warnin
         (void)waitpid(pid, &status, 0);
         return -1;
     }
-    if (ptrace(PTRACE_SETOPTIONS, pid, NULL, (void *)(uintptr_t)PTRACE_O_TRACEEXEC) != 0) {
+    long ptrace_options = PTRACE_O_TRACEEXEC;
+    if (syscall_side_channel) {
+        ptrace_options |= PTRACE_O_TRACESYSGOOD | PTRACE_O_TRACECLONE | PTRACE_O_TRACEFORK |
+                          PTRACE_O_TRACEVFORK | PTRACE_O_TRACEEXIT;
+    }
+    if (ptrace(PTRACE_SETOPTIONS, pid, NULL, (void *)(uintptr_t)ptrace_options) != 0) {
         snprintf(warning, warning_len, "ptrace_setoptions_failed_errno_%d", errno);
         kill(pid, SIGKILL);
         (void)waitpid(pid, &status, 0);
@@ -366,6 +542,181 @@ static pid_t start_sample_at_exec_stop(const sample_spec_t *sample, char *warnin
     }
     warning[0] = '\0';
     return pid;
+}
+
+static void regs_to_args(const struct user_regs_struct *regs, unsigned long *args) {
+    args[0] = (unsigned long)regs->a0;
+    args[1] = (unsigned long)regs->a1;
+    args[2] = (unsigned long)regs->a2;
+    args[3] = (unsigned long)regs->a3;
+    args[4] = (unsigned long)regs->a4;
+    args[5] = (unsigned long)regs->a5;
+    args[6] = (unsigned long)regs->a6;
+    args[7] = (unsigned long)regs->a7;
+}
+
+static int read_user_regs(pid_t pid, struct user_regs_struct *regs) {
+    memset(regs, 0, sizeof(*regs));
+#ifdef PTRACE_GETREGSET
+    struct iovec iov;
+    iov.iov_base = regs;
+    iov.iov_len = sizeof(*regs);
+    if (ptrace(PTRACE_GETREGSET, pid, (void *)(uintptr_t)NT_PRSTATUS, &iov) == 0) {
+        return 0;
+    }
+#endif
+#ifdef PTRACE_GETREGS
+    if (ptrace(PTRACE_GETREGS, pid, NULL, regs) == 0) {
+        return 0;
+    }
+#endif
+    return -1;
+}
+
+static int continue_syscall(pid_t pid, int signal_to_deliver) {
+    if (ptrace(PTRACE_SYSCALL, pid, NULL, (void *)(uintptr_t)signal_to_deliver) != 0) {
+        if (errno == ESRCH) {
+            return 0;
+        }
+        perror("ptrace syscall");
+        return -1;
+    }
+    return 0;
+}
+
+static int wait_sample_exit_with_syscalls(
+    pid_t root_pid,
+    const sample_spec_t *sample,
+    const char *mode,
+    unsigned long rep,
+    int warmup
+) {
+    traced_pid_t tracked[RVMT_MAX_TRACED_PIDS];
+    memset(tracked, 0, sizeof(tracked));
+    traced_pid_t *root_slot = tracked_add(tracked, root_pid);
+    if (root_slot != NULL) {
+        root_slot->in_syscall = 1;
+        root_slot->nr = RVMT_SC_EXECVE;
+        root_slot->seq = 0;
+    }
+
+    if (continue_syscall(root_pid, 0) != 0) {
+        kill(root_pid, SIGKILL);
+        return 127;
+    }
+
+    int root_exit_code = 127;
+    int root_done = 0;
+    while (tracked_count(tracked) > 0) {
+        int status = 0;
+        pid_t pid = waitpid(-1, &status, __WALL);
+        if (pid < 0) {
+            if (errno == EINTR) {
+                continue;
+            }
+            if (errno == ECHILD) {
+                break;
+            }
+            perror("waitpid");
+            return 127;
+        }
+
+        traced_pid_t *slot = tracked_slot(tracked, pid);
+        if (slot == NULL) {
+            slot = tracked_add(tracked, pid);
+        }
+
+        if (WIFEXITED(status)) {
+            if (pid == root_pid) {
+                root_exit_code = WEXITSTATUS(status);
+                root_done = 1;
+            }
+            tracked_remove(tracked, pid);
+            continue;
+        }
+        if (WIFSIGNALED(status)) {
+            if (pid == root_pid) {
+                root_exit_code = 128 + WTERMSIG(status);
+                root_done = 1;
+            }
+            tracked_remove(tracked, pid);
+            continue;
+        }
+        if (!WIFSTOPPED(status)) {
+            continue;
+        }
+
+        int stop_signal = WSTOPSIG(status);
+        unsigned int ptrace_event = ((unsigned int)status) >> 16;
+        if (ptrace_event == PTRACE_EVENT_CLONE || ptrace_event == PTRACE_EVENT_FORK || ptrace_event == PTRACE_EVENT_VFORK) {
+            unsigned long child_pid = 0;
+            if (ptrace(PTRACE_GETEVENTMSG, pid, NULL, &child_pid) == 0 && child_pid > 0) {
+                traced_pid_t *child_slot = tracked_add(tracked, (pid_t)child_pid);
+                if (child_slot != NULL) {
+                    child_slot->in_syscall = 1;
+                    child_slot->nr = RVMT_SC_CLONE;
+                    child_slot->seq = 0;
+                }
+            }
+            if (continue_syscall(pid, 0) != 0) {
+                return 127;
+            }
+            continue;
+        }
+        if (ptrace_event == PTRACE_EVENT_EXEC) {
+            if (continue_syscall(pid, 0) != 0) {
+                return 127;
+            }
+            continue;
+        }
+        if (ptrace_event == PTRACE_EVENT_EXIT) {
+            if (continue_syscall(pid, 0) != 0) {
+                return 127;
+            }
+            continue;
+        }
+
+        if (stop_signal == (SIGTRAP | 0x80)) {
+            struct user_regs_struct regs;
+            if (read_user_regs(pid, &regs) != 0) {
+                perror("ptrace getregset");
+                return 127;
+            }
+            if (slot == NULL) {
+                slot = tracked_add(tracked, pid);
+            }
+            if (slot == NULL) {
+                if (continue_syscall(pid, 0) != 0) {
+                    return 127;
+                }
+                continue;
+            }
+            unsigned long args[8];
+            regs_to_args(&regs, args);
+            if (!slot->in_syscall) {
+                slot->in_syscall = 1;
+                slot->nr = (unsigned long)regs.a7;
+                memcpy(slot->args, args, sizeof(slot->args));
+                slot->seq += 1;
+                emit_syscall_obs(sample, mode, rep, warmup, "entry", pid, slot->seq, slot->nr, slot->args, 0, 0);
+            } else {
+                if (slot->seq != 0) {
+                    emit_syscall_obs(sample, mode, rep, warmup, "return", pid, slot->seq, slot->nr, slot->args, (unsigned long)regs.a0, 1);
+                }
+                slot->in_syscall = 0;
+            }
+            if (continue_syscall(pid, 0) != 0) {
+                return 127;
+            }
+            continue;
+        }
+
+        int deliver = stop_signal == SIGTRAP ? 0 : stop_signal;
+        if (continue_syscall(pid, deliver) != 0) {
+            return 127;
+        }
+    }
+    return root_done ? root_exit_code : 127;
 }
 
 static int wait_sample_exit(pid_t pid) {
@@ -492,6 +843,7 @@ static runner_options_t parse_runner_options(int argc, char **argv) {
     runner_options_t opts;
     opts.control_mask = RVMT_TRACE_DEFAULT_PROFILE_MASK;
     opts.warmup = 0;
+    opts.syscall_side_channel = 0;
     opts.first_sample_arg = 5;
 
     int index = 5;
@@ -514,6 +866,11 @@ static runner_options_t parse_runner_options(int argc, char **argv) {
             index += 2;
             continue;
         }
+        if (strcmp(argv[index], "--syscall-side-channel") == 0) {
+            opts.syscall_side_channel = 1;
+            index += 1;
+            continue;
+        }
         break;
     }
     opts.first_sample_arg = index;
@@ -529,7 +886,8 @@ static void run_one_rep(
     int trace_on,
     int warmup,
     unsigned long order_index,
-    uint32_t control_mask
+    uint32_t control_mask,
+    int syscall_side_channel
 ) {
     printf(
         "RVMT_EXP_REP_BEGIN class=%s sample=%s mode=%s rep=%lu order_index=%lu warmup=%d\n",
@@ -545,7 +903,7 @@ static void run_one_rep(
     attribution_warning[0] = '\0';
     pid_t traced_pid = -1;
     if (trace_on) {
-        traced_pid = start_sample_at_exec_stop(sample, attribution_warning, sizeof(attribution_warning));
+        traced_pid = start_sample_at_exec_stop(sample, syscall_side_channel, attribution_warning, sizeof(attribution_warning));
         emit_runtime_process_map(
             sample,
             mode,
@@ -564,7 +922,11 @@ static void run_one_rep(
         trace_emit_marker(csr, marker_value(RVMT_MARKER_BEGIN_TAG, sample, rep));
     }
     uint64_t start = monotonic_ns();
-    int exit_code = traced_pid > 0 ? wait_sample_exit(traced_pid) : run_sample(sample);
+    int exit_code = traced_pid > 0
+                        ? (syscall_side_channel
+                               ? wait_sample_exit_with_syscalls(traced_pid, sample, mode, rep, warmup)
+                               : wait_sample_exit(traced_pid))
+                        : run_sample(sample);
     uint64_t end = monotonic_ns();
     if (trace_on && (control_mask & RVMT_TRACE_CONTROL_MARKER)) {
         trace_emit_marker(csr, marker_value(RVMT_MARKER_END_TAG, sample, rep));
@@ -601,7 +963,7 @@ static void run_one_rep(
 
 int main(int argc, char **argv) {
     if (argc < 5) {
-        fprintf(stderr, "usage: %s <trace-csr-base> <records> <reps> <trace-on|trace-off|abba> [--control-mask hex] [--warmup n] [sample-id|class ...]\n", argv[0]);
+        fprintf(stderr, "usage: %s <trace-csr-base> <records> <reps> <trace-on|trace-off|abba> [--control-mask hex] [--warmup n] [--syscall-side-channel] [sample-id|class ...]\n", argv[0]);
         return 2;
     }
 
@@ -623,13 +985,14 @@ int main(int argc, char **argv) {
     setvbuf(stdout, NULL, _IOLBF, 0);
 
     printf(
-        "RVMT_EXP_BEGIN mode=%s reps=%lu warmup=%lu records=%lu csr_base=0x%08lx control_mask=0x%08" PRIx32 "\n",
+        "RVMT_EXP_BEGIN mode=%s reps=%lu warmup=%lu records=%lu csr_base=0x%08lx control_mask=0x%08" PRIx32 " syscall_side_channel=%d\n",
         argv[4],
         reps,
         opts.warmup,
         records,
         csr_base,
-        control_mask
+        control_mask,
+        opts.syscall_side_channel
     );
     for (size_t sample_index = 0; sample_index < sizeof(samples) / sizeof(samples[0]); ++sample_index) {
         const sample_spec_t *sample = &samples[sample_index];
@@ -640,25 +1003,25 @@ int main(int argc, char **argv) {
         unsigned long order_index = 0;
         if (abba) {
             for (unsigned long warm = 0; warm < opts.warmup; ++warm) {
-                run_one_rep(csr, sample, records, warm, "trace-off", 0, 1, order_index++, control_mask);
-                run_one_rep(csr, sample, records, warm, "trace-on", 1, 1, order_index++, control_mask);
+                run_one_rep(csr, sample, records, warm, "trace-off", 0, 1, order_index++, control_mask, opts.syscall_side_channel);
+                run_one_rep(csr, sample, records, warm, "trace-on", 1, 1, order_index++, control_mask, opts.syscall_side_channel);
             }
             for (unsigned long rep = 0; rep < reps; ++rep) {
                 if ((rep & 1u) == 0u) {
-                    run_one_rep(csr, sample, records, rep, "trace-off", 0, 0, order_index++, control_mask);
-                    run_one_rep(csr, sample, records, rep, "trace-on", 1, 0, order_index++, control_mask);
+                    run_one_rep(csr, sample, records, rep, "trace-off", 0, 0, order_index++, control_mask, opts.syscall_side_channel);
+                    run_one_rep(csr, sample, records, rep, "trace-on", 1, 0, order_index++, control_mask, opts.syscall_side_channel);
                 } else {
-                    run_one_rep(csr, sample, records, rep, "trace-on", 1, 0, order_index++, control_mask);
-                    run_one_rep(csr, sample, records, rep, "trace-off", 0, 0, order_index++, control_mask);
+                    run_one_rep(csr, sample, records, rep, "trace-on", 1, 0, order_index++, control_mask, opts.syscall_side_channel);
+                    run_one_rep(csr, sample, records, rep, "trace-off", 0, 0, order_index++, control_mask, opts.syscall_side_channel);
                 }
             }
         } else {
             const char *mode = trace_on ? "trace-on" : "trace-off";
             for (unsigned long warm = 0; warm < opts.warmup; ++warm) {
-                run_one_rep(csr, sample, records, warm, mode, trace_on, 1, order_index++, control_mask);
+                run_one_rep(csr, sample, records, warm, mode, trace_on, 1, order_index++, control_mask, opts.syscall_side_channel);
             }
             for (unsigned long rep = 0; rep < reps; ++rep) {
-                run_one_rep(csr, sample, records, rep, mode, trace_on, 0, order_index++, control_mask);
+                run_one_rep(csr, sample, records, rep, mode, trace_on, 0, order_index++, control_mask, opts.syscall_side_channel);
             }
         }
         printf("RVMT_EXP_SAMPLE_END class=%s sample=%s mode=%s\n", sample->sample_class, sample->sample_id, argv[4]);

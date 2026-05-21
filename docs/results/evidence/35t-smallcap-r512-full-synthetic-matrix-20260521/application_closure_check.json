@@ -27,7 +27,8 @@
     "scope_ok": true,
     "source_run_id_ok": true,
     "status": "READY_TO_RUN_ON_35T_BOARD",
-    "status_ok": true
+    "status_ok": true,
+    "syscall_side_channel_ok": true
   },
   "board_validation_status": {
     "hardware_validated": false,

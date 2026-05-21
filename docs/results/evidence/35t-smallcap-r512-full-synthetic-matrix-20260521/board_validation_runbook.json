@@ -1,5 +1,6 @@
 {
   "baud": 921600,
+  "board_runner_path": "/usr/bin/rvmt_exp_runner",
   "board_target": "Artix-7 35T / LiteX / VexRiscv",
   "bundle_root": "results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle",
   "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
@@ -19,7 +20,7 @@
       "phase": "rootfs"
     },
     {
-      "command": "uv run python tools/experiment_35t.py --stage board --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic --port COM5 --baud 921600 --duration 3600.0",
+      "command": "uv run python tools/experiment_35t.py --stage board --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic --port COM5 --baud 921600 --duration 3600.0 --board-runner-path /usr/bin/rvmt_exp_runner --syscall-side-channel",
       "expected_output": "results/experiments/35t/35t-targeted-board-validation-20260522/board/raw_uart.log",
       "hardware_required": true,
       "pass_condition": "UART capture contains target-scoped markers and trace dumps for the full 13-sample matrix",
@@ -63,7 +64,7 @@
     "batch_open_read_write",
     "self_copy_sim"
   ],
-  "generated_utc": "2026-05-21T19:00:54Z",
+  "generated_utc": "2026-05-21T20:38:11Z",
   "hardware_required": true,
   "matrix_scope": "full 13-sample 35T matrix",
   "non_claims": [
@@ -91,6 +92,7 @@
   "scope": "Artix-7 35T / LiteX / VexRiscv",
   "source_run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
   "status": "READY_TO_RUN_ON_35T_BOARD",
+  "syscall_side_channel": true,
   "trace_profile_policy": "35t_small_capacity",
   "trace_records": 512,
   "validation_run_id": "35t-targeted-board-validation-20260522"

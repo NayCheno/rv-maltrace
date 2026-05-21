@@ -1,0 +1,72 @@
+{
+  "schema": "rvmt.35t.board_syscall_side_channel_smoke.v1",
+  "source_run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+  "status": "SIDE_CHANNEL_CAPTURED_BUT_STRICT_VALIDATION_NOT_CLOSED",
+  "hardware_validated": false,
+  "real_malware": false,
+  "cva6_in_scope": false,
+  "rootfs_compile": {
+    "status": "PASS",
+    "command": "uv run python tools/experiment_35t.py --stage rootfs --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic --syscall-side-channel",
+    "generated_sdcard_img": "vendor/litex/linux-on-litex-vexriscv/images/sdcard.img",
+    "generated_sdcard_img_bytes": 115343872,
+    "generated_sdcard_img_mtime_local": "2026-05-22 04:21:48",
+    "runner_overlay": "build/board/artix7_35t/rootfs_exp_overlay/usr/bin/rvmt_exp_runner"
+  },
+  "smoke_runs": [
+    {
+      "run_id": "35t-sidechannel-smoke-20260522",
+      "runner_path": "/usr/bin/rvmt_exp_runner",
+      "status": "NO_SIDE_CHANNEL_FROM_BOARD_IMAGE",
+      "trace_on_samples": {
+        "file_scan": "PASS",
+        "process_chain": "PASS"
+      },
+      "syscall_obs_lines": 0,
+      "syscall_side_channel_files": 0,
+      "interpretation": "The board was still running an older runner image that ignored --syscall-side-channel."
+    },
+    {
+      "run_id": "35t-sidechannel-smoke-20260522b",
+      "runner_path": "/tmp/rvmt_exp_runner",
+      "status": "FAIL_GETREGS_UNSUPPORTED",
+      "trace_on_samples": {
+        "file_scan": "FAIL exit=127",
+        "process_chain": "FAIL exit=127"
+      },
+      "syscall_obs_lines": 0,
+      "syscall_side_channel_files": 0,
+      "interpretation": "The first temporary runner used PTRACE_GETREGS; the 35T RISC-V Linux target returned EIO."
+    },
+    {
+      "run_id": "35t-sidechannel-smoke-20260522c",
+      "runner_path": "/tmp/rvmt_exp_runner",
+      "status": "SIDE_CHANNEL_CAPTURED_PARTIAL_SEMANTICS",
+      "trace_on_samples": {
+        "file_scan": "PASS",
+        "process_chain": "PASS"
+      },
+      "syscall_obs_lines": 56,
+      "syscall_side_channel_files": 2,
+      "packaged_fd_path_status": "PARTIAL",
+      "packaged_process_tree_status": "PARTIAL",
+      "interpretation": "PTRACE_GETREGSET produced board UART syscall side-channel rows, but this smoke used the pre state-machine-fix runner, so entry/return pairing was still misaligned."
+    }
+  ],
+  "latest_temporary_runner_upload": {
+    "status": "FAIL_HASH_MISMATCH",
+    "expected_sha256": "25b693f3c0974609efe5937e966e63bc702bb5e3d2b2a69061e8b403e9c80962",
+    "board_sha256": "2f689d7dbc57d4ca99eb8fd5abba082776da516e0bf4e69b03f7bc182518bad5",
+    "reason": "UART text transfer produced an exact byte-count base64 file once, but decoded content did not match the local runner hash and the board binary crashed. It is not valid evidence."
+  },
+  "next_required_action": "Boot the 35T board from the newly generated rootfs/sdcard image, or use a reliable binary transfer path with hash verification, then rerun the full 13-sample validation command with --syscall-side-channel.",
+  "non_claims": [
+    "no CVA6 board claim",
+    "no real malware detection claim",
+    "no mature detector claim",
+    "no classifier accuracy claim",
+    "no complete semantic reconstruction claim"
+  ]
+}

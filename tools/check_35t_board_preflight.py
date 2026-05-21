@@ -124,6 +124,11 @@ def build_preflight(repo_root: Path, evidence_root_arg: Path, require_board: boo
 
     commands = runbook.get("commands", [])
     phases = [str(item.get("phase")) for item in commands] if isinstance(commands, list) else []
+    board_commands = [
+        str(item.get("command", ""))
+        for item in commands
+        if isinstance(item, dict) and str(item.get("phase")) == "board"
+    ] if isinstance(commands, list) else []
     runbook_checks = {
         "schema": runbook.get("schema") == "rvmt.35t.board_validation_runbook.v1",
         "source_run_id": runbook.get("source_run_id") == RUN_ID,
@@ -134,6 +139,7 @@ def build_preflight(repo_root: Path, evidence_root_arg: Path, require_board: boo
         "trace_profile_policy": runbook.get("trace_profile_policy") == "35t_small_capacity",
         "phases": phases == EXPECTED_PHASES,
         "hardware_required": runbook.get("hardware_required") is True,
+        "syscall_side_channel": runbook.get("syscall_side_channel") is True and any("--syscall-side-channel" in command for command in board_commands),
     }
     for key, ok in runbook_checks.items():
         if not ok:
@@ -299,10 +305,18 @@ def self_test() -> int:
             "trace_records": 512,
             "trace_profile_policy": "35t_small_capacity",
             "hardware_required": True,
+            "syscall_side_channel": True,
             "port": "COM_SELF_TEST",
             "results_root": "results/experiments/35t/35t-targeted-board-validation-self-test",
             "bundle_root": "results/experiments/35t/35t-targeted-board-validation-self-test/board_validation_bundle",
-            "commands": [{"phase": phase, "command": "", "hardware_required": phase == "board"} for phase in EXPECTED_PHASES],
+            "commands": [
+                {
+                    "phase": phase,
+                    "command": "uv run python tools/experiment_35t.py --stage board --syscall-side-channel" if phase == "board" else "",
+                    "hardware_required": phase == "board",
+                }
+                for phase in EXPECTED_PHASES
+            ],
             "non_claims": NON_CLAIMS,
         }
         (evidence / "board_validation_runbook.json").write_text(json.dumps(runbook), encoding="utf-8")

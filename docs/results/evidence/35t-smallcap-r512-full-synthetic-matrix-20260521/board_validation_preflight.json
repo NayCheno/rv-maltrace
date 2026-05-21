@@ -1,7 +1,7 @@
 {
   "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
   "failures": [],
-  "generated_utc": "2026-05-21T19:24:05Z",
+  "generated_utc": "2026-05-21T20:38:19Z",
   "hardware_ready": true,
   "hardware_ready_basis": "requested UART port is visible through pyserial; this does not prove the 35T board image is running",
   "host_tools": {
@@ -46,6 +46,7 @@
     "scope": true,
     "source_run_id": true,
     "status": true,
+    "syscall_side_channel": true,
     "trace_profile_policy": true,
     "trace_records": true
   },

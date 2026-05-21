@@ -57,6 +57,7 @@ UART_MARKERS = (
     "RVMT_RUNTIME_PROCESS_PROVENANCE",
     "RVMT_RUNTIME_PROCESS_MAP_END",
     "RVMT_RUNTIME_PROCESS",
+    "RVMT_SYSCALL_OBS",
     "RVMT_TRACE_DUMP_BEGIN",
     "RVMT_TRACE_DUMP_END",
     "RVMT_TRACE_RECORD",
@@ -91,6 +92,19 @@ UART_FIELD_KEYS = (
     "method",
     "proc_sample_time",
     "warnings_hex",
+    "phase",
+    "seq",
+    "nr",
+    "name",
+    "a0",
+    "a1",
+    "a2",
+    "a3",
+    "a4",
+    "a5",
+    "a6",
+    "a7",
+    "ret",
 )
 UART_FIELD_KEY_PATTERN = "|".join(re.escape(key) for key in UART_FIELD_KEYS)
 UART_FIELD_RE = re.compile(
@@ -396,21 +410,24 @@ def serial_capture(port: str, baud: int, duration: float, commands: list[str], l
 def stage_board(args: argparse.Namespace, samples: list[Sample]) -> None:
     csr_base = artix7_trace_csr_base(ROOT, args.trace_records, allow_default=args.dry_run)
     commands = ["root", "cd /opt/rvmt"]
+    runner_path = args.board_runner_path
     for profile_name, profile_samples in sample_groups_by_trace_profile(
         samples, args.trace_profile, args.trace_profile_policy
     ):
         selectors = " ".join(sample.sample_id for sample in profile_samples)
         control_mask = trace_control_mask_for_profile(profile_name)
         runner_args = f"--control-mask 0x{control_mask:x} --warmup {args.warmup}"
+        if args.syscall_side_channel:
+            runner_args += " --syscall-side-channel"
         if args.runtime_order == RUNTIME_ABBA:
             commands.append(
-                f"/usr/bin/rvmt_exp_runner 0x{csr_base:08x} {args.trace_records} {args.reps} abba {runner_args} {selectors}"
+                f"{runner_path} 0x{csr_base:08x} {args.trace_records} {args.reps} abba {runner_args} {selectors}"
             )
         else:
             commands.extend(
                 [
-                    f"/usr/bin/rvmt_exp_runner 0x{csr_base:08x} {args.trace_records} {args.reps} trace-off {runner_args} {selectors}",
-                    f"/usr/bin/rvmt_exp_runner 0x{csr_base:08x} {args.trace_records} {args.reps} trace-on {runner_args} {selectors}",
+                    f"{runner_path} 0x{csr_base:08x} {args.trace_records} {args.reps} trace-off {runner_args} {selectors}",
+                    f"{runner_path} 0x{csr_base:08x} {args.trace_records} {args.reps} trace-on {runner_args} {selectors}",
                 ]
             )
     raw_log = result_root(args.run_id) / "board" / "raw_uart.log"
@@ -507,6 +524,28 @@ def hex_text_field(fields: dict[str, str], key: str) -> str:
         return bytes.fromhex(raw).decode("utf-8", errors="replace")
     except ValueError:
         return ""
+
+
+def syscall_side_channel_event(fields: dict[str, str]) -> dict[str, Any]:
+    args = {name: fields[name] for name in ("a0", "a1", "a2", "a3", "a4", "a5", "a6", "a7") if name in fields}
+    event: dict[str, Any] = {
+        "schema": fields.get("schema", "rvmt.syscall_side_channel.v1"),
+        "sample_class": fields.get("class", "unknown"),
+        "sample": fields.get("sample", "unknown"),
+        "mode": fields.get("mode", "unknown"),
+        "rep": int_field(fields, "rep"),
+        "warmup": fields.get("warmup", "0") == "1",
+        "phase": fields.get("phase", "unknown"),
+        "pid": int_field(fields, "pid", -1),
+        "seq": int_field(fields, "seq"),
+        "nr": int_field(fields, "nr"),
+        "name": fields.get("name", "unknown"),
+        "args": args,
+        "path": hex_text_field(fields, "path_hex"),
+    }
+    if "ret" in fields:
+        event["return_value"] = fields["ret"]
+    return event
 
 
 def runtime_process_map_begin(fields: dict[str, str]) -> dict[str, Any]:
@@ -710,6 +749,7 @@ def write_board_rep(
     current: dict[str, Any],
     trace_lines: list[str],
     runtime_process_map: dict[str, Any] | None = None,
+    syscall_side_channel: list[dict[str, Any]] | None = None,
 ) -> None:
     sample = Sample(
         sample_class=current["class"],
@@ -729,6 +769,17 @@ def write_board_rep(
     if runtime_process_map is not None:
         finalized = finalize_runtime_process_map(runtime_process_map)
         (rep_dir / "runtime_process_map.json").write_text(json.dumps(finalized, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    if syscall_side_channel:
+        payload = {
+            "schema": "rvmt.syscall_side_channel.capture.v1",
+            "sample_class": current["class"],
+            "sample": current["sample"],
+            "mode": mode,
+            "rep": rep,
+            "warmup": is_warmup,
+            "events": syscall_side_channel,
+        }
+        (rep_dir / "syscall_side_channel.json").write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     if trace_lines:
         (rep_dir / "trace_raw_uart.log").write_text("\n".join(trace_lines) + "\n", encoding="utf-8")
         events = trace_lines_to_events(trace_lines)
@@ -775,6 +826,7 @@ def write_board_timing_rows(run_id: str, rows: list[dict[str, Any]]) -> None:
 def parse_board_log(raw_log: Path, run_id: str) -> None:
     current: dict[str, Any] | None = None
     runtime_process_map: dict[str, Any] | None = None
+    syscall_side_channel: list[dict[str, Any]] = []
     capturing_trace = False
     trace_lines: list[str] = []
     timing_rows: list[dict[str, Any]] = []
@@ -796,7 +848,12 @@ def parse_board_log(raw_log: Path, run_id: str) -> None:
             }
             trace_lines = []
             runtime_process_map = None
+            syscall_side_channel = []
             capturing_trace = False
+            continue
+        marker = marker_fragment(line, "RVMT_SYSCALL_OBS")
+        if current is not None and marker:
+            syscall_side_channel.append(syscall_side_channel_event(marker_fields(marker)))
             continue
         marker = marker_fragment(line, "RVMT_RUNTIME_PROCESS_MAP_BEGIN")
         if current is not None and marker:
@@ -838,15 +895,16 @@ def parse_board_log(raw_log: Path, run_id: str) -> None:
             trace_lines.append(line)
             continue
         if current is not None and marker_fragment(line, "RVMT_EXP_REP_END"):
-            write_board_rep(run_id, current, trace_lines, runtime_process_map)
+            write_board_rep(run_id, current, trace_lines, runtime_process_map, syscall_side_channel)
             current = None
             trace_lines = []
             runtime_process_map = None
+            syscall_side_channel = []
             capturing_trace = False
     if current is not None:
         current["status"] = "FAIL"
         current["error"] = "missing RVMT_EXP_REP_END"
-        write_board_rep(run_id, current, trace_lines, runtime_process_map)
+        write_board_rep(run_id, current, trace_lines, runtime_process_map, syscall_side_channel)
         timing_rows.append(dict(current))
     write_board_timing_rows(run_id, timing_rows)
 
@@ -1587,6 +1645,8 @@ def self_test() -> int:
                     "RVMT_RUNTIME_PROCESS role=unknown pid=-1 tgid=-1 status=PASS comm_hex=756e6b6e6f776e exe_hex=",
                     "RVMT_RUNTIME_PROCESS_PROVENANCE collector=rvmt_exp_runner method=ptrace_exec_stop_procfs_snapshot proc_sample_time=post_exec_pre_detach status=PASS warnings_hex=",
                     "RVMT_RUNTIME_PROCESS_MAP_END status=PASS",
+                    "RVMT_SYSCALL_OBS schema=rvmt.syscall_side_channel.v1 class=benign sample=hello mode=trace-on rep=0 warmup=0 phase=entry pid=11 seq=1 nr=56 name=openat a0=0xffffffffffffff9c a1=0x0000000000010000 a2=0x0000000000000000 a3=0x0000000000000000 a4=0x0000000000000000 a5=0x0000000000000000 a6=0x0000000000000000 a7=0x0000000000000038 path_hex=2f746d702f78",
+                    "RVMT_SYSCALL_OBS schema=rvmt.syscall_side_channel.v1 class=benign sample=hello mode=trace-on rep=0 warmup=0 phase=return pid=11 seq=1 nr=56 name=openat a0=0xffffffffffffff9c a1=0x0000000000010000 a2=0x0000000000000000 a3=0x0000000000000000 a4=0x0000000000000000 a5=0x0000000000000000 a6=0x0000000000000000 a7=0x0000000000000038 ret=0x0000000000000003 path_hex=2f746d702f78",
                     "command echo RVMT_EXP_REP_RESULT class=benign sample=hello mode=trace-on rep=0 exit=0 runtime_ns=10 trace_count=2 drop=0",
                     "RVMT_TRACE_DUMP_BEGIN",
                     "RVMT_TRACE_RECORD 0 00000004 00000001 00001000 00000073 00000000 00000000 00000000 00000000 00000001 00000000 00000000 00000000 00000000 00000000 00000000 00000040",
@@ -1609,6 +1669,12 @@ def self_test() -> int:
         runtime_map = trace.parent / "runtime_process_map.json"
         if not runtime_map.exists() or load_json(runtime_map).get("schema") != "rvmt.runtime_process_map.v1":
             print("[FAIL] board log parser missed runtime process map", file=sys.stderr)
+            return 1
+        side_channel = trace.parent / "syscall_side_channel.json"
+        side_payload = load_json(side_channel) if side_channel.exists() else {}
+        side_events = side_payload.get("events", [])
+        if not side_events or side_events[0].get("path") != "/tmp/x" or side_events[-1].get("return_value") != "0x0000000000000003":
+            print("[FAIL] board log parser missed syscall side-channel capture", file=sys.stderr)
             return 1
         sample = Sample("benign", "hello", "board/artix7_35t/linux/rvmt_benign_workload.c", ["./rvmt_benign_workload", "hello"], [], "01_hello")
         sample_dir = sample_root("self-test", sample)
@@ -1656,6 +1722,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--run-id", default="manual")
     parser.add_argument("--port", default="COM5")
     parser.add_argument("--baud", type=int, default=921600)
+    parser.add_argument("--board-runner-path", default="/usr/bin/rvmt_exp_runner")
     parser.add_argument("--reps", type=int, default=5)
     parser.add_argument("--duration", type=float, default=3600.0)
     parser.add_argument("--trace-records", type=int, default=256)
@@ -1664,6 +1731,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--runtime-order", choices=(RUNTIME_CLASSIC, RUNTIME_ABBA), default=RUNTIME_CLASSIC)
     parser.add_argument("--warmup", type=int, default=0)
     parser.add_argument("--sample", action="append", default=[])
+    parser.add_argument("--syscall-side-channel", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--keep-going", action="store_true", default=True)
     args = parser.parse_args(argv)
@@ -1680,6 +1748,7 @@ def main(argv: list[str] | None = None) -> int:
         "run_id": args.run_id,
         "port": args.port,
         "baud": args.baud,
+        "board_runner_path": args.board_runner_path,
         "reps": args.reps,
         "duration": args.duration,
         "trace_records": args.trace_records,
@@ -1691,6 +1760,7 @@ def main(argv: list[str] | None = None) -> int:
         "trace_control_masks_by_sample": sample_control_masks,
         "runtime_order": args.runtime_order,
         "warmup": args.warmup,
+        "syscall_side_channel": bool(args.syscall_side_channel),
         "samples": [sample.sample_id for sample in samples],
         "network": "disabled",
         "real_malware": "forbidden",

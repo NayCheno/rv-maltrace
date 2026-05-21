@@ -21,6 +21,7 @@ Hardware ready basis: requested UART port is visible through pyserial; this does
 - trace_profile_policy: PASS
 - phases: PASS
 - hardware_required: PASS
+- syscall_side_channel: PASS
 
 ## Required Scripts
 

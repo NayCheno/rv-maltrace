@@ -130,6 +130,74 @@ def semantic_event_paths(results_root: Path, sample: str) -> list[Path]:
     return [base / f"rep_{rep:02d}" / "behavior_recovery" / "semantic_events.json" for rep in range(5)]
 
 
+def syscall_side_channel_paths(results_root: Path, sample: str) -> list[Path]:
+    base = results_root / "samples" / "malware_like_synthetic" / sample / "board" / "trace-on"
+    return [base / f"rep_{rep:02d}" / "syscall_side_channel.json" for rep in range(5)]
+
+
+def load_syscall_side_channel(path: Path) -> list[dict[str, Any]]:
+    value = load_json(path)
+    rows = value.get("events")
+    if not isinstance(rows, list):
+        raise ValueError(f"{path}: missing events list")
+    return [row for row in rows if isinstance(row, dict)]
+
+
+def side_channel_to_semantic_events(events: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    pending: dict[tuple[int, int, str], dict[str, Any]] = {}
+    rows: list[dict[str, Any]] = []
+    for event in events:
+        name = str(event.get("name") or "")
+        if not name:
+            continue
+        phase = str(event.get("phase") or "")
+        pid = int(event.get("pid") or -1)
+        seq = int(event.get("seq") or 0)
+        key = (pid, seq, name)
+        if phase == "entry":
+            pending[key] = event
+            if name == "execve":
+                args = dict(event.get("args") if isinstance(event.get("args"), dict) else {})
+                path = event.get("path") if isinstance(event.get("path"), str) and event.get("path") else None
+                if path:
+                    args["a0_string"] = path
+                rows.append(
+                    {
+                        "seq": seq,
+                        "name": name,
+                        "pid": pid,
+                        "process_owner": "target_child",
+                        "args": args,
+                        "path": path,
+                        "return_value": None,
+                        "confidence": "board_syscall_side_channel_entry",
+                    }
+                )
+            continue
+        if phase != "return":
+            continue
+        entry = pending.pop(key, None)
+        source = entry if entry is not None else event
+        args = dict(source.get("args") if isinstance(source.get("args"), dict) else {})
+        path = source.get("path") if isinstance(source.get("path"), str) and source.get("path") else None
+        if path and name == "openat":
+            args["a1_string"] = path
+        elif path and name == "execve":
+            args["a0_string"] = path
+        row = {
+            "seq": seq,
+            "name": name,
+            "pid": pid,
+            "process_owner": "target_child",
+            "args": args,
+            "path": path,
+            "return_value": event.get("return_value"),
+            "confidence": "board_syscall_side_channel_paired" if entry is not None else "board_syscall_side_channel_return_only",
+        }
+        rows.append({key_name: value for key_name, value in row.items() if value is not None})
+    return rows
+
+
 def status_rank(status: Any) -> int:
     return {"PASS": 3, "PARTIAL": 2, "UNAVAILABLE": 1}.get(str(status), 0)
 
@@ -190,6 +258,19 @@ def write_fd_summary(results_root: Path, out_dir: Path, repo_root: Path, records
 
     candidates: list[dict[str, Any]] = []
     for sample in FD_PATH_SAMPLES:
+        for path in syscall_side_channel_paths(results_root, sample):
+            if not path.exists():
+                continue
+            summary = recover_fd_path_flow(side_channel_to_semantic_events(load_syscall_side_channel(path)), sample=sample)
+            candidates.append(
+                {
+                    "sample": sample,
+                    "source_type": "syscall_side_channel",
+                    "source": path,
+                    "summary": summary,
+                    "flow_count": len(summary.get("flows", [])),
+                }
+            )
         for path in semantic_event_paths(results_root, sample):
             if not path.exists():
                 continue
@@ -197,7 +278,8 @@ def write_fd_summary(results_root: Path, out_dir: Path, repo_root: Path, records
             candidates.append(
                 {
                     "sample": sample,
-                    "semantic_events": path,
+                    "source_type": "semantic_events",
+                    "source": path,
                     "summary": summary,
                     "flow_count": len(summary.get("flows", [])),
                 }
@@ -209,17 +291,18 @@ def write_fd_summary(results_root: Path, out_dir: Path, repo_root: Path, records
         summary = dict(selected["summary"])
         summary["selected_candidate"] = {
             "sample": selected["sample"],
-            "semantic_events": rel(selected["semantic_events"], repo_root),
+            "source_type": selected["source_type"],
+            "source": rel(selected["source"], repo_root),
         }
         summary["candidate_status_counts"] = {
             status: sum(1 for row in candidates if row["summary"].get("status") == status)
             for status in ("PASS", "PARTIAL", "UNAVAILABLE")
         }
-        summary["bundle_selection_policy"] = "select the strongest fd/path candidate without upgrading its status"
+        summary["bundle_selection_policy"] = "select the strongest fd/path candidate, preferring board syscall side-channel captures when they tie"
     write_json(out_dir / "fd_path_flow_summary.json", summary)
     (out_dir / "fd_path_flow_summary.md").write_text(render_fd_markdown(summary), encoding="utf-8", newline="\n")
-    records.append(file_record(out_dir / "fd_path_flow_summary.json", repo_root, artifact="fd_path_flow_summary.json", source_path=None, mode="generated_from_semantic_events"))
-    records.append(file_record(out_dir / "fd_path_flow_summary.md", repo_root, artifact="fd_path_flow_summary.md", source_path=None, mode="generated_from_semantic_events"))
+    records.append(file_record(out_dir / "fd_path_flow_summary.json", repo_root, artifact="fd_path_flow_summary.json", source_path=None, mode="generated_from_board_syscall_side_channel_or_semantic_events"))
+    records.append(file_record(out_dir / "fd_path_flow_summary.md", repo_root, artifact="fd_path_flow_summary.md", source_path=None, mode="generated_from_board_syscall_side_channel_or_semantic_events"))
     return summary
 
 
@@ -235,6 +318,19 @@ def write_process_summary(results_root: Path, out_dir: Path, repo_root: Path, re
 
     candidates: list[dict[str, Any]] = []
     for sample in PROCESS_TREE_SAMPLES:
+        for path in syscall_side_channel_paths(results_root, sample):
+            if not path.exists():
+                continue
+            summary = recover_process_tree(side_channel_to_semantic_events(load_syscall_side_channel(path)), sample=sample)
+            candidates.append(
+                {
+                    "sample": sample,
+                    "source_type": "syscall_side_channel",
+                    "source": path,
+                    "summary": summary,
+                    "edge_count": len(summary.get("edges", [])),
+                }
+            )
         for path in semantic_event_paths(results_root, sample):
             if not path.exists():
                 continue
@@ -242,7 +338,8 @@ def write_process_summary(results_root: Path, out_dir: Path, repo_root: Path, re
             candidates.append(
                 {
                     "sample": sample,
-                    "semantic_events": path,
+                    "source_type": "semantic_events",
+                    "source": path,
                     "summary": summary,
                     "edge_count": len(summary.get("edges", [])),
                 }
@@ -254,17 +351,18 @@ def write_process_summary(results_root: Path, out_dir: Path, repo_root: Path, re
         summary = dict(selected["summary"])
         summary["selected_candidate"] = {
             "sample": selected["sample"],
-            "semantic_events": rel(selected["semantic_events"], repo_root),
+            "source_type": selected["source_type"],
+            "source": rel(selected["source"], repo_root),
         }
         summary["candidate_status_counts"] = {
             status: sum(1 for row in candidates if row["summary"].get("status") == status)
             for status in ("PASS", "PARTIAL", "UNAVAILABLE")
         }
-        summary["bundle_selection_policy"] = "select the strongest process-tree candidate without upgrading its status"
+        summary["bundle_selection_policy"] = "select the strongest process-tree candidate, preferring board syscall side-channel captures when they tie"
     write_json(out_dir / "process_tree_summary.json", summary)
     (out_dir / "process_tree_summary.md").write_text(render_process_markdown(summary), encoding="utf-8", newline="\n")
-    records.append(file_record(out_dir / "process_tree_summary.json", repo_root, artifact="process_tree_summary.json", source_path=None, mode="generated_from_semantic_events"))
-    records.append(file_record(out_dir / "process_tree_summary.md", repo_root, artifact="process_tree_summary.md", source_path=None, mode="generated_from_semantic_events"))
+    records.append(file_record(out_dir / "process_tree_summary.json", repo_root, artifact="process_tree_summary.json", source_path=None, mode="generated_from_board_syscall_side_channel_or_semantic_events"))
+    records.append(file_record(out_dir / "process_tree_summary.md", repo_root, artifact="process_tree_summary.md", source_path=None, mode="generated_from_board_syscall_side_channel_or_semantic_events"))
     return summary
 
 
@@ -454,6 +552,11 @@ def write_semantic(path: Path, rows: list[dict[str, Any]]) -> None:
     write_json(path, {"schema": "rvmt.behavior.semantic.v1", "syscall_sequence": rows})
 
 
+def write_side_channel(path: Path, events: list[dict[str, Any]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    write_json(path, {"schema": "rvmt.syscall_side_channel.capture.v1", "events": events})
+
+
 def write_self_test_run(root: Path, results: Path, *, complete: bool, run_id: str = RUN_ID) -> None:
     results.mkdir(parents=True)
     write_json(results / "run_config.json", {"run_id": run_id, "trace_records": 512, "trace_profile_policy": "35t_small_capacity"})
@@ -500,6 +603,42 @@ def write_self_test_run(root: Path, results: Path, *, complete: bool, run_id: st
         results / "samples/malware_like_synthetic/file_scan/board/trace-on/rep_00/behavior_recovery/semantic_events.json",
         fd_rows,
     )
+    if complete:
+        write_side_channel(
+            results / "samples/malware_like_synthetic/file_scan/board/trace-on/rep_00/syscall_side_channel.json",
+            [
+                {
+                    "phase": "entry",
+                    "pid": 100,
+                    "seq": 1,
+                    "nr": 56,
+                    "name": "openat",
+                    "args": {"a0": "0xffffffffffffff9c", "a1": "0x1000", "a2": "0x0"},
+                    "path": "/tmp/a",
+                },
+                {
+                    "phase": "return",
+                    "pid": 100,
+                    "seq": 1,
+                    "nr": 56,
+                    "name": "openat",
+                    "args": {"a0": "0xffffffffffffff9c", "a1": "0x1000", "a2": "0x0"},
+                    "return_value": "0x3",
+                    "path": "/tmp/a",
+                },
+                {
+                    "phase": "entry",
+                    "pid": 100,
+                    "seq": 2,
+                    "nr": 63,
+                    "name": "read",
+                    "args": {"a0": "0x3", "a1": "0x2000", "a2": "0x10"},
+                },
+                {"phase": "return", "pid": 100, "seq": 2, "nr": 63, "name": "read", "return_value": "0x10"},
+                {"phase": "entry", "pid": 100, "seq": 3, "nr": 57, "name": "close", "args": {"a0": "0x3"}},
+                {"phase": "return", "pid": 100, "seq": 3, "nr": 57, "name": "close", "return_value": "0x0"},
+            ],
+        )
     process_rows = [
         {
             "seq": 0,
@@ -530,6 +669,25 @@ def write_self_test_run(root: Path, results: Path, *, complete: bool, run_id: st
         results / "samples/malware_like_synthetic/process_chain/board/trace-on/rep_00/behavior_recovery/semantic_events.json",
         process_rows,
     )
+    if complete:
+        write_side_channel(
+            results / "samples/malware_like_synthetic/process_chain/board/trace-on/rep_00/syscall_side_channel.json",
+            [
+                {"phase": "entry", "pid": 200, "seq": 1, "nr": 220, "name": "clone", "args": {"a0": "0x11"}},
+                {"phase": "return", "pid": 200, "seq": 1, "nr": 220, "name": "clone", "return_value": "0x7b"},
+                {
+                    "phase": "entry",
+                    "pid": 123,
+                    "seq": 1,
+                    "nr": 221,
+                    "name": "execve",
+                    "args": {"a0": "0x1000"},
+                    "path": "/usr/bin/child",
+                },
+                {"phase": "entry", "pid": 200, "seq": 2, "nr": 95, "name": "waitid", "args": {"a0": "0x1", "a1": "0x7b"}},
+                {"phase": "return", "pid": 200, "seq": 2, "nr": 95, "name": "waitid", "return_value": "0x0"},
+            ],
+        )
     for sample in ("illegal_trap", "process_chain", "dynamic_executable_memory", "file_scan", "batch_open_read_write", "self_copy_sim"):
         code_dir = results / "samples/malware_like_synthetic" / sample / "build"
         code_dir.mkdir(parents=True, exist_ok=True)
@@ -579,6 +737,14 @@ def self_test() -> int:
             return 1
         if complete_manifest.get("validation_run_id") != "35t-targeted-board-validation-self-test":
             print("[FAIL] expected package manifest to preserve validation_run_id", file=sys.stderr)
+            return 1
+        fd_summary = load_json(complete_out / "fd_path_flow_summary.json")
+        process_summary = load_json(complete_out / "process_tree_summary.json")
+        if fd_summary.get("selected_candidate", {}).get("source_type") != "syscall_side_channel":
+            print("[FAIL] expected fd/path packager to prefer syscall side-channel evidence", file=sys.stderr)
+            return 1
+        if process_summary.get("selected_candidate", {}).get("source_type") != "syscall_side_channel":
+            print("[FAIL] expected process-tree packager to prefer syscall side-channel evidence", file=sys.stderr)
             return 1
 
         partial_results = root / "partial-results"

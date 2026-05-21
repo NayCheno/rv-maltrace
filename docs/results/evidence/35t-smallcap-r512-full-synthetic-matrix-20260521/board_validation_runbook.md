@@ -54,7 +54,7 @@ Pass condition: 35T LiteX/VexRiscv rootfs experiment overlay is rebuilt
 Hardware required: yes
 
 ```bash
-uv run python tools/experiment_35t.py --stage board --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic --port COM5 --baud 921600 --duration 3600.0
+uv run python tools/experiment_35t.py --stage board --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic --port COM5 --baud 921600 --duration 3600.0 --board-runner-path /usr/bin/rvmt_exp_runner --syscall-side-channel
 ```
 
 Expected output: `results/experiments/35t/35t-targeted-board-validation-20260522/board/raw_uart.log`

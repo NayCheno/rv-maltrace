@@ -77,7 +77,9 @@ def experiment_base_args(args: argparse.Namespace) -> list[str]:
 def experiment_command(stage: str, args: argparse.Namespace, *, include_board_io: bool = False) -> list[str]:
     cmd = ["uv", "run", "python", "tools/experiment_35t.py", "--stage", stage, *experiment_base_args(args)]
     if include_board_io:
-        cmd.extend(["--port", args.port, "--baud", str(args.baud), "--duration", str(args.duration)])
+        cmd.extend(["--port", args.port, "--baud", str(args.baud), "--duration", str(args.duration), "--board-runner-path", args.board_runner_path])
+        if args.syscall_side_channel:
+            cmd.append("--syscall-side-channel")
     return cmd
 
 
@@ -179,7 +181,9 @@ def build_runbook(repo_root: Path, args: argparse.Namespace) -> dict[str, Any]:
         "reps": args.reps,
         "port": args.port,
         "baud": args.baud,
+        "board_runner_path": args.board_runner_path,
         "duration": args.duration,
+        "syscall_side_channel": bool(args.syscall_side_channel),
         "matrix_scope": "full 13-sample 35T matrix",
         "focus_samples": DEFAULT_FOCUS_SAMPLES,
         "required_capture_items": [
@@ -266,7 +270,9 @@ def self_test() -> int:
             runtime_order="classic",
             port="COM5",
             baud=921600,
+            board_runner_path="/usr/bin/rvmt_exp_runner",
             duration=3600.0,
+            syscall_side_channel=True,
         )
         runbook = build_runbook(root, args)
         if runbook["source_run_id"] != RUN_ID or runbook["validation_run_id"] != args.validation_run_id:
@@ -276,6 +282,9 @@ def self_test() -> int:
             print("[FAIL] runbook does not preserve 35T trace baseline", file=sys.stderr)
             return 1
         commands = "\n".join(item["command"] for item in runbook["commands"])
+        if "--syscall-side-channel" not in commands:
+            print("[FAIL] runbook board command does not enable syscall side-channel capture", file=sys.stderr)
+            return 1
         if "CVA6" in commands or "real malware detector" in commands:
             print("[FAIL] runbook contains forbidden scope wording", file=sys.stderr)
             return 1
@@ -298,11 +307,14 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--validation-run-id", default=f"35t-targeted-board-validation-{utc_date()}")
     parser.add_argument("--port", default="COM5")
     parser.add_argument("--baud", type=int, default=921600)
+    parser.add_argument("--board-runner-path", default="/usr/bin/rvmt_exp_runner")
     parser.add_argument("--duration", type=float, default=3600.0)
     parser.add_argument("--reps", type=int, default=5)
     parser.add_argument("--trace-records", type=int, default=512)
     parser.add_argument("--trace-profile-policy", choices=("35t_small_capacity",), default="35t_small_capacity")
     parser.add_argument("--runtime-order", choices=("classic", "abba"), default="classic")
+    parser.add_argument("--no-syscall-side-channel", dest="syscall_side_channel", action="store_false")
+    parser.set_defaults(syscall_side_channel=True)
     parser.add_argument("--self-test", action="store_true")
     parser.add_argument("--no-write", action="store_true")
     args = parser.parse_args(argv)

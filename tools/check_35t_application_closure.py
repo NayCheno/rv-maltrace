@@ -392,12 +392,17 @@ def check_repo(repo_root: Path, evidence_root_arg: Path, write_outputs: bool) ->
         failures.append("board validation hardware_validated flag is inconsistent with status")
     board_runbook_non_claims = board_runbook.get("non_claims", [])
     board_runbook_non_claim_text = "\n".join(str(item) for item in board_runbook_non_claims) if isinstance(board_runbook_non_claims, list) else ""
+    board_runbook_commands = board_runbook.get("commands", [])
+    board_runbook_command_text = "\n".join(
+        str(item.get("command", "")) for item in board_runbook_commands if isinstance(item, dict)
+    ) if isinstance(board_runbook_commands, list) else ""
     board_runbook_results = {
         "schema_ok": board_runbook.get("schema") == "rvmt.35t.board_validation_runbook.v1",
         "source_run_id_ok": board_runbook.get("source_run_id") == RUN_ID,
         "scope_ok": board_runbook.get("scope") == "Artix-7 35T / LiteX / VexRiscv",
         "claim_level_ok": board_runbook.get("claim_level") == EXPECTED_CLAIM_LEVEL,
         "hardware_required_ok": board_runbook.get("hardware_required") is True,
+        "syscall_side_channel_ok": board_runbook.get("syscall_side_channel") is True and "--syscall-side-channel" in board_runbook_command_text,
         "status": board_runbook.get("status"),
         "status_ok": board_runbook.get("status") == "READY_TO_RUN_ON_35T_BOARD",
         "non_claims_ok": all(item.lower() in board_runbook_non_claim_text.lower() for item in REQUIRED_NON_CLAIMS),
@@ -549,7 +554,9 @@ def self_test() -> int:
             "scope": "Artix-7 35T / LiteX / VexRiscv",
             "claim_level": EXPECTED_CLAIM_LEVEL,
             "hardware_required": True,
+            "syscall_side_channel": True,
             "status": "READY_TO_RUN_ON_35T_BOARD",
+            "commands": [{"phase": "board", "command": "uv run python tools/experiment_35t.py --stage board --syscall-side-channel"}],
             "non_claims": REQUIRED_NON_CLAIMS,
         }
         (evidence / "board_validation_runbook.json").write_text(json.dumps(board_runbook), encoding="utf-8")
