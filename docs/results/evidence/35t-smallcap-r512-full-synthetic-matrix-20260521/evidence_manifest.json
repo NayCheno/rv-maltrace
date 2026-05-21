@@ -30,7 +30,7 @@
       "bytes": 5656,
       "committed_path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/command_log.md",
       "mode": "generated_lightweight_summary",
-      "sha256": "6ec127d4082980fc972362973cbca7c05087e79a1192e979d21186e9e2e581d4",
+      "sha256": "c25449f7344023cd41e00961c42a4592fd3b339eb341489aa3a8c36535ae972d",
       "source_path": null
     },
     {
@@ -176,7 +176,7 @@
   "samples": 13,
   "schema": "rvmt.35t.evidence_snapshot.v1",
   "scope": "Artix-7 35T / LiteX / VexRiscv",
-  "snapshot_generated_utc": "2026-05-21T17:13:23+00:00",
+  "snapshot_generated_utc": "2026-05-21T17:50:18+00:00",
   "source_results_root": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521",
   "trace_profile_policy": "35t_small_capacity",
   "trace_records": 512
