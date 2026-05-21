@@ -16,6 +16,11 @@ Claim level: 35T hardware-trace-assisted synthetic malware-like behavior audit p
 
 - none strictly closed
 
+## PID Candidates
+
+- no positive clone-return child PID candidates
+- wait PID candidates: 463, 464
+
 ## Limitations
 
 - clone/wait shape exists, but strict parent-child edge closure is unavailable

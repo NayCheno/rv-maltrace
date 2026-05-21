@@ -1,4 +1,11 @@
 {
+  "board_validation_status": {
+    "hardware_validated": false,
+    "hardware_validated_ok": true,
+    "schema_ok": true,
+    "status": "AWAITING_BOARD_RUN",
+    "status_ok": true
+  },
   "case_study_coverage": {
     "dynamic_executable_memory": {
       "alternatives": null,
@@ -23,9 +30,19 @@
   "checked_files": [
     "docs/results/rv_maltrace_35t_application_closure.md",
     "docs/results/rv_maltrace_35t_application_case_studies.md",
-    "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/evidence_manifest.json"
+    "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/evidence_manifest.json",
+    "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/explanation_readiness_summary.json",
+    "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/source_attribution_summary.json",
+    "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_status.json"
   ],
   "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+  "explanation_readiness": {
+    "board_validation_required": true,
+    "board_validation_required_ok": true,
+    "schema_ok": true,
+    "status": "READY_FOR_TARGETED_BOARD_VALIDATION",
+    "status_ok": true
+  },
   "failures": [],
   "non_claims": {
     "no CVA6 board claim": true,
@@ -86,6 +103,13 @@
   },
   "run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
   "schema": "rvmt.35t.application_closure_check.v1",
+  "source_attribution": {
+    "function_level": "available",
+    "function_level_ok": true,
+    "schema_ok": true,
+    "status": "PARTIAL",
+    "status_ok": true
+  },
   "status": "PASS",
   "warnings": []
 }

@@ -3,6 +3,7 @@
   "flows": [],
   "limitations": [
     "argument-level path strings are unavailable in current evidence; pointers are not dereferenced",
+    "some fd operations are return-only snapshots without reliable entry fd arguments",
     "some fd operations cannot be linked to a prior successful openat return",
     "some openat entries do not have paired successful fd return evidence"
   ],
@@ -11,6 +12,14 @@
     "no classifier accuracy claim",
     "no complete semantic reconstruction claim"
   ],
+  "observed_counts": {
+    "execve_events": 0,
+    "flows": 0,
+    "pending_openats": 1,
+    "return_only_fd_ops": 2,
+    "unresolved_fds": 2
+  },
+  "open_fds_at_end": [],
   "pending_openats": [
     {
       "confidence": "target_ecall_boundary",
@@ -20,16 +29,27 @@
       "seq": 23
     }
   ],
+  "return_only_execve_events": [],
+  "return_only_fd_ops": [
+    {
+      "confidence": "return_only_target_syscall_site_register_snapshot",
+      "reason": "return-only register snapshot does not preserve the fd argument reliably",
+      "return_value": "0x0000000000000070",
+      "seq": 24,
+      "syscall": "getdents64"
+    },
+    {
+      "confidence": "return_only_target_syscall_site_register_snapshot",
+      "reason": "return-only register snapshot does not preserve the fd argument reliably",
+      "return_value": "0x0000000000000000",
+      "seq": 27,
+      "syscall": "close"
+    }
+  ],
   "sample": "file_scan",
   "schema": "rvmt.fd_path_flow.summary.v1",
   "status": "PARTIAL",
   "unresolved_fds": [
-    {
-      "fd": 112,
-      "reason": "fd operation observed without a prior successful openat fd return in current semantic evidence",
-      "seq": 24,
-      "syscall": "getdents64"
-    },
     {
       "fd": 3,
       "reason": "fd operation observed without a prior successful openat fd return in current semantic evidence",
@@ -41,12 +61,6 @@
       "reason": "fd operation observed without a prior successful openat fd return in current semantic evidence",
       "seq": 26,
       "syscall": "getdents64"
-    },
-    {
-      "fd": 0,
-      "reason": "fd operation observed without a prior successful openat fd return in current semantic evidence",
-      "seq": 27,
-      "syscall": "close"
     }
   ],
   "unresolved_paths": [

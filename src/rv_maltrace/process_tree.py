@@ -33,6 +33,15 @@ def positive_pid(value: Any) -> int | None:
     return number
 
 
+def syscall_return_value(row: dict[str, Any]) -> Any:
+    if row.get("return_value") is not None:
+        return row.get("return_value")
+    ret = row.get("return")
+    if isinstance(ret, dict):
+        return ret.get("return_value")
+    return None
+
+
 def syscall_arg(row: dict[str, Any], name: str) -> Any:
     args = row.get("args", {})
     if isinstance(args, dict):
@@ -70,7 +79,10 @@ def recover_process_tree(syscalls: list[dict[str, Any]], *, sample: str = "proce
     process_events: list[dict[str, Any]] = []
     processes: dict[int, dict[str, Any]] = {}
     edges: list[dict[str, Any]] = []
-    pending_child_pids: list[int] = []
+    clone_return_candidates: list[dict[str, Any]] = []
+    wait_pid_candidates: list[int] = []
+    unmatched_clone_return_candidates: list[dict[str, Any]] = []
+    pending_exec_paths: list[dict[str, Any]] = []
     limitations: list[str] = []
     clone_count = 0
     exec_count = 0
@@ -87,20 +99,27 @@ def recover_process_tree(syscalls: list[dict[str, Any]], *, sample: str = "proce
         event = {
             "seq": row.get("seq"),
             "name": name,
-            "return_value": row.get("return_value"),
+            "return_value": syscall_return_value(row),
             "confidence": row.get("confidence"),
             "process_owner": row.get("process_owner"),
         }
 
         if name in {"clone", "fork", "vfork"}:
             clone_count += 1
-            child_pid = positive_pid(row.get("return_value"))
+            child_pid = positive_pid(syscall_return_value(row))
             event["child_pid_from_return"] = child_pid
             if child_pid is None:
                 missing_clone_returns += 1
                 event["limitation"] = "clone return did not provide a positive child PID in current semantic evidence"
             else:
-                pending_child_pids.append(child_pid)
+                candidate = {
+                    "seq": row.get("seq"),
+                    "child_pid": child_pid,
+                    "evidence": ["clone_return"],
+                    "matched_wait": False,
+                    "confidence": "medium",
+                }
+                clone_return_candidates.append(candidate)
                 processes.setdefault(
                     child_pid,
                     {
@@ -111,14 +130,6 @@ def recover_process_tree(syscalls: list[dict[str, Any]], *, sample: str = "proce
                         "confidence": "medium",
                     },
                 )["observed_events"].append(name)
-                edges.append(
-                    {
-                        "parent_pid": "target_parent_unresolved",
-                        "child_pid": child_pid,
-                        "evidence": ["clone_return"],
-                        "confidence": "medium",
-                    }
-                )
         elif name == "execve":
             exec_count += 1
             path, pointer = path_value(row, "a0")
@@ -126,8 +137,11 @@ def recover_process_tree(syscalls: list[dict[str, Any]], *, sample: str = "proce
                 path_strings_seen = True
             event["path"] = path
             event["path_pointer"] = pointer
-            if pending_child_pids:
-                pid = pending_child_pids[0]
+            pending_exec_paths.append({"seq": row.get("seq"), "path": path, "path_pointer": pointer})
+            unmatched = [candidate for candidate in clone_return_candidates if not candidate.get("exec_attached")]
+            if unmatched:
+                pid = int(unmatched[0]["child_pid"])
+                unmatched[0]["exec_attached"] = True
                 processes.setdefault(
                     pid,
                     {
@@ -150,13 +164,36 @@ def recover_process_tree(syscalls: list[dict[str, Any]], *, sample: str = "proce
             event["wait_pid_arg"] = wait_pid
             if wait_pid is None:
                 event["limitation"] = "wait target PID argument unavailable"
-            matched = False
-            for edge in edges:
-                if edge.get("child_pid") == wait_pid:
-                    edge["evidence"].append(name)
-                    edge["confidence"] = "strong"
-                    matched = True
-            if not matched and wait_pid is not None:
+            if wait_pid is not None:
+                wait_pid_candidates.append(wait_pid)
+            matched_candidate = None
+            for candidate in clone_return_candidates:
+                if candidate.get("child_pid") == wait_pid and not candidate.get("matched_wait"):
+                    matched_candidate = candidate
+                    break
+            if matched_candidate is not None and wait_pid is not None:
+                matched_candidate["matched_wait"] = True
+                evidence = list(matched_candidate.get("evidence", []))
+                evidence.append(name)
+                edges.append(
+                    {
+                        "parent_pid": "target_parent_unresolved",
+                        "child_pid": wait_pid,
+                        "evidence": evidence,
+                        "confidence": "strong",
+                    }
+                )
+                processes.setdefault(
+                    wait_pid,
+                    {
+                        "pid": wait_pid,
+                        "ppid": "target_parent_unresolved",
+                        "exec": None,
+                        "observed_events": [],
+                        "confidence": "medium",
+                    },
+                )["observed_events"].append(name)
+            elif wait_pid is not None:
                 processes.setdefault(
                     wait_pid,
                     {
@@ -169,12 +206,17 @@ def recover_process_tree(syscalls: list[dict[str, Any]], *, sample: str = "proce
                 )["observed_events"].append(name)
         process_events.append({key: value for key, value in event.items() if value is not None})
 
+    unmatched_clone_return_candidates = [
+        candidate for candidate in clone_return_candidates if not candidate.get("matched_wait")
+    ]
     if missing_clone_returns:
         limitations.append("one or more clone/fork events lack a positive child PID return")
     if exec_count and not path_strings_seen:
         limitations.append("execve path strings are unavailable; pointers are not dereferenced")
     if clone_count and wait_count and not edges:
         limitations.append("clone/wait shape exists, but strict parent-child edge closure is unavailable")
+    if unmatched_clone_return_candidates and wait_pid_candidates:
+        limitations.append("one or more positive clone-return candidates do not match observed wait PID evidence")
 
     if not process_events:
         status = "UNAVAILABLE"
@@ -191,6 +233,10 @@ def recover_process_tree(syscalls: list[dict[str, Any]], *, sample: str = "proce
         "root_process": "target_process",
         "processes": sorted(processes.values(), key=lambda row: int(row["pid"])),
         "edges": edges,
+        "clone_return_candidates": clone_return_candidates,
+        "wait_pid_candidates": wait_pid_candidates,
+        "unmatched_clone_return_candidates": unmatched_clone_return_candidates,
+        "pending_exec_paths": pending_exec_paths,
         "events": process_events,
         "observed_counts": {
             "clone_or_fork": clone_count,
@@ -238,6 +284,16 @@ def render_markdown(summary: dict[str, Any]) -> str:
             lines.append(f"- {edge.get('parent_pid')} -> {edge.get('child_pid')}: confidence={edge.get('confidence')}, evidence={evidence}")
     else:
         lines.append("- none strictly closed")
+    lines += ["", "## PID Candidates", ""]
+    if summary.get("clone_return_candidates"):
+        for candidate in summary["clone_return_candidates"]:
+            matched = "yes" if candidate.get("matched_wait") else "no"
+            lines.append(f"- clone seq {candidate.get('seq')}: child_pid={candidate.get('child_pid')}, wait_matched={matched}")
+    else:
+        lines.append("- no positive clone-return child PID candidates")
+    if summary.get("wait_pid_candidates"):
+        waits = ", ".join(str(pid) for pid in summary["wait_pid_candidates"])
+        lines.append(f"- wait PID candidates: {waits}")
     lines += ["", "## Limitations", ""]
     for item in summary["limitations"]:
         lines.append(f"- {item}")

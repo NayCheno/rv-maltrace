@@ -1,0 +1,53 @@
+{
+  "schema": "rvmt.35t.targeted_board_validation_plan.v1",
+  "validation_id": "35t-targeted-explanation-closure-board-validation",
+  "source_run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+  "status": "AWAITING_BOARD_RUN",
+  "board_validation_required": true,
+  "hardware_validated": false,
+  "objectives": [
+    "close fd/path flow evidence for openat/path -> fd -> read/write/getdents64/close where trace evidence supports it",
+    "close process_chain parent-child explanation only when clone/fork return PID, wait PID, exec boundary, and runtime ownership evidence agree",
+    "add function/source attribution without claiming complete semantic reconstruction",
+    "keep benign overlap separate from synthetic malware-like behavior evidence"
+  ],
+  "required_capture_items": [
+    "target-scoped marker begin/end around each sample repetition",
+    "runtime process map for runner_parent, target_child, kernel, and unknown roles",
+    "reliable target syscall entry/return pairing for fd operations",
+    "openat and execve path strings or a board-side/runner-side path side channel tied to target syscall events",
+    "clone/fork return value from the parent side and wait PID in the same evidence window",
+    "child runtime process ownership evidence across exec",
+    "exact board runtime ELF/code-map identity",
+    "DWARF/debug-line metadata or an addr2line-compatible source-location side channel if source-line attribution is claimed"
+  ],
+  "required_output_artifacts": [
+    "run_config.json",
+    "gate_report.json",
+    "gate_report.md",
+    "fd_path_flow_summary.json",
+    "fd_path_flow_summary.md",
+    "process_tree_summary.json",
+    "process_tree_summary.md",
+    "source_attribution_summary.json",
+    "source_attribution_summary.md",
+    "command_log.md"
+  ],
+  "pass_criteria": [
+    "35T closure checker remains PASS",
+    "baseline 13-sample gate remains 13/13 PASS or any rerun failure is explicitly marked FAIL",
+    "fd/path flow reports PASS only with paired fd return and fd operation evidence; otherwise it must remain PARTIAL or UNAVAILABLE",
+    "process tree reports PASS only with matched clone/fork child PID, wait PID, exec boundary, and runtime ownership evidence",
+    "source-line attribution reports PASS only when source line records are present; symbol-only attribution remains function-level PARTIAL",
+    "benign overlap remains labeled expected benign overlap, not malware detection success"
+  ],
+  "non_claims": [
+    "no CVA6 board claim",
+    "no real malware detection claim",
+    "no mature detector claim",
+    "no classifier accuracy claim",
+    "no complete semantic reconstruction claim"
+  ]
+}

@@ -1,4 +1,5 @@
 {
+  "clone_return_candidates": [],
   "edges": [],
   "events": [
     {
@@ -62,6 +63,18 @@
     "execve": 2,
     "wait": 2
   },
+  "pending_exec_paths": [
+    {
+      "path": null,
+      "path_pointer": "0x0000000000065904",
+      "seq": 24
+    },
+    {
+      "path": null,
+      "path_pointer": "0x0000000000065904",
+      "seq": 77
+    }
+  ],
   "processes": [
     {
       "confidence": "weak",
@@ -85,5 +98,10 @@
   "root_process": "target_process",
   "sample": "process_chain",
   "schema": "rvmt.process_tree.summary.v1",
-  "status": "PARTIAL"
+  "status": "PARTIAL",
+  "unmatched_clone_return_candidates": [],
+  "wait_pid_candidates": [
+    463,
+    464
+  ]
 }

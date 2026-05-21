@@ -18,6 +18,7 @@ PT_LOAD = 1
 PF_X = 0x1
 PF_W = 0x2
 PF_R = 0x4
+STT_FUNC = 2
 
 
 @dataclass(frozen=True)
@@ -257,6 +258,30 @@ def hex_range(row: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def function_ranges(symbols: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for row in symbols:
+        name = str(row.get("name") or "")
+        if not name or name.startswith("$"):
+            continue
+        if int(row.get("type", -1)) != STT_FUNC:
+            continue
+        start = int(row["start"])
+        end = int(row["end"])
+        if end <= start:
+            continue
+        rows.append(
+            {
+                "function": name,
+                "start": start,
+                "end": end,
+                "size": end - start,
+                "confidence": "symbol_table",
+            }
+        )
+    return rows
+
+
 def build_code_map(
     elf: Path,
     sample_id: str,
@@ -306,6 +331,7 @@ def build_code_map(
         }
         for row in symbols_raw
     ]
+    functions = function_ranges(symbols)
     elf_type = elf_type_name(header.elf_type)
     load_base_assumption = "fixed_vaddr_exec" if elf_type == "EXEC" else "runtime_load_base_required"
     return {
@@ -327,6 +353,19 @@ def build_code_map(
         "load_ranges": [hex_range(row) for row in load_ranges],
         "sections": [hex_range(row) for row in sections],
         "symbols": [hex_range(row) for row in symbols],
+        "function_ranges": [hex_range(row) for row in functions],
+        "source_locations": [],
+        "source_attribution": {
+            "function_level": "available" if functions else "unavailable",
+            "function_level_basis": "ELF symbol table" if functions else "no function symbols found",
+            "function_count": len(functions),
+            "source_line_level": "unavailable",
+            "source_line_basis": "DWARF/source-line decoding is not present in rvmt.code_map.v1",
+            "limitations": [
+                "Function-level attribution from symbols is not source-line attribution.",
+                "Source-line attribution requires retained DWARF/debug-line metadata or an addr2line-compatible side channel.",
+            ],
+        },
         "syscall_sites": syscall_sites,
         "trap_sites": trap_sites,
         "attribution_limitations": [
@@ -375,6 +414,9 @@ def self_test() -> int:
         return 1
     if result.get("load_base_assumption") not in {"fixed_vaddr_exec", "runtime_load_base_required"}:
         print("[FAIL] code map missed load-base attribution risk metadata", file=sys.stderr)
+        return 1
+    if "source_attribution" not in result:
+        print("[FAIL] code map missed source-attribution availability metadata", file=sys.stderr)
         return 1
     print("[PASS] build_code_map self-test")
     return 0

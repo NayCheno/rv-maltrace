@@ -1,0 +1,588 @@
+{
+  "benign_overlap_separation": {
+    "benign_overlap_samples": [
+      {
+        "class": "benign",
+        "interpretation": "expected benign overlap; not malware detection success",
+        "overlap_rules": [
+          "many_file_scan"
+        ],
+        "sample": "ls"
+      }
+    ],
+    "non_claim": "benign overlap must not be reported as malware detection success",
+    "status": "PASS",
+    "synthetic_rule_samples": [
+      {
+        "class": "malware_like_synthetic",
+        "expected_rules": [
+          "many_file_scan"
+        ],
+        "interpretation": "controlled synthetic behavior-audit evidence",
+        "sample": "file_scan"
+      },
+      {
+        "class": "malware_like_synthetic",
+        "expected_rules": [
+          "batch_file_read_write"
+        ],
+        "interpretation": "controlled synthetic behavior-audit evidence",
+        "sample": "batch_open_read_write"
+      },
+      {
+        "class": "malware_like_synthetic",
+        "expected_rules": [
+          "self_copy_simulation"
+        ],
+        "interpretation": "controlled synthetic behavior-audit evidence",
+        "sample": "self_copy_sim"
+      },
+      {
+        "class": "malware_like_synthetic",
+        "expected_rules": [
+          "abnormal_syscall_sequence"
+        ],
+        "interpretation": "controlled synthetic behavior-audit evidence",
+        "sample": "abnormal_syscall_sequence"
+      },
+      {
+        "class": "malware_like_synthetic",
+        "expected_rules": [
+          "illegal_instruction_trap"
+        ],
+        "interpretation": "controlled synthetic behavior-audit evidence",
+        "sample": "illegal_trap"
+      },
+      {
+        "class": "malware_like_synthetic",
+        "expected_rules": [
+          "process_creation_chain"
+        ],
+        "interpretation": "controlled synthetic behavior-audit evidence",
+        "sample": "process_chain"
+      },
+      {
+        "class": "malware_like_synthetic",
+        "expected_rules": [
+          "dynamic_executable_memory"
+        ],
+        "interpretation": "controlled synthetic behavior-audit evidence",
+        "sample": "dynamic_executable_memory"
+      },
+      {
+        "class": "malware_like_synthetic",
+        "expected_rules": [
+          "anti_analysis_indicator"
+        ],
+        "interpretation": "controlled synthetic behavior-audit evidence",
+        "sample": "anti_debug_like"
+      }
+    ]
+  },
+  "board_validation_required": true,
+  "board_validation_requirements": [
+    "capture reliable target syscall entry/return pairing for fd operations",
+    "capture or side-channel dereferenced path strings for openat and execve",
+    "capture parent-side positive clone/fork return child PID and wait PID in the same evidence window",
+    "capture child runtime process map or equivalent PID/SATP/ASID ownership evidence across exec",
+    "retain DWARF/debug-line metadata or an addr2line-compatible source-location side channel for source-line attribution"
+  ],
+  "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+  "closure_check_status": "PASS",
+  "fd_path_flow": {
+    "samples": {
+      "batch_open_read_write": {
+        "limitations": [
+          "argument-level path strings are unavailable in current evidence; pointers are not dereferenced",
+          "one or more opened fds do not have a reliable close event in current semantic evidence",
+          "some fd operations are return-only snapshots without reliable entry fd arguments",
+          "some fd operations cannot be linked to a prior successful openat return",
+          "some openat entries do not have paired successful fd return evidence"
+        ],
+        "missing_reps": [],
+        "rep_count": 5,
+        "reps": [
+          {
+            "flows": 3,
+            "limitations": [
+              "argument-level path strings are unavailable in current evidence; pointers are not dereferenced",
+              "one or more opened fds do not have a reliable close event in current semantic evidence",
+              "some fd operations are return-only snapshots without reliable entry fd arguments",
+              "some fd operations cannot be linked to a prior successful openat return",
+              "some openat entries do not have paired successful fd return evidence"
+            ],
+            "open_fds_at_end": 1,
+            "path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/batch_open_read_write/board/trace-on/rep_00/behavior_recovery/semantic_events.json",
+            "pending_openats": 4,
+            "rep": "rep_00",
+            "return_only_fd_ops": 8,
+            "status": "PARTIAL",
+            "unresolved_fds": 3
+          },
+          {
+            "flows": 3,
+            "limitations": [
+              "argument-level path strings are unavailable in current evidence; pointers are not dereferenced",
+              "one or more opened fds do not have a reliable close event in current semantic evidence",
+              "some fd operations are return-only snapshots without reliable entry fd arguments",
+              "some fd operations cannot be linked to a prior successful openat return",
+              "some openat entries do not have paired successful fd return evidence"
+            ],
+            "open_fds_at_end": 1,
+            "path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/batch_open_read_write/board/trace-on/rep_01/behavior_recovery/semantic_events.json",
+            "pending_openats": 4,
+            "rep": "rep_01",
+            "return_only_fd_ops": 8,
+            "status": "PARTIAL",
+            "unresolved_fds": 3
+          },
+          {
+            "flows": 3,
+            "limitations": [
+              "argument-level path strings are unavailable in current evidence; pointers are not dereferenced",
+              "one or more opened fds do not have a reliable close event in current semantic evidence",
+              "some fd operations are return-only snapshots without reliable entry fd arguments",
+              "some fd operations cannot be linked to a prior successful openat return",
+              "some openat entries do not have paired successful fd return evidence"
+            ],
+            "open_fds_at_end": 1,
+            "path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/batch_open_read_write/board/trace-on/rep_02/behavior_recovery/semantic_events.json",
+            "pending_openats": 4,
+            "rep": "rep_02",
+            "return_only_fd_ops": 7,
+            "status": "PARTIAL",
+            "unresolved_fds": 3
+          },
+          {
+            "flows": 4,
+            "limitations": [
+              "argument-level path strings are unavailable in current evidence; pointers are not dereferenced",
+              "one or more opened fds do not have a reliable close event in current semantic evidence",
+              "some fd operations are return-only snapshots without reliable entry fd arguments",
+              "some fd operations cannot be linked to a prior successful openat return",
+              "some openat entries do not have paired successful fd return evidence"
+            ],
+            "open_fds_at_end": 1,
+            "path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/batch_open_read_write/board/trace-on/rep_03/behavior_recovery/semantic_events.json",
+            "pending_openats": 4,
+            "rep": "rep_03",
+            "return_only_fd_ops": 7,
+            "status": "PARTIAL",
+            "unresolved_fds": 3
+          },
+          {
+            "flows": 3,
+            "limitations": [
+              "argument-level path strings are unavailable in current evidence; pointers are not dereferenced",
+              "one or more opened fds do not have a reliable close event in current semantic evidence",
+              "some fd operations are return-only snapshots without reliable entry fd arguments",
+              "some fd operations cannot be linked to a prior successful openat return",
+              "some openat entries do not have paired successful fd return evidence"
+            ],
+            "open_fds_at_end": 1,
+            "path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/batch_open_read_write/board/trace-on/rep_04/behavior_recovery/semantic_events.json",
+            "pending_openats": 4,
+            "rep": "rep_04",
+            "return_only_fd_ops": 7,
+            "status": "PARTIAL",
+            "unresolved_fds": 3
+          }
+        ],
+        "status": "PARTIAL",
+        "total_flows": 16,
+        "total_return_only_fd_ops": 37
+      },
+      "file_scan": {
+        "limitations": [
+          "argument-level path strings are unavailable in current evidence; pointers are not dereferenced",
+          "one or more opened fds do not have a reliable close event in current semantic evidence",
+          "some fd operations are return-only snapshots without reliable entry fd arguments",
+          "some fd operations cannot be linked to a prior successful openat return",
+          "some openat entries do not have paired successful fd return evidence"
+        ],
+        "missing_reps": [],
+        "rep_count": 5,
+        "reps": [
+          {
+            "flows": 0,
+            "limitations": [
+              "argument-level path strings are unavailable in current evidence; pointers are not dereferenced",
+              "some fd operations are return-only snapshots without reliable entry fd arguments",
+              "some fd operations cannot be linked to a prior successful openat return",
+              "some openat entries do not have paired successful fd return evidence"
+            ],
+            "open_fds_at_end": 0,
+            "path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/file_scan/board/trace-on/rep_00/behavior_recovery/semantic_events.json",
+            "pending_openats": 1,
+            "rep": "rep_00",
+            "return_only_fd_ops": 2,
+            "status": "PARTIAL",
+            "unresolved_fds": 2
+          },
+          {
+            "flows": 1,
+            "limitations": [
+              "argument-level path strings are unavailable in current evidence; pointers are not dereferenced",
+              "one or more opened fds do not have a reliable close event in current semantic evidence",
+              "some fd operations are return-only snapshots without reliable entry fd arguments",
+              "some openat entries do not have paired successful fd return evidence"
+            ],
+            "open_fds_at_end": 1,
+            "path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/file_scan/board/trace-on/rep_01/behavior_recovery/semantic_events.json",
+            "pending_openats": 1,
+            "rep": "rep_01",
+            "return_only_fd_ops": 2,
+            "status": "PARTIAL",
+            "unresolved_fds": 0
+          },
+          {
+            "flows": 1,
+            "limitations": [
+              "argument-level path strings are unavailable in current evidence; pointers are not dereferenced",
+              "one or more opened fds do not have a reliable close event in current semantic evidence",
+              "some fd operations are return-only snapshots without reliable entry fd arguments",
+              "some openat entries do not have paired successful fd return evidence"
+            ],
+            "open_fds_at_end": 1,
+            "path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/file_scan/board/trace-on/rep_02/behavior_recovery/semantic_events.json",
+            "pending_openats": 1,
+            "rep": "rep_02",
+            "return_only_fd_ops": 2,
+            "status": "PARTIAL",
+            "unresolved_fds": 0
+          },
+          {
+            "flows": 1,
+            "limitations": [
+              "argument-level path strings are unavailable in current evidence; pointers are not dereferenced",
+              "one or more opened fds do not have a reliable close event in current semantic evidence",
+              "some fd operations are return-only snapshots without reliable entry fd arguments",
+              "some openat entries do not have paired successful fd return evidence"
+            ],
+            "open_fds_at_end": 1,
+            "path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/file_scan/board/trace-on/rep_03/behavior_recovery/semantic_events.json",
+            "pending_openats": 1,
+            "rep": "rep_03",
+            "return_only_fd_ops": 1,
+            "status": "PARTIAL",
+            "unresolved_fds": 0
+          },
+          {
+            "flows": 0,
+            "limitations": [
+              "argument-level path strings are unavailable in current evidence; pointers are not dereferenced",
+              "some fd operations are return-only snapshots without reliable entry fd arguments",
+              "some fd operations cannot be linked to a prior successful openat return",
+              "some openat entries do not have paired successful fd return evidence"
+            ],
+            "open_fds_at_end": 0,
+            "path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/file_scan/board/trace-on/rep_04/behavior_recovery/semantic_events.json",
+            "pending_openats": 1,
+            "rep": "rep_04",
+            "return_only_fd_ops": 2,
+            "status": "PARTIAL",
+            "unresolved_fds": 2
+          }
+        ],
+        "status": "PARTIAL",
+        "total_flows": 3,
+        "total_return_only_fd_ops": 9
+      },
+      "self_copy_sim": {
+        "limitations": [
+          "argument-level path strings are unavailable in current evidence; pointers are not dereferenced",
+          "one or more opened fds do not have a reliable close event in current semantic evidence",
+          "some fd operations are return-only snapshots without reliable entry fd arguments",
+          "some fd operations cannot be linked to a prior successful openat return",
+          "some openat entries do not have paired successful fd return evidence"
+        ],
+        "missing_reps": [],
+        "rep_count": 5,
+        "reps": [
+          {
+            "flows": 2,
+            "limitations": [
+              "argument-level path strings are unavailable in current evidence; pointers are not dereferenced",
+              "one or more opened fds do not have a reliable close event in current semantic evidence",
+              "some fd operations are return-only snapshots without reliable entry fd arguments",
+              "some openat entries do not have paired successful fd return evidence"
+            ],
+            "open_fds_at_end": 1,
+            "path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/self_copy_sim/board/trace-on/rep_00/behavior_recovery/semantic_events.json",
+            "pending_openats": 1,
+            "rep": "rep_00",
+            "return_only_fd_ops": 2,
+            "status": "PARTIAL",
+            "unresolved_fds": 0
+          },
+          {
+            "flows": 1,
+            "limitations": [
+              "argument-level path strings are unavailable in current evidence; pointers are not dereferenced",
+              "some fd operations are return-only snapshots without reliable entry fd arguments",
+              "some fd operations cannot be linked to a prior successful openat return",
+              "some openat entries do not have paired successful fd return evidence"
+            ],
+            "open_fds_at_end": 0,
+            "path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/self_copy_sim/board/trace-on/rep_01/behavior_recovery/semantic_events.json",
+            "pending_openats": 2,
+            "rep": "rep_01",
+            "return_only_fd_ops": 3,
+            "status": "PARTIAL",
+            "unresolved_fds": 2
+          },
+          {
+            "flows": 1,
+            "limitations": [
+              "argument-level path strings are unavailable in current evidence; pointers are not dereferenced",
+              "some fd operations are return-only snapshots without reliable entry fd arguments",
+              "some fd operations cannot be linked to a prior successful openat return",
+              "some openat entries do not have paired successful fd return evidence"
+            ],
+            "open_fds_at_end": 0,
+            "path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/self_copy_sim/board/trace-on/rep_02/behavior_recovery/semantic_events.json",
+            "pending_openats": 2,
+            "rep": "rep_02",
+            "return_only_fd_ops": 3,
+            "status": "PARTIAL",
+            "unresolved_fds": 2
+          },
+          {
+            "flows": 1,
+            "limitations": [
+              "argument-level path strings are unavailable in current evidence; pointers are not dereferenced",
+              "one or more opened fds do not have a reliable close event in current semantic evidence",
+              "some fd operations are return-only snapshots without reliable entry fd arguments",
+              "some fd operations cannot be linked to a prior successful openat return",
+              "some openat entries do not have paired successful fd return evidence"
+            ],
+            "open_fds_at_end": 1,
+            "path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/self_copy_sim/board/trace-on/rep_03/behavior_recovery/semantic_events.json",
+            "pending_openats": 1,
+            "rep": "rep_03",
+            "return_only_fd_ops": 3,
+            "status": "PARTIAL",
+            "unresolved_fds": 1
+          },
+          {
+            "flows": 1,
+            "limitations": [
+              "argument-level path strings are unavailable in current evidence; pointers are not dereferenced",
+              "some fd operations are return-only snapshots without reliable entry fd arguments",
+              "some fd operations cannot be linked to a prior successful openat return",
+              "some openat entries do not have paired successful fd return evidence"
+            ],
+            "open_fds_at_end": 0,
+            "path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/self_copy_sim/board/trace-on/rep_04/behavior_recovery/semantic_events.json",
+            "pending_openats": 2,
+            "rep": "rep_04",
+            "return_only_fd_ops": 3,
+            "status": "PARTIAL",
+            "unresolved_fds": 2
+          }
+        ],
+        "status": "PARTIAL",
+        "total_flows": 6,
+        "total_return_only_fd_ops": 14
+      }
+    },
+    "status": "PARTIAL"
+  },
+  "local_closure_assessment": "sufficient for the current 35T synthetic behavior-audit prototype; not sufficient for real malware detection or complete semantic reconstruction",
+  "local_results_available": true,
+  "manifest_fields": {
+    "full_matrix_ready": true,
+    "gate": "13/13 PASS",
+    "samples": 13,
+    "trace_profile_policy": "35t_small_capacity",
+    "trace_records": 512
+  },
+  "non_claims": [
+    "no CVA6 board claim",
+    "no real malware detection claim",
+    "no mature detector claim",
+    "no classifier accuracy claim",
+    "no complete semantic reconstruction claim"
+  ],
+  "process_tree": {
+    "samples": {
+      "process_chain": {
+        "limitations": [
+          "clone/wait shape exists, but strict parent-child edge closure is unavailable",
+          "execve path strings are unavailable; pointers are not dereferenced",
+          "one or more clone/fork events lack a positive child PID return",
+          "one or more positive clone-return candidates do not match observed wait PID evidence"
+        ],
+        "missing_reps": [],
+        "rep_count": 5,
+        "reps": [
+          {
+            "clone_return_candidates": 0,
+            "edges": 0,
+            "limitations": [
+              "clone/wait shape exists, but strict parent-child edge closure is unavailable",
+              "execve path strings are unavailable; pointers are not dereferenced",
+              "one or more clone/fork events lack a positive child PID return"
+            ],
+            "path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/process_chain/board/trace-on/rep_00/behavior_recovery/semantic_events.json",
+            "rep": "rep_00",
+            "status": "PARTIAL",
+            "wait_pid_candidates": [
+              463,
+              464
+            ]
+          },
+          {
+            "clone_return_candidates": 1,
+            "edges": 0,
+            "limitations": [
+              "clone/wait shape exists, but strict parent-child edge closure is unavailable",
+              "execve path strings are unavailable; pointers are not dereferenced",
+              "one or more clone/fork events lack a positive child PID return",
+              "one or more positive clone-return candidates do not match observed wait PID evidence"
+            ],
+            "path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/process_chain/board/trace-on/rep_01/behavior_recovery/semantic_events.json",
+            "rep": "rep_01",
+            "status": "PARTIAL",
+            "wait_pid_candidates": [
+              466,
+              467
+            ]
+          },
+          {
+            "clone_return_candidates": 0,
+            "edges": 0,
+            "limitations": [
+              "clone/wait shape exists, but strict parent-child edge closure is unavailable",
+              "execve path strings are unavailable; pointers are not dereferenced",
+              "one or more clone/fork events lack a positive child PID return"
+            ],
+            "path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/process_chain/board/trace-on/rep_02/behavior_recovery/semantic_events.json",
+            "rep": "rep_02",
+            "status": "PARTIAL",
+            "wait_pid_candidates": [
+              475,
+              476
+            ]
+          },
+          {
+            "clone_return_candidates": 0,
+            "edges": 0,
+            "limitations": [
+              "clone/wait shape exists, but strict parent-child edge closure is unavailable",
+              "execve path strings are unavailable; pointers are not dereferenced",
+              "one or more clone/fork events lack a positive child PID return"
+            ],
+            "path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/process_chain/board/trace-on/rep_03/behavior_recovery/semantic_events.json",
+            "rep": "rep_03",
+            "status": "PARTIAL",
+            "wait_pid_candidates": [
+              478,
+              479
+            ]
+          },
+          {
+            "clone_return_candidates": 0,
+            "edges": 0,
+            "limitations": [
+              "clone/wait shape exists, but strict parent-child edge closure is unavailable",
+              "execve path strings are unavailable; pointers are not dereferenced",
+              "one or more clone/fork events lack a positive child PID return"
+            ],
+            "path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/process_chain/board/trace-on/rep_04/behavior_recovery/semantic_events.json",
+            "rep": "rep_04",
+            "status": "PARTIAL",
+            "wait_pid_candidates": [
+              487,
+              488
+            ]
+          }
+        ],
+        "status": "PARTIAL",
+        "total_edges": 0
+      }
+    },
+    "status": "PARTIAL"
+  },
+  "run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "schema": "rvmt.35t.explanation_readiness.v1",
+  "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "source_attribution": {
+    "samples": {
+      "batch_open_read_write": {
+        "function_count": 1940,
+        "function_level": "available",
+        "limitations": [
+          "function-level attribution is symbol/range based",
+          "source-line attribution is unavailable unless source_locations or DWARF-derived line records are present"
+        ],
+        "path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/batch_open_read_write/build/batch_open_read_write.code_map.json",
+        "source_line_count": 0,
+        "source_line_level": "unavailable",
+        "status": "PARTIAL"
+      },
+      "dynamic_executable_memory": {
+        "function_count": 1936,
+        "function_level": "available",
+        "limitations": [
+          "function-level attribution is symbol/range based",
+          "source-line attribution is unavailable unless source_locations or DWARF-derived line records are present"
+        ],
+        "path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/dynamic_executable_memory/build/dynamic_executable_memory.code_map.json",
+        "source_line_count": 0,
+        "source_line_level": "unavailable",
+        "status": "PARTIAL"
+      },
+      "file_scan": {
+        "function_count": 1940,
+        "function_level": "available",
+        "limitations": [
+          "function-level attribution is symbol/range based",
+          "source-line attribution is unavailable unless source_locations or DWARF-derived line records are present"
+        ],
+        "path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/file_scan/build/file_scan.code_map.json",
+        "source_line_count": 0,
+        "source_line_level": "unavailable",
+        "status": "PARTIAL"
+      },
+      "illegal_trap": {
+        "function_count": 1946,
+        "function_level": "available",
+        "limitations": [
+          "function-level attribution is symbol/range based",
+          "source-line attribution is unavailable unless source_locations or DWARF-derived line records are present"
+        ],
+        "path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/illegal_trap/build/illegal_trap.code_map.json",
+        "source_line_count": 0,
+        "source_line_level": "unavailable",
+        "status": "PARTIAL"
+      },
+      "process_chain": {
+        "function_count": 1939,
+        "function_level": "available",
+        "limitations": [
+          "function-level attribution is symbol/range based",
+          "source-line attribution is unavailable unless source_locations or DWARF-derived line records are present"
+        ],
+        "path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/process_chain/build/process_chain.code_map.json",
+        "source_line_count": 0,
+        "source_line_level": "unavailable",
+        "status": "PARTIAL"
+      },
+      "self_copy_sim": {
+        "function_count": 1939,
+        "function_level": "available",
+        "limitations": [
+          "function-level attribution is symbol/range based",
+          "source-line attribution is unavailable unless source_locations or DWARF-derived line records are present"
+        ],
+        "path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/self_copy_sim/build/self_copy_sim.code_map.json",
+        "source_line_count": 0,
+        "source_line_level": "unavailable",
+        "status": "PARTIAL"
+      }
+    },
+    "status": "PARTIAL"
+  },
+  "status": "READY_FOR_TARGETED_BOARD_VALIDATION"
+}

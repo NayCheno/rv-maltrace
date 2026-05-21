@@ -42,6 +42,10 @@ docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/README.md
 docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/evidence_manifest.json
 docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/sample_matrix_summary.md
 docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/case_study_artifact_index.json
+docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/source_attribution_summary.md
+docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/explanation_readiness_summary.md
+docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_plan.md
+docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_status.md
 docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/command_log.md
 ```
 
@@ -217,22 +221,31 @@ No command was hidden, skipped, or converted to PASS without execution.
 Priority backlog:
 
 1. `fd/path flow recovery`
-   - Current status: initial committed summary is `PARTIAL` for `file_scan`.
-   - Remaining goal: recover dereferenced path strings and stronger paired `openat(path) -> fd -> read/write/getdents64/close` relations where trace evidence supports them.
+   - Current status: committed summary remains `PARTIAL`; the updated flow logic now separates target entries from return-only register snapshots and the readiness summary aggregates `file_scan`, `batch_open_read_write`, and `self_copy_sim` across 5 reps.
+   - Remaining goal: recover dereferenced path strings and stronger paired `openat(path) -> fd -> read/write/getdents64/close` relations from targeted board evidence.
    - Value: improves `file_scan`, `batch_open_read_write`, and `self_copy_sim` explanations without raising the claim beyond synthetic behavior audit.
 
 2. `process tree explanation`
-   - Current status: initial committed summary is `PARTIAL` for `process_chain`.
-   - Remaining goal: link positive clone-return child PID, exec boundary, and wait PID evidence when available.
+   - Current status: committed summary remains `PARTIAL`; the updated process-tree logic no longer closes an edge unless clone-return child PID and wait PID evidence match.
+   - Remaining goal: capture parent-side positive clone-return child PID, exec boundary, child runtime ownership, and wait PID evidence in the same board evidence window.
    - Value: improves `process_chain` presentation beyond current syscall-shape evidence without claiming complete process-tree reconstruction.
 
 3. `function/source-line attribution`
-   - Goal: upgrade PC attribution from ELF section/symbol to function or source line.
+   - Current status: function-level attribution is available from ELF symbols; source-line attribution is unavailable in the committed evidence because source locations/DWARF line records are absent.
+   - Committed status artifact: `source_attribution_summary.md` is `PARTIAL`.
+   - Goal: retain or derive source-line records and join them back to target syscall/trap PCs.
    - Value: strengthens local code analysis wording without claiming full reconstruction.
 
 4. `strong/weak/benign-overlap separation`
    - Goal: keep strong evidence, weak shape, and benign expected overlap separate in reports.
    - Value: prevents benign behavior from being written as malware detection success.
+
+5. `targeted 35T board validation`
+   - Current status: `board_validation_status.md` is `AWAITING_BOARD_RUN`.
+   - Current packaging path: `tools/package_35t_board_validation.py` can prepare a flat candidate bundle from a local 35T run and then feed it to `tools/check_35t_board_validation.py --require-results`.
+   - Current candidate result: the existing run packages as `CANDIDATE_PARTIAL`; the checker fails fd/path flow and process-tree content checks as expected, so hardware validation remains false.
+   - Goal: capture the required fd/path, process-tree, source-attribution, and benign-overlap artifacts on Artix-7 35T hardware.
+   - Value: turns the current local readiness boundary into board-backed evidence without expanding the claim beyond the 35T synthetic prototype.
 
 ## Recommended Paper Wording
 

@@ -107,8 +107,12 @@ Trace-code join:
 - PC owner counts: `kernel: 121`, `target_sample: 27`, `unknown: 10`.
 - Callsite kind counts: `illegal_instruction_site: 2`, `normal_code: 11`, `syscall_site: 14`, `unknown: 131`.
 
-Source-line attribution: Not available in current evidence bundle.
-Needed next: compile or retain debug-line metadata and extend `build_code_map.py` to emit source file and line records.
+Function-level attribution is available from ELF symbol ranges. Source-line
+attribution is not available in the current evidence bundle because no
+DWARF/source-location records are committed for this run.
+
+Needed next: compile or retain debug-line metadata and emit source file/line
+records without claiming complete semantic reconstruction.
 
 ### Recovered Behavior
 
@@ -249,8 +253,12 @@ Trace-code join:
 - PC owner counts: `kernel: 62`, `target_sample: 18`, `unknown: 74`.
 - Callsite kind counts: `syscall_site: 18`, `unknown: 136`.
 
-Source-line attribution: Not available in current evidence bundle.
-Needed next: emit function and source-line records from the ELF/debug information and join them back to syscall-site PCs.
+Function-level attribution is available from ELF symbol ranges. Source-line
+attribution is not available in the current evidence bundle because no
+DWARF/source-location records are committed for this run.
+
+Needed next: emit source-line records from debug information and join them back
+to syscall-site PCs.
 
 ### Recovered Behavior
 
@@ -302,8 +310,8 @@ Strict parent-child closure is not fully proven in the current evidence bundle. 
 
 The committed `process_tree_summary` now makes that boundary explicit as `PARTIAL`:
 it observes target-attributed `clone`, `waitid`, and `execve` shapes, but does
-not close parent-child edges because positive clone-return child PID evidence and
-dereferenced exec paths are unavailable in the current trace evidence.
+not close parent-child edges unless positive clone-return child PID evidence and
+wait PID evidence match. The current evidence also lacks dereferenced exec paths.
 
 Committed summary:
 
@@ -542,10 +550,12 @@ Trace-code join:
 - Callsite kind counts: `syscall_site: 16`, `unknown: 26`.
 
 Path and fd flow reconstruction: Partial in the committed evidence snapshot.
-The initial `fd_path_flow_summary` observes target-attributed fd/path syscall
-shape but does not fully link `openat(path) -> fd -> getdents64/close`, because
-the current evidence does not include dereferenced path strings and the
-representative `openat` lacks paired successful fd-return evidence.
+The updated `fd_path_flow_summary` observes target-attributed fd/path syscall
+shape and explicitly separates return-only register snapshots from entry fd
+arguments. It still does not fully link `openat(path) -> fd ->
+getdents64/close`, because the current evidence does not include dereferenced
+path strings and the representative `openat` lacks paired successful fd-return
+evidence.
 
 Committed summary:
 

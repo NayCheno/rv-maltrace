@@ -36,11 +36,24 @@ def syscall_return_fd(value: Any) -> int | None:
     return number
 
 
+def syscall_return_value(row: dict[str, Any]) -> Any:
+    if row.get("return_value") is not None:
+        return row.get("return_value")
+    ret = row.get("return")
+    if isinstance(ret, dict):
+        return ret.get("return_value")
+    return None
+
+
 def syscall_arg(row: dict[str, Any], name: str) -> Any:
     args = row.get("args", {})
     if isinstance(args, dict):
         return args.get(name)
     return None
+
+
+def return_only_snapshot(row: dict[str, Any]) -> bool:
+    return str(row.get("confidence") or "").startswith("return_only")
 
 
 def path_value(row: dict[str, Any], arg_name: str) -> tuple[str | None, str | None]:
@@ -76,7 +89,7 @@ def event_record(row: dict[str, Any], *, fd: int | None = None, path: str | None
         "fd": fd,
         "path": path,
         "path_pointer": path_pointer,
-        "return_value": row.get("return_value"),
+        "return_value": syscall_return_value(row),
         "confidence": row.get("confidence"),
         "process_owner": row.get("process_owner"),
     }
@@ -90,6 +103,8 @@ def recover_fd_path_flow(syscalls: list[dict[str, Any]], *, sample: str = "unkno
     unresolved_fds: list[dict[str, Any]] = []
     unresolved_paths: list[dict[str, Any]] = []
     execve_events: list[dict[str, Any]] = []
+    return_only_fd_ops: list[dict[str, Any]] = []
+    return_only_execve_events: list[dict[str, Any]] = []
     target_fd_path_events = 0
     register_args_seen = False
     return_values_seen = False
@@ -104,7 +119,7 @@ def recover_fd_path_flow(syscalls: list[dict[str, Any]], *, sample: str = "unkno
         args = row.get("args")
         if isinstance(args, dict) and args:
             register_args_seen = True
-        if row.get("return_value") is not None:
+        if syscall_return_value(row) is not None:
             return_values_seen = True
 
         name = str(row.get("name"))
@@ -112,7 +127,7 @@ def recover_fd_path_flow(syscalls: list[dict[str, Any]], *, sample: str = "unkno
             path, pointer = path_value(row, "a1")
             if path:
                 path_strings_seen = True
-            fd = syscall_return_fd(row.get("return_value"))
+            fd = syscall_return_fd(syscall_return_value(row))
             open_event = event_record(row, fd=fd, path=path, path_pointer=pointer)
             if fd is None:
                 pending_openats.append(open_event)
@@ -131,9 +146,13 @@ def recover_fd_path_flow(syscalls: list[dict[str, Any]], *, sample: str = "unkno
                 "path_pointer": pointer,
                 "fd": fd,
                 "events": [open_event],
-                "confidence": "medium" if path is None else "strong",
+                "confidence": "weak" if return_only_snapshot(row) else ("medium" if path is None else "strong"),
                 "limitations": [],
             }
+            if return_only_snapshot(row):
+                flow["limitations"].append(
+                    "openat fd came from a return-only snapshot; path pointer may be stale and must not be treated as a dereferenced path"
+                )
             if path is None:
                 flow["limitations"].append("path string unavailable; only pointer/register evidence is present")
             active[fd] = flow
@@ -141,6 +160,9 @@ def recover_fd_path_flow(syscalls: list[dict[str, Any]], *, sample: str = "unkno
             continue
 
         if name == "execve":
+            if return_only_snapshot(row):
+                return_only_execve_events.append(event_record(row))
+                continue
             path, pointer = path_value(row, "a0")
             if path:
                 path_strings_seen = True
@@ -154,6 +176,18 @@ def recover_fd_path_flow(syscalls: list[dict[str, Any]], *, sample: str = "unkno
                         "path_pointer": pointer,
                     }
                 )
+            continue
+
+        if return_only_snapshot(row):
+            return_only_fd_ops.append(
+                {
+                    "seq": row.get("seq"),
+                    "syscall": name,
+                    "reason": "return-only register snapshot does not preserve the fd argument reliably",
+                    "return_value": syscall_return_value(row),
+                    "confidence": row.get("confidence"),
+                }
+            )
             continue
 
         fd = parse_int(syscall_arg(row, "a0"))
@@ -185,6 +219,10 @@ def recover_fd_path_flow(syscalls: list[dict[str, Any]], *, sample: str = "unkno
         limitations.append("some openat entries do not have paired successful fd return evidence")
     if unresolved_fds:
         limitations.append("some fd operations cannot be linked to a prior successful openat return")
+    if return_only_fd_ops:
+        limitations.append("some fd operations are return-only snapshots without reliable entry fd arguments")
+    if active:
+        limitations.append("one or more opened fds do not have a reliable close event in current semantic evidence")
 
     if target_fd_path_events == 0:
         status = "UNAVAILABLE"
@@ -203,9 +241,22 @@ def recover_fd_path_flow(syscalls: list[dict[str, Any]], *, sample: str = "unkno
         "status": status,
         "flows": flows,
         "execve_events": execve_events,
+        "return_only_fd_ops": return_only_fd_ops,
+        "return_only_execve_events": return_only_execve_events,
         "unresolved_fds": unresolved_fds,
         "unresolved_paths": unresolved_paths,
         "pending_openats": pending_openats,
+        "open_fds_at_end": [
+            {"fd": fd, "path": flow.get("path"), "path_pointer": flow.get("path_pointer"), "confidence": flow.get("confidence")}
+            for fd, flow in sorted(active.items())
+        ],
+        "observed_counts": {
+            "flows": len(flows),
+            "execve_events": len(execve_events),
+            "return_only_fd_ops": len(return_only_fd_ops),
+            "pending_openats": len(pending_openats),
+            "unresolved_fds": len(unresolved_fds),
+        },
         "limitations": sorted(set(limitations)),
         "non_claims": [
             "no real malware detection claim",
@@ -250,6 +301,12 @@ def render_markdown(summary: dict[str, Any]) -> str:
     if summary["execve_events"]:
         for event in summary["execve_events"]:
             lines.append(f"- seq {event.get('seq')}: path={event.get('path') or 'unavailable'}, path_pointer={event.get('path_pointer') or 'unavailable'}")
+    else:
+        lines.append("- none")
+    lines += ["", "## Return-only fd snapshots", ""]
+    if summary.get("return_only_fd_ops"):
+        for event in summary["return_only_fd_ops"]:
+            lines.append(f"- seq {event.get('seq')}: {event.get('syscall')} ({event.get('reason')})")
     else:
         lines.append("- none")
     lines += ["", "## Limitations", ""]

@@ -144,6 +144,21 @@ def write_report(report: dict[str, Any], evidence_root: Path) -> None:
     for key, present in report["non_claims"].items():
         status = "PASS" if present else "FAIL"
         lines.append(f"- {key}: {status}")
+    lines += ["", "## Explanation Readiness", ""]
+    readiness = report.get("explanation_readiness", {})
+    lines.append(f"- schema: {'PASS' if readiness.get('schema_ok') else 'FAIL'}")
+    lines.append(f"- status: {readiness.get('status')}")
+    lines.append(f"- board_validation_required: {'PASS' if readiness.get('board_validation_required_ok') else 'FAIL'}")
+    lines += ["", "## Source Attribution", ""]
+    source_attr = report.get("source_attribution", {})
+    lines.append(f"- schema: {'PASS' if source_attr.get('schema_ok') else 'FAIL'}")
+    lines.append(f"- status: {source_attr.get('status')}")
+    lines.append(f"- function_level: {source_attr.get('function_level')}")
+    lines += ["", "## Board Validation Status", ""]
+    board_status = report.get("board_validation_status", {})
+    lines.append(f"- schema: {'PASS' if board_status.get('schema_ok') else 'FAIL'}")
+    lines.append(f"- status: {board_status.get('status')}")
+    lines.append(f"- hardware_validated: {board_status.get('hardware_validated')}")
     lines += ["", "## Warnings", ""]
     if report["warnings"]:
         for item in report["warnings"]:
@@ -165,7 +180,10 @@ def check_repo(repo_root: Path, evidence_root_arg: Path, write_outputs: bool) ->
     closure_path = repo_root / "docs/results/rv_maltrace_35t_application_closure.md"
     case_path = repo_root / "docs/results/rv_maltrace_35t_application_case_studies.md"
     manifest_path = evidence_root / "evidence_manifest.json"
-    checked = [closure_path, case_path, manifest_path]
+    readiness_path = evidence_root / "explanation_readiness_summary.json"
+    board_status_path = evidence_root / "board_validation_status.json"
+    source_attr_path = evidence_root / "source_attribution_summary.json"
+    checked = [closure_path, case_path, manifest_path, readiness_path, source_attr_path, board_status_path]
     failures: list[str] = []
     warnings: list[str] = []
 
@@ -181,8 +199,35 @@ def check_repo(repo_root: Path, evidence_root_arg: Path, write_outputs: bool) ->
             manifest = load_json(manifest_path)
         except Exception as exc:  # pragma: no cover - covered through CLI behavior
             failures.append(f"invalid manifest JSON: {exc}")
+    readiness: dict[str, Any] = {}
+    if readiness_path.exists():
+        try:
+            readiness = load_json(readiness_path)
+        except Exception as exc:  # pragma: no cover - covered through CLI behavior
+            failures.append(f"invalid explanation readiness JSON: {exc}")
+    board_status: dict[str, Any] = {}
+    if board_status_path.exists():
+        try:
+            board_status = load_json(board_status_path)
+        except Exception as exc:  # pragma: no cover - covered through CLI behavior
+            failures.append(f"invalid board validation status JSON: {exc}")
+    source_attr: dict[str, Any] = {}
+    if source_attr_path.exists():
+        try:
+            source_attr = load_json(source_attr_path)
+        except Exception as exc:  # pragma: no cover - covered through CLI behavior
+            failures.append(f"invalid source attribution summary JSON: {exc}")
 
-    combined_text = "\n".join([closure_text, case_text, json.dumps(manifest, sort_keys=True)])
+    combined_text = "\n".join(
+        [
+            closure_text,
+            case_text,
+            json.dumps(manifest, sort_keys=True),
+            json.dumps(readiness, sort_keys=True),
+            json.dumps(source_attr, sort_keys=True),
+            json.dumps(board_status, sort_keys=True),
+        ]
+    )
     field_results: dict[str, Any] = {}
     for key, expected in EXPECTED_FIELDS.items():
         manifest_value = manifest.get(key)
@@ -243,6 +288,49 @@ def check_repo(repo_root: Path, evidence_root_arg: Path, write_outputs: bool) ->
         failures.append("manifest source_results_root does not point to the primary 35T run")
     if "docs/results/evidence/" not in closure_text:
         failures.append("closure doc does not reference the committed evidence snapshot path")
+    readiness_results = {
+        "schema_ok": readiness.get("schema") == "rvmt.35t.explanation_readiness.v1",
+        "status": readiness.get("status"),
+        "status_ok": readiness.get("status") == "READY_FOR_TARGETED_BOARD_VALIDATION",
+        "board_validation_required": readiness.get("board_validation_required"),
+        "board_validation_required_ok": readiness.get("board_validation_required") is True,
+    }
+    if not readiness_results["schema_ok"]:
+        failures.append("explanation readiness schema must be rvmt.35t.explanation_readiness.v1")
+    if not readiness_results["status_ok"]:
+        failures.append("explanation readiness status must be READY_FOR_TARGETED_BOARD_VALIDATION")
+    if not readiness_results["board_validation_required_ok"]:
+        failures.append("explanation readiness must keep board_validation_required true")
+    board_status_results = {
+        "schema_ok": board_status.get("schema") == "rvmt.35t.board_validation_status.v1",
+        "status": board_status.get("status"),
+        "status_ok": board_status.get("status") in {"AWAITING_BOARD_RUN", "PASS"},
+        "hardware_validated": board_status.get("hardware_validated"),
+        "hardware_validated_ok": (
+            (board_status.get("status") == "PASS" and board_status.get("hardware_validated") is True)
+            or (board_status.get("status") == "AWAITING_BOARD_RUN" and board_status.get("hardware_validated") is False)
+        ),
+    }
+    if not board_status_results["schema_ok"]:
+        failures.append("board validation status schema must be rvmt.35t.board_validation_status.v1")
+    if not board_status_results["status_ok"]:
+        failures.append("board validation status must be AWAITING_BOARD_RUN or PASS")
+    if not board_status_results["hardware_validated_ok"]:
+        failures.append("board validation hardware_validated flag is inconsistent with status")
+    source_attr_results = {
+        "schema_ok": source_attr.get("schema") == "rvmt.35t.source_attribution_summary.v1",
+        "status": source_attr.get("status"),
+        "status_ok": source_attr.get("status") in {"PASS", "PARTIAL"},
+        "function_level": source_attr.get("function_level", {}).get("status") if isinstance(source_attr.get("function_level"), dict) else None,
+        "function_level_ok": isinstance(source_attr.get("function_level"), dict)
+        and source_attr.get("function_level", {}).get("status") == "available",
+    }
+    if not source_attr_results["schema_ok"]:
+        failures.append("source attribution summary schema must be rvmt.35t.source_attribution_summary.v1")
+    if not source_attr_results["status_ok"]:
+        failures.append("source attribution summary status must be PASS or PARTIAL")
+    if not source_attr_results["function_level_ok"]:
+        failures.append("source attribution summary must keep function-level attribution available")
 
     report = {
         "schema": "rvmt.35t.application_closure_check.v1",
@@ -253,6 +341,9 @@ def check_repo(repo_root: Path, evidence_root_arg: Path, write_outputs: bool) ->
         "required_fields": field_results,
         "case_study_coverage": coverage,
         "non_claims": non_claim_results,
+        "explanation_readiness": readiness_results,
+        "source_attribution": source_attr_results,
+        "board_validation_status": board_status_results,
         "warnings": warnings,
         "failures": failures,
     }
@@ -302,6 +393,27 @@ def self_test() -> int:
             "source_results_root": f"results/experiments/35t/{RUN_ID}",
         }
         (evidence / "evidence_manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+        readiness = {
+            "schema": "rvmt.35t.explanation_readiness.v1",
+            "status": "READY_FOR_TARGETED_BOARD_VALIDATION",
+            "board_validation_required": True,
+            "non_claims": REQUIRED_NON_CLAIMS,
+        }
+        (evidence / "explanation_readiness_summary.json").write_text(json.dumps(readiness), encoding="utf-8")
+        source_attr = {
+            "schema": "rvmt.35t.source_attribution_summary.v1",
+            "status": "PARTIAL",
+            "function_level": {"status": "available"},
+            "non_claims": REQUIRED_NON_CLAIMS,
+        }
+        (evidence / "source_attribution_summary.json").write_text(json.dumps(source_attr), encoding="utf-8")
+        board_status = {
+            "schema": "rvmt.35t.board_validation_status.v1",
+            "status": "AWAITING_BOARD_RUN",
+            "hardware_validated": False,
+            "non_claims": REQUIRED_NON_CLAIMS,
+        }
+        (evidence / "board_validation_status.json").write_text(json.dumps(board_status), encoding="utf-8")
         report = check_repo(root, DEFAULT_EVIDENCE_ROOT, write_outputs=True)
         if report["status"] != "PASS":
             print("[FAIL] expected valid self-test fixture to pass", file=sys.stderr)

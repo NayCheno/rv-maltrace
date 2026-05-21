@@ -391,6 +391,13 @@ def annotate_events(
     process_attributed_code_sites = sum(
         1 for event in annotated if event.get("attribution_confidence") == "marker_scoped_runtime_map_code_site"
     )
+    events_with_function = sum(1 for event in annotated if event.get("symbol"))
+    source_attribution = code_map.get("source_attribution") if isinstance(code_map.get("source_attribution"), dict) else {}
+    source_locations = code_map.get("source_locations", [])
+    events_with_source_line = 0
+    if isinstance(source_locations, list) and source_locations:
+        source_pcs = {parse_int(row.get("pc")) for row in source_locations if isinstance(row, dict)}
+        events_with_source_line = sum(1 for event in annotated if parse_int(event.get("pc")) in source_pcs)
     return annotated, {
         "schema": "rvmt.trace_code_join.summary.v1",
         "sample_id": code_map.get("sample_id"),
@@ -412,6 +419,18 @@ def annotate_events(
         "target_attributed_events": owner_counts.get("target_sample", 0),
         "process_attributed_code_site_events": process_attributed_code_sites,
         "runtime_process_attribution_proven": bool(process_attributed_code_sites and scope.get("status") == "PASS"),
+        "source_attribution": {
+            "function_level_available": bool(events_with_function),
+            "events_with_function": events_with_function,
+            "events_with_source_line": events_with_source_line,
+            "source_line_available": bool(events_with_source_line),
+            "code_map_function_level": source_attribution.get("function_level", "unknown"),
+            "code_map_source_line_level": source_attribution.get("source_line_level", "unknown"),
+            "limitations": [
+                "Function-level attribution is symbol/range based.",
+                "Source-line attribution remains unavailable unless code_map source_locations are populated.",
+            ],
+        },
     }
 
 
@@ -451,6 +470,9 @@ def self_test() -> int:
         return 1
     if summary["target_attributed_events"] != 2:
         print("[FAIL] join_trace_code_map summary mismatch", file=sys.stderr)
+        return 1
+    if not summary.get("source_attribution", {}).get("function_level_available"):
+        print("[FAIL] join_trace_code_map missed function-level attribution summary", file=sys.stderr)
         return 1
     runtime_map = {
         "schema": "rvmt.runtime_process_map.v1",

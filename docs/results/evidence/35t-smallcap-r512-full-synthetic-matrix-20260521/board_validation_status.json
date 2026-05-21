@@ -1,0 +1,66 @@
+{
+  "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+  "failures": [],
+  "hardware_validated": false,
+  "non_claims": [
+    "no CVA6 board claim",
+    "no real malware detection claim",
+    "no mature detector claim",
+    "no classifier accuracy claim",
+    "no complete semantic reconstruction claim"
+  ],
+  "plan_checks": {
+    "board_validation_required": true,
+    "claim_level": true,
+    "hardware_validated_false_until_results": true,
+    "non_claims": true,
+    "schema": true,
+    "scope": true,
+    "source_run_id": true,
+    "status": true
+  },
+  "plan_path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_plan.json",
+  "required_capture_items": [
+    "target-scoped marker begin/end around each sample repetition",
+    "runtime process map for runner_parent, target_child, kernel, and unknown roles",
+    "reliable target syscall entry/return pairing for fd operations",
+    "openat and execve path strings or a board-side/runner-side path side channel tied to target syscall events",
+    "clone/fork return value from the parent side and wait PID in the same evidence window",
+    "child runtime process ownership evidence across exec",
+    "exact board runtime ELF/code-map identity",
+    "DWARF/debug-line metadata or an addr2line-compatible source-location side channel if source-line attribution is claimed"
+  ],
+  "result_artifacts": {
+    "missing": [
+      "run_config.json",
+      "gate_report.json",
+      "gate_report.md",
+      "fd_path_flow_summary.json",
+      "fd_path_flow_summary.md",
+      "process_tree_summary.json",
+      "process_tree_summary.md",
+      "source_attribution_summary.json",
+      "source_attribution_summary.md",
+      "command_log.md"
+    ],
+    "required": [
+      "run_config.json",
+      "gate_report.json",
+      "gate_report.md",
+      "fd_path_flow_summary.json",
+      "fd_path_flow_summary.md",
+      "process_tree_summary.json",
+      "process_tree_summary.md",
+      "source_attribution_summary.json",
+      "source_attribution_summary.md",
+      "command_log.md"
+    ],
+    "results_available": false,
+    "results_root": null
+  },
+  "result_content_checks": {},
+  "schema": "rvmt.35t.board_validation_status.v1",
+  "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "source_run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "status": "AWAITING_BOARD_RUN"
+}
