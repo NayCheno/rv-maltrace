@@ -24,6 +24,7 @@ PF_R = 0x4
 class ElfHeader:
     elf_class: int
     endian: str
+    elf_type: int
     machine: int
     entry: int
     phoff: int
@@ -60,15 +61,16 @@ def parse_header(data: bytes) -> ElfHeader:
     endian = "<"
     if elf_class == 2:
         fields = struct.unpack_from(endian + "HHIQQQIHHHHHH", data, 16)
-        _, machine, _, entry, phoff, shoff, _, _, phentsize, phnum, shentsize, shnum, shstrndx = fields
+        elf_type, machine, _, entry, phoff, shoff, _, _, phentsize, phnum, shentsize, shnum, shstrndx = fields
     elif elf_class == 1:
         fields = struct.unpack_from(endian + "HHIIIIIHHHHHH", data, 16)
-        _, machine, _, entry, phoff, shoff, _, _, phentsize, phnum, shentsize, shnum, shstrndx = fields
+        elf_type, machine, _, entry, phoff, shoff, _, _, phentsize, phnum, shentsize, shnum, shstrndx = fields
     else:
         raise ValueError(f"unsupported ELF class {elf_class}")
     return ElfHeader(
         elf_class=elf_class,
         endian=endian,
+        elf_type=elf_type,
         machine=machine,
         entry=entry,
         phoff=phoff,
@@ -200,6 +202,10 @@ def permissions(flags: int) -> str:
     return "".join(letter for letter, mask in (("R", PF_R), ("W", PF_W), ("X", PF_X)) if flags & mask) or "-"
 
 
+def elf_type_name(value: int) -> str:
+    return {1: "REL", 2: "EXEC", 3: "DYN", 4: "CORE"}.get(value, f"UNKNOWN_{value}")
+
+
 def scan_sites(data: bytes, sections: list[dict[str, Any]], symbols: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     syscall_sites: list[dict[str, Any]] = []
     trap_sites: list[dict[str, Any]] = []
@@ -300,6 +306,8 @@ def build_code_map(
         }
         for row in symbols_raw
     ]
+    elf_type = elf_type_name(header.elf_type)
+    load_base_assumption = "fixed_vaddr_exec" if elf_type == "EXEC" else "runtime_load_base_required"
     return {
         "schema": "rvmt.code_map.v1",
         "sample_id": sample_id,
@@ -308,8 +316,11 @@ def build_code_map(
         "runtime_path": runtime_path,
         "elf": repo_rel(elf),
         "sha256": hashlib.sha256(data).hexdigest(),
+        "elf_type": elf_type,
+        "load_base_assumption": load_base_assumption,
         "elf_header": {
             "class": "ELF64" if header.elf_class == 2 else "ELF32",
+            "type": elf_type,
             "machine": header.machine,
             "entry": f"0x{header.entry:016x}",
         },
@@ -318,10 +329,16 @@ def build_code_map(
         "symbols": [hex_range(row) for row in symbols],
         "syscall_sites": syscall_sites,
         "trap_sites": trap_sites,
+        "attribution_limitations": [
+            "PC-in-ELF is static code-range evidence, not complete process attribution.",
+            "Runtime load-base, PIE/ASLR, and exact board runtime ELF must be accounted for before strong process ownership claims.",
+            "Target/process ownership still requires marker scope, PID/SATP/ASID, or runtime load-map evidence.",
+        ],
         "notes": [
             "This is local ELF/code attribution metadata for synthetic behavior audit triage.",
             "It does not prove process ownership without target-scoped trace or OS context evidence.",
             "For board traces, use a code map generated from the exact board runtime ELF when available.",
+            f"ELF type {elf_type}; load-base assumption: {load_base_assumption}.",
         ],
     }
 
@@ -355,6 +372,9 @@ def self_test() -> int:
         return 1
     if result["elf_header"]["machine"] != 243:
         print("[FAIL] code map parsed unexpected machine type", file=sys.stderr)
+        return 1
+    if result.get("load_base_assumption") not in {"fixed_vaddr_exec", "runtime_load_base_required"}:
+        print("[FAIL] code map missed load-base attribution risk metadata", file=sys.stderr)
         return 1
     print("[PASS] build_code_map self-test")
     return 0

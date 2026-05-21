@@ -40,6 +40,10 @@ TRACE_OFF = "trace-off"
 TRACE_ON = "trace-on"
 RUNTIME_CLASSIC = "classic"
 RUNTIME_ABBA = "abba"
+TRACE_PROFILE_POLICY_UNIFORM = "uniform"
+TRACE_PROFILE_POLICY_35T_SMALL_CAPACITY = "35t_small_capacity"
+TRACE_PROFILE_POLICY_CHOICES = (TRACE_PROFILE_POLICY_UNIFORM, TRACE_PROFILE_POLICY_35T_SMALL_CAPACITY)
+TRACE_PROFILE_POLICY_35T_TRAP_SAMPLES = frozenset({"illegal_trap"})
 REQUIRED_BASELINES = ("host_native", "host_strace", "qemu_native", "qemu_strace")
 OPTIONAL_BASELINES = ("ebpf_only", "qemu_plugin", "software_instrumentation")
 UART_TIMESTAMP_RE = re.compile(r"\[[0-9]+(?:\.[0-9]+)?\]\s*")
@@ -48,11 +52,50 @@ UART_MARKERS = (
     "RVMT_EXP_REP_RESULT",
     "RVMT_EXP_REP_END",
     "RVMT_EXP_END",
+    "RVMT_RUNTIME_PROCESS_MAP_BEGIN",
+    "RVMT_RUNTIME_PROCESS_MAP_ENTRY",
+    "RVMT_RUNTIME_PROCESS_PROVENANCE",
+    "RVMT_RUNTIME_PROCESS_MAP_END",
+    "RVMT_RUNTIME_PROCESS",
     "RVMT_TRACE_DUMP_BEGIN",
     "RVMT_TRACE_DUMP_END",
     "RVMT_TRACE_RECORD",
 )
 UART_MARKER_PATTERNS = tuple((re.compile(r"\s*".join(re.escape(char) for char in marker)), marker) for marker in UART_MARKERS)
+UART_FIELD_KEYS = (
+    "class",
+    "sample",
+    "mode",
+    "rep",
+    "order_index",
+    "warmup",
+    "exit",
+    "runtime_ns",
+    "trace_count",
+    "drop",
+    "schema",
+    "role",
+    "pid",
+    "tgid",
+    "status",
+    "comm_hex",
+    "exe_hex",
+    "start",
+    "end",
+    "perms",
+    "offset",
+    "dev",
+    "inode",
+    "path_hex",
+    "collector",
+    "method",
+    "proc_sample_time",
+    "warnings_hex",
+)
+UART_FIELD_KEY_PATTERN = "|".join(re.escape(key) for key in UART_FIELD_KEYS)
+UART_FIELD_RE = re.compile(
+    rf"\b({UART_FIELD_KEY_PATTERN})=([^\s]*?)(?=(?:{UART_FIELD_KEY_PATTERN})=|\s+(?:{UART_FIELD_KEY_PATTERN})=|$)"
+)
 
 
 @dataclass(frozen=True)
@@ -144,6 +187,29 @@ def selected_samples(sample_ids: Iterable[str] | None = None) -> list[Sample]:
     if missing:
         raise ValueError(f"unknown sample selectors: {', '.join(missing)}")
     return result
+
+
+def trace_profile_for_sample(sample: Sample, default_profile: str, policy: str) -> str:
+    if policy == TRACE_PROFILE_POLICY_35T_SMALL_CAPACITY:
+        if sample.sample_id in TRACE_PROFILE_POLICY_35T_TRAP_SAMPLES:
+            return "p0c_syscall_trap_drop"
+        return "p0a_syscall_drop"
+    return default_profile
+
+
+def trace_profiles_by_sample(samples: list[Sample], default_profile: str, policy: str) -> dict[str, str]:
+    return {sample.sample_id: trace_profile_for_sample(sample, default_profile, policy) for sample in samples}
+
+
+def sample_groups_by_trace_profile(
+    samples: list[Sample], default_profile: str, policy: str
+) -> list[tuple[str, list[Sample]]]:
+    groups: dict[str, list[Sample]] = {}
+    for sample in samples:
+        profile = trace_profile_for_sample(sample, default_profile, policy)
+        get_trace_profile(profile)
+        groups.setdefault(profile, []).append(sample)
+    return list(groups.items())
 
 
 def run_command(cmd: list[str], *, cwd: Path = ROOT, dry_run: bool = False, log_path: Path | None = None) -> int:
@@ -329,22 +395,24 @@ def serial_capture(port: str, baud: int, duration: float, commands: list[str], l
 
 def stage_board(args: argparse.Namespace, samples: list[Sample]) -> None:
     csr_base = artix7_trace_csr_base(ROOT, args.trace_records, allow_default=args.dry_run)
-    selectors = " ".join(sample.sample_id for sample in samples)
-    control_mask = trace_control_mask_for_profile(args.trace_profile)
-    runner_args = f"--control-mask 0x{control_mask:x} --warmup {args.warmup}"
-    if args.runtime_order == RUNTIME_ABBA:
-        commands = [
-            "root",
-            "cd /opt/rvmt",
-            f"/usr/bin/rvmt_exp_runner 0x{csr_base:08x} {args.trace_records} {args.reps} abba {runner_args} {selectors}",
-        ]
-    else:
-        commands = [
-            "root",
-            "cd /opt/rvmt",
-            f"/usr/bin/rvmt_exp_runner 0x{csr_base:08x} {args.trace_records} {args.reps} trace-off {runner_args} {selectors}",
-            f"/usr/bin/rvmt_exp_runner 0x{csr_base:08x} {args.trace_records} {args.reps} trace-on {runner_args} {selectors}",
-        ]
+    commands = ["root", "cd /opt/rvmt"]
+    for profile_name, profile_samples in sample_groups_by_trace_profile(
+        samples, args.trace_profile, args.trace_profile_policy
+    ):
+        selectors = " ".join(sample.sample_id for sample in profile_samples)
+        control_mask = trace_control_mask_for_profile(profile_name)
+        runner_args = f"--control-mask 0x{control_mask:x} --warmup {args.warmup}"
+        if args.runtime_order == RUNTIME_ABBA:
+            commands.append(
+                f"/usr/bin/rvmt_exp_runner 0x{csr_base:08x} {args.trace_records} {args.reps} abba {runner_args} {selectors}"
+            )
+        else:
+            commands.extend(
+                [
+                    f"/usr/bin/rvmt_exp_runner 0x{csr_base:08x} {args.trace_records} {args.reps} trace-off {runner_args} {selectors}",
+                    f"/usr/bin/rvmt_exp_runner 0x{csr_base:08x} {args.trace_records} {args.reps} trace-on {runner_args} {selectors}",
+                ]
+            )
     raw_log = result_root(args.run_id) / "board" / "raw_uart.log"
     serial_capture(args.port, args.baud, args.duration, commands, raw_log, dry_run=args.dry_run)
     if not args.dry_run:
@@ -353,6 +421,7 @@ def stage_board(args: argparse.Namespace, samples: list[Sample]) -> None:
 
 def clean_uart_line(line: str) -> str:
     line = UART_TIMESTAMP_RE.sub("", line).strip()
+    line = re.sub(rf"(?<=[^\s])(?=(?:{UART_FIELD_KEY_PATTERN})=)", " ", line)
     for pattern, marker in UART_MARKER_PATTERNS:
         line = pattern.sub(marker, line)
     if line.startswith(">> "):
@@ -417,7 +486,7 @@ def trace_record_index_and_payload(payload: str) -> tuple[int, str] | None:
 
 def marker_fields(line: str) -> dict[str, str]:
     result: dict[str, str] = {}
-    for key, value in re.findall(r"([A-Za-z_]+)=([^ ]+)", line):
+    for key, value in UART_FIELD_RE.findall(line):
         result[key] = value
     return result
 
@@ -428,6 +497,138 @@ def int_field(fields: dict[str, str], key: str, default: int = 0) -> int:
         return default
     match = re.match(r"-?\d+", raw)
     return int(match.group(0)) if match else default
+
+
+def hex_text_field(fields: dict[str, str], key: str) -> str:
+    raw = fields.get(key, "")
+    if not raw:
+        return ""
+    try:
+        return bytes.fromhex(raw).decode("utf-8", errors="replace")
+    except ValueError:
+        return ""
+
+
+def runtime_process_map_begin(fields: dict[str, str]) -> dict[str, Any]:
+    return {
+        "schema": fields.get("schema", "rvmt.runtime_process_map.v1"),
+        "sample_class": fields.get("class", "unknown"),
+        "sample_id": fields.get("sample", "unknown"),
+        "mode": fields.get("mode", "unknown"),
+        "rep": int_field(fields, "rep"),
+        "warmup": fields.get("warmup", "0") == "1",
+        "status": "STARTED",
+        "processes": [],
+        "owners": {},
+        "provenance": {
+            "collector": "rvmt_exp_runner",
+            "method": "uart_process_map_lines",
+            "status": "STARTED",
+        },
+        "_process_by_role": {},
+    }
+
+
+def runtime_process(runtime_map: dict[str, Any], role: str) -> dict[str, Any]:
+    by_role = runtime_map.setdefault("_process_by_role", {})
+    if not isinstance(by_role, dict):
+        by_role = {}
+        runtime_map["_process_by_role"] = by_role
+    existing = by_role.get(role)
+    if isinstance(existing, dict):
+        return existing
+    process = {
+        "role": role,
+        "pid": None,
+        "tgid": None,
+        "comm": "",
+        "exe": "",
+        "maps": [],
+        "provenance": {"source": "rvmt_exp_runner_uart"},
+    }
+    by_role[role] = process
+    processes = runtime_map.setdefault("processes", [])
+    if isinstance(processes, list):
+        processes.append(process)
+    return process
+
+
+def update_runtime_process_map(runtime_map: dict[str, Any], line: str) -> None:
+    marker = marker_fragment(line, "RVMT_RUNTIME_PROCESS_MAP_ENTRY")
+    if marker:
+        fields = marker_fields(marker)
+        role = fields.get("role", "unknown")
+        process = runtime_process(runtime_map, role)
+        maps = process.setdefault("maps", [])
+        if isinstance(maps, list):
+            maps.append(
+                {
+                    "start": fields.get("start"),
+                    "end": fields.get("end"),
+                    "perms": fields.get("perms"),
+                    "offset": fields.get("offset"),
+                    "dev": fields.get("dev"),
+                    "inode": int_field(fields, "inode", 0),
+                    "path": hex_text_field(fields, "path_hex"),
+                }
+            )
+        return
+
+    marker = marker_fragment(line, "RVMT_RUNTIME_PROCESS_PROVENANCE")
+    if marker:
+        fields = marker_fields(marker)
+        runtime_map["provenance"] = {
+            "collector": fields.get("collector", "rvmt_exp_runner"),
+            "method": fields.get("method", "unknown"),
+            "proc_sample_time": fields.get("proc_sample_time", "unknown"),
+            "status": fields.get("status", "UNKNOWN"),
+            "warnings": hex_text_field(fields, "warnings_hex"),
+        }
+        return
+
+    marker = marker_fragment(line, "RVMT_RUNTIME_PROCESS ")
+    if marker:
+        fields = marker_fields(marker)
+        role = fields.get("role", "unknown")
+        process = runtime_process(runtime_map, role)
+        process.update(
+            {
+                "role": role,
+                "pid": int_field(fields, "pid", -1),
+                "tgid": int_field(fields, "tgid", -1),
+                "comm": hex_text_field(fields, "comm_hex"),
+                "exe": hex_text_field(fields, "exe_hex"),
+                "status": fields.get("status", "UNKNOWN"),
+            }
+        )
+
+
+def finalize_runtime_process_map(runtime_map: dict[str, Any]) -> dict[str, Any]:
+    by_role = runtime_map.pop("_process_by_role", {})
+    if isinstance(by_role, dict):
+        runtime_map["owners"] = {role: proc for role, proc in sorted(by_role.items()) if isinstance(proc, dict)}
+    target = runtime_map.get("owners", {}).get("target_child") if isinstance(runtime_map.get("owners"), dict) else None
+    if isinstance(target, dict):
+        runtime_map["pid"] = target.get("pid")
+        runtime_map["tgid"] = target.get("tgid")
+        runtime_map["comm"] = target.get("comm")
+        runtime_map["exe"] = target.get("exe")
+        runtime_map["maps"] = target.get("maps", [])
+    else:
+        runtime_map["pid"] = None
+        runtime_map["tgid"] = None
+        runtime_map["comm"] = ""
+        runtime_map["exe"] = ""
+        runtime_map["maps"] = []
+    roles = set(runtime_map.get("owners", {}).keys()) if isinstance(runtime_map.get("owners"), dict) else set()
+    required_roles = {"runner_parent", "target_child", "kernel", "unknown"}
+    provenance = runtime_map.get("provenance") if isinstance(runtime_map.get("provenance"), dict) else {}
+    status = str(runtime_map.get("status", provenance.get("status", "UNKNOWN")))
+    if not required_roles <= roles or not runtime_map["maps"] or provenance.get("status") != "PASS":
+        status = "BLOCKED" if status == "PASS" else status
+    runtime_map["process_roles"] = sorted(roles)
+    runtime_map["status"] = status
+    return runtime_map
 
 
 def trace_lines_to_events(lines: list[str]) -> list[dict[str, object]]:
@@ -504,7 +705,12 @@ def write_parser_warnings(rep_dir: Path, events: list[dict[str, object]]) -> Non
     (rep_dir / "parser_warnings.json").write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
-def write_board_rep(run_id: str, current: dict[str, Any], trace_lines: list[str]) -> None:
+def write_board_rep(
+    run_id: str,
+    current: dict[str, Any],
+    trace_lines: list[str],
+    runtime_process_map: dict[str, Any] | None = None,
+) -> None:
     sample = Sample(
         sample_class=current["class"],
         sample_id=current["sample"],
@@ -520,6 +726,9 @@ def write_board_rep(run_id: str, current: dict[str, Any], trace_lines: list[str]
     rep_dir = sample_root(run_id, sample) / "board" / mode / rep_name
     rep_dir.mkdir(parents=True, exist_ok=True)
     (rep_dir / "status.json").write_text(json.dumps(current, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    if runtime_process_map is not None:
+        finalized = finalize_runtime_process_map(runtime_process_map)
+        (rep_dir / "runtime_process_map.json").write_text(json.dumps(finalized, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     if trace_lines:
         (rep_dir / "trace_raw_uart.log").write_text("\n".join(trace_lines) + "\n", encoding="utf-8")
         events = trace_lines_to_events(trace_lines)
@@ -565,6 +774,7 @@ def write_board_timing_rows(run_id: str, rows: list[dict[str, Any]]) -> None:
 
 def parse_board_log(raw_log: Path, run_id: str) -> None:
     current: dict[str, Any] | None = None
+    runtime_process_map: dict[str, Any] | None = None
     capturing_trace = False
     trace_lines: list[str] = []
     timing_rows: list[dict[str, Any]] = []
@@ -585,7 +795,20 @@ def parse_board_log(raw_log: Path, run_id: str) -> None:
                 "status": "STARTED",
             }
             trace_lines = []
+            runtime_process_map = None
             capturing_trace = False
+            continue
+        marker = marker_fragment(line, "RVMT_RUNTIME_PROCESS_MAP_BEGIN")
+        if current is not None and marker:
+            runtime_process_map = runtime_process_map_begin(marker_fields(marker))
+            continue
+        if current is not None and runtime_process_map is not None and marker_fragment(line, "RVMT_RUNTIME_PROCESS_MAP_END"):
+            fields = marker_fields(line)
+            runtime_process_map["status"] = fields.get("status", runtime_process_map.get("status", "UNKNOWN"))
+            current["runtime_process_map_status"] = runtime_process_map["status"]
+            continue
+        if current is not None and runtime_process_map is not None and marker_fragment(line, "RVMT_RUNTIME_PROCESS"):
+            update_runtime_process_map(runtime_process_map, line)
             continue
         marker = marker_fragment(line, "RVMT_EXP_REP_RESULT")
         if current is not None and marker:
@@ -615,14 +838,15 @@ def parse_board_log(raw_log: Path, run_id: str) -> None:
             trace_lines.append(line)
             continue
         if current is not None and marker_fragment(line, "RVMT_EXP_REP_END"):
-            write_board_rep(run_id, current, trace_lines)
+            write_board_rep(run_id, current, trace_lines, runtime_process_map)
             current = None
             trace_lines = []
+            runtime_process_map = None
             capturing_trace = False
     if current is not None:
         current["status"] = "FAIL"
         current["error"] = "missing RVMT_EXP_REP_END"
-        write_board_rep(run_id, current, trace_lines)
+        write_board_rep(run_id, current, trace_lines, runtime_process_map)
         timing_rows.append(dict(current))
     write_board_timing_rows(run_id, timing_rows)
 
@@ -873,6 +1097,7 @@ def stage_analyze(args: argparse.Namespace, samples: list[Sample]) -> None:
             trace = rep_dir / "trace.jsonl"
             if not trace.exists() and not args.dry_run:
                 continue
+            runtime_process_map = rep_dir / "runtime_process_map.json"
             semantic_dir = rep_dir / "behavior_recovery"
             audit_dir = rep_dir / "behavior_audit"
             lightweight_dir = rep_dir / "lightweight"
@@ -882,19 +1107,22 @@ def stage_analyze(args: argparse.Namespace, samples: list[Sample]) -> None:
             if code_map is None:
                 failures.append({"stage": "build_code_map", "error": "missing code map"})
             else:
+                join_cmd = [
+                    sys.executable,
+                    "tools/join_trace_code_map.py",
+                    "--trace",
+                    str(trace),
+                    "--code-map",
+                    str(code_map),
+                    "--out",
+                    str(trace_code_dir / "trace.code_map.jsonl"),
+                    "--summary-out",
+                    str(trace_code_dir / "trace_code_map_summary.json"),
+                ]
+                if runtime_process_map.exists() or args.dry_run:
+                    join_cmd.extend(["--runtime-process-map", str(runtime_process_map)])
                 code = run_analysis_command(
-                    [
-                        sys.executable,
-                        "tools/join_trace_code_map.py",
-                        "--trace",
-                        str(trace),
-                        "--code-map",
-                        str(code_map),
-                        "--out",
-                        str(trace_code_dir / "trace.code_map.jsonl"),
-                        "--summary-out",
-                        str(trace_code_dir / "trace_code_map_summary.json"),
-                    ],
+                    join_cmd,
                     rep_dir / "join_trace_code_map.log",
                     dry_run=args.dry_run,
                 )
@@ -903,6 +1131,8 @@ def stage_analyze(args: argparse.Namespace, samples: list[Sample]) -> None:
             recover_cmd = [sys.executable, "tools/recover_behavior.py", "--trace", str(trace), "--out-dir", str(semantic_dir)]
             if code_map is not None:
                 recover_cmd.extend(["--code-map", str(code_map)])
+            if runtime_process_map.exists() or args.dry_run:
+                recover_cmd.extend(["--runtime-process-map", str(runtime_process_map)])
             code = run_analysis_command(
                 recover_cmd,
                 rep_dir / "recover_behavior.log",
@@ -1348,6 +1578,15 @@ def self_test() -> int:
             "\n".join(
                 [
                     "RVMT_EXP_REP_BEGIN class=benign sample=hello mode=trace-on rep=0",
+                    "RVMT_RUNTIME_PROCESS_MAP_BEGIN schema=rvmt.runtime_process_map.v1 class=benign sample=hello mode=trace-on rep=0 warmup=0",
+                    "RVMT_RUNTIME_PROCESS role=runner_parent pid=10 tgid=10 status=PASS comm_hex=72766d745f6578705f72756e6e6572 exe_hex=2f7573722f62696e2f72766d745f6578705f72756e6e6572",
+                    "RVMT_RUNTIME_PROCESS_MAP_ENTRY role=runner_parent start=0x00010000 end=0x00020000 perms=r-xp offset=0x00000000 dev=00:00 inode=1 path_hex=2f7573722f62696e2f72766d745f6578705f72756e6e6572",
+                    "RVMT_RUNTIME_PROCESS role=target_child pid=11 tgid=11 status=PASS comm_hex=72766d745f62656e69676e5f776f726b6c6f6164 exe_hex=2f7573722f62696e2f72766d745f62656e69676e5f776f726b6c6f6164",
+                    "RVMT_RUNTIME_PROCESS_MAP_ENTRY role=target_child start=0x00010000 end=0x00020000 perms=r-xp offset=0x00000000 dev=00:00 inode=2 path_hex=2f7573722f62696e2f72766d745f62656e69676e5f776f726b6c6f6164",
+                    "RVMT_RUNTIME_PROCESS role=kernel pid=0 tgid=0 status=PASS comm_hex=6b65726e656c exe_hex=",
+                    "RVMT_RUNTIME_PROCESS role=unknown pid=-1 tgid=-1 status=PASS comm_hex=756e6b6e6f776e exe_hex=",
+                    "RVMT_RUNTIME_PROCESS_PROVENANCE collector=rvmt_exp_runner method=ptrace_exec_stop_procfs_snapshot proc_sample_time=post_exec_pre_detach status=PASS warnings_hex=",
+                    "RVMT_RUNTIME_PROCESS_MAP_END status=PASS",
                     "command echo RVMT_EXP_REP_RESULT class=benign sample=hello mode=trace-on rep=0 exit=0 runtime_ns=10 trace_count=2 drop=0",
                     "RVMT_TRACE_DUMP_BEGIN",
                     "RVMT_TRACE_RECORD 0 00000004 00000001 00001000 00000073 00000000 00000000 00000000 00000000 00000001 00000000 00000000 00000000 00000000 00000000 00000000 00000040",
@@ -1366,6 +1605,10 @@ def self_test() -> int:
         trace = result_root("self-test") / "samples" / "benign" / "hello" / "board" / TRACE_ON / "rep_00" / "trace.jsonl"
         if not trace.exists() or trace_event_count(trace) != 2:
             print("[FAIL] board log parser self-test failed", file=sys.stderr)
+            return 1
+        runtime_map = trace.parent / "runtime_process_map.json"
+        if not runtime_map.exists() or load_json(runtime_map).get("schema") != "rvmt.runtime_process_map.v1":
+            print("[FAIL] board log parser missed runtime process map", file=sys.stderr)
             return 1
         sample = Sample("benign", "hello", "board/artix7_35t/linux/rvmt_benign_workload.c", ["./rvmt_benign_workload", "hello"], [], "01_hello")
         sample_dir = sample_root("self-test", sample)
@@ -1417,6 +1660,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--duration", type=float, default=3600.0)
     parser.add_argument("--trace-records", type=int, default=256)
     parser.add_argument("--trace-profile", choices=profile_names(), default="p0_syscall_trap_context")
+    parser.add_argument("--trace-profile-policy", choices=TRACE_PROFILE_POLICY_CHOICES, default=TRACE_PROFILE_POLICY_UNIFORM)
     parser.add_argument("--runtime-order", choices=(RUNTIME_CLASSIC, RUNTIME_ABBA), default=RUNTIME_CLASSIC)
     parser.add_argument("--warmup", type=int, default=0)
     parser.add_argument("--sample", action="append", default=[])
@@ -1428,6 +1672,10 @@ def main(argv: list[str] | None = None) -> int:
         return self_test()
     samples = selected_samples(args.sample)
     profile = get_trace_profile(args.trace_profile)
+    sample_profiles = trace_profiles_by_sample(samples, profile.name, args.trace_profile_policy)
+    sample_control_masks = {
+        sample_id: f"0x{get_trace_profile(profile_name).control_mask:x}" for sample_id, profile_name in sample_profiles.items()
+    }
     config = {
         "run_id": args.run_id,
         "port": args.port,
@@ -1436,8 +1684,11 @@ def main(argv: list[str] | None = None) -> int:
         "duration": args.duration,
         "trace_records": args.trace_records,
         "trace_profile": profile.name,
+        "trace_profile_policy": args.trace_profile_policy,
+        "trace_profiles_by_sample": sample_profiles,
         "trace_controls": profile.trace_controls,
         "trace_control_mask": f"0x{profile.control_mask:x}",
+        "trace_control_masks_by_sample": sample_control_masks,
         "runtime_order": args.runtime_order,
         "warmup": args.warmup,
         "samples": [sample.sample_id for sample in samples],

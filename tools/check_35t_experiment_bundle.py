@@ -28,6 +28,9 @@ GATE_ARTIFACTS = (
     "gate_report.md",
 )
 TRACE_ANALYSIS_ARTIFACTS = (
+    "runtime_process_map.json",
+    "trace_code_map/trace.code_map.jsonl",
+    "trace_code_map/trace_code_map_summary.json",
     "behavior_recovery/semantic_events.json",
     "behavior_recovery/behavior_graph.json",
     "behavior_recovery/recovery_report.md",

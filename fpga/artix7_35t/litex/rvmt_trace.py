@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from migen import Array, Cat, Constant, If, Memory, Module, Signal
+from migen import Array, Cat, Constant, If, Memory, Module, Mux, Signal
 
 from litex.soc.interconnect.csr import AutoCSR, CSRStatus, CSRStorage
 
@@ -43,13 +43,13 @@ class RVMTTraceRing(Module, AutoCSR):
         self.sink_args = [Signal(32, name=f"rvmt_trace_a{arg}") for arg in range(8)]
 
         self._control = CSRStorage(
-            10,
-            reset=0x03d,
+            11,
+            reset=0x43d,
             name="control",
             description=(
                 "bit0: enable trace capture, bit1: clear ring/drop counters, "
                 "bit2: syscall, bit3: trap, bit4: context, bit5: drop accounting, "
-                "bit6: branch, bit7: retire, bit8: jump, bit9: arg_mem"
+                "bit6: branch, bit7: retire, bit8: jump, bit9: arg_mem, bit10: marker"
             ),
         )
         self._status = CSRStatus(
@@ -67,10 +67,13 @@ class RVMTTraceRing(Module, AutoCSR):
             description="Flat 32-bit word index into the trace ring BRAM.",
         )
         self._read_word = CSRStatus(32, name="read_word", description="Word at read_index.")
+        self._marker_value = CSRStorage(32, name="marker_value", description="Value to store in a MARKER record.")
+        self._marker_emit = CSRStorage(1, name="marker_emit", description="Write 1 to enqueue one MARKER record.")
 
         mem = Memory(32, depth * entry_words, name="rvmt_trace_mem")
+        mem.attr = {("ram_style", "block")}
         write_port = mem.get_port(write_capable=True)
-        read_port = mem.get_port(async_read=True)
+        read_port = mem.get_port(async_read=False)
         self.specials += mem, write_port, read_port
 
         head = Signal(index_bits)
@@ -91,6 +94,7 @@ class RVMTTraceRing(Module, AutoCSR):
         enable_retire = self._control.storage[7]
         enable_jump = self._control.storage[8]
         enable_arg_mem = self._control.storage[9]
+        enable_marker = self._control.storage[10]
         full = count == depth
         empty = count == 0
         syscall_event = (self.sink_event == 4) | (self.sink_event == 5)
@@ -109,10 +113,10 @@ class RVMTTraceRing(Module, AutoCSR):
             | (jump_event & enable_jump)
             | (arg_mem_event & enable_arg_mem)
         )
-        accept = self.sink_valid & enabled & event_enabled & ~full & ~busy
-        drop = self.sink_valid & enabled & event_enabled & enable_drop & (full | busy)
-
-        write_enable = Signal()
+        marker_request = self._marker_emit.re & self._marker_emit.storage[0] & enable_marker
+        sink_request = self.sink_valid & event_enabled & ~marker_request
+        accept = enabled & (marker_request | sink_request) & ~full & ~busy
+        drop = enabled & (marker_request | sink_request) & enable_drop & (full | busy)
 
         self.comb += [
             self._status.status.eq(Cat(empty, full, busy, Constant(0, 13), Constant(depth, 16))),
@@ -121,7 +125,7 @@ class RVMTTraceRing(Module, AutoCSR):
             self._drop_count.status.eq(drop_count),
             read_port.adr.eq(self._read_index.storage),
             self._read_word.status.eq(read_port.dat_r),
-            write_port.we.eq(write_enable),
+            write_port.we.eq(busy & ~clear),
             write_port.dat_w.eq(Array(event_words)[word_index]),
             write_port.adr.eq((head * entry_words) + word_index),
         ]
@@ -136,20 +140,35 @@ class RVMTTraceRing(Module, AutoCSR):
             self.sink_new_priv,
             Constant(0, 22),
         )
+        marker_header = Cat(Constant(12, 4), Constant(0, 28))
+        sink_words = [
+            captured_header,
+            cycle,
+            self.sink_pc,
+            self.sink_instr,
+            self.sink_cause | self.sink_target,
+            self.sink_tval | self.sink_duration,
+            self.sink_syscall_id,
+            drop_count,
+            *self.sink_args,
+        ]
+        marker_words = [
+            marker_header,
+            cycle,
+            Constant(0, 32),
+            Constant(0, 32),
+            self._marker_value.storage,
+            Constant(0, 32),
+            self._marker_value.storage,
+            self._marker_value.storage,
+            *(Constant(0, 32) for _ in range(8)),
+        ]
         capture_words = [
-            event_words[0].eq(captured_header),
-            event_words[1].eq(cycle),
-            event_words[2].eq(self.sink_pc),
-            event_words[3].eq(self.sink_instr),
-            event_words[4].eq(self.sink_cause | self.sink_target),
-            event_words[5].eq(self.sink_tval | self.sink_duration),
-            event_words[6].eq(self.sink_syscall_id),
-            event_words[7].eq(drop_count),
-            *(event_words[8 + arg].eq(self.sink_args[arg]) for arg in range(8)),
+            event_words[index].eq(Mux(marker_request, marker_words[index], sink_words[index]))
+            for index in range(entry_words)
         ]
 
         self.sync += [
-            write_enable.eq(0),
             If(
                 clear,
                 head.eq(0),
@@ -171,7 +190,6 @@ class RVMTTraceRing(Module, AutoCSR):
                 ),
                 If(
                     busy,
-                    write_enable.eq(1),
                     If(
                         word_index == (entry_words - 1),
                         busy.eq(0),

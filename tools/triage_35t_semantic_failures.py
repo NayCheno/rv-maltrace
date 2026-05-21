@@ -4,6 +4,7 @@ import argparse
 import json
 import statistics
 import sys
+import tempfile
 from pathlib import Path
 from typing import Any
 
@@ -44,10 +45,25 @@ def sample_row(gate: dict[str, Any], sample_id: str) -> dict[str, Any]:
     return {"sample_id": sample_id, "gate_status": "MISSING"}
 
 
+def gate_sample_ids(run_root: Path) -> tuple[str, ...]:
+    gate_path = run_root / "aggregate" / "gate_report.json"
+    if not gate_path.exists():
+        return ()
+    gate = load_json(gate_path)
+    ids = [
+        str(row.get("sample_id"))
+        for row in gate.get("samples", [])
+        if isinstance(row, dict) and isinstance(row.get("sample_id"), str)
+    ]
+    return tuple(ids)
+
+
 def classify_sample(row: dict[str, Any]) -> dict[str, Any]:
     sample_id = str(row.get("sample_id"))
     audit = row.get("audit_rule_summary", {}) if isinstance(row.get("audit_rule_summary"), dict) else {}
     event_summary = row.get("event_summary", {}) if isinstance(row.get("event_summary"), dict) else {}
+    marker_summary = row.get("marker_scope_summary", {}) if isinstance(row.get("marker_scope_summary"), dict) else {}
+    runtime_summary = row.get("runtime_process_attribution_summary", {}) if isinstance(row.get("runtime_process_attribution_summary"), dict) else {}
     missing = set(str(item) for item in audit.get("missing", []) if isinstance(item, str))
     unexpected = set(str(item) for item in audit.get("unexpected_matched", []) if isinstance(item, str))
     weak_expected = set(str(item) for item in audit.get("weak_matched_expected", []) if isinstance(item, str))
@@ -63,6 +79,13 @@ def classify_sample(row: dict[str, Any]) -> dict[str, Any]:
         "ordered_lcs_ratio_median": (row.get("alignment_summary") or {}).get("ordered_lcs_ratio_median"),
         "unknown_event_count": unknown,
         "corrupt_record_count": corrupt,
+        "marker_scope_status": marker_summary.get("status", "not_reported"),
+        "marker_scope_valid_reps": marker_summary.get("valid_reps", 0),
+        "marker_scope_total_reps": marker_summary.get("total_reps", 0),
+        "runtime_process_status": runtime_summary.get("status", "not_reported"),
+        "runtime_process_valid_reps": runtime_summary.get("valid_reps", 0),
+        "runtime_process_total_reps": runtime_summary.get("total_reps", 0),
+        "runtime_process_attribution_proven": bool(row.get("runtime_process_attribution_proven")),
         "weak_matched_expected": sorted(weak_expected),
         "weak_expected_behavior": sorted(weak_expected_behavior),
         "stable_weak_expected_behavior": sorted(stable_weak_expected_behavior),
@@ -266,7 +289,7 @@ def classify_sample(row: dict[str, Any]) -> dict[str, Any]:
             "required_fix": "preserve target/code evidence requirement",
         }
     if sample_id == "anti_debug_like":
-        if row.get("gate_status") == "PASS":
+        if "anti_analysis_indicator" in base["matched_expected"]:
             return {
                 **base,
                 "observed_failure": "none",
@@ -292,18 +315,46 @@ def classify_sample(row: dict[str, Any]) -> dict[str, Any]:
 
 def promotion_checks(samples: list[dict[str, Any]]) -> dict[str, Any]:
     by_id = {row["sample"]: row for row in samples}
-    if any(sample in by_id for sample in PROCESS_CHAIN_SAMPLES):
+    if len(samples) >= 13:
         checks = {
             "gate_status_pass": all(row.get("gate_status") == "PASS" for row in samples),
-            "process_chain_at_least_expected_weak": (
-                "process_creation_chain" in by_id.get("process_chain", {}).get("matched_expected", [])
-                or "process_chain_shape" in by_id.get("process_chain", {}).get("stable_weak_expected_behavior", [])
-            ),
+            "process_chain_strong_expected": "process_creation_chain" in by_id.get("process_chain", {}).get("matched_expected", []),
+            "illegal_trap_stable_expected_rule": "illegal_instruction_trap" in by_id.get("illegal_trap", {}).get("matched_expected", []),
             "unexpected_strong_matched_none": all(not row.get("unexpected_matched") for row in samples),
             "unknown_and_corrupt_events_zero": all(
                 int(row.get("unknown_event_count", 0) or 0) == 0 and int(row.get("corrupt_record_count", 0) or 0) == 0
                 for row in samples
             ),
+            "drop_rate_median_lte_5pct": all(
+                row.get("drop_rate_median") is None or float(row.get("drop_rate_median") or 0.0) <= 0.05 for row in samples
+            ),
+            "no_cap_hit": all(not row.get("capped_reps") for row in samples),
+            "marker_scope_valid": all(row.get("marker_scope_status") == "PASS" for row in samples),
+            "runtime_process_attribution_proven": all(row.get("runtime_process_attribution_proven") for row in samples),
+        }
+        checks["full_matrix_ready"] = all(checks.values())
+        checks["optimized_35t_small_capacity_matrix_ready"] = checks["full_matrix_ready"]
+        blocked_reasons = [
+            key
+            for key, value in checks.items()
+            if key not in {"full_matrix_ready", "optimized_35t_small_capacity_matrix_ready"} and not value
+        ]
+        return {"checks": checks, "blocked_reasons": blocked_reasons}
+    if any(sample in by_id for sample in PROCESS_CHAIN_SAMPLES):
+        checks = {
+            "gate_status_pass": all(row.get("gate_status") == "PASS" for row in samples),
+            "process_chain_strong_expected": "process_creation_chain" in by_id.get("process_chain", {}).get("matched_expected", []),
+            "unexpected_strong_matched_none": all(not row.get("unexpected_matched") for row in samples),
+            "unknown_and_corrupt_events_zero": all(
+                int(row.get("unknown_event_count", 0) or 0) == 0 and int(row.get("corrupt_record_count", 0) or 0) == 0
+                for row in samples
+            ),
+            "drop_rate_median_lte_5pct": all(
+                row.get("drop_rate_median") is None or float(row.get("drop_rate_median") or 0.0) <= 0.05 for row in samples
+            ),
+            "no_cap_hit": all(not row.get("capped_reps") for row in samples),
+            "marker_scope_valid": all(row.get("marker_scope_status") == "PASS" for row in samples),
+            "runtime_process_attribution_proven": all(row.get("runtime_process_attribution_proven") for row in samples),
         }
         checks["process_chain_risk_passed"] = all(checks.values())
         checks["staged_p0c_r512_matrix_ready"] = False
@@ -316,28 +367,22 @@ def promotion_checks(samples: list[dict[str, Any]]) -> dict[str, Any]:
         return {"checks": checks, "blocked_reasons": blocked_reasons}
     if any(sample in by_id for sample in STAGE2_SAMPLES):
         checks = {
-            "file_scan_at_least_expected_weak": (
-                "many_file_scan" in by_id.get("file_scan", {}).get("matched_expected", [])
-                or "many_file_scan_shape" in by_id.get("file_scan", {}).get("stable_weak_expected_behavior", [])
-            ),
-            "self_copy_at_least_expected_weak": (
-                "self_copy_simulation" in by_id.get("self_copy_sim", {}).get("matched_expected", [])
-                or "self_copy_shape_without_path_tags" in by_id.get("self_copy_sim", {}).get("stable_weak_expected_behavior", [])
-            ),
-            "abnormal_at_least_expected_weak": (
-                "abnormal_syscall_sequence" in by_id.get("abnormal_syscall_sequence", {}).get("matched_expected", [])
-                or "abnormal_failed_syscall_shape" in by_id.get("abnormal_syscall_sequence", {}).get("stable_weak_expected_behavior", [])
-            ),
-            "dynamic_at_least_expected_weak": (
-                "dynamic_executable_memory" in by_id.get("dynamic_executable_memory", {}).get("matched_expected", [])
-                or "dynamic_exec_memory_shape_without_arg_bits"
-                in by_id.get("dynamic_executable_memory", {}).get("stable_weak_expected_behavior", [])
-            ),
+            "gate_status_pass": all(row.get("gate_status") == "PASS" for row in samples),
+            "file_scan_strong_expected": "many_file_scan" in by_id.get("file_scan", {}).get("matched_expected", []),
+            "self_copy_strong_expected": "self_copy_simulation" in by_id.get("self_copy_sim", {}).get("matched_expected", []),
+            "abnormal_strong_expected": "abnormal_syscall_sequence" in by_id.get("abnormal_syscall_sequence", {}).get("matched_expected", []),
+            "dynamic_strong_expected": "dynamic_executable_memory" in by_id.get("dynamic_executable_memory", {}).get("matched_expected", []),
             "unexpected_strong_matched_none": all(not row.get("unexpected_matched") for row in samples),
             "unknown_and_corrupt_events_zero": all(
                 int(row.get("unknown_event_count", 0) or 0) == 0 and int(row.get("corrupt_record_count", 0) or 0) == 0
                 for row in samples
             ),
+            "drop_rate_median_lte_5pct": all(
+                row.get("drop_rate_median") is None or float(row.get("drop_rate_median") or 0.0) <= 0.05 for row in samples
+            ),
+            "no_cap_hit": all(not row.get("capped_reps") for row in samples),
+            "marker_scope_valid": all(row.get("marker_scope_status") == "PASS" for row in samples),
+            "runtime_process_attribution_proven": all(row.get("runtime_process_attribution_proven") for row in samples),
         }
         checks["allowed_to_enter_process_chain_risk"] = all(checks.values())
         checks["staged_p0c_r512_matrix_ready"] = False
@@ -347,14 +392,46 @@ def promotion_checks(samples: list[dict[str, Any]]) -> dict[str, Any]:
     checks = {
         "hello_no_illegal_instruction_trap_false_positive": "illegal_instruction_trap" not in by_id.get("hello", {}).get("unexpected_matched", []),
         "illegal_trap_stable_expected_rule": "illegal_instruction_trap" in by_id.get("illegal_trap", {}).get("matched_expected", []),
-        "batch_open_read_write_at_least_weak": "batch_file_read_write" in by_id.get("batch_open_read_write", {}).get("weak_matched_expected", [])
-        or "batch_file_read_write" in by_id.get("batch_open_read_write", {}).get("matched_expected", []),
+        "batch_open_read_write_at_least_weak_shape": (
+            "batch_file_read_write_shape" in by_id.get("batch_open_read_write", {}).get("stable_weak_expected_behavior", [])
+            or "batch_file_read_write_shape" in by_id.get("batch_open_read_write", {}).get("weak_expected_behavior", [])
+            or "batch_file_read_write" in by_id.get("batch_open_read_write", {}).get("matched_expected", [])
+        ),
+        "anti_debug_like_stable_expected_rule": "anti_analysis_indicator" in by_id.get("anti_debug_like", {}).get("matched_expected", []),
+        "unexpected_strong_matched_none": all(not row.get("unexpected_matched") for row in samples),
         "unknown_and_corrupt_events_zero": all(
             int(row.get("unknown_event_count", 0) or 0) == 0 and int(row.get("corrupt_record_count", 0) or 0) == 0 for row in samples
         ),
+        "drop_rate_median_lte_5pct": all(
+            row.get("drop_rate_median") is None or float(row.get("drop_rate_median") or 0.0) <= 0.05 for row in samples
+        ),
+        "marker_scope_valid": all(row.get("marker_scope_status") == "PASS" for row in samples),
+        "runtime_process_attribution_proven": all(row.get("runtime_process_attribution_proven") for row in samples),
+        "batch_file_read_write_strong_fd_path_flow": "batch_file_read_write" in by_id.get("batch_open_read_write", {}).get("matched_expected", []),
     }
-    checks["ready_for_35t_microbench"] = all(checks.values())
-    blocked_reasons = [key for key, value in checks.items() if key != "ready_for_35t_microbench" and not value]
+    microbench_keys = {
+        "hello_no_illegal_instruction_trap_false_positive",
+        "illegal_trap_stable_expected_rule",
+        "batch_open_read_write_at_least_weak_shape",
+        "anti_debug_like_stable_expected_rule",
+        "unexpected_strong_matched_none",
+        "unknown_and_corrupt_events_zero",
+        "drop_rate_median_lte_5pct",
+        "marker_scope_valid",
+        "runtime_process_attribution_proven",
+    }
+    checks["ready_for_process_attributed_35t_microbench"] = all(checks[key] for key in microbench_keys)
+    checks["ready_for_35t_microbench"] = all(
+        checks[key]
+        for key in microbench_keys
+        if key != "runtime_process_attribution_proven"
+    )
+    checks["full_matrix_ready"] = False
+    blocked_reasons = [
+        key
+        for key, value in checks.items()
+        if key not in {"ready_for_35t_microbench", "ready_for_process_attributed_35t_microbench", "full_matrix_ready"} and not value
+    ]
     return {"checks": checks, "blocked_reasons": blocked_reasons}
 
 
@@ -367,8 +444,8 @@ def render_markdown(report: dict[str, Any]) -> str:
         "- Boundary: 35T/LiteX/VexRiscv synthetic behavior audit prototype only.",
         "- Non-claims: no CVA6 board claim; no real malware detection claim; no mature detector claim.",
         "",
-        "| Sample | Gate | Failure class | Observed failure | Missing expected | Weak expected | Weak shapes | Unexpected matched | UNKNOWN/corrupt |",
-        "| --- | --- | --- | --- | --- | --- | --- | --- | ---: |",
+        "| Sample | Gate | Failure class | Observed failure | Missing expected | Weak expected | Weak shapes | Unexpected matched | UNKNOWN/corrupt | Marker | Runtime process |",
+        "| --- | --- | --- | --- | --- | --- | --- | --- | ---: | --- | --- |",
     ]
     for row in report["samples"]:
         lines.append(
@@ -377,16 +454,31 @@ def render_markdown(report: dict[str, Any]) -> str:
             f"{', '.join(row.get('weak_matched_expected', [])) or 'none'} | "
             f"{', '.join(row.get('stable_weak_expected_behavior', []) or row.get('weak_expected_behavior', [])) or 'none'} | "
             f"{', '.join(row.get('unexpected_matched', [])) or 'none'} | "
-            f"{row.get('unknown_event_count', 0)}/{row.get('corrupt_record_count', 0)} |"
+            f"{row.get('unknown_event_count', 0)}/{row.get('corrupt_record_count', 0)} | "
+            f"{row.get('marker_scope_status', 'n/a')} ({row.get('marker_scope_valid_reps', 0)}/{row.get('marker_scope_total_reps', 0)}) | "
+            f"{row.get('runtime_process_status', 'n/a')} ({row.get('runtime_process_valid_reps', 0)}/{row.get('runtime_process_total_reps', 0)}) |"
         )
     checks = report["promotion"]
     lines.extend(["", "## Promotion Checks", ""])
     for key, value in checks["checks"].items():
         lines.append(f"- `{key}`: {value}")
+    lines.extend(["", f"- Blocked reasons: {', '.join(checks['blocked_reasons']) if checks['blocked_reasons'] else 'none'}", ""])
+    lines.extend(["## Full Matrix Blockers", ""])
+    if checks["blocked_reasons"]:
+        lines.append("- Current staged scope still has gate blockers; do not enter the full matrix.")
+    elif checks["checks"].get("full_matrix_ready"):
+        lines.append("- Gate blockers: none for the optimized 35T-only full synthetic matrix.")
+        lines.append("- Scope remains synthetic-only and 35T/VexRiscv-only.")
+    elif checks["checks"].get("process_chain_risk_passed") or checks["checks"].get("allowed_to_enter_process_chain_risk"):
+        lines.append("- Gate blockers: none for the current staged scope.")
+        lines.append("- Execution blocker: full matrix is not run until explicit user confirmation.")
+    else:
+        lines.append("- Full matrix remains blocked until marker scope is valid for every rep.")
+        lines.append("- Full matrix remains blocked until runtime process attribution is proven for the scoped matrix.")
+        lines.append("- `batch_file_read_write` is only acceptable as weak shape until fd/path flow is recovered.")
     lines.extend(
         [
-            "",
-            f"- Blocked reasons: {', '.join(checks['blocked_reasons']) if checks['blocked_reasons'] else 'none'}",
+            "- This report does not claim real malware detection, CVA6 board validation, or mature semantic recovery.",
             "",
         ]
     )
@@ -445,9 +537,42 @@ def self_test() -> int:
         }
     )
     promotion = promotion_checks([process])
-    if process["failure_class"] != "parent_child_boundary_not_proven" or not promotion["checks"].get("process_chain_risk_passed"):
+    if process["failure_class"] != "parent_child_boundary_not_proven" or promotion["checks"].get("process_chain_risk_passed"):
         print("[FAIL] triage self-test missed process_chain weak-risk classification", file=sys.stderr)
         return 1
+    batch = classify_sample(
+        {
+            "sample_id": "batch_open_read_write",
+            "gate_status": "PASS",
+            "audit_rule_summary": {
+                "missing": [],
+                "weak_matched_expected": ["batch_file_read_write"],
+                "weak_expected_behavior": ["batch_file_read_write_shape"],
+                "stable_weak_expected_behavior": ["batch_file_read_write_shape"],
+                "unexpected_matched": [],
+            },
+            "event_summary": {"unknown_event_count": 0, "corrupt_record_count": 0},
+            "marker_scope_summary": {"status": "MISSING", "valid_reps": 0, "total_reps": 1},
+        }
+    )
+    focus_promotion = promotion_checks([row, batch])
+    if "batch_open_read_write_at_least_weak_shape" not in focus_promotion["checks"]:
+        print("[FAIL] triage self-test missed focus promotion checks", file=sys.stderr)
+        return 1
+    if "marker_scope_valid" not in focus_promotion["blocked_reasons"]:
+        print("[FAIL] triage self-test missed marker full-matrix blocker", file=sys.stderr)
+        return 1
+    with tempfile.TemporaryDirectory() as tmp:
+        run_root = Path(tmp)
+        aggregate = run_root / "aggregate"
+        aggregate.mkdir(parents=True)
+        (aggregate / "gate_report.json").write_text(
+            json.dumps({"samples": [{"sample_id": "process_chain"}]}) + "\n",
+            encoding="utf-8",
+        )
+        if gate_sample_ids(run_root) != ("process_chain",):
+            print("[FAIL] triage self-test missed gate sample-id default discovery", file=sys.stderr)
+            return 1
     print("[PASS] semantic failure triage self-test")
     return 0
 
@@ -462,7 +587,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.self_test:
         return self_test()
     run_root = resolve(args.root) / args.run_id
-    sample_ids = tuple(args.sample) if args.sample else FOCUS_SAMPLES
+    sample_ids = tuple(args.sample) if args.sample else (gate_sample_ids(run_root) or FOCUS_SAMPLES)
     try:
         report = write_outputs(run_root, sample_ids)
     except Exception as exc:
@@ -476,6 +601,8 @@ def main(argv: list[str] | None = None) -> int:
         print("[BLOCKED] Stage 2 semantic recovery checks are not all satisfied")
     if "process_chain_risk_passed" in checks and not checks["process_chain_risk_passed"]:
         print("[BLOCKED] process_chain risk checks are not all satisfied")
+    if len(sample_ids) >= 13 and "full_matrix_ready" in checks and not checks["full_matrix_ready"]:
+        print("[BLOCKED] 35T full synthetic matrix checks are not all satisfied")
     return 0
 
 

@@ -13,7 +13,7 @@ from typing import Any, Iterable
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from rv_maltrace.trace_profiles import allowed_events_for_profile, profile_names  # noqa: E402
+from rv_maltrace.trace_profiles import allowed_events_for_profile, get_trace_profile, profile_names  # noqa: E402
 
 
 DEFAULT_RESULT_ROOT = Path("results/experiments/35t")
@@ -21,6 +21,10 @@ BENIGN_MANIFEST = Path("experiments/linux_behavior/benign/manifest.json")
 MALWARE_MANIFEST = Path("experiments/linux_behavior/malware_like/manifest.json")
 TRACE_ON = "trace-on"
 TRACE_OFF = "trace-off"
+DROP_RATE_MEDIAN_LIMIT = 0.05
+BENIGN_BEHAVIOR_RULE_ALIASES = {
+    "directory_listing": {"many_file_scan"},
+}
 
 
 @dataclass(frozen=True)
@@ -57,6 +61,22 @@ def load_jsonl(path: Path) -> list[dict[str, Any]]:
 def median(values: Iterable[float]) -> float | None:
     rows = list(values)
     return statistics.median(rows) if rows else None
+
+
+def parse_int(value: Any) -> int | None:
+    if isinstance(value, bool):
+        return None
+    if isinstance(value, int):
+        return value
+    if isinstance(value, str):
+        text = value.strip()
+        if not text:
+            return None
+        try:
+            return int(text, 16) if text.startswith("0x") else int(text, 10)
+        except ValueError:
+            return None
+    return None
 
 
 def load_samples(selectors: Iterable[str]) -> list[SampleRef]:
@@ -197,6 +217,143 @@ def trace_summaries(root: Path, trace_records: int | None) -> list[dict[str, Any
     return summaries
 
 
+def marker_kind(event: dict[str, Any]) -> str:
+    value = parse_int(event.get("value"))
+    if value is None:
+        return "unknown"
+    tag = value & 0xF0000000
+    if tag == 0xB0000000:
+        return "begin"
+    if tag == 0xE0000000:
+        return "end"
+    return "unknown"
+
+
+def marker_scope_summary(root: Path) -> dict[str, Any]:
+    reps: list[dict[str, Any]] = []
+    for rep_dir in sorted((root / "board" / TRACE_ON).glob("rep_*")):
+        trace_path = rep_dir / "trace.jsonl"
+        events = load_jsonl(trace_path)
+        markers = [
+            {
+                "event_index": index,
+                "record_index": event.get("record_index"),
+                "value": event.get("value"),
+                "kind": marker_kind(event),
+            }
+            for index, event in enumerate(events)
+            if event.get("evt") == "MARKER"
+        ]
+        begin = [row for row in markers if row["kind"] == "begin"]
+        end = [row for row in markers if row["kind"] == "end"]
+        ordered = bool(begin and end and int(begin[0]["event_index"]) < int(end[0]["event_index"]))
+        begin_value = parse_int(begin[0]["value"]) if len(begin) == 1 else None
+        end_value = parse_int(end[0]["value"]) if len(end) == 1 else None
+        payload_match = begin_value is not None and end_value is not None and (begin_value & 0x0FFFFFFF) == (end_value & 0x0FFFFFFF)
+        if len(markers) == 2 and len(begin) == 1 and len(end) == 1 and ordered and payload_match:
+            status = "PASS"
+        elif not markers:
+            status = "MISSING"
+        else:
+            status = "FAIL"
+        reps.append(
+            {
+                "rep": rep_dir.name,
+                "status": status,
+                "marker_count": len(markers),
+                "begin_count": len(begin),
+                "end_count": len(end),
+                "ordered": ordered,
+                "payload_match": payload_match,
+                "markers": markers,
+            }
+        )
+    if not reps:
+        status = "NO_TRACE"
+    elif all(row["status"] == "PASS" for row in reps):
+        status = "PASS"
+    elif all(row["status"] == "MISSING" for row in reps):
+        status = "MISSING"
+    else:
+        status = "FAIL"
+    return {
+        "status": status,
+        "valid_reps": sum(1 for row in reps if row["status"] == "PASS"),
+        "total_reps": len(reps),
+        "reps": reps,
+    }
+
+
+def runtime_process_attribution_summary(root: Path) -> dict[str, Any]:
+    reps: list[dict[str, Any]] = []
+    for rep_dir in sorted((root / "board" / TRACE_ON).glob("rep_*")):
+        path = rep_dir / "runtime_process_map.json"
+        join_summary_path = rep_dir / "trace_code_map" / "trace_code_map_summary.json"
+        if not path.exists():
+            reps.append(
+                {
+                    "rep": rep_dir.name,
+                    "status": "MISSING",
+                    "runtime_process_map": repo_rel(path),
+                    "reason": "missing_runtime_process_map",
+                }
+            )
+            continue
+        doc = load_json(path)
+        owners = doc.get("owners", {}) if isinstance(doc.get("owners"), dict) else {}
+        target = owners.get("target_child") if isinstance(owners.get("target_child"), dict) else {}
+        roles = set(str(role) for role in doc.get("process_roles", [])) if isinstance(doc.get("process_roles"), list) else set(owners)
+        target_maps = target.get("maps", []) if isinstance(target, dict) and isinstance(target.get("maps"), list) else []
+        required_roles = {"runner_parent", "target_child", "kernel", "unknown"}
+        join_summary = load_json(join_summary_path) if join_summary_path.exists() else {}
+        process_attributed_code_site_events = int(join_summary.get("process_attributed_code_site_events", 0) or 0)
+        failures = []
+        if doc.get("schema") != "rvmt.runtime_process_map.v1":
+            failures.append("schema")
+        if doc.get("status") != "PASS":
+            failures.append("runtime_process_map_status")
+        if not required_roles <= roles:
+            failures.append("process_roles")
+        for key in ("pid", "tgid", "comm", "exe"):
+            if target.get(key) in (None, ""):
+                failures.append(f"target_child_{key}")
+        if not target_maps:
+            failures.append("target_child_maps")
+        if not join_summary.get("runtime_process_attribution_proven"):
+            failures.append("process_attributed_code_site")
+        reps.append(
+            {
+                "rep": rep_dir.name,
+                "status": "PASS" if not failures else "BLOCKED",
+                "runtime_process_map": repo_rel(path),
+                "pid": target.get("pid"),
+                "tgid": target.get("tgid"),
+                "comm": target.get("comm"),
+                "exe": target.get("exe"),
+                "map_count": len(target_maps),
+                "process_roles": sorted(roles),
+                "process_attributed_code_site_events": process_attributed_code_site_events,
+                "failures": failures,
+                "join_summary": repo_rel(join_summary_path) if join_summary_path.exists() else None,
+            }
+        )
+    if not reps:
+        status = "NO_TRACE"
+    elif all(row["status"] == "PASS" for row in reps):
+        status = "PASS"
+    elif all(row["status"] == "MISSING" for row in reps):
+        status = "MISSING"
+    else:
+        status = "BLOCKED"
+    return {
+        "status": status,
+        "valid_reps": sum(1 for row in reps if row["status"] == "PASS"),
+        "total_reps": len(reps),
+        "runtime_process_attribution_proven": bool(reps and all(row["status"] == "PASS" for row in reps)),
+        "reps": reps,
+    }
+
+
 def load_alignments(root: Path) -> list[dict[str, Any]]:
     return [load_json(path) for path in sorted((root / "board" / TRACE_ON).glob("rep_*/alignment/alignment.json"))]
 
@@ -242,8 +399,18 @@ def alignment_summary(rows: list[dict[str, Any]], trace_rows: list[dict[str, Any
     }
 
 
+def benign_expected_rule_overlap(sample: SampleRef) -> set[str]:
+    if sample.sample_class != "benign":
+        return set()
+    overlap: set[str] = set()
+    for behavior in sample.expected_behavior:
+        overlap.update(BENIGN_BEHAVIOR_RULE_ALIASES.get(behavior, set()))
+    return overlap
+
+
 def audit_rule_summary(sample: SampleRef, audits: list[dict[str, Any]]) -> dict[str, Any]:
     expected = set(sample.expected_behavior) if sample.sample_class == "malware_like_synthetic" else set()
+    benign_overlap = benign_expected_rule_overlap(sample)
     matched: set[str] = set()
     weak_matched: set[str] = set()
     missing_by_rule: dict[str, list[str]] = {}
@@ -341,9 +508,11 @@ def audit_rule_summary(sample: SampleRef, audits: list[dict[str, Any]]) -> dict[
         for shape in weak_behavior_by_rule.get(rule, set())
         if weak_behavior_stability.get(shape, {}).get("stability", 0.0) >= 0.8
     }
-    satisfied_expected = stable_expected | stable_weak_expected_rules
+    satisfied_expected = stable_expected
+    unexpected_matched = matched - expected - benign_overlap
     return {
         "expected": sorted(expected),
+        "benign_expected_rule_overlap": sorted(matched & benign_overlap),
         "matched": sorted(matched),
         "weak_matched": sorted(weak_matched),
         "weak_matched_expected": sorted(expected & weak_matched),
@@ -352,9 +521,10 @@ def audit_rule_summary(sample: SampleRef, audits: list[dict[str, Any]]) -> dict[
         "stable_matched_expected": sorted(stable_expected),
         "stable_weak_expected_behavior": sorted(stable_weak_expected_behavior),
         "satisfied_expected": sorted(satisfied_expected),
+        "weak_satisfied_expected": sorted(stable_weak_expected_rules),
         "missing": sorted(expected - satisfied_expected),
         "missing_details": {key: sorted(set(values)) for key, values in sorted(missing_by_rule.items()) if key in expected},
-        "unexpected_matched": sorted(matched - expected),
+        "unexpected_matched": sorted(unexpected_matched),
         "per_rep_rule_matrix": per_rep_rule_matrix,
         "per_rep_weak_matrix": per_rep_weak_matrix,
         "per_rep_weak_behavior_matrix": per_rep_weak_behavior_matrix,
@@ -364,12 +534,30 @@ def audit_rule_summary(sample: SampleRef, audits: list[dict[str, Any]]) -> dict[
     }
 
 
+def trace_profile_for_sample_config(run_config: dict[str, Any], sample_id: str) -> str | None:
+    sample_profiles = run_config.get("trace_profiles_by_sample")
+    if isinstance(sample_profiles, dict):
+        sample_profile = sample_profiles.get(sample_id)
+        if isinstance(sample_profile, str):
+            return sample_profile
+    trace_profile = run_config.get("trace_profile")
+    return trace_profile if isinstance(trace_profile, str) else None
+
+
+def marker_required_for_profile(profile_name: str | None) -> bool:
+    if profile_name in profile_names():
+        return bool(get_trace_profile(profile_name).enable_marker)
+    return False
+
+
 def gate_sample(
     run_root: Path,
     sample: SampleRef,
     reps: int,
     trace_records: int | None,
+    trace_profile: str | None,
     allowed_events: set[str] | None,
+    marker_required: bool,
 ) -> dict[str, Any]:
     root = sample_dir(run_root, sample)
     traces = trace_summaries(root, trace_records)
@@ -380,31 +568,54 @@ def gate_sample(
     alignments = load_alignments(root)
     audits = load_audits(root)
     audit_summary = audit_rule_summary(sample, audits)
+    markers = marker_scope_summary(root)
+    markers["required"] = marker_required
+    runtime_process = runtime_process_attribution_summary(root)
     drop_rates = [float(row["drop_rate"]) for row in traces]
     captured = [float(row["captured_events"]) for row in traces]
-    sample_gate = "PASS"
-    if (
-        status["status"] != "PASS"
-        or unexpected
-        or audit_summary["missing"]
-        or audit_summary["unexpected_matched"]
-        or parser_summary["unknown_event_count"]
-        or parser_summary["corrupt_record_count"]
-    ):
+    drop_rate_median = median(drop_rates)
+    capped_reps = [row["rep"] for row in traces if row["capped_at_trace_records"]]
+    gate_failures = []
+    gate_blockers = []
+    if status["status"] != "PASS":
+        gate_failures.append("sample_status")
+    if unexpected:
+        gate_failures.append("unexpected_events")
+    if audit_summary["missing"]:
+        gate_failures.append("missing_strong_expected")
+    if audit_summary["unexpected_matched"]:
+        gate_failures.append("unexpected_strong_matched")
+    if parser_summary["unknown_event_count"] or parser_summary["corrupt_record_count"]:
+        gate_failures.append("unknown_or_corrupt_events")
+    if marker_required and markers["status"] != "PASS":
+        gate_failures.append("marker_scope")
+    if drop_rate_median is not None and drop_rate_median > DROP_RATE_MEDIAN_LIMIT:
+        gate_failures.append("drop_rate_median_gt_5pct")
+    if capped_reps:
+        gate_blockers.append("trace_record_cap_hit")
+    if runtime_process["status"] != "PASS":
+        gate_blockers.append("runtime_process_attribution")
+    if gate_failures:
         sample_gate = "FAIL"
-    elif traces and any(row["capped_at_trace_records"] for row in traces):
+    elif gate_blockers:
         sample_gate = "BLOCKED"
+    else:
+        sample_gate = "PASS"
     return {
         "sample_class": sample.sample_class,
         "sample_id": sample.sample_id,
+        "trace_profile": trace_profile,
         "gate_status": sample_gate,
+        "gate_failures": gate_failures,
+        "gate_blockers": gate_blockers,
         "sample_status": status,
         "drop_summary": {
             "drop_median": median(float(row["drop"]) for row in traces),
-            "drop_rate_median": median(drop_rates),
+            "drop_rate_median": drop_rate_median,
             "drop_rate_worst": max(drop_rates) if drop_rates else None,
             "captured_events_median": median(captured),
-            "capped_reps": [row["rep"] for row in traces if row["capped_at_trace_records"]],
+            "drop_rate_median_limit": DROP_RATE_MEDIAN_LIMIT,
+            "capped_reps": capped_reps,
         },
         "event_summary": {
             "counts": counts,
@@ -415,12 +626,15 @@ def gate_sample(
             "parser_warning_artifacts": parser_summary["artifacts"],
         },
         "alignment_summary": alignment_summary(alignments, traces),
+        "marker_scope_summary": markers,
+        "runtime_process_attribution_summary": runtime_process,
+        "runtime_process_attribution_proven": runtime_process["runtime_process_attribution_proven"],
         "audit_rule_summary": audit_summary,
     }
 
 
 def claim_level(samples: list[dict[str, Any]], run_config: dict[str, Any]) -> str:
-    if any(row["gate_status"] == "FAIL" for row in samples):
+    if any(row["gate_status"] != "PASS" for row in samples):
         return "prototype_only"
     profile = run_config.get("trace_profile")
     sample_count = len(samples)
@@ -434,8 +648,16 @@ def claim_level(samples: list[dict[str, Any]], run_config: dict[str, Any]) -> st
         for row in samples
         if row["alignment_summary"].get("recall_median") is not None
     )
+    marker_ok = all(row.get("marker_scope_summary", {}).get("status") == "PASS" for row in samples)
+    runtime_ok = all(bool(row.get("runtime_process_attribution_proven")) for row in samples)
     if profile and str(profile).startswith("p0") and sample_count <= 4:
-        return "microbench_ready" if median_drop is not None and median_drop <= 0.15 else "prototype_only"
+        if median_drop is None or median_drop > 0.05:
+            return "prototype_only"
+        if marker_ok and runtime_ok:
+            return "process_attributed_microbench_ready"
+        if marker_ok:
+            return "marker_scoped_microbench_ready"
+        return "prototype_only"
     if sample_count >= 13 and median_drop is not None and median_recall is not None and median_drop <= 0.15 and median_recall >= 0.30:
         return "full_matrix_ready"
     return "prototype_only"
@@ -445,19 +667,42 @@ def check_run(run_root: Path, samples: list[SampleRef], reps: int) -> dict[str, 
     run_config = load_json(run_root / "run_config.json") if (run_root / "run_config.json").exists() else {}
     trace_profile = run_config.get("trace_profile")
     trace_records = int(run_config["trace_records"]) if run_config.get("trace_records") is not None else None
-    allowed_events = allowed_events_for_profile(str(trace_profile)) if trace_profile in profile_names() else None
-    sample_rows = [gate_sample(run_root, sample, reps, trace_records, allowed_events) for sample in samples]
+    sample_rows = []
+    allowed_events_by_sample: dict[str, list[str] | None] = {}
+    for sample in samples:
+        sample_profile = trace_profile_for_sample_config(run_config, sample.sample_id)
+        allowed_events = allowed_events_for_profile(sample_profile) if sample_profile in profile_names() else None
+        allowed_events_by_sample[sample.sample_id] = sorted(allowed_events) if allowed_events is not None else None
+        sample_rows.append(
+            gate_sample(
+                run_root,
+                sample,
+                reps,
+                trace_records,
+                sample_profile,
+                allowed_events,
+                marker_required_for_profile(sample_profile),
+            )
+        )
     return {
         "schema": "rvmt.35t.next_gate.v2",
         "run_id": run_root.name,
         "artifact_root": repo_rel(run_root),
         "trace_profile": trace_profile,
+        "trace_profile_policy": run_config.get("trace_profile_policy", "uniform"),
+        "trace_profiles_by_sample": run_config.get("trace_profiles_by_sample", {}),
         "trace_records": trace_records,
-        "allowed_events": sorted(allowed_events) if allowed_events is not None else None,
+        "allowed_events": sorted(allowed_events_for_profile(str(trace_profile))) if trace_profile in profile_names() else None,
+        "allowed_events_by_sample": allowed_events_by_sample,
         "sample_status": {row["sample_id"]: row["sample_status"] for row in sample_rows},
         "drop_summary": {row["sample_id"]: row["drop_summary"] for row in sample_rows},
         "event_summary": {row["sample_id"]: row["event_summary"] for row in sample_rows},
         "alignment_summary": {row["sample_id"]: row["alignment_summary"] for row in sample_rows},
+        "marker_scope_summary": {row["sample_id"]: row["marker_scope_summary"] for row in sample_rows},
+        "runtime_process_attribution_summary": {
+            row["sample_id"]: row["runtime_process_attribution_summary"] for row in sample_rows
+        },
+        "runtime_process_attribution_proven": all(bool(row.get("runtime_process_attribution_proven")) for row in sample_rows),
         "audit_rule_summary": {row["sample_id"]: row["audit_rule_summary"] for row in sample_rows},
         "samples": sample_rows,
         "claim_level": claim_level(sample_rows, run_config),
@@ -476,11 +721,12 @@ def render_markdown(report: dict[str, Any]) -> str:
         f"- Run ID: `{report['run_id']}`",
         f"- Artifact root: `{report['artifact_root']}`",
         f"- Trace profile: `{report.get('trace_profile') or 'not recorded'}`",
+        f"- Trace profile policy: `{report.get('trace_profile_policy') or 'uniform'}`",
         f"- Claim level: `{report['claim_level']}`",
         "- Boundary: 35T/VexRiscv only; no CVA6 board claim; no real malware claim.",
         "",
-        "| Sample | Gate | Drop median | Drop rate median | Capped reps | UNKNOWN/corrupt | Unexpected events | Align recall | Missing expected | Weak expected | Weak shapes | Unexpected matched |",
-        "| --- | --- | ---: | ---: | --- | ---: | --- | ---: | --- | --- | --- | --- |",
+        "| Sample | Profile | Gate | Drop median | Drop rate median | Capped reps | UNKNOWN/corrupt | Marker | Runtime process | Unexpected events | Align recall | Missing expected | Weak expected | Weak shapes | Unexpected matched |",
+        "| --- | --- | --- | ---: | ---: | --- | ---: | --- | --- | --- | ---: | --- | --- | --- | --- |",
     ]
     for row in report["samples"]:
         drop = row["drop_summary"]
@@ -489,14 +735,18 @@ def render_markdown(report: dict[str, Any]) -> str:
         capped = ", ".join(drop.get("capped_reps", [])) or "none"
         unexpected_events = ", ".join(row["event_summary"].get("unexpected_events", [])) or "none"
         parser_bad = f"{row['event_summary'].get('unknown_event_count', 0)}/{row['event_summary'].get('corrupt_record_count', 0)}"
+        marker = row.get("marker_scope_summary", {})
+        marker_status = f"{marker.get('status', 'n/a')} ({marker.get('valid_reps', 0)}/{marker.get('total_reps', 0)})"
+        runtime = row.get("runtime_process_attribution_summary", {})
+        runtime_status = f"{runtime.get('status', 'n/a')} ({runtime.get('valid_reps', 0)}/{runtime.get('total_reps', 0)})"
         missing = ", ".join(audit.get("missing", [])) or "none"
         weak = ", ".join(audit.get("weak_matched_expected", [])) or "none"
         weak_shapes = ", ".join(audit.get("stable_weak_expected_behavior", []) or audit.get("weak_expected_behavior", [])) or "none"
         unexpected_matched = ", ".join(audit.get("unexpected_matched", [])) or "none"
         lines.append(
-            f"| `{row['sample_id']}` | {row['gate_status']} | {drop.get('drop_median')} | "
-            f"{drop.get('drop_rate_median')} | {capped} | {parser_bad} | {unexpected_events} | "
-            f"{align.get('recall_median')} | {missing} | {weak} | {weak_shapes} | {unexpected_matched} |"
+            f"| `{row['sample_id']}` | `{row.get('trace_profile') or 'not recorded'}` | {row['gate_status']} | {drop.get('drop_median')} | "
+            f"{drop.get('drop_rate_median')} | {capped} | {parser_bad} | {marker_status} | {runtime_status} | "
+            f"{unexpected_events} | {align.get('recall_median')} | {missing} | {weak} | {weak_shapes} | {unexpected_matched} |"
         )
     lines.extend(["", "## Rule Details", ""])
     for row in report["samples"]:
@@ -507,12 +757,15 @@ def render_markdown(report: dict[str, Any]) -> str:
                 "",
                 f"- Expected: {', '.join(audit.get('expected', [])) or 'none'}",
                 f"- Matched: {', '.join(audit.get('matched', [])) or 'none'}",
+                f"- Benign expected rule overlap: {', '.join(audit.get('benign_expected_rule_overlap', [])) or 'none'}",
                 f"- Stable matched expected: {', '.join(audit.get('stable_matched_expected', [])) or 'none'}",
                 f"- Weak matched expected: {', '.join(audit.get('weak_matched_expected', [])) or 'none'}",
                 f"- Stable weak expected shapes: {', '.join(audit.get('stable_weak_expected_behavior', [])) or 'none'}",
                 f"- Satisfied expected: {', '.join(audit.get('satisfied_expected', [])) or 'none'}",
                 f"- Missing: {', '.join(audit.get('missing', [])) or 'none'}",
                 f"- Unexpected matched: {', '.join(audit.get('unexpected_matched', [])) or 'none'}",
+                f"- Marker scope: {row.get('marker_scope_summary', {}).get('status', 'n/a')}",
+                f"- Runtime process attribution: {row.get('runtime_process_attribution_summary', {}).get('status', 'n/a')}",
                 "",
             ]
         )
@@ -540,7 +793,14 @@ def self_test() -> int:
         sample = SampleRef("malware_like_synthetic", "illegal_trap", ("illegal_instruction_trap",))
         (run_root / "aggregate").mkdir(parents=True)
         (run_root / "run_config.json").write_text(
-            json.dumps({"trace_profile": "p0_syscall_trap_context", "trace_records": 2, "reps": 1}),
+            json.dumps(
+                {
+                    "trace_profile": "p0_syscall_trap_context",
+                    "trace_records": 8,
+                    "reps": 1,
+                    "trace_controls": {"enable_marker": True},
+                }
+            ),
             encoding="utf-8",
         )
         root = sample_dir(run_root, sample)
@@ -553,7 +813,10 @@ def self_test() -> int:
             (rep / "status.json").write_text('{"status":"PASS","runtime_ns":1,"drop":0}\n', encoding="utf-8")
             if mode == TRACE_ON:
                 (rep / "trace.jsonl").write_text(
-                    '{"evt":"SYSCALL_ENTRY"}\n{"evt":"TRAP"}\n',
+                    '{"evt":"MARKER","value":"0xb0000001","record_index":0}\n'
+                    '{"evt":"SYSCALL_ENTRY","record_index":1}\n'
+                    '{"evt":"TRAP","record_index":2}\n'
+                    '{"evt":"MARKER","value":"0xe0000001","record_index":3}\n',
                     encoding="utf-8",
                 )
                 align = rep / "alignment"
@@ -575,10 +838,51 @@ def self_test() -> int:
                     ),
                     encoding="utf-8",
                 )
+                (rep / "runtime_process_map.json").write_text(
+                    json.dumps(
+                        {
+                            "schema": "rvmt.runtime_process_map.v1",
+                            "status": "PASS",
+                            "sample_id": "illegal_trap",
+                            "rep": 0,
+                            "pid": 22,
+                            "tgid": 22,
+                            "comm": "illegal_trap",
+                            "exe": "/usr/bin/illegal_trap",
+                            "maps": [{"start": "0x1000", "end": "0x2000", "perms": "r-xp", "path": "/usr/bin/illegal_trap"}],
+                            "process_roles": ["kernel", "runner_parent", "target_child", "unknown"],
+                            "owners": {
+                                "target_child": {
+                                    "role": "target_child",
+                                    "pid": 22,
+                                    "tgid": 22,
+                                    "comm": "illegal_trap",
+                                    "exe": "/usr/bin/illegal_trap",
+                                    "maps": [{"start": "0x1000", "end": "0x2000", "perms": "r-xp", "path": "/usr/bin/illegal_trap"}],
+                                },
+                                "runner_parent": {"role": "runner_parent", "pid": 21, "tgid": 21, "comm": "runner", "exe": "/usr/bin/runner", "maps": []},
+                                "kernel": {"role": "kernel", "pid": 0, "tgid": 0, "comm": "kernel", "exe": "", "maps": []},
+                                "unknown": {"role": "unknown", "pid": -1, "tgid": -1, "comm": "unknown", "exe": "", "maps": []},
+                            },
+                            "provenance": {"status": "PASS", "method": "self-test"},
+                        }
+                    ),
+                    encoding="utf-8",
+                )
+                trace_code = rep / "trace_code_map"
+                trace_code.mkdir()
+                (trace_code / "trace_code_map_summary.json").write_text(
+                    '{"runtime_process_attribution_proven":true,"process_attributed_code_site_events":1}\n',
+                    encoding="utf-8",
+                )
         report = check_run(run_root, [sample], 1)
         write_report(run_root, report)
-        if report["claim_level"] != "microbench_ready":
-            print("[FAIL] gate self-test missed microbench-ready claim level", file=sys.stderr)
+        if report["claim_level"] != "process_attributed_microbench_ready":
+            print("[FAIL] gate self-test missed process-attributed microbench-ready claim level", file=sys.stderr)
+            return 1
+        marker_status = report["samples"][0]["marker_scope_summary"]["status"]
+        if marker_status != "PASS":
+            print("[FAIL] gate self-test missed valid marker scope", file=sys.stderr)
             return 1
         if not (run_root / "aggregate" / "gate_report.json").exists():
             print("[FAIL] gate self-test did not write JSON report", file=sys.stderr)

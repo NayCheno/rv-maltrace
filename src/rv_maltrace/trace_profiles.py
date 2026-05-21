@@ -14,6 +14,7 @@ CONTROL_BRANCH = 0x0040
 CONTROL_RETIRE = 0x0080
 CONTROL_JUMP = 0x0100
 CONTROL_ARG_MEM = 0x0200
+CONTROL_MARKER = 0x0400
 
 
 @dataclass(frozen=True)
@@ -24,6 +25,7 @@ class TraceProfile:
     enable_trap: bool
     enable_context: bool
     enable_drop: bool
+    enable_marker: bool = False
     enable_branch: bool = False
     enable_retire: bool = False
     enable_jump: bool = False
@@ -37,6 +39,7 @@ class TraceProfile:
             "enable_trap": self.enable_trap,
             "enable_context": self.enable_context,
             "enable_drop": self.enable_drop,
+            "enable_marker": self.enable_marker,
             "enable_branch": self.enable_branch,
             "enable_retire": self.enable_retire,
             "enable_jump": self.enable_jump,
@@ -55,6 +58,8 @@ class TraceProfile:
             mask |= CONTROL_CONTEXT
         if self.enable_drop:
             mask |= CONTROL_DROP
+        if self.enable_marker:
+            mask |= CONTROL_MARKER
         if self.enable_branch:
             mask |= CONTROL_BRANCH
         if self.enable_retire:
@@ -76,6 +81,8 @@ class TraceProfile:
             events.update({"CSR", "SATP", "PRIV"})
         if self.enable_drop:
             events.add("DROP")
+        if self.enable_marker:
+            events.add("MARKER")
         if self.enable_branch:
             events.add("BRANCH")
         if self.enable_retire:
@@ -95,6 +102,7 @@ TRACE_PROFILES: dict[str, TraceProfile] = {
         enable_trap=True,
         enable_context=True,
         enable_drop=True,
+        enable_marker=True,
     ),
     "p1_branch_context": TraceProfile(
         name="p1_branch_context",
@@ -103,6 +111,7 @@ TRACE_PROFILES: dict[str, TraceProfile] = {
         enable_trap=True,
         enable_context=True,
         enable_drop=True,
+        enable_marker=True,
         enable_branch=True,
     ),
     "p2_pointer_snapshot": TraceProfile(
@@ -112,6 +121,7 @@ TRACE_PROFILES: dict[str, TraceProfile] = {
         enable_trap=True,
         enable_context=True,
         enable_drop=True,
+        enable_marker=True,
         enable_arg_mem=False,
         arg_mem_policy="gated",
     ),
@@ -122,6 +132,7 @@ TRACE_PROFILES: dict[str, TraceProfile] = {
         enable_trap=False,
         enable_context=False,
         enable_drop=True,
+        enable_marker=True,
     ),
     "p0b_trap_drop": TraceProfile(
         name="p0b_trap_drop",
@@ -130,6 +141,7 @@ TRACE_PROFILES: dict[str, TraceProfile] = {
         enable_trap=True,
         enable_context=False,
         enable_drop=True,
+        enable_marker=True,
     ),
     "p0c_syscall_trap_drop": TraceProfile(
         name="p0c_syscall_trap_drop",
@@ -138,6 +150,7 @@ TRACE_PROFILES: dict[str, TraceProfile] = {
         enable_trap=True,
         enable_context=False,
         enable_drop=True,
+        enable_marker=True,
     ),
 }
 

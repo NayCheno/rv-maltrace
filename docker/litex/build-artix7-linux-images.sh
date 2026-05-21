@@ -40,7 +40,8 @@ fi
     "$ROOT/board/artix7_35t/linux/rvmt_linux_user_pass.c"
 "$TARGET_GCC" -O2 -Wall -Wextra -static -o "$EXP_OVERLAY/usr/bin/rvmt_trace_dump" \
     "$ROOT/board/artix7_35t/linux/rvmt_trace_dump.c"
-"$TARGET_GCC" -O2 -Wall -Wextra -static -o "$EXP_OVERLAY/usr/bin/rvmt_exp_runner" \
+RVMT_EXP_RUNNER_TEXT_BASE="${RVMT_EXP_RUNNER_TEXT_BASE:-0x01000000}"
+"$TARGET_GCC" -O2 -Wall -Wextra -static -Wl,-Ttext-segment="$RVMT_EXP_RUNNER_TEXT_BASE" -o "$EXP_OVERLAY/usr/bin/rvmt_exp_runner" \
     "$ROOT/board/artix7_35t/linux/rvmt_exp_runner.c"
 "$TARGET_GCC" -O2 -Wall -Wextra -static -o "$EXP_OVERLAY/usr/bin/rvmt_benign_workload" \
     "$ROOT/board/artix7_35t/linux/rvmt_benign_workload.c"

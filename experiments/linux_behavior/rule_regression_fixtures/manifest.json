@@ -194,13 +194,22 @@
       "expected_matched": ["illegal_instruction_trap"],
       "semantic": {
         "schema": "rvmt.behavior.semantic.v1",
-        "syscall_sequence": [{"name": "write", "return_value": "0x4"}],
+        "syscall_sequence": [
+          {
+            "name": "write",
+            "return_value": "0x4",
+            "process_owner": "target_child",
+            "attribution_confidence": "marker_scoped_runtime_map_code_site"
+          }
+        ],
         "trap_context_transitions": [
           {
             "evt": "TRAP",
             "cause": "0x2",
             "pc_owner": "target_sample",
-            "callsite_kind": "illegal_instruction_site"
+            "callsite_kind": "illegal_instruction_site",
+            "process_owner": "target_child",
+            "attribution_confidence": "marker_scoped_runtime_map_code_site"
           }
         ]
       }
@@ -328,7 +337,12 @@
         "schema": "rvmt.behavior.semantic.v1",
         "syscall_sequence": [
           {"name": "clock_gettime", "return_value": "0x0"},
-          {"name": "ptrace", "return_value": "0xffffffffffffffff"}
+          {
+            "name": "ptrace",
+            "return_value": "0xffffffffffffffff",
+            "process_owner": "target_child",
+            "attribution_confidence": "marker_scoped_runtime_map_code_site"
+          }
         ],
         "trap_context_transitions": []
       }

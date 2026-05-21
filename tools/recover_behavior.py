@@ -7,7 +7,7 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
-from join_trace_code_map import code_map_index, pc_annotation
+from join_trace_code_map import code_map_index, marker_scope, pc_annotation, runtime_process_index
 
 
 SYSCALL_NAMES = {
@@ -82,7 +82,18 @@ def hex_or_none(value: Any) -> str | None:
     return f"0x{number:016x}"
 
 
-def event_base(event: dict[str, Any], index: int, code_map: dict[str, Any] | None = None, code_index: dict[str, Any] | None = None) -> dict[str, Any]:
+def hex_u64(value: int) -> str:
+    return f"0x{value & ((1 << 64) - 1):016x}"
+
+
+def event_base(
+    event: dict[str, Any],
+    index: int,
+    code_map: dict[str, Any] | None = None,
+    code_index: dict[str, Any] | None = None,
+    runtime_index: dict[str, Any] | None = None,
+    scope: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     base = {
         "index": index,
         "cycle": event.get("cycle"),
@@ -90,7 +101,7 @@ def event_base(event: dict[str, Any], index: int, code_map: dict[str, Any] | Non
         "evt": event.get("evt"),
     }
     if code_map is not None and code_index is not None:
-        base.update(pc_annotation(event.get("pc"), code_map, code_index))
+        base.update(pc_annotation(event.get("pc"), code_map, code_index, runtime_index, scope, index))
     return base
 
 
@@ -144,6 +155,75 @@ def looks_like_openat_args(event: dict[str, Any]) -> bool:
     return 0 < a2 <= 0x00100000 and bool(a2 & 0x00080000)
 
 
+def is_process_chain_annotation(annotation: dict[str, Any]) -> bool:
+    elf = str(annotation.get("elf") or "")
+    if not elf:
+        return False
+    name = Path(elf.replace("\\", "/")).name
+    return name == "process_chain" or name.startswith("process_chain.")
+
+
+def target_process_chain_code_site(annotation: dict[str, Any]) -> bool:
+    return (
+        is_process_chain_annotation(annotation)
+        and annotation.get("pc_owner") == "target_sample"
+        and annotation.get("callsite_kind") == "syscall_site"
+    )
+
+
+def user_pointer_like(value: Any) -> bool:
+    number = parse_int(value)
+    return number is not None and 0x00010000 <= number < 0xC0000000
+
+
+def small_pid_like(value: Any) -> bool:
+    number = parse_int(value)
+    return number is not None and 1 <= number <= 0xFFFF
+
+
+def looks_like_process_chain_clone_args(event: dict[str, Any]) -> bool:
+    return (
+        parse_int(event.get("a0")) == 17
+        and parse_int(event.get("a1")) == 0
+        and parse_int(event.get("a2")) == 0
+        and parse_int(event.get("a3")) == 0
+        and parse_int(event.get("a4")) == 0
+    )
+
+
+def looks_like_process_chain_waitid_args(event: dict[str, Any]) -> bool:
+    return (
+        parse_int(event.get("a0")) == 1
+        and small_pid_like(event.get("a1"))
+        and user_pointer_like(event.get("a2"))
+        and parse_int(event.get("a3")) == 4
+    )
+
+
+def looks_like_process_chain_execve_args(event: dict[str, Any]) -> bool:
+    path = parse_int(event.get("a0"))
+    return (
+        path is not None
+        and 0x00010000 <= path < 0x00100000
+        and user_pointer_like(event.get("a1"))
+        and user_pointer_like(event.get("a2"))
+        and parse_int(event.get("a3")) == 0
+        and parse_int(event.get("a4")) == path
+    )
+
+
+def infer_process_chain_number(event: dict[str, Any], annotation: dict[str, Any]) -> tuple[int, str] | None:
+    if not target_process_chain_code_site(annotation):
+        return None
+    if looks_like_process_chain_execve_args(event):
+        return 221, "target_arg_shape_process_chain_execve"
+    if looks_like_process_chain_waitid_args(event):
+        return 95, "target_arg_shape_process_chain_waitid"
+    if looks_like_process_chain_clone_args(event):
+        return 220, "target_arg_shape_process_chain_clone"
+    return None
+
+
 def syscall_id_int(event: dict[str, Any]) -> int | None:
     return parse_int(event.get("syscall_id"))
 
@@ -176,14 +256,69 @@ def make_entry_observation(
     source_evt: str,
     code_map: dict[str, Any] | None,
     code_index: dict[str, Any] | None,
+    runtime_index: dict[str, Any] | None = None,
+    scope: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     return {
-        **event_base(event, index, code_map, code_index),
+        **event_base(event, index, code_map, code_index, runtime_index, scope),
         "evt": evt,
         "source_evt": source_evt,
         "a7": hex_or_none(event.get("a7")),
         "args": event_args(event),
     }
+
+
+def return_target_annotation(
+    return_pc_value: Any,
+    code_map: dict[str, Any],
+    code_index: dict[str, Any],
+    runtime_index: dict[str, Any] | None,
+    scope: dict[str, Any] | None,
+    event_index: int,
+) -> dict[str, Any]:
+    target_ann = pc_annotation(return_pc_value, code_map, code_index, runtime_index, scope, event_index)
+    result = {
+        "return_pc_owner": target_ann.get("pc_owner"),
+        "return_pc_owner_static": target_ann.get("pc_owner_static"),
+        "return_code_confidence": target_ann.get("code_confidence"),
+        "return_process_owner": target_ann.get("process_owner"),
+        "return_process_confidence": target_ann.get("process_confidence"),
+        "return_attribution_confidence": target_ann.get("attribution_confidence"),
+    }
+    return_pc = parse_int(return_pc_value)
+    if return_pc is None:
+        return {key: value for key, value in result.items() if value is not None}
+    for delta in (4, 2, 0):
+        site_pc = return_pc - delta
+        if site_pc < 0:
+            continue
+        site_ann = pc_annotation(hex_u64(site_pc), code_map, code_index, runtime_index, scope, event_index)
+        if site_ann.get("callsite_kind") != "syscall_site":
+            continue
+        result.update(
+            {
+                "return_site_pc": hex_u64(site_pc),
+                "return_site_delta": delta,
+                "return_site_owner": site_ann.get("pc_owner"),
+                "return_site_owner_static": site_ann.get("pc_owner_static"),
+                "return_site_symbol": site_ann.get("symbol"),
+                "return_site_callsite_kind": site_ann.get("callsite_kind"),
+                "return_site_code_confidence": site_ann.get("code_confidence"),
+                "return_site_process_owner": site_ann.get("process_owner"),
+                "return_site_process_confidence": site_ann.get("process_confidence"),
+                "return_site_attribution_confidence": site_ann.get("attribution_confidence"),
+                "return_site_attribution_basis": "return_pc_minus_ecall_width",
+            }
+        )
+        break
+    return {key: value for key, value in result.items() if value is not None}
+
+
+def return_site_process_attributed(ret: dict[str, Any]) -> bool:
+    return (
+        ret.get("return_site_process_owner") == "target_child"
+        and ret.get("return_site_attribution_confidence") == "marker_scoped_runtime_map_code_site"
+    )
 
 
 def select_entry_number(
@@ -240,7 +375,13 @@ def find_pending_for_return(
     return None, None
 
 
-def recover_syscalls(events: list[dict[str, Any]], code_map: dict[str, Any] | None = None, code_index: dict[str, Any] | None = None) -> list[dict[str, Any]]:
+def recover_syscalls(
+    events: list[dict[str, Any]],
+    code_map: dict[str, Any] | None = None,
+    code_index: dict[str, Any] | None = None,
+    runtime_index: dict[str, Any] | None = None,
+    scope: dict[str, Any] | None = None,
+) -> list[dict[str, Any]]:
     syscalls: list[dict[str, Any]] = []
     pending_by_id: dict[int, dict[str, Any]] = {}
     pending_without_id: list[dict[str, Any]] = []
@@ -266,11 +407,15 @@ def recover_syscalls(events: list[dict[str, Any]], code_map: dict[str, Any] | No
                 if target_boundary
                 else (parse_int(event.get("a7")), "entry_nr")
             )
+            base = event_base(event, index, code_map, code_index, runtime_index, scope)
+            inferred = infer_process_chain_number(event, base)
+            if inferred is not None:
+                number, number_source = inferred
             args = event_args(event)
             syscall_id = parse_int(event.get("syscall_id"))
             if syscall_id is not None and syscall_id in pending_by_id:
                 pending_by_id[syscall_id].setdefault("entry_observations", []).append(
-                    make_entry_observation(event, index, "SYSCALL_ENTRY", str(evt), code_map, code_index)
+                    make_entry_observation(event, index, "SYSCALL_ENTRY", str(evt), code_map, code_index, runtime_index, scope)
                 )
                 if fused_entry_index is not None and kernel_entry is not None:
                     pending_by_id[syscall_id].setdefault("entry_observations", []).append(
@@ -281,6 +426,8 @@ def recover_syscalls(events: list[dict[str, Any]], code_map: dict[str, Any] | No
                             str(kernel_entry.get("evt")),
                             code_map,
                             code_index,
+                            runtime_index,
+                            scope,
                         )
                     )
                     skip_entry_indexes.add(fused_entry_index)
@@ -289,7 +436,7 @@ def recover_syscalls(events: list[dict[str, Any]], code_map: dict[str, Any] | No
             if target_boundary:
                 confidence = "fused_target_ecall_kernel_entry" if kernel_entry is not None else "target_ecall_boundary"
             syscall = {
-                **event_base(event, index, code_map, code_index),
+                **base,
                 "evt": "SYSCALL_ENTRY",
                 "source_evt": evt,
                 "seq": seq,
@@ -313,7 +460,7 @@ def recover_syscalls(events: list[dict[str, Any]], code_map: dict[str, Any] | No
                 syscall["kernel_entry_nr"] = hex_or_none(kernel_entry.get("a7"))
                 syscall["kernel_entry_index"] = fused_entry_index
                 syscall.setdefault("entry_observations", []).append(
-                    make_entry_observation(event, index, "SYSCALL_ENTRY", str(evt), code_map, code_index)
+                    make_entry_observation(event, index, "SYSCALL_ENTRY", str(evt), code_map, code_index, runtime_index, scope)
                 )
                 syscall.setdefault("entry_observations", []).append(
                     make_entry_observation(
@@ -323,6 +470,8 @@ def recover_syscalls(events: list[dict[str, Any]], code_map: dict[str, Any] | No
                         str(kernel_entry.get("evt")),
                         code_map,
                         code_index,
+                        runtime_index,
+                        scope,
                     )
                 )
                 skip_entry_indexes.add(int(fused_entry_index))
@@ -341,7 +490,7 @@ def recover_syscalls(events: list[dict[str, Any]], code_map: dict[str, Any] | No
         return_number = parse_int(event.get("a7"))
         return_args = event_args(event)
         ret = {
-            **event_base(event, index, code_map, code_index),
+            **event_base(event, index, code_map, code_index, runtime_index, scope),
             "return_value": hex_or_none(event.get("a0")),
             "return_pc": hex_or_none(event.get("target")),
             "duration": parse_int(event.get("duration")),
@@ -349,13 +498,14 @@ def recover_syscalls(events: list[dict[str, Any]], code_map: dict[str, Any] | No
             "args": return_args,
         }
         if code_map is not None and code_index is not None:
-            target_ann = pc_annotation(event.get("target"), code_map, code_index)
-            ret["return_pc_owner"] = target_ann.get("pc_owner")
-            ret["return_code_confidence"] = target_ann.get("code_confidence")
+            ret.update(return_target_annotation(event.get("target"), code_map, code_index, runtime_index, scope, index))
         if match is None:
+            confidence = "return_only_register_snapshot" if return_number is not None else "return_only"
+            if return_number is not None and return_site_process_attributed(ret):
+                confidence = "return_only_target_syscall_site_register_snapshot"
             syscalls.append(
                 {
-                    **event_base(event, index, code_map, code_index),
+                    **event_base(event, index, code_map, code_index, runtime_index, scope),
                     "evt": "SYSCALL_RET",
                     "seq": seq,
                     "syscall_id": hex_or_none(event.get("syscall_id")),
@@ -370,7 +520,7 @@ def recover_syscalls(events: list[dict[str, Any]], code_map: dict[str, Any] | No
                     "duration": ret["duration"],
                     "drop_before": drop_total,
                     "drop_after": drop_total,
-                    "confidence": "return_only_register_snapshot" if return_number is not None else "return_only",
+                    "confidence": confidence,
                     "return": ret,
                 }
             )
@@ -398,14 +548,20 @@ def recover_syscalls(events: list[dict[str, Any]], code_map: dict[str, Any] | No
     return syscalls
 
 
-def recover_control_flow(events: list[dict[str, Any]], code_map: dict[str, Any] | None = None, code_index: dict[str, Any] | None = None) -> list[dict[str, Any]]:
+def recover_control_flow(
+    events: list[dict[str, Any]],
+    code_map: dict[str, Any] | None = None,
+    code_index: dict[str, Any] | None = None,
+    runtime_index: dict[str, Any] | None = None,
+    scope: dict[str, Any] | None = None,
+) -> list[dict[str, Any]]:
     segments: list[dict[str, Any]] = []
     for index, event in enumerate(events):
         if event.get("evt") not in {"BRANCH", "JUMP"}:
             continue
         segments.append(
             {
-                **event_base(event, index, code_map, code_index),
+                **event_base(event, index, code_map, code_index, runtime_index, scope),
                 "kind": str(event.get("evt", "")).lower(),
                 "instr": event.get("instr"),
                 "target": event.get("target"),
@@ -416,14 +572,20 @@ def recover_control_flow(events: list[dict[str, Any]], code_map: dict[str, Any] 
     return segments
 
 
-def recover_trap_context(events: list[dict[str, Any]], code_map: dict[str, Any] | None = None, code_index: dict[str, Any] | None = None) -> list[dict[str, Any]]:
+def recover_trap_context(
+    events: list[dict[str, Any]],
+    code_map: dict[str, Any] | None = None,
+    code_index: dict[str, Any] | None = None,
+    runtime_index: dict[str, Any] | None = None,
+    scope: dict[str, Any] | None = None,
+) -> list[dict[str, Any]]:
     transitions: list[dict[str, Any]] = []
     for index, event in enumerate(events):
         evt = event.get("evt")
         if evt not in {"TRAP", "CSR", "SATP", "PRIV"}:
             continue
         item = {
-            **event_base(event, index, code_map, code_index),
+            **event_base(event, index, code_map, code_index, runtime_index, scope),
             "priv": event.get("priv"),
             "old_priv": event.get("old_priv"),
             "new_priv": event.get("new_priv"),
@@ -437,20 +599,26 @@ def recover_trap_context(events: list[dict[str, Any]], code_map: dict[str, Any] 
     return transitions
 
 
-def recover_privilege_boundaries(events: list[dict[str, Any]], code_map: dict[str, Any] | None = None, code_index: dict[str, Any] | None = None) -> list[dict[str, Any]]:
+def recover_privilege_boundaries(
+    events: list[dict[str, Any]],
+    code_map: dict[str, Any] | None = None,
+    code_index: dict[str, Any] | None = None,
+    runtime_index: dict[str, Any] | None = None,
+    scope: dict[str, Any] | None = None,
+) -> list[dict[str, Any]]:
     boundaries: list[dict[str, Any]] = []
     for index, event in enumerate(events):
         evt = event.get("evt")
         if evt in {"ECALL", "SYSCALL_ENTRY"}:
-            boundaries.append({**event_base(event, index, code_map, code_index), "kind": "syscall_entry", "priv": event.get("priv")})
+            boundaries.append({**event_base(event, index, code_map, code_index, runtime_index, scope), "kind": "syscall_entry", "priv": event.get("priv")})
         elif evt == "SYSCALL_RET":
-            boundaries.append({**event_base(event, index, code_map, code_index), "kind": "syscall_return", "priv": event.get("priv")})
+            boundaries.append({**event_base(event, index, code_map, code_index, runtime_index, scope), "kind": "syscall_return", "priv": event.get("priv")})
         elif evt == "TRAP":
-            boundaries.append({**event_base(event, index, code_map, code_index), "kind": "trap_entry", "priv": event.get("priv"), "cause": event.get("cause")})
+            boundaries.append({**event_base(event, index, code_map, code_index, runtime_index, scope), "kind": "trap_entry", "priv": event.get("priv"), "cause": event.get("cause")})
         elif evt == "PRIV":
             boundaries.append(
                 {
-                    **event_base(event, index, code_map, code_index),
+                    **event_base(event, index, code_map, code_index, runtime_index, scope),
                     "kind": "privilege_change",
                     "old_priv": event.get("old_priv"),
                     "new_priv": event.get("new_priv"),
@@ -519,8 +687,12 @@ def recover(
     source: str,
     code_map: dict[str, Any] | None = None,
     code_map_source: str | None = None,
+    runtime_process_map: dict[str, Any] | None = None,
+    runtime_process_map_source: str | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any], str]:
     code_index = code_map_index(code_map) if code_map is not None else None
+    runtime_index = runtime_process_index(runtime_process_map)
+    scope = marker_scope(events)
     code_map_summary = None
     if code_map is not None:
         code_map_summary = {
@@ -530,21 +702,43 @@ def recover(
             "binary_role": code_map.get("binary_role"),
             "runtime_path": code_map.get("runtime_path"),
             "sha256": code_map.get("sha256"),
+            "elf_type": code_map.get("elf_type"),
+            "load_base_assumption": code_map.get("load_base_assumption"),
+            "process_attribution": "not_proven",
+            "attribution_limitations": code_map.get("attribution_limitations", []),
             "elf_header": code_map.get("elf_header"),
             "load_ranges": len(code_map.get("load_ranges", [])) if isinstance(code_map.get("load_ranges"), list) else 0,
             "syscall_sites": len(code_map.get("syscall_sites", [])) if isinstance(code_map.get("syscall_sites"), list) else 0,
             "trap_sites": len(code_map.get("trap_sites", [])) if isinstance(code_map.get("trap_sites"), list) else 0,
+        }
+    runtime_summary = None
+    if runtime_process_map is not None:
+        runtime_summary = {
+            "schema": runtime_process_map.get("schema"),
+            "source": runtime_process_map_source,
+            "status": runtime_process_map.get("status"),
+            "sample_id": runtime_process_map.get("sample_id"),
+            "rep": runtime_process_map.get("rep"),
+            "pid": runtime_process_map.get("pid"),
+            "tgid": runtime_process_map.get("tgid"),
+            "comm": runtime_process_map.get("comm"),
+            "exe": runtime_process_map.get("exe"),
+            "map_count": len(runtime_process_map.get("maps", [])) if isinstance(runtime_process_map.get("maps"), list) else 0,
+            "process_roles": runtime_process_map.get("process_roles", []),
+            "provenance": runtime_process_map.get("provenance", {}),
         }
     semantic = {
         "schema": "rvmt.behavior.semantic.v1",
         "source": source,
         "status": "DERIVED",
         "code_map": code_map_summary,
+        "runtime_process_map": runtime_summary,
+        "marker_scope": scope,
         "parser_warnings": parser_warning_summary(events),
-        "syscall_sequence": recover_syscalls(events, code_map, code_index),
-        "control_flow_segments": recover_control_flow(events, code_map, code_index),
-        "trap_context_transitions": recover_trap_context(events, code_map, code_index),
-        "privilege_boundaries": recover_privilege_boundaries(events, code_map, code_index),
+        "syscall_sequence": recover_syscalls(events, code_map, code_index, runtime_index, scope),
+        "control_flow_segments": recover_control_flow(events, code_map, code_index, runtime_index, scope),
+        "trap_context_transitions": recover_trap_context(events, code_map, code_index, runtime_index, scope),
+        "privilege_boundaries": recover_privilege_boundaries(events, code_map, code_index, runtime_index, scope),
     }
     graph = build_graph(semantic)
     report = "\n".join(
@@ -558,6 +752,8 @@ def recover(
             f"- trap_context_transition: {len(semantic['trap_context_transitions'])}",
             f"- privilege_boundary: {len(semantic['privilege_boundaries'])}",
             f"- code_map: {code_map_source or 'none'}",
+            f"- runtime_process_map: {runtime_process_map_source or 'none'}",
+            f"- marker_scope: {scope.get('status')}",
             f"- UNKNOWN events: {semantic['parser_warnings']['unknown_event_count']}",
             f"- corrupt records: {semantic['parser_warnings']['corrupt_record_count']}",
             f"- basic_behavior_graph: {len(graph['nodes'])} nodes, {len(graph['edges'])} edges",
@@ -569,10 +765,18 @@ def recover(
     return semantic, graph, report
 
 
-def write_outputs(trace_path: Path, out_dir: Path, code_map_path: Path | None = None) -> None:
+def write_outputs(trace_path: Path, out_dir: Path, code_map_path: Path | None = None, runtime_process_map_path: Path | None = None) -> None:
     events = load_trace(trace_path)
     code_map = load_json(code_map_path) if code_map_path is not None else None
-    semantic, graph, report = recover(events, trace_path.as_posix(), code_map, code_map_path.as_posix() if code_map_path is not None else None)
+    runtime_process_map = load_json(runtime_process_map_path) if runtime_process_map_path is not None else None
+    semantic, graph, report = recover(
+        events,
+        trace_path.as_posix(),
+        code_map,
+        code_map_path.as_posix() if code_map_path is not None else None,
+        runtime_process_map,
+        runtime_process_map_path.as_posix() if runtime_process_map_path is not None else None,
+    )
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "semantic_events.json").write_text(json.dumps(semantic, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     (out_dir / "behavior_graph.json").write_text(json.dumps(graph, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -688,6 +892,146 @@ def self_test() -> int:
         if fused.get("return_value") != "0x0000000000000000" or fused.get("confidence") != "paired_fused_target_ecall_return":
             print("[FAIL] self-test missed p0c id+1 return pairing", file=sys.stderr)
             return 1
+        proc_trace = root / "proc_trace.jsonl"
+        proc_out = root / "proc_out"
+        proc_map_path = root / "runtime_process_map.json"
+        proc_trace.write_text(
+            '{"cycle":0,"evt":"MARKER","value":"0xb0000001"}\n'
+            '{"cycle":1,"evt":"TRAP","pc":"0x2000","instr":"0x00000073","priv":"U","cause":"0x0","syscall_id":"0x2","a0":"0x1","a1":"0x3000","a2":"0x11","a7":"0x40"}\n'
+            '{"cycle":2,"evt":"SYSCALL_RET","pc":"0x2000","priv":"S","target":"0x2004","syscall_id":"0x2","duration":1,"a0":"0x11","a7":"0x40"}\n'
+            '{"cycle":3,"evt":"MARKER","value":"0xe0000001"}\n',
+            encoding="utf-8",
+        )
+        proc_map_path.write_text(
+            json.dumps(
+                {
+                    "schema": "rvmt.runtime_process_map.v1",
+                    "status": "PASS",
+                    "sample_id": "self",
+                    "rep": 0,
+                    "pid": 22,
+                    "tgid": 22,
+                    "comm": "self",
+                    "exe": "/usr/bin/self",
+                    "maps": [{"start": "0x0000000000002000", "end": "0x0000000000002100", "perms": "r-xp", "path": "/usr/bin/self"}],
+                    "owners": {
+                        "target_child": {
+                            "role": "target_child",
+                            "pid": 22,
+                            "tgid": 22,
+                            "comm": "self",
+                            "exe": "/usr/bin/self",
+                            "maps": [{"start": "0x0000000000002000", "end": "0x0000000000002100", "perms": "r-xp", "path": "/usr/bin/self"}],
+                        },
+                        "runner_parent": {"role": "runner_parent", "pid": 21, "tgid": 21, "comm": "runner", "exe": "/usr/bin/runner", "maps": []},
+                        "kernel": {"role": "kernel", "pid": 0, "tgid": 0, "comm": "kernel", "exe": "", "maps": []},
+                        "unknown": {"role": "unknown", "pid": -1, "tgid": -1, "comm": "unknown", "exe": "", "maps": []},
+                    },
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        write_outputs(proc_trace, proc_out, code_map_path, proc_map_path)
+        proc_semantic = json.loads((proc_out / "semantic_events.json").read_text(encoding="utf-8"))
+        proc_syscall = proc_semantic["syscall_sequence"][0]
+        if proc_syscall.get("process_owner") != "target_child":
+            print("[FAIL] self-test missed runtime process owner on syscall", file=sys.stderr)
+            return 1
+        if proc_syscall.get("attribution_confidence") != "marker_scoped_runtime_map_code_site":
+            print("[FAIL] self-test missed process-attributed syscall confidence", file=sys.stderr)
+            return 1
+        proc_return = proc_syscall.get("return", {})
+        if proc_return.get("return_site_pc") != "0x0000000000002000":
+            print("[FAIL] self-test missed return-to-syscall-site attribution", file=sys.stderr)
+            return 1
+        if proc_return.get("return_site_process_owner") != "target_child":
+            print("[FAIL] self-test missed return-site process owner", file=sys.stderr)
+            return 1
+        return_only_trace = root / "return_only_trace.jsonl"
+        return_only_out = root / "return_only_out"
+        return_only_trace.write_text(
+            '{"cycle":0,"evt":"MARKER","value":"0xb0000001"}\n'
+            '{"cycle":1,"evt":"SYSCALL_RET","pc":"0xc0001000","priv":"S","target":"0x2004","syscall_id":"0x9","duration":1,"a0":"0xfffffff7","a7":"0x39"}\n'
+            '{"cycle":2,"evt":"MARKER","value":"0xe0000001"}\n',
+            encoding="utf-8",
+        )
+        write_outputs(return_only_trace, return_only_out, code_map_path, proc_map_path)
+        return_only_semantic = json.loads((return_only_out / "semantic_events.json").read_text(encoding="utf-8"))
+        return_only_syscall = return_only_semantic["syscall_sequence"][0]
+        if return_only_syscall.get("confidence") != "return_only_target_syscall_site_register_snapshot":
+            print("[FAIL] self-test missed process-attributed return-only confidence", file=sys.stderr)
+            return 1
+        if (return_only_syscall.get("return") or {}).get("return_site_attribution_confidence") != "marker_scoped_runtime_map_code_site":
+            print("[FAIL] self-test missed process-attributed return-only code site", file=sys.stderr)
+            return 1
+        process_chain_trace = root / "process_chain_trace.jsonl"
+        process_chain_out = root / "process_chain_out"
+        process_chain_map_path = root / "process_chain_code_map.json"
+        process_chain_runtime_path = root / "process_chain_runtime_map.json"
+        process_chain_trace.write_text(
+            '{"cycle":0,"evt":"MARKER","value":"0xb0000001"}\n'
+            '{"cycle":1,"evt":"SYSCALL_ENTRY","pc":"0x3000","instr":"0x00000073","priv":"U","syscall_id":"0xa","a0":"0x11","a1":"0x0","a2":"0x0","a3":"0x0","a4":"0x0","a5":"0x65578","a6":"0x65578","a7":"0x10"}\n'
+            '{"cycle":2,"evt":"SYSCALL_ENTRY","pc":"0x3000","instr":"0x00000073","priv":"U","syscall_id":"0xb","a0":"0x1","a1":"0x123","a2":"0x9d305c8c","a3":"0x4","a4":"0x0","a5":"0x9d305d0c","a6":"0x9d305d0c","a7":"0x9d305c8c"}\n'
+            '{"cycle":3,"evt":"SYSCALL_ENTRY","pc":"0x3000","instr":"0x00000073","priv":"U","syscall_id":"0xc","a0":"0x65904","a1":"0x9d305c8c","a2":"0x9d305ddc","a3":"0x0","a4":"0x65904","a5":"0x10","a6":"0x10","a7":"0xdc"}\n'
+            '{"cycle":4,"evt":"MARKER","value":"0xe0000001"}\n',
+            encoding="utf-8",
+        )
+        process_chain_map_path.write_text(
+            json.dumps(
+                {
+                    "schema": "rvmt.code_map.v1",
+                    "sample_id": "process_chain",
+                    "elf": "build/board/artix7_35t/rootfs_exp_overlay/usr/bin/process_chain",
+                    "load_ranges": [{"start": "0x0000000000003000", "end": "0x0000000000003100"}],
+                    "sections": [{"name": ".text", "start": "0x0000000000003000", "end": "0x0000000000003100"}],
+                    "symbols": [{"name": "syscall", "start": "0x0000000000003000", "end": "0x0000000000003010"}],
+                    "syscall_sites": [{"pc": "0x0000000000003000", "symbol": "syscall"}],
+                    "trap_sites": [],
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        process_chain_runtime_path.write_text(
+            json.dumps(
+                {
+                    "schema": "rvmt.runtime_process_map.v1",
+                    "status": "PASS",
+                    "sample_id": "process_chain",
+                    "owners": {
+                        "target_child": {
+                            "role": "target_child",
+                            "pid": 44,
+                            "tgid": 44,
+                            "comm": "process_chain",
+                            "exe": "/usr/bin/process_chain",
+                            "maps": [{"start": "0x0000000000003000", "end": "0x0000000000003100", "perms": "r-xp", "path": "/usr/bin/process_chain"}],
+                        },
+                        "runner_parent": {"role": "runner_parent", "pid": 43, "tgid": 43, "comm": "runner", "exe": "/usr/bin/runner", "maps": []},
+                        "kernel": {"role": "kernel", "pid": 0, "tgid": 0, "comm": "kernel", "exe": "", "maps": []},
+                        "unknown": {"role": "unknown", "pid": -1, "tgid": -1, "comm": "unknown", "exe": "", "maps": []},
+                    },
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        write_outputs(process_chain_trace, process_chain_out, process_chain_map_path, process_chain_runtime_path)
+        process_chain_semantic = json.loads((process_chain_out / "semantic_events.json").read_text(encoding="utf-8"))
+        process_chain_rows = process_chain_semantic["syscall_sequence"]
+        process_chain_names = [row.get("name") for row in process_chain_rows]
+        if process_chain_names != ["clone", "waitid", "execve"]:
+            print("[FAIL] self-test missed process_chain stale-a7 argument-shape recovery", file=sys.stderr)
+            return 1
+        process_chain_sources = [row.get("number_source") for row in process_chain_rows]
+        if process_chain_sources != [
+            "target_arg_shape_process_chain_clone",
+            "target_arg_shape_process_chain_waitid",
+            "target_arg_shape_process_chain_execve",
+        ]:
+            print("[FAIL] self-test missed process_chain number-source annotations", file=sys.stderr)
+            return 1
     print("[PASS] behavior recovery self-test")
     return 0
 
@@ -697,6 +1041,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--trace", type=Path)
     parser.add_argument("--out-dir", type=Path)
     parser.add_argument("--code-map", type=Path)
+    parser.add_argument("--runtime-process-map", type=Path)
     parser.add_argument("--self-test", action="store_true")
     args = parser.parse_args(argv)
 
@@ -705,7 +1050,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.trace is None or args.out_dir is None:
         parser.error("--trace and --out-dir are required unless --self-test is used")
     try:
-        write_outputs(args.trace, args.out_dir, args.code_map)
+        write_outputs(args.trace, args.out_dir, args.code_map, args.runtime_process_map)
     except Exception as exc:
         print(f"recover_behavior: error: {exc}", file=sys.stderr)
         return 2

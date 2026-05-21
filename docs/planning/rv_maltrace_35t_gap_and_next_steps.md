@@ -1,797 +1,291 @@
 # RV-MalTrace 35T 当前差距分析与下一步计划
 
-生成日期：2026-05-20
-建议仓库路径：`docs/planning/35t_trace_code_malware_gap_analysis.md`
+生成日期：2026-05-21
 适用范围：Artix-7 35T / LiteX / VexRiscv 原型链路
 
 ---
 
-## 0. 一句话结论
+## 0. 当前结论
 
-当前项目已经完成 **35T 板级硬件 trace acquisition 原型**，并且 p0c 512 profile 可以在低 DROP 条件下完成上板采集；但它还没有形成可靠的：
+35T/VexRiscv 当前阶段的主要 blocker 已从：
 
 ```text
-硬件 trace
-  + 本地代码分析
-  + malware-like / malware 行为分析
+full matrix 不能通过
+process_chain 容量不足
+stage2 / process attribution 仍需推进
 ```
 
-闭环。
-
-核心短板不是“板子没跑起来”，而是：
+更新为：
 
 ```text
-缺进程/地址空间归因
-缺 PC -> ELF/symbol/source 的代码映射
-缺 trace evidence 与 code evidence 的融合
-缺稳定的 per-rep semantic/audit gate
-缺可支撑 malware analysis 的行为链与置信度模型
+35T-only optimized small-capacity full synthetic matrix 已通过。
+下一步重点是结果固化、边界表述、回归保护和后续工程优化。
 ```
 
-因此当前可以写：
+最新主证据：
 
 ```text
-35T/VexRiscv synthetic behavior tracing prototype is working.
-p0c 512 is the current low-drop capacity candidate.
+run_id: 35t-smallcap-r512-full-synthetic-matrix-20260521
+trace_records: 512
+trace_profile_policy: 35t_small_capacity
+samples: 13
+gate: 13/13 PASS
+triage: full_matrix_ready = True
+blocked_reasons: none
 ```
 
-当前不能写：
+当前仍然不是：
 
 ```text
-CVA6 board validation is complete.
-Real malware detection has been validated.
-Hardware trace + local code analysis malware analyzer is complete.
-Syscall semantic recovery is mature.
+真实恶意样本检测结果
+CVA6 board validation
+mature malware detector
+完整 semantic reconstruction
 ```
 
 ---
 
-## 1. 当前证据边界
+## 1. 证据边界
 
-### 1.1 已经成立的证据
+### 1.1 已成立证据
 
 | 项目 | 当前状态 | 说明 |
 |---|---|---|
-| 35T 板卡连接 | 已成立 | 板载 CH340，用户口误 `CMOS5` 已按本机枚举为 `COM5` 使用。 |
-| 35T Linux / LiteX / VexRiscv 上板 | 已成立 | 已完成 Linux boot、实验 runner、trace dump、aggregate report。 |
-| trace profile / mask | 已实现 | `p0`、`p0a`、`p0b`、`p0c` 等 profile 已进入 runner 和 `run_config.json`。 |
-| p0c 512 上板容量 | 当前最佳 | DROP 约 1.9–2.5%，无 cap hit；但仍不是 semantic-detector 候选。 |
-| ABBA runtime methodology | 已成立 | p0c 512 ABBA reps=10，trace ratio 约 1.006–1.012。 |
-| resource/timing 报告 | 已有 | baseline、p0 256、p0 512、p0 1024 failure 均已记录。 |
-| strict gate | 已有雏形 | `check_35t_next_gate.py` 能输出 sample status、DROP、event set、alignment、audit summary。 |
+| 35T Linux / LiteX / VexRiscv 上板 | 已成立 | 已完成 board capture、analysis、report、gate、triage。 |
+| trace profile / mask | 已成立 | `p0a_syscall_drop`、`p0c_syscall_trap_drop` 等 profile 可通过 runner 控制。 |
+| marker-scoped gate | 已成立当前阶段 | 最新 full matrix 每个 trace-on rep marker 均 PASS。 |
+| runtime process attribution | 已成立当前阶段 | 最新 full matrix 每个 trace-on rep runtime process map 均 PASS。 |
+| strong/weak evidence gate | 已成立当前阶段 | strong evidence 按 stable matched expected 判定；weak evidence 仅报告。 |
+| full synthetic matrix | 已通过 | 13/13 PASS，`full_matrix_ready: True`。 |
+| process_chain | 已通过 | 小容量策略下 no cap hit、DROP 0、strong expected matched。 |
+| benign overlap | 已处理 | `ls` 目录遍历触发 `many_file_scan` 作为 benign expected overlap，不算 unexpected strong。 |
 
-### 1.2 尚未成立的证据
+### 1.2 未成立证据
 
-| 项目 | 当前状态 | 风险 |
+| 项目 | 当前状态 | 说明 |
 |---|---|---|
-| CVA6 board claim | 未成立 | 当前证据只来自 35T / LiteX / VexRiscv。 |
-| real malware claim | 未成立 | 当前样本是 synthetic malware-like，不是真实恶意样本。 |
-| mature detector claim | 未成立 | 语义恢复与规则稳定性不足。 |
-| full matrix promotion | 被阻断 | microbench semantic/audit gate 尚未通过。 |
-| case-study promotion | 被阻断 | `prototype_only` 下 case-study 生成器拒绝推广是正确行为。 |
+| CVA6 board claim | 未成立 | 当前范围限定为 35T/VexRiscv-only。 |
+| real malware claim | 未成立 | 当前没有运行真实恶意样本。 |
+| mature detector claim | 未成立 | 当前是 controlled synthetic behavior audit prototype。 |
+| 大容量 trace ring 结论 | 非当前 blocker | 1024/BRAM 可继续优化，但不是当前 35T 小容量验收条件。 |
+| malware family/IOC/TTP 输出 | 未建立 | 不应从 synthetic matrix 推导真实恶意软件分析能力。 |
 
 ---
 
-## 2. 目标拆解：当前离“硬件 trace + 本地代码分析 + malware 分析”差在哪
+## 2. 为什么不继续把“大容量”当 blocker
 
-目标可以拆成三层：
+之前 p0c/r512 full matrix 的失败主要来自：
 
 ```text
-Layer A: Hardware Trace
-Layer B: Local Code Analysis
-Layer C: Malware Behavior Analysis
+process_chain + 全局 p0c_syscall_trap_drop
+  -> 大量 kernel_or_loader_trap
+  -> 512-record trace ring 被填满
+  -> cap hit / DROP 高 / marker 和 runtime attribution gate 失败
 ```
 
-### 2.1 Layer A：硬件 trace
+这个失败说明：
 
-| 子目标 | 当前状态 | 缺口 |
-|---|---|---|
-| 非侵入式 trace capture | 基本成立 | 35T trace ring 可采集 syscall/trap/context/drop。 |
-| 低 DROP profile | 部分成立 | p0c 512 低 DROP；p0 256/512 DROP 高，p0 1024 放置失败。 |
-| process-scoped trace | 未成立 | 当前是 CPU-wide 时间窗采集，不是目标进程采集。 |
-| context-rich trace | 未成立 | p0 context 流量过大；p0c 去掉 context 后语义归因变弱。 |
-| 可扩展 ring capacity | 未成立 | 512 已 LUT 翻倍，1024 因 LUT-as-memory / RAMD64E over-utilization 失败。 |
+```text
+对所有样本使用同一个较重 profile 不适合 35T 小容量 full matrix。
+```
 
-### 2.2 Layer B：本地代码分析
+它不说明：
 
-| 子目标 | 当前状态 | 缺口 |
-|---|---|---|
-| trace disassembly annotation | 有雏形 | `annotate_trace_disasm.py` 可把 trace PC 与 objdump join。 |
-| PC -> ELF 映射 | 未建立 | 不能判断 PC 属于 sample、runner、libc、kernel 还是其他用户态进程。 |
-| PC -> symbol/function 映射 | 未建立 | 不能把 syscall/trap 归因到具体函数或 callsite。 |
-| syscall site / trap site 识别 | 未建立 | `illegal_trap` 等规则不能证明 trap 来自目标样本代码。 |
-| code evidence 进入 audit | 未建立 | 当前规则主要看 syscall/trap shape，不看代码证据。 |
+```text
+35T 必须扩大 trace ring 才能证明方法 work。
+```
 
-### 2.3 Layer C：malware 行为分析
+当前通过的优化是 per-sample minimal profile：
 
-| 子目标 | 当前状态 | 缺口 |
-|---|---|---|
-| synthetic behavior audit | 有雏形 | 已有 file scan、batch read/write、self copy、anti-debug 等规则。 |
-| 行为链恢复 | 不稳定 | fd flow、path、exec chain、process tree、mmap/mprotect 语义不足。 |
-| malware family / IOC 分析 | 未建立 | 目前不是 malware family classifier，也不能输出 IOC。 |
-| 置信度模型 | 未建立 | 不能区分 strong evidence、weak evidence、noise、blocked by DROP。 |
-| real malware workflow | 未建立 | 尚无隔离、法律/伦理、样本 provenance、containment、artifact gate。 |
+| 样本 | Profile | Control mask | 解释 |
+|---|---|---:|---|
+| `illegal_trap` | `p0c_syscall_trap_drop` | `0x42c` | 需要 TRAP 作为 illegal instruction strong evidence。 |
+| 其他 12 个样本 | `p0a_syscall_drop` | `0x424` | 只需要 syscall entry/return、DROP、MARKER；TRAP 噪声不是必要证据。 |
+
+这个策略更贴合 35T 低配置论证：
+
+```text
+在固定 512-record 预算内，用最小必要 trace 事件完成 synthetic matrix。
+```
 
 ---
 
-## 3. 当前主要缺陷
+## 3. 最新 full matrix 结果
 
-## 3.1 缺陷一：trace 没有绑定目标进程
-
-当前 `rvmt_exp_runner` 的执行窗口是：
+报告路径：
 
 ```text
-trace_set_mode(on)
-  fork()
-  child: chdir / setenv / execl(sample)
-  parent: waitpid(child)
-trace dump
-trace_set_mode(off)
+results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggregate/gate_report.md
+results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggregate/semantic_failure_triage.md
 ```
 
-这意味着 trace 不是“样本进程 trace”，而是“CPU-wide 时间窗 trace”。
+### 3.1 样本结论
 
-因此 trace 中可能混入：
+| 样本 | Profile | Gate |
+|---|---|---|
+| `hello` | `p0a_syscall_drop` | PASS |
+| `ls` | `p0a_syscall_drop` | PASS |
+| `cat` | `p0a_syscall_drop` | PASS |
+| `cp` | `p0a_syscall_drop` | PASS |
+| `sha256sum` | `p0a_syscall_drop` | PASS |
+| `file_scan` | `p0a_syscall_drop` | PASS |
+| `batch_open_read_write` | `p0a_syscall_drop` | PASS |
+| `self_copy_sim` | `p0a_syscall_drop` | PASS |
+| `abnormal_syscall_sequence` | `p0a_syscall_drop` | PASS |
+| `illegal_trap` | `p0c_syscall_trap_drop` | PASS |
+| `process_chain` | `p0a_syscall_drop` | PASS |
+| `dynamic_executable_memory` | `p0a_syscall_drop` | PASS |
+| `anti_debug_like` | `p0a_syscall_drop` | PASS |
 
-```text
-runner 自身事件
-fork / exec / waitpid 路径
-shell / console / UART 相关事件
-kernel trap / scheduler / privilege transition
-非目标用户态代码
-```
+### 3.2 Gate 条件
 
-直接后果：
-
-| 现象 | 解释 |
+| 条件 | 结果 |
 |---|---|
-| `hello` 误报 `illegal_instruction_trap` | 系统窗口中出现的 trap 被错误归因到 benign 样本。 |
-| `illegal_trap` 漏报自身 expected rule | trap/write 没有被稳定归因到同一目标样本执行窗口。 |
-| alignment recall / LCS 低 | QEMU strace 是单进程视角；board trace 是系统时间窗视角。 |
-| audit false positive / false negative | 规则没有进程边界，容易把噪声当证据。 |
+| marker PASS every trace-on rep | PASS |
+| runtime_process_map PASS every trace-on rep | PASS |
+| UNKNOWN/corrupt == 0 | PASS |
+| median DROP <= 5% | PASS |
+| no cap hit | PASS |
+| strong evidence matched | PASS |
+| weak evidence 不计 strong | 保持 |
 
-这是当前最高优先级问题。
+### 3.3 process_chain 容量结果
 
----
-
-## 3.2 缺陷二：PC 不知道属于谁
-
-当前 semantic recovery 能看到：
-
-```json
-{
-  "evt": "SYSCALL_ENTRY",
-  "pc": "0x...",
-  "a7": "0x..."
-}
-```
-
-但不知道：
+报告路径：
 
 ```text
-这个 PC 属于目标样本 ELF 吗？
-属于 runner 吗？
-属于 libc/static binary 吗？
-属于 kernel/S-mode 吗？
-属于哪个 function？
-是不是一个 syscall callsite？
-是不是 illegal instruction site？
+results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggregate/process_chain_capacity_debug.md
 ```
 
-没有这些信息，本地代码分析无法进入规则判定。
+结果摘要：
 
-### 应增加的字段
+```text
+rep_00..rep_04: 154 events each
+DROP: 0
+DROP rate: 0.000000
+cap: False
+TRAP: 0
+strong: True
+```
 
-```json
-{
-  "pc_owner": "target_sample | runner | libc | kernel | unknown",
-  "elf": "...",
-  "section": ".text",
-  "symbol": "handle_sigill",
-  "symbol_offset": "0x14",
-  "source_file": "illegal_trap.c",
-  "source_line": 17,
-  "callsite_kind": "syscall_site | trap_site | normal_code | unknown",
-  "code_confidence": "pc_in_target_elf"
-}
+结论：
+
+```text
+process_chain 不再阻断 35T-only full synthetic matrix。
 ```
 
 ---
 
-## 3.3 缺陷三：p0c 解决容量，但牺牲上下文
+## 4. 当前代码与工具状态
 
-p0c 512 的好处：
-
-```text
-DROP 低
-无 cap hit
-适合 syscall/trap/drop low-bandwidth microbench
-```
-
-但 p0c 禁用了 context，代价是：
-
-```text
-缺少 CSR / SATP / PRIV 事件
-缺地址空间线索
-缺 user/kernel 转换细节
-缺进程归因辅助信息
-复杂行为链难恢复
-```
-
-所以 p0c 应定位为：
-
-```text
-current capacity candidate
-```
-
-不能定位为：
-
-```text
-semantic detector candidate
-```
+| 文件 | 当前作用 |
+|---|---|
+| `tools/experiment_35t.py` | 支持 `--trace-profile-policy 35t_small_capacity`，board 阶段按 profile 拆 runner 命令。 |
+| `tools/check_35t_next_gate.py` | 支持 per-sample profile allowed events、marker/runtime gate、benign expected overlap。 |
+| `tools/triage_35t_semantic_failures.py` | 支持 full matrix readiness 判定，输出 `optimized_35t_small_capacity_matrix_ready`。 |
+| `tools/debug_process_chain_capacity.py` | 用于确认 process_chain cap/DROP/TRAP 结构。 |
+| `src/rv_maltrace/trace_profiles.py` | 定义 `p0a_syscall_drop`、`p0c_syscall_trap_drop` 等 profile。 |
 
 ---
 
-## 3.4 缺陷四：trace ring 资源形态不合理
+## 5. 下一步计划
 
-资源报告显示：
+### 5.1 P0：固化当前证据
 
-```text
-baseline LiteX/VexRiscv: 7181 LUT, 6758 FF, 27 BRAM18
-p0 trace 512:          14663 LUT, 8175 FF, 27 BRAM18
-p0 trace 1024:         LUT-as-memory / RAMD64E over-utilization
-```
-
-关键异常：
+目标：
 
 ```text
-512 depth trace 增加 +7482 LUT，但 BRAM18 增量是 0。
+把 35T-only small-capacity full synthetic matrix 作为当前主线结果固定下来。
 ```
 
-这说明 trace ring 很可能主要落在 distributed RAM / LUT RAM，而不是 BRAM。
-
-当前 `RVMTTraceRing` 使用：
-
-```python
-mem = Memory(32, depth * entry_words, name="rvmt_trace_mem")
-read_port = mem.get_port(async_read=True)
-```
-
-异步读口通常不利于推断 block RAM。下一步应该把 ring 改成 synchronous BRAM-backed ring。
-
----
-
-## 3.5 缺陷五：decoder 会隐藏坏包
-
-当前 raw record decoder 中未知 event code 被处理成 `DROP` 的风险很高：
-
-```python
-evt = event_names.get(header & 0xf, "DROP")
-```
-
-这会把以下问题掩盖成正常 DROP：
+需要做：
 
 ```text
-UART corruption
-header corruption
-packet layout mismatch
-parser bug
-未定义 event code
+1. 在报告中引用 run_id: 35t-smallcap-r512-full-synthetic-matrix-20260521。
+2. 附 gate_report、semantic_failure_triage、process_chain_capacity_debug。
+3. 明确写 trace_records=512，没有扩大容量。
+4. 明确写 profile policy 是 small-capacity optimization，不是 full p0c everywhere。
 ```
 
-正确做法是输出：
+### 5.2 P1：回归保护
 
-```json
-{
-  "evt": "UNKNOWN",
-  "evt_code": 15,
-  "raw_header": "0x...",
-  "raw_words": [...],
-  "parser_warning": "unknown_event_code"
-}
-```
-
-然后 gate 中直接 fail：
+目标：
 
 ```text
-UNKNOWN event count must be 0.
+防止后续修改破坏 marker/runtime attribution/gate 规则。
 ```
 
----
-
-## 3.6 缺陷六：audit rules 还是启发式 shape，不是 malware analysis
-
-当前规则能表达：
-
-```text
-是否出现了某些 syscall/trap pattern
-是否大致符合 synthetic behavior
-```
-
-但不能稳定表达：
-
-```text
-该行为是否来自目标样本代码
-是否来自同一进程/地址空间
-是否构成完整行为链
-证据置信度是多少
-是否属于 malware family / IOC / TTP
-```
-
-例如当前 `illegal_instruction_trap` 规则如果只要求：
-
-```text
-有 write
-有 illegal instruction trap
-```
-
-就会误报 benign。它应该要求：
-
-```text
-trap cause == 0x2
-trap PC 属于目标样本 ELF
-trap PC 对应 illegal instruction site
-trap privilege / context 表明是用户态异常
-handler write 属于同一目标进程执行窗口
-```
-
----
-
-## 4. 下一步路线
-
-## 4.1 总体策略
-
-不要立即跑 full matrix。下一步应先修归因和语义，再上板小矩阵验证。
-
-推荐路线：
-
-```text
-P1: 离线失败归因报告
-P2: decoder UNKNOWN/raw packet 修复
-P3: target-scoped trace 最小闭环
-P4: code map / 本地代码分析层
-P5: trace evidence + code evidence 融合 audit
-P6: per-rep stability gate
-P7: BRAM-backed trace ring
-P8: 小矩阵上板复验
-P9: 达标后再 full matrix
-```
-
----
-
-## 4.2 P1：新增 semantic failure triage
-
-### 目标
-
-复用当前 p0c 512 ABBA artifacts，不上板，先把失败拆清楚。
-
-### 新增工具
-
-```text
-tools/triage_35t_semantic_failures.py
-```
-
-### 输入
-
-```text
-results/experiments/35t/35t-p0c-abba-r512-20260520-com5/
-```
-
-### 输出
-
-```text
-aggregate/semantic_failure_triage.json
-aggregate/semantic_failure_triage.md
-```
-
-### 报告字段
-
-```json
-{
-  "sample": "hello",
-  "observed_failure": "unexpected illegal_instruction_trap",
-  "failure_class": "trap_rule_false_positive_or_missing_target_attribution",
-  "suspected_root_cause": "CPU-wide trace window",
-  "required_fix": "target/process/code attribution"
-}
-```
-
-### 必须覆盖的样本
-
-| 样本 | 当前问题 | 归因方向 |
-|---|---|---|
-| `hello` | unexpected `illegal_instruction_trap` | trap rule 误报 / 目标归因缺失 |
-| `batch_open_read_write` | missing `batch_file_read_write` | syscall sequence / fd flow / target filter 问题 |
-| `illegal_trap` | missing `illegal_instruction_trap` | trap PC/cause/handler write 归因失败 |
-| `anti_debug_like` | 当前较好 | 保持为 positive regression |
-
-### 验收命令
+建议保留或新增检查：
 
 ```powershell
-uv run python tools/triage_35t_semantic_failures.py --run-id 35t-p0c-abba-r512-20260520-com5
-uv run python tools/check_35t_next_gate.py --run-id 35t-p0c-abba-r512-20260520-com5 --reps 10 --sample hello --sample batch_open_read_write --sample illegal_trap --sample anti_debug_like
+uv run python tools/experiment_35t.py --stage self-test
+uv run python tools/check_35t_next_gate.py --self-test
+uv run python tools/triage_35t_semantic_failures.py --self-test
+uv run python -m compileall tools src\rv_maltrace
 ```
+
+### 5.3 P2：资源工程优化，不作为当前 blocker
+
+BRAM-backed trace ring 仍有价值，但定位应调整为：
+
+```text
+engineering/resource-efficiency improvement
+```
+
+而不是：
+
+```text
+35T full synthetic matrix blocker
+```
+
+建议继续做：
+
+```text
+1. 同步 BRAM-backed trace ring。
+2. 重新生成 512/1024 resource report。
+3. 如果 1024 place 通过，只作为扩展容量证据，不覆盖 small-capacity result。
+```
+
+### 5.4 P3：提高解释质量
+
+当前 matrix 已通过，但还可以增强：
+
+```text
+1. fd/path flow recovery。
+2. process tree / parent-child evidence explanation。
+3. source-line attribution。
+4. 更清晰地区分 strong evidence、weak shape、benign expected overlap。
+```
+
+这些改进服务于解释和论文质量，不应改变当前 35T-only synthetic matrix 的通过结论。
 
 ---
 
-## 4.3 P2：修 decoder，不再隐藏坏包
+## 6. 推荐写入论文/报告的当前表述
 
-### 修改点
-
-```text
-src/rv_maltrace/cli.py
-tools/experiment_35t.py
-```
-
-### 必做修改
-
-1. 未知 event code 输出 `UNKNOWN`，不要默认 `DROP`。
-2. 每条 decoded event 保留 raw record 信息。
-3. parser warning 单独落盘。
-4. gate 对 `UNKNOWN` / corrupt packet / forbidden event 直接 FAIL。
-
-### 建议 event schema
-
-```json
-{
-  "record_index": 12,
-  "evt": "UNKNOWN",
-  "evt_code": 15,
-  "raw_header": "0x0000000f",
-  "raw_words": ["0x..."],
-  "parser_warnings": ["unknown_event_code"]
-}
-```
-
-### 验收标准
-
-| 检查项 | PASS 条件 |
-|---|---|
-| self-test | `tools/experiment_35t.py --stage self-test` 通过。 |
-| gate self-test | `tools/check_35t_next_gate.py --self-test` 通过。 |
-| UNKNOWN visibility | 离线重解析旧 run 后，UNKNOWN 不被 DROP 吞掉。 |
-| gate behavior | UNKNOWN count > 0 时 run 标为 FAIL。 |
-
----
-
-## 4.4 P3：target-scoped trace 最小闭环
-
-### 短期方案：MARKER + PC range
-
-在硬件或 CSR 层支持 `MARKER` 事件，runner 在样本执行边界写 marker：
+### 6.1 可以写
 
 ```text
-MARKER sample_begin <sample_id>
-MARKER sample_end <sample_id>
+We validated the current RV-MalTrace prototype on an Artix-7 35T LiteX/VexRiscv
+board using controlled benign and synthetic malware-like workloads.
+
+Instead of increasing trace capacity, we use a small-capacity profile policy that
+emits only the events needed by each sample. Under a 512-record trace budget, the
+13-sample synthetic matrix passes marker scope, runtime process attribution,
+UNKNOWN/corrupt, DROP, capacity, and strong-evidence gates.
 ```
 
-semantic recovery 只分析 marker 范围内事件。
-
-同时生成目标样本 ELF load range：
-
-```json
-{
-  "sample_id": "illegal_trap",
-  "elf": "build/illegal_trap.riscv",
-  "text_ranges": [
-    {"start": "0x00010000", "end": "0x00018000"}
-  ]
-}
-```
-
-只把 `pc` 落入目标 ELF range 的 U-mode syscall/trap 作为 strong evidence。
-
-### 长期方案：PID / TGID / SATP / context attribution
-
-后续需要记录：
-
-```json
-{
-  "pid": 123,
-  "tgid": 123,
-  "comm": "illegal_trap",
-  "satp": "0x...",
-  "asid": "...",
-  "target_process": true
-}
-```
-
-可选实现路径：
-
-| 路径 | 说明 | 适合阶段 |
-|---|---|---|
-| kernel helper / eBPF companion | 记录 pid/tgid/comm、context switch、syscall pointer string | 近期可行 |
-| hardware context trace | 捕获 SATP/priv/context 并离线 join | 长期论文路线 |
-
----
-
-## 4.5 P4：建立本地代码分析层
-
-### 新增工具
+### 6.2 不应该写
 
 ```text
-tools/build_code_map.py
-tools/join_trace_code_map.py
+RV-MalTrace detects real malware.
+The detector is mature.
+The result validates CVA6.
+The current synthetic matrix measures real malware detection accuracy.
+The full matrix passed because trace capacity was increased.
 ```
 
-### stage_groundtruth 应生成
-
-```text
-build/<sample>.riscv
-build/<sample>.riscv.dump
-build/<sample>.symbols.json
-build/<sample>.sections.json
-build/<sample>.syscall_sites.json
-build/<sample>.trap_sites.json
-build/<sample>.code_map.json
-```
-
-### 建议编译参数
-
-```bash
-riscv64-linux-gnu-gcc -O2 -static -fno-pie -no-pie -o <sample>.riscv <source>.c
-```
-
-如果 `-no-pie` 不兼容，则记录失败并改用 ELF program header / load map 校正 PC。
-
-### `code_map.json` 最小 schema
-
-```json
-{
-  "schema": "rvmt.code_map.v1",
-  "sample_id": "illegal_trap",
-  "elf": "results/.../build/illegal_trap.riscv",
-  "sha256": "...",
-  "load_ranges": [
-    {"start": "0x...", "end": "0x...", "segment": "text"}
-  ],
-  "symbols": [
-    {"name": "handle_sigill", "start": "0x...", "end": "0x..."}
-  ],
-  "syscall_sites": [
-    {"pc": "0x...", "symbol": "handle_sigill", "asm": "ecall"}
-  ],
-  "trap_sites": [
-    {"pc": "0x...", "symbol": "main", "kind": "illegal_instruction", "asm": ".word 0xffffffff"}
-  ]
-}
-```
-
-### join 后 semantic event 应包含
-
-```json
-{
-  "evt": "TRAP",
-  "pc": "0x...",
-  "pc_owner": "target_sample",
-  "symbol": "main",
-  "callsite_kind": "illegal_instruction_site",
-  "code_confidence": "pc_in_target_elf"
-}
-```
-
----
-
-## 4.6 P5：重写 audit rules，让规则同时依赖 trace evidence 和 code evidence
-
-### `illegal_instruction_trap`
-
-当前过宽。应改为 strong / weak 两级。
-
-#### strong match
-
-```text
-trap cause == 0x2
-AND trap PC owner == target_sample
-AND trap PC site == illegal_instruction_site
-AND trap privilege/context shows user-mode exception
-AND handler write is in same target execution window
-```
-
-#### weak evidence
-
-```text
-trap cause == 0x2
-AND write exists
-BUT no target PC / no code map / no same-process evidence
-```
-
-weak evidence 只能写入报告，不能算 matched expected behavior。
-
----
-
-### `batch_file_read_write`
-
-不要只看 syscall count。应加入 fd-flow：
-
-```text
-openat(input_i) -> fd_i
-read(fd_i) -> buffer
-close(fd_i)
-openat(output) -> fd_o
-write(fd_o)
-close(fd_o)
-```
-
-没有 pointer/path semantics 时，只能标为：
-
-```text
-batch_file_read_write_shape
-```
-
-不能标为完整 `batch_file_read_write`。
-
----
-
-### `anti_analysis_indicator`
-
-当前要求 `ptrace` 是合理的。继续保持 `clock_gettime` alone 不算 anti-analysis。
-
-建议增加：
-
-```text
-ptrace syscall must belong to target sample
-return value / failure semantics should be recorded
-```
-
----
-
-## 4.7 P6：gate 改成 per-rep stability
-
-当前 aggregate/gate 容易被跨 rep union 掩盖不稳定性。下一步必须输出 per-rep 矩阵。
-
-### 新增字段
-
-```json
-{
-  "per_rep_rule_matrix": {
-    "rep_00": {"illegal_instruction_trap": false},
-    "rep_01": {"illegal_instruction_trap": true}
-  },
-  "rule_stability": {
-    "illegal_instruction_trap": {
-      "matched_reps": 8,
-      "total_reps": 10,
-      "stability": 0.8
-    }
-  }
-}
-```
-
-### 建议晋级标准
-
-| 指标 | 晋级门槛 |
-|---|---:|
-| benign unexpected matched | 0 / rep |
-| malware expected matched | ≥ 80% reps |
-| `hello` ordered_lcs_ratio | ≥ 0.5 |
-| `illegal_trap` expected matched | ≥ 80% reps |
-| p0c median DROP | ≤ 5% |
-| UNKNOWN / corrupt event | 0 |
-| forbidden event | 0 |
-
----
-
-## 4.8 P7：把 35T trace ring 改成 BRAM-backed
-
-### 修改目标
-
-```text
-fpga/artix7_35t/litex/rvmt_trace.py
-```
-
-当前 ring 很可能因为 async read 被推成 LUT RAM。建议改为同步读，并增加 RAM style hint。
-
-### 方向示例
-
-```python
-mem = Memory(32, depth * entry_words, name="rvmt_trace_mem")
-mem.attr.add("ram_style", "block")
-read_port = mem.get_port(async_read=False)
-```
-
-CSR dump 端需要适配一拍读延迟：
-
-```text
-write read_index
-wait / dummy read
-read stable read_word
-```
-
-### 验收目标
-
-| 配置 | PASS 条件 |
-|---|---|
-| p0 trace 512 | LUT delta 明显下降，BRAM delta 上升。 |
-| p0 trace 1024 | Vivado place 至少能通过，或记录新的非 LUT-memory blocker。 |
-| timing | WNS ≥ 0 at 50 MHz。 |
-| board dump | trace dump 与旧 parser 兼容或提供迁移说明。 |
-
----
-
-## 4.9 P8：小矩阵上板复验
-
-不要直接 full matrix。先复验 4 个样本：
-
-```text
-hello
-batch_open_read_write
-illegal_trap
-anti_debug_like
-```
-
-### p0c 512 semantic-fix run
-
-```powershell
-uv run rvmt exp:35t --stage all --run-id 35t-p0c-r512-semantic-fix-<date> --port COM5 --baud 921600 --reps 5 --trace-records 512 --trace-profile p0c_syscall_trap_drop --sample hello --sample batch_open_read_write --sample illegal_trap --sample anti_debug_like
-uv run python tools/check_35t_experiment_bundle.py --run-id 35t-p0c-r512-semantic-fix-<date> --reps 5
-uv run python tools/check_35t_next_gate.py --run-id 35t-p0c-r512-semantic-fix-<date> --reps 5 --sample hello --sample batch_open_read_write --sample illegal_trap --sample anti_debug_like
-```
-
-### 晋级要求
-
-```text
-hello unexpected rules == 0
-illegal_trap expected matched >= 80% reps
-batch_open_read_write at least weak shape matched
-anti_debug_like remains matched
-median DROP <= 5%
-UNKNOWN/corrupt events == 0
-```
-
----
-
-## 4.10 P9：full matrix 的触发条件
-
-只有满足以下条件才允许跑 full matrix：
-
-| 条件 | 要求 |
-|---|---|
-| microbench bundle | 4/4 samples complete。 |
-| DROP | p0c 512 median DROP ≤ 5%，或 p0 1024 context profile 达标。 |
-| false positive | `hello`、`cat`、`cp`、`sha256sum` 不出现 unexpected malware-like rules。 |
-| expected behavior | 关键 malware-like samples expected matched ≥ 80% reps。 |
-| code attribution | 至少 `illegal_trap`、`anti_debug_like`、`batch_open_read_write` 有 target code evidence。 |
-| gate claim | 不再是 `prototype_only`，至少达到 `microbench_ready`。 |
-
-full matrix 命令：
-
-```powershell
-uv run rvmt exp:35t --stage all --run-id 35t-full-semantic-<date> --port COM5 --baud 921600 --reps 5 --trace-records 512 --trace-profile p0c_syscall_trap_drop
-uv run python tools/check_35t_experiment_bundle.py --run-id 35t-full-semantic-<date> --reps 5
-uv run python tools/check_35t_next_gate.py --run-id 35t-full-semantic-<date> --reps 5
-```
-
-如果 BRAM ring 后 p0 1024 通过，应优先选择 p0 1024：
-
-```powershell
-uv run rvmt exp:35t --stage all --run-id 35t-full-p0-r1024-<date> --port COM5 --baud 921600 --reps 5 --trace-records 1024 --trace-profile p0_syscall_trap_context
-```
-
----
-
-## 5. 建议写入论文/报告的当前表述
-
-### 5.1 可以写
-
-```text
-We implemented and validated a low-cost Artix-7 35T / LiteX / VexRiscv prototype path.
-The 35T route can collect syscall/trap/drop traces on board.
-The p0c profile at 512 records is the current low-drop capacity candidate.
-The current bottleneck is target attribution and semantic reconstruction, not board bring-up.
-```
-
-### 5.2 不应该写
-
-```text
-The system detects real malware.
-The semantic recovery is mature.
-The 35T profile validates CVA6 behavior.
-The p0c result proves full behavior reconstruction.
-The current audit accuracy reflects real malware detection accuracy.
-```
-
-### 5.3 推荐术语
+### 6.3 推荐术语
 
 | 不推荐 | 推荐 |
 |---|---|
@@ -799,110 +293,36 @@ The current audit accuracy reflects real malware detection accuracy.
 | real malware accuracy | controlled synthetic behavior-rule result |
 | CVA6 board result | 35T/LiteX/VexRiscv board result |
 | complete semantic reconstruction | preliminary trace-derived semantic recovery |
-| hardware trace is enough | hardware trace requires target/code attribution |
+| capacity fix | small-capacity trace profile optimization |
 
 ---
 
-## 6. 最短执行清单
+## 7. 当前完成状态
 
-### 立即做
-
-```text
-1. 写 semantic_failure_triage 工具。
-2. 修 decoder UNKNOWN/raw_words/parser_warnings。
-3. 生成 target ELF code_map。
-4. recover_behavior 加 pc_owner / symbol / callsite_kind。
-5. illegal_instruction_trap 规则收紧。
-6. gate 加 per-rep stability。
-7. p0c 512 四样本上板复验。
-```
-
-### 并行做
-
-```text
-1. trace ring 改同步 BRAM。
-2. 重新生成 512/1024 resource report。
-3. 如果 1024 place 通过，再跑 p0 1024 microbench。
-```
-
-### 暂时不要做
-
-```text
-1. 不要直接跑 full matrix。
-2. 不要生成 case study promotion。
-3. 不要加入真实恶意样本。
-4. 不要写 detector claim。
-5. 不要把 p0c 512 说成 complete semantic profile。
-```
-
----
-
-## 7. 预期完成后的能力边界
-
-完成上述 P1–P8 后，合理目标是：
-
-```text
-在 35T/VexRiscv 上，证明硬件 trace 可以结合本地 ELF/code map，
-对少量 synthetic malware-like 行为给出可归因、可复验、低 DROP 的行为证据。
-```
-
-这会把当前状态从：
-
-```text
-hardware trace acquisition prototype
-```
-
-推进到：
-
-```text
-hardware trace + local code attribution + synthetic behavior audit prototype
-```
-
-但仍然不是：
-
-```text
-real malware analysis system
-```
-
-要进入 real malware analysis，还需要额外增加：
-
-```text
-隔离环境
-样本 provenance
-法律/伦理流程
-恶意样本执行策略
-IOC extraction
-family/TTP mapping
-baseline comparison
-artifact release policy
-```
+| 工作项 | 状态 |
+|---|---|
+| Stage2 四样本 | 完成 |
+| process_chain 单独风险验证 | 完成 |
+| full matrix 用户确认后执行 | 完成 |
+| 35T small-capacity optimized full matrix | 完成 |
+| 文档更新 | 完成本文档后成立 |
+| CVA6 验证 | 不在当前范围 |
+| real malware workflow | 不在当前范围 |
 
 ---
 
 ## 8. 参考依据
 
-本分析基于以下仓库文档、代码和 agent 执行记录整理：
-
 ```text
-README.md
-docs/planning/next-plan.md
-docs/research/evaluation_plan.md
-docs/planning/35t_next_strict_plan.md
-docs/reports/35t_next_strict_status.md
-docs/reports/artix7_35t_resource_report.md
-docs/board/artix7_35t_trace_profiles.md
-docs/architecture/trace_format.md
-src/rv_maltrace/trace_profiles.py
-src/rv_maltrace/cli.py
+results/experiments/35t/35t-p0c-r512-stage2-process-attributed-20260521/aggregate/gate_report.md
+results/experiments/35t/35t-p0a-r512-process-chain-process-attributed-20260521/aggregate/gate_report.md
+results/experiments/35t/35t-p0c-r512-full-synthetic-matrix-20260521/aggregate/gate_report.md
+results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggregate/gate_report.md
+results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggregate/semantic_failure_triage.md
+results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggregate/process_chain_capacity_debug.md
 tools/experiment_35t.py
 tools/check_35t_next_gate.py
-tools/recover_behavior.py
-tools/audit_behavior.py
-tools/annotate_trace_disasm.py
-fpga/artix7_35t/litex/rvmt_trace.py
-fpga/artix7_35t/litex/rvmt_trace_patch.py
-board/artix7_35t/linux/rvmt_exp_runner.c
-experiments/linux_behavior/behavior_audit_rules.json
-experiments/linux_behavior/benign/manifest.json
-experiments/linux_behavior/malware_like/manifest.json
+tools/triage_35t_semantic_failures.py
+tools/debug_process_chain_capacity.py
+src/rv_maltrace/trace_profiles.py
 ```

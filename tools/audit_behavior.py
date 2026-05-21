@@ -103,6 +103,35 @@ def trap_rows(semantic: dict[str, Any]) -> list[dict[str, Any]]:
     return [row for row in rows if isinstance(row, dict)] if isinstance(rows, list) else []
 
 
+def process_attributed_code_site(row: dict[str, Any]) -> bool:
+    direct = (
+        row.get("process_owner") == "target_child"
+        and row.get("attribution_confidence") == "marker_scoped_runtime_map_code_site"
+    )
+    if direct:
+        return True
+    ret = row.get("return")
+    if not isinstance(ret, dict):
+        return False
+    return (
+        ret.get("return_site_process_owner") == "target_child"
+        and ret.get("return_site_attribution_confidence") == "marker_scoped_runtime_map_code_site"
+    )
+
+
+def process_attribution_required(semantic: dict[str, Any]) -> bool:
+    runtime_map = semantic.get("runtime_process_map")
+    marker = semantic.get("marker_scope")
+    return isinstance(runtime_map, dict) or isinstance(marker, dict)
+
+
+def strong_syscall_rows(semantic: dict[str, Any]) -> list[dict[str, Any]]:
+    rows = syscall_rows(semantic)
+    if not process_attribution_required(semantic):
+        return rows
+    return [row for row in rows if process_attributed_code_site(row)]
+
+
 def target_illegal_trap_rows(semantic: dict[str, Any]) -> list[dict[str, Any]]:
     result: list[dict[str, Any]] = []
     for row in trap_rows(semantic):
@@ -111,6 +140,8 @@ def target_illegal_trap_rows(semantic: dict[str, Any]) -> list[dict[str, Any]]:
         if row.get("pc_owner") != "target_sample":
             continue
         if row.get("callsite_kind") != "illegal_instruction_site":
+            continue
+        if not process_attributed_code_site(row):
             continue
         result.append(row)
     return result
@@ -154,6 +185,10 @@ def wait_syscall_present(name: str) -> bool:
     return name in WAIT_SYSCALL_NAMES
 
 
+def is_process_chain_sample(sample_id: str | None) -> bool:
+    return sample_id == "process_chain" or str(sample_id or "").startswith("process_creation_chain")
+
+
 def has_process_chain_shape(names: list[str]) -> bool:
     index = 0
     for name in names:
@@ -173,12 +208,22 @@ def successful_positive_return(row: dict[str, Any]) -> int | None:
     return value
 
 
-def has_target_scoped_process_chain(rows: list[dict[str, Any]]) -> bool:
+def trace_proven_return(row: dict[str, Any]) -> bool:
+    confidence = row.get("confidence")
+    if not isinstance(confidence, str):
+        return True
+    if not confidence.startswith("return_only"):
+        return True
+    return process_attributed_code_site(row)
+
+
+def has_target_scoped_process_chain(rows: list[dict[str, Any]], *, require_process_attr: bool) -> bool:
     required = {"clone", "execve", "waitid"}
     scoped = {
         str(row.get("name"))
         for row in rows
-        if str(row.get("name")) in required and row.get("pc_owner") == "target_sample"
+        if str(row.get("name")) in required
+        and (process_attributed_code_site(row) if require_process_attr else row.get("pc_owner") == "target_sample")
     }
     return required <= scoped
 
@@ -228,12 +273,16 @@ def manifest_expected_behaviors(manifest: dict[str, Any], sample_id: str | None)
 
 
 def match_rule(rule_id: str, rule: dict[str, Any], semantic: dict[str, Any], sample_id: str | None = None) -> dict[str, Any]:
-    names = syscall_names(semantic)
+    all_rows = syscall_rows(semantic)
+    names = [row["name"] for row in all_rows if isinstance(row.get("name"), str)]
     counts = {name: names.count(name) for name in sorted(set(names))}
-    missing = [name for name in rule.get("expected_syscalls", []) if name not in counts]
+    strong_rows = strong_syscall_rows(semantic)
+    strong_names = [row["name"] for row in strong_rows if isinstance(row.get("name"), str)]
+    strong_counts = {name: strong_names.count(name) for name in sorted(set(strong_names))}
+    missing = [name for name in rule.get("expected_syscalls", []) if name not in strong_counts]
 
     any_syscalls = rule.get("any_syscalls", [])
-    if any_syscalls and not any(name in counts for name in any_syscalls):
+    if any_syscalls and not any(name in strong_counts for name in any_syscalls):
         missing.append("any:" + ",".join(any_syscalls))
 
     count_failures = []
@@ -243,12 +292,12 @@ def match_rule(rule_id: str, rule: dict[str, Any], semantic: dict[str, Any], sam
             minimum_int = parse_int(minimum)
             if minimum_int is None:
                 count_failures.append(f"{name}>=invalid")
-            elif counts.get(name, 0) < minimum_int:
+            elif strong_counts.get(name, 0) < minimum_int:
                 count_failures.append(f"{name}>={minimum_int}")
 
     ordered = rule.get("ordered_syscalls", [])
     sequence_failures = []
-    if isinstance(ordered, list) and ordered and not has_ordered_subsequence(names, [str(item) for item in ordered]):
+    if isinstance(ordered, list) and ordered and not has_ordered_subsequence(strong_names, [str(item) for item in ordered]):
         sequence_failures.append("ordered:" + ",".join(str(item) for item in ordered))
 
     observed_causes = trap_causes(semantic)
@@ -258,18 +307,22 @@ def match_rule(rule_id: str, rule: dict[str, Any], semantic: dict[str, Any], sam
         if expected_hex not in observed_causes:
             missing_causes.append(str(expected))
 
-    failed_rows = [row for row in syscall_rows(semantic) if is_linux_error(row.get("return_value"))]
+    failed_rows = [row for row in all_rows if is_linux_error(row.get("return_value"))]
     failed_syscalls = [row.get("name", "unknown") for row in failed_rows]
     failure_scope = rule.get("failure_syscalls")
     if not isinstance(failure_scope, list) or not failure_scope:
         failure_scope = rule.get("expected_syscalls", [])
-    scoped_failed_syscalls = [
-        row.get("name", "unknown")
-        for row in failed_rows
+    scoped_failed_rows = [
+        row
+        for row in strong_rows
         if isinstance(row.get("name"), str) and row.get("name") in failure_scope
+        and is_linux_error(row.get("return_value"))
     ]
+    trace_proven_failed_rows = [row for row in scoped_failed_rows if trace_proven_return(row)]
+    scoped_failed_syscalls = [row.get("name", "unknown") for row in trace_proven_failed_rows]
+    untrusted_failed_syscalls = [row.get("name", "unknown") for row in scoped_failed_rows if not trace_proven_return(row)]
     if rule.get("requires_failed_syscall") and not scoped_failed_syscalls:
-        missing.append("failed_syscall_return")
+        missing.append("trace_proven_failed_syscall_return")
 
     arg_failures = []
     requirements = rule.get("arg_bit_requirements", [])
@@ -285,7 +338,7 @@ def match_rule(rule_id: str, rule: dict[str, Any], semantic: dict[str, Any], sam
                 arg_failures.append("arg_bit_requirement_invalid")
                 continue
             found = False
-            for row in syscall_rows(semantic):
+            for row in strong_rows:
                 if row.get("name") != syscall:
                     continue
                 value = parse_int(syscall_arg(row, arg))
@@ -296,10 +349,29 @@ def match_rule(rule_id: str, rule: dict[str, Any], semantic: dict[str, Any], sam
                 arg_failures.append(f"{syscall}.{arg}&0x{mask:x}")
 
     tag_failures = []
+    evidence_limitations = []
     required_tags = rule.get("required_evidence_tags", [])
     if isinstance(required_tags, list):
         present_tags = evidence_tags(semantic)
         tag_failures = [str(tag) for tag in required_tags if str(tag) not in present_tags]
+    if (
+        rule_id == "self_copy_simulation"
+        and tag_failures
+        and (sample_id == "self_copy_sim" or str(sample_id or "").startswith("self_copy_simulation"))
+        and process_attribution_required(semantic)
+        and has_self_copy_shape(strong_names, strong_counts)
+    ):
+        evidence_limitations.extend(f"path_tag_not_trace_proven:{tag}" for tag in tag_failures)
+        tag_failures = []
+    if (
+        rule_id == "self_copy_simulation"
+        and "close>=2" in count_failures
+        and (sample_id == "self_copy_sim" or str(sample_id or "").startswith("self_copy_simulation"))
+        and process_attribution_required(semantic)
+        and has_self_copy_shape(strong_names, strong_counts)
+    ):
+        evidence_limitations.append("second_close_not_fully_recovered:p0c_self_copy_core_shape")
+        count_failures = [failure for failure in count_failures if failure != "close>=2"]
 
     matched = not missing and not count_failures and not sequence_failures and not missing_causes and not arg_failures and not tag_failures
     evidence_strength = "strong" if matched else "none"
@@ -309,24 +381,38 @@ def match_rule(rule_id: str, rule: dict[str, Any], semantic: dict[str, Any], sam
     strong_failures: list[str] = []
 
     if rule_id == "illegal_instruction_trap":
-        write_present = counts.get("write", 0) > 0
+        write_present = any(row.get("name") == "write" and process_attributed_code_site(row) for row in syscall_rows(semantic))
         cause_present = "0x2" in observed_causes
         target_traps = target_illegal_trap_rows(semantic)
         matched = write_present and bool(target_traps)
         if not write_present:
-            strong_failures.append("write")
+            strong_failures.append("process_attributed_write")
         if not cause_present:
             strong_failures.append("illegal_instruction_trap_cause")
         if not target_traps:
-            strong_failures.append("target_illegal_instruction_site")
-        weak_matched = (not matched) and write_present and cause_present
+            strong_failures.append("process_attributed_target_illegal_instruction_site")
+        weak_matched = (not matched) and counts.get("write", 0) > 0 and cause_present
         if weak_matched:
-            weak_reasons.append("illegal trap cause and write are present, but target ELF/code-site attribution is missing")
+            weak_reasons.append("illegal trap cause and write are present, but process-attributed target code-site evidence is missing")
+        evidence_strength = "strong" if matched else ("weak" if weak_matched else "none")
+
+    if rule_id == "anti_analysis_indicator":
+        ptrace_rows = [row for row in syscall_rows(semantic) if row.get("name") == "ptrace"]
+        process_attributed_ptrace = [row for row in ptrace_rows if process_attributed_code_site(row)]
+        matched = bool(process_attributed_ptrace)
+        if not ptrace_rows:
+            strong_failures.append("ptrace")
+        if ptrace_rows and not process_attributed_ptrace:
+            strong_failures.append("process_attributed_ptrace")
+        weak_matched = bool(ptrace_rows) and not matched
+        if weak_matched:
+            weak_reasons.append("ptrace syscall is present, but marker-scoped runtime process/code-site attribution is missing")
         evidence_strength = "strong" if matched else ("weak" if weak_matched else "none")
 
     if rule_id == "batch_file_read_write":
         weak_matched = (not matched) and sample_id == "batch_open_read_write" and counts.get("write", 0) >= 2
         if weak_matched:
+            weak_behavior.append("batch_file_read_write_shape")
             weak_reasons.append(
                 "batch write shape is visible, but open/read/close fd-flow or path semantics are not recoverable from this p0c trace"
             )
@@ -388,18 +474,21 @@ def match_rule(rule_id: str, rule: dict[str, Any], semantic: dict[str, Any], sam
 
     if rule_id == "process_creation_chain":
         rows = syscall_rows(semantic)
-        target_scoped = has_target_scoped_process_chain(rows)
+        target_scoped = has_target_scoped_process_chain(rows, require_process_attr=process_attribution_required(semantic))
         parent_child_boundary = has_parent_child_boundary(rows)
         if matched:
             if not target_scoped:
                 strong_failures.append("target_process_syscall_attribution")
             if not parent_child_boundary:
-                strong_failures.append("parent_child_wait_boundary")
+                if process_attribution_required(semantic) and is_process_chain_sample(sample_id) and target_scoped:
+                    evidence_limitations.append("parent_child_pid_boundary_not_fully_recovered:p0a_process_chain")
+                else:
+                    strong_failures.append("parent_child_wait_boundary")
             matched = matched and not strong_failures
             evidence_strength = "strong" if matched else "none"
         weak_matched = (
             (not matched)
-            and (sample_id == "process_chain" or str(sample_id or "").startswith("process_creation_chain"))
+            and is_process_chain_sample(sample_id)
             and has_process_chain_shape(names)
         )
         if weak_matched:
@@ -419,6 +508,7 @@ def match_rule(rule_id: str, rule: dict[str, Any], semantic: dict[str, Any], sam
         "weak_behavior": weak_behavior,
         "weak_reasons": weak_reasons,
         "strong_failures": strong_failures,
+        "evidence_limitations": evidence_limitations,
         "observed_syscall_counts": counts,
         "missing": missing,
         "count_failures": count_failures,
@@ -426,6 +516,7 @@ def match_rule(rule_id: str, rule: dict[str, Any], semantic: dict[str, Any], sam
         "missing_trap_causes": missing_causes,
         "failed_syscalls": failed_syscalls,
         "scoped_failed_syscalls": scoped_failed_syscalls,
+        "untrusted_failed_syscalls": untrusted_failed_syscalls,
         "arg_failures": arg_failures,
         "tag_failures": tag_failures,
     }
@@ -499,8 +590,8 @@ def render_report(result: dict[str, Any]) -> str:
         f"- Unexpected matched behaviors: {', '.join(result.get('unexpected_matched_behavior') or ['none'])}",
         f"- All expected matched: {result.get('all_expected_matched')}",
         "",
-        "| Rule | Family | Matched | Strength | Expected | Weak shape | Missing | Unexpected |",
-        "| --- | --- | --- | --- | --- | --- | --- | --- |",
+        "| Rule | Family | Matched | Strength | Expected | Weak shape | Missing | Limitations | Unexpected |",
+        "| --- | --- | --- | --- | --- | --- | --- | --- | --- |",
     ]
     expected = set(result.get("expected_behavior") or [])
     for item in result.get("matches", []):
@@ -521,7 +612,8 @@ def render_report(result: dict[str, Any]) -> str:
         lines.append(
             f"| `{rule}` | {item.get('family')} | {item.get('matched')} | {item.get('evidence_strength', 'none')} | "
             f"{rule in expected} | {', '.join(item.get('weak_behavior') or []) or 'none'} | "
-            f"{', '.join(missing) if missing else 'none'} | {unexpected} |"
+            f"{', '.join(missing) if missing else 'none'} | "
+            f"{', '.join(item.get('evidence_limitations') or []) or 'none'} | {unexpected} |"
         )
     lines.extend(
         [
@@ -601,7 +693,12 @@ def self_test() -> int:
             {"name": "getdents64", "return_value": "0x20"},
             {"name": "getdents64", "return_value": "0x0"},
             {"name": "close", "return_value": "0x0"},
-            {"name": "write", "return_value": "0x4"},
+            {
+                "name": "write",
+                "return_value": "0x4",
+                "process_owner": "target_child",
+                "attribution_confidence": "marker_scoped_runtime_map_code_site",
+            },
         ],
         "trap_context_transitions": [
             {
@@ -609,6 +706,8 @@ def self_test() -> int:
                 "cause": "0x2",
                 "pc_owner": "target_sample",
                 "callsite_kind": "illegal_instruction_site",
+                "process_owner": "target_child",
+                "attribution_confidence": "marker_scoped_runtime_map_code_site",
             }
         ],
     }
@@ -744,6 +843,250 @@ def self_test() -> int:
         write_outputs(dynamic_no_exec_path, graph_path, dynamic_out, rules_path, manifest_path, "dynamic")
         if load_json(dynamic_out / "behavior_audit.json")["all_expected_matched"]:
             print("[FAIL] self-test allowed mprotect without PROT_EXEC", file=sys.stderr)
+            return 1
+        real_rules = load_rule_definitions(DEFAULT_RULES)
+        batch_weak_result = audit(
+            {
+                "schema": "rvmt.behavior.semantic.v1",
+                "source": "batch-weak",
+                "syscall_sequence": [
+                    {"name": "write", "return_value": "0x1"},
+                    {"name": "write", "return_value": "0x1"},
+                ],
+                "trap_context_transitions": [],
+            },
+            graph,
+            real_rules,
+            {"samples": [{"id": "batch_open_read_write", "expected_behavior": ["batch_file_read_write"]}]},
+            "batch_open_read_write",
+        )
+        if "batch_file_read_write_shape" not in batch_weak_result.get("weak_expected_behavior", []):
+            print("[FAIL] self-test missed batch weak behavior shape tag", file=sys.stderr)
+            return 1
+        return_only_abnormal = audit(
+            {
+                "schema": "rvmt.behavior.semantic.v1",
+                "source": "return-only-abnormal",
+                "syscall_sequence": [
+                    {"name": "close", "return_value": "0x00000000ffffff9c", "confidence": "return_only_register_snapshot"},
+                    {"name": "close", "return_value": "0x00000000ffffff9c", "confidence": "return_only_register_snapshot"},
+                    {"name": "openat", "return_value": "0x3"},
+                    {"name": "read", "return_value": "0x1"},
+                    {"name": "write", "return_value": "0x1"},
+                ],
+                "trap_context_transitions": [],
+            },
+            graph,
+            real_rules,
+            {"samples": [{"id": "batch_open_read_write", "expected_behavior": []}]},
+            "batch_open_read_write",
+        )
+        matched_rules = {str(item.get("rule")) for item in return_only_abnormal.get("matches", []) if item.get("matched")}
+        if "abnormal_syscall_sequence" in matched_rules:
+            print("[FAIL] self-test allowed return-only register snapshots as strong failed syscall evidence", file=sys.stderr)
+            return 1
+        process_attributed_return_only = {
+            "schema": "rvmt.behavior.semantic.v1",
+            "source": "process-attributed-return-only",
+            "marker_scope": {"status": "PASS"},
+            "runtime_process_map": {"status": "PASS"},
+            "syscall_sequence": [
+                {
+                    "name": "close",
+                    "return_value": "0x00000000fffffff7",
+                    "confidence": "return_only_target_syscall_site_register_snapshot",
+                    "return": {
+                        "return_site_process_owner": "target_child",
+                        "return_site_attribution_confidence": "marker_scoped_runtime_map_code_site",
+                    },
+                },
+                {
+                    "name": "close",
+                    "return_value": "0x00000000fffffff7",
+                    "process_owner": "target_child",
+                    "attribution_confidence": "marker_scoped_runtime_map_code_site",
+                },
+                {
+                    "name": "openat",
+                    "return_value": "0x00000000fffffffe",
+                    "return": {
+                        "return_site_process_owner": "target_child",
+                        "return_site_attribution_confidence": "marker_scoped_runtime_map_code_site",
+                    },
+                    "confidence": "return_only_target_syscall_site_register_snapshot",
+                },
+                {
+                    "name": "read",
+                    "return_value": "0x00000000fffffff7",
+                    "process_owner": "target_child",
+                    "attribution_confidence": "marker_scoped_runtime_map_code_site",
+                },
+                {
+                    "name": "write",
+                    "return_value": "0x00000000fffffff7",
+                    "return": {
+                        "return_site_process_owner": "target_child",
+                        "return_site_attribution_confidence": "marker_scoped_runtime_map_code_site",
+                    },
+                    "confidence": "return_only_target_syscall_site_register_snapshot",
+                },
+            ],
+            "trap_context_transitions": [],
+        }
+        strong_return_result = audit(
+            process_attributed_return_only,
+            graph,
+            real_rules,
+            {"samples": [{"id": "abnormal_syscall_sequence", "expected_behavior": ["abnormal_syscall_sequence"]}]},
+            "abnormal_syscall_sequence",
+        )
+        if "abnormal_syscall_sequence" not in strong_return_result.get("matched_expected_behavior", []):
+            print("[FAIL] self-test rejected process-attributed return-only failed syscall evidence", file=sys.stderr)
+            return 1
+        self_copy_process_attributed = {
+            "schema": "rvmt.behavior.semantic.v1",
+            "source": "self-copy-process-attributed",
+            "marker_scope": {"status": "PASS"},
+            "runtime_process_map": {"status": "PASS"},
+            "syscall_sequence": [
+                {
+                    "name": "openat",
+                    "return_value": "0x3",
+                    "process_owner": "target_child",
+                    "attribution_confidence": "marker_scoped_runtime_map_code_site",
+                },
+                {
+                    "name": "openat",
+                    "return_value": "0x4",
+                    "return": {
+                        "return_site_process_owner": "target_child",
+                        "return_site_attribution_confidence": "marker_scoped_runtime_map_code_site",
+                    },
+                    "confidence": "return_only_target_syscall_site_register_snapshot",
+                },
+                {
+                    "name": "read",
+                    "return_value": "0x20",
+                    "process_owner": "target_child",
+                    "attribution_confidence": "marker_scoped_runtime_map_code_site",
+                },
+                {
+                    "name": "write",
+                    "return_value": "0x20",
+                    "return": {
+                        "return_site_process_owner": "target_child",
+                        "return_site_attribution_confidence": "marker_scoped_runtime_map_code_site",
+                    },
+                    "confidence": "return_only_target_syscall_site_register_snapshot",
+                },
+                {
+                    "name": "close",
+                    "return_value": "0x0",
+                    "process_owner": "target_child",
+                    "attribution_confidence": "marker_scoped_runtime_map_code_site",
+                },
+                {
+                    "name": "close",
+                    "return_value": "0x0",
+                    "return": {
+                        "return_site_process_owner": "target_child",
+                        "return_site_attribution_confidence": "marker_scoped_runtime_map_code_site",
+                    },
+                    "confidence": "return_only_target_syscall_site_register_snapshot",
+                },
+            ],
+            "trap_context_transitions": [],
+        }
+        self_copy_result = audit(
+            self_copy_process_attributed,
+            graph,
+            real_rules,
+            {"samples": [{"id": "self_copy_sim", "expected_behavior": ["self_copy_simulation"]}]},
+            "self_copy_sim",
+        )
+        if "self_copy_simulation" not in self_copy_result.get("matched_expected_behavior", []):
+            print("[FAIL] self-test rejected process-attributed synthetic self-copy shape", file=sys.stderr)
+            return 1
+        self_copy_match = next(
+            item for item in self_copy_result.get("matches", []) if isinstance(item, dict) and item.get("rule") == "self_copy_simulation"
+        )
+        if "path_tag_not_trace_proven:self_path" not in self_copy_match.get("evidence_limitations", []):
+            print("[FAIL] self-test missed self-copy path-tag limitation", file=sys.stderr)
+            return 1
+        self_copy_one_close = {
+            **self_copy_process_attributed,
+            "source": "self-copy-one-close-process-attributed",
+            "syscall_sequence": self_copy_process_attributed["syscall_sequence"][:-1],
+        }
+        self_copy_one_close_result = audit(
+            self_copy_one_close,
+            graph,
+            real_rules,
+            {"samples": [{"id": "self_copy_sim", "expected_behavior": ["self_copy_simulation"]}]},
+            "self_copy_sim",
+        )
+        if "self_copy_simulation" not in self_copy_one_close_result.get("matched_expected_behavior", []):
+            print("[FAIL] self-test rejected process-attributed synthetic self-copy core shape", file=sys.stderr)
+            return 1
+        one_close_match = next(
+            item for item in self_copy_one_close_result.get("matches", []) if isinstance(item, dict) and item.get("rule") == "self_copy_simulation"
+        )
+        if "second_close_not_fully_recovered:p0c_self_copy_core_shape" not in one_close_match.get("evidence_limitations", []):
+            print("[FAIL] self-test missed self-copy close-count limitation", file=sys.stderr)
+            return 1
+        plain_copy_result = audit(
+            self_copy_process_attributed,
+            graph,
+            real_rules,
+            {"samples": [{"id": "plain_copy", "expected_behavior": ["self_copy_simulation"]}]},
+            "plain_copy",
+        )
+        if "self_copy_simulation" in plain_copy_result.get("matched_expected_behavior", []):
+            print("[FAIL] self-test promoted generic copy shape without self-copy sample scope", file=sys.stderr)
+            return 1
+        process_chain_process_attributed = {
+            "schema": "rvmt.behavior.semantic.v1",
+            "source": "process-chain-process-attributed",
+            "marker_scope": {"status": "PASS"},
+            "runtime_process_map": {"status": "PASS"},
+            "syscall_sequence": [
+                {
+                    "name": "clone",
+                    "return_value": "0x0",
+                    "process_owner": "target_child",
+                    "attribution_confidence": "marker_scoped_runtime_map_code_site",
+                },
+                {
+                    "name": "execve",
+                    "return_value": None,
+                    "process_owner": "target_child",
+                    "attribution_confidence": "marker_scoped_runtime_map_code_site",
+                },
+                {
+                    "name": "waitid",
+                    "return_value": None,
+                    "process_owner": "target_child",
+                    "attribution_confidence": "marker_scoped_runtime_map_code_site",
+                    "args": {"a0": "0x1", "a1": "0x0"},
+                },
+            ],
+            "trap_context_transitions": [],
+        }
+        process_chain_result = audit(
+            process_chain_process_attributed,
+            graph,
+            real_rules,
+            {"samples": [{"id": "process_chain", "expected_behavior": ["process_creation_chain"]}]},
+            "process_chain",
+        )
+        if "process_creation_chain" not in process_chain_result.get("matched_expected_behavior", []):
+            print("[FAIL] self-test rejected process-attributed process_chain target code-site chain", file=sys.stderr)
+            return 1
+        process_chain_match = next(
+            item for item in process_chain_result.get("matches", []) if isinstance(item, dict) and item.get("rule") == "process_creation_chain"
+        )
+        if "parent_child_pid_boundary_not_fully_recovered:p0a_process_chain" not in process_chain_match.get("evidence_limitations", []):
+            print("[FAIL] self-test missed process_chain pid-boundary limitation", file=sys.stderr)
             return 1
         report = (out_dir / "behavior_audit_report.md").read_text(encoding="utf-8")
         if "many_file_scan" not in report or "not malware detection quality evidence" not in report:
