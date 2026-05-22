@@ -10,6 +10,16 @@ Source run: `35t-smallcap-r512-full-synthetic-matrix-20260521`
 
 Results root: `results/experiments/35t/35t-targeted-board-validation-20260522`
 
+Validation mode: `dual_channel`
+
+Trace-gate run: `35t-targeted-board-validation-20260522-trace-gate`
+
+Trace-gate results root: `results/experiments/35t/35t-targeted-board-validation-20260522-trace-gate`
+
+Semantic side-channel run: `35t-targeted-board-validation-20260522-side-channel`
+
+Semantic results root: `results/experiments/35t/35t-targeted-board-validation-20260522-side-channel`
+
 Bundle root: `results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle`
 
 ## Capture Requirements
@@ -25,17 +35,29 @@ Bundle root: `results/experiments/35t/35t-targeted-board-validation-20260522/boa
 
 ## Commands
 
-### groundtruth
+### groundtruth-trace-gate
 
 Hardware required: no
 
 ```bash
-uv run python tools/experiment_35t.py --stage groundtruth --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic
+uv run python tools/experiment_35t.py --stage groundtruth --run-id 35t-targeted-board-validation-20260522-trace-gate --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic
 ```
 
-Expected output: `results/experiments/35t/35t-targeted-board-validation-20260522/samples`
+Expected output: `results/experiments/35t/35t-targeted-board-validation-20260522-trace-gate/samples`
 
 Pass condition: required host/qemu baselines complete or failures are recorded explicitly
+
+### groundtruth-side-channel
+
+Hardware required: no
+
+```bash
+uv run python tools/experiment_35t.py --stage groundtruth --run-id 35t-targeted-board-validation-20260522-side-channel --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic
+```
+
+Expected output: `results/experiments/35t/35t-targeted-board-validation-20260522-side-channel/samples`
+
+Pass condition: required host/qemu baselines complete or failures are recorded explicitly for the side-channel pass
 
 ### rootfs
 
@@ -49,53 +71,89 @@ Expected output: `build/board/artix7_35t`
 
 Pass condition: 35T LiteX/VexRiscv rootfs experiment overlay is rebuilt
 
-### board
+### board-trace-gate
 
 Hardware required: yes
 
 ```bash
-uv run python tools/experiment_35t.py --stage board --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic --port COM5 --baud 921600 --duration 3600.0 --board-runner-path /usr/bin/rvmt_exp_runner --syscall-side-channel
+uv run python tools/experiment_35t.py --stage board --run-id 35t-targeted-board-validation-20260522-trace-gate --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic --port COM5 --baud 921600 --duration 3600.0 --board-runner-path /usr/bin/rvmt_exp_runner
 ```
 
-Expected output: `results/experiments/35t/35t-targeted-board-validation-20260522/board/raw_uart.log`
+Expected output: `results/experiments/35t/35t-targeted-board-validation-20260522-trace-gate/board/raw_uart.log`
 
-Pass condition: UART capture contains target-scoped markers and trace dumps for the full 13-sample matrix
+Pass condition: UART capture contains target-scoped markers and trace dumps for the full 13-sample matrix without syscall side-channel perturbation
 
-### analyze
+### analyze-trace-gate
 
 Hardware required: no
 
 ```bash
-uv run python tools/experiment_35t.py --stage analyze --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic
+uv run python tools/experiment_35t.py --stage analyze --run-id 35t-targeted-board-validation-20260522-trace-gate --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic
 ```
 
-Expected output: `results/experiments/35t/35t-targeted-board-validation-20260522/samples`
+Expected output: `results/experiments/35t/35t-targeted-board-validation-20260522-trace-gate/samples`
 
-Pass condition: semantic recovery, behavior audit, lightweight trace analysis, alignment, and trace-code joins are regenerated
+Pass condition: strict trace-gate semantic recovery, behavior audit, alignment, and trace-code joins are regenerated
 
-### report
+### report-trace-gate
 
 Hardware required: no
 
 ```bash
-uv run python tools/experiment_35t.py --stage report --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic
+uv run python tools/experiment_35t.py --stage report --run-id 35t-targeted-board-validation-20260522-trace-gate --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic
 ```
 
-Expected output: `results/experiments/35t/35t-targeted-board-validation-20260522/aggregate`
+Expected output: `results/experiments/35t/35t-targeted-board-validation-20260522-trace-gate/aggregate`
 
-Pass condition: aggregate 35T reports are regenerated and failures remain explicit
+Pass condition: strict trace-gate aggregate reports are regenerated and failures remain explicit
+
+### board-side-channel
+
+Hardware required: yes
+
+```bash
+uv run python tools/experiment_35t.py --stage board --run-id 35t-targeted-board-validation-20260522-side-channel --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic --port COM5 --baud 921600 --duration 3600.0 --board-runner-path /usr/bin/rvmt_exp_runner --syscall-side-channel
+```
+
+Expected output: `results/experiments/35t/35t-targeted-board-validation-20260522-side-channel/board/raw_uart.log`
+
+Pass condition: UART capture contains syscall side-channel observations needed for fd/path and process-tree semantic closure
+
+### analyze-side-channel
+
+Hardware required: no
+
+```bash
+uv run python tools/experiment_35t.py --stage analyze --run-id 35t-targeted-board-validation-20260522-side-channel --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic
+```
+
+Expected output: `results/experiments/35t/35t-targeted-board-validation-20260522-side-channel/samples`
+
+Pass condition: side-channel semantic recovery and trace-code joins are regenerated
+
+### report-side-channel
+
+Hardware required: no
+
+```bash
+uv run python tools/experiment_35t.py --stage report --run-id 35t-targeted-board-validation-20260522-side-channel --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic
+```
+
+Expected output: `results/experiments/35t/35t-targeted-board-validation-20260522-side-channel/aggregate`
+
+Pass condition: side-channel aggregate reports are regenerated and failures remain explicit
 
 ### package
 
 Hardware required: no
 
 ```bash
-uv run python tools/package_35t_board_validation.py --repo-root . --source-results-root results/experiments/35t/35t-targeted-board-validation-20260522 --out-dir results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle
+uv run python tools/package_35t_board_validation.py --repo-root . --source-results-root results/experiments/35t/35t-targeted-board-validation-20260522-side-channel --trace-gate-results-root results/experiments/35t/35t-targeted-board-validation-20260522-trace-gate --semantic-results-root results/experiments/35t/35t-targeted-board-validation-20260522-side-channel --validation-run-id 35t-targeted-board-validation-20260522 --out-dir results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle
 ```
 
 Expected output: `results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle/bundle_manifest.json`
 
-Pass condition: bundle is PASS only if fd/path and process-tree summaries are PASS; otherwise it remains CANDIDATE_PARTIAL
+Pass condition: bundle is PASS only if strict trace gate, fd/path summary, process-tree summary, and function-level attribution checks pass
 
 ### check
 

@@ -8,6 +8,8 @@ Status: PASS
 - docs/results/rv_maltrace_35t_application_case_studies.md
 - docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/evidence_manifest.json
 - docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/explanation_readiness_summary.json
+- docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/fd_path_flow_summary.json
+- docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/process_tree_summary.json
 - docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/source_attribution_summary.json
 - docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_attempt_summary.json
 - docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_status.json
@@ -43,6 +45,15 @@ Status: PASS
 - schema: PASS
 - status: READY_FOR_TARGETED_BOARD_VALIDATION
 - board_validation_required: PASS
+
+## Explanation Status
+
+- fd_path_status: PASS
+- fd_path_schema: PASS
+- fd_path_closed_flows: 1
+- process_tree_status: PASS
+- process_tree_schema: PASS
+- process_tree_edges: 2
 
 ## Source Attribution
 

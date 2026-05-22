@@ -6,6 +6,14 @@ Scope: Artix-7 35T / LiteX / VexRiscv only.
 
 Hardware validated: true
 
+Validation mode: dual_channel
+
+Validation run: 35t-targeted-board-validation-20260522
+
+Trace-gate run: 35t-smallcap-r512-full-synthetic-matrix-20260521
+
+Semantic run: 35t-targeted-board-validation-20260522
+
 ## Plan Check
 
 - schema: PASS

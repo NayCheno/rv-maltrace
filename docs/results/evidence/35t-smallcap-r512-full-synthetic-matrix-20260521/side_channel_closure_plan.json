@@ -1,0 +1,302 @@
+{
+  "baseline_read_failures": [],
+  "baseline_side_channel_gate": "results/experiments/35t/35t-targeted-board-validation-20260522/aggregate/gate_report.json",
+  "baseline_side_channel_run_id": "35t-targeted-board-validation-20260522",
+  "baseline_trace_records": 512,
+  "baud": 921600,
+  "board_runner_path": "/usr/bin/rvmt_exp_runner",
+  "closure_requirements": [
+    "focused closure samples have strict gate_status PASS",
+    "sample_status PASS for every focused sample",
+    "marker_scope PASS with begin/end markers in every focused rep",
+    "runtime_process_attribution PASS for every focused rep",
+    "no focused rep hits the trace record cap",
+    "drop_rate_median <= 0.05",
+    "no missing expected strong behavior rules",
+    "UNKNOWN and corrupt event counts remain zero"
+  ],
+  "closure_results_root": "results/experiments/35t/35t-sidechannel-closure-r2048-20260522",
+  "closure_run_id": "35t-sidechannel-closure-r2048-20260522",
+  "closure_verification": {
+    "failures": [],
+    "gate_report": "results/experiments/35t/35t-sidechannel-closure-r2048-20260522/aggregate/gate_report.json",
+    "sample_checks": [
+      {
+        "capped_reps": [],
+        "drop_rate_median": 0.0,
+        "failures": [],
+        "gate_status": "PASS",
+        "marker_scope_status": "PASS",
+        "missing_expected": [],
+        "runtime_process_attribution_status": "PASS",
+        "sample_id": "batch_open_read_write",
+        "sample_status": "PASS",
+        "status": "PASS"
+      },
+      {
+        "capped_reps": [],
+        "drop_rate_median": 0.008710801393728223,
+        "failures": [],
+        "gate_status": "PASS",
+        "marker_scope_status": "PASS",
+        "missing_expected": [],
+        "runtime_process_attribution_status": "PASS",
+        "sample_id": "illegal_trap",
+        "sample_status": "PASS",
+        "status": "PASS"
+      },
+      {
+        "capped_reps": [],
+        "drop_rate_median": 0.0,
+        "failures": [],
+        "gate_status": "PASS",
+        "marker_scope_status": "PASS",
+        "missing_expected": [],
+        "runtime_process_attribution_status": "PASS",
+        "sample_id": "process_chain",
+        "sample_status": "PASS",
+        "status": "PASS"
+      },
+      {
+        "capped_reps": [],
+        "drop_rate_median": 0.0,
+        "failures": [],
+        "gate_status": "PASS",
+        "marker_scope_status": "PASS",
+        "missing_expected": [],
+        "runtime_process_attribution_status": "PASS",
+        "sample_id": "dynamic_executable_memory",
+        "sample_status": "PASS",
+        "status": "PASS"
+      }
+    ],
+    "status": "PASS"
+  },
+  "commands": [
+    {
+      "command": "uv run rvmt board:artix7:trace-build --run-id 35t-sidechannel-closure-r2048-20260522 --trace-records 2048 --baud 921600",
+      "expected_output": "vendor/litex/linux-on-litex-vexriscv/build/embedfire_rise_pro_trace_r2048/csr.csv",
+      "hardware_required": false,
+      "pass_condition": "trace-capacity-specific LiteX CSR map and bitstream are generated",
+      "phase": "trace-build"
+    },
+    {
+      "command": "uv run python tools/experiment_35t.py --stage groundtruth --run-id 35t-sidechannel-closure-r2048-20260522 --reps 5 --trace-records 2048 --trace-profile p0c_syscall_trap_drop --trace-profile-policy 35t_small_capacity --runtime-order classic --warmup 0 --sample batch_open_read_write --sample illegal_trap --sample process_chain --sample dynamic_executable_memory",
+      "expected_output": "results/experiments/35t/35t-sidechannel-closure-r2048-20260522/samples",
+      "hardware_required": false,
+      "pass_condition": "host and QEMU baselines are present for the focused closure samples",
+      "phase": "groundtruth"
+    },
+    {
+      "command": "uv run python tools/experiment_35t.py --stage rootfs --run-id 35t-sidechannel-closure-r2048-20260522 --reps 5 --trace-records 2048 --trace-profile p0c_syscall_trap_drop --trace-profile-policy 35t_small_capacity --runtime-order classic --warmup 0 --sample batch_open_read_write --sample illegal_trap --sample process_chain --sample dynamic_executable_memory",
+      "expected_output": "build/board/artix7_35t/rootfs_exp_overlay/usr/bin/rvmt_exp_runner",
+      "hardware_required": false,
+      "pass_condition": "35T runner and focused sample binaries are rebuilt into the rootfs overlay",
+      "phase": "rootfs"
+    },
+    {
+      "command": "uv run rvmt board:artix7:trace-load --run-id 35t-sidechannel-closure-r2048-20260522 --trace-records 2048 --port COM5 --baud 921600",
+      "expected_output": "vendor/litex/linux-on-litex-vexriscv/build/embedfire_rise_pro_trace_r2048/gateware/embedfire_rise_pro.bit",
+      "hardware_required": true,
+      "pass_condition": "the board is programmed with the same trace depth used by the closure run",
+      "phase": "trace-load"
+    },
+    {
+      "command": "uv run rvmt board:artix7:linux-boot-capture --run-id 35t-sidechannel-closure-r2048-20260522 --port COM5 --baud 921600 --duration 3600.0",
+      "expected_output": "results/board/artix7_35t_litex/35t-sidechannel-closure-r2048-20260522/06_linux_boot/uart_linux_boot.log",
+      "hardware_required": true,
+      "pass_condition": "Linux is reloaded after trace bitstream programming and reaches RVMT_LINUX_USER_PASS",
+      "phase": "linux-boot-after-trace-load"
+    },
+    {
+      "command": "uv run python tools/experiment_35t.py --stage board --run-id 35t-sidechannel-closure-r2048-20260522 --reps 5 --trace-records 2048 --trace-profile p0c_syscall_trap_drop --trace-profile-policy 35t_small_capacity --runtime-order classic --warmup 0 --sample batch_open_read_write --sample illegal_trap --sample process_chain --sample dynamic_executable_memory --port COM5 --baud 921600 --duration 3600.0 --board-runner-path /usr/bin/rvmt_exp_runner --syscall-side-channel",
+      "expected_output": "results/experiments/35t/35t-sidechannel-closure-r2048-20260522/board/raw_uart.log",
+      "hardware_required": true,
+      "pass_condition": "UART capture contains syscall side-channel observations, begin/end markers, and trace dumps for every focused rep",
+      "phase": "board-side-channel-rerun"
+    },
+    {
+      "command": "uv run python tools/experiment_35t.py --stage analyze --run-id 35t-sidechannel-closure-r2048-20260522 --reps 5 --trace-records 2048 --trace-profile p0c_syscall_trap_drop --trace-profile-policy 35t_small_capacity --runtime-order classic --warmup 0 --sample batch_open_read_write --sample illegal_trap --sample process_chain --sample dynamic_executable_memory",
+      "expected_output": "results/experiments/35t/35t-sidechannel-closure-r2048-20260522/samples",
+      "hardware_required": false,
+      "pass_condition": "semantic recovery, behavior audit, alignment, and trace-code joins are regenerated",
+      "phase": "analyze"
+    },
+    {
+      "command": "uv run python tools/experiment_35t.py --stage report --run-id 35t-sidechannel-closure-r2048-20260522 --reps 5 --trace-records 2048 --trace-profile p0c_syscall_trap_drop --trace-profile-policy 35t_small_capacity --runtime-order classic --warmup 0 --sample batch_open_read_write --sample illegal_trap --sample process_chain --sample dynamic_executable_memory",
+      "expected_output": "results/experiments/35t/35t-sidechannel-closure-r2048-20260522/aggregate/gate_report.json",
+      "hardware_required": false,
+      "pass_condition": "aggregate reports are regenerated for the focused closure run",
+      "phase": "report"
+    },
+    {
+      "command": "uv run python tools/check_35t_next_gate.py --run-id 35t-sidechannel-closure-r2048-20260522 --root results/experiments/35t --reps 5 --sample batch_open_read_write --sample illegal_trap --sample process_chain --sample dynamic_executable_memory",
+      "expected_output": "results/experiments/35t/35t-sidechannel-closure-r2048-20260522/aggregate/gate_report.json",
+      "hardware_required": false,
+      "pass_condition": "all focused samples have strict gate_status PASS",
+      "phase": "strict-gate"
+    }
+  ],
+  "current_side_channel_failures": [
+    {
+      "capped_reps": [
+        "rep_00",
+        "rep_01",
+        "rep_02",
+        "rep_03",
+        "rep_04"
+      ],
+      "drop_median": 78.0,
+      "drop_rate_median": 0.13220338983050847,
+      "gate_blockers": [
+        "trace_record_cap_hit",
+        "runtime_process_attribution"
+      ],
+      "gate_failures": [
+        "missing_strong_expected",
+        "marker_scope",
+        "drop_rate_median_gt_5pct"
+      ],
+      "gate_status": "FAIL",
+      "marker_scope_status": "FAIL",
+      "missing_details": {
+        "batch_file_read_write": [
+          "close",
+          "close>=4",
+          "openat",
+          "openat>=4",
+          "ordered:openat,read,close,openat,write,close",
+          "read",
+          "read>=2",
+          "write",
+          "write>=2"
+        ]
+      },
+      "missing_expected": [
+        "batch_file_read_write"
+      ],
+      "runtime_process_attribution_status": "BLOCKED",
+      "sample_id": "batch_open_read_write"
+    },
+    {
+      "capped_reps": [
+        "rep_00",
+        "rep_01",
+        "rep_02",
+        "rep_03",
+        "rep_04"
+      ],
+      "drop_median": 52.0,
+      "drop_rate_median": 0.09219858156028368,
+      "gate_blockers": [
+        "trace_record_cap_hit",
+        "runtime_process_attribution"
+      ],
+      "gate_failures": [
+        "missing_strong_expected",
+        "marker_scope",
+        "drop_rate_median_gt_5pct"
+      ],
+      "gate_status": "FAIL",
+      "marker_scope_status": "FAIL",
+      "missing_details": {
+        "illegal_instruction_trap": [
+          "process_attributed_target_illegal_instruction_site",
+          "process_attributed_write",
+          "write"
+        ]
+      },
+      "missing_expected": [
+        "illegal_instruction_trap"
+      ],
+      "runtime_process_attribution_status": "BLOCKED",
+      "sample_id": "illegal_trap"
+    },
+    {
+      "capped_reps": [
+        "rep_00",
+        "rep_01",
+        "rep_02",
+        "rep_03",
+        "rep_04"
+      ],
+      "drop_median": 786.0,
+      "drop_rate_median": 0.6055469953775039,
+      "gate_blockers": [
+        "trace_record_cap_hit",
+        "runtime_process_attribution"
+      ],
+      "gate_failures": [
+        "missing_strong_expected",
+        "marker_scope",
+        "drop_rate_median_gt_5pct"
+      ],
+      "gate_status": "FAIL",
+      "marker_scope_status": "FAIL",
+      "missing_details": {
+        "process_creation_chain": [
+          "clone",
+          "execve",
+          "ordered:clone,execve,waitid",
+          "waitid"
+        ]
+      },
+      "missing_expected": [
+        "process_creation_chain"
+      ],
+      "runtime_process_attribution_status": "BLOCKED",
+      "sample_id": "process_chain"
+    },
+    {
+      "capped_reps": [],
+      "drop_median": 0.0,
+      "drop_rate_median": 0.0,
+      "gate_blockers": [],
+      "gate_failures": [
+        "missing_strong_expected"
+      ],
+      "gate_status": "FAIL",
+      "marker_scope_status": "PASS",
+      "missing_details": {
+        "dynamic_executable_memory": [
+          "mprotect.a2&0x4"
+        ]
+      },
+      "missing_expected": [
+        "dynamic_executable_memory"
+      ],
+      "runtime_process_attribution_status": "PASS",
+      "sample_id": "dynamic_executable_memory"
+    }
+  ],
+  "drop_rate_median_limit": 0.05,
+  "duration": 3600.0,
+  "focus_samples": [
+    "batch_open_read_write",
+    "illegal_trap",
+    "process_chain",
+    "dynamic_executable_memory"
+  ],
+  "generated_utc": "2026-05-22T17:32:13Z",
+  "non_claims": [
+    "no CVA6 board claim",
+    "no real malware detection claim",
+    "no mature detector claim",
+    "no classifier accuracy claim",
+    "no complete semantic reconstruction claim"
+  ],
+  "port": "COM5",
+  "promotion_rule": "Do not update paper-facing claims to side-channel 13/13 until closure_verification.status is PASS.",
+  "reps": 5,
+  "runtime_order": "classic",
+  "schema": "rvmt.35t.side_channel_closure_plan.v1",
+  "source_run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "status": "PASS",
+  "syscall_side_channel": true,
+  "target_trace_records": 2048,
+  "trace_build_dir": "vendor/litex/linux-on-litex-vexriscv/build/embedfire_rise_pro_trace_r2048",
+  "trace_csr_csv": "vendor/litex/linux-on-litex-vexriscv/build/embedfire_rise_pro_trace_r2048/csr.csv",
+  "trace_csr_status": "PRESENT",
+  "trace_profile": "p0c_syscall_trap_drop",
+  "trace_profile_policy": "35t_small_capacity"
+}

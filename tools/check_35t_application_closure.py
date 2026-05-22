@@ -68,6 +68,7 @@ NEGATION_MARKERS = [
     "明确不包含",
     "不能声称",
 ]
+SUMMARY_STATUS_VALUES = {"PASS", "PARTIAL", "UNAVAILABLE"}
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -116,6 +117,57 @@ def find_forbidden_positive_claims(text: str) -> list[dict[str, str]]:
     return findings
 
 
+def non_empty_list(value: Any) -> bool:
+    return isinstance(value, list) and any(item for item in value)
+
+
+def event_names(events: Any) -> set[str]:
+    if not isinstance(events, list):
+        return set()
+    return {str(event.get("name")) for event in events if isinstance(event, dict)}
+
+
+def check_fd_path_summary(summary: dict[str, Any]) -> dict[str, Any]:
+    flows = summary.get("flows", [])
+    closed_flows = [
+        flow
+        for flow in flows
+        if isinstance(flow, dict)
+        and (flow.get("status") == "closed" or "close" in event_names(flow.get("events", [])))
+    ] if isinstance(flows, list) else []
+    limitations = summary.get("limitations", [])
+    status = summary.get("status")
+    return {
+        "schema_ok": summary.get("schema") == "rvmt.fd_path_flow.summary.v1",
+        "status": status,
+        "status_ok": status in SUMMARY_STATUS_VALUES,
+        "flow_count": len(flows) if isinstance(flows, list) else 0,
+        "closed_flow_count": len(closed_flows),
+        "limitations_count": len(limitations) if isinstance(limitations, list) else 0,
+        "partial_has_limitations": status != "PARTIAL" or non_empty_list(limitations),
+        "pass_has_closed_flows": status != "PASS" or bool(closed_flows),
+        "unavailable_has_reason": status != "UNAVAILABLE" or non_empty_list(limitations) or bool(summary.get("reason")),
+    }
+
+
+def check_process_tree_summary(summary: dict[str, Any]) -> dict[str, Any]:
+    edges = summary.get("edges", [])
+    limitations = summary.get("limitations", [])
+    status = summary.get("status")
+    return {
+        "schema_ok": summary.get("schema") == "rvmt.process_tree.summary.v1",
+        "status": status,
+        "status_ok": status in SUMMARY_STATUS_VALUES,
+        "edge_count": len(edges) if isinstance(edges, list) else 0,
+        "partial_edge_count": len(summary.get("partial_edges", [])) if isinstance(summary.get("partial_edges"), list) else 0,
+        "unclosed_edge_count": len(summary.get("unclosed_edges", [])) if isinstance(summary.get("unclosed_edges"), list) else 0,
+        "limitations_count": len(limitations) if isinstance(limitations, list) else 0,
+        "partial_has_limitations": status != "PARTIAL" or non_empty_list(limitations),
+        "pass_has_edges": status != "PASS" or non_empty_list(edges),
+        "unavailable_has_reason": status != "UNAVAILABLE" or non_empty_list(limitations) or bool(summary.get("reason")),
+    }
+
+
 def write_report(report: dict[str, Any], evidence_root: Path) -> None:
     evidence_root.mkdir(parents=True, exist_ok=True)
     json_path = evidence_root / "application_closure_check.json"
@@ -149,6 +201,16 @@ def write_report(report: dict[str, Any], evidence_root: Path) -> None:
     lines.append(f"- schema: {'PASS' if readiness.get('schema_ok') else 'FAIL'}")
     lines.append(f"- status: {readiness.get('status')}")
     lines.append(f"- board_validation_required: {'PASS' if readiness.get('board_validation_required_ok') else 'FAIL'}")
+    lines += ["", "## Explanation Status", ""]
+    explanation_status = report.get("explanation_status", {})
+    fd_path = explanation_status.get("fd_path", {}) if isinstance(explanation_status, dict) else {}
+    process_tree = explanation_status.get("process_tree", {}) if isinstance(explanation_status, dict) else {}
+    lines.append(f"- fd_path_status: {fd_path.get('status')}")
+    lines.append(f"- fd_path_schema: {'PASS' if fd_path.get('schema_ok') else 'FAIL'}")
+    lines.append(f"- fd_path_closed_flows: {fd_path.get('closed_flow_count')}")
+    lines.append(f"- process_tree_status: {process_tree.get('status')}")
+    lines.append(f"- process_tree_schema: {'PASS' if process_tree.get('schema_ok') else 'FAIL'}")
+    lines.append(f"- process_tree_edges: {process_tree.get('edge_count')}")
     lines += ["", "## Source Attribution", ""]
     source_attr = report.get("source_attribution", {})
     lines.append(f"- schema: {'PASS' if source_attr.get('schema_ok') else 'FAIL'}")
@@ -202,11 +264,15 @@ def check_repo(repo_root: Path, evidence_root_arg: Path, write_outputs: bool) ->
     board_runbook_path = evidence_root / "board_validation_runbook.json"
     board_preflight_path = evidence_root / "board_validation_preflight.json"
     source_attr_path = evidence_root / "source_attribution_summary.json"
+    fd_path_summary_path = evidence_root / "fd_path_flow_summary.json"
+    process_tree_summary_path = evidence_root / "process_tree_summary.json"
     checked = [
         closure_path,
         case_path,
         manifest_path,
         readiness_path,
+        fd_path_summary_path,
+        process_tree_summary_path,
         source_attr_path,
         board_attempt_path,
         board_status_path,
@@ -264,6 +330,18 @@ def check_repo(repo_root: Path, evidence_root_arg: Path, write_outputs: bool) ->
             source_attr = load_json(source_attr_path)
         except Exception as exc:  # pragma: no cover - covered through CLI behavior
             failures.append(f"invalid source attribution summary JSON: {exc}")
+    fd_path_summary: dict[str, Any] = {}
+    if fd_path_summary_path.exists():
+        try:
+            fd_path_summary = load_json(fd_path_summary_path)
+        except Exception as exc:  # pragma: no cover - covered through CLI behavior
+            failures.append(f"invalid fd/path flow summary JSON: {exc}")
+    process_tree_summary: dict[str, Any] = {}
+    if process_tree_summary_path.exists():
+        try:
+            process_tree_summary = load_json(process_tree_summary_path)
+        except Exception as exc:  # pragma: no cover - covered through CLI behavior
+            failures.append(f"invalid process tree summary JSON: {exc}")
 
     combined_text = "\n".join(
         [
@@ -271,6 +349,8 @@ def check_repo(repo_root: Path, evidence_root_arg: Path, write_outputs: bool) ->
             case_text,
             json.dumps(manifest, sort_keys=True),
             json.dumps(readiness, sort_keys=True),
+            json.dumps(fd_path_summary, sort_keys=True),
+            json.dumps(process_tree_summary, sort_keys=True),
             json.dumps(source_attr, sort_keys=True),
             json.dumps(board_attempt, sort_keys=True),
             json.dumps(board_status, sort_keys=True),
@@ -351,6 +431,28 @@ def check_repo(repo_root: Path, evidence_root_arg: Path, write_outputs: bool) ->
         failures.append("explanation readiness status must be READY_FOR_TARGETED_BOARD_VALIDATION")
     if not readiness_results["board_validation_required_ok"]:
         failures.append("explanation readiness must keep board_validation_required true")
+    fd_path_results = check_fd_path_summary(fd_path_summary)
+    if not fd_path_results["schema_ok"]:
+        failures.append("fd/path flow summary schema must be rvmt.fd_path_flow.summary.v1")
+    if not fd_path_results["status_ok"]:
+        failures.append("fd/path flow summary status must be PASS, PARTIAL, or UNAVAILABLE")
+    if not fd_path_results["partial_has_limitations"]:
+        failures.append("fd/path flow summary status PARTIAL must include limitations")
+    if not fd_path_results["pass_has_closed_flows"]:
+        failures.append("fd/path flow summary status PASS must include at least one closed flow")
+    if not fd_path_results["unavailable_has_reason"]:
+        failures.append("fd/path flow summary status UNAVAILABLE must include a reason or limitation")
+    process_tree_results = check_process_tree_summary(process_tree_summary)
+    if not process_tree_results["schema_ok"]:
+        failures.append("process tree summary schema must be rvmt.process_tree.summary.v1")
+    if not process_tree_results["status_ok"]:
+        failures.append("process tree summary status must be PASS, PARTIAL, or UNAVAILABLE")
+    if not process_tree_results["partial_has_limitations"]:
+        failures.append("process tree summary status PARTIAL must include limitations")
+    if not process_tree_results["pass_has_edges"]:
+        failures.append("process tree summary status PASS must include at least one closed edge")
+    if not process_tree_results["unavailable_has_reason"]:
+        failures.append("process tree summary status UNAVAILABLE must include a reason or limitation")
     board_attempt_results = {
         "schema_ok": board_attempt.get("schema") == "rvmt.35t.board_validation_attempt_summary.v1",
         "source_run_id_ok": board_attempt.get("source_run_id") == RUN_ID,
@@ -461,6 +563,12 @@ def check_repo(repo_root: Path, evidence_root_arg: Path, write_outputs: bool) ->
         "case_study_coverage": coverage,
         "non_claims": non_claim_results,
         "explanation_readiness": readiness_results,
+        "fd_path_status": fd_path_results["status"],
+        "process_tree_status": process_tree_results["status"],
+        "explanation_status": {
+            "fd_path": fd_path_results,
+            "process_tree": process_tree_results,
+        },
         "source_attribution": source_attr_results,
         "board_validation_attempt": board_attempt_results,
         "board_validation_status": board_status_results,
@@ -522,6 +630,20 @@ def self_test() -> int:
             "non_claims": REQUIRED_NON_CLAIMS,
         }
         (evidence / "explanation_readiness_summary.json").write_text(json.dumps(readiness), encoding="utf-8")
+        fd_path = {
+            "schema": "rvmt.fd_path_flow.summary.v1",
+            "status": "PARTIAL",
+            "flows": [],
+            "limitations": ["self-test fixture intentionally lacks a closed fd/path flow"],
+        }
+        (evidence / "fd_path_flow_summary.json").write_text(json.dumps(fd_path), encoding="utf-8")
+        process_tree = {
+            "schema": "rvmt.process_tree.summary.v1",
+            "status": "PARTIAL",
+            "edges": [],
+            "limitations": ["self-test fixture intentionally lacks a strict parent-child edge"],
+        }
+        (evidence / "process_tree_summary.json").write_text(json.dumps(process_tree), encoding="utf-8")
         source_attr = {
             "schema": "rvmt.35t.source_attribution_summary.v1",
             "status": "PARTIAL",

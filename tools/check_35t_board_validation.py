@@ -62,7 +62,34 @@ def all_gate_samples_pass(gate_report: dict[str, Any]) -> bool:
     sample_status = gate_report.get("sample_status", {})
     if not isinstance(sample_status, dict) or not sample_status:
         return False
-    return all(isinstance(row, dict) and row.get("status") == "PASS" for row in sample_status.values())
+    sample_status_pass = all(isinstance(row, dict) and row.get("status") == "PASS" for row in sample_status.values())
+    samples = gate_report.get("samples", [])
+    if not isinstance(samples, list) or not samples:
+        return False
+    sample_gate_pass = all(isinstance(row, dict) and row.get("gate_status") == "PASS" for row in samples)
+    return sample_status_pass and sample_gate_pass
+
+
+def gate_pass_counts(gate_report: dict[str, Any]) -> dict[str, Any]:
+    sample_status = gate_report.get("sample_status", {})
+    status_rows = [row for row in sample_status.values() if isinstance(row, dict)] if isinstance(sample_status, dict) else []
+    samples = [row for row in gate_report.get("samples", []) if isinstance(row, dict)] if isinstance(gate_report.get("samples"), list) else []
+    return {
+        "sample_status_pass_count": sum(1 for row in status_rows if row.get("status") == "PASS"),
+        "sample_status_count": len(status_rows),
+        "sample_gate_pass_count": sum(1 for row in samples if row.get("gate_status") == "PASS"),
+        "sample_gate_count": len(samples),
+        "failed_sample_gates": [
+            {
+                "sample_id": row.get("sample_id"),
+                "gate_status": row.get("gate_status"),
+                "gate_failures": row.get("gate_failures", []),
+                "gate_blockers": row.get("gate_blockers", []),
+            }
+            for row in samples
+            if row.get("gate_status") != "PASS"
+        ],
+    }
 
 
 def check_result_contents(results_root: Path) -> dict[str, Any]:
@@ -83,6 +110,9 @@ def check_result_contents(results_root: Path) -> dict[str, Any]:
     validation_run_id = RUN_ID
     if manifest_present and isinstance(bundle_json.get("validation_run_id"), str) and bundle_json.get("validation_run_id"):
         validation_run_id = str(bundle_json["validation_run_id"])
+    validation_mode = str(bundle_json.get("validation_mode", "single_channel")) if manifest_present else "single_channel"
+    trace_gate_run_id = str(bundle_json.get("trace_gate_run_id") or validation_run_id)
+    semantic_run_id = str(bundle_json.get("semantic_run_id") or validation_run_id)
     checks["bundle_manifest"] = {
         "ok": bool(
             not manifest_present
@@ -93,10 +123,14 @@ def check_result_contents(results_root: Path) -> dict[str, Any]:
                 and bundle_json.get("scope") == EXPECTED_SCOPE
                 and bundle_json.get("claim_level") == EXPECTED_CLAIM_LEVEL
                 and bundle_json.get("validation_run_id") == validation_run_id
+                and validation_mode in {"single_channel", "dual_channel"}
             )
         ),
         "status": "checked" if manifest_present else "not present; validation_run_id defaults to source run",
         "validation_run_id": validation_run_id,
+        "validation_mode": validation_mode,
+        "trace_gate_run_id": trace_gate_run_id,
+        "semantic_run_id": semantic_run_id,
     }
 
     run_config = check_json("run_config.json")
@@ -104,27 +138,32 @@ def check_result_contents(results_root: Path) -> dict[str, Any]:
     checks["run_config"] = {
         "ok": bool(
             run_config.get("ok")
-            and run_config_json.get("run_id") == validation_run_id
+            and run_config_json.get("run_id") == trace_gate_run_id
             and run_config_json.get("trace_records") == 512
             and run_config_json.get("trace_profile_policy") == "35t_small_capacity"
         ),
         "status": run_config.get("reason", "checked"),
         "validation_run_id": validation_run_id,
+        "trace_gate_run_id": trace_gate_run_id,
     }
 
     gate_report = check_json("gate_report.json")
     gate_json = gate_report.get("json", {}) if gate_report.get("ok") else {}
+    gate_counts = gate_pass_counts(gate_json)
     checks["gate_report"] = {
         "ok": bool(
             gate_report.get("ok")
             and gate_json.get("schema") == "rvmt.35t.next_gate.v2"
-            and gate_json.get("run_id") == validation_run_id
+            and gate_json.get("run_id") == trace_gate_run_id
+            and gate_json.get("claim_level") == "full_matrix_ready"
             and gate_json.get("trace_records") == 512
             and gate_json.get("trace_profile_policy") == "35t_small_capacity"
             and all_gate_samples_pass(gate_json)
         ),
         "status": gate_report.get("reason", "checked"),
         "validation_run_id": validation_run_id,
+        "trace_gate_run_id": trace_gate_run_id,
+        **gate_counts,
     }
 
     fd_flow = check_json("fd_path_flow_summary.json")
@@ -179,6 +218,19 @@ def write_report(report: dict[str, Any], evidence_root: Path) -> None:
         "",
         f"Hardware validated: {str(report['hardware_validated']).lower()}",
         "",
+    ]
+    if report.get("validation_mode"):
+        lines += [
+            f"Validation mode: {report.get('validation_mode')}",
+            "",
+            f"Validation run: {report.get('validation_run_id')}",
+            "",
+            f"Trace-gate run: {report.get('trace_gate_run_id')}",
+            "",
+            f"Semantic run: {report.get('semantic_run_id')}",
+            "",
+        ]
+    lines += [
         "## Plan Check",
         "",
     ]
@@ -273,6 +325,7 @@ def check_board_validation(
 
     content_checked = bool(content_checks)
     content_ok = bool(content_checked and all(row.get("ok") for row in content_checks.values()))
+    bundle_identity = content_checks.get("bundle_manifest", {}) if content_checks else {}
     hardware_validated = bool(results_available and not missing and content_ok)
     plan_failed = any("plan check failed" in item for item in failures)
     if plan_failed:
@@ -293,6 +346,10 @@ def check_board_validation(
         "scope": EXPECTED_SCOPE,
         "claim_level": EXPECTED_CLAIM_LEVEL,
         "hardware_validated": hardware_validated,
+        "validation_mode": bundle_identity.get("validation_mode"),
+        "validation_run_id": bundle_identity.get("validation_run_id"),
+        "trace_gate_run_id": bundle_identity.get("trace_gate_run_id"),
+        "semantic_run_id": bundle_identity.get("semantic_run_id"),
         "plan_path": rel(plan_path, repo_root),
         "plan_checks": plan_checks,
         "required_capture_items": plan.get("required_capture_items", []),
@@ -347,8 +404,10 @@ def self_test() -> int:
                 {
                     "schema": "rvmt.35t.next_gate.v2",
                     "run_id": RUN_ID,
+                    "claim_level": "full_matrix_ready",
                     "trace_records": 512,
                     "trace_profile_policy": "35t_small_capacity",
+                    "samples": [{"sample_id": "file_scan", "gate_status": "PASS"}],
                     "sample_status": {"file_scan": {"status": "PASS"}},
                 }
             ),
@@ -407,8 +466,10 @@ def self_test() -> int:
                 {
                     "schema": "rvmt.35t.next_gate.v2",
                     "run_id": alt_run_id,
+                    "claim_level": "full_matrix_ready",
                     "trace_records": 512,
                     "trace_profile_policy": "35t_small_capacity",
+                    "samples": [{"sample_id": "file_scan", "gate_status": "PASS"}],
                     "sample_status": {"file_scan": {"status": "PASS"}},
                 }
             ),

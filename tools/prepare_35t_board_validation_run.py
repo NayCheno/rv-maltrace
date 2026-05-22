@@ -59,10 +59,10 @@ def shell_join(parts: list[str]) -> str:
     return " ".join(quoted)
 
 
-def experiment_base_args(args: argparse.Namespace) -> list[str]:
+def experiment_base_args(args: argparse.Namespace, run_id: str) -> list[str]:
     return [
         "--run-id",
-        args.validation_run_id,
+        run_id,
         "--reps",
         str(args.reps),
         "--trace-records",
@@ -74,11 +74,18 @@ def experiment_base_args(args: argparse.Namespace) -> list[str]:
     ]
 
 
-def experiment_command(stage: str, args: argparse.Namespace, *, include_board_io: bool = False) -> list[str]:
-    cmd = ["uv", "run", "python", "tools/experiment_35t.py", "--stage", stage, *experiment_base_args(args)]
+def experiment_command(
+    stage: str,
+    args: argparse.Namespace,
+    *,
+    run_id: str,
+    include_board_io: bool = False,
+    syscall_side_channel: bool = False,
+) -> list[str]:
+    cmd = ["uv", "run", "python", "tools/experiment_35t.py", "--stage", stage, *experiment_base_args(args, run_id)]
     if include_board_io:
         cmd.extend(["--port", args.port, "--baud", str(args.baud), "--duration", str(args.duration), "--board-runner-path", args.board_runner_path])
-        if args.syscall_side_channel:
+        if syscall_side_channel:
             cmd.append("--syscall-side-channel")
     return cmd
 
@@ -86,42 +93,74 @@ def experiment_command(stage: str, args: argparse.Namespace, *, include_board_io
 def build_runbook(repo_root: Path, args: argparse.Namespace) -> dict[str, Any]:
     repo_root = repo_root.resolve()
     results_root = Path("results/experiments/35t") / args.validation_run_id
+    trace_gate_run_id = f"{args.validation_run_id}-trace-gate"
+    semantic_run_id = f"{args.validation_run_id}-side-channel"
+    trace_gate_root = Path("results/experiments/35t") / trace_gate_run_id
+    semantic_root = Path("results/experiments/35t") / semantic_run_id
     bundle_root = results_root / "board_validation_bundle"
     commands = [
         {
-            "phase": "groundtruth",
+            "phase": "groundtruth-trace-gate",
             "hardware_required": False,
-            "command": shell_join(experiment_command("groundtruth", args)),
-            "expected_output": rel(results_root / "samples", repo_root),
+            "command": shell_join(experiment_command("groundtruth", args, run_id=trace_gate_run_id)),
+            "expected_output": rel(trace_gate_root / "samples", repo_root),
             "pass_condition": "required host/qemu baselines complete or failures are recorded explicitly",
+        },
+        {
+            "phase": "groundtruth-side-channel",
+            "hardware_required": False,
+            "command": shell_join(experiment_command("groundtruth", args, run_id=semantic_run_id)),
+            "expected_output": rel(semantic_root / "samples", repo_root),
+            "pass_condition": "required host/qemu baselines complete or failures are recorded explicitly for the side-channel pass",
         },
         {
             "phase": "rootfs",
             "hardware_required": False,
-            "command": shell_join(experiment_command("rootfs", args)),
+            "command": shell_join(experiment_command("rootfs", args, run_id=args.validation_run_id)),
             "expected_output": "build/board/artix7_35t",
             "pass_condition": "35T LiteX/VexRiscv rootfs experiment overlay is rebuilt",
         },
         {
-            "phase": "board",
+            "phase": "board-trace-gate",
             "hardware_required": True,
-            "command": shell_join(experiment_command("board", args, include_board_io=True)),
-            "expected_output": rel(results_root / "board/raw_uart.log", repo_root),
-            "pass_condition": "UART capture contains target-scoped markers and trace dumps for the full 13-sample matrix",
+            "command": shell_join(experiment_command("board", args, run_id=trace_gate_run_id, include_board_io=True, syscall_side_channel=False)),
+            "expected_output": rel(trace_gate_root / "board/raw_uart.log", repo_root),
+            "pass_condition": "UART capture contains target-scoped markers and trace dumps for the full 13-sample matrix without syscall side-channel perturbation",
         },
         {
-            "phase": "analyze",
+            "phase": "analyze-trace-gate",
             "hardware_required": False,
-            "command": shell_join(experiment_command("analyze", args)),
-            "expected_output": rel(results_root / "samples", repo_root),
-            "pass_condition": "semantic recovery, behavior audit, lightweight trace analysis, alignment, and trace-code joins are regenerated",
+            "command": shell_join(experiment_command("analyze", args, run_id=trace_gate_run_id)),
+            "expected_output": rel(trace_gate_root / "samples", repo_root),
+            "pass_condition": "strict trace-gate semantic recovery, behavior audit, alignment, and trace-code joins are regenerated",
         },
         {
-            "phase": "report",
+            "phase": "report-trace-gate",
             "hardware_required": False,
-            "command": shell_join(experiment_command("report", args)),
-            "expected_output": rel(results_root / "aggregate", repo_root),
-            "pass_condition": "aggregate 35T reports are regenerated and failures remain explicit",
+            "command": shell_join(experiment_command("report", args, run_id=trace_gate_run_id)),
+            "expected_output": rel(trace_gate_root / "aggregate", repo_root),
+            "pass_condition": "strict trace-gate aggregate reports are regenerated and failures remain explicit",
+        },
+        {
+            "phase": "board-side-channel",
+            "hardware_required": True,
+            "command": shell_join(experiment_command("board", args, run_id=semantic_run_id, include_board_io=True, syscall_side_channel=True)),
+            "expected_output": rel(semantic_root / "board/raw_uart.log", repo_root),
+            "pass_condition": "UART capture contains syscall side-channel observations needed for fd/path and process-tree semantic closure",
+        },
+        {
+            "phase": "analyze-side-channel",
+            "hardware_required": False,
+            "command": shell_join(experiment_command("analyze", args, run_id=semantic_run_id)),
+            "expected_output": rel(semantic_root / "samples", repo_root),
+            "pass_condition": "side-channel semantic recovery and trace-code joins are regenerated",
+        },
+        {
+            "phase": "report-side-channel",
+            "hardware_required": False,
+            "command": shell_join(experiment_command("report", args, run_id=semantic_run_id)),
+            "expected_output": rel(semantic_root / "aggregate", repo_root),
+            "pass_condition": "side-channel aggregate reports are regenerated and failures remain explicit",
         },
         {
             "phase": "package",
@@ -135,13 +174,19 @@ def build_runbook(repo_root: Path, args: argparse.Namespace) -> dict[str, Any]:
                     "--repo-root",
                     ".",
                     "--source-results-root",
-                    results_root.as_posix(),
+                    semantic_root.as_posix(),
+                    "--trace-gate-results-root",
+                    trace_gate_root.as_posix(),
+                    "--semantic-results-root",
+                    semantic_root.as_posix(),
+                    "--validation-run-id",
+                    args.validation_run_id,
                     "--out-dir",
                     bundle_root.as_posix(),
                 ]
             ),
             "expected_output": rel(bundle_root / "bundle_manifest.json", repo_root),
-            "pass_condition": "bundle is PASS only if fd/path and process-tree summaries are PASS; otherwise it remains CANDIDATE_PARTIAL",
+            "pass_condition": "bundle is PASS only if strict trace gate, fd/path summary, process-tree summary, and function-level attribution checks pass",
         },
         {
             "phase": "check",
@@ -174,6 +219,11 @@ def build_runbook(repo_root: Path, args: argparse.Namespace) -> dict[str, Any]:
         "hardware_required": True,
         "board_target": "Artix-7 35T / LiteX / VexRiscv",
         "results_root": results_root.as_posix(),
+        "validation_mode": "dual_channel",
+        "trace_gate_run_id": trace_gate_run_id,
+        "semantic_run_id": semantic_run_id,
+        "trace_gate_results_root": trace_gate_root.as_posix(),
+        "semantic_results_root": semantic_root.as_posix(),
         "bundle_root": bundle_root.as_posix(),
         "trace_records": args.trace_records,
         "trace_profile_policy": args.trace_profile_policy,
@@ -183,7 +233,7 @@ def build_runbook(repo_root: Path, args: argparse.Namespace) -> dict[str, Any]:
         "baud": args.baud,
         "board_runner_path": args.board_runner_path,
         "duration": args.duration,
-        "syscall_side_channel": bool(args.syscall_side_channel),
+        "syscall_side_channel": True,
         "matrix_scope": "full 13-sample 35T matrix",
         "focus_samples": DEFAULT_FOCUS_SAMPLES,
         "required_capture_items": [
@@ -214,6 +264,16 @@ def render_markdown(runbook: dict[str, Any]) -> str:
         f"Source run: `{runbook['source_run_id']}`",
         "",
         f"Results root: `{runbook['results_root']}`",
+        "",
+        f"Validation mode: `{runbook['validation_mode']}`",
+        "",
+        f"Trace-gate run: `{runbook['trace_gate_run_id']}`",
+        "",
+        f"Trace-gate results root: `{runbook['trace_gate_results_root']}`",
+        "",
+        f"Semantic side-channel run: `{runbook['semantic_run_id']}`",
+        "",
+        f"Semantic results root: `{runbook['semantic_results_root']}`",
         "",
         f"Bundle root: `{runbook['bundle_root']}`",
         "",

@@ -152,6 +152,71 @@ def build_summary(results_root: Path) -> dict[str, Any]:
     }
 
 
+def build_function_summary(source_summary: dict[str, Any]) -> dict[str, Any]:
+    function_level = source_summary.get("function_level", {})
+    samples = source_summary.get("samples", [])
+    function_status = function_level.get("status") if isinstance(function_level, dict) else "unavailable"
+    sample_count = function_level.get("sample_count", 0) if isinstance(function_level, dict) else 0
+    samples_available = function_level.get("samples_available", 0) if isinstance(function_level, dict) else 0
+    if function_status == "available" and samples_available == sample_count and sample_count:
+        status = "PASS"
+    elif function_status == "available":
+        status = "PARTIAL"
+    else:
+        status = "UNAVAILABLE"
+    function_samples = []
+    if isinstance(samples, list):
+        for row in samples:
+            if not isinstance(row, dict):
+                continue
+            function_samples.append(
+                {
+                    "sample": row.get("sample"),
+                    "status": "PASS" if row.get("function_level") == "available" else "UNAVAILABLE",
+                    "function_level": row.get("function_level"),
+                    "function_count": row.get("function_count"),
+                    "function_basis": row.get("function_basis"),
+                    "code_map_path": row.get("code_map_path"),
+                    "trace_code_summary_path": row.get("trace_code_summary_path"),
+                    "target_attributed_events": row.get("target_attributed_events"),
+                    "process_attributed_code_site_events": row.get("process_attributed_code_site_events"),
+                }
+            )
+    return {
+        "schema": "rvmt.35t.function_attribution_summary.v1",
+        "run_id": source_summary.get("run_id", RUN_ID),
+        "scope": source_summary.get("scope", "Artix-7 35T / LiteX / VexRiscv"),
+        "claim_level": source_summary.get(
+            "claim_level",
+            "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+        ),
+        "status": status,
+        "function_level": function_level,
+        "samples": function_samples,
+        "source_line_reference": {
+            "status": source_summary.get("source_line_level", {}).get("status")
+            if isinstance(source_summary.get("source_line_level"), dict)
+            else "unknown",
+            "source_summary": "source_attribution_summary.json",
+        },
+        "limitations": [
+            "function-level attribution is symbol/range based and is not source-line attribution",
+            "source-line availability is tracked separately in source_attribution_summary.json",
+            "this does not prove complete semantic reconstruction",
+        ],
+        "non_claims": source_summary.get(
+            "non_claims",
+            [
+                "no CVA6 board claim",
+                "no real malware detection claim",
+                "no mature detector claim",
+                "no classifier accuracy claim",
+                "no complete semantic reconstruction claim",
+            ],
+        ),
+    }
+
+
 def render_markdown(summary: dict[str, Any]) -> str:
     lines = [
         f"# 35T Source Attribution Summary: {summary['run_id']}",
@@ -183,6 +248,34 @@ def render_markdown(summary: dict[str, Any]) -> str:
     return "\n".join(lines) + "\n"
 
 
+def render_function_markdown(summary: dict[str, Any]) -> str:
+    lines = [
+        f"# 35T Function Attribution Summary: {summary['run_id']}",
+        "",
+        f"Status: {summary['status']}",
+        "",
+        "Scope: Artix-7 35T / LiteX / VexRiscv only.",
+        "",
+        f"Claim level: {summary['claim_level']}.",
+        "",
+        "## Overall",
+        "",
+        f"- Function level: {summary['function_level']['status']} ({summary['function_level']['samples_available']}/{summary['function_level']['sample_count']} samples)",
+        "",
+        "## Samples",
+        "",
+    ]
+    for row in summary["samples"]:
+        lines.append(f"- {row['sample']}: status={row['status']}; functions={row.get('function_count')}")
+    lines += ["", "## Limitations", ""]
+    for item in summary["limitations"]:
+        lines.append(f"- {item}")
+    lines += ["", "## Non-claims", ""]
+    for item in summary["non_claims"]:
+        lines.append(f"- {item}")
+    return "\n".join(lines) + "\n"
+
+
 def write_outputs(summary: dict[str, Any], evidence_root: Path) -> None:
     evidence_root.mkdir(parents=True, exist_ok=True)
     (evidence_root / "source_attribution_summary.json").write_text(
@@ -192,6 +285,17 @@ def write_outputs(summary: dict[str, Any], evidence_root: Path) -> None:
     )
     (evidence_root / "source_attribution_summary.md").write_text(
         render_markdown(summary),
+        encoding="utf-8",
+        newline="\n",
+    )
+    function_summary = build_function_summary(summary)
+    (evidence_root / "function_attribution_summary.json").write_text(
+        json.dumps(function_summary, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+    (evidence_root / "function_attribution_summary.md").write_text(
+        render_function_markdown(function_summary),
         encoding="utf-8",
         newline="\n",
     )
@@ -233,6 +337,10 @@ def self_test() -> int:
             return 1
         if summary["function_level"]["samples_available"] != len(SAMPLES):
             print("[FAIL] expected function-level availability for every fixture sample", file=sys.stderr)
+            return 1
+        function_summary = build_function_summary(summary)
+        if function_summary["status"] != "PASS":
+            print("[FAIL] expected function attribution fixture to pass", file=sys.stderr)
             return 1
     print("[PASS] 35T source attribution summary self-test")
     return 0

@@ -1,0 +1,97 @@
+{
+  "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+  "function_level": {
+    "basis": "ELF symbol table",
+    "sample_count": 6,
+    "samples_available": 6,
+    "status": "available"
+  },
+  "limitations": [
+    "function-level attribution is symbol/range based and is not source-line attribution",
+    "source-line availability is tracked separately in source_attribution_summary.json",
+    "this does not prove complete semantic reconstruction"
+  ],
+  "non_claims": [
+    "no CVA6 board claim",
+    "no real malware detection claim",
+    "no mature detector claim",
+    "no classifier accuracy claim",
+    "no complete semantic reconstruction claim"
+  ],
+  "run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "samples": [
+    {
+      "code_map_path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/illegal_trap/build/illegal_trap.code_map.json",
+      "function_basis": "ELF symbol table",
+      "function_count": 1103,
+      "function_level": "available",
+      "process_attributed_code_site_events": 16,
+      "sample": "illegal_trap",
+      "status": "PASS",
+      "target_attributed_events": 27,
+      "trace_code_summary_path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/illegal_trap/board/trace-on/rep_00/trace_code_map/trace_code_map_summary.json"
+    },
+    {
+      "code_map_path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/process_chain/build/process_chain.code_map.json",
+      "function_basis": "ELF symbol table",
+      "function_count": 1101,
+      "function_level": "available",
+      "process_attributed_code_site_events": 18,
+      "sample": "process_chain",
+      "status": "PASS",
+      "target_attributed_events": 18,
+      "trace_code_summary_path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/process_chain/board/trace-on/rep_00/trace_code_map/trace_code_map_summary.json"
+    },
+    {
+      "code_map_path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/dynamic_executable_memory/build/dynamic_executable_memory.code_map.json",
+      "function_basis": "ELF symbol table",
+      "function_count": 1099,
+      "function_level": "available",
+      "process_attributed_code_site_events": 16,
+      "sample": "dynamic_executable_memory",
+      "status": "PASS",
+      "target_attributed_events": 16,
+      "trace_code_summary_path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/dynamic_executable_memory/board/trace-on/rep_00/trace_code_map/trace_code_map_summary.json"
+    },
+    {
+      "code_map_path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/file_scan/build/file_scan.code_map.json",
+      "function_basis": "ELF symbol table",
+      "function_count": 1101,
+      "function_level": "available",
+      "process_attributed_code_site_events": 16,
+      "sample": "file_scan",
+      "status": "PASS",
+      "target_attributed_events": 16,
+      "trace_code_summary_path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/file_scan/board/trace-on/rep_00/trace_code_map/trace_code_map_summary.json"
+    },
+    {
+      "code_map_path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/batch_open_read_write/build/batch_open_read_write.code_map.json",
+      "function_basis": "ELF symbol table",
+      "function_count": 1101,
+      "function_level": "available",
+      "process_attributed_code_site_events": 24,
+      "sample": "batch_open_read_write",
+      "status": "PASS",
+      "target_attributed_events": 24,
+      "trace_code_summary_path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/batch_open_read_write/board/trace-on/rep_00/trace_code_map/trace_code_map_summary.json"
+    },
+    {
+      "code_map_path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/self_copy_sim/build/self_copy_sim.code_map.json",
+      "function_basis": "ELF symbol table",
+      "function_count": 1101,
+      "function_level": "available",
+      "process_attributed_code_site_events": 18,
+      "sample": "self_copy_sim",
+      "status": "PASS",
+      "target_attributed_events": 18,
+      "trace_code_summary_path": "D:/Code/research/rv-maltrace/results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/self_copy_sim/board/trace-on/rep_00/trace_code_map/trace_code_map_summary.json"
+    }
+  ],
+  "schema": "rvmt.35t.function_attribution_summary.v1",
+  "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "source_line_reference": {
+    "source_summary": "source_attribution_summary.json",
+    "status": "unavailable"
+  },
+  "status": "PASS"
+}

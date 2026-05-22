@@ -1,0 +1,107 @@
+# 35T Paper Evidence Check: 35t-smallcap-r512-full-synthetic-matrix-20260521
+
+Status: PASS
+
+Paper support status: SUPPORTED_WITH_BOUNDED_CLAIMS
+
+Strict single-run status: PASS
+
+Validation mode: dual_channel
+
+Claim level: 35T hardware-trace-assisted synthetic malware-like behavior audit prototype.
+
+## Primary Full-Matrix Gate
+
+- run_id: 35t-smallcap-r512-full-synthetic-matrix-20260521
+- claim_level: full_matrix_ready
+- samples gate PASS: 13/13
+- sample status PASS: 13/13
+- trace_records: 512
+- trace_profile_policy: 35t_small_capacity
+- UNKNOWN events: 0
+- corrupt records: 0
+
+## Targeted Validation Gate
+
+- validation_run_id: 35t-targeted-board-validation-20260522
+- trace_gate_run_id: 35t-smallcap-r512-full-synthetic-matrix-20260521
+- next gate claim_level: full_matrix_ready
+- samples gate PASS: 13/13
+- sample status PASS: 13/13
+
+## Targeted Side-Channel Semantic Closure
+
+- semantic_run_id: 35t-targeted-board-validation-20260522
+- side-channel samples gate PASS: 9/13
+- side-channel sample status PASS: 13/13
+- bundle status: PASS
+- checker status: PASS
+- hardware_validated: true
+- fd/path: PASS (syscall_side_channel)
+- process tree: PASS (2 edges)
+- function attribution: PASS
+- source attribution: PARTIAL
+
+## Focused Side-Channel Closure
+
+- closure_run_id: 35t-sidechannel-closure-r2048-20260522
+- trace_records: 2048
+- focused samples gate PASS: 4/4
+- focused sample status PASS: 4/4
+- status: PASS
+- gate report: results/experiments/35t/35t-sidechannel-closure-r2048-20260522/aggregate/gate_report.json
+- plan: docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/side_channel_closure_plan.json
+
+This focused R2048 closure covers the four previously failing side-channel samples. It does not convert the earlier R512 side-channel semantic capture into a single-run 13/13 side-channel result.
+
+## Supported Claims
+
+- 35T / LiteX / VexRiscv prototype scope
+- controlled benign and synthetic malware-like workload matrix
+- 512-record 35T small-capacity primary trace gate with 13/13 sample gate PASS
+- targeted dual-channel validation bundle with strict trace gate separated from side-channel semantic capture
+- targeted board side-channel fd/path closure for representative file-scan behavior
+- targeted board side-channel clone/wait process-edge closure for representative process-chain behavior
+- focused R2048 side-channel closure for the four previously failing semantic samples
+- ELF-symbol function-level attribution for the case-study samples
+
+## Forbidden Claims
+
+- CVA6 validation
+- real malware execution or real malware detection
+- classifier accuracy, family coverage, IOC coverage, or TTP coverage
+- mature production detector readiness
+- complete semantic reconstruction
+- source-line attribution
+- single-trace all-gates PASS for the side-channel semantic capture
+
+## Limitations
+
+- The evidence chain is dual-channel: a low-perturbation trace-gate channel supplies the strict full-matrix gate, while a syscall side-channel capture supplies semantic closure evidence.
+- The side-channel semantic capture is not itself a strict single-trace all-gates PASS and must not be used as the trace-gate channel.
+- The R2048 side-channel closure is a focused larger-buffer follow-up for the four failed samples, not a single 13-sample side-channel rerun.
+- Function attribution is symbol/range based; source-line records are unavailable.
+- Process-tree evidence still leaves the target parent PID unresolved and must not be described as complete process ownership.
+
+## Side-Channel Gate Failures
+
+- batch_open_read_write: failures=missing_strong_expected, marker_scope, drop_rate_median_gt_5pct; blockers=trace_record_cap_hit, runtime_process_attribution; marker=FAIL; runtime=BLOCKED; capped_reps=5
+- illegal_trap: failures=missing_strong_expected, marker_scope, drop_rate_median_gt_5pct; blockers=trace_record_cap_hit, runtime_process_attribution; marker=FAIL; runtime=BLOCKED; capped_reps=5
+- process_chain: failures=missing_strong_expected, marker_scope, drop_rate_median_gt_5pct; blockers=trace_record_cap_hit, runtime_process_attribution; marker=FAIL; runtime=BLOCKED; capped_reps=5
+- dynamic_executable_memory: failures=missing_strong_expected; blockers=none; marker=PASS; runtime=PASS; capped_reps=0
+
+## Non-claims
+
+- no CVA6 board claim
+- no real malware detection claim
+- no mature detector claim
+- no classifier accuracy claim
+- no complete semantic reconstruction claim
+
+## Warnings
+
+- side-channel semantic capture has strict gate failures and is not used as the trace-gate channel
+
+## Failures
+
+- none

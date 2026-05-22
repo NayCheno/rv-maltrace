@@ -71,6 +71,12 @@ def self_test() -> int:
     if not summary["flows"] or summary["flows"][0]["path"] != "/tmp/a":
         print("[FAIL] missed openat path/fd flow", file=sys.stderr)
         return 1
+    if summary["flows"][0].get("status") != "closed" or summary["flows"][0].get("fd_generation") != 1:
+        print("[FAIL] missed fd lifetime/generation metadata", file=sys.stderr)
+        return 1
+    if summary["flows"][0].get("path_source") != "dereferenced_user_string":
+        print("[FAIL] missed fd/path source metadata", file=sys.stderr)
+        return 1
     if not summary["unresolved_fds"]:
         print("[FAIL] missed fd use after close", file=sys.stderr)
         return 1

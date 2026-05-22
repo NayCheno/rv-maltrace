@@ -306,12 +306,16 @@ Strong evidence is the combination of:
 
 ### Weak Evidence / Benign Overlap
 
-Strict parent-child closure is not fully proven in the current evidence bundle. `process_chain_capacity_debug.md` records `Boundary closed: False` and reports missing or non-overlapping strict clone-parent return and wait-pid evidence for the reps.
+Strict parent-child closure is now available for the targeted 35T validation
+bundle. The committed `process_tree_summary` is `PASS`: it observes positive
+clone-return child PID values, matches them to wait PID evidence, records exec
+path source metadata from the board syscall side channel, and emits strong
+closed edges for the representative `process_chain` validation evidence.
 
-The committed `process_tree_summary` now makes that boundary explicit as `PARTIAL`:
-it observes target-attributed `clone`, `waitid`, and `execve` shapes, but does
-not close parent-child edges unless positive clone-return child PID evidence and
-wait PID evidence match. The current evidence also lacks dereferenced exec paths.
+This still does not claim a complete OS process graph. The parent PID remains
+represented as `target_parent_unresolved`, and broader ownership would require
+additional PID/SATP/ASID or runtime process-map evidence across the whole OS
+context.
 
 Committed summary:
 
@@ -549,13 +553,14 @@ Trace-code join:
 - PC owner counts: `kernel: 17`, `target_sample: 16`, `unknown: 9`.
 - Callsite kind counts: `syscall_site: 16`, `unknown: 26`.
 
-Path and fd flow reconstruction: Partial in the committed evidence snapshot.
-The updated `fd_path_flow_summary` observes target-attributed fd/path syscall
-shape and explicitly separates return-only register snapshots from entry fd
-arguments. It still does not fully link `openat(path) -> fd ->
-getdents64/close`, because the current evidence does not include dereferenced
-path strings and the representative `openat` lacks paired successful fd-return
-evidence.
+Path and fd flow reconstruction: `PASS` in the committed evidence snapshot. The
+updated `fd_path_flow_summary` uses the targeted 35T validation board syscall
+side-channel evidence to link `openat(path) -> fd -> getdents64 -> getdents64
+-> close`. The summary records `path_source`, `fd_generation`, `open_seq`,
+`ops`, and a closed fd lifetime.
+
+This remains an explanation artifact for controlled synthetic validation. It
+does not claim complete filesystem provenance or real-malware intent.
 
 Committed summary:
 

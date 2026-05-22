@@ -56,20 +56,22 @@ def return_only_snapshot(row: dict[str, Any]) -> bool:
     return str(row.get("confidence") or "").startswith("return_only")
 
 
-def path_value(row: dict[str, Any], arg_name: str) -> tuple[str | None, str | None]:
+def path_value(row: dict[str, Any], arg_name: str) -> tuple[str | None, str | None, str]:
+    confidence = str(row.get("confidence") or "")
+    string_source = "board_syscall_side_channel" if confidence.startswith("board_syscall_side_channel") else "dereferenced_user_string"
     direct = row.get("path") or row.get("path_string") or row.get("exec_path")
     if isinstance(direct, str) and direct:
-        return direct, None
+        return direct, None, string_source
     args = row.get("args", {})
     if isinstance(args, dict):
         for key in (f"{arg_name}_string", f"{arg_name}_path", "path", "path_string"):
             value = args.get(key)
             if isinstance(value, str) and value:
-                return value, None
+                return value, None, string_source
         pointer = args.get(arg_name)
         if pointer is not None:
-            return None, str(pointer)
-    return None, None
+            return None, str(pointer), "unavailable"
+    return None, None, "unavailable"
 
 
 def is_target_relevant(row: dict[str, Any]) -> bool:
@@ -82,13 +84,23 @@ def is_target_relevant(row: dict[str, Any]) -> bool:
     return isinstance(ret, dict) and ret.get("return_site_process_owner") == "target_child"
 
 
-def event_record(row: dict[str, Any], *, fd: int | None = None, path: str | None = None, path_pointer: str | None = None) -> dict[str, Any]:
+def event_record(
+    row: dict[str, Any],
+    *,
+    fd: int | None = None,
+    fd_generation: int | None = None,
+    path: str | None = None,
+    path_pointer: str | None = None,
+    path_source: str | None = None,
+) -> dict[str, Any]:
     record = {
         "seq": row.get("seq"),
         "name": row.get("name"),
         "fd": fd,
+        "fd_generation": fd_generation,
         "path": path,
         "path_pointer": path_pointer,
+        "path_source": path_source,
         "return_value": syscall_return_value(row),
         "confidence": row.get("confidence"),
         "process_owner": row.get("process_owner"),
@@ -99,6 +111,7 @@ def event_record(row: dict[str, Any], *, fd: int | None = None, path: str | None
 def recover_fd_path_flow(syscalls: list[dict[str, Any]], *, sample: str = "unknown") -> dict[str, Any]:
     flows: list[dict[str, Any]] = []
     active: dict[int, dict[str, Any]] = {}
+    fd_generations: dict[int, int] = {}
     pending_openats: list[dict[str, Any]] = []
     unresolved_fds: list[dict[str, Any]] = []
     unresolved_paths: list[dict[str, Any]] = []
@@ -124,11 +137,19 @@ def recover_fd_path_flow(syscalls: list[dict[str, Any]], *, sample: str = "unkno
 
         name = str(row.get("name"))
         if name == "openat":
-            path, pointer = path_value(row, "a1")
+            path, pointer, path_source = path_value(row, "a1")
             if path:
                 path_strings_seen = True
             fd = syscall_return_fd(syscall_return_value(row))
-            open_event = event_record(row, fd=fd, path=path, path_pointer=pointer)
+            next_generation = fd_generations.get(fd, 0) + 1 if fd is not None else None
+            open_event = event_record(
+                row,
+                fd=fd,
+                fd_generation=next_generation,
+                path=path,
+                path_pointer=pointer,
+                path_source=path_source,
+            )
             if fd is None:
                 pending_openats.append(open_event)
                 unresolved_paths.append(
@@ -137,14 +158,21 @@ def recover_fd_path_flow(syscalls: list[dict[str, Any]], *, sample: str = "unkno
                         "syscall": "openat",
                         "reason": "openat return fd unavailable or failed in current semantic evidence",
                         "path_pointer": pointer,
+                        "path_source": path_source,
                     }
                 )
                 continue
+            fd_generations[fd] = next_generation or 1
             flow = {
                 "process": row.get("process_owner") or "target_child",
                 "path": path,
                 "path_pointer": pointer,
+                "path_source": path_source,
                 "fd": fd,
+                "fd_generation": fd_generations[fd],
+                "open_seq": row.get("seq"),
+                "ops": [],
+                "status": "open",
                 "events": [open_event],
                 "confidence": "weak" if return_only_snapshot(row) else ("medium" if path is None else "strong"),
                 "limitations": [],
@@ -163,10 +191,10 @@ def recover_fd_path_flow(syscalls: list[dict[str, Any]], *, sample: str = "unkno
             if return_only_snapshot(row):
                 return_only_execve_events.append(event_record(row))
                 continue
-            path, pointer = path_value(row, "a0")
+            path, pointer, path_source = path_value(row, "a0")
             if path:
                 path_strings_seen = True
-            execve_events.append(event_record(row, path=path, path_pointer=pointer))
+            execve_events.append(event_record(row, path=path, path_pointer=pointer, path_source=path_source))
             if path is None:
                 unresolved_paths.append(
                     {
@@ -174,6 +202,7 @@ def recover_fd_path_flow(syscalls: list[dict[str, Any]], *, sample: str = "unkno
                         "syscall": "execve",
                         "reason": "execve path string unavailable; only pointer/register evidence is present",
                         "path_pointer": pointer,
+                        "path_source": path_source,
                     }
                 )
             continue
@@ -191,7 +220,6 @@ def recover_fd_path_flow(syscalls: list[dict[str, Any]], *, sample: str = "unkno
             continue
 
         fd = parse_int(syscall_arg(row, "a0"))
-        op_event = event_record(row, fd=fd)
         if fd is None:
             unresolved_fds.append({"seq": row.get("seq"), "syscall": name, "reason": "fd argument unavailable"})
             continue
@@ -206,8 +234,11 @@ def recover_fd_path_flow(syscalls: list[dict[str, Any]], *, sample: str = "unkno
                 }
             )
             continue
+        op_event = event_record(row, fd=fd, fd_generation=flow.get("fd_generation"))
         flow["events"].append(op_event)
+        flow["ops"].append(name)
         if name == "close":
+            flow["status"] = "closed"
             active.pop(fd, None)
 
     limitations: list[str] = []
@@ -224,10 +255,11 @@ def recover_fd_path_flow(syscalls: list[dict[str, Any]], *, sample: str = "unkno
     if active:
         limitations.append("one or more opened fds do not have a reliable close event in current semantic evidence")
 
+    closed_flows = [flow for flow in flows if flow.get("status") == "closed"]
     if target_fd_path_events == 0:
         status = "UNAVAILABLE"
         limitations.append("no target-attributed fd/path syscalls found")
-    elif path_strings_seen and flows and not unresolved_fds and not pending_openats:
+    elif path_strings_seen and flows and len(closed_flows) == len(flows) and not unresolved_fds and not pending_openats and not return_only_fd_ops:
         status = "PASS"
     else:
         status = "PARTIAL"
@@ -247,11 +279,21 @@ def recover_fd_path_flow(syscalls: list[dict[str, Any]], *, sample: str = "unkno
         "unresolved_paths": unresolved_paths,
         "pending_openats": pending_openats,
         "open_fds_at_end": [
-            {"fd": fd, "path": flow.get("path"), "path_pointer": flow.get("path_pointer"), "confidence": flow.get("confidence")}
+            {
+                "fd": fd,
+                "fd_generation": flow.get("fd_generation"),
+                "open_seq": flow.get("open_seq"),
+                "path": flow.get("path"),
+                "path_pointer": flow.get("path_pointer"),
+                "path_source": flow.get("path_source"),
+                "status": flow.get("status"),
+                "confidence": flow.get("confidence"),
+            }
             for fd, flow in sorted(active.items())
         ],
         "observed_counts": {
             "flows": len(flows),
+            "closed_flows": len(closed_flows),
             "execve_events": len(execve_events),
             "return_only_fd_ops": len(return_only_fd_ops),
             "pending_openats": len(pending_openats),
@@ -294,7 +336,12 @@ def render_markdown(summary: dict[str, Any]) -> str:
             event_names = ", ".join(str(event.get("name")) for event in flow.get("events", []))
             path = flow.get("path") or "unavailable"
             pointer = flow.get("path_pointer") or "unavailable"
-            lines.append(f"- fd {flow.get('fd')}: path={path}, path_pointer={pointer}, events={event_names}, confidence={flow.get('confidence')}")
+            ops = ", ".join(str(op) for op in flow.get("ops", [])) or "none"
+            lines.append(
+                f"- fd {flow.get('fd')} gen {flow.get('fd_generation')}: status={flow.get('status')}, "
+                f"path={path}, path_source={flow.get('path_source')}, path_pointer={pointer}, "
+                f"ops={ops}, events={event_names}, confidence={flow.get('confidence')}"
+            )
     else:
         lines.append("- none fully linked")
     lines += ["", "## Execve", ""]

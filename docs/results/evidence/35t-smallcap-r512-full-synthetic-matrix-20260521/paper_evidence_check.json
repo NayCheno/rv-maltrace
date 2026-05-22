@@ -1,0 +1,366 @@
+{
+  "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+  "failures": [],
+  "focused_side_channel_closure": {
+    "checks": {
+      "event_summary": true,
+      "plan_pass": true,
+      "run_id": true,
+      "sample_gate_status": true,
+      "sample_quality": true,
+      "sample_set": true,
+      "sample_status": true,
+      "schema": true,
+      "trace_profile_policy": true,
+      "trace_records": true
+    },
+    "claim_level": "process_attributed_microbench_ready",
+    "event_summary": {
+      "corrupt_record_count": 0,
+      "unknown_event_count": 0
+    },
+    "failures": [],
+    "focused_samples": [
+      "batch_open_read_write",
+      "illegal_trap",
+      "process_chain",
+      "dynamic_executable_memory"
+    ],
+    "gate_report": "results/experiments/35t/35t-sidechannel-closure-r2048-20260522/aggregate/gate_report.json",
+    "per_sample": [
+      {
+        "capped_reps": [],
+        "drop_rate_median": 0.0,
+        "failures": [],
+        "gate_status": "PASS",
+        "marker_scope_status": "PASS",
+        "missing_expected": [],
+        "runtime_process_attribution_status": "PASS",
+        "sample_id": "batch_open_read_write",
+        "sample_status": "PASS",
+        "status": "PASS"
+      },
+      {
+        "capped_reps": [],
+        "drop_rate_median": 0.008710801393728223,
+        "failures": [],
+        "gate_status": "PASS",
+        "marker_scope_status": "PASS",
+        "missing_expected": [],
+        "runtime_process_attribution_status": "PASS",
+        "sample_id": "illegal_trap",
+        "sample_status": "PASS",
+        "status": "PASS"
+      },
+      {
+        "capped_reps": [],
+        "drop_rate_median": 0.0,
+        "failures": [],
+        "gate_status": "PASS",
+        "marker_scope_status": "PASS",
+        "missing_expected": [],
+        "runtime_process_attribution_status": "PASS",
+        "sample_id": "process_chain",
+        "sample_status": "PASS",
+        "status": "PASS"
+      },
+      {
+        "capped_reps": [],
+        "drop_rate_median": 0.0,
+        "failures": [],
+        "gate_status": "PASS",
+        "marker_scope_status": "PASS",
+        "missing_expected": [],
+        "runtime_process_attribution_status": "PASS",
+        "sample_id": "dynamic_executable_memory",
+        "sample_status": "PASS",
+        "status": "PASS"
+      }
+    ],
+    "plan": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/side_channel_closure_plan.json",
+    "run_id": "35t-sidechannel-closure-r2048-20260522",
+    "sample_count": 4,
+    "sample_gate_pass_count": 4,
+    "sample_status_pass_count": 4,
+    "status": "PASS",
+    "trace_records": 2048
+  },
+  "forbidden_claims": [
+    "CVA6 validation",
+    "real malware execution or real malware detection",
+    "classifier accuracy, family coverage, IOC coverage, or TTP coverage",
+    "mature production detector readiness",
+    "complete semantic reconstruction",
+    "source-line attribution",
+    "single-trace all-gates PASS for the side-channel semantic capture"
+  ],
+  "limitations": [
+    "The evidence chain is dual-channel: a low-perturbation trace-gate channel supplies the strict full-matrix gate, while a syscall side-channel capture supplies semantic closure evidence.",
+    "The side-channel semantic capture is not itself a strict single-trace all-gates PASS and must not be used as the trace-gate channel.",
+    "The R2048 side-channel closure is a focused larger-buffer follow-up for the four failed samples, not a single 13-sample side-channel rerun.",
+    "Function attribution is symbol/range based; source-line records are unavailable.",
+    "Process-tree evidence still leaves the target parent PID unresolved and must not be described as complete process ownership."
+  ],
+  "non_claims": [
+    "no CVA6 board claim",
+    "no real malware detection claim",
+    "no mature detector claim",
+    "no classifier accuracy claim",
+    "no complete semantic reconstruction claim"
+  ],
+  "paper_support_status": "SUPPORTED_WITH_BOUNDED_CLAIMS",
+  "primary_full_matrix_gate": {
+    "claim_level": "full_matrix_ready",
+    "claim_level_ok": true,
+    "event_summary": {
+      "corrupt_record_count": 0,
+      "unknown_event_count": 0
+    },
+    "event_summary_ok": true,
+    "failed_samples": [],
+    "run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+    "run_id_ok": true,
+    "sample_count": 13,
+    "sample_gate_pass_count": 13,
+    "sample_gate_status_ok": true,
+    "sample_status_count": 13,
+    "sample_status_ok": true,
+    "sample_status_pass_count": 13,
+    "schema": "rvmt.35t.next_gate.v2",
+    "schema_ok": true,
+    "trace_profile_policy": "35t_small_capacity",
+    "trace_profile_policy_ok": true,
+    "trace_records": 512,
+    "trace_records_ok": true
+  },
+  "schema": "rvmt.35t.paper_evidence_check.v1",
+  "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "semantic_closure": {
+    "board_validation_attempt": {
+      "hardware_validated": true,
+      "next_gate_claim_level": "full_matrix_ready",
+      "status": "BOARD_VALIDATION_PASS"
+    },
+    "board_validation_status": {
+      "hardware_validated": true,
+      "status": "PASS"
+    },
+    "bundle": {
+      "checker_status": "PASS",
+      "hardware_validated": true,
+      "manifest": "results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle/bundle_manifest.json",
+      "selected_statuses": {
+        "fd_path_flow": "PASS",
+        "process_tree": "PASS",
+        "source_attribution": "PARTIAL"
+      },
+      "status": "PASS"
+    },
+    "checks": {
+      "application_closure_pass": true,
+      "board_attempt_pass": true,
+      "board_status_pass": true,
+      "bundle_pass": true,
+      "bundle_selected_statuses": true,
+      "fd_path_closed": true,
+      "function_attribution_pass": true,
+      "process_tree_edges": true,
+      "source_attribution_bounded": true
+    },
+    "fd_path": {
+      "closed_flow_count": 1,
+      "path_source": "board_syscall_side_channel",
+      "sample": "file_scan",
+      "selected_source_type": "syscall_side_channel",
+      "status": "PASS"
+    },
+    "function_attribution": {
+      "function_level": {
+        "basis": "ELF symbol table",
+        "sample_count": 6,
+        "samples_available": 6,
+        "status": "available"
+      },
+      "status": "PASS"
+    },
+    "process_tree": {
+      "edge_count": 2,
+      "sample": "process_chain",
+      "status": "PASS",
+      "unresolved_parent_edge_count": 2
+    },
+    "source_attribution": {
+      "function_level": {
+        "basis": "ELF symbol table",
+        "sample_count": 6,
+        "samples_available": 6,
+        "status": "available"
+      },
+      "source_line_level": {
+        "basis": "source_locations/DWARF line records",
+        "sample_count": 6,
+        "samples_available": 0,
+        "status": "unavailable"
+      },
+      "status": "PARTIAL"
+    }
+  },
+  "semantic_run_id": "35t-targeted-board-validation-20260522",
+  "source_run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "status": "PASS",
+  "strict_single_run_status": "PASS",
+  "supported_claims": [
+    "35T / LiteX / VexRiscv prototype scope",
+    "controlled benign and synthetic malware-like workload matrix",
+    "512-record 35T small-capacity primary trace gate with 13/13 sample gate PASS",
+    "targeted dual-channel validation bundle with strict trace gate separated from side-channel semantic capture",
+    "targeted board side-channel fd/path closure for representative file-scan behavior",
+    "targeted board side-channel clone/wait process-edge closure for representative process-chain behavior",
+    "focused R2048 side-channel closure for the four previously failing semantic samples",
+    "ELF-symbol function-level attribution for the case-study samples"
+  ],
+  "targeted_side_channel_gate": {
+    "claim_level": "prototype_only",
+    "claim_level_ok": true,
+    "event_summary": {
+      "corrupt_record_count": 0,
+      "unknown_event_count": 0
+    },
+    "event_summary_ok": true,
+    "failed_samples": [
+      {
+        "capped_reps": [
+          "rep_00",
+          "rep_01",
+          "rep_02",
+          "rep_03",
+          "rep_04"
+        ],
+        "drop_rate_median": 0.13220338983050847,
+        "gate_blockers": [
+          "trace_record_cap_hit",
+          "runtime_process_attribution"
+        ],
+        "gate_failures": [
+          "missing_strong_expected",
+          "marker_scope",
+          "drop_rate_median_gt_5pct"
+        ],
+        "gate_status": "FAIL",
+        "marker_scope_status": "FAIL",
+        "runtime_process_attribution_status": "BLOCKED",
+        "sample_id": "batch_open_read_write"
+      },
+      {
+        "capped_reps": [
+          "rep_00",
+          "rep_01",
+          "rep_02",
+          "rep_03",
+          "rep_04"
+        ],
+        "drop_rate_median": 0.09219858156028368,
+        "gate_blockers": [
+          "trace_record_cap_hit",
+          "runtime_process_attribution"
+        ],
+        "gate_failures": [
+          "missing_strong_expected",
+          "marker_scope",
+          "drop_rate_median_gt_5pct"
+        ],
+        "gate_status": "FAIL",
+        "marker_scope_status": "FAIL",
+        "runtime_process_attribution_status": "BLOCKED",
+        "sample_id": "illegal_trap"
+      },
+      {
+        "capped_reps": [
+          "rep_00",
+          "rep_01",
+          "rep_02",
+          "rep_03",
+          "rep_04"
+        ],
+        "drop_rate_median": 0.6055469953775039,
+        "gate_blockers": [
+          "trace_record_cap_hit",
+          "runtime_process_attribution"
+        ],
+        "gate_failures": [
+          "missing_strong_expected",
+          "marker_scope",
+          "drop_rate_median_gt_5pct"
+        ],
+        "gate_status": "FAIL",
+        "marker_scope_status": "FAIL",
+        "runtime_process_attribution_status": "BLOCKED",
+        "sample_id": "process_chain"
+      },
+      {
+        "capped_reps": [],
+        "drop_rate_median": 0.0,
+        "gate_blockers": [],
+        "gate_failures": [
+          "missing_strong_expected"
+        ],
+        "gate_status": "FAIL",
+        "marker_scope_status": "PASS",
+        "runtime_process_attribution_status": "PASS",
+        "sample_id": "dynamic_executable_memory"
+      }
+    ],
+    "run_id": "35t-targeted-board-validation-20260522",
+    "run_id_ok": true,
+    "sample_count": 13,
+    "sample_gate_pass_count": 9,
+    "sample_gate_status_ok": false,
+    "sample_status_count": 13,
+    "sample_status_ok": true,
+    "sample_status_pass_count": 13,
+    "schema": "rvmt.35t.next_gate.v2",
+    "schema_ok": true,
+    "trace_profile_policy": "35t_small_capacity",
+    "trace_profile_policy_ok": true,
+    "trace_records": 512,
+    "trace_records_ok": true
+  },
+  "targeted_validation_gate": {
+    "claim_level": "full_matrix_ready",
+    "claim_level_ok": true,
+    "event_summary": {
+      "corrupt_record_count": 0,
+      "unknown_event_count": 0
+    },
+    "event_summary_ok": true,
+    "failed_samples": [],
+    "run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+    "run_id_ok": true,
+    "sample_count": 13,
+    "sample_gate_pass_count": 13,
+    "sample_gate_status_ok": true,
+    "sample_status_count": 13,
+    "sample_status_ok": true,
+    "sample_status_pass_count": 13,
+    "schema": "rvmt.35t.next_gate.v2",
+    "schema_ok": true,
+    "trace_profile_policy": "35t_small_capacity",
+    "trace_profile_policy_ok": true,
+    "trace_records": 512,
+    "trace_records_ok": true
+  },
+  "trace_gate_run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "validation_mode": "dual_channel",
+  "validation_run_id": "35t-targeted-board-validation-20260522",
+  "warnings": [
+    "side-channel semantic capture has strict gate failures and is not used as the trace-gate channel"
+  ],
+  "workflow": {
+    "application_closure_self_test": true,
+    "exists": true,
+    "fd_path_self_test": true,
+    "paper_evidence_self_test": true,
+    "path": ".github/workflows/35t-closure.yml",
+    "process_tree_self_test": true
+  }
+}

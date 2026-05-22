@@ -3,26 +3,26 @@
   "committed_artifacts": [
     {
       "artifact": "README.md",
-      "bytes": 5992,
+      "bytes": 7412,
       "committed_path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/README.md",
       "mode": "generated_lightweight_summary",
-      "sha256": "5496633858e058f0d67d13e2763672e7a91d71695a3432c9610c94d7556bf246",
+      "sha256": "838c1c7998982f70ff21f025da4652f4fe2256ab44501c6be670c6d14e15b3db",
       "source_path": null
     },
     {
       "artifact": "application_closure_check.json",
-      "bytes": 4538,
+      "bytes": 5456,
       "committed_path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/application_closure_check.json",
       "mode": "generated_lightweight_summary",
-      "sha256": "264ef22fd5940c6f02178573e6f05b2d35a5321532e97d21eb73d18ae00cf4a9",
+      "sha256": "6aba1b251049e7e0ed124ad34509b71b4f72247a77843161eeea67e8535b32d5",
       "source_path": null
     },
     {
       "artifact": "application_closure_check.md",
-      "bytes": 2146,
+      "bytes": 2520,
       "committed_path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/application_closure_check.md",
       "mode": "generated_lightweight_summary",
-      "sha256": "10b33405e2292071c95f878e71798b1a89f0bff26ccdd9fd3969700fbdcfcb3a",
+      "sha256": "f511312bb54f67ea3cf20287b5ac45de07bbb154e1ded22515c9213ce2b65f5c",
       "source_path": null
     },
     {
@@ -43,18 +43,18 @@
     },
     {
       "artifact": "board_validation_attempt_summary.json",
-      "bytes": 2852,
+      "bytes": 4871,
       "committed_path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_attempt_summary.json",
       "mode": "generated_lightweight_summary",
-      "sha256": "d0ebdf5abf1cd5b10fc5e11729e0db28a9fbce892939139c3707267c8eff7175",
+      "sha256": "4f90386bff8045331bdee55bc49ffc9f2790865b9c592ada9b6fee5deb78b002",
       "source_path": null
     },
     {
       "artifact": "board_validation_attempt_summary.md",
-      "bytes": 826,
+      "bytes": 1853,
       "committed_path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_attempt_summary.md",
       "mode": "generated_lightweight_summary",
-      "sha256": "bbad943850187141c0afbff3ba0b0beb3d5eecfe396d882bb736196b838125e9",
+      "sha256": "0338dd4e13469b8b47540747d32798cf60699111601a08a807d620cebe4b1d39",
       "source_path": null
     },
     {
@@ -67,10 +67,10 @@
     },
     {
       "artifact": "board_validation_plan.md",
-      "bytes": 3673,
+      "bytes": 3857,
       "committed_path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_plan.md",
       "mode": "generated_lightweight_summary",
-      "sha256": "feda33a9bca5f73b24efde27e8ff488c09abb7aff1a4dcdfdcaf7584b41650ca",
+      "sha256": "72fcfdcc7bdf68b6736a29ec0bfdb9f92443718e7e64548a1b1df58e930dbfe6",
       "source_path": null
     },
     {
@@ -91,34 +91,34 @@
     },
     {
       "artifact": "board_validation_runbook.json",
-      "bytes": 5739,
+      "bytes": 8879,
       "committed_path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_runbook.json",
       "mode": "generated_lightweight_summary",
-      "sha256": "fb25a3de669fe270384926460bb13a6ce1526b3a5f466510d0e1425731737e70",
+      "sha256": "0333c3462f1934f4aa51123bfa14cc99ce3918ef2f0392e27d1e1c6aeba210a0",
       "source_path": null
     },
     {
       "artifact": "board_validation_runbook.md",
-      "bytes": 4560,
+      "bytes": 7445,
       "committed_path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_runbook.md",
       "mode": "generated_lightweight_summary",
-      "sha256": "e6ff21b94316fad0bbd951aef6373a0b242c9d972f336a3df76da8c18687f835",
+      "sha256": "e20f6aceb16a143e89098b91bccd2c8f32a5e2385745e18c877860d02ed0ccb0",
       "source_path": null
     },
     {
       "artifact": "board_validation_status.json",
-      "bytes": 2882,
+      "bytes": 3638,
       "committed_path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_status.json",
       "mode": "generated_lightweight_summary",
-      "sha256": "1c2b7375a8242e36ff87e2a27ead56b63f421bed1c9ab83fa700bcfefba5b815",
+      "sha256": "6f9f066a29ec335173ad07e8d0493b05cc4464ff247ceb7984f50f7d0ae48ea2",
       "source_path": null
     },
     {
       "artifact": "board_validation_status.md",
-      "bytes": 1495,
+      "bytes": 1702,
       "committed_path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_status.md",
       "mode": "generated_lightweight_summary",
-      "sha256": "c449fce0e5cd112a9e6ff0f766d2216720a2cf38e65b70f8cc999c654adf5992",
+      "sha256": "806f6af2f62f6ff846809f96784f042fd6895957695ce298ed6e9e8cda75a2d1",
       "source_path": null
     },
     {
@@ -131,10 +131,10 @@
     },
     {
       "artifact": "command_log.md",
-      "bytes": 26216,
+      "bytes": 31686,
       "committed_path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/command_log.md",
       "mode": "generated_lightweight_summary",
-      "sha256": "f2b5822c71bd7852537c95e00b56cd6eeb4253ef94e2a5704ad36c5ea3773cf6",
+      "sha256": "ef1ac7a327090ecc5bd16800d23cb9c3273e080efcea3b170d47e62528c58e79",
       "source_path": null
     },
     {
@@ -155,18 +155,34 @@
     },
     {
       "artifact": "fd_path_flow_summary.json",
-      "bytes": 2244,
+      "bytes": 2848,
       "committed_path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/fd_path_flow_summary.json",
       "mode": "generated_lightweight_summary",
-      "sha256": "7ae1b62887a77bee663dea76b1db9f4410a3313f2a5edd51bd926f83abb70371",
+      "sha256": "3a441823935cca938f301b495740b9260ffa77099c5de23691b54dee4758e0d1",
       "source_path": null
     },
     {
       "artifact": "fd_path_flow_summary.md",
-      "bytes": 921,
+      "bytes": 652,
       "committed_path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/fd_path_flow_summary.md",
       "mode": "generated_lightweight_summary",
-      "sha256": "7dfc4dd206aed0059452fa2f4f09084708300d51894e6f849f6fa8dfa901851c",
+      "sha256": "16d8c18a333f95737361b3ed758e74871dc0af3915b948f48751b5cf318e5f61",
+      "source_path": null
+    },
+    {
+      "artifact": "function_attribution_summary.json",
+      "bytes": 5419,
+      "committed_path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/function_attribution_summary.json",
+      "mode": "generated_lightweight_summary",
+      "sha256": "54bff4fc7593605ea992bd407b9ca58257e1b615633b8abdd3c8924e5c63c37d",
+      "source_path": null
+    },
+    {
+      "artifact": "function_attribution_summary.md",
+      "bytes": 1004,
+      "committed_path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/function_attribution_summary.md",
+      "mode": "generated_lightweight_summary",
+      "sha256": "aa806a8cac7dfb00743ba205ed4e1db65240153f44af86541cdd28f04804bb94",
       "source_path": null
     },
     {
@@ -186,6 +202,22 @@
       "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggregate/gate_report.md"
     },
     {
+      "artifact": "paper_evidence_check.json",
+      "bytes": 9177,
+      "committed_path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/paper_evidence_check.json",
+      "mode": "generated_lightweight_summary",
+      "sha256": "ed54a36eaa95c3ebfa6409ef085b407dc5fda374b131bfa11a937471fbeeb547",
+      "source_path": null
+    },
+    {
+      "artifact": "paper_evidence_check.md",
+      "bytes": 3720,
+      "committed_path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/paper_evidence_check.md",
+      "mode": "generated_lightweight_summary",
+      "sha256": "fa124e00b3de1f03438064163eaf59b68bd1a29fbf573aa87f2c77a7410ae25e",
+      "source_path": null
+    },
+    {
       "artifact": "process_chain_capacity_debug.json",
       "bytes": 177902,
       "committed_path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/process_chain_capacity_debug.json",
@@ -203,18 +235,18 @@
     },
     {
       "artifact": "process_tree_summary.json",
-      "bytes": 2765,
+      "bytes": 5235,
       "committed_path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/process_tree_summary.json",
       "mode": "generated_lightweight_summary",
-      "sha256": "9877d69e1b413c8855238252204770631c08cf104040ee5f0d9a3942567716ee",
+      "sha256": "d9498e48abe26a07a1024677d545b8efff5e3d96f891190fa78e05db793bf575",
       "source_path": null
     },
     {
       "artifact": "process_tree_summary.md",
-      "bytes": 742,
+      "bytes": 782,
       "committed_path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/process_tree_summary.md",
       "mode": "generated_lightweight_summary",
-      "sha256": "98b26b1d1384ef0ee557b68f20abb33dc1bb050aecf98bc625a678d3662fae6f",
+      "sha256": "0fa5284c675952d07ff0e1958a192142ff4b653fd944973b2cebec2c132550e9",
       "source_path": null
     },
     {
@@ -304,7 +336,7 @@
   "samples": 13,
   "schema": "rvmt.35t.evidence_snapshot.v1",
   "scope": "Artix-7 35T / LiteX / VexRiscv",
-  "snapshot_generated_utc": "2026-05-21T21:30:40Z",
+  "snapshot_generated_utc": "2026-05-22T14:20:24Z",
   "source_results_root": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521",
   "trace_profile_policy": "35t_small_capacity",
   "trace_records": 512

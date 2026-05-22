@@ -34,6 +34,7 @@ EXPECTED_SCOPE = "Artix-7 35T / LiteX / VexRiscv"
 EXPECTED_CLAIM_LEVEL = "35T hardware-trace-assisted synthetic malware-like behavior audit prototype"
 FD_PATH_SAMPLES = ("file_scan", "batch_open_read_write", "self_copy_sim")
 PROCESS_TREE_SAMPLES = ("process_chain",)
+FD_PATH_SAMPLE_PRIORITY = {"file_scan": 3, "batch_open_read_write": 2, "self_copy_sim": 1}
 REQUIRED_OUTPUT_ARTIFACTS = (
     "run_config.json",
     "gate_report.json",
@@ -125,6 +126,17 @@ def copy_if_present(
     )
 
 
+def run_id_from_config(results_root: Path, default: str) -> str:
+    run_config = results_root / "run_config.json"
+    if not run_config.exists():
+        return default
+    try:
+        value = load_json(run_config).get("run_id")
+    except Exception:
+        return default
+    return str(value) if isinstance(value, str) and value else default
+
+
 def semantic_event_paths(results_root: Path, sample: str) -> list[Path]:
     base = results_root / "samples" / "malware_like_synthetic" / sample / "board" / "trace-on"
     return [base / f"rep_{rep:02d}" / "behavior_recovery" / "semantic_events.json" for rep in range(5)]
@@ -208,6 +220,19 @@ def select_best_summary(candidates: list[dict[str, Any]], score_key: str) -> dic
     return max(candidates, key=lambda row: (status_rank(row["summary"].get("status")), int(row.get(score_key, 0))))
 
 
+def select_fd_path_summary(candidates: list[dict[str, Any]]) -> dict[str, Any] | None:
+    if not candidates:
+        return None
+    return max(
+        candidates,
+        key=lambda row: (
+            status_rank(row["summary"].get("status")),
+            FD_PATH_SAMPLE_PRIORITY.get(str(row.get("sample")), 0),
+            int(row.get("flow_count", 0)),
+        ),
+    )
+
+
 def unavailable_fd_summary(reason: str) -> dict[str, Any]:
     return {
         "schema": "rvmt.fd_path_flow.summary.v1",
@@ -284,7 +309,7 @@ def write_fd_summary(results_root: Path, out_dir: Path, repo_root: Path, records
                     "flow_count": len(summary.get("flows", [])),
                 }
             )
-    selected = select_best_summary(candidates, "flow_count")
+    selected = select_fd_path_summary(candidates)
     if selected is None:
         summary = unavailable_fd_summary("no fd/path semantic_events.json files were found under the source run")
     else:
@@ -298,7 +323,7 @@ def write_fd_summary(results_root: Path, out_dir: Path, repo_root: Path, records
             status: sum(1 for row in candidates if row["summary"].get("status") == status)
             for status in ("PASS", "PARTIAL", "UNAVAILABLE")
         }
-        summary["bundle_selection_policy"] = "select the strongest fd/path candidate, preferring board syscall side-channel captures when they tie"
+        summary["bundle_selection_policy"] = "select a PASS fd/path candidate for the canonical file-scan explanation when available; otherwise select the strongest available fd/path candidate"
     write_json(out_dir / "fd_path_flow_summary.json", summary)
     (out_dir / "fd_path_flow_summary.md").write_text(render_fd_markdown(summary), encoding="utf-8", newline="\n")
     records.append(file_record(out_dir / "fd_path_flow_summary.json", repo_root, artifact="fd_path_flow_summary.json", source_path=None, mode="generated_from_board_syscall_side_channel_or_semantic_events"))
@@ -419,6 +444,12 @@ def render_manifest_markdown(manifest: dict[str, Any]) -> str:
         "",
         f"Claim level: {manifest['claim_level']}.",
         "",
+        f"Validation mode: {manifest.get('validation_mode', 'single_channel')}.",
+        "",
+        f"Trace-gate run: {manifest.get('trace_gate_run_id')}.",
+        "",
+        f"Semantic run: {manifest.get('semantic_run_id')}.",
+        "",
         "## Selected Summaries",
         "",
         f"- fd/path flow: {manifest['selected_statuses']['fd_path_flow']}",
@@ -451,19 +482,29 @@ def package_bundle(
     evidence_root_arg: Path,
     out_dir_arg: Path,
     command_log_arg: Path | None,
+    trace_gate_results_root_arg: Path | None = None,
+    semantic_results_root_arg: Path | None = None,
+    validation_run_id_arg: str | None = None,
 ) -> dict[str, Any]:
     repo_root = repo_root.resolve()
     source_results_root = repo_path(repo_root, source_results_root_arg).resolve()
+    trace_gate_results_root = repo_path(repo_root, trace_gate_results_root_arg).resolve() if trace_gate_results_root_arg else source_results_root
+    semantic_results_root = repo_path(repo_root, semantic_results_root_arg).resolve() if semantic_results_root_arg else source_results_root
     evidence_root = repo_path(repo_root, evidence_root_arg).resolve()
     out_dir = repo_path(repo_root, out_dir_arg).resolve()
     out_dir.mkdir(parents=True, exist_ok=True)
     clear_known_outputs(out_dir)
+    validation_mode = (
+        "dual_channel"
+        if trace_gate_results_root.resolve() != semantic_results_root.resolve()
+        else "single_channel"
+    )
 
     records: list[dict[str, Any]] = []
     missing: list[dict[str, Any]] = []
     copy_if_present(
         "run_config.json",
-        [source_results_root / "run_config.json"],
+        [trace_gate_results_root / "run_config.json"],
         out_dir,
         repo_root,
         records,
@@ -471,7 +512,7 @@ def package_bundle(
     )
     copy_if_present(
         "gate_report.json",
-        [source_results_root / "aggregate" / "gate_report.json", source_results_root / "gate_report.json"],
+        [trace_gate_results_root / "aggregate" / "gate_report.json", trace_gate_results_root / "gate_report.json"],
         out_dir,
         repo_root,
         records,
@@ -479,16 +520,16 @@ def package_bundle(
     )
     copy_if_present(
         "gate_report.md",
-        [source_results_root / "aggregate" / "gate_report.md", source_results_root / "gate_report.md"],
+        [trace_gate_results_root / "aggregate" / "gate_report.md", trace_gate_results_root / "gate_report.md"],
         out_dir,
         repo_root,
         records,
         missing,
     )
 
-    fd_summary = write_fd_summary(source_results_root, out_dir, repo_root, records)
-    process_summary = write_process_summary(source_results_root, out_dir, repo_root, records)
-    source_summary = write_source_summary(source_results_root, out_dir, repo_root, records)
+    fd_summary = write_fd_summary(semantic_results_root, out_dir, repo_root, records)
+    process_summary = write_process_summary(semantic_results_root, out_dir, repo_root, records)
+    source_summary = write_source_summary(trace_gate_results_root, out_dir, repo_root, records)
 
     command_log_source = repo_path(repo_root, command_log_arg).resolve() if command_log_arg else evidence_root / "command_log.md"
     if command_log_source.exists():
@@ -497,20 +538,19 @@ def package_bundle(
     else:
         write_generated_command_log(out_dir, repo_root, records)
 
-    run_config_path = out_dir / "run_config.json"
-    validation_run_id = source_results_root.name
-    if run_config_path.exists():
-        try:
-            run_config = load_json(run_config_path)
-            if isinstance(run_config.get("run_id"), str) and run_config.get("run_id"):
-                validation_run_id = str(run_config["run_id"])
-        except Exception:
-            validation_run_id = source_results_root.name
+    trace_gate_run_id = run_id_from_config(trace_gate_results_root, trace_gate_results_root.name)
+    semantic_run_id = run_id_from_config(semantic_results_root, semantic_results_root.name)
+    validation_run_id = validation_run_id_arg or (
+        source_results_root.name if validation_mode == "dual_channel" else trace_gate_run_id
+    )
 
     provisional_manifest = {
         "schema": "rvmt.35t.board_validation_bundle.v1",
         "source_run_id": RUN_ID,
         "validation_run_id": validation_run_id,
+        "validation_mode": validation_mode,
+        "trace_gate_run_id": trace_gate_run_id,
+        "semantic_run_id": semantic_run_id,
         "scope": EXPECTED_SCOPE,
         "claim_level": EXPECTED_CLAIM_LEVEL,
     }
@@ -522,11 +562,16 @@ def package_bundle(
         "schema": "rvmt.35t.board_validation_bundle.v1",
         "source_run_id": RUN_ID,
         "validation_run_id": validation_run_id,
+        "validation_mode": validation_mode,
+        "trace_gate_run_id": trace_gate_run_id,
+        "semantic_run_id": semantic_run_id,
         "generated_utc": utc_now(),
         "status": status,
         "checker_status": checker_status,
         "hardware_validated": checker_report["hardware_validated"],
         "source_results_root": rel(source_results_root, repo_root),
+        "trace_gate_results_root": rel(trace_gate_results_root, repo_root),
+        "semantic_results_root": rel(semantic_results_root, repo_root),
         "evidence_root": rel(evidence_root, repo_root),
         "bundle_root": rel(out_dir, repo_root),
         "scope": EXPECTED_SCOPE,
@@ -567,8 +612,13 @@ def write_self_test_run(root: Path, results: Path, *, complete: bool, run_id: st
         {
             "schema": "rvmt.35t.next_gate.v2",
             "run_id": run_id,
+            "claim_level": "full_matrix_ready",
             "trace_records": 512,
             "trace_profile_policy": "35t_small_capacity",
+            "samples": [
+                {"sample_id": "file_scan", "gate_status": "PASS"},
+                {"sample_id": "process_chain", "gate_status": "PASS"},
+            ],
             "sample_status": {"file_scan": {"status": "PASS"}, "process_chain": {"status": "PASS"}},
         },
     )
@@ -747,6 +797,32 @@ def self_test() -> int:
             print("[FAIL] expected process-tree packager to prefer syscall side-channel evidence", file=sys.stderr)
             return 1
 
+        trace_gate_results = root / "trace-gate-results"
+        semantic_results = root / "semantic-results"
+        write_self_test_run(root, trace_gate_results, complete=True, run_id="35t-dual-trace-gate-self-test")
+        write_self_test_run(root, semantic_results, complete=True, run_id="35t-dual-side-channel-self-test")
+        dual_out = root / "dual-bundle"
+        dual_manifest = package_bundle(
+            root,
+            semantic_results,
+            DEFAULT_EVIDENCE_ROOT,
+            dual_out,
+            None,
+            trace_gate_results_root_arg=trace_gate_results,
+            semantic_results_root_arg=semantic_results,
+            validation_run_id_arg="35t-dual-validation-self-test",
+        )
+        if dual_manifest["status"] != "PASS" or dual_manifest.get("validation_mode") != "dual_channel":
+            print("[FAIL] expected dual-channel self-test bundle to pass", file=sys.stderr)
+            print(json.dumps(dual_manifest, indent=2), file=sys.stderr)
+            return 1
+        if dual_manifest.get("trace_gate_run_id") != "35t-dual-trace-gate-self-test":
+            print("[FAIL] expected dual-channel bundle to record trace gate run id", file=sys.stderr)
+            return 1
+        if dual_manifest.get("semantic_run_id") != "35t-dual-side-channel-self-test":
+            print("[FAIL] expected dual-channel bundle to record semantic run id", file=sys.stderr)
+            return 1
+
         partial_results = root / "partial-results"
         write_self_test_run(root, partial_results, complete=False)
         partial_out = root / "partial-bundle"
@@ -764,6 +840,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--repo-root", type=Path, default=Path("."))
     parser.add_argument("--source-run-id", default=RUN_ID)
     parser.add_argument("--source-results-root", type=Path)
+    parser.add_argument("--trace-gate-results-root", type=Path)
+    parser.add_argument("--semantic-results-root", type=Path)
+    parser.add_argument("--validation-run-id")
     parser.add_argument("--evidence-root", type=Path, default=DEFAULT_EVIDENCE_ROOT)
     parser.add_argument("--out-dir", type=Path)
     parser.add_argument("--command-log", type=Path)
@@ -777,7 +856,16 @@ def main(argv: list[str] | None = None) -> int:
     source_results_root = args.source_results_root or Path("results/experiments/35t") / args.source_run_id
     out_dir = args.out_dir or Path("results/experiments/35t") / args.source_run_id / "board_validation_bundle"
     try:
-        manifest = package_bundle(args.repo_root, source_results_root, args.evidence_root, out_dir, args.command_log)
+        manifest = package_bundle(
+            args.repo_root,
+            source_results_root,
+            args.evidence_root,
+            out_dir,
+            args.command_log,
+            trace_gate_results_root_arg=args.trace_gate_results_root,
+            semantic_results_root_arg=args.semantic_results_root,
+            validation_run_id_arg=args.validation_run_id,
+        )
     except Exception as exc:
         print(f"package_35t_board_validation: error: {exc}", file=sys.stderr)
         return 2

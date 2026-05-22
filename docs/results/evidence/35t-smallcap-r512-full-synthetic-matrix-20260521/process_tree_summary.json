@@ -1,58 +1,131 @@
 {
-  "clone_return_candidates": [],
-  "edges": [],
-  "events": [
+  "bundle_selection_policy": "select the strongest process-tree candidate, preferring board syscall side-channel captures when they tie",
+  "candidate_status_counts": {
+    "PARTIAL": 5,
+    "PASS": 5,
+    "UNAVAILABLE": 0
+  },
+  "clone_return_candidates": [
     {
-      "confidence": "paired_target_ecall_return",
-      "limitation": "clone return did not provide a positive child PID in current semantic evidence",
-      "name": "clone",
-      "process_owner": "target_child",
-      "return_value": "0x0000000000000000",
-      "seq": 21
+      "child_pid": 203,
+      "clone_return_child_pid": 203,
+      "confidence": "medium",
+      "edge_confidence": "medium",
+      "evidence": [
+        "clone_return"
+      ],
+      "exec_attached": true,
+      "matched_wait": true,
+      "seq": 12
     },
     {
-      "confidence": "target_ecall_boundary",
-      "name": "waitid",
-      "process_owner": "target_child",
-      "seq": 23,
-      "wait_pid_arg": 463
-    },
-    {
-      "confidence": "target_ecall_boundary",
-      "limitation": "execve path string unavailable and no pending child PID from clone return",
-      "name": "execve",
-      "path_pointer": "0x0000000000065904",
-      "process_owner": "target_child",
-      "seq": 24
-    },
-    {
-      "confidence": "target_ecall_boundary",
-      "limitation": "clone return did not provide a positive child PID in current semantic evidence",
-      "name": "clone",
-      "process_owner": "target_child",
-      "seq": 73
-    },
-    {
-      "confidence": "target_ecall_boundary",
-      "name": "waitid",
-      "process_owner": "target_child",
-      "seq": 75,
-      "wait_pid_arg": 464
-    },
-    {
-      "confidence": "target_ecall_boundary",
-      "limitation": "execve path string unavailable and no pending child PID from clone return",
-      "name": "execve",
-      "path_pointer": "0x0000000000065904",
-      "process_owner": "target_child",
-      "seq": 77
+      "child_pid": 204,
+      "clone_return_child_pid": 204,
+      "confidence": "medium",
+      "edge_confidence": "medium",
+      "evidence": [
+        "clone_return"
+      ],
+      "exec_attached": true,
+      "matched_wait": true,
+      "seq": 14
     }
   ],
-  "limitations": [
-    "clone/wait shape exists, but strict parent-child edge closure is unavailable",
-    "execve path strings are unavailable; pointers are not dereferenced",
-    "one or more clone/fork events lack a positive child PID return"
+  "edges": [
+    {
+      "child_pid": 203,
+      "confidence": "strong",
+      "edge_confidence": "strong",
+      "evidence": [
+        "clone_return",
+        "waitid"
+      ],
+      "parent_pid": "target_parent_unresolved"
+    },
+    {
+      "child_pid": 204,
+      "confidence": "strong",
+      "edge_confidence": "strong",
+      "evidence": [
+        "clone_return",
+        "waitid"
+      ],
+      "parent_pid": "target_parent_unresolved"
+    }
   ],
+  "events": [
+    {
+      "child_pid_from_return": 203,
+      "clone_return_child_pid": 203,
+      "confidence": "board_syscall_side_channel_paired",
+      "name": "clone",
+      "process_owner": "target_child",
+      "return_value": "0x00000000000000cb",
+      "seq": 12
+    },
+    {
+      "confidence": "board_syscall_side_channel_entry",
+      "exec_path_source": "board_syscall_side_channel",
+      "name": "execve",
+      "path": "/bin/true",
+      "process_owner": "target_child",
+      "seq": 1
+    },
+    {
+      "confidence": "board_syscall_side_channel_paired",
+      "exec_path_source": "board_syscall_side_channel",
+      "name": "execve",
+      "path": "/bin/true",
+      "process_owner": "target_child",
+      "return_value": "0x0000000000000000",
+      "seq": 1
+    },
+    {
+      "confidence": "board_syscall_side_channel_paired",
+      "name": "waitid",
+      "process_owner": "target_child",
+      "return_value": "0x0000000000000000",
+      "seq": 13,
+      "wait_pid_arg": 203,
+      "wait_target_pid": 203
+    },
+    {
+      "child_pid_from_return": 204,
+      "clone_return_child_pid": 204,
+      "confidence": "board_syscall_side_channel_paired",
+      "name": "clone",
+      "process_owner": "target_child",
+      "return_value": "0x00000000000000cc",
+      "seq": 14
+    },
+    {
+      "confidence": "board_syscall_side_channel_entry",
+      "exec_path_source": "board_syscall_side_channel",
+      "name": "execve",
+      "path": "/bin/true",
+      "process_owner": "target_child",
+      "seq": 1
+    },
+    {
+      "confidence": "board_syscall_side_channel_paired",
+      "exec_path_source": "board_syscall_side_channel",
+      "name": "execve",
+      "path": "/bin/true",
+      "process_owner": "target_child",
+      "return_value": "0x0000000000000000",
+      "seq": 1
+    },
+    {
+      "confidence": "board_syscall_side_channel_paired",
+      "name": "waitid",
+      "process_owner": "target_child",
+      "return_value": "0x0000000000000000",
+      "seq": 15,
+      "wait_pid_arg": 204,
+      "wait_target_pid": 204
+    }
+  ],
+  "limitations": [],
   "non_claims": [
     "no real malware detection claim",
     "no classifier accuracy claim",
@@ -60,48 +133,75 @@
   ],
   "observed_counts": {
     "clone_or_fork": 2,
-    "execve": 2,
+    "execve": 4,
     "wait": 2
   },
+  "partial_edges": [],
   "pending_exec_paths": [
     {
-      "path": null,
-      "path_pointer": "0x0000000000065904",
-      "seq": 24
+      "path": "/bin/true",
+      "path_pointer": null,
+      "path_source": "board_syscall_side_channel",
+      "seq": 1
     },
     {
-      "path": null,
-      "path_pointer": "0x0000000000065904",
-      "seq": 77
+      "path": "/bin/true",
+      "path_pointer": null,
+      "path_source": "board_syscall_side_channel",
+      "seq": 1
+    },
+    {
+      "path": "/bin/true",
+      "path_pointer": null,
+      "path_source": "board_syscall_side_channel",
+      "seq": 1
+    },
+    {
+      "path": "/bin/true",
+      "path_pointer": null,
+      "path_source": "board_syscall_side_channel",
+      "seq": 1
     }
   ],
   "processes": [
     {
-      "confidence": "weak",
-      "exec": null,
+      "confidence": "medium",
+      "exec": "/bin/true",
+      "exec_path_source": "board_syscall_side_channel",
       "observed_events": [
+        "clone",
+        "execve",
         "waitid"
       ],
-      "pid": 463,
+      "pid": 203,
       "ppid": "target_parent_unresolved"
     },
     {
-      "confidence": "weak",
-      "exec": null,
+      "confidence": "medium",
+      "exec": "/bin/true",
+      "exec_path_source": "board_syscall_side_channel",
       "observed_events": [
+        "clone",
+        "execve",
         "waitid"
       ],
-      "pid": 464,
+      "pid": 204,
       "ppid": "target_parent_unresolved"
     }
   ],
   "root_process": "target_process",
   "sample": "process_chain",
   "schema": "rvmt.process_tree.summary.v1",
-  "status": "PARTIAL",
+  "selected_candidate": {
+    "sample": "process_chain",
+    "source": "results/experiments/35t/35t-targeted-board-validation-20260522/samples/malware_like_synthetic/process_chain/board/trace-on/rep_00/syscall_side_channel.json",
+    "source_type": "syscall_side_channel"
+  },
+  "status": "PASS",
+  "unclosed_edges": [],
   "unmatched_clone_return_candidates": [],
   "wait_pid_candidates": [
-    463,
-    464
+    203,
+    204
   ]
 }

@@ -1,74 +1,96 @@
 {
+  "bundle_selection_policy": "select a PASS fd/path candidate for the canonical file-scan explanation when available; otherwise select the strongest available fd/path candidate",
+  "candidate_status_counts": {
+    "PARTIAL": 15,
+    "PASS": 15,
+    "UNAVAILABLE": 0
+  },
   "execve_events": [],
-  "flows": [],
-  "limitations": [
-    "argument-level path strings are unavailable in current evidence; pointers are not dereferenced",
-    "some fd operations are return-only snapshots without reliable entry fd arguments",
-    "some fd operations cannot be linked to a prior successful openat return",
-    "some openat entries do not have paired successful fd return evidence"
+  "flows": [
+    {
+      "confidence": "strong",
+      "events": [
+        {
+          "confidence": "board_syscall_side_channel_paired",
+          "fd": 3,
+          "fd_generation": 1,
+          "name": "openat",
+          "path": "experiments/linux_behavior/malware_like/fixtures/scan_root",
+          "path_source": "board_syscall_side_channel",
+          "process_owner": "target_child",
+          "return_value": "0x0000000000000003",
+          "seq": 12
+        },
+        {
+          "confidence": "board_syscall_side_channel_paired",
+          "fd": 3,
+          "fd_generation": 1,
+          "name": "getdents64",
+          "process_owner": "target_child",
+          "return_value": "0x0000000000000070",
+          "seq": 13
+        },
+        {
+          "confidence": "board_syscall_side_channel_paired",
+          "fd": 3,
+          "fd_generation": 1,
+          "name": "getdents64",
+          "process_owner": "target_child",
+          "return_value": "0x0000000000000000",
+          "seq": 14
+        },
+        {
+          "confidence": "board_syscall_side_channel_paired",
+          "fd": 3,
+          "fd_generation": 1,
+          "name": "close",
+          "process_owner": "target_child",
+          "return_value": "0x0000000000000000",
+          "seq": 15
+        }
+      ],
+      "fd": 3,
+      "fd_generation": 1,
+      "limitations": [],
+      "open_seq": 12,
+      "ops": [
+        "getdents64",
+        "getdents64",
+        "close"
+      ],
+      "path": "experiments/linux_behavior/malware_like/fixtures/scan_root",
+      "path_pointer": null,
+      "path_source": "board_syscall_side_channel",
+      "process": "target_child",
+      "status": "closed"
+    }
   ],
+  "limitations": [],
   "non_claims": [
     "no real malware detection claim",
     "no classifier accuracy claim",
     "no complete semantic reconstruction claim"
   ],
   "observed_counts": {
+    "closed_flows": 1,
     "execve_events": 0,
-    "flows": 0,
-    "pending_openats": 1,
-    "return_only_fd_ops": 2,
-    "unresolved_fds": 2
+    "flows": 1,
+    "pending_openats": 0,
+    "return_only_fd_ops": 0,
+    "unresolved_fds": 0
   },
   "open_fds_at_end": [],
-  "pending_openats": [
-    {
-      "confidence": "target_ecall_boundary",
-      "name": "openat",
-      "path_pointer": "0x000000009d408b1c",
-      "process_owner": "target_child",
-      "seq": 23
-    }
-  ],
+  "pending_openats": [],
   "return_only_execve_events": [],
-  "return_only_fd_ops": [
-    {
-      "confidence": "return_only_target_syscall_site_register_snapshot",
-      "reason": "return-only register snapshot does not preserve the fd argument reliably",
-      "return_value": "0x0000000000000070",
-      "seq": 24,
-      "syscall": "getdents64"
-    },
-    {
-      "confidence": "return_only_target_syscall_site_register_snapshot",
-      "reason": "return-only register snapshot does not preserve the fd argument reliably",
-      "return_value": "0x0000000000000000",
-      "seq": 27,
-      "syscall": "close"
-    }
-  ],
+  "return_only_fd_ops": [],
   "sample": "file_scan",
   "schema": "rvmt.fd_path_flow.summary.v1",
-  "status": "PARTIAL",
-  "unresolved_fds": [
-    {
-      "fd": 3,
-      "reason": "fd operation observed without a prior successful openat fd return in current semantic evidence",
-      "seq": 25,
-      "syscall": "getdents64"
-    },
-    {
-      "fd": 3,
-      "reason": "fd operation observed without a prior successful openat fd return in current semantic evidence",
-      "seq": 26,
-      "syscall": "getdents64"
-    }
-  ],
-  "unresolved_paths": [
-    {
-      "path_pointer": "0x000000009d408b1c",
-      "reason": "openat return fd unavailable or failed in current semantic evidence",
-      "seq": 23,
-      "syscall": "openat"
-    }
-  ]
+  "selected_candidate": {
+    "sample": "file_scan",
+    "source": "results/experiments/35t/35t-targeted-board-validation-20260522/samples/malware_like_synthetic/file_scan/board/trace-on/rep_00/syscall_side_channel.json",
+    "source_type": "syscall_side_channel"
+  },
+  "status": "PASS",
+  "unresolved_fds": [],
+  "unresolved_paths": []
 }

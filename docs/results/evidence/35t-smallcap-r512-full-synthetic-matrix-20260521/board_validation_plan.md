@@ -64,7 +64,7 @@ uv run python tools/check_35t_board_preflight.py --repo-root .
 
 `board_validation_preflight.md` is only a readiness check for host tools, scripts, runbook consistency, and UART port visibility. It does not prove the 35T board image is running.
 
-The validation attempt `35t-targeted-board-validation-20260522` has now completed the runbook through board capture, analyze, report, next-gate, package, and strict check. The attempt summary is committed as `board_validation_attempt_summary.md`. Its status is `BOARD_RUN_COMPLETE_VALIDATION_PARTIAL`: the 13-sample 35T gate is `full_matrix_ready`, but strict board validation is not complete because fd/path and process-tree summaries remain `PARTIAL`.
+The validation attempt `35t-targeted-board-validation-20260522` is now packaged as a dual-channel validation bundle and has completed the selected-artifact strict check. The attempt summary is committed as `board_validation_attempt_summary.md`. Its status is `BOARD_VALIDATION_PASS`: the trace-gate channel is 13/13 strict sample-gate PASS, the side-channel semantic channel supplies fd/path and process-tree PASS evidence, and hardware validation is true. The side-channel semantic capture remains `prototype_only` for single-trace full-matrix wording because it has 13/13 `sample_status` PASS but 9/13 strict `sample_gate_status` PASS.
 
 ## Non-claims
 

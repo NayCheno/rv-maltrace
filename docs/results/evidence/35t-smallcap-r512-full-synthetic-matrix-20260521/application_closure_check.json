@@ -63,6 +63,8 @@
     "docs/results/rv_maltrace_35t_application_case_studies.md",
     "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/evidence_manifest.json",
     "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/explanation_readiness_summary.json",
+    "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/fd_path_flow_summary.json",
+    "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/process_tree_summary.json",
     "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/source_attribution_summary.json",
     "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_attempt_summary.json",
     "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_status.json",
@@ -77,7 +79,33 @@
     "status": "READY_FOR_TARGETED_BOARD_VALIDATION",
     "status_ok": true
   },
+  "explanation_status": {
+    "fd_path": {
+      "closed_flow_count": 1,
+      "flow_count": 1,
+      "limitations_count": 0,
+      "partial_has_limitations": true,
+      "pass_has_closed_flows": true,
+      "schema_ok": true,
+      "status": "PASS",
+      "status_ok": true,
+      "unavailable_has_reason": true
+    },
+    "process_tree": {
+      "edge_count": 2,
+      "limitations_count": 0,
+      "partial_edge_count": 0,
+      "partial_has_limitations": true,
+      "pass_has_edges": true,
+      "schema_ok": true,
+      "status": "PASS",
+      "status_ok": true,
+      "unavailable_has_reason": true,
+      "unclosed_edge_count": 0
+    }
+  },
   "failures": [],
+  "fd_path_status": "PASS",
   "non_claims": {
     "no CVA6 board claim": true,
     "no classifier accuracy claim": true,
@@ -85,6 +113,7 @@
     "no mature detector claim": true,
     "no real malware detection claim": true
   },
+  "process_tree_status": "PASS",
   "required_fields": {
     "full_matrix_ready": {
       "case_study_doc_ok": true,

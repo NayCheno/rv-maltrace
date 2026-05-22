@@ -1,5 +1,5 @@
 {
-  "assessment": "strict 35T board-validation bundle passed",
+  "assessment": "strict dual-channel validation bundle passed: the trace-gate channel passes the full matrix and the side-channel channel supplies selected semantic closure",
   "board_validation_status": {
     "failures": [],
     "hardware_validated": true,
@@ -22,12 +22,16 @@
   "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
   "hardware_validated": true,
   "next_gate": {
-    "all_samples_pass": true,
-    "claim_level": "prototype_only",
-    "gate_report": "results/experiments/35t/35t-targeted-board-validation-20260522/aggregate/gate_report.json",
-    "sample_count": 13,
-    "sample_pass_count": 13,
+    "claim_level": "full_matrix_ready",
+    "gate_report": "results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle/gate_report.json",
+    "sample_gate_all_pass": true,
+    "sample_gate_count": 13,
+    "sample_gate_pass_count": 13,
+    "sample_status_all_pass": true,
+    "sample_status_count": 13,
+    "sample_status_pass_count": 13,
     "schema": "rvmt.35t.next_gate.v2",
+    "strict_failed_samples": [],
     "trace_profile_policy": "35t_small_capacity",
     "trace_records": 512
   },
@@ -69,7 +73,67 @@
   "results_root": "results/experiments/35t/35t-targeted-board-validation-20260522",
   "schema": "rvmt.35t.board_validation_attempt_summary.v1",
   "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "semantic_run_id": "35t-targeted-board-validation-20260522",
+  "side_channel_gate": {
+    "claim_level": "prototype_only",
+    "gate_report": "results/experiments/35t/35t-targeted-board-validation-20260522/aggregate/gate_report.json",
+    "sample_gate_all_pass": false,
+    "sample_gate_count": 13,
+    "sample_gate_pass_count": 9,
+    "schema": "rvmt.35t.next_gate.v2",
+    "strict_failed_samples": [
+      {
+        "gate_blockers": [
+          "trace_record_cap_hit",
+          "runtime_process_attribution"
+        ],
+        "gate_failures": [
+          "missing_strong_expected",
+          "marker_scope",
+          "drop_rate_median_gt_5pct"
+        ],
+        "gate_status": "FAIL",
+        "sample_id": "batch_open_read_write"
+      },
+      {
+        "gate_blockers": [
+          "trace_record_cap_hit",
+          "runtime_process_attribution"
+        ],
+        "gate_failures": [
+          "missing_strong_expected",
+          "marker_scope",
+          "drop_rate_median_gt_5pct"
+        ],
+        "gate_status": "FAIL",
+        "sample_id": "illegal_trap"
+      },
+      {
+        "gate_blockers": [
+          "trace_record_cap_hit",
+          "runtime_process_attribution"
+        ],
+        "gate_failures": [
+          "missing_strong_expected",
+          "marker_scope",
+          "drop_rate_median_gt_5pct"
+        ],
+        "gate_status": "FAIL",
+        "sample_id": "process_chain"
+      },
+      {
+        "gate_blockers": [],
+        "gate_failures": [
+          "missing_strong_expected"
+        ],
+        "gate_status": "FAIL",
+        "sample_id": "dynamic_executable_memory"
+      }
+    ]
+  },
   "source_run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
   "status": "BOARD_VALIDATION_PASS",
+  "trace_gate_run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "validation_mode": "dual_channel",
   "validation_run_id": "35t-targeted-board-validation-20260522"
 }

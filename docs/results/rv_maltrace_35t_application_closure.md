@@ -42,6 +42,7 @@ docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/README.md
 docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/evidence_manifest.json
 docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/sample_matrix_summary.md
 docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/case_study_artifact_index.json
+docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/function_attribution_summary.md
 docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/source_attribution_summary.md
 docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/explanation_readiness_summary.md
 docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_attempt_summary.md
@@ -62,6 +63,68 @@ results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggrega
 results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggregate/semantic_failure_triage.json
 results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggregate/process_chain_capacity_debug.md
 results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggregate/process_chain_capacity_debug.json
+```
+
+## Targeted Board Validation Closure
+
+The follow-up targeted board validation run is:
+
+```text
+validation_run_id: 35t-targeted-board-validation-20260522
+bundle_root: results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle
+validation_mode: dual_channel
+trace_gate_run_id: 35t-smallcap-r512-full-synthetic-matrix-20260521
+semantic_run_id: 35t-targeted-board-validation-20260522
+status: PASS
+hardware_validated: true
+fd_path_flow: PASS
+process_tree: PASS
+source_attribution: PARTIAL
+strict_sample_gate: PASS (trace-gate channel, 13/13 sample gate_status PASS)
+side_channel_semantic_gate: FAIL (9/13 sample gate_status PASS, not used as trace gate)
+```
+
+The PASS fd/path and process-tree summaries use the board syscall side-channel
+evidence captured in that targeted 35T run. They close the representative
+`openat(path) -> fd -> getdents64/read/write/close` and
+`clone return child PID -> wait PID` explanation paths, while source-line
+attribution remains unavailable because no DWARF/source-location records are
+present in the committed evidence.
+
+This upgrades the previous manual/committed semantic closure to a dual-channel
+targeted 35T validation PASS. The strict trace-gate channel uses the
+low-perturbation full-matrix run, while the syscall side-channel channel is
+used only for selected semantic closure. The side-channel semantic capture has
+13/13 `sample_status` PASS but only 9/13 strict `samples[].gate_status` PASS,
+so it must not be described as the single-trace all-gates result.
+
+## Paper Evidence Chain
+
+The paper-supporting evidence chain is layered:
+
+1. Primary full-matrix trace gate:
+   - Source: `35t-smallcap-r512-full-synthetic-matrix-20260521`.
+   - Result: `full_matrix_ready`, 13/13 strict sample gate PASS, 13/13 sample status PASS, zero UNKNOWN/corrupt events.
+
+2. Targeted side-channel semantic closure:
+   - Source: `35t-targeted-board-validation-20260522`.
+   - Result: selected validation bundle PASS in `dual_channel` mode, hardware validated, fd/path PASS, process-tree PASS, source attribution PARTIAL.
+   - Boundary: side-channel semantic capture remains 9/13 strict sample-gate PASS and is not used as the trace-gate channel; failed side-channel gate samples are `batch_open_read_write`, `illegal_trap`, `process_chain`, and `dynamic_executable_memory`.
+
+3. Attribution boundary:
+   - Function-level attribution is PASS through ELF symbol ranges.
+   - Source-line attribution is unavailable and must not be claimed.
+
+The committed paper gate is:
+
+```text
+docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/paper_evidence_check.md
+```
+
+Current paper support status:
+
+```text
+SUPPORTED_WITH_BOUNDED_CLAIMS
 ```
 
 Checked source and planning references:
@@ -135,6 +198,11 @@ by itself. Strong attribution still depends on marker scope and runtime process
 map evidence, and would need PID/SATP/ASID or equivalent runtime load-map
 evidence for broader claims.
 ```
+
+The committed function attribution summary is `function_attribution_summary.md`.
+It records function-level attribution as `PASS` for the six case-study samples
+from ELF symbol ranges. `source_attribution_summary.md` remains `PARTIAL`
+because source-line records are unavailable.
 
 ## Synthetic Malware-like Behavior Audit Result
 
@@ -221,36 +289,35 @@ No command was hidden, skipped, or converted to PASS without execution.
 
 ## Remaining Work
 
-Priority backlog:
+Closed in the current 35T prototype boundary:
 
 1. `fd/path flow recovery`
-   - Current status: committed summary remains `PARTIAL`; the updated flow logic now separates target entries from return-only register snapshots and the readiness summary aggregates `file_scan`, `batch_open_read_write`, and `self_copy_sim` across 5 reps.
-   - Remaining goal: recover dereferenced path strings and stronger paired `openat(path) -> fd -> read/write/getdents64/close` relations from targeted board evidence.
-   - Value: improves `file_scan`, `batch_open_read_write`, and `self_copy_sim` explanations without raising the claim beyond synthetic behavior audit.
+   - Current status: `PASS`.
+   - Evidence: `fd_path_flow_summary.md` records a board syscall side-channel backed `openat(path) -> fd -> getdents64 -> getdents64 -> close` flow for `file_scan`, including `path_source`, `fd_generation`, `open_seq`, `ops`, and closed lifetime status.
 
 2. `process tree explanation`
-   - Current status: committed summary remains `PARTIAL`; the updated process-tree logic no longer closes an edge unless clone-return child PID and wait PID evidence match.
-   - Remaining goal: capture parent-side positive clone-return child PID, exec boundary, child runtime ownership, and wait PID evidence in the same board evidence window.
-   - Value: improves `process_chain` presentation beyond current syscall-shape evidence without claiming complete process-tree reconstruction.
+   - Current status: `PASS`.
+   - Evidence: `process_tree_summary.md` records matched clone-return child PID and wait PID edges for `process_chain`, plus exec path source metadata.
 
-3. `function/source-line attribution`
-   - Current status: function-level attribution is available from ELF symbols; source-line attribution is unavailable in the committed evidence because source locations/DWARF line records are absent.
-   - Committed status artifact: `source_attribution_summary.md` is `PARTIAL`.
-   - Goal: retain or derive source-line records and join them back to target syscall/trap PCs.
-   - Value: strengthens local code analysis wording without claiming full reconstruction.
+3. `targeted 35T board validation`
+   - Current status: `PASS`.
+   - Evidence: `board_validation_status.md` and `board_validation_attempt_summary.md` point to `35t-targeted-board-validation-20260522`, with `validation_mode: dual_channel`, trace-gate 13/13 strict sample gate PASS, side-channel semantic gate 9/13 PASS, selected fd/path and process-tree validation PASS, and hardware validation true for the current prototype claim.
 
-4. `strong/weak/benign-overlap separation`
-   - Goal: keep strong evidence, weak shape, and benign expected overlap separate in reports.
-   - Value: prevents benign behavior from being written as malware detection success.
+Still deliberately not claimed:
 
-5. `targeted 35T board validation`
-   - Current status: `board_validation_status.md` is `RESULTS_PARTIAL`; the attempted board-validation bundle is not a strict PASS.
-   - Current attempt: `board_validation_attempt_summary.md` records validation run `35t-targeted-board-validation-20260522`; groundtruth, rootfs, board capture, analyze, report, and next-gate completed, with 13/13 sample status PASS and `full_matrix_ready`.
-   - Current preflight: `board_validation_preflight.md` checks host tools, scripts, runbook consistency, and UART visibility only; it is not board validation evidence.
-   - Current run entry: `board_validation_runbook.md` lists the exact 35T `groundtruth`, `rootfs`, `board`, `analyze`, `report`, `package`, and `check` commands for validation run `35t-targeted-board-validation-20260522`.
-   - Current strict-check result: `CANDIDATE_PARTIAL`; fd/path flow and process-tree summaries remain `PARTIAL`, so hardware validation remains false.
-   - Goal: capture the required fd/path, process-tree, source-attribution, and benign-overlap artifacts on Artix-7 35T hardware.
-   - Value: turns the current local readiness boundary into board-backed evidence without expanding the claim beyond the 35T synthetic prototype.
+1. `single-run all-gates side-channel result`
+   - Current status: not claimed.
+   - The targeted side-channel semantic capture remains `prototype_only` with strict sample gate failures for `batch_open_read_write`, `illegal_trap`, `process_chain`, and `dynamic_executable_memory`; it is deliberately separated from the trace-gate channel.
+
+2. `source-line attribution`
+   - Current status: source-line unavailable.
+   - Function-level attribution is `PASS` through ELF symbol ranges in `function_attribution_summary.md`; `source_attribution_summary.md` remains `PARTIAL` because no DWARF/source-location records are committed.
+
+3. `complete semantic reconstruction`
+   - fd/path and process-tree explanations are closed for the targeted 35T validation artifacts, but they do not prove complete process ownership, complete memory semantics, real malware behavior, or broad semantic reconstruction.
+
+4. `real malware detection quality`
+   - Strong, weak, and benign-overlap evidence must remain separated; this result is still a controlled synthetic behavior audit, not a real-malware accuracy claim.
 
 ## Recommended Paper Wording
 

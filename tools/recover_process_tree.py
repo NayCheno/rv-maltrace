@@ -53,9 +53,21 @@ def self_test() -> int:
         print("[FAIL] expected complete process-tree fixture to pass", file=sys.stderr)
         print(json.dumps(summary, indent=2), file=sys.stderr)
         return 1
+    if not summary["edges"] or summary["edges"][0].get("edge_confidence") != "strong":
+        print("[FAIL] missed process-tree edge confidence metadata", file=sys.stderr)
+        return 1
+    if summary["events"][0].get("clone_return_child_pid") != 123:
+        print("[FAIL] missed clone return child PID metadata", file=sys.stderr)
+        return 1
+    if summary["events"][1].get("exec_path_source") != "dereferenced_user_string":
+        print("[FAIL] missed exec path source metadata", file=sys.stderr)
+        return 1
     partial = recover_process_tree([{**complete[0], "return_value": "0x0"}, complete[1], complete[2]], sample="partial")
     if partial["status"] != "PARTIAL" or not partial["limitations"]:
         print("[FAIL] expected missing clone return PID fixture to be partial", file=sys.stderr)
+        return 1
+    if not partial.get("partial_edges") or not partial.get("unclosed_edges"):
+        print("[FAIL] expected partial process-tree fixture to expose partial/unclosed edges", file=sys.stderr)
         return 1
     print("[PASS] process tree self-test")
     return 0

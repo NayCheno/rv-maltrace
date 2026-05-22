@@ -39,6 +39,27 @@ def load_json(path: Path) -> dict[str, Any]:
     return value
 
 
+def gate_sample_rows(gate: dict[str, Any]) -> list[dict[str, Any]]:
+    rows = gate.get("samples", [])
+    return [row for row in rows if isinstance(row, dict)] if isinstance(rows, list) else []
+
+
+def gate_failed_samples(gate: dict[str, Any]) -> list[dict[str, Any]]:
+    failures = []
+    for row in gate_sample_rows(gate):
+        if row.get("gate_status") == "PASS":
+            continue
+        failures.append(
+            {
+                "sample_id": row.get("sample_id"),
+                "gate_status": row.get("gate_status"),
+                "gate_failures": row.get("gate_failures", []),
+                "gate_blockers": row.get("gate_blockers", []),
+            }
+        )
+    return failures
+
+
 def status_rows(results_root: Path, mode: str) -> list[dict[str, Any]]:
     rows = []
     for path in sorted((results_root / "samples").glob(f"*/*/board/{mode}/rep_*/status.json")):
@@ -94,15 +115,29 @@ def phase_statuses(results_root: Path) -> dict[str, Any]:
 
 def build_summary(repo_root: Path, results_root: Path, evidence_root: Path) -> dict[str, Any]:
     phases = phase_statuses(results_root)
-    gate_path = results_root / "aggregate/gate_report.json"
-    gate = load_json(gate_path) if gate_path.exists() else {}
     bundle_path = results_root / "board_validation_bundle/bundle_manifest.json"
     bundle = load_json(bundle_path) if bundle_path.exists() else {}
+    validation_mode = str(bundle.get("validation_mode", "single_channel")) if bundle else "single_channel"
+    trace_gate_run_id = str(bundle.get("trace_gate_run_id") or results_root.name)
+    semantic_run_id = str(bundle.get("semantic_run_id") or results_root.name)
+    gate_path = (
+        results_root / "board_validation_bundle/gate_report.json"
+        if validation_mode == "dual_channel"
+        else results_root / "aggregate/gate_report.json"
+    )
+    gate = load_json(gate_path) if gate_path.exists() else {}
+    side_channel_gate_path = results_root / "aggregate/gate_report.json"
+    side_channel_gate = load_json(side_channel_gate_path) if side_channel_gate_path.exists() else {}
     board_status_path = evidence_root / "board_validation_status.json"
     board_status = load_json(board_status_path) if board_status_path.exists() else {}
     sample_status = gate.get("sample_status", {}) if isinstance(gate.get("sample_status"), dict) else {}
     sample_pass_count = sum(1 for row in sample_status.values() if isinstance(row, dict) and row.get("status") == "PASS")
     sample_count = len(sample_status)
+    gate_samples = gate_sample_rows(gate)
+    sample_gate_pass_count = sum(1 for row in gate_samples if row.get("gate_status") == "PASS")
+    sample_gate_count = len(gate_samples)
+    side_gate_samples = gate_sample_rows(side_channel_gate)
+    side_gate_pass_count = sum(1 for row in side_gate_samples if row.get("gate_status") == "PASS")
     phase_pass = all(row.get("status") == "PASS" for row in phases.values())
     bundle_status = bundle.get("status", "MISSING")
     checker_status = bundle.get("checker_status", "MISSING")
@@ -112,10 +147,23 @@ def build_summary(repo_root: Path, results_root: Path, evidence_root: Path) -> d
         status = "BOARD_RUN_COMPLETE_VALIDATION_PARTIAL"
     else:
         status = "BOARD_RUN_INCOMPLETE_OR_FAIL"
+    if status == "BOARD_RUN_COMPLETE_VALIDATION_PARTIAL":
+        assessment = "actual 35T board run completed and full-matrix gate passed, but strict fd/path and process-tree validation remain partial"
+    elif status == "BOARD_VALIDATION_PASS" and validation_mode == "dual_channel":
+        assessment = "strict dual-channel validation bundle passed: the trace-gate channel passes the full matrix and the side-channel channel supplies selected semantic closure"
+    elif status == "BOARD_VALIDATION_PASS" and sample_gate_count and sample_gate_pass_count != sample_gate_count:
+        assessment = "strict selected-artifact validation bundle passed; the targeted run remains prototype_only because strict sample gate_status did not fully pass"
+    elif status == "BOARD_VALIDATION_PASS":
+        assessment = "strict 35T board-validation bundle passed"
+    else:
+        assessment = "actual 35T board-validation attempt is incomplete or failed"
     return {
         "schema": "rvmt.35t.board_validation_attempt_summary.v1",
         "source_run_id": RUN_ID,
         "validation_run_id": results_root.name,
+        "validation_mode": validation_mode,
+        "trace_gate_run_id": trace_gate_run_id,
+        "semantic_run_id": semantic_run_id,
         "status": status,
         "scope": "Artix-7 35T / LiteX / VexRiscv",
         "claim_level": EXPECTED_CLAIM_LEVEL,
@@ -128,10 +176,23 @@ def build_summary(repo_root: Path, results_root: Path, evidence_root: Path) -> d
             "claim_level": gate.get("claim_level"),
             "trace_records": gate.get("trace_records"),
             "trace_profile_policy": gate.get("trace_profile_policy"),
-            "sample_count": sample_count,
-            "sample_pass_count": sample_pass_count,
-            "all_samples_pass": bool(sample_count and sample_pass_count == sample_count),
+            "sample_status_count": sample_count,
+            "sample_status_pass_count": sample_pass_count,
+            "sample_status_all_pass": bool(sample_count and sample_pass_count == sample_count),
+            "sample_gate_count": sample_gate_count,
+            "sample_gate_pass_count": sample_gate_pass_count,
+            "sample_gate_all_pass": bool(sample_gate_count and sample_gate_pass_count == sample_gate_count),
+            "strict_failed_samples": gate_failed_samples(gate),
             "gate_report": rel(gate_path, repo_root),
+        },
+        "side_channel_gate": {
+            "schema": side_channel_gate.get("schema"),
+            "claim_level": side_channel_gate.get("claim_level"),
+            "sample_gate_count": len(side_gate_samples),
+            "sample_gate_pass_count": side_gate_pass_count,
+            "sample_gate_all_pass": bool(side_gate_samples and side_gate_pass_count == len(side_gate_samples)),
+            "strict_failed_samples": gate_failed_samples(side_channel_gate),
+            "gate_report": rel(side_channel_gate_path, repo_root),
         },
         "bundle": {
             "status": bundle_status,
@@ -147,13 +208,7 @@ def build_summary(repo_root: Path, results_root: Path, evidence_root: Path) -> d
             "failures": board_status.get("failures", []),
             "path": rel(board_status_path, repo_root),
         },
-        "assessment": (
-            "actual 35T board run completed and full-matrix gate passed, but strict fd/path and process-tree validation remain partial"
-            if status == "BOARD_RUN_COMPLETE_VALIDATION_PARTIAL"
-            else "strict 35T board-validation bundle passed"
-            if status == "BOARD_VALIDATION_PASS"
-            else "actual 35T board-validation attempt is incomplete or failed"
-        ),
+        "assessment": assessment,
         "non_claims": NON_CLAIMS,
     }
 
@@ -170,6 +225,8 @@ def render_markdown(summary: dict[str, Any]) -> str:
         "",
         f"Hardware validated: {str(summary['hardware_validated']).lower()}",
         "",
+        f"Validation mode: {summary.get('validation_mode', 'single_channel')}",
+        "",
         summary["assessment"],
         "",
         "## Phases",
@@ -183,7 +240,10 @@ def render_markdown(summary: dict[str, Any]) -> str:
         "## Next Gate",
         "",
         f"- claim_level: {gate.get('claim_level')}",
-        f"- samples: {gate.get('sample_pass_count')}/{gate.get('sample_count')} PASS",
+        f"- trace_gate_run_id: {summary.get('trace_gate_run_id')}",
+        f"- sample_status: {gate.get('sample_status_pass_count')}/{gate.get('sample_status_count')} PASS",
+        f"- sample_gate_status: {gate.get('sample_gate_pass_count')}/{gate.get('sample_gate_count')} PASS",
+        f"- strict_sample_gate: {'PASS' if gate.get('sample_gate_all_pass') else 'FAIL'}",
         f"- trace_records: {gate.get('trace_records')}",
         f"- trace_profile_policy: {gate.get('trace_profile_policy')}",
         "",
@@ -195,6 +255,37 @@ def render_markdown(summary: dict[str, Any]) -> str:
     selected = summary["bundle"].get("selected_statuses", {})
     for key in ("fd_path_flow", "process_tree", "source_attribution"):
         lines.append(f"- {key}: {selected.get(key)}")
+    side_gate = summary.get("side_channel_gate", {})
+    if side_gate:
+        lines += [
+            "",
+            "## Side-Channel Gate",
+            "",
+            f"- semantic_run_id: {summary.get('semantic_run_id')}",
+            f"- claim_level: {side_gate.get('claim_level')}",
+            f"- sample_gate_status: {side_gate.get('sample_gate_pass_count')}/{side_gate.get('sample_gate_count')} PASS",
+            f"- strict_sample_gate: {'PASS' if side_gate.get('sample_gate_all_pass') else 'FAIL'}",
+        ]
+    if gate.get("strict_failed_samples"):
+        lines += ["", "## Strict Sample-Gate Failures", ""]
+        for item in gate["strict_failed_samples"]:
+            lines.append(
+                "- {sample_id}: failures={failures}; blockers={blockers}".format(
+                    sample_id=item.get("sample_id"),
+                    failures=", ".join(str(value) for value in item.get("gate_failures", [])) or "none",
+                    blockers=", ".join(str(value) for value in item.get("gate_blockers", [])) or "none",
+                )
+            )
+    if side_gate.get("strict_failed_samples"):
+        lines += ["", "## Side-Channel Sample-Gate Failures", ""]
+        for item in side_gate["strict_failed_samples"]:
+            lines.append(
+                "- {sample_id}: failures={failures}; blockers={blockers}".format(
+                    sample_id=item.get("sample_id"),
+                    failures=", ".join(str(value) for value in item.get("gate_failures", [])) or "none",
+                    blockers=", ".join(str(value) for value in item.get("gate_blockers", [])) or "none",
+                )
+            )
     if summary["bundle"].get("checker_failures"):
         lines += ["", "## Checker Failures", ""]
         lines.extend(f"- {item}" for item in summary["bundle"]["checker_failures"])

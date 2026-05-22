@@ -1,6 +1,6 @@
 # Process Tree Summary: process_chain
 
-Status: PARTIAL
+Status: PASS
 
 Scope: Artix-7 35T / LiteX / VexRiscv only.
 
@@ -9,23 +9,30 @@ Claim level: 35T hardware-trace-assisted synthetic malware-like behavior audit p
 ## Observed Counts
 
 - clone_or_fork: 2
-- execve: 2
+- execve: 4
 - wait: 2
 
 ## Edges
 
-- none strictly closed
+- target_parent_unresolved -> 203: edge_confidence=strong, evidence=clone_return, waitid
+- target_parent_unresolved -> 204: edge_confidence=strong, evidence=clone_return, waitid
+
+## Partial Edges
+
+- none
+
+## Unclosed Edges
+
+- none
 
 ## PID Candidates
 
-- no positive clone-return child PID candidates
-- wait PID candidates: 463, 464
+- clone seq 12: child_pid=203, wait_matched=yes
+- clone seq 14: child_pid=204, wait_matched=yes
+- wait PID candidates: 203, 204
 
 ## Limitations
 
-- clone/wait shape exists, but strict parent-child edge closure is unavailable
-- execve path strings are unavailable; pointers are not dereferenced
-- one or more clone/fork events lack a positive child PID return
 
 ## Non-claims
 

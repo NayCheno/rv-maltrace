@@ -1,0 +1,36 @@
+name: 35T lightweight closure
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  closure:
+    name: 35T closure checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Run lightweight 35T closure checks
+        run: |
+          uv run --no-sync python tools/check_35t_application_closure.py --self-test
+          uv run --no-sync python tools/check_35t_application_closure.py --repo-root .
+          uv run --no-sync python tools/check_35t_paper_evidence.py --self-test
+          uv run --no-sync python tools/recover_fd_path_flow.py --self-test
+          uv run --no-sync python tools/recover_process_tree.py --self-test
+          uv run --no-sync python tools/summarize_35t_source_attribution.py --self-test
+          uv run --no-sync python -m compileall tools src/rv_maltrace

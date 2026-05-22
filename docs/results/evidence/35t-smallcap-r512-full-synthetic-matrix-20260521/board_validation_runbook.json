@@ -6,11 +6,18 @@
   "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
   "commands": [
     {
-      "command": "uv run python tools/experiment_35t.py --stage groundtruth --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic",
-      "expected_output": "results/experiments/35t/35t-targeted-board-validation-20260522/samples",
+      "command": "uv run python tools/experiment_35t.py --stage groundtruth --run-id 35t-targeted-board-validation-20260522-trace-gate --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic",
+      "expected_output": "results/experiments/35t/35t-targeted-board-validation-20260522-trace-gate/samples",
       "hardware_required": false,
       "pass_condition": "required host/qemu baselines complete or failures are recorded explicitly",
-      "phase": "groundtruth"
+      "phase": "groundtruth-trace-gate"
+    },
+    {
+      "command": "uv run python tools/experiment_35t.py --stage groundtruth --run-id 35t-targeted-board-validation-20260522-side-channel --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic",
+      "expected_output": "results/experiments/35t/35t-targeted-board-validation-20260522-side-channel/samples",
+      "hardware_required": false,
+      "pass_condition": "required host/qemu baselines complete or failures are recorded explicitly for the side-channel pass",
+      "phase": "groundtruth-side-channel"
     },
     {
       "command": "uv run python tools/experiment_35t.py --stage rootfs --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic",
@@ -20,31 +27,52 @@
       "phase": "rootfs"
     },
     {
-      "command": "uv run python tools/experiment_35t.py --stage board --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic --port COM5 --baud 921600 --duration 3600.0 --board-runner-path /usr/bin/rvmt_exp_runner --syscall-side-channel",
-      "expected_output": "results/experiments/35t/35t-targeted-board-validation-20260522/board/raw_uart.log",
+      "command": "uv run python tools/experiment_35t.py --stage board --run-id 35t-targeted-board-validation-20260522-trace-gate --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic --port COM5 --baud 921600 --duration 3600.0 --board-runner-path /usr/bin/rvmt_exp_runner",
+      "expected_output": "results/experiments/35t/35t-targeted-board-validation-20260522-trace-gate/board/raw_uart.log",
       "hardware_required": true,
-      "pass_condition": "UART capture contains target-scoped markers and trace dumps for the full 13-sample matrix",
-      "phase": "board"
+      "pass_condition": "UART capture contains target-scoped markers and trace dumps for the full 13-sample matrix without syscall side-channel perturbation",
+      "phase": "board-trace-gate"
     },
     {
-      "command": "uv run python tools/experiment_35t.py --stage analyze --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic",
-      "expected_output": "results/experiments/35t/35t-targeted-board-validation-20260522/samples",
+      "command": "uv run python tools/experiment_35t.py --stage analyze --run-id 35t-targeted-board-validation-20260522-trace-gate --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic",
+      "expected_output": "results/experiments/35t/35t-targeted-board-validation-20260522-trace-gate/samples",
       "hardware_required": false,
-      "pass_condition": "semantic recovery, behavior audit, lightweight trace analysis, alignment, and trace-code joins are regenerated",
-      "phase": "analyze"
+      "pass_condition": "strict trace-gate semantic recovery, behavior audit, alignment, and trace-code joins are regenerated",
+      "phase": "analyze-trace-gate"
     },
     {
-      "command": "uv run python tools/experiment_35t.py --stage report --run-id 35t-targeted-board-validation-20260522 --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic",
-      "expected_output": "results/experiments/35t/35t-targeted-board-validation-20260522/aggregate",
+      "command": "uv run python tools/experiment_35t.py --stage report --run-id 35t-targeted-board-validation-20260522-trace-gate --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic",
+      "expected_output": "results/experiments/35t/35t-targeted-board-validation-20260522-trace-gate/aggregate",
       "hardware_required": false,
-      "pass_condition": "aggregate 35T reports are regenerated and failures remain explicit",
-      "phase": "report"
+      "pass_condition": "strict trace-gate aggregate reports are regenerated and failures remain explicit",
+      "phase": "report-trace-gate"
     },
     {
-      "command": "uv run python tools/package_35t_board_validation.py --repo-root . --source-results-root results/experiments/35t/35t-targeted-board-validation-20260522 --out-dir results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle",
+      "command": "uv run python tools/experiment_35t.py --stage board --run-id 35t-targeted-board-validation-20260522-side-channel --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic --port COM5 --baud 921600 --duration 3600.0 --board-runner-path /usr/bin/rvmt_exp_runner --syscall-side-channel",
+      "expected_output": "results/experiments/35t/35t-targeted-board-validation-20260522-side-channel/board/raw_uart.log",
+      "hardware_required": true,
+      "pass_condition": "UART capture contains syscall side-channel observations needed for fd/path and process-tree semantic closure",
+      "phase": "board-side-channel"
+    },
+    {
+      "command": "uv run python tools/experiment_35t.py --stage analyze --run-id 35t-targeted-board-validation-20260522-side-channel --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic",
+      "expected_output": "results/experiments/35t/35t-targeted-board-validation-20260522-side-channel/samples",
+      "hardware_required": false,
+      "pass_condition": "side-channel semantic recovery and trace-code joins are regenerated",
+      "phase": "analyze-side-channel"
+    },
+    {
+      "command": "uv run python tools/experiment_35t.py --stage report --run-id 35t-targeted-board-validation-20260522-side-channel --reps 5 --trace-records 512 --trace-profile-policy 35t_small_capacity --runtime-order classic",
+      "expected_output": "results/experiments/35t/35t-targeted-board-validation-20260522-side-channel/aggregate",
+      "hardware_required": false,
+      "pass_condition": "side-channel aggregate reports are regenerated and failures remain explicit",
+      "phase": "report-side-channel"
+    },
+    {
+      "command": "uv run python tools/package_35t_board_validation.py --repo-root . --source-results-root results/experiments/35t/35t-targeted-board-validation-20260522-side-channel --trace-gate-results-root results/experiments/35t/35t-targeted-board-validation-20260522-trace-gate --semantic-results-root results/experiments/35t/35t-targeted-board-validation-20260522-side-channel --validation-run-id 35t-targeted-board-validation-20260522 --out-dir results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle",
       "expected_output": "results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle/bundle_manifest.json",
       "hardware_required": false,
-      "pass_condition": "bundle is PASS only if fd/path and process-tree summaries are PASS; otherwise it remains CANDIDATE_PARTIAL",
+      "pass_condition": "bundle is PASS only if strict trace gate, fd/path summary, process-tree summary, and function-level attribution checks pass",
       "phase": "package"
     },
     {
@@ -64,7 +92,7 @@
     "batch_open_read_write",
     "self_copy_sim"
   ],
-  "generated_utc": "2026-05-21T20:38:11Z",
+  "generated_utc": "2026-05-22T14:10:28Z",
   "hardware_required": true,
   "matrix_scope": "full 13-sample 35T matrix",
   "non_claims": [
@@ -90,10 +118,15 @@
   "runtime_order": "classic",
   "schema": "rvmt.35t.board_validation_runbook.v1",
   "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "semantic_results_root": "results/experiments/35t/35t-targeted-board-validation-20260522-side-channel",
+  "semantic_run_id": "35t-targeted-board-validation-20260522-side-channel",
   "source_run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
   "status": "READY_TO_RUN_ON_35T_BOARD",
   "syscall_side_channel": true,
+  "trace_gate_results_root": "results/experiments/35t/35t-targeted-board-validation-20260522-trace-gate",
+  "trace_gate_run_id": "35t-targeted-board-validation-20260522-trace-gate",
   "trace_profile_policy": "35t_small_capacity",
   "trace_records": 512,
+  "validation_mode": "dual_channel",
   "validation_run_id": "35t-targeted-board-validation-20260522"
 }

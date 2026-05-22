@@ -50,7 +50,10 @@
   "result_content_checks": {
     "bundle_manifest": {
       "ok": true,
+      "semantic_run_id": "35t-targeted-board-validation-20260522",
       "status": "checked",
+      "trace_gate_run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+      "validation_mode": "dual_channel",
       "validation_run_id": "35t-targeted-board-validation-20260522"
     },
     "command_log": {
@@ -62,8 +65,14 @@
       "status": "PASS"
     },
     "gate_report": {
+      "failed_sample_gates": [],
       "ok": true,
+      "sample_gate_count": 13,
+      "sample_gate_pass_count": 13,
+      "sample_status_count": 13,
+      "sample_status_pass_count": 13,
       "status": "checked",
+      "trace_gate_run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
       "validation_run_id": "35t-targeted-board-validation-20260522"
     },
     "process_tree": {
@@ -73,6 +82,7 @@
     "run_config": {
       "ok": true,
       "status": "checked",
+      "trace_gate_run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
       "validation_run_id": "35t-targeted-board-validation-20260522"
     },
     "source_attribution": {
@@ -82,6 +92,10 @@
   },
   "schema": "rvmt.35t.board_validation_status.v1",
   "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "semantic_run_id": "35t-targeted-board-validation-20260522",
   "source_run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
-  "status": "PASS"
+  "status": "PASS",
+  "trace_gate_run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "validation_mode": "dual_channel",
+  "validation_run_id": "35t-targeted-board-validation-20260522"
 }
