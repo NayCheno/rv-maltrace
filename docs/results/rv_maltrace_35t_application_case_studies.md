@@ -626,4 +626,4 @@ This case proves that the 35T prototype can recover and audit a controlled direc
 
 ### What This Case Does Not Prove
 
-This does not prove malicious intent, real malware detection, file path reconstruction, classifier accuracy, CVA6 validation, or complete semantic reconstruction.
+This does not prove malicious intent, real malware detection, complete filesystem provenance, classifier accuracy, CVA6 validation, or complete semantic reconstruction.

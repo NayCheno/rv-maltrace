@@ -1,0 +1,177 @@
+{
+  "checks": {
+    "all_have_closed_flows": true,
+    "all_keep_unresolved_fields_explicit": true,
+    "all_required_samples_pass": true,
+    "all_required_samples_present": true,
+    "all_selected_from_board_side_channel": true,
+    "source_results_root_exists": true
+  },
+  "evidence_root": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "failures": [],
+  "generated_utc": "2026-05-22T19:47:28Z",
+  "interpretation": [
+    "file_scan, batch_open_read_write, and self_copy_sim each have at least one board syscall side-channel candidate with closed fd/path flows",
+    "path strings come from the targeted board syscall side-channel, not from raw hardware user-pointer snapshots",
+    "canonical fd_path_flow_summary.json remains the selected compact file_scan explanation; this artifact records the broader P1 case-study coverage"
+  ],
+  "non_claims": [
+    "no real malware detection claim",
+    "no classifier accuracy claim",
+    "no complete semantic reconstruction claim"
+  ],
+  "required_samples": [
+    "file_scan",
+    "batch_open_read_write",
+    "self_copy_sim"
+  ],
+  "run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "samples": {
+    "batch_open_read_write": {
+      "candidate_count": 10,
+      "closed_flow_count": 4,
+      "flow_count": 4,
+      "flow_examples": [
+        {
+          "confidence": "strong",
+          "fd": 3,
+          "fd_generation": 1,
+          "ops": [
+            "read",
+            "close"
+          ],
+          "path": "experiments/linux_behavior/malware_like/fixtures/batch_input_0.txt",
+          "path_source": "board_syscall_side_channel",
+          "status": "closed"
+        },
+        {
+          "confidence": "strong",
+          "fd": 3,
+          "fd_generation": 2,
+          "ops": [
+            "write",
+            "close"
+          ],
+          "path": "/tmp/rvmt_batch_output.txt",
+          "path_source": "board_syscall_side_channel",
+          "status": "closed"
+        },
+        {
+          "confidence": "strong",
+          "fd": 3,
+          "fd_generation": 3,
+          "ops": [
+            "read",
+            "close"
+          ],
+          "path": "experiments/linux_behavior/malware_like/fixtures/batch_input_1.txt",
+          "path_source": "board_syscall_side_channel",
+          "status": "closed"
+        },
+        {
+          "confidence": "strong",
+          "fd": 3,
+          "fd_generation": 4,
+          "ops": [
+            "write",
+            "close"
+          ],
+          "path": "/tmp/rvmt_batch_output.txt",
+          "path_source": "board_syscall_side_channel",
+          "status": "closed"
+        }
+      ],
+      "limitations": [],
+      "pass_candidate_count": 5,
+      "pending_openat_count": 0,
+      "return_only_fd_op_count": 0,
+      "sample": "batch_open_read_write",
+      "selected_candidate": {
+        "rep": "rep_00",
+        "source": "results/experiments/35t/35t-targeted-board-validation-20260522/samples/malware_like_synthetic/batch_open_read_write/board/trace-on/rep_00/syscall_side_channel.json",
+        "source_type": "syscall_side_channel"
+      },
+      "status": "PASS",
+      "unresolved_fd_count": 0
+    },
+    "file_scan": {
+      "candidate_count": 10,
+      "closed_flow_count": 1,
+      "flow_count": 1,
+      "flow_examples": [
+        {
+          "confidence": "strong",
+          "fd": 3,
+          "fd_generation": 1,
+          "ops": [
+            "getdents64",
+            "getdents64",
+            "close"
+          ],
+          "path": "experiments/linux_behavior/malware_like/fixtures/scan_root",
+          "path_source": "board_syscall_side_channel",
+          "status": "closed"
+        }
+      ],
+      "limitations": [],
+      "pass_candidate_count": 5,
+      "pending_openat_count": 0,
+      "return_only_fd_op_count": 0,
+      "sample": "file_scan",
+      "selected_candidate": {
+        "rep": "rep_00",
+        "source": "results/experiments/35t/35t-targeted-board-validation-20260522/samples/malware_like_synthetic/file_scan/board/trace-on/rep_00/syscall_side_channel.json",
+        "source_type": "syscall_side_channel"
+      },
+      "status": "PASS",
+      "unresolved_fd_count": 0
+    },
+    "self_copy_sim": {
+      "candidate_count": 10,
+      "closed_flow_count": 2,
+      "flow_count": 2,
+      "flow_examples": [
+        {
+          "confidence": "strong",
+          "fd": 3,
+          "fd_generation": 1,
+          "ops": [
+            "read",
+            "close"
+          ],
+          "path": "/usr/bin/self_copy_sim",
+          "path_source": "board_syscall_side_channel",
+          "status": "closed"
+        },
+        {
+          "confidence": "strong",
+          "fd": 4,
+          "fd_generation": 1,
+          "ops": [
+            "write",
+            "close"
+          ],
+          "path": "/tmp/rvmt_self_copy_sim.bin",
+          "path_source": "board_syscall_side_channel",
+          "status": "closed"
+        }
+      ],
+      "limitations": [],
+      "pass_candidate_count": 5,
+      "pending_openat_count": 0,
+      "return_only_fd_op_count": 0,
+      "sample": "self_copy_sim",
+      "selected_candidate": {
+        "rep": "rep_00",
+        "source": "results/experiments/35t/35t-targeted-board-validation-20260522/samples/malware_like_synthetic/self_copy_sim/board/trace-on/rep_00/syscall_side_channel.json",
+        "source_type": "syscall_side_channel"
+      },
+      "status": "PASS",
+      "unresolved_fd_count": 0
+    }
+  },
+  "schema": "rvmt.35t.fd_path_case_studies.v1",
+  "source_results_root": "results/experiments/35t/35t-targeted-board-validation-20260522",
+  "source_run_id": "35t-targeted-board-validation-20260522",
+  "status": "PASS"
+}

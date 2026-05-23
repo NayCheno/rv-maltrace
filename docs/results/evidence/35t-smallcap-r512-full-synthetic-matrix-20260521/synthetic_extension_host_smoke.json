@@ -1,0 +1,258 @@
+{
+  "candidate_count": 9,
+  "checks": {
+    "candidate_sources_declared": true,
+    "candidate_sources_exist": true,
+    "candidate_statuses_implemented": true,
+    "candidates_declared": true,
+    "network_candidates_compile_only": true,
+    "no_35t_gating_claim": true,
+    "no_execution_attempted": true,
+    "plan_schema": true,
+    "plan_status_implemented_source": true
+  },
+  "compile_results": [
+    {
+      "command": [
+        "wsl.exe",
+        "--exec",
+        "sh",
+        "-lc",
+        "cd /mnt/d/Code/research/rv-maltrace && /usr/bin/cc -std=gnu11 -D_GNU_SOURCE -Wall -Wextra -O2 experiments/linux_behavior/malware_like/extension_programs/direct_syscall_open_read.c -o /mnt/c/Users/Nya/AppData/Local/Temp/rvmt-35t-extension-host-smoke-silpnw92/direct_syscall_open_read"
+      ],
+      "id": "direct_syscall_open_read",
+      "network_required": false,
+      "returncode": 0,
+      "source": "experiments/linux_behavior/malware_like/extension_programs/direct_syscall_open_read.c",
+      "status": "PASS",
+      "stderr_tail": "experiments/linux_behavior/malware_like/extension_programs/direct_syscall_open_read.c:1: warning: \"_GNU_SOURCE\" redefined\n    1 | #define _GNU_SOURCE\n      | \n<command-line>: note: this is the location of the previous definition\n",
+      "stdout_tail": ""
+    },
+    {
+      "command": [
+        "wsl.exe",
+        "--exec",
+        "sh",
+        "-lc",
+        "cd /mnt/d/Code/research/rv-maltrace && /usr/bin/cc -std=gnu11 -D_GNU_SOURCE -Wall -Wextra -O2 experiments/linux_behavior/malware_like/extension_programs/timing_anti_analysis_loop.c -o /mnt/c/Users/Nya/AppData/Local/Temp/rvmt-35t-extension-host-smoke-silpnw92/timing_anti_analysis_loop"
+      ],
+      "id": "timing_anti_analysis_loop",
+      "network_required": false,
+      "returncode": 0,
+      "source": "experiments/linux_behavior/malware_like/extension_programs/timing_anti_analysis_loop.c",
+      "status": "PASS",
+      "stderr_tail": "experiments/linux_behavior/malware_like/extension_programs/timing_anti_analysis_loop.c:1: warning: \"_GNU_SOURCE\" redefined\n    1 | #define _GNU_SOURCE\n      | \n<command-line>: note: this is the location of the previous definition\n",
+      "stdout_tail": ""
+    },
+    {
+      "command": [
+        "wsl.exe",
+        "--exec",
+        "sh",
+        "-lc",
+        "cd /mnt/d/Code/research/rv-maltrace && /usr/bin/cc -std=gnu11 -D_GNU_SOURCE -Wall -Wextra -O2 experiments/linux_behavior/malware_like/extension_programs/proc_status_tracerpid_check.c -o /mnt/c/Users/Nya/AppData/Local/Temp/rvmt-35t-extension-host-smoke-silpnw92/proc_status_tracerpid_check"
+      ],
+      "id": "proc_status_tracerpid_check",
+      "network_required": false,
+      "returncode": 0,
+      "source": "experiments/linux_behavior/malware_like/extension_programs/proc_status_tracerpid_check.c",
+      "status": "PASS",
+      "stderr_tail": "experiments/linux_behavior/malware_like/extension_programs/proc_status_tracerpid_check.c:1: warning: \"_GNU_SOURCE\" redefined\n    1 | #define _GNU_SOURCE\n      | \n<command-line>: note: this is the location of the previous definition\n",
+      "stdout_tail": ""
+    },
+    {
+      "command": [
+        "wsl.exe",
+        "--exec",
+        "sh",
+        "-lc",
+        "cd /mnt/d/Code/research/rv-maltrace && /usr/bin/cc -std=gnu11 -D_GNU_SOURCE -Wall -Wextra -O2 experiments/linux_behavior/malware_like/extension_programs/obfuscated_syscall_wrapper.c -o /mnt/c/Users/Nya/AppData/Local/Temp/rvmt-35t-extension-host-smoke-silpnw92/obfuscated_syscall_wrapper"
+      ],
+      "id": "obfuscated_syscall_wrapper",
+      "network_required": false,
+      "returncode": 0,
+      "source": "experiments/linux_behavior/malware_like/extension_programs/obfuscated_syscall_wrapper.c",
+      "status": "PASS",
+      "stderr_tail": "experiments/linux_behavior/malware_like/extension_programs/obfuscated_syscall_wrapper.c:1: warning: \"_GNU_SOURCE\" redefined\n    1 | #define _GNU_SOURCE\n      | \n<command-line>: note: this is the location of the previous definition\n",
+      "stdout_tail": ""
+    },
+    {
+      "command": [
+        "wsl.exe",
+        "--exec",
+        "sh",
+        "-lc",
+        "cd /mnt/d/Code/research/rv-maltrace && /usr/bin/cc -std=gnu11 -D_GNU_SOURCE -Wall -Wextra -O2 experiments/linux_behavior/malware_like/extension_programs/self_modifying_code_sim.c -o /mnt/c/Users/Nya/AppData/Local/Temp/rvmt-35t-extension-host-smoke-silpnw92/self_modifying_code_sim"
+      ],
+      "id": "self_modifying_code_sim",
+      "network_required": false,
+      "returncode": 0,
+      "source": "experiments/linux_behavior/malware_like/extension_programs/self_modifying_code_sim.c",
+      "status": "PASS",
+      "stderr_tail": "experiments/linux_behavior/malware_like/extension_programs/self_modifying_code_sim.c:1: warning: \"_GNU_SOURCE\" redefined\n    1 | #define _GNU_SOURCE\n      | \n<command-line>: note: this is the location of the previous definition\n",
+      "stdout_tail": ""
+    },
+    {
+      "command": [
+        "wsl.exe",
+        "--exec",
+        "sh",
+        "-lc",
+        "cd /mnt/d/Code/research/rv-maltrace && /usr/bin/cc -std=gnu11 -D_GNU_SOURCE -Wall -Wextra -O2 experiments/linux_behavior/malware_like/extension_programs/mprotect_exec_variant.c -o /mnt/c/Users/Nya/AppData/Local/Temp/rvmt-35t-extension-host-smoke-silpnw92/mprotect_exec_variant"
+      ],
+      "id": "mprotect_exec_variant",
+      "network_required": false,
+      "returncode": 0,
+      "source": "experiments/linux_behavior/malware_like/extension_programs/mprotect_exec_variant.c",
+      "status": "PASS",
+      "stderr_tail": "experiments/linux_behavior/malware_like/extension_programs/mprotect_exec_variant.c:1: warning: \"_GNU_SOURCE\" redefined\n    1 | #define _GNU_SOURCE\n      | \n<command-line>: note: this is the location of the previous definition\n",
+      "stdout_tail": ""
+    },
+    {
+      "command": [
+        "wsl.exe",
+        "--exec",
+        "sh",
+        "-lc",
+        "cd /mnt/d/Code/research/rv-maltrace && /usr/bin/cc -std=gnu11 -D_GNU_SOURCE -Wall -Wextra -O2 experiments/linux_behavior/malware_like/extension_programs/multi_level_process_chain.c -o /mnt/c/Users/Nya/AppData/Local/Temp/rvmt-35t-extension-host-smoke-silpnw92/multi_level_process_chain"
+      ],
+      "id": "multi_level_process_chain",
+      "network_required": false,
+      "returncode": 0,
+      "source": "experiments/linux_behavior/malware_like/extension_programs/multi_level_process_chain.c",
+      "status": "PASS",
+      "stderr_tail": "experiments/linux_behavior/malware_like/extension_programs/multi_level_process_chain.c:1: warning: \"_GNU_SOURCE\" redefined\n    1 | #define _GNU_SOURCE\n      | \n<command-line>: note: this is the location of the previous definition\n",
+      "stdout_tail": ""
+    },
+    {
+      "command": [
+        "wsl.exe",
+        "--exec",
+        "sh",
+        "-lc",
+        "cd /mnt/d/Code/research/rv-maltrace && /usr/bin/cc -std=gnu11 -D_GNU_SOURCE -Wall -Wextra -O2 experiments/linux_behavior/malware_like/extension_programs/loopback_network_client.c -o /mnt/c/Users/Nya/AppData/Local/Temp/rvmt-35t-extension-host-smoke-silpnw92/loopback_network_client"
+      ],
+      "id": "loopback_network_client",
+      "network_required": true,
+      "returncode": 0,
+      "source": "experiments/linux_behavior/malware_like/extension_programs/loopback_network_client.c",
+      "status": "PASS",
+      "stderr_tail": "experiments/linux_behavior/malware_like/extension_programs/loopback_network_client.c:1: warning: \"_GNU_SOURCE\" redefined\n    1 | #define _GNU_SOURCE\n      | \n<command-line>: note: this is the location of the previous definition\n",
+      "stdout_tail": ""
+    },
+    {
+      "command": [
+        "wsl.exe",
+        "--exec",
+        "sh",
+        "-lc",
+        "cd /mnt/d/Code/research/rv-maltrace && /usr/bin/cc -std=gnu11 -D_GNU_SOURCE -Wall -Wextra -O2 experiments/linux_behavior/malware_like/extension_programs/file_encryption_sim_non_destructive.c -o /mnt/c/Users/Nya/AppData/Local/Temp/rvmt-35t-extension-host-smoke-silpnw92/file_encryption_sim_non_destructive"
+      ],
+      "id": "file_encryption_sim_non_destructive",
+      "network_required": false,
+      "returncode": 0,
+      "source": "experiments/linux_behavior/malware_like/extension_programs/file_encryption_sim_non_destructive.c",
+      "status": "PASS",
+      "stderr_tail": "experiments/linux_behavior/malware_like/extension_programs/file_encryption_sim_non_destructive.c:1: warning: \"_GNU_SOURCE\" redefined\n    1 | #define _GNU_SOURCE\n      | \n<command-line>: note: this is the location of the previous definition\n",
+      "stdout_tail": ""
+    }
+  ],
+  "compiled_candidate_count": 9,
+  "extension_plan": "experiments/linux_behavior/malware_like/extension_plan.json",
+  "failures": [],
+  "host": {
+    "allow_wsl": true,
+    "blocked_reasons": [],
+    "compile_attempted": true,
+    "compile_environment": "wsl",
+    "compiler": "/usr/bin/cc",
+    "force_compile": false,
+    "platform": "Windows",
+    "python": "3.14.3",
+    "wsl_compiler": "/usr/bin/cc"
+  },
+  "interpretation": [
+    "this is a host compile-only smoke check for repository-owned synthetic extension sources",
+    "the checker never executes the extension binaries and does not start loopback network activity",
+    "a PASS means the extension sources compile on this host; it is still not a 35T run",
+    "on Windows, a WSL compiler may satisfy the host compile-only condition when the repository is mounted and gcc/clang/cc is available",
+    "a blocked status records that the current host lacks the Linux, WSL, or compiler conditions needed for compile smoke",
+    "expanded 35T coverage remains deferred until these candidates are explicitly enabled, built for the target, and run through the same gates"
+  ],
+  "non_claims": [
+    "no CVA6 board claim",
+    "no real malware detection claim",
+    "no mature detector claim",
+    "no classifier accuracy claim",
+    "no complete semantic reconstruction claim",
+    "no expanded 35T coverage claim"
+  ],
+  "run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "schema": "rvmt.35t.synthetic_extension_host_smoke.v1",
+  "source_rows": [
+    {
+      "exists": true,
+      "id": "direct_syscall_open_read",
+      "network_required": false,
+      "source": "experiments/linux_behavior/malware_like/extension_programs/direct_syscall_open_read.c",
+      "status": "IMPLEMENTED_SOURCE"
+    },
+    {
+      "exists": true,
+      "id": "timing_anti_analysis_loop",
+      "network_required": false,
+      "source": "experiments/linux_behavior/malware_like/extension_programs/timing_anti_analysis_loop.c",
+      "status": "IMPLEMENTED_SOURCE"
+    },
+    {
+      "exists": true,
+      "id": "proc_status_tracerpid_check",
+      "network_required": false,
+      "source": "experiments/linux_behavior/malware_like/extension_programs/proc_status_tracerpid_check.c",
+      "status": "IMPLEMENTED_SOURCE"
+    },
+    {
+      "exists": true,
+      "id": "obfuscated_syscall_wrapper",
+      "network_required": false,
+      "source": "experiments/linux_behavior/malware_like/extension_programs/obfuscated_syscall_wrapper.c",
+      "status": "IMPLEMENTED_SOURCE"
+    },
+    {
+      "exists": true,
+      "id": "self_modifying_code_sim",
+      "network_required": false,
+      "source": "experiments/linux_behavior/malware_like/extension_programs/self_modifying_code_sim.c",
+      "status": "IMPLEMENTED_SOURCE"
+    },
+    {
+      "exists": true,
+      "id": "mprotect_exec_variant",
+      "network_required": false,
+      "source": "experiments/linux_behavior/malware_like/extension_programs/mprotect_exec_variant.c",
+      "status": "IMPLEMENTED_SOURCE"
+    },
+    {
+      "exists": true,
+      "id": "multi_level_process_chain",
+      "network_required": false,
+      "source": "experiments/linux_behavior/malware_like/extension_programs/multi_level_process_chain.c",
+      "status": "IMPLEMENTED_SOURCE"
+    },
+    {
+      "exists": true,
+      "id": "loopback_network_client",
+      "network_required": true,
+      "source": "experiments/linux_behavior/malware_like/extension_programs/loopback_network_client.c",
+      "status": "IMPLEMENTED_SOURCE_OPTIONAL_LOOPBACK"
+    },
+    {
+      "exists": true,
+      "id": "file_encryption_sim_non_destructive",
+      "network_required": false,
+      "source": "experiments/linux_behavior/malware_like/extension_programs/file_encryption_sim_non_destructive.c",
+      "status": "IMPLEMENTED_SOURCE"
+    }
+  ],
+  "status": "HOST_COMPILE_SMOKE_PASS_35T_GATING_DEFERRED"
+}

@@ -49,6 +49,37 @@ uv run python tools/check_semantic_enrichment_routes.py
 uv run python tools/check_semantic_enrichment_strategy.py
 uv run python tools/check_isa_behavior_portability.py
 uv run python tools/check_evaluation_plan.py
+uv run python tools/summarize_35t_baselines.py --self-test
+uv run python tools/check_35t_baseline_evaluation.py --self-test
+uv run python tools/check_35t_qemu_plugin_build_preflight.py --self-test
+uv run python tools/check_35t_fd_path_case_studies.py --self-test
+uv run python tools/check_35t_process_tree_case_study.py --self-test
+uv run python tools/check_35t_pointer_semantics_preflight.py --self-test
+uv run python tools/check_35t_pointer_snapshot_gate.py --self-test
+uv run python tools/check_35t_pointer_snapshot_design_review.py --self-test
+uv run python tools/check_35t_threat_model.py --self-test
+uv run python tools/check_35t_helper_alignment.py --self-test
+uv run python tools/check_35t_evaluation_table.py --self-test
+uv run python tools/check_35t_metric_coverage.py --self-test
+uv run python tools/check_35t_baseline_execution_spec.py --self-test
+uv run python tools/check_35t_synthetic_suite_extension.py --self-test
+uv run python tools/check_35t_synthetic_extension_host_smoke.py --self-test
+uv run python tools/check_35t_synthetic_extension_target_smoke.py --self-test
+uv run python tools/check_35t_synthetic_extension_behavior_smoke.py --self-test
+uv run python tools/check_35t_extension_35t_enablement.py --self-test
+uv run python tools/check_35t_raw_artifact_sanitization.py --self-test
+uv run python tools/check_35t_raw_artifact_escrow.py --self-test
+uv run python tools/check_35t_assessment_closure.py --self-test
+uv run python tools/check_35t_assessment_traceability.py --self-test
+uv run python tools/check_35t_assessment_requirement_matrix.py --self-test
+uv run python tools/check_35t_remaining_external_work.py --self-test
+uv run python tools/check_35t_paper_positioning.py --self-test
+uv run python tools/check_35t_assessment_reconciliation.py --self-test
+uv run python tools/check_35t_assessment_gate_criteria.py --self-test
+uv run python tools/check_35t_hardware_trace_prototype.py --self-test
+uv run python tools/check_35t_local_code_analysis.py --self-test
+uv run python tools/check_35t_malware_behavior_audit.py --self-test
+uv run python tools/check_35t_evidence_consistency.py --self-test
 ```
 
 Slash groups are expanded, so this runs the long build sequence:
@@ -715,6 +746,379 @@ simulation, board, Linux, or study evidence exists.
 ```powershell
 uv run python tools/check_evaluation_plan.py
 uv run python tools/check_evaluation_plan.py --self-test
+```
+
+## 35T Assessment Closure
+
+The assessment closure checker maps the 35T assessment goals to bounded current
+evidence. It treats fd/path and process-tree representative closure as PASS,
+uses the bounded baseline summary/check when available, reads trusted helper
+alignment, pointer snapshot design review, and the synthetic suite extension
+gate when present, and keeps hardware pointer snapshots, implemented expanded
+sample coverage, and full public paper artifact release as bounded remaining
+work unless corresponding evidence exists.
+
+```powershell
+uv run python tools/check_35t_assessment_closure.py --self-test
+uv run python tools/check_35t_fd_path_case_studies.py --repo-root .
+uv run python tools/check_35t_process_tree_case_study.py --repo-root .
+uv run python tools/check_35t_helper_alignment.py --repo-root .
+uv run python tools/check_35t_pointer_snapshot_design_review.py --repo-root .
+uv run python tools/check_35t_assessment_closure.py --repo-root .
+uv run python tools/check_35t_assessment_traceability.py --repo-root .
+uv run python tools/check_35t_assessment_requirement_matrix.py --repo-root .
+uv run python tools/check_35t_remaining_external_work.py --repo-root .
+uv run python tools/check_35t_paper_positioning.py --repo-root .
+uv run python tools/check_35t_assessment_reconciliation.py --repo-root .
+uv run python tools/check_35t_assessment_gate_criteria.py --repo-root .
+uv run python tools/check_35t_evidence_consistency.py --no-write
+```
+
+The traceability checker reads the assessment source document and maps P0-P6 to
+current evidence files, accepted statuses, and remaining bounded conditions. It
+is a requirement-to-evidence audit and does not upgrade deferred hardware,
+baseline, extension, or full artifact work to completed status.
+
+The requirement matrix checker reads the same source assessment section by
+section. It verifies the overall conclusion, evidence chain, 3.1 hardware trace,
+3.2 local code analysis, 3.3 synthetic malware-analysis boundary, P1-P6 follow-up
+items, CCF-A positioning, and final judgment against current evidence while
+keeping P3-P6 external conditions explicit.
+
+The remaining external work checker records the P3-P6 conditions that still
+need hardware enablement, capable baseline environments, 35T extension gating,
+or raw artifact sanitization/approval before their bounded statuses can be
+upgraded. It separately records satisfied preconditions such as representative
+trusted-helper alignment, host/target extension compile smoke, and host eBPF
+baseline evidence.
+
+The paper positioning checker records the assessment's publication boundary:
+35T evidence is a low-cost FPGA feasibility / constrained-board prototype
+result, not a standalone CCF-A main contribution, real malware detection claim,
+CVA6 validation, mature detector, or complete semantic reconstruction claim.
+
+The assessment reconciliation checker treats the source assessment as a
+snapshot and records how current evidence updates earlier PARTIAL/BLOCKED
+statements, without silently completing deferred P3-P6 external work.
+
+The assessment gate criteria checker independently verifies the concrete gate
+conditions named by the assessment: 512 records, 13/13 sample PASS, marker
+scope, runtime process attribution, UNKNOWN/corrupt, DROP/cap, strong expected
+rules, bounded benign overlap, and per-sample trace profile policy.
+
+The hardware trace prototype checker independently verifies the assessment's
+3.1 claim. It ties the 512-record 35T gate, small-capacity per-sample profile
+policy, decoded trace artifacts, marker/runtime attribution, UNKNOWN/corrupt,
+DROP, and cap-hit evidence together without inferring CVA6 validation.
+
+The local code analysis checker independently verifies the assessment's 3.2
+claim. It requires all 13 samples and all 65 trace-on repetitions to have board
+ELF code maps, trace-code joins, runtime process maps, semantic recovery
+outputs, behavior graphs, and rule-based audit files. It keeps PC-in-ELF,
+process ownership, source-line attribution, and real malware detection as
+explicit boundaries rather than upgraded claims.
+
+The malware behavior audit checker independently verifies the assessment's 3.3
+claim. It checks the 8-rule synthetic malware-like suite against the rules
+file, manifest, aggregate 35T gate, and per-repetition audit artifacts while
+keeping real malware execution, detector accuracy, family classification, IOC
+coverage, and TTP coverage out of scope.
+
+The evidence consistency checker is read-only. It verifies that
+`evidence_manifest.json`, `assessment_closure.json`,
+`assessment_traceability.json`, `assessment_requirement_matrix.json`,
+`artifact_package_readiness.json`, and `paper_artifact_package_manifest.json`
+agree on status, artifact counts, manifest hashes, source-section coverage,
+hardware-trace evidence, local-code-analysis evidence, malware-behavior-audit
+evidence, helper-alignment evidence, and package validation commands.
+
+## 35T Pointer Semantics Preflight
+
+The pointer semantics preflight records the P3 boundary for the 35T evidence:
+synthetic ARG_MEM simulation covers pointer strings and guardrails, and the
+targeted board syscall side-channel closes representative fd/path and
+process-tree semantics, but hardware user-pointer snapshots remain deferred and
+default-disabled in the current 35T small-capacity run.
+
+```powershell
+uv run python tools/check_35t_pointer_semantics_preflight.py --self-test
+uv run python tools/check_35t_pointer_semantics_preflight.py --repo-root .
+uv run python tools/check_35t_pointer_snapshot_gate.py --self-test
+uv run python tools/check_35t_pointer_snapshot_gate.py --repo-root .
+uv run python tools/check_35t_pointer_snapshot_design_review.py --self-test
+uv run python tools/check_35t_pointer_snapshot_design_review.py --repo-root .
+uv run python tools/check_35t_helper_alignment.py --self-test
+uv run python tools/check_35t_helper_alignment.py --repo-root .
+```
+
+The pointer snapshot gate records the requirements that must be met before
+hardware user-pointer capture can be enabled: design review, default-disabled
+safety guardrails, timing/resource data, bandwidth/drop accounting,
+noninterference, semantic accuracy, artifact release policy, and the trusted
+kernel/user-mode threat boundary.
+
+The pointer snapshot design-review checker records the bounded current design
+state for that route: selective `openat`/`execve` pathname-prefix capture,
+64-byte limits, default-disabled policy, no default memory-trace payload mode,
+and no hardware snapshot or measurement pass claim.
+
+## 35T Threat Model Boundary
+
+The threat model checker records the P3 trusted-kernel boundary requested by
+the assessment. It verifies that helper/eBPF semantic companions stay bounded
+to trusted-kernel companion evidence, that the current attacker model is a
+user-mode malware-like workload under a trusted Linux kernel, and that kernel
+rootkit resistance is explicitly out of scope.
+
+```powershell
+uv run python tools/check_35t_threat_model.py --self-test
+uv run python tools/check_35t_threat_model.py --repo-root .
+uv run python tools/check_35t_helper_alignment.py --self-test
+uv run python tools/check_35t_helper_alignment.py --repo-root .
+```
+
+The helper alignment checker records the representative P3 side-channel route
+that is now satisfied: fd/path and process-tree helper evidence is aligned with
+the targeted 35T dual-channel board validation bundle. It does not claim a
+hardware user-pointer memory snapshot, hardware-only tracing, complete semantic
+reconstruction, QEMU-plugin evidence, or malicious-kernel resistance.
+
+## 35T fd/path Case Studies
+
+The fd/path case-study checker records the P1 scope called out by the assessment:
+`file_scan`, `batch_open_read_write`, and `self_copy_sim`. It replays the
+targeted board-validation syscall side-channel for each sample, recovers closed
+fd/path flows, and keeps unresolved fields explicit so the compact
+`fd_path_flow_summary.json` is not over-read as full-suite coverage.
+
+```powershell
+uv run python tools/check_35t_fd_path_case_studies.py --self-test
+uv run python tools/check_35t_fd_path_case_studies.py --repo-root .
+```
+
+## 35T Process Tree Case Study
+
+The process-tree case-study checker records the P2 scope called out by the
+assessment for `process_chain`. It replays the targeted board-validation
+syscall side-channel, verifies positive clone child PIDs, child execve path
+strings, parent wait PID arguments, and emits the parent-child graph lines.
+The parent PID remains explicitly unresolved unless PID/SATP/ASID or equivalent
+ownership evidence exists.
+
+```powershell
+uv run python tools/check_35t_process_tree_case_study.py --self-test
+uv run python tools/check_35t_process_tree_case_study.py --repo-root .
+```
+
+## 35T Bounded Evaluation Table
+
+The bounded evaluation table combines the currently available P4 evidence:
+host/QEMU/strace timing baselines, software instrumentation, host eBPF/bpftrace
+baseline evidence, board trace-on/off ratios, DROP/cap accounting, resource/Fmax
+summaries, and the synthetic `anti_debug_like` behavior check. It keeps
+QEMU-plugin non-PASS unless separate per-sample plugin evidence exists.
+
+```powershell
+uv run python tools/check_35t_evaluation_table.py --self-test
+uv run python tools/check_35t_evaluation_table.py --repo-root .
+```
+
+## 35T Metric Coverage
+
+The metric coverage checker enumerates the P4 metric list from the assessment
+and ties each item to current evidence. It marks alignment precision/recall,
+return pairing, and argument reconstruction as measured proxies; fd/path and
+process graph accuracy as case-study measured; resource, timing, DROP, trace
+bytes, and synthetic anti-debug evidence as measured or bounded. It keeps
+full-suite semantic accuracy and advanced baseline perturbation deferred where
+the current repository lacks stronger evidence.
+
+```powershell
+uv run python tools/check_35t_metric_coverage.py --self-test
+uv run python tools/check_35t_metric_coverage.py --repo-root .
+```
+
+## 35T Baseline Execution Spec
+
+The baseline execution spec maps the assessment's P4 baseline families to
+current evidence rows, reproduction commands, required artifacts, pass gates,
+and non-substitution rules. It keeps eBPF-only, QEMU-plugin, pointer snapshot,
+and helper/companion rows from being treated as complete until their separate
+environment and run evidence exists.
+
+```powershell
+uv run python tools/check_35t_baseline_execution_spec.py --self-test
+uv run python tools/check_35t_baseline_execution_spec.py --repo-root .
+```
+
+## 35T Synthetic Suite Extension
+
+The synthetic suite extension checker verifies that the current malware-like
+suite remains synthetic-only, non-destructive, and network-free while recording
+source-implemented disabled-by-default extension candidates and the gates
+required before real malware could enter scope. Passing this checker means P5
+has source-ready extension candidates; it does not claim expanded sample
+coverage until the new samples are explicitly enabled, built, and run through
+the same 35T gates. The host smoke checker adds a compile-only preflight: on
+Linux, or on Windows with WSL compiler access, it compiles all extension
+sources. Hosts without Linux/WSL compiler access record an explicit environment
+blocker. The target smoke checker cross-compiles static RISC-V Linux ELFs. The
+behavior smoke checker then executes the 8 non-network candidates under host
+native, host strace, QEMU native, and QEMU guest strace, while keeping the
+loopback network candidate skipped by default. These checks do not count as 35T
+gating. The extension enablement preflight verifies the next step in that
+chain: extension candidates are present in the 35T runner and rootfs build
+path, stay disabled by default, and can be selected only through explicit
+`experiment_35t.py --include-extension-samples` dry-run commands. It still does
+not execute the board or count as expanded 35T coverage.
+
+```powershell
+uv run python tools/check_35t_synthetic_suite_extension.py --self-test
+uv run python tools/check_35t_synthetic_suite_extension.py --repo-root .
+uv run python tools/check_35t_synthetic_extension_host_smoke.py --self-test
+uv run python tools/check_35t_synthetic_extension_host_smoke.py --repo-root .
+uv run python tools/check_35t_synthetic_extension_target_smoke.py --self-test
+uv run python tools/check_35t_synthetic_extension_target_smoke.py --repo-root .
+uv run python tools/check_35t_synthetic_extension_behavior_smoke.py --self-test
+uv run python tools/check_35t_synthetic_extension_behavior_smoke.py --repo-root .
+uv run python tools/check_35t_extension_35t_enablement.py --self-test
+uv run python tools/check_35t_extension_35t_enablement.py --repo-root .
+```
+
+## 35T Baseline Evaluation
+
+The baseline summary reads the 35T aggregate metrics and records which baseline
+families have evidence. Host native, host strace, QEMU native, and QEMU strace
+are treated as present only when all 13 samples have timing fields. The
+software-instrumentation baseline is treated as present only when the separate
+`35t-software-instrumentation-baseline-20260523` summary reports 13/13 PASS.
+The eBPF-only baseline is treated as present only when
+`ebpf_baseline_summary.json` reports 13/13 PASS from the
+`35t-ebpf-baseline-20260523` bpftrace run. The QEMU-plugin baseline is treated
+as present only when `qemu_plugin_baseline_summary.json` reports
+`QEMU_PLUGIN_BASELINE_PASS_13_SAMPLES` for 13/13 samples from the
+`35t-qemu-plugin-baseline-20260523` user-mode TCG-plugin run. The advanced
+baseline preflight remains a packaged-environment capability boundary and does
+not combine prerequisites across Docker `linux-behavior` and WSL environments.
+The QEMU-plugin build preflight is a narrower P4 prerequisite check: it fetches
+the official QEMU 8.2.2 plugin header at probe time, builds a minimal TCG
+plugin, and verifies `qemu-system-riscv64 -plugin` loads it. The 13-sample
+baseline itself is supplied by `run_35t_qemu_plugin_baseline.py`, which uses a
+local upstream QEMU 8.2.2 `qemu-riscv64` build configured with
+`--enable-plugins`. This simulator syscall-count evidence is not hardware trace,
+DBI, or real malware evidence.
+
+```powershell
+uv run python tools/check_35t_advanced_baseline_preflight.py --self-test
+uv run python tools/check_35t_advanced_baseline_preflight.py --repo-root .
+uv run python tools/check_35t_qemu_plugin_build_preflight.py --self-test
+uv run python tools/check_35t_qemu_plugin_build_preflight.py --repo-root .
+uv run python tools/run_35t_qemu_plugin_baseline.py --self-test
+uv run python tools/run_35t_qemu_plugin_baseline.py --repo-root . --reps 3
+uv run python tools/run_35t_software_instrumentation_baseline.py --self-test
+uv run python tools/run_35t_software_instrumentation_baseline.py --reps 5
+uv run python tools/run_35t_ebpf_baseline.py --self-test
+uv run python tools/run_35t_ebpf_baseline.py --reps 3
+uv run python tools/summarize_35t_baselines.py --self-test
+uv run python tools/summarize_35t_baselines.py --repo-root .
+uv run python tools/check_35t_evaluation_table.py --self-test
+uv run python tools/check_35t_evaluation_table.py --repo-root .
+uv run python tools/check_35t_baseline_execution_spec.py --self-test
+uv run python tools/check_35t_baseline_execution_spec.py --repo-root .
+uv run python tools/check_35t_metric_coverage.py --self-test
+uv run python tools/check_35t_metric_coverage.py --repo-root .
+uv run python tools/check_35t_threat_model.py --self-test
+uv run python tools/check_35t_threat_model.py --repo-root .
+uv run python tools/check_35t_baseline_evaluation.py --self-test
+uv run python tools/check_35t_baseline_evaluation.py --repo-root .
+```
+
+## 35T Hardware Trace Prototype
+
+The hardware trace prototype checker turns the assessment's section 3.1 claim
+into a machine-readable gate. It verifies the 512-record primary 35T run,
+small-capacity per-sample profile policy, trace-control masks, 13/13 sample
+gate PASS, marker/runtime attribution, UNKNOWN/corrupt zero, DROP/cap limits,
+and 65 nonempty decoded trace artifacts. It is scoped to the 35T
+LiteX/VexRiscv run and does not imply CVA6 validation.
+
+```powershell
+uv run python tools/check_35t_hardware_trace_prototype.py --self-test
+uv run python tools/check_35t_hardware_trace_prototype.py --repo-root .
+```
+
+## 35T Local Code Analysis
+
+The local code analysis checker turns the assessment's section 3.2 claim into a
+machine-readable gate. It checks code-map generation, trace-code join,
+runtime-process-map attribution, behavior recovery, behavior graph, and
+rule-based audit outputs across the full 13-sample, 65-repetition trace-on
+matrix. Passing status is prototype-level attribution only; it does not imply
+complete process ownership, source-line attribution, complete semantic
+reconstruction, or real malware detection quality.
+
+```powershell
+uv run python tools/check_35t_local_code_analysis.py --self-test
+uv run python tools/check_35t_local_code_analysis.py --repo-root .
+```
+
+## 35T Malware Behavior Audit
+
+The malware behavior audit checker turns the assessment's section 3.3 claim
+into a machine-readable gate. It requires the 8 current synthetic
+malware-like samples to remain synthetic-only, non-destructive, and
+network-free; verifies that every expected rule is matched in the aggregate
+35T gate; and checks that behavior audit artifacts record the non-claim that
+this is synthetic triage, not real malware detection quality evidence.
+
+```powershell
+uv run python tools/check_35t_malware_behavior_audit.py --self-test
+uv run python tools/check_35t_malware_behavior_audit.py --repo-root .
+```
+
+## 35T Artifact Package Readiness
+
+The artifact package readiness checker verifies the paper artifact inventory
+without copying large raw outputs into the lightweight snapshot. It accounts for
+run config, raw UART logs, decoded traces, runtime process maps, code maps,
+trace-code joins, semantic events, behavior graphs, audits, alignment, metrics,
+resource/timing reports, ELF hashes, bitstream metadata, scripts/commands,
+source-implemented synthetic extension candidates, negative cases, and
+reproduction notes. The raw artifact path also has a local controlled escrow
+package for full raw UART and decoded trace payloads; it is not a public raw
+release.
+
+```powershell
+uv run python tools/check_35t_artifact_package_readiness.py --self-test
+uv run python tools/check_35t_fd_path_case_studies.py --repo-root .
+uv run python tools/check_35t_process_tree_case_study.py --repo-root .
+uv run python tools/check_35t_threat_model.py --repo-root .
+uv run python tools/check_35t_helper_alignment.py --repo-root .
+uv run python tools/check_35t_pointer_snapshot_gate.py --repo-root .
+uv run python tools/check_35t_pointer_snapshot_design_review.py --repo-root .
+uv run python tools/check_35t_metric_coverage.py --repo-root .
+uv run python tools/check_35t_baseline_execution_spec.py --repo-root .
+uv run python tools/check_35t_qemu_plugin_build_preflight.py --repo-root .
+uv run python tools/check_35t_synthetic_suite_extension.py --repo-root .
+uv run python tools/check_35t_synthetic_extension_host_smoke.py --repo-root .
+uv run python tools/check_35t_synthetic_extension_target_smoke.py --repo-root .
+uv run python tools/check_35t_synthetic_extension_behavior_smoke.py --repo-root .
+uv run python tools/check_35t_extension_35t_enablement.py --repo-root .
+uv run python tools/check_35t_raw_artifact_sanitization.py --repo-root .
+uv run python tools/check_35t_raw_artifact_escrow.py --repo-root .
+uv run python tools/check_35t_artifact_package_readiness.py --repo-root .
+uv run python tools/package_35t_paper_artifacts.py --self-test
+uv run python tools/package_35t_paper_artifacts.py --repo-root .
+uv run python tools/check_35t_assessment_traceability.py --repo-root .
+uv run python tools/check_35t_assessment_requirement_matrix.py --repo-root .
+uv run python tools/check_35t_remaining_external_work.py --repo-root .
+uv run python tools/check_35t_paper_positioning.py --repo-root .
+uv run python tools/check_35t_assessment_reconciliation.py --repo-root .
+uv run python tools/check_35t_assessment_gate_criteria.py --repo-root .
+uv run python tools/check_35t_hardware_trace_prototype.py --repo-root .
+uv run python tools/check_35t_local_code_analysis.py --repo-root .
+uv run python tools/check_35t_malware_behavior_audit.py --repo-root .
+uv run python tools/check_35t_evidence_consistency.py --no-write
 ```
 
 ## Trace Compression Prototype

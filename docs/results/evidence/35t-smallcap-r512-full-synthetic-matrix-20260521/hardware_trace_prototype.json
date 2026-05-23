@@ -1,0 +1,769 @@
+{
+  "assessment_source": "D:\\Download\\rv_maltrace_35t_assessment.md",
+  "boundaries": [
+    "35T / LiteX / VexRiscv only; no CVA6 board claim",
+    "decoded trace artifacts are local evidence and large raw UART logs remain outside the lightweight snapshot",
+    "hardware trace evidence supports the prototype trace gate, not complete semantic reconstruction by itself"
+  ],
+  "checks": {
+    "all_samples_drop_within_limit": true,
+    "all_samples_gate_pass": true,
+    "all_samples_marker_scope_pass": true,
+    "all_samples_no_cap_hit": true,
+    "all_samples_runtime_attribution_pass": true,
+    "all_samples_unknown_corrupt_zero": true,
+    "assessment_lists_hardware_trace_gate": true,
+    "decoded_trace_artifacts_65": true,
+    "decoded_trace_artifacts_nonempty": true,
+    "gate_claim_level": true,
+    "gate_run_id": true,
+    "gate_schema": true,
+    "gate_trace_records_512": true,
+    "per_sample_control_masks": true,
+    "per_sample_profiles": true,
+    "real_malware_forbidden_network_disabled": true,
+    "results_root_exists": true,
+    "run_config_reps_5": true,
+    "run_config_trace_records_512": true,
+    "sample_count_13": true,
+    "sample_set_exact": true,
+    "trace_controls_small_capacity": true,
+    "trace_profile_policy": true
+  },
+  "decoded_trace_file_count": 65,
+  "evidence": {
+    "evidence_root": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521",
+    "gate_report": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggregate/gate_report.json",
+    "run_config": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/run_config.json"
+  },
+  "failures": [],
+  "interpretation": [
+    "the primary 35T run is a 512-record small-capacity full-matrix hardware trace gate",
+    "the pass result comes from per-sample minimal trace profiles, not from increasing the trace ring beyond the 35T budget",
+    "illegal_trap alone uses the trap-enabled profile; the other 12 samples use the syscall/drop profile"
+  ],
+  "run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "sample_count": 13,
+  "sample_gate_pass_count": 13,
+  "sample_rows": [
+    {
+      "checks": {
+        "decoded_trace_reps_nonempty": true,
+        "decoded_trace_reps_present": true,
+        "drop_within_limit": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_record_cap_hit": true,
+        "profile_policy": true,
+        "runtime_process_attribution_pass": true,
+        "sample_class": true,
+        "sample_status_pass": true,
+        "unexpected_events_empty": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "decoded_trace_file_count": 5,
+      "decoded_trace_files": [
+        {
+          "bytes": 22793,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/hello/board/trace-on/rep_00/trace.jsonl"
+        },
+        {
+          "bytes": 22795,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/hello/board/trace-on/rep_01/trace.jsonl"
+        },
+        {
+          "bytes": 22794,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/hello/board/trace-on/rep_02/trace.jsonl"
+        },
+        {
+          "bytes": 22794,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/hello/board/trace-on/rep_03/trace.jsonl"
+        },
+        {
+          "bytes": 22795,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/hello/board/trace-on/rep_04/trace.jsonl"
+        }
+      ],
+      "drop_rate_median": 0.0,
+      "drop_rate_median_limit": 0.05,
+      "failures": [],
+      "gate_status": "PASS",
+      "sample_class": "benign",
+      "sample_id": "hello",
+      "status": "PASS",
+      "trace_control_mask": "0x424",
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "checks": {
+        "decoded_trace_reps_nonempty": true,
+        "decoded_trace_reps_present": true,
+        "drop_within_limit": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_record_cap_hit": true,
+        "profile_policy": true,
+        "runtime_process_attribution_pass": true,
+        "sample_class": true,
+        "sample_status_pass": true,
+        "unexpected_events_empty": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "decoded_trace_file_count": 5,
+      "decoded_trace_files": [
+        {
+          "bytes": 33138,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/ls/board/trace-on/rep_00/trace.jsonl"
+        },
+        {
+          "bytes": 33138,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/ls/board/trace-on/rep_01/trace.jsonl"
+        },
+        {
+          "bytes": 33138,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/ls/board/trace-on/rep_02/trace.jsonl"
+        },
+        {
+          "bytes": 33139,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/ls/board/trace-on/rep_03/trace.jsonl"
+        },
+        {
+          "bytes": 33138,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/ls/board/trace-on/rep_04/trace.jsonl"
+        }
+      ],
+      "drop_rate_median": 0.0,
+      "drop_rate_median_limit": 0.05,
+      "failures": [],
+      "gate_status": "PASS",
+      "sample_class": "benign",
+      "sample_id": "ls",
+      "status": "PASS",
+      "trace_control_mask": "0x424",
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "checks": {
+        "decoded_trace_reps_nonempty": true,
+        "decoded_trace_reps_present": true,
+        "drop_within_limit": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_record_cap_hit": true,
+        "profile_policy": true,
+        "runtime_process_attribution_pass": true,
+        "sample_class": true,
+        "sample_status_pass": true,
+        "unexpected_events_empty": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "decoded_trace_file_count": 5,
+      "decoded_trace_files": [
+        {
+          "bytes": 27966,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_00/trace.jsonl"
+        },
+        {
+          "bytes": 27966,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_01/trace.jsonl"
+        },
+        {
+          "bytes": 27966,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_02/trace.jsonl"
+        },
+        {
+          "bytes": 27967,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_03/trace.jsonl"
+        },
+        {
+          "bytes": 27966,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_04/trace.jsonl"
+        }
+      ],
+      "drop_rate_median": 0.0,
+      "drop_rate_median_limit": 0.05,
+      "failures": [],
+      "gate_status": "PASS",
+      "sample_class": "benign",
+      "sample_id": "cat",
+      "status": "PASS",
+      "trace_control_mask": "0x424",
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "checks": {
+        "decoded_trace_reps_nonempty": true,
+        "decoded_trace_reps_present": true,
+        "drop_within_limit": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_record_cap_hit": true,
+        "profile_policy": true,
+        "runtime_process_attribution_pass": true,
+        "sample_class": true,
+        "sample_status_pass": true,
+        "unexpected_events_empty": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "decoded_trace_file_count": 5,
+      "decoded_trace_files": [
+        {
+          "bytes": 30555,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_00/trace.jsonl"
+        },
+        {
+          "bytes": 30553,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_01/trace.jsonl"
+        },
+        {
+          "bytes": 30553,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_02/trace.jsonl"
+        },
+        {
+          "bytes": 30552,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_03/trace.jsonl"
+        },
+        {
+          "bytes": 30554,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_04/trace.jsonl"
+        }
+      ],
+      "drop_rate_median": 0.0,
+      "drop_rate_median_limit": 0.05,
+      "failures": [],
+      "gate_status": "PASS",
+      "sample_class": "benign",
+      "sample_id": "cp",
+      "status": "PASS",
+      "trace_control_mask": "0x424",
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "checks": {
+        "decoded_trace_reps_nonempty": true,
+        "decoded_trace_reps_present": true,
+        "drop_within_limit": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_record_cap_hit": true,
+        "profile_policy": true,
+        "runtime_process_attribution_pass": true,
+        "sample_class": true,
+        "sample_status_pass": true,
+        "unexpected_events_empty": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "decoded_trace_file_count": 5,
+      "decoded_trace_files": [
+        {
+          "bytes": 30553,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/sha256sum/board/trace-on/rep_00/trace.jsonl"
+        },
+        {
+          "bytes": 30553,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/sha256sum/board/trace-on/rep_01/trace.jsonl"
+        },
+        {
+          "bytes": 30552,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/sha256sum/board/trace-on/rep_02/trace.jsonl"
+        },
+        {
+          "bytes": 30553,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/sha256sum/board/trace-on/rep_03/trace.jsonl"
+        },
+        {
+          "bytes": 30554,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/sha256sum/board/trace-on/rep_04/trace.jsonl"
+        }
+      ],
+      "drop_rate_median": 0.0,
+      "drop_rate_median_limit": 0.05,
+      "failures": [],
+      "gate_status": "PASS",
+      "sample_class": "benign",
+      "sample_id": "sha256sum",
+      "status": "PASS",
+      "trace_control_mask": "0x424",
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "checks": {
+        "decoded_trace_reps_nonempty": true,
+        "decoded_trace_reps_present": true,
+        "drop_within_limit": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_record_cap_hit": true,
+        "profile_policy": true,
+        "runtime_process_attribution_pass": true,
+        "sample_class": true,
+        "sample_status_pass": true,
+        "unexpected_events_empty": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "decoded_trace_file_count": 5,
+      "decoded_trace_files": [
+        {
+          "bytes": 26673,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/file_scan/board/trace-on/rep_00/trace.jsonl"
+        },
+        {
+          "bytes": 26672,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/file_scan/board/trace-on/rep_01/trace.jsonl"
+        },
+        {
+          "bytes": 26673,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/file_scan/board/trace-on/rep_02/trace.jsonl"
+        },
+        {
+          "bytes": 26673,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/file_scan/board/trace-on/rep_03/trace.jsonl"
+        },
+        {
+          "bytes": 26673,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/file_scan/board/trace-on/rep_04/trace.jsonl"
+        }
+      ],
+      "drop_rate_median": 0.0,
+      "drop_rate_median_limit": 0.05,
+      "failures": [],
+      "gate_status": "PASS",
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "file_scan",
+      "status": "PASS",
+      "trace_control_mask": "0x424",
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "checks": {
+        "decoded_trace_reps_nonempty": true,
+        "decoded_trace_reps_present": true,
+        "drop_within_limit": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_record_cap_hit": true,
+        "profile_policy": true,
+        "runtime_process_attribution_pass": true,
+        "sample_class": true,
+        "sample_status_pass": true,
+        "unexpected_events_empty": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "decoded_trace_file_count": 5,
+      "decoded_trace_files": [
+        {
+          "bytes": 37017,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/batch_open_read_write/board/trace-on/rep_00/trace.jsonl"
+        },
+        {
+          "bytes": 37018,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/batch_open_read_write/board/trace-on/rep_01/trace.jsonl"
+        },
+        {
+          "bytes": 37016,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/batch_open_read_write/board/trace-on/rep_02/trace.jsonl"
+        },
+        {
+          "bytes": 37016,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/batch_open_read_write/board/trace-on/rep_03/trace.jsonl"
+        },
+        {
+          "bytes": 37018,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/batch_open_read_write/board/trace-on/rep_04/trace.jsonl"
+        }
+      ],
+      "drop_rate_median": 0.0,
+      "drop_rate_median_limit": 0.05,
+      "failures": [],
+      "gate_status": "PASS",
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "batch_open_read_write",
+      "status": "PASS",
+      "trace_control_mask": "0x424",
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "checks": {
+        "decoded_trace_reps_nonempty": true,
+        "decoded_trace_reps_present": true,
+        "drop_within_limit": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_record_cap_hit": true,
+        "profile_policy": true,
+        "runtime_process_attribution_pass": true,
+        "sample_class": true,
+        "sample_status_pass": true,
+        "unexpected_events_empty": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "decoded_trace_file_count": 5,
+      "decoded_trace_files": [
+        {
+          "bytes": 29261,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/self_copy_sim/board/trace-on/rep_00/trace.jsonl"
+        },
+        {
+          "bytes": 29258,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/self_copy_sim/board/trace-on/rep_01/trace.jsonl"
+        },
+        {
+          "bytes": 29261,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/self_copy_sim/board/trace-on/rep_02/trace.jsonl"
+        },
+        {
+          "bytes": 29260,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/self_copy_sim/board/trace-on/rep_03/trace.jsonl"
+        },
+        {
+          "bytes": 29258,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/self_copy_sim/board/trace-on/rep_04/trace.jsonl"
+        }
+      ],
+      "drop_rate_median": 0.0,
+      "drop_rate_median_limit": 0.05,
+      "failures": [],
+      "gate_status": "PASS",
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "self_copy_sim",
+      "status": "PASS",
+      "trace_control_mask": "0x424",
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "checks": {
+        "decoded_trace_reps_nonempty": true,
+        "decoded_trace_reps_present": true,
+        "drop_within_limit": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_record_cap_hit": true,
+        "profile_policy": true,
+        "runtime_process_attribution_pass": true,
+        "sample_class": true,
+        "sample_status_pass": true,
+        "unexpected_events_empty": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "decoded_trace_file_count": 5,
+      "decoded_trace_files": [
+        {
+          "bytes": 29254,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/abnormal_syscall_sequence/board/trace-on/rep_00/trace.jsonl"
+        },
+        {
+          "bytes": 29253,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/abnormal_syscall_sequence/board/trace-on/rep_01/trace.jsonl"
+        },
+        {
+          "bytes": 29255,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/abnormal_syscall_sequence/board/trace-on/rep_02/trace.jsonl"
+        },
+        {
+          "bytes": 29255,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/abnormal_syscall_sequence/board/trace-on/rep_03/trace.jsonl"
+        },
+        {
+          "bytes": 29255,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/abnormal_syscall_sequence/board/trace-on/rep_04/trace.jsonl"
+        }
+      ],
+      "drop_rate_median": 0.0,
+      "drop_rate_median_limit": 0.05,
+      "failures": [],
+      "gate_status": "PASS",
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "abnormal_syscall_sequence",
+      "status": "PASS",
+      "trace_control_mask": "0x424",
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "checks": {
+        "decoded_trace_reps_nonempty": true,
+        "decoded_trace_reps_present": true,
+        "drop_within_limit": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_record_cap_hit": true,
+        "profile_policy": true,
+        "runtime_process_attribution_pass": true,
+        "sample_class": true,
+        "sample_status_pass": true,
+        "unexpected_events_empty": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "decoded_trace_file_count": 5,
+      "decoded_trace_files": [
+        {
+          "bytes": 103105,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/illegal_trap/board/trace-on/rep_00/trace.jsonl"
+        },
+        {
+          "bytes": 101787,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/illegal_trap/board/trace-on/rep_01/trace.jsonl"
+        },
+        {
+          "bytes": 103764,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/illegal_trap/board/trace-on/rep_02/trace.jsonl"
+        },
+        {
+          "bytes": 107718,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/illegal_trap/board/trace-on/rep_03/trace.jsonl"
+        },
+        {
+          "bytes": 96514,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/illegal_trap/board/trace-on/rep_04/trace.jsonl"
+        }
+      ],
+      "drop_rate_median": 0.03067484662576687,
+      "drop_rate_median_limit": 0.05,
+      "failures": [],
+      "gate_status": "PASS",
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "illegal_trap",
+      "status": "PASS",
+      "trace_control_mask": "0x42c",
+      "trace_profile": "p0c_syscall_trap_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "checks": {
+        "decoded_trace_reps_nonempty": true,
+        "decoded_trace_reps_present": true,
+        "drop_within_limit": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_record_cap_hit": true,
+        "profile_policy": true,
+        "runtime_process_attribution_pass": true,
+        "sample_class": true,
+        "sample_status_pass": true,
+        "unexpected_events_empty": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "decoded_trace_file_count": 5,
+      "decoded_trace_files": [
+        {
+          "bytes": 99128,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/process_chain/board/trace-on/rep_00/trace.jsonl"
+        },
+        {
+          "bytes": 99132,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/process_chain/board/trace-on/rep_01/trace.jsonl"
+        },
+        {
+          "bytes": 99134,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/process_chain/board/trace-on/rep_02/trace.jsonl"
+        },
+        {
+          "bytes": 99129,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/process_chain/board/trace-on/rep_03/trace.jsonl"
+        },
+        {
+          "bytes": 99132,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/process_chain/board/trace-on/rep_04/trace.jsonl"
+        }
+      ],
+      "drop_rate_median": 0.0,
+      "drop_rate_median_limit": 0.05,
+      "failures": [],
+      "gate_status": "PASS",
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "process_chain",
+      "status": "PASS",
+      "trace_control_mask": "0x424",
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "checks": {
+        "decoded_trace_reps_nonempty": true,
+        "decoded_trace_reps_present": true,
+        "drop_within_limit": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_record_cap_hit": true,
+        "profile_policy": true,
+        "runtime_process_attribution_pass": true,
+        "sample_class": true,
+        "sample_status_pass": true,
+        "unexpected_events_empty": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "decoded_trace_file_count": 5,
+      "decoded_trace_files": [
+        {
+          "bytes": 26674,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/dynamic_executable_memory/board/trace-on/rep_00/trace.jsonl"
+        },
+        {
+          "bytes": 26674,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/dynamic_executable_memory/board/trace-on/rep_01/trace.jsonl"
+        },
+        {
+          "bytes": 26674,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/dynamic_executable_memory/board/trace-on/rep_02/trace.jsonl"
+        },
+        {
+          "bytes": 26674,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/dynamic_executable_memory/board/trace-on/rep_03/trace.jsonl"
+        },
+        {
+          "bytes": 26673,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/dynamic_executable_memory/board/trace-on/rep_04/trace.jsonl"
+        }
+      ],
+      "drop_rate_median": 0.0,
+      "drop_rate_median_limit": 0.05,
+      "failures": [],
+      "gate_status": "PASS",
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "dynamic_executable_memory",
+      "status": "PASS",
+      "trace_control_mask": "0x424",
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "checks": {
+        "decoded_trace_reps_nonempty": true,
+        "decoded_trace_reps_present": true,
+        "drop_within_limit": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_record_cap_hit": true,
+        "profile_policy": true,
+        "runtime_process_attribution_pass": true,
+        "sample_class": true,
+        "sample_status_pass": true,
+        "unexpected_events_empty": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "decoded_trace_file_count": 5,
+      "decoded_trace_files": [
+        {
+          "bytes": 29257,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/anti_debug_like/board/trace-on/rep_00/trace.jsonl"
+        },
+        {
+          "bytes": 29256,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/anti_debug_like/board/trace-on/rep_01/trace.jsonl"
+        },
+        {
+          "bytes": 29258,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/anti_debug_like/board/trace-on/rep_02/trace.jsonl"
+        },
+        {
+          "bytes": 29255,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/anti_debug_like/board/trace-on/rep_03/trace.jsonl"
+        },
+        {
+          "bytes": 29258,
+          "nonempty": true,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/anti_debug_like/board/trace-on/rep_04/trace.jsonl"
+        }
+      ],
+      "drop_rate_median": 0.0,
+      "drop_rate_median_limit": 0.05,
+      "failures": [],
+      "gate_status": "PASS",
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "anti_debug_like",
+      "status": "PASS",
+      "trace_control_mask": "0x424",
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    }
+  ],
+  "schema": "rvmt.35t.hardware_trace_prototype.v1",
+  "status": "HARDWARE_TRACE_PROTOTYPE_PASS_35T_SMALL_CAPACITY",
+  "trace_profile_policy": "35t_small_capacity",
+  "trace_records": 512
+}

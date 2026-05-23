@@ -1,0 +1,268 @@
+{
+  "schema": "rvmt.35t.baseline_execution_spec.v1",
+  "run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+  "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "sample_count": 13,
+  "status_source": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/baseline_evaluation_summary.json",
+  "preflight_source": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/advanced_baseline_preflight.json",
+  "coverage_map": {
+    "strace_ptrace": [
+      "host_strace",
+      "qemu_strace"
+    ],
+    "ebpf_only": [
+      "ebpf_only"
+    ],
+    "qemu_plugin": [
+      "qemu_plugin"
+    ],
+    "software_instrumentation_or_dbi": [
+      "software_instrumentation"
+    ],
+    "rvmaltrace_event_only": [
+      "rvmaltrace_event_only"
+    ],
+    "rvmaltrace_pointer_snapshot_or_helper": [
+      "rvmaltrace_pointer_snapshot",
+      "rvmaltrace_helper_or_ebpf_companion"
+    ]
+  },
+  "baselines": [
+    {
+      "id": "host_native",
+      "family": "host_native",
+      "current_status": "PASS",
+      "summary_key": "host_native",
+      "purpose": "host uninstrumented timing baseline paired with host_strace",
+      "required_artifacts": [
+        "aggregate metrics groundtruth.host_native median for all 13 samples"
+      ],
+      "reproduction_commands": [
+        "uv run --no-sync python tools/experiment_35t.py --help",
+        "uv run --no-sync python tools/summarize_35t_baselines.py --repo-root ."
+      ],
+      "pass_criteria": [
+        "baseline_evaluation_summary.json reports 13/13 samples_with_evidence",
+        "sample rows have no missing host_native groundtruth median"
+      ],
+      "substitution_rules": [
+        "host_native timing is not a semantic tracing baseline"
+      ]
+    },
+    {
+      "id": "host_strace",
+      "family": "strace_ptrace",
+      "current_status": "PASS",
+      "summary_key": "host_strace",
+      "purpose": "ptrace/strace syscall ground-truth and perturbation baseline on host",
+      "required_artifacts": [
+        "aggregate metrics groundtruth.host_strace median for all 13 samples",
+        "per-sample host_strace_over_host_native ratio in baseline_evaluation_summary.json"
+      ],
+      "reproduction_commands": [
+        "uv run --no-sync python tools/summarize_35t_baselines.py --repo-root .",
+        "uv run --no-sync python tools/check_35t_baseline_evaluation.py --repo-root ."
+      ],
+      "pass_criteria": [
+        "baseline_evaluation_summary.json reports 13/13 samples_with_evidence",
+        "paired host_native baseline exists for all 13 samples"
+      ],
+      "substitution_rules": [
+        "strace timing evidence must not be reused as eBPF-only evidence"
+      ]
+    },
+    {
+      "id": "qemu_native",
+      "family": "qemu_native",
+      "current_status": "PASS",
+      "summary_key": "qemu_native",
+      "purpose": "QEMU user-mode uninstrumented timing baseline paired with qemu_strace",
+      "required_artifacts": [
+        "aggregate metrics groundtruth.qemu_native median for all 13 samples"
+      ],
+      "reproduction_commands": [
+        "uv run --no-sync python tools/summarize_35t_baselines.py --repo-root ."
+      ],
+      "pass_criteria": [
+        "baseline_evaluation_summary.json reports 13/13 samples_with_evidence",
+        "sample rows have no missing qemu_native groundtruth median"
+      ],
+      "substitution_rules": [
+        "qemu_native timing is not a QEMU-plugin trace baseline"
+      ]
+    },
+    {
+      "id": "qemu_strace",
+      "family": "strace_ptrace",
+      "current_status": "PASS",
+      "summary_key": "qemu_strace",
+      "purpose": "strace/ptrace perturbation baseline while running the RISC-V user binary under QEMU",
+      "required_artifacts": [
+        "aggregate metrics groundtruth.qemu_strace median for all 13 samples",
+        "per-sample qemu_strace_over_qemu_native ratio in baseline_evaluation_summary.json"
+      ],
+      "reproduction_commands": [
+        "uv run --no-sync python tools/summarize_35t_baselines.py --repo-root .",
+        "uv run --no-sync python tools/check_35t_baseline_evaluation.py --repo-root ."
+      ],
+      "pass_criteria": [
+        "baseline_evaluation_summary.json reports 13/13 samples_with_evidence",
+        "paired qemu_native baseline exists for all 13 samples"
+      ],
+      "substitution_rules": [
+        "qemu_strace is a ptrace baseline, not a QEMU TCG-plugin baseline"
+      ]
+    },
+    {
+      "id": "ebpf_only",
+      "family": "ebpf_only",
+      "current_status": "PASS",
+      "summary_key": "ebpf_only",
+      "purpose": "kernel-side semantic software baseline using eBPF/kprobes where the host permits it",
+      "required_artifacts": [
+        "results/experiments/35t/35t-ebpf-baseline-20260523/aggregate/ebpf_baseline_summary.json",
+        "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/ebpf_baseline_summary.json",
+        "per-sample bpftrace scripts and local raw bpftrace logs under results/experiments/35t/35t-ebpf-baseline-20260523",
+        "kernel and tracefs/kprobe capability record",
+        "per-sample event count and conservative end-to-end overhead summary"
+      ],
+      "reproduction_commands": [
+        "docker compose -f docker-compose.toolchain.yml build linux-behavior",
+        "docker compose -f docker-compose.toolchain.yml run --rm --cap-add SYS_ADMIN --cap-add SYS_PTRACE linux-behavior bash -lc '<mount tracefs/debugfs and run bpftrace kprobe smoke>'",
+        "uv run --no-sync python tools/run_35t_ebpf_baseline.py --reps 3",
+        "uv run --no-sync python tools/check_35t_advanced_baseline_preflight.py --repo-root .",
+        "uv run --no-sync python tools/summarize_35t_baselines.py --repo-root ."
+      ],
+      "pass_criteria": [
+        "advanced_baseline_preflight.json reports ebpf_only READY",
+        "ebpf_baseline_summary.json reports PASS with 13/13 sample evidence",
+        "baseline_evaluation_summary.json reports ebpf_only PASS"
+      ],
+      "substitution_rules": [
+        "strace, software instrumentation, or hardware side-channel evidence must not be substituted for eBPF-only"
+      ]
+    },
+    {
+      "id": "qemu_plugin",
+      "family": "qemu_plugin",
+      "current_status": "PASS",
+      "summary_key": "qemu_plugin",
+      "purpose": "QEMU TCG plugin trace baseline for simulator-side event comparison",
+      "required_artifacts": [
+        "upstream qemu-riscv64 user-mode binary built with --enable-plugins",
+        "qemu-plugin.h and syscall-count plugin build transcript",
+        "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/qemu_plugin_baseline_summary.json",
+        "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/qemu_plugin_build_preflight.json",
+        "per-sample plugin syscall-count output and timings under results/experiments/35t/35t-qemu-plugin-baseline-20260523"
+      ],
+      "reproduction_commands": [
+        "uv run --no-sync python tools/run_35t_qemu_plugin_baseline.py --repo-root . --reps 3",
+        "uv run --no-sync python tools/check_35t_qemu_plugin_build_preflight.py --repo-root .",
+        "uv run --no-sync python tools/summarize_35t_baselines.py --repo-root ."
+      ],
+      "pass_criteria": [
+        "qemu_plugin_build_preflight.json records system-mode plugin build/load preflight evidence",
+        "qemu_plugin_baseline_summary.json reports QEMU_PLUGIN_BASELINE_PASS_13_SAMPLES",
+        "baseline_evaluation_summary.json reports qemu_plugin PASS with 13/13 sample evidence"
+      ],
+      "substitution_rules": [
+        "QEMU-plugin syscall-count evidence is a simulator software baseline and must not be substituted for hardware trace, DBI, or real malware evidence"
+      ]
+    },
+    {
+      "id": "software_instrumentation",
+      "family": "software_instrumentation_or_dbi",
+      "current_status": "PASS",
+      "summary_key": "software_instrumentation",
+      "purpose": "source-level software instrumentation baseline using gcc -finstrument-functions",
+      "required_artifacts": [
+        "results/experiments/35t/35t-software-instrumentation-baseline-20260523/aggregate/software_instrumentation_baseline_summary.json"
+      ],
+      "reproduction_commands": [
+        "uv run --no-sync python tools/run_35t_software_instrumentation_baseline.py --reps 5",
+        "uv run --no-sync python tools/summarize_35t_baselines.py --repo-root ."
+      ],
+      "pass_criteria": [
+        "software instrumentation summary schema, run id, sample_count, and pass_count all match the 13-sample run"
+      ],
+      "substitution_rules": [
+        "this source-level instrumentation is not a DBI, eBPF, or QEMU-plugin substitute"
+      ]
+    },
+    {
+      "id": "rvmaltrace_event_only",
+      "family": "rvmaltrace_event_only",
+      "current_status": "PASS",
+      "summary_key": "rvmaltrace_event_only",
+      "purpose": "current 35T hardware MVP event stream under the 512-record per-sample trace budget",
+      "required_artifacts": [
+        "primary gate_report.json 13/13 PASS",
+        "per-sample trace metrics, drop rate, and cap-hit accounting"
+      ],
+      "reproduction_commands": [
+        "uv run --no-sync python tools/check_35t_paper_evidence.py --repo-root .",
+        "uv run --no-sync python tools/check_35t_evaluation_table.py --repo-root ."
+      ],
+      "pass_criteria": [
+        "primary 35T gate is strict 13/13 PASS",
+        "evaluation table keeps event-only separate from pointer/helper ablations"
+      ],
+      "substitution_rules": [
+        "event-only hardware evidence must not be described as pointer-snapshot semantic reconstruction"
+      ]
+    },
+    {
+      "id": "rvmaltrace_pointer_snapshot",
+      "family": "rvmaltrace_pointer_snapshot_or_helper",
+      "current_status": "DEFERRED",
+      "summary_key": "rvmaltrace_pointer_snapshot",
+      "purpose": "future selective user-pointer snapshot semantic enrichment ablation",
+      "required_artifacts": [
+        "enabled pointer snapshot trace profile",
+        "captured pointer strings or structure prefixes",
+        "bandwidth, timing, DROP, and noninterference measurements"
+      ],
+      "reproduction_commands": [
+        "uv run --no-sync python tools/check_35t_pointer_semantics_preflight.py --repo-root ."
+      ],
+      "pass_criteria": [
+        "pointer_semantics_preflight.json must no longer report hardware_user_pointer_snapshot as DEFERRED",
+        "a separate enabled run must provide timing, bandwidth, DROP, and noninterference evidence"
+      ],
+      "substitution_rules": [
+        "synthetic ARG_MEM fixtures and syscall side-channel paths are not hardware pointer snapshot evidence"
+      ]
+    },
+    {
+      "id": "rvmaltrace_helper_or_ebpf_companion",
+      "family": "rvmaltrace_pointer_snapshot_or_helper",
+      "current_status": "DEFERRED",
+      "summary_key": "rvmaltrace_helper_or_ebpf_companion",
+      "purpose": "future trusted helper or eBPF companion alignment ablation",
+      "required_artifacts": [
+        "trusted helper/eBPF log",
+        "hardware trace alignment report",
+        "threat-model and noninterference update"
+      ],
+      "reproduction_commands": [
+        "uv run --no-sync python tools/check_35t_threat_model.py --repo-root .",
+        "uv run --no-sync python tools/check_35t_pointer_semantics_preflight.py --repo-root ."
+      ],
+      "pass_criteria": [
+        "helper/eBPF companion route must be explicitly enabled and aligned with hardware trace evidence",
+        "threat model must remain trusted-kernel/user-mode and keep kernel rootkits out of scope"
+      ],
+      "substitution_rules": [
+        "helper/eBPF companion evidence must not be reported as hardware-only tracing"
+      ]
+    }
+  ],
+  "non_claims": [
+    "no CVA6 board claim",
+    "no real malware detection claim",
+    "no mature detector claim",
+    "no classifier accuracy claim",
+    "no complete semantic reconstruction claim"
+  ]
+}

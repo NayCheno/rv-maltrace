@@ -1,0 +1,355 @@
+{
+  "checks": {
+    "advanced_baselines_not_silently_passed": true,
+    "all_record_evidence_paths_exist": true,
+    "all_records_have_evidence": true,
+    "all_records_have_no_substitution_rules": true,
+    "all_records_have_required_conditions": true,
+    "all_records_have_unblock_criteria": true,
+    "artifact_release_deferred": true,
+    "baseline_spec_has_blocked_rows": true,
+    "closure_status_bounded": true,
+    "ebpf_pass_has_summary_evidence": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/ebpf_baseline_summary.json",
+    "extension_behavior_smoke_passed_or_recorded": true,
+    "extension_enablement_preflight_passed_or_recorded": true,
+    "extension_sources_no_35t_claim": true,
+    "helper_alignment_passed_or_recorded": true,
+    "host_compile_smoke_passed_or_recorded": true,
+    "p3_status_bounded": true,
+    "p4_status_bounded": true,
+    "p5_status_bounded": true,
+    "p6_status_bounded": true,
+    "pointer_snapshot_design_review_passed_or_recorded": true,
+    "pointer_snapshot_still_default_disabled": true,
+    "qemu_plugin_baseline_passed_or_recorded": true,
+    "qemu_plugin_build_preflight_passed_or_recorded": true,
+    "raw_artifact_escrow_passed_or_recorded": true,
+    "raw_artifact_hash_excerpt_ready": true,
+    "satisfied_conditions_have_no_substitution_rules": true,
+    "target_compile_smoke_passed_or_recorded": true,
+    "traceability_goal_statuses_match": true,
+    "traceability_status_bounded": true
+  },
+  "evidence_root": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "failures": [],
+  "interpretation": [
+    "P3-P6 have external or deferred conditions that are explicitly recorded rather than treated as completed work",
+    "current bounded PASS statuses remain valid only under the 35T synthetic prototype claim boundary",
+    "each record lists the evidence that explains the current condition and the criteria required before the status can be upgraded"
+  ],
+  "records": [
+    {
+      "current_condition": "POINTER_SNAPSHOT_ENABLEMENT_GATES_RECORDED_NOT_ENABLED; design_review=POINTER_SNAPSHOT_DESIGN_REVIEW_PASS_NOT_ENABLED",
+      "current_status": "DEFERRED_NOT_ENABLED",
+      "evidence": [
+        "pointer_snapshot_enablement_gate.json",
+        "pointer_semantics_preflight.json",
+        "pointer_snapshot_design_review.json",
+        "experiments/linux_behavior/pointer_snapshot_enablement_gate.json",
+        "experiments/linux_behavior/pointer_snapshot_design_review.json"
+      ],
+      "goal_id": "P3_pointer_argument_semantics",
+      "id": "p3_hardware_user_pointer_snapshot",
+      "no_substitution_rule": "synthetic ARG_MEM fixtures or syscall side-channel paths cannot be substituted for enabled hardware pointer snapshot evidence",
+      "required_conditions": [
+        "timing/resource measurements",
+        "bandwidth/drop accounting",
+        "noninterference evidence",
+        "semantic accuracy evidence",
+        "artifact release policy"
+      ],
+      "unblock_criteria": [
+        "pointer gate no longer reports POINTER_SNAPSHOT_ENABLEMENT_GATES_RECORDED_NOT_ENABLED",
+        "pointer preflight no longer reports hardware_user_pointer_snapshot=DEFERRED",
+        "enabled 35T run records timing, bandwidth, DROP, and noninterference measurements"
+      ]
+    },
+    {
+      "current_condition": "9 source candidates implemented, host_compiled=9/9, target_compiled=9/9, behavior_smoke=8/8, enablement=EXTENSION_35T_ENABLEMENT_PREFLIGHT_PASS_GATING_DEFERRED, no expanded 35T coverage claim",
+      "current_status": "DEFERRED_35T_RUN_REQUIRED",
+      "evidence": [
+        "synthetic_suite_extension_check.json",
+        "synthetic_extension_host_smoke.json",
+        "synthetic_extension_target_smoke.json",
+        "synthetic_extension_behavior_smoke.json",
+        "extension_35t_enablement_preflight.json",
+        "experiments/linux_behavior/malware_like/extension_plan.json"
+      ],
+      "goal_id": "P5_synthetic_suite_extension",
+      "id": "p5_extension_35t_gating",
+      "no_substitution_rule": "source implementation and host/QEMU behavior smoke cannot be substituted for expanded 35T coverage",
+      "required_conditions": [
+        "explicitly enable selected extension candidates",
+        "deploy selected candidates into the 35T image or rootfs overlay",
+        "run selected candidates through the same marker, attribution, drop, capacity, and strong-evidence gates"
+      ],
+      "unblock_criteria": [
+        "new 35T run records selected extension samples in the matrix",
+        "gate report passes for enabled extension samples"
+      ]
+    },
+    {
+      "current_condition": "raw_sanitization_status=RAW_ARTIFACT_HASH_EXCERPT_READY_FULL_RAW_DEFERRED; raw_escrow_status=LOCAL_RAW_ARTIFACT_ESCROW_READY_PUBLIC_RELEASE_DEFERRED; escrow_payload_files=66; local_only=['raw_uart_log', 'decoded_trace_jsonl', 'raw_artifact_escrow_package']; release_local_only=['raw_uart_log', 'decoded_trace_jsonl', 'raw_artifact_escrow_package']",
+      "current_status": "HASH_EXCERPT_READY_FULL_RAW_DEFERRED",
+      "evidence": [
+        "raw_artifact_sanitization.json",
+        "raw_artifact_sanitization.md",
+        "raw_artifact_escrow.json",
+        "raw_artifact_escrow.md",
+        "artifact_package_readiness.json",
+        "paper_artifact_package_manifest.json",
+        "paper_artifact_release_policy.json",
+        "evidence_manifest.json"
+      ],
+      "goal_id": "P6_artifact_package",
+      "id": "p6_full_raw_artifact_release",
+      "no_substitution_rule": "lightweight summaries and hashes are not a full raw artifact release",
+      "required_conditions": [
+        "sanitize or approve raw UART logs and decoded traces",
+        "decide controlled-release policy for large raw artifacts",
+        "publish or escrow raw artifacts with hashes and access policy"
+      ],
+      "unblock_criteria": [
+        "paper package status no longer reports full raw deferred",
+        "raw/local-only artifact classes have release approval or sanitized public replacements"
+      ]
+    }
+  ],
+  "run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "satisfied_conditions": [
+    {
+      "current_condition": "compiled=9/9",
+      "current_status": "HOST_COMPILE_SMOKE_PASS_35T_GATING_DEFERRED",
+      "evidence": [
+        "synthetic_extension_host_smoke.json",
+        "synthetic_suite_extension_check.json",
+        "experiments/linux_behavior/malware_like/extension_plan.json"
+      ],
+      "goal_id": "P5_synthetic_suite_extension",
+      "id": "p5_extension_host_compile_smoke",
+      "no_substitution_rule": "host compile smoke is not execution evidence and is not a 35T gate pass",
+      "required_conditions": [
+        "Linux host or target-like build environment",
+        "available C compiler",
+        "compile-only check for all source-implemented candidates"
+      ],
+      "unblock_criteria": [
+        "synthetic_extension_host_smoke.json reports HOST_COMPILE_SMOKE_PASS_35T_GATING_DEFERRED",
+        "compiled_candidate_count equals candidate_count"
+      ]
+    },
+    {
+      "current_condition": "13-sample QEMU-plugin syscall-count baseline recorded",
+      "current_status": "PASS",
+      "evidence": [
+        "qemu_plugin_baseline_summary.json",
+        "qemu_plugin_build_preflight.json",
+        "advanced_baseline_preflight.json",
+        "baseline_execution_spec_check.json",
+        "experiments/linux_behavior/baseline_execution_spec.json"
+      ],
+      "goal_id": "P4_baseline_evaluation",
+      "id": "p4_qemu_plugin_baseline",
+      "no_substitution_rule": "QEMU-plugin syscall-count evidence is simulator software evidence, not hardware trace, DBI, or real malware evidence",
+      "required_conditions": [
+        "QEMU user/system binary with TCG plugin support",
+        "qemu-plugin.h and plugin build transcript",
+        "13-sample QEMU-plugin trace and timing run"
+      ],
+      "unblock_criteria": [
+        "qemu_plugin_baseline_summary.json reports QEMU_PLUGIN_BASELINE_PASS_13_SAMPLES",
+        "baseline_evaluation_summary.json reports qemu_plugin PASS with 13/13 sample evidence"
+      ]
+    },
+    {
+      "current_condition": "compiled=9/9",
+      "current_status": "TARGET_COMPILE_SMOKE_PASS_35T_GATING_DEFERRED",
+      "evidence": [
+        "synthetic_extension_target_smoke.json",
+        "synthetic_suite_extension_check.json",
+        "experiments/linux_behavior/malware_like/extension_plan.json"
+      ],
+      "goal_id": "P5_synthetic_suite_extension",
+      "id": "p5_extension_riscv_target_compile_smoke",
+      "no_substitution_rule": "target compile smoke is not execution evidence and is not a 35T gate pass",
+      "required_conditions": [
+        "Docker linux-behavior target compiler",
+        "static RISC-V Linux ELF build for all source-implemented candidates",
+        "ELF machine header validation"
+      ],
+      "unblock_criteria": [
+        "synthetic_extension_target_smoke.json reports TARGET_COMPILE_SMOKE_PASS_35T_GATING_DEFERRED",
+        "compiled_candidate_count equals candidate_count"
+      ]
+    },
+    {
+      "current_condition": "executed_non_network=8/8; network_skipped=1; host native, host strace, QEMU native, and QEMU strace smoke recorded",
+      "current_status": "HOST_QEMU_BEHAVIOR_SMOKE_PASS_35T_GATING_DEFERRED",
+      "evidence": [
+        "synthetic_extension_behavior_smoke.json",
+        "synthetic_extension_behavior_smoke.md",
+        "synthetic_extension_target_smoke.json",
+        "experiments/linux_behavior/malware_like/extension_plan.json",
+        "results/experiments/35t/35t-extension-behavior-smoke-20260523/aggregate/synthetic_extension_behavior_smoke_raw.json"
+      ],
+      "goal_id": "P5_synthetic_suite_extension",
+      "id": "p5_extension_host_qemu_behavior_smoke",
+      "no_substitution_rule": "host/QEMU behavior smoke is not 35T board execution and is not a gate pass",
+      "required_conditions": [
+        "compile extension candidates for host and RISC-V target",
+        "execute non-network candidates under host native and QEMU native",
+        "record host strace and QEMU guest strace evidence",
+        "observe expected guest syscalls for each executed non-network candidate",
+        "keep loopback network candidate skipped by default"
+      ],
+      "unblock_criteria": [
+        "synthetic_extension_behavior_smoke.json reports HOST_QEMU_BEHAVIOR_SMOKE_PASS_35T_GATING_DEFERRED",
+        "execution_pass_count equals executed_candidate_count for non-network candidates",
+        "loopback network candidate remains skipped unless explicitly selected"
+      ]
+    },
+    {
+      "current_condition": "synthetic extension candidates are present in the 35T runner table, default-disabled, compiled by the Artix-7 rootfs build script, and selectable through explicit experiment dry-run commands; no extension candidate has been executed on the 35T board or passed the gate",
+      "current_status": "EXTENSION_35T_ENABLEMENT_PREFLIGHT_PASS_GATING_DEFERRED",
+      "evidence": [
+        "extension_35t_enablement_preflight.json",
+        "synthetic_extension_target_smoke.json",
+        "experiments/linux_behavior/malware_like/extension_plan.json",
+        "board/artix7_35t/linux/rvmt_exp_runner.c",
+        "docker/litex/build-artix7-linux-images.sh",
+        "tools/experiment_35t.py"
+      ],
+      "goal_id": "P5_synthetic_suite_extension",
+      "id": "p5_extension_35t_enablement_preflight",
+      "no_substitution_rule": "extension enablement preflight is not a 35T execution or gate pass",
+      "required_conditions": [
+        "default-disabled extension entries in the 35T runner",
+        "rootfs build path compiles extension candidates",
+        "experiment CLI can explicitly select non-network extension candidates",
+        "dry-run command evidence that does not execute the board"
+      ],
+      "unblock_criteria": [
+        "extension_35t_enablement_preflight.json reports EXTENSION_35T_ENABLEMENT_PREFLIGHT_PASS_GATING_DEFERRED",
+        "full extension 35T gate run remains separate from this preflight"
+      ]
+    },
+    {
+      "current_condition": "representative fd/path and process-tree helper evidence is aligned with 35T hardware trace evidence through the targeted dual-channel board validation bundle",
+      "current_status": "TRUSTED_HELPER_ALIGNMENT_PASS_REPRESENTATIVE_DUAL_CHANNEL",
+      "evidence": [
+        "helper_alignment.json",
+        "threat_model_boundary.json",
+        "board_syscall_side_channel_smoke.json",
+        "results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle/bundle_manifest.json"
+      ],
+      "goal_id": "P3_pointer_argument_semantics",
+      "id": "p3_trusted_helper_or_ebpf_alignment",
+      "no_substitution_rule": "helper/eBPF companion evidence must not be reported as hardware-only tracing",
+      "required_conditions": [
+        "trusted helper or eBPF companion log",
+        "alignment report tying helper/eBPF data to hardware trace evidence",
+        "trusted-kernel/user-mode threat model update"
+      ],
+      "unblock_criteria": [
+        "helper/eBPF companion route is explicitly enabled",
+        "alignment report exists for the 35T run",
+        "kernel-rootkit and eBPF-tamper resistance remain non-claims"
+      ]
+    },
+    {
+      "current_condition": "qemu-system-riscv64 can load a freshly built minimal QEMU TCG plugin when the matching official QEMU 8.2.2 plugin header is fetched at probe time; qemu-riscv64 user-mode still does not expose -plugin, and no 13-sample QEMU-plugin baseline is recorded",
+      "current_status": "QEMU_PLUGIN_SYSTEM_BUILD_LOAD_PREFLIGHT_PASS_USER_BASELINE_BLOCKED",
+      "evidence": [
+        "qemu_plugin_build_preflight.json",
+        "advanced_baseline_preflight.json"
+      ],
+      "goal_id": "P4_baseline_evaluation",
+      "id": "p4_qemu_plugin_system_build_load_preflight",
+      "no_substitution_rule": "QEMU-plugin build/load preflight is not a 13-sample QEMU-plugin trace baseline",
+      "required_conditions": [
+        "qemu-system-riscv64 with -plugin support",
+        "matching qemu-plugin.h",
+        "minimal plugin build transcript",
+        "plugin load observation"
+      ],
+      "unblock_criteria": [
+        "qemu_plugin_build_preflight.json reports QEMU_PLUGIN_SYSTEM_BUILD_LOAD_PREFLIGHT_PASS_USER_BASELINE_BLOCKED",
+        "full 13-sample QEMU-plugin baseline remains separate from this preflight"
+      ]
+    },
+    {
+      "current_condition": "13-sample host eBPF/bpftrace baseline recorded",
+      "current_status": "PASS",
+      "evidence": [
+        "ebpf_baseline_summary.json",
+        "advanced_baseline_preflight.json",
+        "baseline_execution_spec_check.json",
+        "experiments/linux_behavior/baseline_execution_spec.json"
+      ],
+      "goal_id": "P4_baseline_evaluation",
+      "id": "p4_ebpf_only_baseline",
+      "no_substitution_rule": "host eBPF/bpftrace evidence must not be reported as hardware-only tracing or QEMU-plugin evidence",
+      "required_conditions": [
+        "BPF compiler tooling such as clang/llc",
+        "BPF loader or tracer tooling such as bpftrace",
+        "mounted writable tracefs or kprobe access",
+        "13-sample eBPF-only event and overhead run"
+      ],
+      "unblock_criteria": [
+        "advanced_baseline_preflight.json reports ebpf_only READY",
+        "ebpf_baseline_summary.json supplies 13/13 sample evidence"
+      ]
+    },
+    {
+      "current_condition": "bounded openat/execve pointer snapshot design, allowlist, limits, default-disabled policy, guardrails, artifact policy, and non-substitution rules recorded; hardware capture remains disabled",
+      "current_status": "POINTER_SNAPSHOT_DESIGN_REVIEW_PASS_NOT_ENABLED",
+      "evidence": [
+        "pointer_snapshot_design_review.json",
+        "pointer_snapshot_design_review.md",
+        "experiments/linux_behavior/pointer_snapshot_design_review.json",
+        "docs/research/semantic/pointer_snapshot_design_review.md",
+        "pointer_snapshot_enablement_gate.json"
+      ],
+      "goal_id": "P3_pointer_argument_semantics",
+      "id": "p3_pointer_snapshot_design_review",
+      "no_substitution_rule": "design review is not enabled hardware pointer snapshot evidence",
+      "required_conditions": [
+        "bounded syscall/argument allowlist",
+        "maximum bytes per pointer",
+        "default-disabled current policy",
+        "safety guardrails and non-substitution rules",
+        "measurement gates kept as pre-enable requirements"
+      ],
+      "unblock_criteria": [
+        "pointer_snapshot_design_review.json reports POINTER_SNAPSHOT_DESIGN_REVIEW_PASS_NOT_ENABLED",
+        "trace profiles keep p2 ARG_MEM disabled and gated",
+        "small-capacity 35T profiles keep ARG_MEM disabled"
+      ]
+    },
+    {
+      "current_condition": "local escrow payload files=66; bytes=3681202; public release remains deferred",
+      "current_status": "LOCAL_RAW_ARTIFACT_ESCROW_READY_PUBLIC_RELEASE_DEFERRED",
+      "evidence": [
+        "raw_artifact_escrow.json",
+        "raw_artifact_escrow.md",
+        "raw_artifact_sanitization.json",
+        "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/payload_manifest.json",
+        "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/access_policy.md"
+      ],
+      "goal_id": "P6_artifact_package",
+      "id": "p6_local_raw_artifact_escrow",
+      "no_substitution_rule": "local escrow is not a public raw artifact release and does not remove the P6 full-release condition",
+      "required_conditions": [
+        "copy full raw UART logs and decoded trace JSONL into a local controlled escrow package",
+        "record a complete payload manifest with sizes and SHA-256 hashes",
+        "record an access policy that keeps public release deferred until approval"
+      ],
+      "unblock_criteria": [
+        "raw_artifact_escrow.json reports LOCAL_RAW_ARTIFACT_ESCROW_READY_PUBLIC_RELEASE_DEFERRED",
+        "payload files in the local escrow package match the recorded hashes"
+      ]
+    }
+  ],
+  "schema": "rvmt.35t.remaining_external_work.v1",
+  "status": "PASS_CURRENT_EXTERNAL_CONDITIONS_RECORDED"
+}

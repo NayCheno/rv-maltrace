@@ -24,6 +24,10 @@ SIDE_CHANNEL_CLOSURE_SAMPLES = [
     "process_chain",
     "dynamic_executable_memory",
 ]
+LOCAL_CODE_ANALYSIS_STATUS = "LOCAL_CODE_ANALYSIS_PROTOTYPE_PASS_WITH_BOUNDED_ATTRIBUTION"
+MALWARE_BEHAVIOR_AUDIT_STATUS = "SYNTHETIC_MALWARE_LIKE_BEHAVIOR_AUDIT_PASS_REAL_MALWARE_DEFERRED"
+HARDWARE_TRACE_PROTOTYPE_STATUS = "HARDWARE_TRACE_PROTOTYPE_PASS_35T_SMALL_CAPACITY"
+ASSESSMENT_REQUIREMENT_MATRIX_STATUS = "ASSESSMENT_REQUIREMENT_MATRIX_PASS_WITH_BOUNDED_EXTERNAL_WORK"
 EXPECTED_CLAIM_LEVEL = "35T hardware-trace-assisted synthetic malware-like behavior audit prototype"
 EXPECTED_SCOPE = "Artix-7 35T / LiteX / VexRiscv"
 EXPECTED_NON_CLAIMS = [
@@ -41,6 +45,9 @@ SUPPORTED_CLAIMS = [
     "targeted board side-channel fd/path closure for representative file-scan behavior",
     "targeted board side-channel clone/wait process-edge closure for representative process-chain behavior",
     "focused R2048 side-channel closure for the four previously failing semantic samples",
+    "512-record 35T small-capacity hardware trace prototype with decoded trace artifacts for all trace-on repetitions",
+    "full-matrix local code-analysis artifacts for code maps, trace-code joins, runtime process maps, semantic recovery, and rule audit",
+    "8-rule synthetic malware-like behavior audit with real-malware detection claims explicitly deferred",
     "ELF-symbol function-level attribution for the case-study samples",
 ]
 FORBIDDEN_CLAIMS = [
@@ -56,6 +63,9 @@ LIMITATIONS = [
     "The evidence chain is dual-channel: a low-perturbation trace-gate channel supplies the strict full-matrix gate, while a syscall side-channel capture supplies semantic closure evidence.",
     "The side-channel semantic capture is not itself a strict single-trace all-gates PASS and must not be used as the trace-gate channel.",
     "The R2048 side-channel closure is a focused larger-buffer follow-up for the four failed samples, not a single 13-sample side-channel rerun.",
+    "Hardware trace evidence is scoped to 35T / LiteX / VexRiscv and must not be generalized to CVA6.",
+    "Local code analysis is prototype-level attribution: PC-in-ELF is static code-range evidence and source-line attribution remains unavailable.",
+    "Malware analysis is a controlled synthetic behavior-rule audit, not real malware execution, family classification, IOC/TTP coverage, or detector accuracy evidence.",
     "Function attribution is symbol/range based; source-line records are unavailable.",
     "Process-tree evidence still leaves the target parent PID unresolved and must not be described as complete process ownership.",
 ]
@@ -294,7 +304,9 @@ def semantic_summary(repo_root: Path, evidence_root: Path, failures: list[str]) 
     board_status = read_json(evidence_root / "board_validation_status.json", failures, repo_root, "board validation status")
     bundle = read_json(repo_path(repo_root, VALIDATION_BUNDLE), failures, repo_root, "targeted board validation bundle")
     fd_path = read_json(evidence_root / "fd_path_flow_summary.json", failures, repo_root, "fd/path flow summary")
+    fd_path_case_studies = read_json(evidence_root / "fd_path_case_studies.json", failures, repo_root, "fd/path case studies")
     process_tree = read_json(evidence_root / "process_tree_summary.json", failures, repo_root, "process tree summary")
+    process_tree_case_study = read_json(evidence_root / "process_tree_case_study.json", failures, repo_root, "process tree case study")
     function_attr = read_json(evidence_root / "function_attribution_summary.json", failures, repo_root, "function attribution summary")
     source_attr = read_json(evidence_root / "source_attribution_summary.json", failures, repo_root, "source attribution summary")
     closure = read_json(evidence_root / "application_closure_check.json", failures, repo_root, "application closure check")
@@ -302,6 +314,7 @@ def semantic_summary(repo_root: Path, evidence_root: Path, failures: list[str]) 
     fd_flow = (fd_path.get("flows") or [{}])[0] if isinstance(fd_path.get("flows"), list) and fd_path.get("flows") else {}
     fd_selected = fd_path.get("selected_candidate", {}) if isinstance(fd_path.get("selected_candidate"), dict) else {}
     process_edges = process_tree.get("edges", []) if isinstance(process_tree.get("edges"), list) else []
+    process_case_checks = process_tree_case_study.get("checks", {}) if isinstance(process_tree_case_study.get("checks"), dict) else {}
     unresolved_parent_edges = [
         edge
         for edge in process_edges
@@ -310,6 +323,7 @@ def semantic_summary(repo_root: Path, evidence_root: Path, failures: list[str]) 
     function_level = function_attr.get("function_level", {}) if isinstance(function_attr.get("function_level"), dict) else {}
     source_line = source_attr.get("source_line_level", {}) if isinstance(source_attr.get("source_line_level"), dict) else {}
     selected_statuses = bundle.get("selected_statuses", {}) if isinstance(bundle.get("selected_statuses"), dict) else {}
+    fd_case_rows = fd_path_case_studies.get("samples", {}) if isinstance(fd_path_case_studies.get("samples"), dict) else {}
 
     checks = {
         "board_attempt_pass": board_attempt.get("status") == "BOARD_VALIDATION_PASS" and board_attempt.get("hardware_validated") is True,
@@ -334,10 +348,31 @@ def semantic_summary(repo_root: Path, evidence_root: Path, failures: list[str]) 
             and fd_flow.get("path_source") == "board_syscall_side_channel"
             and fd_selected.get("source_type") == "syscall_side_channel"
         ),
+        "fd_path_case_studies": (
+            fd_path_case_studies.get("schema") == "rvmt.35t.fd_path_case_studies.v1"
+            and fd_path_case_studies.get("status") == "PASS"
+            and all(
+                sample in fd_case_rows
+                and isinstance(fd_case_rows.get(sample), dict)
+                and fd_case_rows[sample].get("status") == "PASS"
+                and isinstance(fd_case_rows[sample].get("selected_candidate"), dict)
+                and fd_case_rows[sample]["selected_candidate"].get("source_type") == "syscall_side_channel"
+                for sample in ("file_scan", "batch_open_read_write", "self_copy_sim")
+            )
+        ),
         "process_tree_edges": (
             process_tree.get("schema") == "rvmt.process_tree.summary.v1"
             and process_tree.get("status") == "PASS"
             and len(process_edges) >= 1
+        ),
+        "process_tree_case_study": (
+            process_tree_case_study.get("schema") == "rvmt.35t.process_tree_case_study.v1"
+            and process_tree_case_study.get("status") == "PASS"
+            and process_case_checks.get("positive_child_pid_recovered") is True
+            and process_case_checks.get("execve_path_string_recovered") is True
+            and process_case_checks.get("parent_wait_pid_associated") is True
+            and process_case_checks.get("parent_child_graph_output") is True
+            and process_case_checks.get("selected_from_board_side_channel") is True
         ),
         "function_attribution_pass": (
             function_attr.get("schema") == "rvmt.35t.function_attribution_summary.v1"
@@ -384,11 +419,19 @@ def semantic_summary(repo_root: Path, evidence_root: Path, failures: list[str]) 
             "selected_source_type": fd_selected.get("source_type"),
             "closed_flow_count": len(fd_path.get("flows", [])) if isinstance(fd_path.get("flows"), list) else 0,
         },
+        "fd_path_case_studies": {
+            "status": fd_path_case_studies.get("status"),
+            "samples": sorted(fd_case_rows),
+        },
         "process_tree": {
             "status": process_tree.get("status"),
             "sample": process_tree.get("sample"),
             "edge_count": len(process_edges),
             "unresolved_parent_edge_count": len(unresolved_parent_edges),
+        },
+        "process_tree_case_study": {
+            "status": process_tree_case_study.get("status"),
+            "checks": process_case_checks,
         },
         "function_attribution": {
             "status": function_attr.get("status"),
@@ -411,7 +454,42 @@ def workflow_summary(repo_root: Path) -> dict[str, Any]:
         "application_closure_self_test": "tools/check_35t_application_closure.py --self-test" in text,
         "paper_evidence_self_test": "tools/check_35t_paper_evidence.py --self-test" in text,
         "fd_path_self_test": "tools/recover_fd_path_flow.py --self-test" in text,
+        "fd_path_case_study_self_test": "tools/check_35t_fd_path_case_studies.py --self-test" in text,
         "process_tree_self_test": "tools/recover_process_tree.py --self-test" in text,
+        "process_tree_case_study_self_test": "tools/check_35t_process_tree_case_study.py --self-test" in text,
+        "metric_coverage_self_test": "tools/check_35t_metric_coverage.py --self-test" in text,
+        "pointer_snapshot_gate_self_test": "tools/check_35t_pointer_snapshot_gate.py --self-test" in text,
+        "pointer_snapshot_design_review_self_test": "tools/check_35t_pointer_snapshot_design_review.py --self-test" in text,
+        "pointer_snapshot_design_review_no_write": "tools/check_35t_pointer_snapshot_design_review.py --no-write" in text,
+        "threat_model_self_test": "tools/check_35t_threat_model.py --self-test" in text,
+        "helper_alignment_self_test": "tools/check_35t_helper_alignment.py --self-test" in text,
+        "helper_alignment_no_write": "tools/check_35t_helper_alignment.py --no-write" in text,
+        "baseline_execution_spec_self_test": "tools/check_35t_baseline_execution_spec.py --self-test" in text,
+        "qemu_plugin_build_preflight_self_test": "tools/check_35t_qemu_plugin_build_preflight.py --self-test" in text,
+        "synthetic_extension_host_smoke_self_test": "tools/check_35t_synthetic_extension_host_smoke.py --self-test"
+        in text,
+        "synthetic_extension_behavior_smoke_self_test": "tools/check_35t_synthetic_extension_behavior_smoke.py --self-test"
+        in text,
+        "extension_enablement_self_test": "tools/check_35t_extension_35t_enablement.py --self-test" in text,
+        "extension_enablement_no_write": "tools/check_35t_extension_35t_enablement.py --no-write" in text,
+        "assessment_traceability_self_test": "tools/check_35t_assessment_traceability.py --self-test" in text,
+        "assessment_requirement_matrix_self_test": "tools/check_35t_assessment_requirement_matrix.py --self-test"
+        in text,
+        "assessment_requirement_matrix_no_write": "tools/check_35t_assessment_requirement_matrix.py --no-write" in text,
+        "remaining_external_work_self_test": "tools/check_35t_remaining_external_work.py --self-test" in text,
+        "remaining_external_work_no_write": "tools/check_35t_remaining_external_work.py --no-write" in text,
+        "raw_artifact_sanitization_self_test": "tools/check_35t_raw_artifact_sanitization.py --self-test" in text,
+        "raw_artifact_sanitization_no_write": "tools/check_35t_raw_artifact_sanitization.py --no-write" in text,
+        "raw_artifact_escrow_self_test": "tools/check_35t_raw_artifact_escrow.py --self-test" in text,
+        "raw_artifact_escrow_no_write": "tools/check_35t_raw_artifact_escrow.py --no-write" in text,
+        "evidence_consistency_self_test": "tools/check_35t_evidence_consistency.py --self-test" in text,
+        "evidence_consistency_no_write": "tools/check_35t_evidence_consistency.py --no-write" in text,
+        "paper_positioning_self_test": "tools/check_35t_paper_positioning.py --self-test" in text,
+        "assessment_reconciliation_self_test": "tools/check_35t_assessment_reconciliation.py --self-test" in text,
+        "assessment_gate_criteria_self_test": "tools/check_35t_assessment_gate_criteria.py --self-test" in text,
+        "hardware_trace_prototype_self_test": "tools/check_35t_hardware_trace_prototype.py --self-test" in text,
+        "local_code_analysis_self_test": "tools/check_35t_local_code_analysis.py --self-test" in text,
+        "malware_behavior_audit_self_test": "tools/check_35t_malware_behavior_audit.py --self-test" in text,
     }
 
 
@@ -455,6 +533,23 @@ def build_report(repo_root: Path, evidence_root_arg: Path) -> dict[str, Any]:
         warnings.append("side-channel semantic capture has strict gate failures and is not used as the trace-gate channel")
 
     semantic = semantic_summary(repo_root, evidence_root, failures)
+    metric_coverage = read_json(evidence_root / "metric_coverage.json", failures, repo_root, "metric coverage")
+    metric_coverage_checks = metric_coverage.get("checks", {}) if isinstance(metric_coverage.get("checks"), dict) else {}
+    if not (
+        metric_coverage.get("schema") == "rvmt.35t.metric_coverage.v1"
+        and metric_coverage.get("status") == "BOUNDED_METRIC_COVERAGE_READY_WITH_DEFERRED_FULL_ACCURACY"
+        and metric_coverage_checks.get("all_required_metrics_listed") is True
+    ):
+        failures.append("metric coverage must enumerate the bounded P4 metric list")
+    threat_model = read_json(evidence_root / "threat_model_boundary.json", failures, repo_root, "threat model boundary")
+    if not (
+        threat_model.get("schema") == "rvmt.35t.threat_model_boundary.v1"
+        and threat_model.get("status") == "TRUSTED_KERNEL_USER_MODE_THREAT_MODEL_BOUNDARY_SPECIFIED"
+        and "linux_kernel" in set(threat_model.get("trusted_components", []))
+        and "user_mode_malware_like_workload" in set(threat_model.get("in_scope", []))
+        and "kernel_rootkit" in set(threat_model.get("out_of_scope", []))
+    ):
+        failures.append("threat model must state trusted-kernel/user-mode boundary and rootkit non-claim")
     side_channel_closure = focused_side_channel_closure_summary(repo_root, evidence_root, failures)
     workflow = workflow_summary(repo_root)
     if not workflow["exists"]:
@@ -465,8 +560,72 @@ def build_report(repo_root: Path, evidence_root_arg: Path) -> dict[str, Any]:
         failures.append("35T closure workflow does not run paper evidence self-test")
     if not workflow["fd_path_self_test"]:
         failures.append("35T closure workflow does not run fd/path self-test")
+    if not workflow["fd_path_case_study_self_test"]:
+        failures.append("35T closure workflow does not run fd/path case-study self-test")
     if not workflow["process_tree_self_test"]:
         failures.append("35T closure workflow does not run process-tree self-test")
+    if not workflow["process_tree_case_study_self_test"]:
+        failures.append("35T closure workflow does not run process-tree case-study self-test")
+    if not workflow["metric_coverage_self_test"]:
+        failures.append("35T closure workflow does not run metric coverage self-test")
+    if not workflow["pointer_snapshot_gate_self_test"]:
+        failures.append("35T closure workflow does not run pointer snapshot gate self-test")
+    if not workflow["pointer_snapshot_design_review_self_test"]:
+        failures.append("35T closure workflow does not run pointer snapshot design review self-test")
+    if not workflow["pointer_snapshot_design_review_no_write"]:
+        failures.append("35T closure workflow does not run pointer snapshot design review no-write check")
+    if not workflow["threat_model_self_test"]:
+        failures.append("35T closure workflow does not run threat model self-test")
+    if not workflow["helper_alignment_self_test"]:
+        failures.append("35T closure workflow does not run helper alignment self-test")
+    if not workflow["helper_alignment_no_write"]:
+        failures.append("35T closure workflow does not run helper alignment no-write check")
+    if not workflow["baseline_execution_spec_self_test"]:
+        failures.append("35T closure workflow does not run baseline execution spec self-test")
+    if not workflow["qemu_plugin_build_preflight_self_test"]:
+        failures.append("35T closure workflow does not run QEMU-plugin build preflight self-test")
+    if not workflow["synthetic_extension_host_smoke_self_test"]:
+        failures.append("35T closure workflow does not run synthetic extension host smoke self-test")
+    if not workflow["synthetic_extension_behavior_smoke_self_test"]:
+        failures.append("35T closure workflow does not run synthetic extension behavior smoke self-test")
+    if not workflow["extension_enablement_self_test"]:
+        failures.append("35T closure workflow does not run extension enablement self-test")
+    if not workflow["extension_enablement_no_write"]:
+        failures.append("35T closure workflow does not run extension enablement no-write check")
+    if not workflow["assessment_traceability_self_test"]:
+        failures.append("35T closure workflow does not run assessment traceability self-test")
+    if not workflow["assessment_requirement_matrix_self_test"]:
+        failures.append("35T closure workflow does not run assessment requirement matrix self-test")
+    if not workflow["assessment_requirement_matrix_no_write"]:
+        failures.append("35T closure workflow does not run assessment requirement matrix no-write check")
+    if not workflow["remaining_external_work_self_test"]:
+        failures.append("35T closure workflow does not run remaining external work self-test")
+    if not workflow["remaining_external_work_no_write"]:
+        failures.append("35T closure workflow does not run remaining external work no-write check")
+    if not workflow["raw_artifact_sanitization_self_test"]:
+        failures.append("35T closure workflow does not run raw artifact sanitization self-test")
+    if not workflow["raw_artifact_sanitization_no_write"]:
+        failures.append("35T closure workflow does not run raw artifact sanitization no-write check")
+    if not workflow["raw_artifact_escrow_self_test"]:
+        failures.append("35T closure workflow does not run raw artifact escrow self-test")
+    if not workflow["raw_artifact_escrow_no_write"]:
+        failures.append("35T closure workflow does not run raw artifact escrow no-write check")
+    if not workflow["evidence_consistency_self_test"]:
+        failures.append("35T closure workflow does not run evidence consistency self-test")
+    if not workflow["evidence_consistency_no_write"]:
+        failures.append("35T closure workflow does not run evidence consistency no-write check")
+    if not workflow["paper_positioning_self_test"]:
+        failures.append("35T closure workflow does not run paper positioning self-test")
+    if not workflow["assessment_reconciliation_self_test"]:
+        failures.append("35T closure workflow does not run assessment reconciliation self-test")
+    if not workflow["assessment_gate_criteria_self_test"]:
+        failures.append("35T closure workflow does not run assessment gate criteria self-test")
+    if not workflow["hardware_trace_prototype_self_test"]:
+        failures.append("35T closure workflow does not run hardware trace prototype self-test")
+    if not workflow["local_code_analysis_self_test"]:
+        failures.append("35T closure workflow does not run local code analysis self-test")
+    if not workflow["malware_behavior_audit_self_test"]:
+        failures.append("35T closure workflow does not run malware behavior audit self-test")
 
     manifest = read_json(evidence_root / "evidence_manifest.json", failures, repo_root, "evidence manifest")
     if manifest.get("claim_level") != EXPECTED_CLAIM_LEVEL:
@@ -475,6 +634,96 @@ def build_report(repo_root: Path, evidence_root_arg: Path) -> dict[str, Any]:
         failures.append("evidence manifest must keep real_malware=false and cva6_in_scope=false")
     if not has_non_claims(manifest):
         failures.append("evidence manifest is missing one or more required non-claims")
+    assessment_gate_criteria = read_json(
+        evidence_root / "assessment_gate_criteria.json",
+        failures,
+        repo_root,
+        "assessment gate criteria",
+    )
+    if assessment_gate_criteria.get("status") != "ASSESSMENT_GATE_CRITERIA_PASS":
+        failures.append("assessment gate criteria must pass the concrete 35T gate checks")
+    assessment_requirement_matrix = read_json(
+        evidence_root / "assessment_requirement_matrix.json",
+        failures,
+        repo_root,
+        "assessment requirement matrix",
+    )
+    if not (
+        assessment_requirement_matrix.get("schema") == "rvmt.35t.assessment_requirement_matrix.v1"
+        and assessment_requirement_matrix.get("status") == ASSESSMENT_REQUIREMENT_MATRIX_STATUS
+        and assessment_requirement_matrix.get("requirement_count") == 14
+        and assessment_requirement_matrix.get("high_level_checks", {}).get("bounded_external_records_complete") is True
+    ):
+        failures.append("assessment requirement matrix must pass source-section coverage with bounded external work recorded")
+    hardware_trace = read_json(
+        evidence_root / "hardware_trace_prototype.json",
+        failures,
+        repo_root,
+        "hardware trace prototype",
+    )
+    if not (
+        hardware_trace.get("schema") == "rvmt.35t.hardware_trace_prototype.v1"
+        and hardware_trace.get("status") == HARDWARE_TRACE_PROTOTYPE_STATUS
+        and hardware_trace.get("trace_records") == 512
+        and hardware_trace.get("sample_gate_pass_count") == 13
+        and hardware_trace.get("decoded_trace_file_count") == 65
+    ):
+        failures.append("hardware trace prototype must pass the 35T small-capacity trace gate checks")
+    local_code_analysis = read_json(
+        evidence_root / "local_code_analysis.json",
+        failures,
+        repo_root,
+        "local code analysis",
+    )
+    if not (
+        local_code_analysis.get("schema") == "rvmt.35t.local_code_analysis.v1"
+        and local_code_analysis.get("status") == LOCAL_CODE_ANALYSIS_STATUS
+        and local_code_analysis.get("sample_count") == 13
+        and local_code_analysis.get("complete_rep_count") == local_code_analysis.get("expected_rep_count")
+    ):
+        failures.append("local code analysis must pass full-matrix prototype attribution checks")
+    malware_behavior_audit = read_json(
+        evidence_root / "malware_behavior_audit.json",
+        failures,
+        repo_root,
+        "malware behavior audit",
+    )
+    if not (
+        malware_behavior_audit.get("schema") == "rvmt.35t.malware_behavior_audit.v1"
+        and malware_behavior_audit.get("status") == MALWARE_BEHAVIOR_AUDIT_STATUS
+        and malware_behavior_audit.get("sample_count") == 8
+        and malware_behavior_audit.get("rule_count") == 8
+        and malware_behavior_audit.get("gate_expected_rule_pass_count") == 8
+    ):
+        failures.append("malware behavior audit must pass the 8-rule synthetic audit checks")
+    raw_sanitization = read_json(
+        evidence_root / "raw_artifact_sanitization.json",
+        failures,
+        repo_root,
+        "raw artifact sanitization",
+    )
+    raw_checks = raw_sanitization.get("checks", {}) if isinstance(raw_sanitization.get("checks"), dict) else {}
+    if not (
+        raw_sanitization.get("schema") == "rvmt.35t.raw_artifact_sanitization.v1"
+        and raw_sanitization.get("status") == "RAW_ARTIFACT_HASH_EXCERPT_READY_FULL_RAW_DEFERRED"
+        and raw_checks.get("sanitized_excerpts_do_not_expose_scanned_patterns") is True
+        and raw_checks.get("full_raw_release_deferred") is True
+    ):
+        failures.append("raw artifact sanitization must publish only hashes/excerpts and keep full raw release deferred")
+    raw_escrow = read_json(
+        evidence_root / "raw_artifact_escrow.json",
+        failures,
+        repo_root,
+        "raw artifact escrow",
+    )
+    raw_escrow_checks = raw_escrow.get("checks", {}) if isinstance(raw_escrow.get("checks"), dict) else {}
+    if not (
+        raw_escrow.get("schema") == "rvmt.35t.raw_artifact_escrow.v1"
+        and raw_escrow.get("status") == "LOCAL_RAW_ARTIFACT_ESCROW_READY_PUBLIC_RELEASE_DEFERRED"
+        and raw_escrow_checks.get("payload_files_present_and_hashed") is True
+        and raw_escrow_checks.get("public_release_deferred") is True
+    ):
+        failures.append("raw artifact escrow must verify local payload hashes while keeping public raw release deferred")
 
     return {
         "schema": "rvmt.35t.paper_evidence_check.v1",
@@ -493,6 +742,61 @@ def build_report(repo_root: Path, evidence_root_arg: Path) -> dict[str, Any]:
         "targeted_side_channel_gate": semantic_gate,
         "focused_side_channel_closure": side_channel_closure,
         "semantic_closure": semantic,
+        "metric_coverage": {
+            "status": metric_coverage.get("status"),
+            "required_metrics": metric_coverage.get("required_metrics", []),
+        },
+        "threat_model": {
+            "status": threat_model.get("status"),
+            "in_scope": threat_model.get("in_scope", []),
+            "out_of_scope": threat_model.get("out_of_scope", []),
+        },
+        "assessment_gate_criteria": {
+            "status": assessment_gate_criteria.get("status"),
+            "checks": assessment_gate_criteria.get("checks", {}),
+        },
+        "assessment_requirement_matrix": {
+            "status": assessment_requirement_matrix.get("status"),
+            "requirement_count": assessment_requirement_matrix.get("requirement_count"),
+            "high_level_checks": assessment_requirement_matrix.get("high_level_checks", {}),
+        },
+        "hardware_trace_prototype": {
+            "status": hardware_trace.get("status"),
+            "trace_records": hardware_trace.get("trace_records"),
+            "trace_profile_policy": hardware_trace.get("trace_profile_policy"),
+            "sample_gate_pass_count": hardware_trace.get("sample_gate_pass_count"),
+            "sample_count": hardware_trace.get("sample_count"),
+            "decoded_trace_file_count": hardware_trace.get("decoded_trace_file_count"),
+            "checks": hardware_trace.get("checks", {}),
+            "boundaries": hardware_trace.get("boundaries", []),
+        },
+        "local_code_analysis": {
+            "status": local_code_analysis.get("status"),
+            "sample_count": local_code_analysis.get("sample_count"),
+            "complete_rep_count": local_code_analysis.get("complete_rep_count"),
+            "expected_rep_count": local_code_analysis.get("expected_rep_count"),
+            "checks": local_code_analysis.get("checks", {}),
+            "boundaries": local_code_analysis.get("boundaries", []),
+        },
+        "malware_behavior_audit": {
+            "status": malware_behavior_audit.get("status"),
+            "sample_count": malware_behavior_audit.get("sample_count"),
+            "rule_count": malware_behavior_audit.get("rule_count"),
+            "gate_expected_rule_pass_count": malware_behavior_audit.get("gate_expected_rule_pass_count"),
+            "checks": malware_behavior_audit.get("checks", {}),
+            "boundaries": malware_behavior_audit.get("boundaries", []),
+        },
+        "raw_artifact_sanitization": {
+            "status": raw_sanitization.get("status"),
+            "class_count": raw_sanitization.get("class_count"),
+            "release_policy": raw_sanitization.get("release_policy", {}),
+        },
+        "raw_artifact_escrow": {
+            "status": raw_escrow.get("status"),
+            "payload_file_count": raw_escrow.get("payload_file_count"),
+            "payload_total_bytes": raw_escrow.get("payload_total_bytes"),
+            "package_dir": raw_escrow.get("package_dir"),
+        },
         "workflow": workflow,
         "supported_claims": SUPPORTED_CLAIMS,
         "forbidden_claims": FORBIDDEN_CLAIMS,
@@ -509,6 +813,12 @@ def render_markdown(report: dict[str, Any]) -> str:
     side_channel = report["targeted_side_channel_gate"]
     focused_closure = report["focused_side_channel_closure"]
     semantic = report["semantic_closure"]
+    hardware = report["hardware_trace_prototype"]
+    local = report["local_code_analysis"]
+    malware = report["malware_behavior_audit"]
+    raw_sanitization = report["raw_artifact_sanitization"]
+    raw_escrow = report["raw_artifact_escrow"]
+    requirement_matrix = report["assessment_requirement_matrix"]
     lines = [
         f"# 35T Paper Evidence Check: {report['source_run_id']}",
         "",
@@ -565,6 +875,60 @@ def render_markdown(report: dict[str, Any]) -> str:
         f"- plan: {focused_closure.get('plan')}",
         "",
         "This focused R2048 closure covers the four previously failing side-channel samples. It does not convert the earlier R512 side-channel semantic capture into a single-run 13/13 side-channel result.",
+        "",
+        "## Assessment Requirement Matrix",
+        "",
+        f"- status: {requirement_matrix.get('status')}",
+        f"- requirement count: {requirement_matrix.get('requirement_count')}",
+        "",
+        "## Hardware Trace Prototype",
+        "",
+        f"- status: {hardware.get('status')}",
+        f"- trace_records: {hardware.get('trace_records')}",
+        f"- trace_profile_policy: {hardware.get('trace_profile_policy')}",
+        f"- samples gate PASS: {hardware.get('sample_gate_pass_count')}/{hardware.get('sample_count')}",
+        f"- decoded trace files: {hardware.get('decoded_trace_file_count')}",
+        "",
+        "Boundaries:",
+    ]
+    lines.extend(f"- {item}" for item in hardware.get("boundaries", []))
+    lines += [
+        "",
+        "## Local Code Analysis",
+        "",
+        f"- status: {local.get('status')}",
+        f"- samples: {local.get('sample_count')}",
+        f"- complete trace-on repetitions: {local.get('complete_rep_count')}/{local.get('expected_rep_count')}",
+        "",
+        "Boundaries:",
+    ]
+    lines.extend(f"- {item}" for item in local.get("boundaries", []))
+    lines += [
+        "",
+        "## Malware Behavior Audit",
+        "",
+        f"- status: {malware.get('status')}",
+        f"- samples: {malware.get('sample_count')}",
+        f"- rules: {malware.get('rule_count')}",
+        f"- gate expected rules PASS: {malware.get('gate_expected_rule_pass_count')}/{malware.get('rule_count')}",
+        "",
+        "Boundaries:",
+    ]
+    lines.extend(f"- {item}" for item in malware.get("boundaries", []))
+    lines += [
+        "",
+        "## Raw Artifact Sanitization",
+        "",
+        f"- status: {raw_sanitization.get('status')}",
+        f"- class count: {raw_sanitization.get('class_count')}",
+        f"- full raw material: {raw_sanitization.get('release_policy', {}).get('full_raw_material')}",
+        "",
+        "## Raw Artifact Escrow",
+        "",
+        f"- status: {raw_escrow.get('status')}",
+        f"- payload files: {raw_escrow.get('payload_file_count')}",
+        f"- payload bytes: {raw_escrow.get('payload_total_bytes')}",
+        f"- package dir: {raw_escrow.get('package_dir')}",
         "",
         "## Supported Claims",
         "",
@@ -739,12 +1103,57 @@ def write_self_test_fixture(root: Path, *, primary_fail: bool = False) -> None:
         },
     )
     write_json(
+        evidence / "fd_path_case_studies.json",
+        {
+            "schema": "rvmt.35t.fd_path_case_studies.v1",
+            "status": "PASS",
+            "samples": {
+                "file_scan": {"status": "PASS", "selected_candidate": {"source_type": "syscall_side_channel"}},
+                "batch_open_read_write": {"status": "PASS", "selected_candidate": {"source_type": "syscall_side_channel"}},
+                "self_copy_sim": {"status": "PASS", "selected_candidate": {"source_type": "syscall_side_channel"}},
+            },
+        },
+    )
+    write_json(
         evidence / "process_tree_summary.json",
         {
             "schema": "rvmt.process_tree.summary.v1",
             "status": "PASS",
             "sample": "process_chain",
             "edges": [{"parent_pid": "target_parent_unresolved", "child_pid": 203}],
+        },
+    )
+    write_json(
+        evidence / "process_tree_case_study.json",
+        {
+            "schema": "rvmt.35t.process_tree_case_study.v1",
+            "status": "PASS",
+            "checks": {
+                "positive_child_pid_recovered": True,
+                "execve_path_string_recovered": True,
+                "parent_wait_pid_associated": True,
+                "parent_child_graph_output": True,
+                "selected_from_board_side_channel": True,
+            },
+        },
+    )
+    write_json(
+        evidence / "metric_coverage.json",
+        {
+            "schema": "rvmt.35t.metric_coverage.v1",
+            "status": "BOUNDED_METRIC_COVERAGE_READY_WITH_DEFERRED_FULL_ACCURACY",
+            "required_metrics": [f"metric_{index}" for index in range(12)],
+            "checks": {"all_required_metrics_listed": True},
+        },
+    )
+    write_json(
+        evidence / "threat_model_boundary.json",
+        {
+            "schema": "rvmt.35t.threat_model_boundary.v1",
+            "status": "TRUSTED_KERNEL_USER_MODE_THREAT_MODEL_BOUNDARY_SPECIFIED",
+            "trusted_components": ["linux_kernel"],
+            "in_scope": ["user_mode_malware_like_workload"],
+            "out_of_scope": ["kernel_rootkit"],
         },
     )
     write_json(
@@ -773,12 +1182,109 @@ def write_self_test_fixture(root: Path, *, primary_fail: bool = False) -> None:
                 "  - run: uv run --no-sync python tools/check_35t_application_closure.py --self-test",
                 "  - run: uv run --no-sync python tools/check_35t_paper_evidence.py --self-test",
                 "  - run: uv run --no-sync python tools/recover_fd_path_flow.py --self-test",
+                "  - run: uv run --no-sync python tools/check_35t_fd_path_case_studies.py --self-test",
                 "  - run: uv run --no-sync python tools/recover_process_tree.py --self-test",
+                "  - run: uv run --no-sync python tools/check_35t_process_tree_case_study.py --self-test",
+                "  - run: uv run --no-sync python tools/check_35t_metric_coverage.py --self-test",
+                "  - run: uv run --no-sync python tools/check_35t_pointer_snapshot_gate.py --self-test",
+                "  - run: uv run --no-sync python tools/check_35t_pointer_snapshot_design_review.py --self-test",
+                "  - run: uv run --no-sync python tools/check_35t_pointer_snapshot_design_review.py --no-write",
+                "  - run: uv run --no-sync python tools/check_35t_threat_model.py --self-test",
+                "  - run: uv run --no-sync python tools/check_35t_helper_alignment.py --self-test",
+                "  - run: uv run --no-sync python tools/check_35t_helper_alignment.py --no-write",
+                "  - run: uv run --no-sync python tools/check_35t_baseline_execution_spec.py --self-test",
+                "  - run: uv run --no-sync python tools/check_35t_qemu_plugin_build_preflight.py --self-test",
+                "  - run: uv run --no-sync python tools/check_35t_synthetic_extension_host_smoke.py --self-test",
+                "  - run: uv run --no-sync python tools/check_35t_synthetic_extension_behavior_smoke.py --self-test",
+                "  - run: uv run --no-sync python tools/check_35t_extension_35t_enablement.py --self-test",
+                "  - run: uv run --no-sync python tools/check_35t_extension_35t_enablement.py --no-write",
+                "  - run: uv run --no-sync python tools/check_35t_assessment_traceability.py --self-test",
+                "  - run: uv run --no-sync python tools/check_35t_assessment_requirement_matrix.py --self-test",
+                "  - run: uv run --no-sync python tools/check_35t_assessment_requirement_matrix.py --no-write",
+                "  - run: uv run --no-sync python tools/check_35t_remaining_external_work.py --self-test",
+                "  - run: uv run --no-sync python tools/check_35t_remaining_external_work.py --no-write",
+                "  - run: uv run --no-sync python tools/check_35t_raw_artifact_sanitization.py --self-test",
+                "  - run: uv run --no-sync python tools/check_35t_raw_artifact_sanitization.py --no-write",
+                "  - run: uv run --no-sync python tools/check_35t_raw_artifact_escrow.py --self-test",
+                "  - run: uv run --no-sync python tools/check_35t_raw_artifact_escrow.py --no-write",
+                "  - run: uv run --no-sync python tools/check_35t_evidence_consistency.py --self-test",
+                "  - run: uv run --no-sync python tools/check_35t_evidence_consistency.py --no-write",
+                "  - run: uv run --no-sync python tools/check_35t_paper_positioning.py --self-test",
+                "  - run: uv run --no-sync python tools/check_35t_assessment_reconciliation.py --self-test",
+                "  - run: uv run --no-sync python tools/check_35t_assessment_gate_criteria.py --self-test",
+                "  - run: uv run --no-sync python tools/check_35t_hardware_trace_prototype.py --self-test",
+                "  - run: uv run --no-sync python tools/check_35t_local_code_analysis.py --self-test",
+                "  - run: uv run --no-sync python tools/check_35t_malware_behavior_audit.py --self-test",
             ]
         )
         + "\n",
         encoding="utf-8",
         newline="\n",
+    )
+    write_json(evidence / "assessment_gate_criteria.json", {"status": "ASSESSMENT_GATE_CRITERIA_PASS"})
+    write_json(
+        evidence / "assessment_requirement_matrix.json",
+        {
+            "schema": "rvmt.35t.assessment_requirement_matrix.v1",
+            "status": ASSESSMENT_REQUIREMENT_MATRIX_STATUS,
+            "requirement_count": 14,
+            "high_level_checks": {"bounded_external_records_complete": True},
+        },
+    )
+    write_json(
+        evidence / "hardware_trace_prototype.json",
+        {
+            "schema": "rvmt.35t.hardware_trace_prototype.v1",
+            "status": HARDWARE_TRACE_PROTOTYPE_STATUS,
+            "trace_records": 512,
+            "sample_gate_pass_count": 13,
+            "sample_count": 13,
+            "decoded_trace_file_count": 65,
+        },
+    )
+    write_json(
+        evidence / "local_code_analysis.json",
+        {
+            "schema": "rvmt.35t.local_code_analysis.v1",
+            "status": LOCAL_CODE_ANALYSIS_STATUS,
+            "sample_count": 13,
+            "complete_rep_count": 65,
+            "expected_rep_count": 65,
+        },
+    )
+    write_json(
+        evidence / "malware_behavior_audit.json",
+        {
+            "schema": "rvmt.35t.malware_behavior_audit.v1",
+            "status": MALWARE_BEHAVIOR_AUDIT_STATUS,
+            "sample_count": 8,
+            "rule_count": 8,
+            "gate_expected_rule_pass_count": 8,
+        },
+    )
+    write_json(
+        evidence / "raw_artifact_sanitization.json",
+        {
+            "schema": "rvmt.35t.raw_artifact_sanitization.v1",
+            "status": "RAW_ARTIFACT_HASH_EXCERPT_READY_FULL_RAW_DEFERRED",
+            "class_count": 2,
+            "checks": {
+                "sanitized_excerpts_do_not_expose_scanned_patterns": True,
+                "full_raw_release_deferred": True,
+            },
+            "release_policy": {"full_raw_material": "deferred"},
+        },
+    )
+    write_json(
+        evidence / "raw_artifact_escrow.json",
+        {
+            "schema": "rvmt.35t.raw_artifact_escrow.v1",
+            "status": "LOCAL_RAW_ARTIFACT_ESCROW_READY_PUBLIC_RELEASE_DEFERRED",
+            "payload_file_count": 14,
+            "payload_total_bytes": 1024,
+            "package_dir": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package",
+            "checks": {"payload_files_present_and_hashed": True, "public_release_deferred": True},
+        },
     )
 
 

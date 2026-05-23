@@ -1,0 +1,584 @@
+{
+  "assessment_source": "D:\\Download\\rv_maltrace_35t_assessment.md",
+  "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+  "evidence_root": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "failures": [],
+  "high_level_checks": {
+    "all_requirements_pass": true,
+    "bounded_external_records_complete": true,
+    "bounded_satisfied_conditions_complete": true,
+    "no_row_upgrades_external_work": true,
+    "requirement_count": true
+  },
+  "interpretation": [
+    "the source assessment is covered section-by-section by current evidence rows",
+    "current-scope 35T hardware trace, local code analysis, and synthetic malware-like audit evidence pass under bounded claims",
+    "P3/P4/P5/P6 external conditions remain explicit and are not silently treated as completed work"
+  ],
+  "requirement_count": 14,
+  "requirements": [
+    {
+      "assessment_anchor": "35T prototype claim and non-claims",
+      "assessment_token_hits": {
+        "35T hardware-trace-assisted synthetic malware-like behavior audit prototype": true,
+        "RV-MalTrace \u5df2\u7ecf\u80fd\u68c0\u6d4b\u6216\u5206\u6790\u771f\u5b9e\u6076\u610f\u8f6f\u4ef6": true,
+        "\u5f53\u524d\u7cfb\u7edf\u5df2\u7ecf\u5b8c\u6210\u5b8c\u6574 semantic reconstruction": true,
+        "\u5f53\u524d\u7ed3\u679c\u9a8c\u8bc1\u4e86 CVA6": true
+      },
+      "boundary": "The matrix preserves the assessment claim boundary and does not upgrade 35T evidence to real malware, CVA6, or complete semantic reconstruction.",
+      "checks": {
+        "assessment_tokens_present": true,
+        "closure_bounded": true,
+        "evidence_files_exist": true,
+        "manifest_claim_level": true,
+        "manifest_cva6_false": true,
+        "manifest_real_malware_false": true,
+        "manifest_scope": true,
+        "paper_evidence_pass": true,
+        "paper_positioning_ready": true,
+        "traceability_bounded": true
+      },
+      "current_status": "BOUNDED_PROTOTYPE_CLAIM_FROZEN",
+      "evidence": [
+        "evidence_manifest.json",
+        "assessment_closure.json",
+        "assessment_traceability.json",
+        "paper_positioning.json",
+        "paper_evidence_check.json"
+      ],
+      "evidence_file_exists": {
+        "assessment_closure.json": true,
+        "assessment_traceability.json": true,
+        "evidence_manifest.json": true,
+        "paper_evidence_check.json": true,
+        "paper_positioning.json": true
+      },
+      "failures": [],
+      "id": "R1_overall_claim_boundary",
+      "section": "1 \u603b\u4f53\u7ed3\u8bba",
+      "status": "PASS"
+    },
+    {
+      "assessment_anchor": "run_id, 512 records, 13 samples, synthetic-only gate",
+      "assessment_token_hits": {
+        "35t-smallcap-r512-full-synthetic-matrix-20260521": true,
+        "cva6_in_scope: false": true,
+        "gate: 13/13 PASS": true,
+        "real_malware: false": true,
+        "samples: 13": true,
+        "trace_records: 512": true
+      },
+      "boundary": "The evidence chain is a 35T-only synthetic matrix under the fixed 512-record budget.",
+      "checks": {
+        "assessment_tokens_present": true,
+        "evidence_files_exist": true,
+        "gate_criteria_status": true,
+        "hardware_trace_status": true,
+        "manifest_full_matrix_ready": true,
+        "manifest_trace_records_512": true,
+        "sample_gate_13_pass": true,
+        "trace_records_512": true
+      },
+      "current_status": "PRIMARY_FULL_MATRIX_GATE_PASS",
+      "evidence": [
+        "evidence_manifest.json",
+        "assessment_gate_criteria.json",
+        "hardware_trace_prototype.json",
+        "sample_matrix_summary.json"
+      ],
+      "evidence_file_exists": {
+        "assessment_gate_criteria.json": true,
+        "evidence_manifest.json": true,
+        "hardware_trace_prototype.json": true,
+        "sample_matrix_summary.json": true
+      },
+      "failures": [],
+      "id": "R2_primary_35t_evidence_chain",
+      "section": "2 \u5f53\u524d 35T \u5df2\u7ecf\u6210\u7acb\u7684\u8bc1\u636e\u94fe",
+      "status": "PASS"
+    },
+    {
+      "assessment_anchor": "5 benign, 8 synthetic malware-like, marker/runtime/drop/cap/audit gates",
+      "assessment_token_hits": {
+        "UNKNOWN/corrupt events": true,
+        "`file_scan`, `batch_open_read_write`, `self_copy_sim`": true,
+        "`hello`, `ls`, `cat`, `cp`, `sha256sum`": true,
+        "benign expected overlap": true,
+        "marker scope": true,
+        "runtime process attribution": true
+      },
+      "boundary": "The rule gate explains synthetic expected behavior and does not claim classifier quality or false-positive rate on real malware.",
+      "checks": {
+        "assessment_tokens_present": true,
+        "evidence_files_exist": true,
+        "gate_checks_all_true": true,
+        "gate_status": true,
+        "malware_audit_8_rules": true,
+        "sample_rows_13": true
+      },
+      "current_status": "GATE_CRITERIA_PASS",
+      "evidence": [
+        "assessment_gate_criteria.json",
+        "malware_behavior_audit.json"
+      ],
+      "evidence_file_exists": {
+        "assessment_gate_criteria.json": true,
+        "malware_behavior_audit.json": true
+      },
+      "failures": [],
+      "id": "R3_sample_matrix_and_gate_conditions",
+      "section": "2.2-2.3 matrix and gate",
+      "status": "PASS"
+    },
+    {
+      "assessment_anchor": "35T hardware trace prototype under small-capacity profile policy",
+      "assessment_token_hits": {
+        "`illegal_trap` | `p0c_syscall_trap_drop`": true,
+        "trace_profile_policy = 35t_small_capacity": true,
+        "\u5176\u4ed6 12 \u4e2a\u6837\u672c | `p0a_syscall_drop`": true,
+        "\u56fa\u5b9a 512-record trace budget": true
+      },
+      "boundary": "This is a 35T / LiteX / VexRiscv hardware trace prototype, not CVA6 validation.",
+      "checks": {
+        "assessment_tokens_present": true,
+        "decoded_trace_file_count": true,
+        "evidence_files_exist": true,
+        "no_cva6_extrapolation": true,
+        "schema": true,
+        "status": true,
+        "trace_profile_policy": true
+      },
+      "current_status": "HARDWARE_TRACE_PROTOTYPE_PASS_35T_SMALL_CAPACITY",
+      "evidence": [
+        "hardware_trace_prototype.json",
+        "assessment_gate_criteria.json"
+      ],
+      "evidence_file_exists": {
+        "assessment_gate_criteria.json": true,
+        "hardware_trace_prototype.json": true
+      },
+      "failures": [],
+      "id": "R4_hardware_trace_target",
+      "section": "3.1 \u786c\u4ef6 trace",
+      "status": "PASS"
+    },
+    {
+      "assessment_anchor": "ELF code map, trace-code join, runtime process map attribution",
+      "assessment_token_hits": {
+        "PC-in-ELF \u53ea\u662f\u9759\u6001 code-range evidence": true,
+        "`tools/build_code_map.py`": true,
+        "`tools/join_trace_code_map.py`": true,
+        "`tools/recover_behavior.py`": true,
+        "\u5f3a\u5f52\u56e0\u4ecd\u4f9d\u8d56 marker scope + runtime process map": true
+      },
+      "boundary": "Local code analysis is bounded to prototype attribution; source-line and complete process ownership remain non-claims.",
+      "checks": {
+        "all_reps_complete": true,
+        "assessment_tokens_present": true,
+        "evidence_files_exist": true,
+        "sample_count": true,
+        "schema": true,
+        "status": true
+      },
+      "current_status": "LOCAL_CODE_ANALYSIS_PROTOTYPE_PASS_WITH_BOUNDED_ATTRIBUTION",
+      "evidence": [
+        "local_code_analysis.json",
+        "paper_evidence_check.json"
+      ],
+      "evidence_file_exists": {
+        "local_code_analysis.json": true,
+        "paper_evidence_check.json": true
+      },
+      "failures": [],
+      "id": "R5_local_code_analysis_target",
+      "section": "3.2 \u672c\u5730\u4ee3\u7801\u5206\u6790",
+      "status": "PASS"
+    },
+    {
+      "assessment_anchor": "8 synthetic malware-like rules, real-malware claims deferred",
+      "assessment_token_hits": {
+        "`anti_analysis_indicator`": true,
+        "`batch_file_read_write`": true,
+        "`many_file_scan`": true,
+        "`self_copy_simulation`": true,
+        "classifier accuracy claim": true,
+        "real malware execution": true
+      },
+      "boundary": "The malware-facing result is a controlled synthetic behavior audit, not real malware execution or detector accuracy.",
+      "checks": {
+        "assessment_tokens_present": true,
+        "evidence_files_exist": true,
+        "real_malware_false": true,
+        "rule_count": true,
+        "sample_count": true,
+        "schema": true,
+        "status": true
+      },
+      "current_status": "SYNTHETIC_MALWARE_LIKE_BEHAVIOR_AUDIT_PASS_REAL_MALWARE_DEFERRED",
+      "evidence": [
+        "malware_behavior_audit.json",
+        "assessment_gate_criteria.json"
+      ],
+      "evidence_file_exists": {
+        "assessment_gate_criteria.json": true,
+        "malware_behavior_audit.json": true
+      },
+      "failures": [],
+      "id": "R6_malware_behavior_audit_boundary",
+      "section": "3.3 Malware \u5206\u6790",
+      "status": "PASS"
+    },
+    {
+      "assessment_anchor": "assessment snapshot partial, current representative case studies closed with bounded side-channel evidence",
+      "assessment_token_hits": {
+        "Edges: none strictly closed": true,
+        "Process Tree Summary": true,
+        "Status: PARTIAL": true,
+        "fd/path Flow Summary": true,
+        "openat(path) -> fd": true,
+        "parent(pid=P) --clone--> child(pid=C)": true
+      },
+      "boundary": "P1/P2 are stronger than the original snapshot for representative case studies, but they are not full-suite hardware pointer semantic reconstruction.",
+      "checks": {
+        "assessment_tokens_present": true,
+        "evidence_files_exist": true,
+        "fd_case_pass": true,
+        "p1_goal_pass": true,
+        "p2_goal_pass": true,
+        "process_case_pass": true,
+        "reconciliation_pass": true
+      },
+      "current_status": "REPRESENTATIVE_CASE_STUDIES_PASS_BOUNDED",
+      "evidence": [
+        "fd_path_case_studies.json",
+        "process_tree_case_study.json",
+        "assessment_reconciliation.json"
+      ],
+      "evidence_file_exists": {
+        "assessment_reconciliation.json": true,
+        "fd_path_case_studies.json": true,
+        "process_tree_case_study.json": true
+      },
+      "failures": [],
+      "id": "R7_fd_path_and_process_case_studies",
+      "section": "4.1-4.2 fd/path and process tree shortfalls",
+      "status": "PASS"
+    },
+    {
+      "assessment_anchor": "hardware user-pointer snapshot and trusted helper/eBPF routes remain deferred",
+      "assessment_token_hits": {
+        "pointer \u53c2\u6570\u8bed\u4e49\u6ca1\u6709\u771f\u6b63\u6253\u901a": true,
+        "trusted helper / eBPF companion": true,
+        "trusted kernel, user-mode malware": true,
+        "\u4e0d\u80fd\u58f0\u79f0\u62b5\u6297 kernel rootkit": true,
+        "\u786c\u4ef6 user-pointer memory snapshot": true
+      },
+      "boundary": "P3 has representative trusted-helper alignment and pointer snapshot design-review evidence, but cannot be marked complete until enabled hardware pointer snapshot or broader pointer semantic reconstruction evidence exists.",
+      "checks": {
+        "assessment_tokens_present": true,
+        "evidence_files_exist": true,
+        "helper_alignment_status": true,
+        "p3_goal_bounded": true,
+        "pointer_design_default_disabled": true,
+        "pointer_design_review_status": true,
+        "pointer_gate_default_disabled": true,
+        "pointer_preflight_status": true,
+        "remaining_ids": true,
+        "satisfied_ids": true,
+        "trusted_kernel_boundary": true
+      },
+      "current_status": "PARTIAL_BOUNDED_SYNTHETIC_ARG_MEM_GUARDRAILS",
+      "evidence": [
+        "pointer_semantics_preflight.json",
+        "pointer_snapshot_enablement_gate.json",
+        "pointer_snapshot_design_review.json",
+        "threat_model_boundary.json",
+        "helper_alignment.json",
+        "remaining_external_work.json"
+      ],
+      "evidence_file_exists": {
+        "helper_alignment.json": true,
+        "pointer_semantics_preflight.json": true,
+        "pointer_snapshot_design_review.json": true,
+        "pointer_snapshot_enablement_gate.json": true,
+        "remaining_external_work.json": true,
+        "threat_model_boundary.json": true
+      },
+      "failures": [],
+      "id": "R8_pointer_semantics_external_work",
+      "section": "4.3 and P3 pointer semantics",
+      "status": "PASS"
+    },
+    {
+      "assessment_anchor": "strace/software instrumentation/eBPF and QEMU-plugin evidence recorded under bounded simulator/software claims",
+      "assessment_token_hits": {
+        "anti-debug detectability": true,
+        "ebpf_only: BLOCKED": true,
+        "qemu_plugin: BLOCKED": true,
+        "software_instrumentation: BLOCKED": true,
+        "syscall precision / recall": true
+      },
+      "boundary": "P4 has bounded host/QEMU/strace, software-instrumentation, host eBPF, and QEMU-plugin simulator coverage; none of these substitute for hardware pointer snapshots, DBI, or real malware evaluation.",
+      "checks": {
+        "assessment_tokens_present": true,
+        "baseline_spec_status": true,
+        "ebpf_pass": true,
+        "evaluation_table_status": true,
+        "evidence_files_exist": true,
+        "host_strace_pass": true,
+        "metric_coverage_status": true,
+        "p4_goal_bounded": true,
+        "qemu_plugin_build_preflight_recorded": true,
+        "qemu_plugin_pass": true,
+        "satisfied_ids": true,
+        "software_instrumentation_pass": true
+      },
+      "current_status": "HOST_QEMU_STRACE_SOFTWARE_INSTRUMENTATION_EBPF_AND_QEMU_PLUGIN_PASS",
+      "evidence": [
+        "baseline_evaluation_summary.json",
+        "baseline_execution_spec_check.json",
+        "evaluation_table.json",
+        "metric_coverage.json",
+        "advanced_baseline_preflight.json",
+        "qemu_plugin_build_preflight.json",
+        "qemu_plugin_baseline_summary.json",
+        "remaining_external_work.json"
+      ],
+      "evidence_file_exists": {
+        "advanced_baseline_preflight.json": true,
+        "baseline_evaluation_summary.json": true,
+        "baseline_execution_spec_check.json": true,
+        "evaluation_table.json": true,
+        "metric_coverage.json": true,
+        "qemu_plugin_baseline_summary.json": true,
+        "qemu_plugin_build_preflight.json": true,
+        "remaining_external_work.json": true
+      },
+      "failures": [],
+      "id": "R9_baseline_evaluation_external_work",
+      "section": "4.4 and P4 baseline evaluation",
+      "status": "PASS"
+    },
+    {
+      "assessment_anchor": "source candidates implemented, synthetic-only and default-disabled, 35T gating deferred",
+      "assessment_token_hits": {
+        "TracerPid check": true,
+        "artifact sanitization": true,
+        "direct syscall": true,
+        "file encryption simulation without destructive payload": true,
+        "network client behavior": true,
+        "self-modifying code": true
+      },
+      "boundary": "Implemented extension sources now have compile, host/QEMU behavior smoke, and explicit runner/rootfs/CLI preflight evidence, but remain outside the claimed 35T matrix until board gate evidence exists.",
+      "checks": {
+        "assessment_tokens_present": true,
+        "behavior_smoke_executes_non_network": true,
+        "behavior_smoke_expected_syscalls": true,
+        "behavior_smoke_no_35t_claim": true,
+        "behavior_smoke_status_bounded": true,
+        "enablement_default_excludes_extensions": true,
+        "enablement_explicit_selects_non_network": true,
+        "enablement_no_35t_claim": true,
+        "enablement_preflight_status": true,
+        "evidence_files_exist": true,
+        "extension_candidate_count": true,
+        "extension_check_status": true,
+        "extension_sources_no_35t_claim": true,
+        "host_smoke_status_bounded": true,
+        "p5_goal_status": true,
+        "remaining_35t_gating": true,
+        "target_smoke_no_35t_claim": true,
+        "target_smoke_status_bounded": true
+      },
+      "current_status": "IMPLEMENTED_EXTENSION_SOURCES_READY_FOR_35T_GATING",
+      "evidence": [
+        "synthetic_suite_extension_check.json",
+        "synthetic_extension_host_smoke.json",
+        "synthetic_extension_target_smoke.json",
+        "synthetic_extension_behavior_smoke.json",
+        "extension_35t_enablement_preflight.json",
+        "remaining_external_work.json",
+        "experiments/linux_behavior/malware_like/extension_plan.json"
+      ],
+      "evidence_file_exists": {
+        "experiments/linux_behavior/malware_like/extension_plan.json": true,
+        "extension_35t_enablement_preflight.json": true,
+        "remaining_external_work.json": true,
+        "synthetic_extension_behavior_smoke.json": true,
+        "synthetic_extension_host_smoke.json": true,
+        "synthetic_extension_target_smoke.json": true,
+        "synthetic_suite_extension_check.json": true
+      },
+      "failures": [],
+      "id": "R10_synthetic_suite_extension_boundary",
+      "section": "P5 synthetic suite extension",
+      "status": "PASS"
+    },
+    {
+      "assessment_anchor": "lightweight snapshot ready, full raw artifact release deferred",
+      "assessment_token_hits": {
+        "bitstream metadata": true,
+        "decoded trace.jsonl": true,
+        "raw_uart.log": true,
+        "\u54ea\u4e9b artifact \u53ef\u516c\u5f00": true,
+        "\u5f53\u524d snapshot \u662f\u8f7b\u91cf\u6458\u8981": true
+      },
+      "boundary": "The lightweight package, hashes, sanitized excerpts, and local raw escrow package are ready; public or external raw release still needs approval or a controlled-release destination.",
+      "checks": {
+        "artifact_readiness_status": true,
+        "assessment_tokens_present": true,
+        "evidence_files_exist": true,
+        "local_raw_escrow_satisfied": true,
+        "matrix_in_manifest": true,
+        "matrix_in_package": true,
+        "no_missing_artifact_classes": true,
+        "p6_goal_status": true,
+        "package_manifest_status": true,
+        "raw_escrow_in_manifest": true,
+        "raw_escrow_in_package": true,
+        "raw_escrow_payload_hashed": true,
+        "raw_escrow_public_release_deferred": true,
+        "raw_escrow_status": true,
+        "raw_sanitization_full_raw_deferred": true,
+        "raw_sanitization_in_manifest": true,
+        "raw_sanitization_in_package": true,
+        "raw_sanitization_status": true,
+        "remaining_full_raw_release": true
+      },
+      "current_status": "LIGHTWEIGHT_ARTIFACT_PASS_FULL_REPRO_DEFERRED",
+      "evidence": [
+        "raw_artifact_sanitization.json",
+        "raw_artifact_sanitization.md",
+        "raw_artifact_escrow.json",
+        "raw_artifact_escrow.md",
+        "artifact_package_readiness.json",
+        "paper_artifact_package_manifest.json",
+        "paper_artifact_release_policy.json",
+        "remaining_external_work.json"
+      ],
+      "evidence_file_exists": {
+        "artifact_package_readiness.json": true,
+        "paper_artifact_package_manifest.json": true,
+        "paper_artifact_release_policy.json": true,
+        "raw_artifact_escrow.json": true,
+        "raw_artifact_escrow.md": true,
+        "raw_artifact_sanitization.json": true,
+        "raw_artifact_sanitization.md": true,
+        "remaining_external_work.json": true
+      },
+      "failures": [],
+      "id": "R11_artifact_package_boundary",
+      "section": "4.5 and P6 artifact package",
+      "status": "PASS"
+    },
+    {
+      "assessment_anchor": "35T supports feasibility/constrained-board case study, not standalone CCF-A main claim",
+      "assessment_token_hits": {
+        "35T \u7ebf\u4e0d\u8db3\u4ee5\u5355\u72ec\u652f\u6491 CCF-A \u4e3b\u8bba\u6587\u89c2\u70b9": true,
+        "low-cost FPGA feasibility / constrained-board prototype evaluation": true,
+        "main architecture validation for CVA6": true,
+        "main malware detection result": true
+      },
+      "boundary": "35T may support a feasibility subsection or constrained-board case study, not the full CCF-A main contribution by itself.",
+      "checks": {
+        "assessment_tokens_present": true,
+        "evidence_files_exist": true,
+        "forbidden_positioning_present": true,
+        "no_positive_forbidden_findings": true,
+        "paper_positioning_status": true,
+        "required_open_external_ids_recorded": true,
+        "required_satisfied_ids_recorded": true,
+        "supported_positioning_present": true
+      },
+      "current_status": "BOUNDED_FEASIBILITY_POSITIONING_READY",
+      "evidence": [
+        "paper_positioning.json",
+        "paper_evidence_check.json",
+        "remaining_external_work.json"
+      ],
+      "evidence_file_exists": {
+        "paper_evidence_check.json": true,
+        "paper_positioning.json": true,
+        "remaining_external_work.json": true
+      },
+      "failures": [],
+      "id": "R12_ccfa_positioning",
+      "section": "5 CCF-A positioning",
+      "status": "PASS"
+    },
+    {
+      "assessment_anchor": "RISC-V trace, trace-to-semantics, evasion/perturbation, constrained-board feasibility",
+      "assessment_token_hits": {
+        "35T \u7ebf\u53ef\u4ee5\u4f5c\u4e3a\u8fd9\u91cc\u7684\u8bc1\u636e": true,
+        "Contribution 1\uff1aRISC-V committed execution hardware trace": true,
+        "Contribution 2\uff1aTrace-to-semantics reconstruction": true,
+        "Contribution 3\uff1aEvasion-resistance / low-perturbation evaluation": true,
+        "Contribution 4\uff1aConstrained-board feasibility": true
+      },
+      "boundary": "The recommended organization is supported only with bounded feasibility wording and deferred anti-evasion/semantic completeness claims.",
+      "checks": {
+        "assessment_tokens_present": true,
+        "evidence_files_exist": true,
+        "metric_coverage_ready": true,
+        "paper_evidence_supported": true,
+        "paper_positioning_ready": true
+      },
+      "current_status": "PAPER_ORGANIZATION_BOUNDARY_RECORDED",
+      "evidence": [
+        "paper_positioning.json",
+        "metric_coverage.json",
+        "paper_evidence_check.json"
+      ],
+      "evidence_file_exists": {
+        "metric_coverage.json": true,
+        "paper_evidence_check.json": true,
+        "paper_positioning.json": true
+      },
+      "failures": [],
+      "id": "R13_recommended_paper_organization",
+      "section": "7 \u63a8\u8350\u8bba\u6587\u7ec4\u7ec7\u65b9\u5f0f",
+      "status": "PASS"
+    },
+    {
+      "assessment_anchor": "application goal achieved only for synthetic malware-like audit; real malware/CCF-A remain not achieved",
+      "assessment_token_hits": {
+        "\u4e0b\u4e00\u6b65\u5e94\u4f18\u5148\u8865 fd/path\u3001process tree\u3001pointer semantics\u3001baseline\u3001\u4f4e\u6270\u52a8/\u6297\u89c4\u907f\u548c artifact package": true,
+        "\u4e0d\u80fd\u5355\u72ec\u652f\u6491 CCF-A \u4e3b\u8bba\u6587\u89c2\u70b9": true,
+        "\u5219\u5f53\u524d 35T \u7ebf\uff1a\n\n```text\n\u5df2\u8fbe\u5230\u3002": true,
+        "\u771f\u5b9e malware \u5206\u6790/\u68c0\u6d4b": true,
+        "\u786c\u4ef6 trace + \u672c\u5730\u4ee3\u7801\u5206\u6790 + synthetic malware-like behavior audit": true
+      },
+      "boundary": "The final answer is a bounded current-scope pass, not completion of real-malware, CVA6, complete semantics, or full raw-artifact release goals.",
+      "checks": {
+        "assessment_tokens_present": true,
+        "closure_status": true,
+        "current_goal_statuses_preserve_boundaries": true,
+        "evidence_files_exist": true,
+        "reconciliation_status": true,
+        "remaining_external_work_status": true,
+        "traceability_status": true
+      },
+      "current_status": "FINAL_ASSESSMENT_RECONCILED_WITH_CURRENT_EVIDENCE",
+      "evidence": [
+        "assessment_closure.json",
+        "assessment_traceability.json",
+        "assessment_reconciliation.json",
+        "remaining_external_work.json"
+      ],
+      "evidence_file_exists": {
+        "assessment_closure.json": true,
+        "assessment_reconciliation.json": true,
+        "assessment_traceability.json": true,
+        "remaining_external_work.json": true
+      },
+      "failures": [],
+      "id": "R14_final_judgment",
+      "section": "8-9 final judgment",
+      "status": "PASS"
+    }
+  ],
+  "run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "schema": "rvmt.35t.assessment_requirement_matrix.v1",
+  "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "status": "ASSESSMENT_REQUIREMENT_MATRIX_PASS_WITH_BOUNDED_EXTERNAL_WORK"
+}

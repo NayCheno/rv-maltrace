@@ -1,0 +1,1277 @@
+{
+  "artifact_policy": "raw bpftrace stdout/stderr logs remain in local results; committed evidence contains summary only",
+  "baseline": "ebpf_only",
+  "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+  "evidence_root": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "instrumentation": "bpftrace tracepoint:raw_syscalls:sys_enter comm-filtered host binaries",
+  "limitations": [
+    "this is a host Linux eBPF/bpftrace baseline for the 13 synthetic samples, not a hardware trace result",
+    "runtime ratios are conservative end-to-end bpftrace launcher measurements and not in-kernel steady-state overhead",
+    "comm-filtered syscall counts include dynamic loader activity and should not be treated as precise semantic reconstruction",
+    "child processes are captured only while they retain the sample comm before execve; process-tree completeness is not claimed",
+    "this baseline is not a QEMU-plugin, DBI, pointer-snapshot, real malware, or CVA6 validation substitute"
+  ],
+  "non_claims": [
+    "no CVA6 board claim",
+    "no real malware detection claim",
+    "no mature detector claim",
+    "no classifier accuracy claim",
+    "no complete semantic reconstruction claim"
+  ],
+  "pass_count": 13,
+  "reps": 3,
+  "results_root": "results/experiments/35t/35t-ebpf-baseline-20260523",
+  "run_id": "35t-ebpf-baseline-20260523",
+  "sample_count": 13,
+  "samples": [
+    {
+      "comm": "rvmt_bpf_00",
+      "ebpf_over_native": {
+        "max": 41.66017551958389,
+        "median": 41.45858241262625,
+        "min": 41.435665643680366,
+        "spread": 0.22450987590352156
+      },
+      "ebpf_runtime_ns": {
+        "max": 378920668.0,
+        "median": 367786174.0,
+        "min": 363421333.0,
+        "spread": 15499335.0
+      },
+      "event_count": {
+        "max": 30.0,
+        "median": 30.0,
+        "min": 30.0,
+        "spread": 0.0
+      },
+      "expected_syscall_counts": {
+        "write": 3
+      },
+      "expected_syscalls_observed": true,
+      "native_runtime_ns": {
+        "max": 9144795.0,
+        "median": 8871171.0,
+        "min": 8723471.0,
+        "spread": 421324.0
+      },
+      "raw_logs_committed": false,
+      "rep_rows": [
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/hello/ebpf_only/ebpf_only.0.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/hello/ebpf_only/ebpf_only.0.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 41.45858241262625,
+          "ebpf_runtime_ns": 367786174,
+          "event_count": 30,
+          "native_exit_code": 0,
+          "native_runtime_ns": 8871171,
+          "rep": 0
+        },
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/hello/ebpf_only/ebpf_only.1.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/hello/ebpf_only/ebpf_only.1.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 41.66017551958389,
+          "ebpf_runtime_ns": 363421333,
+          "event_count": 30,
+          "native_exit_code": 0,
+          "native_runtime_ns": 8723471,
+          "rep": 1
+        },
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/hello/ebpf_only/ebpf_only.2.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/hello/ebpf_only/ebpf_only.2.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 41.435665643680366,
+          "ebpf_runtime_ns": 378920668,
+          "event_count": 30,
+          "native_exit_code": 0,
+          "native_runtime_ns": 9144795,
+          "rep": 2
+        }
+      ],
+      "reps": 3,
+      "run_status": "PASS",
+      "sample_class": "benign",
+      "sample_id": "hello",
+      "status": "PASS",
+      "status_path": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/hello/ebpf_only/status.json",
+      "syscall_counts": {
+        "12": 3,
+        "158": 3,
+        "17": 6,
+        "21": 3,
+        "218": 3,
+        "231": 3,
+        "273": 3,
+        "302": 3,
+        "334": 3,
+        "5": 6,
+        "close": 6,
+        "mmap": 24,
+        "mprotect": 9,
+        "munmap": 3,
+        "openat": 6,
+        "read": 3,
+        "write": 3
+      },
+      "timings_path": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/hello/ebpf_only/timings.jsonl"
+    },
+    {
+      "comm": "rvmt_bpf_01",
+      "ebpf_over_native": {
+        "max": 42.74065690058378,
+        "median": 40.72107038022458,
+        "min": 39.11178203815875,
+        "spread": 3.628874862425029
+      },
+      "ebpf_runtime_ns": {
+        "max": 376133158.0,
+        "median": 370879785.0,
+        "min": 361657264.0,
+        "spread": 14475894.0
+      },
+      "event_count": {
+        "max": 35.0,
+        "median": 35.0,
+        "min": 35.0,
+        "spread": 0.0
+      },
+      "expected_syscall_counts": {
+        "close": 9,
+        "getdents64": 6,
+        "openat": 9,
+        "write": 6
+      },
+      "expected_syscalls_observed": true,
+      "native_runtime_ns": {
+        "max": 9616876.0,
+        "median": 8881330.0,
+        "min": 8677447.0,
+        "spread": 939429.0
+      },
+      "raw_logs_committed": false,
+      "rep_rows": [
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/ls/ebpf_only/ebpf_only.0.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/ls/ebpf_only/ebpf_only.0.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 42.74065690058378,
+          "ebpf_runtime_ns": 370879785,
+          "event_count": 35,
+          "native_exit_code": 0,
+          "native_runtime_ns": 8677447,
+          "rep": 0
+        },
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/ls/ebpf_only/ebpf_only.1.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/ls/ebpf_only/ebpf_only.1.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 39.11178203815875,
+          "ebpf_runtime_ns": 376133158,
+          "event_count": 35,
+          "native_exit_code": 0,
+          "native_runtime_ns": 9616876,
+          "rep": 1
+        },
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/ls/ebpf_only/ebpf_only.2.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/ls/ebpf_only/ebpf_only.2.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 40.72107038022458,
+          "ebpf_runtime_ns": 361657264,
+          "event_count": 35,
+          "native_exit_code": 0,
+          "native_runtime_ns": 8881330,
+          "rep": 2
+        }
+      ],
+      "reps": 3,
+      "run_status": "PASS",
+      "sample_class": "benign",
+      "sample_id": "ls",
+      "status": "PASS",
+      "status_path": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/ls/ebpf_only/status.json",
+      "syscall_counts": {
+        "12": 3,
+        "158": 3,
+        "17": 6,
+        "21": 3,
+        "218": 3,
+        "231": 3,
+        "273": 3,
+        "302": 3,
+        "334": 3,
+        "5": 6,
+        "close": 9,
+        "getdents64": 6,
+        "mmap": 24,
+        "mprotect": 9,
+        "munmap": 3,
+        "openat": 9,
+        "read": 3,
+        "write": 6
+      },
+      "timings_path": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/ls/ebpf_only/timings.jsonl"
+    },
+    {
+      "comm": "rvmt_bpf_02",
+      "ebpf_over_native": {
+        "max": 31.12044813525497,
+        "median": 30.32291917801095,
+        "min": 28.60211440573095,
+        "spread": 2.51833372952402
+      },
+      "ebpf_runtime_ns": {
+        "max": 372470377.0,
+        "median": 364998373.0,
+        "min": 364399348.0,
+        "spread": 8071029.0
+      },
+      "event_count": {
+        "max": 34.0,
+        "median": 34.0,
+        "min": 34.0,
+        "spread": 0.0
+      },
+      "expected_syscall_counts": {
+        "close": 9,
+        "openat": 9,
+        "read": 9,
+        "write": 3
+      },
+      "expected_syscalls_observed": true,
+      "native_runtime_ns": {
+        "max": 13022477.0,
+        "median": 12037046.0,
+        "min": 11709322.0,
+        "spread": 1313155.0
+      },
+      "raw_logs_committed": false,
+      "rep_rows": [
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/cat/ebpf_only/ebpf_only.0.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/cat/ebpf_only/ebpf_only.0.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 31.12044813525497,
+          "ebpf_runtime_ns": 364399348,
+          "event_count": 34,
+          "native_exit_code": 0,
+          "native_runtime_ns": 11709322,
+          "rep": 0
+        },
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/cat/ebpf_only/ebpf_only.1.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/cat/ebpf_only/ebpf_only.1.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 28.60211440573095,
+          "ebpf_runtime_ns": 372470377,
+          "event_count": 34,
+          "native_exit_code": 0,
+          "native_runtime_ns": 13022477,
+          "rep": 1
+        },
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/cat/ebpf_only/ebpf_only.2.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/cat/ebpf_only/ebpf_only.2.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 30.32291917801095,
+          "ebpf_runtime_ns": 364998373,
+          "event_count": 34,
+          "native_exit_code": 0,
+          "native_runtime_ns": 12037046,
+          "rep": 2
+        }
+      ],
+      "reps": 3,
+      "run_status": "PASS",
+      "sample_class": "benign",
+      "sample_id": "cat",
+      "status": "PASS",
+      "status_path": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/cat/ebpf_only/status.json",
+      "syscall_counts": {
+        "12": 3,
+        "158": 3,
+        "17": 6,
+        "21": 3,
+        "218": 3,
+        "231": 3,
+        "273": 3,
+        "302": 3,
+        "334": 3,
+        "5": 6,
+        "close": 9,
+        "mmap": 24,
+        "mprotect": 9,
+        "munmap": 3,
+        "openat": 9,
+        "read": 9,
+        "write": 3
+      },
+      "timings_path": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/cat/ebpf_only/timings.jsonl"
+    },
+    {
+      "comm": "rvmt_bpf_03",
+      "ebpf_over_native": {
+        "max": 30.982937727547586,
+        "median": 30.362802123778955,
+        "min": 29.752084511336594,
+        "spread": 1.230853216210992
+      },
+      "ebpf_runtime_ns": {
+        "max": 370806928.0,
+        "median": 364225707.0,
+        "min": 362218419.0,
+        "spread": 8588509.0
+      },
+      "event_count": {
+        "max": 36.0,
+        "median": 36.0,
+        "min": 36.0,
+        "spread": 0.0
+      },
+      "expected_syscall_counts": {
+        "close": 12,
+        "openat": 12,
+        "read": 9,
+        "write": 3
+      },
+      "expected_syscalls_observed": true,
+      "native_runtime_ns": {
+        "max": 12174556.0,
+        "median": 11995787.0,
+        "min": 11968101.0,
+        "spread": 206455.0
+      },
+      "raw_logs_committed": false,
+      "rep_rows": [
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/cp/ebpf_only/ebpf_only.0.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/cp/ebpf_only/ebpf_only.0.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 30.362802123778955,
+          "ebpf_runtime_ns": 364225707,
+          "event_count": 36,
+          "native_exit_code": 0,
+          "native_runtime_ns": 11995787,
+          "rep": 0
+        },
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/cp/ebpf_only/ebpf_only.1.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/cp/ebpf_only/ebpf_only.1.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 29.752084511336594,
+          "ebpf_runtime_ns": 362218419,
+          "event_count": 36,
+          "native_exit_code": 0,
+          "native_runtime_ns": 12174556,
+          "rep": 1
+        },
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/cp/ebpf_only/ebpf_only.2.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/cp/ebpf_only/ebpf_only.2.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 30.982937727547586,
+          "ebpf_runtime_ns": 370806928,
+          "event_count": 36,
+          "native_exit_code": 0,
+          "native_runtime_ns": 11968101,
+          "rep": 2
+        }
+      ],
+      "reps": 3,
+      "run_status": "PASS",
+      "sample_class": "benign",
+      "sample_id": "cp",
+      "status": "PASS",
+      "status_path": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/cp/ebpf_only/status.json",
+      "syscall_counts": {
+        "12": 3,
+        "158": 3,
+        "17": 6,
+        "21": 3,
+        "218": 3,
+        "231": 3,
+        "273": 3,
+        "302": 3,
+        "334": 3,
+        "5": 6,
+        "close": 12,
+        "mmap": 24,
+        "mprotect": 9,
+        "munmap": 3,
+        "openat": 12,
+        "read": 9,
+        "write": 3
+      },
+      "timings_path": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/cp/ebpf_only/timings.jsonl"
+    },
+    {
+      "comm": "rvmt_bpf_04",
+      "ebpf_over_native": {
+        "max": 31.55478580663621,
+        "median": 31.447225991381224,
+        "min": 30.778427775133302,
+        "spread": 0.7763580315029088
+      },
+      "ebpf_runtime_ns": {
+        "max": 378489432.0,
+        "median": 366780758.0,
+        "min": 361319167.0,
+        "spread": 17170265.0
+      },
+      "event_count": {
+        "max": 38.0,
+        "median": 38.0,
+        "min": 38.0,
+        "spread": 0.0
+      },
+      "expected_syscall_counts": {
+        "close": 9,
+        "openat": 9,
+        "read": 9,
+        "write": 3
+      },
+      "expected_syscalls_observed": true,
+      "native_runtime_ns": {
+        "max": 11994676.0,
+        "median": 11739364.0,
+        "min": 11663374.0,
+        "spread": 331302.0
+      },
+      "raw_logs_committed": false,
+      "rep_rows": [
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/sha256sum/ebpf_only/ebpf_only.0.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/sha256sum/ebpf_only/ebpf_only.0.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 30.778427775133302,
+          "ebpf_runtime_ns": 361319167,
+          "event_count": 38,
+          "native_exit_code": 0,
+          "native_runtime_ns": 11739364,
+          "rep": 0
+        },
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/sha256sum/ebpf_only/ebpf_only.1.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/sha256sum/ebpf_only/ebpf_only.1.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 31.447225991381224,
+          "ebpf_runtime_ns": 366780758,
+          "event_count": 38,
+          "native_exit_code": 0,
+          "native_runtime_ns": 11663374,
+          "rep": 1
+        },
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/sha256sum/ebpf_only/ebpf_only.2.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/sha256sum/ebpf_only/ebpf_only.2.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 31.55478580663621,
+          "ebpf_runtime_ns": 378489432,
+          "event_count": 38,
+          "native_exit_code": 0,
+          "native_runtime_ns": 11994676,
+          "rep": 2
+        }
+      ],
+      "reps": 3,
+      "run_status": "PASS",
+      "sample_class": "benign",
+      "sample_id": "sha256sum",
+      "status": "PASS",
+      "status_path": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/sha256sum/ebpf_only/status.json",
+      "syscall_counts": {
+        "12": 9,
+        "158": 3,
+        "17": 6,
+        "21": 3,
+        "218": 3,
+        "231": 3,
+        "273": 3,
+        "302": 3,
+        "318": 3,
+        "334": 3,
+        "5": 9,
+        "close": 9,
+        "mmap": 24,
+        "mprotect": 9,
+        "munmap": 3,
+        "openat": 9,
+        "read": 9,
+        "write": 3
+      },
+      "timings_path": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/benign/sha256sum/ebpf_only/timings.jsonl"
+    },
+    {
+      "comm": "rvmt_bpf_05",
+      "ebpf_over_native": {
+        "max": 32.886394002219085,
+        "median": 32.20193733125429,
+        "min": 30.655766945320053,
+        "spread": 2.2306270568990314
+      },
+      "ebpf_runtime_ns": {
+        "max": 362730745.0,
+        "median": 359609371.0,
+        "min": 359410204.0,
+        "spread": 3320541.0
+      },
+      "event_count": {
+        "max": 33.0,
+        "median": 33.0,
+        "min": 33.0,
+        "spread": 0.0
+      },
+      "expected_syscall_counts": {
+        "close": 9,
+        "getdents64": 6,
+        "openat": 9
+      },
+      "expected_syscalls_observed": true,
+      "native_runtime_ns": {
+        "max": 11832382.0,
+        "median": 11167321.0,
+        "min": 10928842.0,
+        "spread": 903540.0
+      },
+      "raw_logs_committed": false,
+      "rep_rows": [
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/file_scan/ebpf_only/ebpf_only.0.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/file_scan/ebpf_only/ebpf_only.0.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 32.886394002219085,
+          "ebpf_runtime_ns": 359410204,
+          "event_count": 33,
+          "native_exit_code": 0,
+          "native_runtime_ns": 10928842,
+          "rep": 0
+        },
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/file_scan/ebpf_only/ebpf_only.1.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/file_scan/ebpf_only/ebpf_only.1.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 30.655766945320053,
+          "ebpf_runtime_ns": 362730745,
+          "event_count": 33,
+          "native_exit_code": 0,
+          "native_runtime_ns": 11832382,
+          "rep": 1
+        },
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/file_scan/ebpf_only/ebpf_only.2.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/file_scan/ebpf_only/ebpf_only.2.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 32.20193733125429,
+          "ebpf_runtime_ns": 359609371,
+          "event_count": 33,
+          "native_exit_code": 0,
+          "native_runtime_ns": 11167321,
+          "rep": 2
+        }
+      ],
+      "reps": 3,
+      "run_status": "PASS",
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "file_scan",
+      "status": "PASS",
+      "status_path": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/file_scan/ebpf_only/status.json",
+      "syscall_counts": {
+        "12": 3,
+        "158": 3,
+        "17": 6,
+        "21": 3,
+        "218": 3,
+        "231": 3,
+        "273": 3,
+        "302": 3,
+        "334": 3,
+        "5": 6,
+        "close": 9,
+        "getdents64": 6,
+        "mmap": 24,
+        "mprotect": 9,
+        "munmap": 3,
+        "openat": 9,
+        "read": 3
+      },
+      "timings_path": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/file_scan/ebpf_only/timings.jsonl"
+    },
+    {
+      "comm": "rvmt_bpf_06",
+      "ebpf_over_native": {
+        "max": 26.545214385369313,
+        "median": 26.07326310497772,
+        "min": 21.473050290034113,
+        "spread": 5.0721640953352
+      },
+      "ebpf_runtime_ns": {
+        "max": 382190147.0,
+        "median": 373429748.0,
+        "min": 362321710.0,
+        "spread": 19868437.0
+      },
+      "event_count": {
+        "max": 41.0,
+        "median": 41.0,
+        "min": 41.0,
+        "spread": 0.0
+      },
+      "expected_syscall_counts": {
+        "close": 18,
+        "openat": 18,
+        "read": 9,
+        "write": 6
+      },
+      "expected_syscalls_observed": true,
+      "native_runtime_ns": {
+        "max": 17798596.0,
+        "median": 14322325.0,
+        "min": 13649229.0,
+        "spread": 4149367.0
+      },
+      "raw_logs_committed": false,
+      "rep_rows": [
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/batch_open_read_write/ebpf_only/ebpf_only.0.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/batch_open_read_write/ebpf_only/ebpf_only.0.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 26.545214385369313,
+          "ebpf_runtime_ns": 362321710,
+          "event_count": 41,
+          "native_exit_code": 0,
+          "native_runtime_ns": 13649229,
+          "rep": 0
+        },
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/batch_open_read_write/ebpf_only/ebpf_only.1.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/batch_open_read_write/ebpf_only/ebpf_only.1.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 26.07326310497772,
+          "ebpf_runtime_ns": 373429748,
+          "event_count": 41,
+          "native_exit_code": 0,
+          "native_runtime_ns": 14322325,
+          "rep": 1
+        },
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/batch_open_read_write/ebpf_only/ebpf_only.2.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/batch_open_read_write/ebpf_only/ebpf_only.2.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 21.473050290034113,
+          "ebpf_runtime_ns": 382190147,
+          "event_count": 41,
+          "native_exit_code": 0,
+          "native_runtime_ns": 17798596,
+          "rep": 2
+        }
+      ],
+      "reps": 3,
+      "run_status": "PASS",
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "batch_open_read_write",
+      "status": "PASS",
+      "status_path": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/batch_open_read_write/ebpf_only/status.json",
+      "syscall_counts": {
+        "12": 3,
+        "158": 3,
+        "17": 6,
+        "21": 3,
+        "218": 3,
+        "231": 3,
+        "273": 3,
+        "302": 3,
+        "334": 3,
+        "5": 6,
+        "close": 18,
+        "mmap": 24,
+        "mprotect": 9,
+        "munmap": 3,
+        "openat": 18,
+        "read": 9,
+        "write": 6
+      },
+      "timings_path": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/batch_open_read_write/ebpf_only/timings.jsonl"
+    },
+    {
+      "comm": "rvmt_bpf_07",
+      "ebpf_over_native": {
+        "max": 41.8577474477194,
+        "median": 41.42936372179279,
+        "min": 40.58102714688081,
+        "spread": 1.2767203008385906
+      },
+      "ebpf_runtime_ns": {
+        "max": 365480318.0,
+        "median": 365284316.0,
+        "min": 362288946.0,
+        "spread": 3191372.0
+      },
+      "event_count": {
+        "max": 35.0,
+        "median": 35.0,
+        "min": 35.0,
+        "spread": 0.0
+      },
+      "expected_syscall_counts": {
+        "close": 12,
+        "openat": 12,
+        "read": 6,
+        "write": 3
+      },
+      "expected_syscalls_observed": true,
+      "native_runtime_ns": {
+        "max": 8927545.0,
+        "median": 8821770.0,
+        "min": 8726803.0,
+        "spread": 200742.0
+      },
+      "raw_logs_committed": false,
+      "rep_rows": [
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/self_copy_sim/ebpf_only/ebpf_only.0.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/self_copy_sim/ebpf_only/ebpf_only.0.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 41.8577474477194,
+          "ebpf_runtime_ns": 365284316,
+          "event_count": 35,
+          "native_exit_code": 0,
+          "native_runtime_ns": 8726803,
+          "rep": 0
+        },
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/self_copy_sim/ebpf_only/ebpf_only.1.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/self_copy_sim/ebpf_only/ebpf_only.1.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 41.42936372179279,
+          "ebpf_runtime_ns": 365480318,
+          "event_count": 35,
+          "native_exit_code": 0,
+          "native_runtime_ns": 8821770,
+          "rep": 1
+        },
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/self_copy_sim/ebpf_only/ebpf_only.2.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/self_copy_sim/ebpf_only/ebpf_only.2.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 40.58102714688081,
+          "ebpf_runtime_ns": 362288946,
+          "event_count": 35,
+          "native_exit_code": 0,
+          "native_runtime_ns": 8927545,
+          "rep": 2
+        }
+      ],
+      "reps": 3,
+      "run_status": "PASS",
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "self_copy_sim",
+      "status": "PASS",
+      "status_path": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/self_copy_sim/ebpf_only/status.json",
+      "syscall_counts": {
+        "12": 3,
+        "158": 3,
+        "17": 6,
+        "21": 3,
+        "218": 3,
+        "231": 3,
+        "273": 3,
+        "302": 3,
+        "334": 3,
+        "5": 6,
+        "close": 12,
+        "mmap": 24,
+        "mprotect": 9,
+        "munmap": 3,
+        "openat": 12,
+        "read": 6,
+        "write": 3
+      },
+      "timings_path": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/self_copy_sim/ebpf_only/timings.jsonl"
+    },
+    {
+      "comm": "rvmt_bpf_08",
+      "ebpf_over_native": {
+        "max": 46.77085263973733,
+        "median": 44.207016227675574,
+        "min": 44.05607192546513,
+        "spread": 2.7147807142721945
+      },
+      "ebpf_runtime_ns": {
+        "max": 381029115.0,
+        "median": 379937596.0,
+        "min": 367338555.0,
+        "spread": 13690560.0
+      },
+      "event_count": {
+        "max": 35.0,
+        "median": 35.0,
+        "min": 35.0,
+        "spread": 0.0
+      },
+      "expected_syscall_counts": {
+        "close": 15,
+        "openat": 9,
+        "read": 6,
+        "write": 3
+      },
+      "expected_syscalls_observed": true,
+      "native_runtime_ns": {
+        "max": 8648731.0,
+        "median": 8309508.0,
+        "min": 8123384.0,
+        "spread": 525347.0
+      },
+      "raw_logs_committed": false,
+      "rep_rows": [
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/abnormal_syscall_sequence/ebpf_only/ebpf_only.0.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/abnormal_syscall_sequence/ebpf_only/ebpf_only.0.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 46.77085263973733,
+          "ebpf_runtime_ns": 379937596,
+          "event_count": 35,
+          "native_exit_code": 0,
+          "native_runtime_ns": 8123384,
+          "rep": 0
+        },
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/abnormal_syscall_sequence/ebpf_only/ebpf_only.1.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/abnormal_syscall_sequence/ebpf_only/ebpf_only.1.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 44.05607192546513,
+          "ebpf_runtime_ns": 381029115,
+          "event_count": 35,
+          "native_exit_code": 0,
+          "native_runtime_ns": 8648731,
+          "rep": 1
+        },
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/abnormal_syscall_sequence/ebpf_only/ebpf_only.2.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/abnormal_syscall_sequence/ebpf_only/ebpf_only.2.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 44.207016227675574,
+          "ebpf_runtime_ns": 367338555,
+          "event_count": 35,
+          "native_exit_code": 0,
+          "native_runtime_ns": 8309508,
+          "rep": 2
+        }
+      ],
+      "reps": 3,
+      "run_status": "PASS",
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "abnormal_syscall_sequence",
+      "status": "PASS",
+      "status_path": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/abnormal_syscall_sequence/ebpf_only/status.json",
+      "syscall_counts": {
+        "12": 3,
+        "158": 3,
+        "17": 6,
+        "21": 3,
+        "218": 3,
+        "231": 3,
+        "273": 3,
+        "302": 3,
+        "334": 3,
+        "5": 6,
+        "close": 15,
+        "mmap": 24,
+        "mprotect": 9,
+        "munmap": 3,
+        "openat": 9,
+        "read": 6,
+        "write": 3
+      },
+      "timings_path": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/abnormal_syscall_sequence/ebpf_only/timings.jsonl"
+    },
+    {
+      "comm": "rvmt_bpf_09",
+      "ebpf_over_native": {
+        "max": 38.90918470899678,
+        "median": 38.12929310359012,
+        "min": 37.992763521198924,
+        "spread": 0.9164211877978587
+      },
+      "ebpf_runtime_ns": {
+        "max": 366152295.0,
+        "median": 361506802.0,
+        "min": 359716113.0,
+        "spread": 6436182.0
+      },
+      "event_count": {
+        "max": 31.0,
+        "median": 31.0,
+        "min": 31.0,
+        "spread": 0.0
+      },
+      "expected_syscall_counts": {
+        "write": 3
+      },
+      "expected_syscalls_observed": true,
+      "native_runtime_ns": {
+        "max": 9637422.0,
+        "median": 9481078.0,
+        "min": 9245018.0,
+        "spread": 392404.0
+      },
+      "raw_logs_committed": false,
+      "rep_rows": [
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/illegal_trap/ebpf_only/ebpf_only.0.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/illegal_trap/ebpf_only/ebpf_only.0.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 37.992763521198924,
+          "ebpf_runtime_ns": 366152295,
+          "event_count": 31,
+          "native_exit_code": 0,
+          "native_runtime_ns": 9637422,
+          "rep": 0
+        },
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/illegal_trap/ebpf_only/ebpf_only.1.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/illegal_trap/ebpf_only/ebpf_only.1.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 38.90918470899678,
+          "ebpf_runtime_ns": 359716113,
+          "event_count": 31,
+          "native_exit_code": 0,
+          "native_runtime_ns": 9245018,
+          "rep": 1
+        },
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/illegal_trap/ebpf_only/ebpf_only.2.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/illegal_trap/ebpf_only/ebpf_only.2.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 38.12929310359012,
+          "ebpf_runtime_ns": 361506802,
+          "event_count": 31,
+          "native_exit_code": 0,
+          "native_runtime_ns": 9481078,
+          "rep": 2
+        }
+      ],
+      "reps": 3,
+      "run_status": "PASS",
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "illegal_trap",
+      "status": "PASS",
+      "status_path": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/illegal_trap/ebpf_only/status.json",
+      "syscall_counts": {
+        "12": 3,
+        "13": 3,
+        "158": 3,
+        "17": 6,
+        "21": 3,
+        "218": 3,
+        "231": 3,
+        "273": 3,
+        "302": 3,
+        "334": 3,
+        "5": 6,
+        "close": 6,
+        "mmap": 24,
+        "mprotect": 9,
+        "munmap": 3,
+        "openat": 6,
+        "read": 3,
+        "write": 3
+      },
+      "timings_path": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/illegal_trap/ebpf_only/timings.jsonl"
+    },
+    {
+      "comm": "rvmt_bpf_10",
+      "ebpf_over_native": {
+        "max": 39.341916755833466,
+        "median": 38.79585528986354,
+        "min": 36.212356652190024,
+        "spread": 3.129560103643442
+      },
+      "ebpf_runtime_ns": {
+        "max": 365805745.0,
+        "median": 364825805.0,
+        "min": 363658187.0,
+        "spread": 2147558.0
+      },
+      "event_count": {
+        "max": 35.0,
+        "median": 35.0,
+        "min": 35.0,
+        "spread": 0.0
+      },
+      "expected_syscall_counts": {
+        "clone": 6,
+        "execve": 6,
+        "waitid": 6
+      },
+      "expected_syscalls_observed": true,
+      "native_runtime_ns": {
+        "max": 10074622.0,
+        "median": 9373635.0,
+        "min": 9298117.0,
+        "spread": 776505.0
+      },
+      "raw_logs_committed": false,
+      "rep_rows": [
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/process_chain/ebpf_only/ebpf_only.0.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/process_chain/ebpf_only/ebpf_only.0.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 39.341916755833466,
+          "ebpf_runtime_ns": 365805745,
+          "event_count": 35,
+          "native_exit_code": 0,
+          "native_runtime_ns": 9298117,
+          "rep": 0
+        },
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/process_chain/ebpf_only/ebpf_only.1.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/process_chain/ebpf_only/ebpf_only.1.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 38.79585528986354,
+          "ebpf_runtime_ns": 363658187,
+          "event_count": 35,
+          "native_exit_code": 0,
+          "native_runtime_ns": 9373635,
+          "rep": 1
+        },
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/process_chain/ebpf_only/ebpf_only.2.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/process_chain/ebpf_only/ebpf_only.2.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 36.212356652190024,
+          "ebpf_runtime_ns": 364825805,
+          "event_count": 35,
+          "native_exit_code": 0,
+          "native_runtime_ns": 10074622,
+          "rep": 2
+        }
+      ],
+      "reps": 3,
+      "run_status": "PASS",
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "process_chain",
+      "status": "PASS",
+      "status_path": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/process_chain/ebpf_only/status.json",
+      "syscall_counts": {
+        "12": 3,
+        "158": 3,
+        "17": 6,
+        "21": 3,
+        "218": 3,
+        "231": 3,
+        "273": 3,
+        "302": 3,
+        "334": 3,
+        "5": 6,
+        "clone": 6,
+        "close": 6,
+        "execve": 6,
+        "mmap": 24,
+        "mprotect": 9,
+        "munmap": 3,
+        "openat": 6,
+        "read": 3,
+        "waitid": 6
+      },
+      "timings_path": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/process_chain/ebpf_only/timings.jsonl"
+    },
+    {
+      "comm": "rvmt_bpf_11",
+      "ebpf_over_native": {
+        "max": 45.41139324845792,
+        "median": 45.043134285230316,
+        "min": 43.652354936969566,
+        "spread": 1.7590383114883537
+      },
+      "ebpf_runtime_ns": {
+        "max": 374860425.0,
+        "median": 362267707.0,
+        "min": 361645920.0,
+        "spread": 13214505.0
+      },
+      "event_count": {
+        "max": 33.0,
+        "median": 33.0,
+        "min": 33.0,
+        "spread": 0.0
+      },
+      "expected_syscall_counts": {
+        "mmap": 27,
+        "mprotect": 15,
+        "munmap": 6
+      },
+      "expected_syscalls_observed": true,
+      "native_runtime_ns": {
+        "max": 8298927.0,
+        "median": 8254766.0,
+        "min": 8028880.0,
+        "spread": 270047.0
+      },
+      "raw_logs_committed": false,
+      "rep_rows": [
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/dynamic_executable_memory/ebpf_only/ebpf_only.0.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/dynamic_executable_memory/ebpf_only/ebpf_only.0.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 45.043134285230316,
+          "ebpf_runtime_ns": 361645920,
+          "event_count": 33,
+          "native_exit_code": 0,
+          "native_runtime_ns": 8028880,
+          "rep": 0
+        },
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/dynamic_executable_memory/ebpf_only/ebpf_only.1.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/dynamic_executable_memory/ebpf_only/ebpf_only.1.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 45.41139324845792,
+          "ebpf_runtime_ns": 374860425,
+          "event_count": 33,
+          "native_exit_code": 0,
+          "native_runtime_ns": 8254766,
+          "rep": 1
+        },
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/dynamic_executable_memory/ebpf_only/ebpf_only.2.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/dynamic_executable_memory/ebpf_only/ebpf_only.2.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 43.652354936969566,
+          "ebpf_runtime_ns": 362267707,
+          "event_count": 33,
+          "native_exit_code": 0,
+          "native_runtime_ns": 8298927,
+          "rep": 2
+        }
+      ],
+      "reps": 3,
+      "run_status": "PASS",
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "dynamic_executable_memory",
+      "status": "PASS",
+      "status_path": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/dynamic_executable_memory/ebpf_only/status.json",
+      "syscall_counts": {
+        "12": 3,
+        "158": 3,
+        "17": 6,
+        "21": 3,
+        "218": 3,
+        "231": 3,
+        "273": 3,
+        "302": 3,
+        "334": 3,
+        "5": 6,
+        "close": 6,
+        "mmap": 27,
+        "mprotect": 15,
+        "munmap": 6,
+        "openat": 6,
+        "read": 3
+      },
+      "timings_path": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/dynamic_executable_memory/ebpf_only/timings.jsonl"
+    },
+    {
+      "comm": "rvmt_bpf_12",
+      "ebpf_over_native": {
+        "max": 44.310054950280886,
+        "median": 44.225298547764886,
+        "min": 42.349988581782384,
+        "spread": 1.9600663684985022
+      },
+      "ebpf_runtime_ns": {
+        "max": 361440509.0,
+        "median": 361385833.0,
+        "min": 361050513.0,
+        "spread": 389996.0
+      },
+      "event_count": {
+        "max": 35.0,
+        "median": 35.0,
+        "min": 35.0,
+        "spread": 0.0
+      },
+      "expected_syscall_counts": {
+        "clock_gettime": 6,
+        "close": 9,
+        "openat": 9,
+        "ptrace": 3,
+        "read": 6
+      },
+      "expected_syscalls_observed": true,
+      "native_runtime_ns": {
+        "max": 8534607.0,
+        "median": 8171473.0,
+        "min": 8148275.0,
+        "spread": 386332.0
+      },
+      "raw_logs_committed": false,
+      "rep_rows": [
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/anti_debug_like/ebpf_only/ebpf_only.0.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/anti_debug_like/ebpf_only/ebpf_only.0.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 44.310054950280886,
+          "ebpf_runtime_ns": 361050513,
+          "event_count": 35,
+          "native_exit_code": 0,
+          "native_runtime_ns": 8148275,
+          "rep": 0
+        },
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/anti_debug_like/ebpf_only/ebpf_only.1.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/anti_debug_like/ebpf_only/ebpf_only.1.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 42.349988581782384,
+          "ebpf_runtime_ns": 361440509,
+          "event_count": 35,
+          "native_exit_code": 0,
+          "native_runtime_ns": 8534607,
+          "rep": 1
+        },
+        {
+          "bpftrace_stderr": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/anti_debug_like/ebpf_only/ebpf_only.2.bpftrace.err",
+          "bpftrace_stdout": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/anti_debug_like/ebpf_only/ebpf_only.2.bpftrace.out",
+          "ebpf_exit_code": 0,
+          "ebpf_over_native": 44.225298547764886,
+          "ebpf_runtime_ns": 361385833,
+          "event_count": 35,
+          "native_exit_code": 0,
+          "native_runtime_ns": 8171473,
+          "rep": 2
+        }
+      ],
+      "reps": 3,
+      "run_status": "PASS",
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "anti_debug_like",
+      "status": "PASS",
+      "status_path": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/anti_debug_like/ebpf_only/status.json",
+      "syscall_counts": {
+        "12": 3,
+        "158": 3,
+        "17": 6,
+        "21": 3,
+        "218": 3,
+        "231": 3,
+        "273": 3,
+        "302": 3,
+        "334": 3,
+        "5": 6,
+        "clock_gettime": 6,
+        "close": 9,
+        "mmap": 24,
+        "mprotect": 9,
+        "munmap": 3,
+        "openat": 9,
+        "ptrace": 3,
+        "read": 6
+      },
+      "timings_path": "results/experiments/35t/35t-ebpf-baseline-20260523/samples/malware_like_synthetic/anti_debug_like/ebpf_only/timings.jsonl"
+    }
+  ],
+  "schema": "rvmt.35t.ebpf_baseline.v1",
+  "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "source_run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "status": "PASS"
+}

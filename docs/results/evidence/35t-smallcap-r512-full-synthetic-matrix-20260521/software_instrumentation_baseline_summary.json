@@ -1,0 +1,456 @@
+{
+  "artifact_policy": "raw function logs remain in local results; committed evidence contains summary only",
+  "baseline": "software_instrumentation",
+  "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+  "instrumentation": "gcc -finstrument-functions host binary",
+  "limitations": [
+    "source-level function instrumentation is user-visible and perturbing",
+    "function entry/exit logs are not syscall argument or path reconstruction",
+    "this baseline is not eBPF-only, QEMU-plugin, DBI, or real malware detection evidence"
+  ],
+  "non_claims": [
+    "no CVA6 board claim",
+    "no real malware detection claim",
+    "no mature detector claim",
+    "no classifier accuracy claim",
+    "no complete semantic reconstruction claim"
+  ],
+  "pass_count": 13,
+  "reps": 5,
+  "run_id": "35t-software-instrumentation-baseline-20260523",
+  "sample_count": 13,
+  "samples": [
+    {
+      "function_entries": {
+        "max": 2.0,
+        "median": 2.0,
+        "min": 2.0,
+        "spread": 0.0
+      },
+      "function_exits": {
+        "max": 2.0,
+        "median": 2.0,
+        "min": 2.0,
+        "spread": 0.0
+      },
+      "log_bytes": {
+        "max": 160.0,
+        "median": 160.0,
+        "min": 160.0,
+        "spread": 0.0
+      },
+      "raw_logs_committed": false,
+      "reps": 5,
+      "runtime_ns": {
+        "max": 13550585.0,
+        "median": 13071046.0,
+        "min": 12784556.0,
+        "spread": 766029.0
+      },
+      "sample_class": "benign",
+      "sample_id": "hello",
+      "status": "PASS",
+      "status_path": "results/experiments/35t/35t-software-instrumentation-baseline-20260523/samples/benign/hello/software_instrumentation/status.json",
+      "timings_path": "results/experiments/35t/35t-software-instrumentation-baseline-20260523/samples/benign/hello/software_instrumentation/timings.jsonl"
+    },
+    {
+      "function_entries": {
+        "max": 2.0,
+        "median": 2.0,
+        "min": 2.0,
+        "spread": 0.0
+      },
+      "function_exits": {
+        "max": 2.0,
+        "median": 2.0,
+        "min": 2.0,
+        "spread": 0.0
+      },
+      "log_bytes": {
+        "max": 164.0,
+        "median": 160.0,
+        "min": 160.0,
+        "spread": 4.0
+      },
+      "raw_logs_committed": false,
+      "reps": 5,
+      "runtime_ns": {
+        "max": 13838037.0,
+        "median": 13608552.0,
+        "min": 12142206.0,
+        "spread": 1695831.0
+      },
+      "sample_class": "benign",
+      "sample_id": "ls",
+      "status": "PASS",
+      "status_path": "results/experiments/35t/35t-software-instrumentation-baseline-20260523/samples/benign/ls/software_instrumentation/status.json",
+      "timings_path": "results/experiments/35t/35t-software-instrumentation-baseline-20260523/samples/benign/ls/software_instrumentation/timings.jsonl"
+    },
+    {
+      "function_entries": {
+        "max": 4.0,
+        "median": 4.0,
+        "min": 4.0,
+        "spread": 0.0
+      },
+      "function_exits": {
+        "max": 4.0,
+        "median": 4.0,
+        "min": 4.0,
+        "spread": 0.0
+      },
+      "log_bytes": {
+        "max": 316.0,
+        "median": 316.0,
+        "min": 316.0,
+        "spread": 0.0
+      },
+      "raw_logs_committed": false,
+      "reps": 5,
+      "runtime_ns": {
+        "max": 19241356.0,
+        "median": 18149913.0,
+        "min": 17580470.0,
+        "spread": 1660886.0
+      },
+      "sample_class": "benign",
+      "sample_id": "cat",
+      "status": "PASS",
+      "status_path": "results/experiments/35t/35t-software-instrumentation-baseline-20260523/samples/benign/cat/software_instrumentation/status.json",
+      "timings_path": "results/experiments/35t/35t-software-instrumentation-baseline-20260523/samples/benign/cat/software_instrumentation/timings.jsonl"
+    },
+    {
+      "function_entries": {
+        "max": 4.0,
+        "median": 4.0,
+        "min": 4.0,
+        "spread": 0.0
+      },
+      "function_exits": {
+        "max": 4.0,
+        "median": 4.0,
+        "min": 4.0,
+        "spread": 0.0
+      },
+      "log_bytes": {
+        "max": 316.0,
+        "median": 316.0,
+        "min": 316.0,
+        "spread": 0.0
+      },
+      "raw_logs_committed": false,
+      "reps": 5,
+      "runtime_ns": {
+        "max": 18282081.0,
+        "median": 17078457.0,
+        "min": 16784848.0,
+        "spread": 1497233.0
+      },
+      "sample_class": "benign",
+      "sample_id": "cp",
+      "status": "PASS",
+      "status_path": "results/experiments/35t/35t-software-instrumentation-baseline-20260523/samples/benign/cp/software_instrumentation/status.json",
+      "timings_path": "results/experiments/35t/35t-software-instrumentation-baseline-20260523/samples/benign/cp/software_instrumentation/timings.jsonl"
+    },
+    {
+      "function_entries": {
+        "max": 4.0,
+        "median": 4.0,
+        "min": 4.0,
+        "spread": 0.0
+      },
+      "function_exits": {
+        "max": 4.0,
+        "median": 4.0,
+        "min": 4.0,
+        "spread": 0.0
+      },
+      "log_bytes": {
+        "max": 316.0,
+        "median": 316.0,
+        "min": 316.0,
+        "spread": 0.0
+      },
+      "raw_logs_committed": false,
+      "reps": 5,
+      "runtime_ns": {
+        "max": 19418328.0,
+        "median": 17837773.0,
+        "min": 16490595.0,
+        "spread": 2927733.0
+      },
+      "sample_class": "benign",
+      "sample_id": "sha256sum",
+      "status": "PASS",
+      "status_path": "results/experiments/35t/35t-software-instrumentation-baseline-20260523/samples/benign/sha256sum/software_instrumentation/status.json",
+      "timings_path": "results/experiments/35t/35t-software-instrumentation-baseline-20260523/samples/benign/sha256sum/software_instrumentation/timings.jsonl"
+    },
+    {
+      "function_entries": {
+        "max": 1.0,
+        "median": 1.0,
+        "min": 1.0,
+        "spread": 0.0
+      },
+      "function_exits": {
+        "max": 1.0,
+        "median": 1.0,
+        "min": 1.0,
+        "spread": 0.0
+      },
+      "log_bytes": {
+        "max": 88.0,
+        "median": 88.0,
+        "min": 88.0,
+        "spread": 0.0
+      },
+      "raw_logs_committed": false,
+      "reps": 5,
+      "runtime_ns": {
+        "max": 15998962.0,
+        "median": 15156545.0,
+        "min": 14059170.0,
+        "spread": 1939792.0
+      },
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "file_scan",
+      "status": "PASS",
+      "status_path": "results/experiments/35t/35t-software-instrumentation-baseline-20260523/samples/malware_like_synthetic/file_scan/software_instrumentation/status.json",
+      "timings_path": "results/experiments/35t/35t-software-instrumentation-baseline-20260523/samples/malware_like_synthetic/file_scan/software_instrumentation/timings.jsonl"
+    },
+    {
+      "function_entries": {
+        "max": 1.0,
+        "median": 1.0,
+        "min": 1.0,
+        "spread": 0.0
+      },
+      "function_exits": {
+        "max": 1.0,
+        "median": 1.0,
+        "min": 1.0,
+        "spread": 0.0
+      },
+      "log_bytes": {
+        "max": 88.0,
+        "median": 88.0,
+        "min": 88.0,
+        "spread": 0.0
+      },
+      "raw_logs_committed": false,
+      "reps": 5,
+      "runtime_ns": {
+        "max": 20326220.0,
+        "median": 17692151.0,
+        "min": 17538144.0,
+        "spread": 2788076.0
+      },
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "batch_open_read_write",
+      "status": "PASS",
+      "status_path": "results/experiments/35t/35t-software-instrumentation-baseline-20260523/samples/malware_like_synthetic/batch_open_read_write/software_instrumentation/status.json",
+      "timings_path": "results/experiments/35t/35t-software-instrumentation-baseline-20260523/samples/malware_like_synthetic/batch_open_read_write/software_instrumentation/timings.jsonl"
+    },
+    {
+      "function_entries": {
+        "max": 1.0,
+        "median": 1.0,
+        "min": 1.0,
+        "spread": 0.0
+      },
+      "function_exits": {
+        "max": 1.0,
+        "median": 1.0,
+        "min": 1.0,
+        "spread": 0.0
+      },
+      "log_bytes": {
+        "max": 88.0,
+        "median": 88.0,
+        "min": 88.0,
+        "spread": 0.0
+      },
+      "raw_logs_committed": false,
+      "reps": 5,
+      "runtime_ns": {
+        "max": 13280576.0,
+        "median": 12324178.0,
+        "min": 11717860.0,
+        "spread": 1562716.0
+      },
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "self_copy_sim",
+      "status": "PASS",
+      "status_path": "results/experiments/35t/35t-software-instrumentation-baseline-20260523/samples/malware_like_synthetic/self_copy_sim/software_instrumentation/status.json",
+      "timings_path": "results/experiments/35t/35t-software-instrumentation-baseline-20260523/samples/malware_like_synthetic/self_copy_sim/software_instrumentation/timings.jsonl"
+    },
+    {
+      "function_entries": {
+        "max": 1.0,
+        "median": 1.0,
+        "min": 1.0,
+        "spread": 0.0
+      },
+      "function_exits": {
+        "max": 1.0,
+        "median": 1.0,
+        "min": 1.0,
+        "spread": 0.0
+      },
+      "log_bytes": {
+        "max": 88.0,
+        "median": 88.0,
+        "min": 88.0,
+        "spread": 0.0
+      },
+      "raw_logs_committed": false,
+      "reps": 5,
+      "runtime_ns": {
+        "max": 11831273.0,
+        "median": 10960208.0,
+        "min": 10742400.0,
+        "spread": 1088873.0
+      },
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "abnormal_syscall_sequence",
+      "status": "PASS",
+      "status_path": "results/experiments/35t/35t-software-instrumentation-baseline-20260523/samples/malware_like_synthetic/abnormal_syscall_sequence/software_instrumentation/status.json",
+      "timings_path": "results/experiments/35t/35t-software-instrumentation-baseline-20260523/samples/malware_like_synthetic/abnormal_syscall_sequence/software_instrumentation/timings.jsonl"
+    },
+    {
+      "function_entries": {
+        "max": 2.0,
+        "median": 2.0,
+        "min": 2.0,
+        "spread": 0.0
+      },
+      "function_exits": {
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "log_bytes": {
+        "max": 88.0,
+        "median": 88.0,
+        "min": 88.0,
+        "spread": 0.0
+      },
+      "raw_logs_committed": false,
+      "reps": 5,
+      "runtime_ns": {
+        "max": 11960453.0,
+        "median": 11314262.0,
+        "min": 11211967.0,
+        "spread": 748486.0
+      },
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "illegal_trap",
+      "status": "PASS",
+      "status_path": "results/experiments/35t/35t-software-instrumentation-baseline-20260523/samples/malware_like_synthetic/illegal_trap/software_instrumentation/status.json",
+      "timings_path": "results/experiments/35t/35t-software-instrumentation-baseline-20260523/samples/malware_like_synthetic/illegal_trap/software_instrumentation/timings.jsonl"
+    },
+    {
+      "function_entries": {
+        "max": 1.0,
+        "median": 1.0,
+        "min": 1.0,
+        "spread": 0.0
+      },
+      "function_exits": {
+        "max": 1.0,
+        "median": 1.0,
+        "min": 1.0,
+        "spread": 0.0
+      },
+      "log_bytes": {
+        "max": 88.0,
+        "median": 88.0,
+        "min": 88.0,
+        "spread": 0.0
+      },
+      "raw_logs_committed": false,
+      "reps": 5,
+      "runtime_ns": {
+        "max": 13362084.0,
+        "median": 12289153.0,
+        "min": 12064170.0,
+        "spread": 1297914.0
+      },
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "process_chain",
+      "status": "PASS",
+      "status_path": "results/experiments/35t/35t-software-instrumentation-baseline-20260523/samples/malware_like_synthetic/process_chain/software_instrumentation/status.json",
+      "timings_path": "results/experiments/35t/35t-software-instrumentation-baseline-20260523/samples/malware_like_synthetic/process_chain/software_instrumentation/timings.jsonl"
+    },
+    {
+      "function_entries": {
+        "max": 1.0,
+        "median": 1.0,
+        "min": 1.0,
+        "spread": 0.0
+      },
+      "function_exits": {
+        "max": 1.0,
+        "median": 1.0,
+        "min": 1.0,
+        "spread": 0.0
+      },
+      "log_bytes": {
+        "max": 88.0,
+        "median": 88.0,
+        "min": 88.0,
+        "spread": 0.0
+      },
+      "raw_logs_committed": false,
+      "reps": 5,
+      "runtime_ns": {
+        "max": 12205354.0,
+        "median": 12029365.0,
+        "min": 11409472.0,
+        "spread": 795882.0
+      },
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "dynamic_executable_memory",
+      "status": "PASS",
+      "status_path": "results/experiments/35t/35t-software-instrumentation-baseline-20260523/samples/malware_like_synthetic/dynamic_executable_memory/software_instrumentation/status.json",
+      "timings_path": "results/experiments/35t/35t-software-instrumentation-baseline-20260523/samples/malware_like_synthetic/dynamic_executable_memory/software_instrumentation/timings.jsonl"
+    },
+    {
+      "function_entries": {
+        "max": 1.0,
+        "median": 1.0,
+        "min": 1.0,
+        "spread": 0.0
+      },
+      "function_exits": {
+        "max": 1.0,
+        "median": 1.0,
+        "min": 1.0,
+        "spread": 0.0
+      },
+      "log_bytes": {
+        "max": 88.0,
+        "median": 88.0,
+        "min": 88.0,
+        "spread": 0.0
+      },
+      "raw_logs_committed": false,
+      "reps": 5,
+      "runtime_ns": {
+        "max": 12090521.0,
+        "median": 11475894.0,
+        "min": 11293367.0,
+        "spread": 797154.0
+      },
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "anti_debug_like",
+      "status": "PASS",
+      "status_path": "results/experiments/35t/35t-software-instrumentation-baseline-20260523/samples/malware_like_synthetic/anti_debug_like/software_instrumentation/status.json",
+      "timings_path": "results/experiments/35t/35t-software-instrumentation-baseline-20260523/samples/malware_like_synthetic/anti_debug_like/software_instrumentation/timings.jsonl"
+    }
+  ],
+  "schema": "rvmt.35t.software_instrumentation_baseline.v1",
+  "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "status": "PASS"
+}

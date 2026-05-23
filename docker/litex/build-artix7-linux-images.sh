@@ -51,6 +51,11 @@ for source in "$ROOT"/experiments/linux_behavior/malware_like/programs/*.c; do
   "$TARGET_GCC" -O2 -Wall -Wextra -static -o "$EXP_OVERLAY/usr/bin/$name" "$source"
 done
 
+for source in "$ROOT"/experiments/linux_behavior/malware_like/extension_programs/*.c; do
+  name="$(basename "$source" .c)"
+  "$TARGET_GCC" -O2 -Wall -Wextra -static -o "$EXP_OVERLAY/usr/bin/$name" "$source"
+done
+
 make BR2_ROOTFS_OVERLAY="$LOLV/buildroot/board/litex_vexriscv/rootfs_overlay $OVERLAY $EXP_OVERLAY"
 
 rm -f "$LOLV/images/Image" "$LOLV/images/rootfs.cpio" "$LOLV/images/opensbi.bin" "$LOLV/images/rootfs.ext4"

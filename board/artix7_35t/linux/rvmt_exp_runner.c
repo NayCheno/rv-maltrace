@@ -38,6 +38,7 @@ typedef struct {
     const char *sample_id;
     const char *argv0;
     const char *argv1;
+    int default_enabled;
 } sample_spec_t;
 
 typedef struct {
@@ -67,19 +68,28 @@ typedef struct {
 #define RVMT_SC_EXECVE 221ul
 
 static const sample_spec_t samples[] = {
-    {"benign", "hello", "/usr/bin/rvmt_benign_workload", "hello"},
-    {"benign", "ls", "/usr/bin/rvmt_benign_workload", "ls"},
-    {"benign", "cat", "/usr/bin/rvmt_benign_workload", "cat"},
-    {"benign", "cp", "/usr/bin/rvmt_benign_workload", "cp"},
-    {"benign", "sha256sum", "/usr/bin/rvmt_benign_workload", "sha256sum"},
-    {"malware_like_synthetic", "file_scan", "/usr/bin/file_scan", NULL},
-    {"malware_like_synthetic", "batch_open_read_write", "/usr/bin/batch_open_read_write", NULL},
-    {"malware_like_synthetic", "self_copy_sim", "/usr/bin/self_copy_sim", NULL},
-    {"malware_like_synthetic", "abnormal_syscall_sequence", "/usr/bin/abnormal_syscall_sequence", NULL},
-    {"malware_like_synthetic", "illegal_trap", "/usr/bin/illegal_trap", NULL},
-    {"malware_like_synthetic", "process_chain", "/usr/bin/process_chain", NULL},
-    {"malware_like_synthetic", "dynamic_executable_memory", "/usr/bin/dynamic_executable_memory", NULL},
-    {"malware_like_synthetic", "anti_debug_like", "/usr/bin/anti_debug_like", NULL},
+    {"benign", "hello", "/usr/bin/rvmt_benign_workload", "hello", 1},
+    {"benign", "ls", "/usr/bin/rvmt_benign_workload", "ls", 1},
+    {"benign", "cat", "/usr/bin/rvmt_benign_workload", "cat", 1},
+    {"benign", "cp", "/usr/bin/rvmt_benign_workload", "cp", 1},
+    {"benign", "sha256sum", "/usr/bin/rvmt_benign_workload", "sha256sum", 1},
+    {"malware_like_synthetic", "file_scan", "/usr/bin/file_scan", NULL, 1},
+    {"malware_like_synthetic", "batch_open_read_write", "/usr/bin/batch_open_read_write", NULL, 1},
+    {"malware_like_synthetic", "self_copy_sim", "/usr/bin/self_copy_sim", NULL, 1},
+    {"malware_like_synthetic", "abnormal_syscall_sequence", "/usr/bin/abnormal_syscall_sequence", NULL, 1},
+    {"malware_like_synthetic", "illegal_trap", "/usr/bin/illegal_trap", NULL, 1},
+    {"malware_like_synthetic", "process_chain", "/usr/bin/process_chain", NULL, 1},
+    {"malware_like_synthetic", "dynamic_executable_memory", "/usr/bin/dynamic_executable_memory", NULL, 1},
+    {"malware_like_synthetic", "anti_debug_like", "/usr/bin/anti_debug_like", NULL, 1},
+    {"malware_like_synthetic", "direct_syscall_open_read", "/usr/bin/direct_syscall_open_read", NULL, 0},
+    {"malware_like_synthetic", "timing_anti_analysis_loop", "/usr/bin/timing_anti_analysis_loop", NULL, 0},
+    {"malware_like_synthetic", "proc_status_tracerpid_check", "/usr/bin/proc_status_tracerpid_check", NULL, 0},
+    {"malware_like_synthetic", "obfuscated_syscall_wrapper", "/usr/bin/obfuscated_syscall_wrapper", NULL, 0},
+    {"malware_like_synthetic", "self_modifying_code_sim", "/usr/bin/self_modifying_code_sim", NULL, 0},
+    {"malware_like_synthetic", "mprotect_exec_variant", "/usr/bin/mprotect_exec_variant", NULL, 0},
+    {"malware_like_synthetic", "multi_level_process_chain", "/usr/bin/multi_level_process_chain", NULL, 0},
+    {"malware_like_synthetic", "loopback_network_client", "/usr/bin/loopback_network_client", NULL, 0},
+    {"malware_like_synthetic", "file_encryption_sim_non_destructive", "/usr/bin/file_encryption_sim_non_destructive", NULL, 0},
 };
 
 static unsigned long parse_ulong(const char *s, const char *name) {
@@ -824,10 +834,13 @@ static void dump_trace(volatile uint32_t *csr, unsigned long records) {
 
 static int sample_selected(const sample_spec_t *sample, int argc, char **argv, int first_index) {
     if (first_index >= argc) {
-        return 1;
+        return sample->default_enabled;
     }
     for (int i = first_index; i < argc; ++i) {
-        if (strcmp(argv[i], sample->sample_id) == 0 || strcmp(argv[i], sample->sample_class) == 0) {
+        if (strcmp(argv[i], sample->sample_id) == 0) {
+            return 1;
+        }
+        if (sample->default_enabled && strcmp(argv[i], sample->sample_class) == 0) {
             return 1;
         }
     }

@@ -1,0 +1,1248 @@
+{
+  "candidate_ids": [
+    "direct_syscall_open_read",
+    "file_encryption_sim_non_destructive",
+    "loopback_network_client",
+    "mprotect_exec_variant",
+    "multi_level_process_chain",
+    "obfuscated_syscall_wrapper",
+    "proc_status_tracerpid_check",
+    "self_modifying_code_sim",
+    "timing_anti_analysis_loop"
+  ],
+  "checks": {
+    "all_candidates_default_disabled": true,
+    "candidate_count_9": true,
+    "compile_all_candidates": true,
+    "compile_result_count_matches": true,
+    "container_command_passed": true,
+    "container_json_present": true,
+    "executed_non_network_candidates": true,
+    "expected_syscalls_observed_for_executed": true,
+    "host_and_qemu_paths_recorded": true,
+    "loopback_network_candidate_skipped": true,
+    "no_35t_execution_claim": true,
+    "no_expanded_35t_coverage_claim": true,
+    "non_network_candidate_count_8": true,
+    "plan_schema": true,
+    "tools_available": true
+  },
+  "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+  "container_probe": {
+    "argv": [
+      "docker",
+      "compose",
+      "-f",
+      "docker-compose.toolchain.yml",
+      "run",
+      "--rm",
+      "linux-behavior",
+      "bash",
+      "-lc",
+      "<inline extension behavior smoke script>"
+    ],
+    "exit_code": 0,
+    "inline_script_sha256": "e49bed4c244920ba3c5eedce93cc9273127a3cf7790ceb08517c7e81446c1b27",
+    "stderr_tail": " Container rv-maltrace-linux-behavior-run-f158b07dbf83 Creating \n Container rv-maltrace-linux-behavior-run-f158b07dbf83 Created \n"
+  },
+  "current_condition": "non-network synthetic extension candidates compile and execute under host native, host strace, QEMU native, and QEMU strace smoke paths; loopback network candidate remains skipped unless explicitly selected; no 35T board run or expanded gate pass is claimed",
+  "extension_plan": "experiments/linux_behavior/malware_like/extension_plan.json",
+  "failures": [],
+  "interpretation": [
+    "this smoke test upgrades the extension evidence from compile/dry-run only to host and QEMU execution evidence for non-network candidates",
+    "QEMU strace guest syscall coverage is used only as pre-board behavior evidence",
+    "the default 13-sample 35T matrix remains unchanged because extension candidates are still default-disabled",
+    "expanded 35T coverage remains deferred until board execution and gate evidence are recorded"
+  ],
+  "network_optional_candidate_ids": [
+    "loopback_network_client"
+  ],
+  "non_claims": [
+    "no CVA6 board claim",
+    "no real malware detection claim",
+    "no mature detector claim",
+    "no classifier accuracy claim",
+    "no complete semantic reconstruction claim",
+    "no expanded 35T coverage claim",
+    "no 35T execution or gate pass claim"
+  ],
+  "non_network_candidate_ids": [
+    "direct_syscall_open_read",
+    "file_encryption_sim_non_destructive",
+    "mprotect_exec_variant",
+    "multi_level_process_chain",
+    "obfuscated_syscall_wrapper",
+    "proc_status_tracerpid_check",
+    "self_modifying_code_sim",
+    "timing_anti_analysis_loop"
+  ],
+  "remaining_work": [
+    "refresh the Artix-7 rootfs image with selected extension binaries if the current board image does not already contain them",
+    "run selected extension candidates on the Artix-7 35T board with the same trace-off/trace-on ordering",
+    "analyze extension traces and apply marker, attribution, DROP, capacity, and strong-evidence gates",
+    "keep loopback-network extension disabled unless an explicit loopback-only fixture is selected"
+  ],
+  "results_root": "results/experiments/35t/35t-extension-behavior-smoke-20260523",
+  "run_id": "35t-extension-behavior-smoke-20260523",
+  "samples": [
+    {
+      "artifacts": {
+        "host_binary": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/direct_syscall_open_read/build/direct_syscall_open_read.host",
+        "host_binary_sha256": "2032bd11f08cc3e9bdc25ce564774c75da2dd2c2813eb91651756a21e02dfa02",
+        "riscv_binary": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/direct_syscall_open_read/build/direct_syscall_open_read.riscv",
+        "riscv_binary_sha256": "508f94aa988bc1e426c9e42b4df37578ad9c6eb246cfffcf6e576ff7a029c715"
+      },
+      "compile_status": "PASS",
+      "default_enabled": false,
+      "execution_status": "PASS",
+      "executions": {
+        "host_native": {
+          "command": [
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/direct_syscall_open_read/build/direct_syscall_open_read.host"
+          ],
+          "exit_code": 0,
+          "stderr_bytes": 0,
+          "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/direct_syscall_open_read/behavior_smoke/host_native.stderr.txt",
+          "stderr_tail": "",
+          "stdout_bytes": 17,
+          "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/direct_syscall_open_read/behavior_smoke/host_native.stdout.txt",
+          "stdout_tail": "batch input zero\n",
+          "timed_out": false
+        },
+        "host_strace": {
+          "command": [
+            "strace",
+            "-f",
+            "-o",
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/direct_syscall_open_read/behavior_smoke/host_strace.log",
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/direct_syscall_open_read/build/direct_syscall_open_read.host"
+          ],
+          "exit_code": 0,
+          "stderr_bytes": 0,
+          "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/direct_syscall_open_read/behavior_smoke/host_strace.stderr.txt",
+          "stderr_tail": "",
+          "stdout_bytes": 17,
+          "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/direct_syscall_open_read/behavior_smoke/host_strace.stdout.txt",
+          "stdout_tail": "batch input zero\n",
+          "timed_out": false
+        },
+        "qemu_native": {
+          "command": [
+            "qemu-riscv64",
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/direct_syscall_open_read/build/direct_syscall_open_read.riscv"
+          ],
+          "exit_code": 0,
+          "stderr_bytes": 0,
+          "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/direct_syscall_open_read/behavior_smoke/qemu_native.stderr.txt",
+          "stderr_tail": "",
+          "stdout_bytes": 17,
+          "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/direct_syscall_open_read/behavior_smoke/qemu_native.stdout.txt",
+          "stdout_tail": "batch input zero\n",
+          "timed_out": false
+        },
+        "qemu_strace": {
+          "command": [
+            "qemu-riscv64",
+            "-strace",
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/direct_syscall_open_read/build/direct_syscall_open_read.riscv"
+          ],
+          "exit_code": 0,
+          "stderr_bytes": 766,
+          "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/direct_syscall_open_read/behavior_smoke/qemu_strace.stderr.txt",
+          "stderr_tail": "27 brk(NULL) = 0x0000000000089000\n27 brk(0x0000000000089af8) = 0x0000000000089af8\n27 set_tid_address(0x890d0) = 27\n27 set_robust_list(0x890e0,24) = -1 errno=38 (Function not implemented)\n27 prlimit64(0,RLIMIT_STACK,NULL,0x00002aaaab2abac8) = 0 ({rlim_cur=8388608,rlim_max=-1})\n27 readlinkat(AT_FDCWD,\"/proc/self/exe\",0x00002aaaab2aaa30,4096) = 154\n27 getrandom(0x88568,8,1) = 8\n27 brk(NULL) = 0x0000000000089af8\n27 brk(0x00000000000aaaf8) = 0x00000000000aaaf8\n27 brk(0x00000000000ab000) = 0x00000000000ab000\n27 mprotect(0x000000000007e000,16384,PROT_READ) = 0\n27 openat(AT_FDCWD,\"experiments/linux_behavior/malware_like/fixtures/batch_input_0.txt\",O_RDONLY|O_CLOEXEC) = 3\n27 read(3,0xab2ab968,64) = 17\n27 close(3) = 0\n27 write(1,0xab2ab968,17) = 17\n27 exit_group(0)\n",
+          "stdout_bytes": 17,
+          "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/direct_syscall_open_read/behavior_smoke/qemu_strace.stdout.txt",
+          "stdout_tail": "batch input zero\n",
+          "timed_out": false
+        }
+      },
+      "expected_syscalls": [
+        "openat",
+        "read",
+        "close",
+        "write"
+      ],
+      "host_compile": {
+        "command": [
+          "gcc",
+          "-std=gnu11",
+          "-Wall",
+          "-Wextra",
+          "-O2",
+          "experiments/linux_behavior/malware_like/extension_programs/direct_syscall_open_read.c",
+          "-o",
+          "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/direct_syscall_open_read/build/direct_syscall_open_read.host"
+        ],
+        "exit_code": 0,
+        "stderr_bytes": 0,
+        "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/direct_syscall_open_read/behavior_smoke/host_compile.stderr.txt",
+        "stderr_tail": "",
+        "stdout_bytes": 0,
+        "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/direct_syscall_open_read/behavior_smoke/host_compile.stdout.txt",
+        "stdout_tail": "",
+        "timed_out": false
+      },
+      "id": "direct_syscall_open_read",
+      "missing_expected_syscalls": [],
+      "network_required": false,
+      "observed_expected_syscalls": [
+        "close",
+        "openat",
+        "read",
+        "write"
+      ],
+      "source": "experiments/linux_behavior/malware_like/extension_programs/direct_syscall_open_read.c",
+      "target_compile": {
+        "command": [
+          "riscv64-linux-gnu-gcc",
+          "-std=gnu11",
+          "-Wall",
+          "-Wextra",
+          "-O2",
+          "-static",
+          "experiments/linux_behavior/malware_like/extension_programs/direct_syscall_open_read.c",
+          "-o",
+          "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/direct_syscall_open_read/build/direct_syscall_open_read.riscv"
+        ],
+        "exit_code": 0,
+        "stderr_bytes": 0,
+        "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/direct_syscall_open_read/behavior_smoke/target_compile.stderr.txt",
+        "stderr_tail": "",
+        "stdout_bytes": 0,
+        "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/direct_syscall_open_read/behavior_smoke/target_compile.stdout.txt",
+        "stdout_tail": "",
+        "timed_out": false
+      },
+      "unique_expected_syscalls": [
+        "close",
+        "openat",
+        "read",
+        "write"
+      ]
+    },
+    {
+      "artifacts": {
+        "host_binary": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/timing_anti_analysis_loop/build/timing_anti_analysis_loop.host",
+        "host_binary_sha256": "a2c92d8730f83549a9f4cbcfeb07d50d6d3440d0faaa1c2eecf28afd9675df17",
+        "riscv_binary": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/timing_anti_analysis_loop/build/timing_anti_analysis_loop.riscv",
+        "riscv_binary_sha256": "e3f9421e4dcc9bb0ae57a60460ff85e9fbe5f15fe248fa38de46ff1db2c02c29"
+      },
+      "compile_status": "PASS",
+      "default_enabled": false,
+      "execution_status": "PASS",
+      "executions": {
+        "host_native": {
+          "command": [
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/timing_anti_analysis_loop/build/timing_anti_analysis_loop.host"
+          ],
+          "exit_code": 0,
+          "stderr_bytes": 0,
+          "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/timing_anti_analysis_loop/behavior_smoke/host_native.stderr.txt",
+          "stderr_tail": "",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/timing_anti_analysis_loop/behavior_smoke/host_native.stdout.txt",
+          "stdout_tail": "",
+          "timed_out": false
+        },
+        "host_strace": {
+          "command": [
+            "strace",
+            "-f",
+            "-o",
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/timing_anti_analysis_loop/behavior_smoke/host_strace.log",
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/timing_anti_analysis_loop/build/timing_anti_analysis_loop.host"
+          ],
+          "exit_code": 0,
+          "stderr_bytes": 0,
+          "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/timing_anti_analysis_loop/behavior_smoke/host_strace.stderr.txt",
+          "stderr_tail": "",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/timing_anti_analysis_loop/behavior_smoke/host_strace.stdout.txt",
+          "stdout_tail": "",
+          "timed_out": false
+        },
+        "qemu_native": {
+          "command": [
+            "qemu-riscv64",
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/timing_anti_analysis_loop/build/timing_anti_analysis_loop.riscv"
+          ],
+          "exit_code": 0,
+          "stderr_bytes": 0,
+          "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/timing_anti_analysis_loop/behavior_smoke/qemu_native.stderr.txt",
+          "stderr_tail": "",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/timing_anti_analysis_loop/behavior_smoke/qemu_native.stdout.txt",
+          "stdout_tail": "",
+          "timed_out": false
+        },
+        "qemu_strace": {
+          "command": [
+            "qemu-riscv64",
+            "-strace",
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/timing_anti_analysis_loop/build/timing_anti_analysis_loop.riscv"
+          ],
+          "exit_code": 0,
+          "stderr_bytes": 1449,
+          "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/timing_anti_analysis_loop/behavior_smoke/qemu_strace.stderr.txt",
+          "stderr_tail": "46 brk(NULL) = 0x0000000000089000\n46 brk(0x0000000000089af8) = 0x0000000000089af8\n46 set_tid_address(0x890d0) = 46\n46 set_robust_list(0x890e0,24) = -1 errno=38 (Function not implemented)\n46 prlimit64(0,RLIMIT_STACK,NULL,0x00002aaaab2abab8) = 0 ({rlim_cur=8388608,rlim_max=-1})\n46 readlinkat(AT_FDCWD,\"/proc/self/exe\",0x00002aaaab2aaa20,4096) = 156\n46 getrandom(0x88568,8,1) = 8\n46 brk(NULL) = 0x0000000000089af8\n46 brk(0x00000000000aaaf8) = 0x00000000000aaaf8\n46 brk(0x00000000000ab000) = 0x00000000000ab000\n46 mprotect(0x000000000007e000,16384,PROT_READ) = 0\n46 clock_gettime(CLOCK_MONOTONIC,0x00002aaaab2ab958) = 0 ({tv_sec = 48689,tv_nsec = 177702607})\n46 clock_gettime(CLOCK_MONOTONIC,0x00002aaaab2ab958) = 0 ({tv_sec = 48689,tv_nsec = 177746738})\n46 clock_gettime(CLOCK_MONOTONIC,0x00002aaaab2ab958) = 0 ({tv_sec = 48689,tv_nsec = 177751157})\n46 clock_gettime(CLOCK_MONOTONIC,0x00002aaaab2ab958) = 0 ({tv_sec = 48689,tv_nsec = 177753989})\n46 clock_gettime(CLOCK_MONOTONIC,0x00002aaaab2ab958) = 0 ({tv_sec = 48689,tv_nsec = 177756863})\n46 clock_gettime(CLOCK_MONOTONIC,0x00002aaaab2ab958) = 0 ({tv_sec = 48689,tv_nsec = 177759104})\n46 clock_gettime(CLOCK_MONOTONIC,0x00002aaaab2ab958) = 0 ({tv_sec = 48689,tv_nsec = 177761407})\n46 clock_gettime(CLOCK_MONOTONIC,0x00002aaaab2ab958) = 0 ({tv_sec = 48689,tv_nsec = 177763959})\n46 openat(AT_FDCWD,\"/proc/uptime\",O_RDONLY|O_CLOEXEC) = 3\n46 read(3,0xab2ab968,32) = 19\n46 close(3) = 0\n46 exit_group(0)\n",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/timing_anti_analysis_loop/behavior_smoke/qemu_strace.stdout.txt",
+          "stdout_tail": "",
+          "timed_out": false
+        }
+      },
+      "expected_syscalls": [
+        "clock_gettime",
+        "openat",
+        "read",
+        "close"
+      ],
+      "host_compile": {
+        "command": [
+          "gcc",
+          "-std=gnu11",
+          "-Wall",
+          "-Wextra",
+          "-O2",
+          "experiments/linux_behavior/malware_like/extension_programs/timing_anti_analysis_loop.c",
+          "-o",
+          "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/timing_anti_analysis_loop/build/timing_anti_analysis_loop.host"
+        ],
+        "exit_code": 0,
+        "stderr_bytes": 0,
+        "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/timing_anti_analysis_loop/behavior_smoke/host_compile.stderr.txt",
+        "stderr_tail": "",
+        "stdout_bytes": 0,
+        "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/timing_anti_analysis_loop/behavior_smoke/host_compile.stdout.txt",
+        "stdout_tail": "",
+        "timed_out": false
+      },
+      "id": "timing_anti_analysis_loop",
+      "missing_expected_syscalls": [],
+      "network_required": false,
+      "observed_expected_syscalls": [
+        "clock_gettime",
+        "close",
+        "openat",
+        "read"
+      ],
+      "source": "experiments/linux_behavior/malware_like/extension_programs/timing_anti_analysis_loop.c",
+      "target_compile": {
+        "command": [
+          "riscv64-linux-gnu-gcc",
+          "-std=gnu11",
+          "-Wall",
+          "-Wextra",
+          "-O2",
+          "-static",
+          "experiments/linux_behavior/malware_like/extension_programs/timing_anti_analysis_loop.c",
+          "-o",
+          "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/timing_anti_analysis_loop/build/timing_anti_analysis_loop.riscv"
+        ],
+        "exit_code": 0,
+        "stderr_bytes": 0,
+        "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/timing_anti_analysis_loop/behavior_smoke/target_compile.stderr.txt",
+        "stderr_tail": "",
+        "stdout_bytes": 0,
+        "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/timing_anti_analysis_loop/behavior_smoke/target_compile.stdout.txt",
+        "stdout_tail": "",
+        "timed_out": false
+      },
+      "unique_expected_syscalls": [
+        "clock_gettime",
+        "close",
+        "openat",
+        "read"
+      ]
+    },
+    {
+      "artifacts": {
+        "host_binary": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/proc_status_tracerpid_check/build/proc_status_tracerpid_check.host",
+        "host_binary_sha256": "eed1b674b4f48b54381b1ec5a14f2bbe99d03d321e4d79b904239a283bc504a0",
+        "riscv_binary": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/proc_status_tracerpid_check/build/proc_status_tracerpid_check.riscv",
+        "riscv_binary_sha256": "5d5d079aa9bb6381ca75892e5ce19333102795696c4da6151f31c2a6761f0146"
+      },
+      "compile_status": "PASS",
+      "default_enabled": false,
+      "execution_status": "PASS",
+      "executions": {
+        "host_native": {
+          "command": [
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/proc_status_tracerpid_check/build/proc_status_tracerpid_check.host"
+          ],
+          "exit_code": 0,
+          "stderr_bytes": 0,
+          "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/proc_status_tracerpid_check/behavior_smoke/host_native.stderr.txt",
+          "stderr_tail": "",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/proc_status_tracerpid_check/behavior_smoke/host_native.stdout.txt",
+          "stdout_tail": "",
+          "timed_out": false
+        },
+        "host_strace": {
+          "command": [
+            "strace",
+            "-f",
+            "-o",
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/proc_status_tracerpid_check/behavior_smoke/host_strace.log",
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/proc_status_tracerpid_check/build/proc_status_tracerpid_check.host"
+          ],
+          "exit_code": 0,
+          "stderr_bytes": 0,
+          "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/proc_status_tracerpid_check/behavior_smoke/host_strace.stderr.txt",
+          "stderr_tail": "",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/proc_status_tracerpid_check/behavior_smoke/host_strace.stdout.txt",
+          "stdout_tail": "",
+          "timed_out": false
+        },
+        "qemu_native": {
+          "command": [
+            "qemu-riscv64",
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/proc_status_tracerpid_check/build/proc_status_tracerpid_check.riscv"
+          ],
+          "exit_code": 0,
+          "stderr_bytes": 0,
+          "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/proc_status_tracerpid_check/behavior_smoke/qemu_native.stderr.txt",
+          "stderr_tail": "",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/proc_status_tracerpid_check/behavior_smoke/qemu_native.stdout.txt",
+          "stdout_tail": "",
+          "timed_out": false
+        },
+        "qemu_strace": {
+          "command": [
+            "qemu-riscv64",
+            "-strace",
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/proc_status_tracerpid_check/build/proc_status_tracerpid_check.riscv"
+          ],
+          "exit_code": 0,
+          "stderr_bytes": 690,
+          "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/proc_status_tracerpid_check/behavior_smoke/qemu_strace.stderr.txt",
+          "stderr_tail": "65 brk(NULL) = 0x0000000000089000\n65 brk(0x0000000000089af8) = 0x0000000000089af8\n65 set_tid_address(0x890d0) = 65\n65 set_robust_list(0x890e0,24) = -1 errno=38 (Function not implemented)\n65 prlimit64(0,RLIMIT_STACK,NULL,0x00002aaaab2abab8) = 0 ({rlim_cur=8388608,rlim_max=-1})\n65 readlinkat(AT_FDCWD,\"/proc/self/exe\",0x00002aaaab2aaa20,4096) = 160\n65 getrandom(0x88568,8,1) = 8\n65 brk(NULL) = 0x0000000000089af8\n65 brk(0x00000000000aaaf8) = 0x00000000000aaaf8\n65 brk(0x00000000000ab000) = 0x00000000000ab000\n65 mprotect(0x000000000007e000,16384,PROT_READ) = 0\n65 openat(AT_FDCWD,\"/proc/self/status\",O_RDONLY|O_CLOEXEC) = 3\n65 read(3,0xab2ab588,1024) = 1024\n65 close(3) = 0\n65 exit_group(0)\n",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/proc_status_tracerpid_check/behavior_smoke/qemu_strace.stdout.txt",
+          "stdout_tail": "",
+          "timed_out": false
+        }
+      },
+      "expected_syscalls": [
+        "openat",
+        "read",
+        "close"
+      ],
+      "host_compile": {
+        "command": [
+          "gcc",
+          "-std=gnu11",
+          "-Wall",
+          "-Wextra",
+          "-O2",
+          "experiments/linux_behavior/malware_like/extension_programs/proc_status_tracerpid_check.c",
+          "-o",
+          "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/proc_status_tracerpid_check/build/proc_status_tracerpid_check.host"
+        ],
+        "exit_code": 0,
+        "stderr_bytes": 0,
+        "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/proc_status_tracerpid_check/behavior_smoke/host_compile.stderr.txt",
+        "stderr_tail": "",
+        "stdout_bytes": 0,
+        "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/proc_status_tracerpid_check/behavior_smoke/host_compile.stdout.txt",
+        "stdout_tail": "",
+        "timed_out": false
+      },
+      "id": "proc_status_tracerpid_check",
+      "missing_expected_syscalls": [],
+      "network_required": false,
+      "observed_expected_syscalls": [
+        "close",
+        "openat",
+        "read"
+      ],
+      "source": "experiments/linux_behavior/malware_like/extension_programs/proc_status_tracerpid_check.c",
+      "target_compile": {
+        "command": [
+          "riscv64-linux-gnu-gcc",
+          "-std=gnu11",
+          "-Wall",
+          "-Wextra",
+          "-O2",
+          "-static",
+          "experiments/linux_behavior/malware_like/extension_programs/proc_status_tracerpid_check.c",
+          "-o",
+          "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/proc_status_tracerpid_check/build/proc_status_tracerpid_check.riscv"
+        ],
+        "exit_code": 0,
+        "stderr_bytes": 0,
+        "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/proc_status_tracerpid_check/behavior_smoke/target_compile.stderr.txt",
+        "stderr_tail": "",
+        "stdout_bytes": 0,
+        "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/proc_status_tracerpid_check/behavior_smoke/target_compile.stdout.txt",
+        "stdout_tail": "",
+        "timed_out": false
+      },
+      "unique_expected_syscalls": [
+        "close",
+        "openat",
+        "read"
+      ]
+    },
+    {
+      "artifacts": {
+        "host_binary": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/obfuscated_syscall_wrapper/build/obfuscated_syscall_wrapper.host",
+        "host_binary_sha256": "4da25dd0ef19088e1a6cfffe338411476391bf266232b83a659a672538e47a8b",
+        "riscv_binary": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/obfuscated_syscall_wrapper/build/obfuscated_syscall_wrapper.riscv",
+        "riscv_binary_sha256": "8d7e3e42c687975572b0cea0f3ca31a7a9135d1d7728728b81c8ce13c4c3b10a"
+      },
+      "compile_status": "PASS",
+      "default_enabled": false,
+      "execution_status": "PASS",
+      "executions": {
+        "host_native": {
+          "command": [
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/obfuscated_syscall_wrapper/build/obfuscated_syscall_wrapper.host"
+          ],
+          "exit_code": 0,
+          "stderr_bytes": 0,
+          "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/obfuscated_syscall_wrapper/behavior_smoke/host_native.stderr.txt",
+          "stderr_tail": "",
+          "stdout_bytes": 17,
+          "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/obfuscated_syscall_wrapper/behavior_smoke/host_native.stdout.txt",
+          "stdout_tail": "batch input zero\n",
+          "timed_out": false
+        },
+        "host_strace": {
+          "command": [
+            "strace",
+            "-f",
+            "-o",
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/obfuscated_syscall_wrapper/behavior_smoke/host_strace.log",
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/obfuscated_syscall_wrapper/build/obfuscated_syscall_wrapper.host"
+          ],
+          "exit_code": 0,
+          "stderr_bytes": 0,
+          "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/obfuscated_syscall_wrapper/behavior_smoke/host_strace.stderr.txt",
+          "stderr_tail": "",
+          "stdout_bytes": 17,
+          "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/obfuscated_syscall_wrapper/behavior_smoke/host_strace.stdout.txt",
+          "stdout_tail": "batch input zero\n",
+          "timed_out": false
+        },
+        "qemu_native": {
+          "command": [
+            "qemu-riscv64",
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/obfuscated_syscall_wrapper/build/obfuscated_syscall_wrapper.riscv"
+          ],
+          "exit_code": 0,
+          "stderr_bytes": 0,
+          "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/obfuscated_syscall_wrapper/behavior_smoke/qemu_native.stderr.txt",
+          "stderr_tail": "",
+          "stdout_bytes": 17,
+          "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/obfuscated_syscall_wrapper/behavior_smoke/qemu_native.stdout.txt",
+          "stdout_tail": "batch input zero\n",
+          "timed_out": false
+        },
+        "qemu_strace": {
+          "command": [
+            "qemu-riscv64",
+            "-strace",
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/obfuscated_syscall_wrapper/build/obfuscated_syscall_wrapper.riscv"
+          ],
+          "exit_code": 0,
+          "stderr_bytes": 766,
+          "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/obfuscated_syscall_wrapper/behavior_smoke/qemu_strace.stderr.txt",
+          "stderr_tail": "84 brk(NULL) = 0x0000000000089000\n84 brk(0x0000000000089af8) = 0x0000000000089af8\n84 set_tid_address(0x890d0) = 84\n84 set_robust_list(0x890e0,24) = -1 errno=38 (Function not implemented)\n84 prlimit64(0,RLIMIT_STACK,NULL,0x00002aaaab2abab8) = 0 ({rlim_cur=8388608,rlim_max=-1})\n84 readlinkat(AT_FDCWD,\"/proc/self/exe\",0x00002aaaab2aaa20,4096) = 158\n84 getrandom(0x88568,8,1) = 8\n84 brk(NULL) = 0x0000000000089af8\n84 brk(0x00000000000aaaf8) = 0x00000000000aaaf8\n84 brk(0x00000000000ab000) = 0x00000000000ab000\n84 mprotect(0x000000000007e000,16384,PROT_READ) = 0\n84 openat(AT_FDCWD,\"experiments/linux_behavior/malware_like/fixtures/batch_input_0.txt\",O_RDONLY|O_CLOEXEC) = 3\n84 read(3,0xab2ab968,48) = 17\n84 close(3) = 0\n84 write(1,0xab2ab968,17) = 17\n84 exit_group(0)\n",
+          "stdout_bytes": 17,
+          "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/obfuscated_syscall_wrapper/behavior_smoke/qemu_strace.stdout.txt",
+          "stdout_tail": "batch input zero\n",
+          "timed_out": false
+        }
+      },
+      "expected_syscalls": [
+        "openat",
+        "read",
+        "close",
+        "write"
+      ],
+      "host_compile": {
+        "command": [
+          "gcc",
+          "-std=gnu11",
+          "-Wall",
+          "-Wextra",
+          "-O2",
+          "experiments/linux_behavior/malware_like/extension_programs/obfuscated_syscall_wrapper.c",
+          "-o",
+          "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/obfuscated_syscall_wrapper/build/obfuscated_syscall_wrapper.host"
+        ],
+        "exit_code": 0,
+        "stderr_bytes": 0,
+        "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/obfuscated_syscall_wrapper/behavior_smoke/host_compile.stderr.txt",
+        "stderr_tail": "",
+        "stdout_bytes": 0,
+        "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/obfuscated_syscall_wrapper/behavior_smoke/host_compile.stdout.txt",
+        "stdout_tail": "",
+        "timed_out": false
+      },
+      "id": "obfuscated_syscall_wrapper",
+      "missing_expected_syscalls": [],
+      "network_required": false,
+      "observed_expected_syscalls": [
+        "close",
+        "openat",
+        "read",
+        "write"
+      ],
+      "source": "experiments/linux_behavior/malware_like/extension_programs/obfuscated_syscall_wrapper.c",
+      "target_compile": {
+        "command": [
+          "riscv64-linux-gnu-gcc",
+          "-std=gnu11",
+          "-Wall",
+          "-Wextra",
+          "-O2",
+          "-static",
+          "experiments/linux_behavior/malware_like/extension_programs/obfuscated_syscall_wrapper.c",
+          "-o",
+          "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/obfuscated_syscall_wrapper/build/obfuscated_syscall_wrapper.riscv"
+        ],
+        "exit_code": 0,
+        "stderr_bytes": 0,
+        "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/obfuscated_syscall_wrapper/behavior_smoke/target_compile.stderr.txt",
+        "stderr_tail": "",
+        "stdout_bytes": 0,
+        "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/obfuscated_syscall_wrapper/behavior_smoke/target_compile.stdout.txt",
+        "stdout_tail": "",
+        "timed_out": false
+      },
+      "unique_expected_syscalls": [
+        "close",
+        "openat",
+        "read",
+        "write"
+      ]
+    },
+    {
+      "artifacts": {
+        "host_binary": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/self_modifying_code_sim/build/self_modifying_code_sim.host",
+        "host_binary_sha256": "f4baa7ba649acc8eb4380bf93ecd07332fb0e2aef2d14febd71e5a01d2930ebb",
+        "riscv_binary": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/self_modifying_code_sim/build/self_modifying_code_sim.riscv",
+        "riscv_binary_sha256": "bfc93b52c4e5fd83d53a4538772b7d422d6a428361a398a707c245bc057fa072"
+      },
+      "compile_status": "PASS",
+      "default_enabled": false,
+      "execution_status": "PASS",
+      "executions": {
+        "host_native": {
+          "command": [
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/self_modifying_code_sim/build/self_modifying_code_sim.host"
+          ],
+          "exit_code": 0,
+          "stderr_bytes": 0,
+          "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/self_modifying_code_sim/behavior_smoke/host_native.stderr.txt",
+          "stderr_tail": "",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/self_modifying_code_sim/behavior_smoke/host_native.stdout.txt",
+          "stdout_tail": "",
+          "timed_out": false
+        },
+        "host_strace": {
+          "command": [
+            "strace",
+            "-f",
+            "-o",
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/self_modifying_code_sim/behavior_smoke/host_strace.log",
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/self_modifying_code_sim/build/self_modifying_code_sim.host"
+          ],
+          "exit_code": 0,
+          "stderr_bytes": 0,
+          "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/self_modifying_code_sim/behavior_smoke/host_strace.stderr.txt",
+          "stderr_tail": "",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/self_modifying_code_sim/behavior_smoke/host_strace.stdout.txt",
+          "stdout_tail": "",
+          "timed_out": false
+        },
+        "qemu_native": {
+          "command": [
+            "qemu-riscv64",
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/self_modifying_code_sim/build/self_modifying_code_sim.riscv"
+          ],
+          "exit_code": 0,
+          "stderr_bytes": 0,
+          "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/self_modifying_code_sim/behavior_smoke/qemu_native.stderr.txt",
+          "stderr_tail": "",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/self_modifying_code_sim/behavior_smoke/qemu_native.stdout.txt",
+          "stdout_tail": "",
+          "timed_out": false
+        },
+        "qemu_strace": {
+          "command": [
+            "qemu-riscv64",
+            "-strace",
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/self_modifying_code_sim/build/self_modifying_code_sim.riscv"
+          ],
+          "exit_code": 0,
+          "stderr_bytes": 775,
+          "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/self_modifying_code_sim/behavior_smoke/qemu_strace.stderr.txt",
+          "stderr_tail": "103 brk(NULL) = 0x0000000000089000\n103 brk(0x0000000000089af8) = 0x0000000000089af8\n103 set_tid_address(0x890d0) = 103\n103 set_robust_list(0x890e0,24) = -1 errno=38 (Function not implemented)\n103 prlimit64(0,RLIMIT_STACK,NULL,0x00002aaaab2abac8) = 0 ({rlim_cur=8388608,rlim_max=-1})\n103 readlinkat(AT_FDCWD,\"/proc/self/exe\",0x00002aaaab2aaa30,4096) = 152\n103 getrandom(0x88568,8,1) = 8\n103 brk(NULL) = 0x0000000000089af8\n103 brk(0x00000000000aaaf8) = 0x00000000000aaaf8\n103 brk(0x00000000000ab000) = 0x00000000000ab000\n103 mprotect(0x000000000007e000,16384,PROT_READ) = 0\n103 mmap(NULL,4096,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS,-1,0) = 0x00002aaaab2ad000\n103 mprotect(0x00002aaaab2ad000,4096,PROT_READ) = 0\n103 munmap(0x00002aaaab2ad000,4096) = 0\n103 exit_group(0)\n",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/self_modifying_code_sim/behavior_smoke/qemu_strace.stdout.txt",
+          "stdout_tail": "",
+          "timed_out": false
+        }
+      },
+      "expected_syscalls": [
+        "mmap",
+        "mprotect",
+        "munmap"
+      ],
+      "host_compile": {
+        "command": [
+          "gcc",
+          "-std=gnu11",
+          "-Wall",
+          "-Wextra",
+          "-O2",
+          "experiments/linux_behavior/malware_like/extension_programs/self_modifying_code_sim.c",
+          "-o",
+          "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/self_modifying_code_sim/build/self_modifying_code_sim.host"
+        ],
+        "exit_code": 0,
+        "stderr_bytes": 0,
+        "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/self_modifying_code_sim/behavior_smoke/host_compile.stderr.txt",
+        "stderr_tail": "",
+        "stdout_bytes": 0,
+        "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/self_modifying_code_sim/behavior_smoke/host_compile.stdout.txt",
+        "stdout_tail": "",
+        "timed_out": false
+      },
+      "id": "self_modifying_code_sim",
+      "missing_expected_syscalls": [],
+      "network_required": false,
+      "observed_expected_syscalls": [
+        "mmap",
+        "mprotect",
+        "munmap"
+      ],
+      "source": "experiments/linux_behavior/malware_like/extension_programs/self_modifying_code_sim.c",
+      "target_compile": {
+        "command": [
+          "riscv64-linux-gnu-gcc",
+          "-std=gnu11",
+          "-Wall",
+          "-Wextra",
+          "-O2",
+          "-static",
+          "experiments/linux_behavior/malware_like/extension_programs/self_modifying_code_sim.c",
+          "-o",
+          "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/self_modifying_code_sim/build/self_modifying_code_sim.riscv"
+        ],
+        "exit_code": 0,
+        "stderr_bytes": 0,
+        "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/self_modifying_code_sim/behavior_smoke/target_compile.stderr.txt",
+        "stderr_tail": "",
+        "stdout_bytes": 0,
+        "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/self_modifying_code_sim/behavior_smoke/target_compile.stdout.txt",
+        "stdout_tail": "",
+        "timed_out": false
+      },
+      "unique_expected_syscalls": [
+        "mmap",
+        "mprotect",
+        "munmap"
+      ]
+    },
+    {
+      "artifacts": {
+        "host_binary": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/mprotect_exec_variant/build/mprotect_exec_variant.host",
+        "host_binary_sha256": "6e458d15820e5d6f0939a09480459b61eb17752d0e9cf362baf293338e15d1c4",
+        "riscv_binary": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/mprotect_exec_variant/build/mprotect_exec_variant.riscv",
+        "riscv_binary_sha256": "49e10354a6470864de2a316e9b29c17d2adae4d83add6d9a3ae06c9222e49f2d"
+      },
+      "compile_status": "PASS",
+      "default_enabled": false,
+      "execution_status": "PASS",
+      "executions": {
+        "host_native": {
+          "command": [
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/mprotect_exec_variant/build/mprotect_exec_variant.host"
+          ],
+          "exit_code": 0,
+          "stderr_bytes": 0,
+          "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/mprotect_exec_variant/behavior_smoke/host_native.stderr.txt",
+          "stderr_tail": "",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/mprotect_exec_variant/behavior_smoke/host_native.stdout.txt",
+          "stdout_tail": "",
+          "timed_out": false
+        },
+        "host_strace": {
+          "command": [
+            "strace",
+            "-f",
+            "-o",
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/mprotect_exec_variant/behavior_smoke/host_strace.log",
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/mprotect_exec_variant/build/mprotect_exec_variant.host"
+          ],
+          "exit_code": 0,
+          "stderr_bytes": 0,
+          "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/mprotect_exec_variant/behavior_smoke/host_strace.stderr.txt",
+          "stderr_tail": "",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/mprotect_exec_variant/behavior_smoke/host_strace.stdout.txt",
+          "stdout_tail": "",
+          "timed_out": false
+        },
+        "qemu_native": {
+          "command": [
+            "qemu-riscv64",
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/mprotect_exec_variant/build/mprotect_exec_variant.riscv"
+          ],
+          "exit_code": 0,
+          "stderr_bytes": 0,
+          "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/mprotect_exec_variant/behavior_smoke/qemu_native.stderr.txt",
+          "stderr_tail": "",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/mprotect_exec_variant/behavior_smoke/qemu_native.stdout.txt",
+          "stdout_tail": "",
+          "timed_out": false
+        },
+        "qemu_strace": {
+          "command": [
+            "qemu-riscv64",
+            "-strace",
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/mprotect_exec_variant/build/mprotect_exec_variant.riscv"
+          ],
+          "exit_code": 0,
+          "stderr_bytes": 962,
+          "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/mprotect_exec_variant/behavior_smoke/qemu_strace.stderr.txt",
+          "stderr_tail": "122 brk(NULL) = 0x0000000000089000\n122 brk(0x0000000000089af8) = 0x0000000000089af8\n122 set_tid_address(0x890d0) = 122\n122 set_robust_list(0x890e0,24) = -1 errno=38 (Function not implemented)\n122 prlimit64(0,RLIMIT_STACK,NULL,0x00002aaaab2abac8) = 0 ({rlim_cur=8388608,rlim_max=-1})\n122 readlinkat(AT_FDCWD,\"/proc/self/exe\",0x00002aaaab2aaa30,4096) = 148\n122 getrandom(0x88568,8,1) = 8\n122 brk(NULL) = 0x0000000000089af8\n122 brk(0x00000000000aaaf8) = 0x00000000000aaaf8\n122 brk(0x00000000000ab000) = 0x00000000000ab000\n122 mprotect(0x000000000007e000,16384,PROT_READ) = 0\n122 mmap(NULL,4096,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS,-1,0) = 0x00002aaaab2ad000\n122 mprotect(0x00002aaaab2ad000,4096,PROT_READ) = 0\n122 mprotect(0x00002aaaab2ad000,4096,PROT_EXEC|PROT_READ) = 0\n122 mprotect(0x00002aaaab2ad000,4096,PROT_READ|PROT_WRITE) = 0\n122 mprotect(0x00002aaaab2ad000,4096,PROT_EXEC|PROT_READ) = 0\n122 munmap(0x00002aaaab2ad000,4096) = 0\n122 exit_group(0)\n",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/mprotect_exec_variant/behavior_smoke/qemu_strace.stdout.txt",
+          "stdout_tail": "",
+          "timed_out": false
+        }
+      },
+      "expected_syscalls": [
+        "mmap",
+        "mprotect",
+        "munmap"
+      ],
+      "host_compile": {
+        "command": [
+          "gcc",
+          "-std=gnu11",
+          "-Wall",
+          "-Wextra",
+          "-O2",
+          "experiments/linux_behavior/malware_like/extension_programs/mprotect_exec_variant.c",
+          "-o",
+          "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/mprotect_exec_variant/build/mprotect_exec_variant.host"
+        ],
+        "exit_code": 0,
+        "stderr_bytes": 0,
+        "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/mprotect_exec_variant/behavior_smoke/host_compile.stderr.txt",
+        "stderr_tail": "",
+        "stdout_bytes": 0,
+        "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/mprotect_exec_variant/behavior_smoke/host_compile.stdout.txt",
+        "stdout_tail": "",
+        "timed_out": false
+      },
+      "id": "mprotect_exec_variant",
+      "missing_expected_syscalls": [],
+      "network_required": false,
+      "observed_expected_syscalls": [
+        "mmap",
+        "mprotect",
+        "munmap"
+      ],
+      "source": "experiments/linux_behavior/malware_like/extension_programs/mprotect_exec_variant.c",
+      "target_compile": {
+        "command": [
+          "riscv64-linux-gnu-gcc",
+          "-std=gnu11",
+          "-Wall",
+          "-Wextra",
+          "-O2",
+          "-static",
+          "experiments/linux_behavior/malware_like/extension_programs/mprotect_exec_variant.c",
+          "-o",
+          "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/mprotect_exec_variant/build/mprotect_exec_variant.riscv"
+        ],
+        "exit_code": 0,
+        "stderr_bytes": 0,
+        "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/mprotect_exec_variant/behavior_smoke/target_compile.stderr.txt",
+        "stderr_tail": "",
+        "stdout_bytes": 0,
+        "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/mprotect_exec_variant/behavior_smoke/target_compile.stdout.txt",
+        "stdout_tail": "",
+        "timed_out": false
+      },
+      "unique_expected_syscalls": [
+        "mmap",
+        "mprotect",
+        "munmap"
+      ]
+    },
+    {
+      "artifacts": {
+        "host_binary": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/multi_level_process_chain/build/multi_level_process_chain.host",
+        "host_binary_sha256": "8c43bf80afd9f82949c4034a245a3ab3389425bd1a16d277834b5266f46c8ca7",
+        "riscv_binary": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/multi_level_process_chain/build/multi_level_process_chain.riscv",
+        "riscv_binary_sha256": "20945ed099f8750ec60a93d9c86d7e687d5d4ba10cbe31ec592bb67c23a58a95"
+      },
+      "compile_status": "PASS",
+      "default_enabled": false,
+      "execution_status": "PASS",
+      "executions": {
+        "host_native": {
+          "command": [
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/multi_level_process_chain/build/multi_level_process_chain.host"
+          ],
+          "exit_code": 0,
+          "stderr_bytes": 0,
+          "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/multi_level_process_chain/behavior_smoke/host_native.stderr.txt",
+          "stderr_tail": "",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/multi_level_process_chain/behavior_smoke/host_native.stdout.txt",
+          "stdout_tail": "",
+          "timed_out": false
+        },
+        "host_strace": {
+          "command": [
+            "strace",
+            "-f",
+            "-o",
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/multi_level_process_chain/behavior_smoke/host_strace.log",
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/multi_level_process_chain/build/multi_level_process_chain.host"
+          ],
+          "exit_code": 0,
+          "stderr_bytes": 0,
+          "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/multi_level_process_chain/behavior_smoke/host_strace.stderr.txt",
+          "stderr_tail": "",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/multi_level_process_chain/behavior_smoke/host_strace.stdout.txt",
+          "stdout_tail": "",
+          "timed_out": false
+        },
+        "qemu_native": {
+          "command": [
+            "qemu-riscv64",
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/multi_level_process_chain/build/multi_level_process_chain.riscv"
+          ],
+          "exit_code": 0,
+          "stderr_bytes": 0,
+          "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/multi_level_process_chain/behavior_smoke/qemu_native.stderr.txt",
+          "stderr_tail": "",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/multi_level_process_chain/behavior_smoke/qemu_native.stdout.txt",
+          "stdout_tail": "",
+          "timed_out": false
+        },
+        "qemu_strace": {
+          "command": [
+            "qemu-riscv64",
+            "-strace",
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/multi_level_process_chain/build/multi_level_process_chain.riscv"
+          ],
+          "exit_code": 0,
+          "stderr_bytes": 1028,
+          "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/multi_level_process_chain/behavior_smoke/qemu_strace.stderr.txt",
+          "stderr_tail": "149 brk(NULL) = 0x0000000000089000\n149 brk(0x0000000000089af8) = 0x0000000000089af8\n149 set_tid_address(0x890d0) = 149\n149 set_robust_list(0x890e0,24) = -1 errno=38 (Function not implemented)\n149 prlimit64(0,RLIMIT_STACK,NULL,0x00002aaaab2abab8) = 0 ({rlim_cur=8388608,rlim_max=-1})\n149 readlinkat(AT_FDCWD,\"/proc/self/exe\",0x00002aaaab2aaa20,4096) = 156\n149 getrandom(0x88568,8,1) = 8\n149 brk(NULL) = 0x0000000000089af8\n149 brk(0x00000000000aaaf8) = 0x00000000000aaaf8\n149 brk(0x00000000000ab000) = 0x00000000000ab000\n149 mprotect(0x000000000007e000,16384,PROT_READ) = 0\n149 clone(0x11,child_stack=0x0000000000000000,parent_tidptr=0x0000000000000000,tls=0x0000000000000000,child_tidptr=0x0000000000000000) = 151\n = 149 waitid(0x1,151,0x2aaaab2ab8e8,0x4)0\n151 clone(0x11,child_stack=0x0000000000000000,parent_tidptr=0x0000000000000000,tls=0x0000000000000000,child_tidptr=0x0000000000000000) = 153\n151 waitid(0x1,153,0x2aaaab2ab8e8,0x4) = 0\n153 execve(\"/bin/true\",{\"/bin/true\",NULL}) = 0\n151 exit_group(0)\n = 0\n149 exit_group(0)\n",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/multi_level_process_chain/behavior_smoke/qemu_strace.stdout.txt",
+          "stdout_tail": "",
+          "timed_out": false
+        }
+      },
+      "expected_syscalls": [
+        "clone",
+        "execve",
+        "waitid"
+      ],
+      "host_compile": {
+        "command": [
+          "gcc",
+          "-std=gnu11",
+          "-Wall",
+          "-Wextra",
+          "-O2",
+          "experiments/linux_behavior/malware_like/extension_programs/multi_level_process_chain.c",
+          "-o",
+          "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/multi_level_process_chain/build/multi_level_process_chain.host"
+        ],
+        "exit_code": 0,
+        "stderr_bytes": 0,
+        "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/multi_level_process_chain/behavior_smoke/host_compile.stderr.txt",
+        "stderr_tail": "",
+        "stdout_bytes": 0,
+        "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/multi_level_process_chain/behavior_smoke/host_compile.stdout.txt",
+        "stdout_tail": "",
+        "timed_out": false
+      },
+      "id": "multi_level_process_chain",
+      "missing_expected_syscalls": [],
+      "network_required": false,
+      "observed_expected_syscalls": [
+        "clone",
+        "execve",
+        "waitid"
+      ],
+      "source": "experiments/linux_behavior/malware_like/extension_programs/multi_level_process_chain.c",
+      "target_compile": {
+        "command": [
+          "riscv64-linux-gnu-gcc",
+          "-std=gnu11",
+          "-Wall",
+          "-Wextra",
+          "-O2",
+          "-static",
+          "experiments/linux_behavior/malware_like/extension_programs/multi_level_process_chain.c",
+          "-o",
+          "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/multi_level_process_chain/build/multi_level_process_chain.riscv"
+        ],
+        "exit_code": 0,
+        "stderr_bytes": 0,
+        "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/multi_level_process_chain/behavior_smoke/target_compile.stderr.txt",
+        "stderr_tail": "",
+        "stdout_bytes": 0,
+        "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/multi_level_process_chain/behavior_smoke/target_compile.stdout.txt",
+        "stdout_tail": "",
+        "timed_out": false
+      },
+      "unique_expected_syscalls": [
+        "clone",
+        "execve",
+        "waitid"
+      ]
+    },
+    {
+      "artifacts": {
+        "host_binary": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/loopback_network_client/build/loopback_network_client.host",
+        "host_binary_sha256": "f0f7fef05559edd88a69baef7326c6b12004bd3d3c5bed9abe51b4064b4a5b46",
+        "riscv_binary": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/loopback_network_client/build/loopback_network_client.riscv",
+        "riscv_binary_sha256": "17ce92c32f368f75daded33aea79faa4416b934f1715a279158a3525591bb0df"
+      },
+      "compile_status": "PASS",
+      "default_enabled": false,
+      "execution_status": "SKIPPED_NETWORK_OPTIONAL",
+      "executions": {},
+      "expected_syscalls": [
+        "socket",
+        "connect",
+        "close"
+      ],
+      "host_compile": {
+        "command": [
+          "gcc",
+          "-std=gnu11",
+          "-Wall",
+          "-Wextra",
+          "-O2",
+          "experiments/linux_behavior/malware_like/extension_programs/loopback_network_client.c",
+          "-o",
+          "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/loopback_network_client/build/loopback_network_client.host"
+        ],
+        "exit_code": 0,
+        "stderr_bytes": 0,
+        "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/loopback_network_client/behavior_smoke/host_compile.stderr.txt",
+        "stderr_tail": "",
+        "stdout_bytes": 0,
+        "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/loopback_network_client/behavior_smoke/host_compile.stdout.txt",
+        "stdout_tail": "",
+        "timed_out": false
+      },
+      "id": "loopback_network_client",
+      "missing_expected_syscalls": [
+        "close",
+        "connect",
+        "socket"
+      ],
+      "network_required": true,
+      "observed_expected_syscalls": [],
+      "source": "experiments/linux_behavior/malware_like/extension_programs/loopback_network_client.c",
+      "target_compile": {
+        "command": [
+          "riscv64-linux-gnu-gcc",
+          "-std=gnu11",
+          "-Wall",
+          "-Wextra",
+          "-O2",
+          "-static",
+          "experiments/linux_behavior/malware_like/extension_programs/loopback_network_client.c",
+          "-o",
+          "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/loopback_network_client/build/loopback_network_client.riscv"
+        ],
+        "exit_code": 0,
+        "stderr_bytes": 0,
+        "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/loopback_network_client/behavior_smoke/target_compile.stderr.txt",
+        "stderr_tail": "",
+        "stdout_bytes": 0,
+        "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/loopback_network_client/behavior_smoke/target_compile.stdout.txt",
+        "stdout_tail": "",
+        "timed_out": false
+      },
+      "unique_expected_syscalls": [
+        "close",
+        "connect",
+        "socket"
+      ]
+    },
+    {
+      "artifacts": {
+        "host_binary": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/file_encryption_sim_non_destructive/build/file_encryption_sim_non_destructive.host",
+        "host_binary_sha256": "334c504d88e2658bc7bd3f7ad18ad3f6953eac7cc9cc9f8d8bd6111c7162a147",
+        "riscv_binary": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/file_encryption_sim_non_destructive/build/file_encryption_sim_non_destructive.riscv",
+        "riscv_binary_sha256": "f7fee07ef99129863bd7d8fc1dba78c5ed7ed734ca62ec3061fa51d98b70e6b5"
+      },
+      "compile_status": "PASS",
+      "default_enabled": false,
+      "execution_status": "PASS",
+      "executions": {
+        "host_native": {
+          "command": [
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/file_encryption_sim_non_destructive/build/file_encryption_sim_non_destructive.host"
+          ],
+          "exit_code": 0,
+          "stderr_bytes": 0,
+          "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/file_encryption_sim_non_destructive/behavior_smoke/host_native.stderr.txt",
+          "stderr_tail": "",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/file_encryption_sim_non_destructive/behavior_smoke/host_native.stdout.txt",
+          "stdout_tail": "",
+          "timed_out": false
+        },
+        "host_strace": {
+          "command": [
+            "strace",
+            "-f",
+            "-o",
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/file_encryption_sim_non_destructive/behavior_smoke/host_strace.log",
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/file_encryption_sim_non_destructive/build/file_encryption_sim_non_destructive.host"
+          ],
+          "exit_code": 0,
+          "stderr_bytes": 0,
+          "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/file_encryption_sim_non_destructive/behavior_smoke/host_strace.stderr.txt",
+          "stderr_tail": "",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/file_encryption_sim_non_destructive/behavior_smoke/host_strace.stdout.txt",
+          "stdout_tail": "",
+          "timed_out": false
+        },
+        "qemu_native": {
+          "command": [
+            "qemu-riscv64",
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/file_encryption_sim_non_destructive/build/file_encryption_sim_non_destructive.riscv"
+          ],
+          "exit_code": 0,
+          "stderr_bytes": 0,
+          "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/file_encryption_sim_non_destructive/behavior_smoke/qemu_native.stderr.txt",
+          "stderr_tail": "",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/file_encryption_sim_non_destructive/behavior_smoke/qemu_native.stdout.txt",
+          "stdout_tail": "",
+          "timed_out": false
+        },
+        "qemu_strace": {
+          "command": [
+            "qemu-riscv64",
+            "-strace",
+            "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/file_encryption_sim_non_destructive/build/file_encryption_sim_non_destructive.riscv"
+          ],
+          "exit_code": 0,
+          "stderr_bytes": 899,
+          "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/file_encryption_sim_non_destructive/behavior_smoke/qemu_strace.stderr.txt",
+          "stderr_tail": "182 brk(NULL) = 0x0000000000089000\n182 brk(0x0000000000089af8) = 0x0000000000089af8\n182 set_tid_address(0x890d0) = 182\n182 set_robust_list(0x890e0,24) = -1 errno=38 (Function not implemented)\n182 prlimit64(0,RLIMIT_STACK,NULL,0x00002aaaab2aba98) = 0 ({rlim_cur=8388608,rlim_max=-1})\n182 readlinkat(AT_FDCWD,\"/proc/self/exe\",0x00002aaaab2aaa00,4096) = 176\n182 getrandom(0x88568,8,1) = 8\n182 brk(NULL) = 0x0000000000089af8\n182 brk(0x00000000000aaaf8) = 0x00000000000aaaf8\n182 brk(0x00000000000ab000) = 0x00000000000ab000\n182 mprotect(0x000000000007e000,16384,PROT_READ) = 0\n182 openat(AT_FDCWD,\"experiments/linux_behavior/malware_like/fixtures/batch_input_1.txt\",O_RDONLY|O_CLOEXEC) = 3\n182 read(3,0xab2ab8e8,128) = 16\n182 close(3) = 0\n182 openat(AT_FDCWD,\"/tmp/rvmt_extension_cipher.out\",O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC,0600) = 3\n182 write(3,0xab2ab8e8,16) = 16\n182 close(3) = 0\n182 exit_group(0)\n",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/file_encryption_sim_non_destructive/behavior_smoke/qemu_strace.stdout.txt",
+          "stdout_tail": "",
+          "timed_out": false
+        }
+      },
+      "expected_syscalls": [
+        "openat",
+        "read",
+        "close",
+        "openat",
+        "write",
+        "close"
+      ],
+      "host_compile": {
+        "command": [
+          "gcc",
+          "-std=gnu11",
+          "-Wall",
+          "-Wextra",
+          "-O2",
+          "experiments/linux_behavior/malware_like/extension_programs/file_encryption_sim_non_destructive.c",
+          "-o",
+          "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/file_encryption_sim_non_destructive/build/file_encryption_sim_non_destructive.host"
+        ],
+        "exit_code": 0,
+        "stderr_bytes": 0,
+        "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/file_encryption_sim_non_destructive/behavior_smoke/host_compile.stderr.txt",
+        "stderr_tail": "",
+        "stdout_bytes": 0,
+        "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/file_encryption_sim_non_destructive/behavior_smoke/host_compile.stdout.txt",
+        "stdout_tail": "",
+        "timed_out": false
+      },
+      "id": "file_encryption_sim_non_destructive",
+      "missing_expected_syscalls": [],
+      "network_required": false,
+      "observed_expected_syscalls": [
+        "close",
+        "openat",
+        "read",
+        "write"
+      ],
+      "source": "experiments/linux_behavior/malware_like/extension_programs/file_encryption_sim_non_destructive.c",
+      "target_compile": {
+        "command": [
+          "riscv64-linux-gnu-gcc",
+          "-std=gnu11",
+          "-Wall",
+          "-Wextra",
+          "-O2",
+          "-static",
+          "experiments/linux_behavior/malware_like/extension_programs/file_encryption_sim_non_destructive.c",
+          "-o",
+          "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/file_encryption_sim_non_destructive/build/file_encryption_sim_non_destructive.riscv"
+        ],
+        "exit_code": 0,
+        "stderr_bytes": 0,
+        "stderr_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/file_encryption_sim_non_destructive/behavior_smoke/target_compile.stderr.txt",
+        "stderr_tail": "",
+        "stdout_bytes": 0,
+        "stdout_path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/samples/file_encryption_sim_non_destructive/behavior_smoke/target_compile.stdout.txt",
+        "stdout_tail": "",
+        "timed_out": false
+      },
+      "unique_expected_syscalls": [
+        "close",
+        "openat",
+        "read",
+        "write"
+      ]
+    }
+  ],
+  "schema": "rvmt.35t.synthetic_extension_behavior_smoke.v1",
+  "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "source_run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "status": "HOST_QEMU_BEHAVIOR_SMOKE_PASS_35T_GATING_DEFERRED",
+  "summary_counts": {
+    "candidate_count": 9,
+    "compile_pass_count": 9,
+    "executed_candidate_count": 8,
+    "execution_pass_count": 8,
+    "network_skipped_count": 1
+  },
+  "tools": {
+    "gcc": "/usr/bin/gcc",
+    "qemu-riscv64": "/usr/bin/qemu-riscv64",
+    "riscv64-linux-gnu-gcc": "/usr/bin/riscv64-linux-gnu-gcc",
+    "strace": "/usr/bin/strace"
+  }
+}

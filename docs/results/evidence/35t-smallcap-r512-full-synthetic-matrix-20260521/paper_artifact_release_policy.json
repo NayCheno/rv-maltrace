@@ -1,0 +1,299 @@
+{
+  "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+  "classes": [
+    {
+      "artifact_id": "run_config",
+      "class_digest": "cc18a4fa9b2af045a33be03a136654510790b05f7cb9d8559b402b3fff72e644",
+      "count": 1,
+      "description": "experiment run configuration",
+      "public_policy": "public",
+      "release_action": "may be included directly in a public lightweight artifact package",
+      "release_mode": "include_or_reference",
+      "status": "READY_PUBLIC",
+      "total_bytes": 2110
+    },
+    {
+      "artifact_id": "raw_uart_log",
+      "class_digest": "754990ce6b39095fe2e402681885fd7b41a679bbc2130fef2824d2dc445fb00f",
+      "count": 2,
+      "description": "raw board UART capture logs",
+      "public_policy": "local_only_raw_or_sanitized_excerpt",
+      "release_action": "keep local by default; publish only after sanitization or explicit controlled-release approval",
+      "release_mode": "local_only_or_sanitized_excerpt",
+      "status": "READY_LOCAL_ONLY",
+      "total_bytes": 2113924
+    },
+    {
+      "artifact_id": "decoded_trace_jsonl",
+      "class_digest": "475a8150dad18919cd693c2aadd2be32cb6b0be9386b972cfcf75a94477b9011",
+      "count": 65,
+      "description": "decoded per-repetition trace JSONL",
+      "public_policy": "local_only_hash_or_summary",
+      "release_action": "keep local by default; publish only after sanitization or explicit controlled-release approval",
+      "release_mode": "local_only_or_sanitized_excerpt",
+      "status": "READY_LOCAL_ONLY",
+      "total_bytes": 2624240
+    },
+    {
+      "artifact_id": "runtime_process_map",
+      "class_digest": "de1d15c4e51ce8d19a7ad2cd1629767bb3bff9780777a7d5a0bd9094777fd407",
+      "count": 65,
+      "description": "runtime process attribution maps",
+      "public_policy": "public_or_summary",
+      "release_action": "publish summaries, class digests, representative hashes, and paths; do not require raw payload release",
+      "release_mode": "summary_or_hash_only",
+      "status": "READY_PUBLIC_SUMMARY_OR_HASH",
+      "total_bytes": 753951
+    },
+    {
+      "artifact_id": "code_map",
+      "class_digest": "8399307452128192b5e5131c7ea82ffc338e62d57048600a80f8737c8dc7f1c6",
+      "count": 13,
+      "description": "ELF code-map artifacts",
+      "public_policy": "public_or_summary",
+      "release_action": "publish summaries, class digests, representative hashes, and paths; do not require raw payload release",
+      "release_mode": "summary_or_hash_only",
+      "status": "READY_PUBLIC_SUMMARY_OR_HASH",
+      "total_bytes": 4711845
+    },
+    {
+      "artifact_id": "trace_code_map_summary",
+      "class_digest": "d85407b15bb29b083f7b1b92660bf33b00e4d8ec256dd9fbd96be2dad4e7ac7e",
+      "count": 65,
+      "description": "trace-to-code join summaries",
+      "public_policy": "public_or_summary",
+      "release_action": "publish summaries, class digests, representative hashes, and paths; do not require raw payload release",
+      "release_mode": "summary_or_hash_only",
+      "status": "READY_PUBLIC_SUMMARY_OR_HASH",
+      "total_bytes": 134581
+    },
+    {
+      "artifact_id": "semantic_events",
+      "class_digest": "43ab06a4d8c9e5f109b0a4a7ecda2be536f6ba7d65dfb256adbfbd6eb2d5d5cc",
+      "count": 65,
+      "description": "recovered semantic events",
+      "public_policy": "public_or_summary",
+      "release_action": "publish summaries, class digests, representative hashes, and paths; do not require raw payload release",
+      "release_mode": "summary_or_hash_only",
+      "status": "READY_PUBLIC_SUMMARY_OR_HASH",
+      "total_bytes": 11354901
+    },
+    {
+      "artifact_id": "behavior_graph",
+      "class_digest": "0b330085d7769b1603d1c286729ffb133f40ae233ebdc39f26474ca5cc69dfd3",
+      "count": 65,
+      "description": "behavior graph artifacts",
+      "public_policy": "public_or_summary",
+      "release_action": "publish summaries, class digests, representative hashes, and paths; do not require raw payload release",
+      "release_mode": "summary_or_hash_only",
+      "status": "READY_PUBLIC_SUMMARY_OR_HASH",
+      "total_bytes": 13741455
+    },
+    {
+      "artifact_id": "behavior_audit",
+      "class_digest": "8ba8b2ae2a18986f02b4cbfbb0724ec10cceea4e025417c2d86bef3b1a413160",
+      "count": 65,
+      "description": "rule-based behavior audit artifacts",
+      "public_policy": "public_or_summary",
+      "release_action": "publish summaries, class digests, representative hashes, and paths; do not require raw payload release",
+      "release_mode": "summary_or_hash_only",
+      "status": "READY_PUBLIC_SUMMARY_OR_HASH",
+      "total_bytes": 779853
+    },
+    {
+      "artifact_id": "alignment",
+      "class_digest": "f8891038a5aeb1f999cd6ee14ca82e7ff2ada76dd26d79862523c7a04335aef8",
+      "count": 65,
+      "description": "trace-to-groundtruth alignment artifacts",
+      "public_policy": "public_or_summary",
+      "release_action": "publish summaries, class digests, representative hashes, and paths; do not require raw payload release",
+      "release_mode": "summary_or_hash_only",
+      "status": "READY_PUBLIC_SUMMARY_OR_HASH",
+      "total_bytes": 114157
+    },
+    {
+      "artifact_id": "metrics",
+      "class_digest": "d01b12e3cdb8dbaecd7403795ed2f96d24e8466144552af9544f393e05181f40",
+      "count": 2,
+      "description": "aggregate metrics and tables",
+      "public_policy": "public",
+      "release_action": "may be included directly in a public lightweight artifact package",
+      "release_mode": "include_or_reference",
+      "status": "READY_PUBLIC",
+      "total_bytes": 50343
+    },
+    {
+      "artifact_id": "resource_timing_reports",
+      "class_digest": "cc0e196e81e06941215ee5485fd6bf3822a944e0b9b815bebdf74945deffe923",
+      "count": 4,
+      "description": "runtime overhead, bandwidth, FPGA resource, and timing reports",
+      "public_policy": "public_summary",
+      "release_action": "publish summaries, class digests, representative hashes, and paths; do not require raw payload release",
+      "release_mode": "summary_or_hash_only",
+      "status": "READY_PUBLIC_SUMMARY_OR_HASH",
+      "total_bytes": 10731
+    },
+    {
+      "artifact_id": "elf_hashes",
+      "class_digest": "ed11b335066272d61d721168242954b43b61566a1c1d5bffe708921b39a7413b",
+      "count": 39,
+      "description": "source, host ELF, and RISC-V ELF SHA-256 records",
+      "public_policy": "public_hashes",
+      "release_action": "publish summaries, class digests, representative hashes, and paths; do not require raw payload release",
+      "release_mode": "summary_or_hash_only",
+      "status": "READY_PUBLIC_SUMMARY_OR_HASH",
+      "total_bytes": 6864
+    },
+    {
+      "artifact_id": "bitstream_metadata",
+      "class_digest": "00fe38f72d3ac55bd5ffbcc265b9ed0701cab5fe9e542aac6f5772b87712ec6c",
+      "count": 4,
+      "description": "bitstream/resource metadata without committing generated bitstreams",
+      "public_policy": "public_summary_no_bitstream_binary",
+      "release_action": "publish summaries, class digests, representative hashes, and paths; do not require raw payload release",
+      "release_mode": "summary_or_hash_only",
+      "status": "READY_PUBLIC_SUMMARY_OR_HASH",
+      "total_bytes": 12559
+    },
+    {
+      "artifact_id": "scripts_and_commands",
+      "class_digest": "6240f872558ab3e11d659a139ffd4fc6668b349a279fd13cc5a15025664cea77",
+      "count": 40,
+      "description": "scripts, workflow docs, and command provenance",
+      "public_policy": "public",
+      "release_action": "may be included directly in a public lightweight artifact package",
+      "release_mode": "include_or_reference",
+      "status": "READY_PUBLIC",
+      "total_bytes": 1152582
+    },
+    {
+      "artifact_id": "synthetic_extension_sources",
+      "class_digest": "8189c7293ff85cd9876e7de4a7c194f3ca765b0bab9a171bffd3696b839f35c5",
+      "count": 10,
+      "description": "source-implemented synthetic malware-like extension candidates that remain outside the default 35T claim until gated",
+      "public_policy": "public",
+      "release_action": "may be included directly in a public lightweight artifact package",
+      "release_mode": "include_or_reference",
+      "status": "READY_PUBLIC",
+      "total_bytes": 14628
+    },
+    {
+      "artifact_id": "synthetic_extension_behavior_smoke_evidence",
+      "class_digest": "330db760ac68f225f36a353e540033fc767b5785d433ac66f484cfe0da5a3e08",
+      "count": 3,
+      "description": "host and QEMU behavior smoke evidence for non-network synthetic extension candidates",
+      "public_policy": "public_summary",
+      "release_action": "publish summaries, class digests, representative hashes, and paths; do not require raw payload release",
+      "release_mode": "summary_or_hash_only",
+      "status": "READY_PUBLIC_SUMMARY_OR_HASH",
+      "total_bytes": 129273
+    },
+    {
+      "artifact_id": "qemu_plugin_baseline_evidence",
+      "class_digest": "6657476271138fb2763c59e817b51f0c9bd98eb14816cb61270a265b8240e7e6",
+      "count": 3,
+      "description": "QEMU user-mode TCG-plugin syscall-count baseline summary and local raw output for all 13 samples",
+      "public_policy": "public_summary",
+      "release_action": "publish summaries, class digests, representative hashes, and paths; do not require raw payload release",
+      "release_mode": "summary_or_hash_only",
+      "status": "READY_PUBLIC_SUMMARY_OR_HASH",
+      "total_bytes": 139539
+    },
+    {
+      "artifact_id": "raw_artifact_sanitization_evidence",
+      "class_digest": "05555b0e269a3a7221c4273cead08fbfd13ce8501ec626ad48473a8fbb8a4aac",
+      "count": 2,
+      "description": "raw UART and decoded trace hash inventory with sanitized public excerpts",
+      "public_policy": "public",
+      "release_action": "may be included directly in a public lightweight artifact package",
+      "release_mode": "include_or_reference",
+      "status": "READY_PUBLIC",
+      "total_bytes": 15171
+    },
+    {
+      "artifact_id": "pointer_snapshot_design_review_evidence",
+      "class_digest": "d9b4fc5f952768d67df02010b7c4a96ff4a49c26cc9b6323e21268f6e430e55e",
+      "count": 4,
+      "description": "bounded pointer snapshot design review and default-disabled safety evidence",
+      "public_policy": "public",
+      "release_action": "may be included directly in a public lightweight artifact package",
+      "release_mode": "include_or_reference",
+      "status": "READY_PUBLIC",
+      "total_bytes": 11482
+    },
+    {
+      "artifact_id": "raw_artifact_escrow_package",
+      "class_digest": "fbd137b60516de25d9fba655eb74baa63bce9bb2f7aa1be1d85e51b4fdad2a09",
+      "count": 6,
+      "description": "local controlled escrow package for full raw UART and decoded trace payloads",
+      "public_policy": "local_only_raw_or_sanitized_excerpt",
+      "release_action": "keep local by default; publish only after sanitization or explicit controlled-release approval",
+      "release_mode": "local_only_or_sanitized_excerpt",
+      "status": "READY_LOCAL_ONLY",
+      "total_bytes": 94886
+    },
+    {
+      "artifact_id": "negative_failed_cases",
+      "class_digest": "a588e80b5f04458c64a6f4a3a055d2911c4b25f21361bb1eab46ab2a2d147641",
+      "count": 9,
+      "description": "negative, failed, partial, or bounded-case evidence",
+      "public_policy": "public_summary",
+      "release_action": "publish summaries, class digests, representative hashes, and paths; do not require raw payload release",
+      "release_mode": "summary_or_hash_only",
+      "status": "READY_PUBLIC_SUMMARY_OR_HASH",
+      "total_bytes": 315909
+    },
+    {
+      "artifact_id": "reproduction_readme",
+      "class_digest": "6bae4c6813a40186d57e5e2cdb944f504b95e7882154e0ee72a11256caa62204",
+      "count": 3,
+      "description": "README and workflow notes for reproducing or auditing the package",
+      "public_policy": "public",
+      "release_action": "may be included directly in a public lightweight artifact package",
+      "release_mode": "include_or_reference",
+      "status": "READY_PUBLIC",
+      "total_bytes": 155603
+    }
+  ],
+  "generated_utc": "2026-05-23T05:57:07Z",
+  "local_only_classes": [
+    "raw_uart_log",
+    "decoded_trace_jsonl",
+    "raw_artifact_escrow_package"
+  ],
+  "non_claims": [
+    "no CVA6 board claim",
+    "no real malware detection claim",
+    "no mature detector claim",
+    "no classifier accuracy claim",
+    "no complete semantic reconstruction claim"
+  ],
+  "public_classes": [
+    "run_config",
+    "metrics",
+    "scripts_and_commands",
+    "synthetic_extension_sources",
+    "raw_artifact_sanitization_evidence",
+    "pointer_snapshot_design_review_evidence",
+    "reproduction_readme"
+  ],
+  "run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "schema": "rvmt.35t.paper_artifact_release_policy.v1",
+  "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "status": "PASS",
+  "summary_or_hash_classes": [
+    "runtime_process_map",
+    "code_map",
+    "trace_code_map_summary",
+    "semantic_events",
+    "behavior_graph",
+    "behavior_audit",
+    "alignment",
+    "resource_timing_reports",
+    "elf_hashes",
+    "bitstream_metadata",
+    "synthetic_extension_behavior_smoke_evidence",
+    "qemu_plugin_baseline_evidence",
+    "negative_failed_cases"
+  ]
+}

@@ -29,6 +29,63 @@ jobs:
         run: |
           uv run --no-sync python tools/check_35t_application_closure.py --self-test
           uv run --no-sync python tools/check_35t_application_closure.py --repo-root .
+          uv run --no-sync python tools/check_35t_fd_path_case_studies.py --self-test
+          uv run --no-sync python tools/check_35t_fd_path_case_studies.py --no-write
+          uv run --no-sync python tools/check_35t_process_tree_case_study.py --self-test
+          uv run --no-sync python tools/check_35t_process_tree_case_study.py --no-write
+          uv run --no-sync python tools/check_35t_advanced_baseline_preflight.py --self-test
+          uv run --no-sync python tools/check_35t_pointer_semantics_preflight.py --self-test
+          uv run --no-sync python tools/check_35t_pointer_semantics_preflight.py --no-write
+          uv run --no-sync python tools/check_35t_pointer_snapshot_gate.py --self-test
+          uv run --no-sync python tools/check_35t_pointer_snapshot_gate.py --no-write
+          uv run --no-sync python tools/check_35t_pointer_snapshot_design_review.py --self-test
+          uv run --no-sync python tools/check_35t_pointer_snapshot_design_review.py --no-write
+          uv run --no-sync python tools/check_35t_threat_model.py --self-test
+          uv run --no-sync python tools/check_35t_threat_model.py --no-write
+          uv run --no-sync python tools/check_35t_helper_alignment.py --self-test
+          uv run --no-sync python tools/check_35t_helper_alignment.py --no-write
+          uv run --no-sync python tools/run_35t_software_instrumentation_baseline.py --self-test
+          uv run --no-sync python tools/run_35t_ebpf_baseline.py --self-test
+          uv run --no-sync python tools/summarize_35t_baselines.py --self-test
+          uv run --no-sync python tools/check_35t_evaluation_table.py --self-test
+          uv run --no-sync python tools/check_35t_evaluation_table.py --no-write
+          uv run --no-sync python tools/check_35t_metric_coverage.py --self-test
+          uv run --no-sync python tools/check_35t_metric_coverage.py --no-write
+          uv run --no-sync python tools/check_35t_baseline_evaluation.py --self-test
+          uv run --no-sync python tools/check_35t_baseline_evaluation.py --repo-root .
+          uv run --no-sync python tools/check_35t_baseline_execution_spec.py --self-test
+          uv run --no-sync python tools/check_35t_baseline_execution_spec.py --no-write
+          uv run --no-sync python tools/check_35t_qemu_plugin_build_preflight.py --self-test
+          uv run --no-sync python tools/run_35t_qemu_plugin_baseline.py --self-test
+          uv run --no-sync python tools/check_35t_synthetic_suite_extension.py --self-test
+          uv run --no-sync python tools/check_35t_synthetic_suite_extension.py --no-write
+          uv run --no-sync python tools/check_35t_synthetic_extension_host_smoke.py --self-test
+          uv run --no-sync python tools/check_35t_synthetic_extension_host_smoke.py --no-write
+          uv run --no-sync python tools/check_35t_synthetic_extension_target_smoke.py --self-test
+          uv run --no-sync python tools/check_35t_synthetic_extension_target_smoke.py --no-write
+          uv run --no-sync python tools/check_35t_synthetic_extension_behavior_smoke.py --self-test
+          uv run --no-sync python tools/check_35t_extension_35t_enablement.py --self-test
+          uv run --no-sync python tools/check_35t_extension_35t_enablement.py --no-write
+          uv run --no-sync python tools/check_35t_raw_artifact_sanitization.py --self-test
+          uv run --no-sync python tools/check_35t_raw_artifact_sanitization.py --no-write
+          uv run --no-sync python tools/check_35t_raw_artifact_escrow.py --self-test
+          uv run --no-sync python tools/check_35t_raw_artifact_escrow.py --no-write
+          uv run --no-sync python tools/check_35t_artifact_package_readiness.py --self-test
+          uv run --no-sync python tools/package_35t_paper_artifacts.py --self-test
+          uv run --no-sync python tools/check_35t_assessment_closure.py --self-test
+          uv run --no-sync python tools/check_35t_assessment_traceability.py --self-test
+          uv run --no-sync python tools/check_35t_assessment_requirement_matrix.py --self-test
+          uv run --no-sync python tools/check_35t_assessment_requirement_matrix.py --no-write
+          uv run --no-sync python tools/check_35t_remaining_external_work.py --self-test
+          uv run --no-sync python tools/check_35t_remaining_external_work.py --no-write
+          uv run --no-sync python tools/check_35t_evidence_consistency.py --self-test
+          uv run --no-sync python tools/check_35t_evidence_consistency.py --no-write
+          uv run --no-sync python tools/check_35t_paper_positioning.py --self-test
+          uv run --no-sync python tools/check_35t_assessment_reconciliation.py --self-test
+          uv run --no-sync python tools/check_35t_assessment_gate_criteria.py --self-test
+          uv run --no-sync python tools/check_35t_hardware_trace_prototype.py --self-test
+          uv run --no-sync python tools/check_35t_local_code_analysis.py --self-test
+          uv run --no-sync python tools/check_35t_malware_behavior_audit.py --self-test
           uv run --no-sync python tools/check_35t_paper_evidence.py --self-test
           uv run --no-sync python tools/recover_fd_path_flow.py --self-test
           uv run --no-sync python tools/recover_process_tree.py --self-test

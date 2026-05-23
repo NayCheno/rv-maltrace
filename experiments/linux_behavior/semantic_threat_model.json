@@ -1,0 +1,70 @@
+{
+  "schema": "rvmt.semantic_threat_model.v1",
+  "status": "BOUNDARY_SPECIFIED",
+  "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+  "scope": "Artix-7 35T / LiteX / VexRiscv controlled benign and synthetic malware-like workloads",
+  "trusted_components": [
+    "hardware_trace_tap",
+    "fpga_bitstream_under_test",
+    "linux_kernel",
+    "board_runner",
+    "offline_analysis_tools"
+  ],
+  "attacker_model": {
+    "in_scope": [
+      "user_mode_malware_like_workload",
+      "user_mode_syscall_behavior",
+      "user_mode_ptrace_or_tracerpid_checks",
+      "user_mode_timing_checks",
+      "user_mode_file_process_memory_mapping_behavior"
+    ],
+    "out_of_scope": [
+      "kernel_rootkit",
+      "malicious_kernel",
+      "malicious_kernel_module",
+      "compromised_ebpf_program",
+      "compromised_board_runner",
+      "firmware_or_bitstream_tampering",
+      "real_malware_detection_accuracy"
+    ]
+  },
+  "semantic_routes": [
+    {
+      "route": "event_only_hardware_trace",
+      "trust_dependency": "hardware_trace_tap",
+      "status": "CURRENT_35T_CLAIM",
+      "boundary": "authoritative for committed event, syscall, return, trap, marker, drop, and capacity evidence in the bounded 35T prototype"
+    },
+    {
+      "route": "selective_memory_snapshot",
+      "trust_dependency": "hardware_trace_tap_and_gated_memory_capture",
+      "status": "DEFERRED",
+      "boundary": "must remain default-disabled until timing, bandwidth, noninterference, and pointer-safety evidence exists"
+    },
+    {
+      "route": "kernel_helper_metadata",
+      "trust_dependency": "trusted_linux_kernel_and_helper",
+      "status": "OPTIONAL_DEFERRED_COMPANION",
+      "boundary": "metadata companion only; cannot be used to claim resistance to a malicious kernel or kernel rootkit"
+    },
+    {
+      "route": "ebpf_metadata_alignment",
+      "trust_dependency": "trusted_linux_kernel_and_ebpf_runtime",
+      "status": "OPTIONAL_DEFERRED_COMPANION",
+      "boundary": "comparison or enrichment only; not an MVP dependency and not a replacement for RTL trace evidence"
+    }
+  ],
+  "required_wording": [
+    "trusted kernel",
+    "user-mode malware-like workload",
+    "kernel rootkit out of scope"
+  ],
+  "non_claims": [
+    "no kernel rootkit resistance claim",
+    "no malicious kernel resistance claim",
+    "no eBPF tamper resistance claim",
+    "no real malware detection claim",
+    "no complete pointer semantic reconstruction claim",
+    "no helper or eBPF MVP dependency claim"
+  ]
+}

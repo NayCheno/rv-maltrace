@@ -1,0 +1,128 @@
+{
+  "baseline_statuses": {
+    "ebpf_only": {
+      "family": "ebpf_only",
+      "spec_status": "PASS",
+      "status_matches_summary": true,
+      "summary_key": "ebpf_only",
+      "summary_status": "PASS"
+    },
+    "host_native": {
+      "family": "host_native",
+      "spec_status": "PASS",
+      "status_matches_summary": true,
+      "summary_key": "host_native",
+      "summary_status": "PASS"
+    },
+    "host_strace": {
+      "family": "strace_ptrace",
+      "spec_status": "PASS",
+      "status_matches_summary": true,
+      "summary_key": "host_strace",
+      "summary_status": "PASS"
+    },
+    "qemu_native": {
+      "family": "qemu_native",
+      "spec_status": "PASS",
+      "status_matches_summary": true,
+      "summary_key": "qemu_native",
+      "summary_status": "PASS"
+    },
+    "qemu_plugin": {
+      "family": "qemu_plugin",
+      "spec_status": "PASS",
+      "status_matches_summary": true,
+      "summary_key": "qemu_plugin",
+      "summary_status": "PASS"
+    },
+    "qemu_strace": {
+      "family": "strace_ptrace",
+      "spec_status": "PASS",
+      "status_matches_summary": true,
+      "summary_key": "qemu_strace",
+      "summary_status": "PASS"
+    },
+    "rvmaltrace_event_only": {
+      "family": "rvmaltrace_event_only",
+      "spec_status": "PASS",
+      "status_matches_summary": true,
+      "summary_key": "rvmaltrace_event_only",
+      "summary_status": "PASS"
+    },
+    "rvmaltrace_helper_or_ebpf_companion": {
+      "family": "rvmaltrace_pointer_snapshot_or_helper",
+      "spec_status": "DEFERRED",
+      "status_matches_summary": true,
+      "summary_key": "rvmaltrace_helper_or_ebpf_companion",
+      "summary_status": "DEFERRED"
+    },
+    "rvmaltrace_pointer_snapshot": {
+      "family": "rvmaltrace_pointer_snapshot_or_helper",
+      "spec_status": "DEFERRED",
+      "status_matches_summary": true,
+      "summary_key": "rvmaltrace_pointer_snapshot",
+      "summary_status": "DEFERRED"
+    },
+    "software_instrumentation": {
+      "family": "software_instrumentation_or_dbi",
+      "spec_status": "PASS",
+      "status_matches_summary": true,
+      "summary_key": "software_instrumentation",
+      "summary_status": "PASS"
+    }
+  },
+  "checks": {
+    "advanced_preflight_schema": true,
+    "assessment_baselines_covered": true,
+    "blocked_or_deferred_rows_have_gates": true,
+    "coverage_map_targets_declared_rows": true,
+    "current_statuses_allowed": true,
+    "current_statuses_match_summary": true,
+    "non_claims_present": true,
+    "pass_rows_have_artifacts_and_commands": true,
+    "pointer_preflight_schema": true,
+    "required_baseline_ids_present": true,
+    "spec_claim_level": true,
+    "spec_run_id": true,
+    "spec_schema": true,
+    "spec_scope": true,
+    "substitution_rules_present": true,
+    "substitution_rules_strict": true,
+    "summary_sample_count": true,
+    "summary_schema": true,
+    "threat_model_schema": true
+  },
+  "coverage_map": {
+    "ebpf_only": [
+      "ebpf_only"
+    ],
+    "qemu_plugin": [
+      "qemu_plugin"
+    ],
+    "rvmaltrace_event_only": [
+      "rvmaltrace_event_only"
+    ],
+    "rvmaltrace_pointer_snapshot_or_helper": [
+      "rvmaltrace_pointer_snapshot",
+      "rvmaltrace_helper_or_ebpf_companion"
+    ],
+    "software_instrumentation_or_dbi": [
+      "software_instrumentation"
+    ],
+    "strace_ptrace": [
+      "host_strace",
+      "qemu_strace"
+    ]
+  },
+  "failures": [],
+  "interpretation": [
+    "the spec maps the assessment's required baseline families to concrete current evidence rows",
+    "blocked or deferred rows have preflight or enablement gates and cannot silently become PASS",
+    "substitution rules prevent strace, software instrumentation, QEMU timing, or side-channel evidence from replacing missing eBPF/QEMU-plugin/pointer evidence"
+  ],
+  "run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "schema": "rvmt.35t.baseline_execution_spec.check.v1",
+  "spec": "experiments/linux_behavior/baseline_execution_spec.json",
+  "status": "PASS",
+  "summary": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/baseline_evaluation_summary.json"
+}

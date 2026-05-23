@@ -14,13 +14,17 @@ RUN apt-get update \
         -o Acquire::https::Timeout=30 \
         bash \
         binutils-riscv64-linux-gnu \
+        bpftrace \
         build-essential \
         ca-certificates \
+        clang \
         gcc \
         gcc-riscv64-linux-gnu \
         libc6-dev-riscv64-cross \
+        llvm \
         make \
         python3 \
+        qemu-system-misc \
         qemu-user \
         strace \
     && rm -rf /var/lib/apt/lists/*

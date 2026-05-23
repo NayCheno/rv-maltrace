@@ -1,0 +1,99 @@
+{
+  "schema": "rvmt.35t.pointer_snapshot_enablement_gate.v1",
+  "run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+  "status": "GATED_NOT_ENABLED",
+  "route": "selective_memory_snapshot",
+  "current_policy": {
+    "trace_mem_mode": "TRACE_MEM_MODE_NONE",
+    "hardware_user_pointer_snapshot": "DEFERRED",
+    "default_enabled": false,
+    "small_capacity_profiles": "ARG_MEM_DISABLED"
+  },
+  "enablement_requirements": [
+    {
+      "id": "design_review",
+      "status": "REQUIRED_BEFORE_ENABLEMENT",
+      "evidence_required": [
+        "bounded pointer snapshot design note",
+        "syscall and argument allowlist",
+        "maximum bytes per pointer and per syscall"
+      ]
+    },
+    {
+      "id": "safety_guardrails",
+      "status": "REQUIRED_BEFORE_ENABLEMENT",
+      "evidence_required": [
+        "default-disabled control path",
+        "page-boundary clipping",
+        "fault and timeout handling",
+        "no load/store payload trace mode",
+        "no core backpressure"
+      ]
+    },
+    {
+      "id": "timing_resource_gate",
+      "status": "REQUIRED_BEFORE_ENABLEMENT",
+      "evidence_required": [
+        "post-synthesis or post-implementation timing report",
+        "LUT/FF/BRAM delta",
+        "Fmax/slack comparison against event-only 35T"
+      ]
+    },
+    {
+      "id": "bandwidth_drop_gate",
+      "status": "REQUIRED_BEFORE_ENABLEMENT",
+      "evidence_required": [
+        "trace bytes per syscall",
+        "DROP rate",
+        "cap-hit accounting",
+        "bounded raw payload volume"
+      ]
+    },
+    {
+      "id": "noninterference_gate",
+      "status": "REQUIRED_BEFORE_ENABLEMENT",
+      "evidence_required": [
+        "paired trace-off/trace-on runtime comparison",
+        "syscall sequence equivalence check",
+        "explicit perturbation limits and failures"
+      ]
+    },
+    {
+      "id": "semantic_accuracy_gate",
+      "status": "REQUIRED_BEFORE_ENABLEMENT",
+      "evidence_required": [
+        "openat pathname reconstruction accuracy",
+        "execve pathname reconstruction accuracy",
+        "fd/path graph update against ground truth",
+        "separation of trace-proven, inferred, and missing pointer fields"
+      ]
+    },
+    {
+      "id": "artifact_policy_gate",
+      "status": "REQUIRED_BEFORE_ENABLEMENT",
+      "evidence_required": [
+        "sanitized pointer payload policy",
+        "hash or summary-only release mode for raw memory bytes",
+        "command log and separate run id"
+      ]
+    },
+    {
+      "id": "threat_model_gate",
+      "status": "REQUIRED_BEFORE_ENABLEMENT",
+      "evidence_required": [
+        "trusted-kernel/user-mode malware-like boundary remains explicit",
+        "kernel rootkit and malicious kernel remain out of scope",
+        "helper/eBPF companion is not reported as hardware-only tracing"
+      ]
+    }
+  ],
+  "required_non_claims": [
+    "no 35T hardware user-pointer snapshot PASS claim until all gates pass",
+    "no default memory payload tracing",
+    "no complete syscall argument reconstruction claim",
+    "no malicious-kernel or kernel-rootkit resistance claim",
+    "no real malware detection claim"
+  ]
+}

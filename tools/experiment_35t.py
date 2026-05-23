@@ -34,6 +34,7 @@ from rv_maltrace.trace_profiles import (  # noqa: E402
 
 BENIGN_MANIFEST = Path("experiments/linux_behavior/benign/manifest.json")
 MALWARE_MANIFEST = Path("experiments/linux_behavior/malware_like/manifest.json")
+MALWARE_EXTENSION_PLAN = Path("experiments/linux_behavior/malware_like/extension_plan.json")
 RULES_PATH = Path("experiments/linux_behavior/behavior_audit_rules.json")
 ROOTFS_EXP_BIN_DIR = Path("build/board/artix7_35t/rootfs_exp_overlay/usr/bin")
 TRACE_OFF = "trace-off"
@@ -120,6 +121,8 @@ class Sample:
     command: list[str]
     expected_behavior: list[str]
     evidence_dir: str
+    default_enabled: bool = True
+    network_required: bool = False
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -153,7 +156,7 @@ def aggregate_root(run_id: str) -> Path:
     return result_root(run_id) / "aggregate"
 
 
-def load_samples() -> list[Sample]:
+def load_samples(*, include_extensions: bool = False) -> list[Sample]:
     benign = load_json(ROOT / BENIGN_MANIFEST)
     malware = load_json(ROOT / MALWARE_MANIFEST)
     samples: list[Sample] = []
@@ -173,6 +176,8 @@ def load_samples() -> list[Sample]:
                 command=[str(item) for item in row.get("command", [])],
                 expected_behavior=[str(item) for item in row.get("expected_behavior", [])],
                 evidence_dir=str(row.get("evidence_dir", "")),
+                default_enabled=row.get("default_enabled") is True,
+                network_required=row.get("network_required") is True,
             )
         )
     for row in malware.get("samples", []):
@@ -186,21 +191,76 @@ def load_samples() -> list[Sample]:
                 command=[str(item) for item in row.get("command", [])],
                 expected_behavior=[str(item) for item in row.get("expected_behavior", [])],
                 evidence_dir=str(row.get("evidence_dir", "")),
+                default_enabled=True,
+                network_required=row.get("network_required") is True,
             )
         )
+    if include_extensions:
+        extension_plan = load_json(ROOT / MALWARE_EXTENSION_PLAN)
+        for row in extension_plan.get("candidates", []):
+            if not isinstance(row, dict):
+                continue
+            source = row.get("source")
+            if not isinstance(source, str):
+                raise ValueError(f"{MALWARE_EXTENSION_PLAN}: extension candidate {row.get('id')} is missing source")
+            samples.append(
+                Sample(
+                    sample_class="malware_like_synthetic",
+                    sample_id=str(row["id"]),
+                    source=source,
+                    command=[str(item) for item in row.get("command", [])],
+                    expected_behavior=[str(item) for item in row.get("expected_behavior", [])],
+                    evidence_dir=str(row.get("evidence_dir", "")),
+                    default_enabled=row.get("default_enabled") is True,
+                    network_required=row.get("network_required") is True,
+                )
+            )
     return samples
 
 
-def selected_samples(sample_ids: Iterable[str] | None = None) -> list[Sample]:
-    samples = load_samples()
+def selected_samples(sample_ids: Iterable[str] | None = None, *, include_extensions: bool = False) -> list[Sample]:
+    samples = load_samples(include_extensions=include_extensions)
     wanted = {item for item in (sample_ids or []) if item}
     if not wanted:
-        return samples
-    result = [sample for sample in samples if sample.sample_id in wanted or sample.sample_class in wanted]
+        return [sample for sample in samples if sample.default_enabled]
+    result = [
+        sample
+        for sample in samples
+        if sample.sample_id in wanted or (sample.default_enabled and sample.sample_class in wanted)
+    ]
     missing = sorted(wanted - {sample.sample_id for sample in result} - {sample.sample_class for sample in result})
     if missing:
         raise ValueError(f"unknown sample selectors: {', '.join(missing)}")
     return result
+
+
+def write_run_malware_manifest(run_id: str, samples: list[Sample]) -> None:
+    rows = []
+    for sample in samples:
+        if sample.sample_class != "malware_like_synthetic":
+            continue
+        rows.append(
+            {
+                "id": sample.sample_id,
+                "class": sample.sample_class,
+                "status": "SELECTED_FOR_EXPERIMENT",
+                "provenance": "repository_source",
+                "real_malware": False,
+                "destructive": False,
+                "network_required": sample.network_required,
+                "source": sample.source,
+                "command": sample.command,
+                "evidence_dir": sample.evidence_dir,
+                "expected_behavior": sample.expected_behavior,
+            }
+        )
+    manifest = {
+        "sample_class": "malware_like_synthetic",
+        "source_manifests": [repo_rel(ROOT / MALWARE_MANIFEST), repo_rel(ROOT / MALWARE_EXTENSION_PLAN)],
+        "samples": rows,
+    }
+    path = result_root(run_id) / "run_malware_manifest.json"
+    path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
 
 
 def trace_profile_for_sample(sample: Sample, default_profile: str, policy: str) -> str:
@@ -1227,7 +1287,9 @@ def stage_analyze(args: argparse.Namespace, samples: list[Sample]) -> None:
                 str(audit_dir),
             ]
             if sample.sample_class == "malware_like_synthetic":
-                audit_cmd.extend(["--manifest", str(ROOT / MALWARE_MANIFEST), "--sample-id", sample.sample_id])
+                run_manifest = result_root(args.run_id) / "run_malware_manifest.json"
+                manifest_path = run_manifest if run_manifest.exists() else ROOT / MALWARE_MANIFEST
+                audit_cmd.extend(["--manifest", str(manifest_path), "--sample-id", sample.sample_id])
             code = run_analysis_command(audit_cmd, rep_dir / "audit_behavior.log", dry_run=args.dry_run)
             if code != 0:
                 failures.append({"stage": "audit_behavior", "exit_code": code})
@@ -1731,6 +1793,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--runtime-order", choices=(RUNTIME_CLASSIC, RUNTIME_ABBA), default=RUNTIME_CLASSIC)
     parser.add_argument("--warmup", type=int, default=0)
     parser.add_argument("--sample", action="append", default=[])
+    parser.add_argument(
+        "--include-extension-samples",
+        action="store_true",
+        help="Allow explicitly selected synthetic extension candidates; they remain disabled by default.",
+    )
     parser.add_argument("--syscall-side-channel", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--keep-going", action="store_true", default=True)
@@ -1738,7 +1805,7 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.stage == "self-test":
         return self_test()
-    samples = selected_samples(args.sample)
+    samples = selected_samples(args.sample, include_extensions=args.include_extension_samples)
     profile = get_trace_profile(args.trace_profile)
     sample_profiles = trace_profiles_by_sample(samples, profile.name, args.trace_profile_policy)
     sample_control_masks = {
@@ -1761,8 +1828,10 @@ def main(argv: list[str] | None = None) -> int:
         "runtime_order": args.runtime_order,
         "warmup": args.warmup,
         "syscall_side_channel": bool(args.syscall_side_channel),
+        "include_extension_samples": bool(args.include_extension_samples),
+        "extension_plan": repo_rel(ROOT / MALWARE_EXTENSION_PLAN),
         "samples": [sample.sample_id for sample in samples],
-        "network": "disabled",
+        "network": "loopback_explicit" if any(sample.network_required for sample in samples) else "disabled",
         "real_malware": "forbidden",
         "artifact_root": repo_rel(result_root(args.run_id)),
     }
@@ -1771,6 +1840,7 @@ def main(argv: list[str] | None = None) -> int:
     else:
         result_root(args.run_id).mkdir(parents=True, exist_ok=True)
         (result_root(args.run_id) / "run_config.json").write_text(json.dumps(config, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        write_run_malware_manifest(args.run_id, samples)
     stages = ["groundtruth", "rootfs", "board", "analyze", "report"] if args.stage == "all" else [args.stage]
     for stage in stages:
         if stage == "groundtruth":

@@ -1,0 +1,541 @@
+{
+  "baselines": {
+    "ebpf_only": {
+      "baseline": "ebpf_only",
+      "checks": {
+        "bpf_compiler_available": true,
+        "bpf_loader_or_tracer_available": true,
+        "bpftrace_smoke_passed": true,
+        "container_command_passed": true,
+        "kprobe_events_available": true,
+        "kprobe_events_writable": true,
+        "tracefs_mounted": true
+      },
+      "environment": "docker_linux_behavior_cap_sys_admin",
+      "environment_results": [
+        {
+          "baseline": "ebpf_only",
+          "checks": {
+            "bpf_compiler_available": true,
+            "bpf_loader_or_tracer_available": true,
+            "bpftrace_smoke_passed": false,
+            "container_command_passed": true,
+            "kprobe_events_available": false,
+            "kprobe_events_writable": false,
+            "tracefs_mounted": false
+          },
+          "environment": "docker_linux_behavior",
+          "observed": {
+            "bpffs_mounted": false,
+            "bpftool_path": "",
+            "bpftrace_path": "/usr/bin/bpftrace",
+            "bpftrace_smoke_count": 0,
+            "bpftrace_smoke_exit": "",
+            "bpftrace_smoke_stderr": "",
+            "bpftrace_smoke_stdout": "",
+            "clang_path": "/usr/bin/clang",
+            "kernel": "6.6.87.2-microsoft-standard-WSL2",
+            "kprobe_events_path": "",
+            "llc_path": "/usr/bin/llc"
+          },
+          "reason": "tracefs is not mounted in this probe environment; kprobe_events is not visible through tracefs/debugfs; kprobe_events is not writable from this probe environment; bpftrace kprobe smoke did not run or did not capture events",
+          "status": "BLOCKED_CURRENT_ENVIRONMENT"
+        },
+        {
+          "baseline": "ebpf_only",
+          "checks": {
+            "bpf_compiler_available": true,
+            "bpf_loader_or_tracer_available": true,
+            "bpftrace_smoke_passed": true,
+            "container_command_passed": true,
+            "kprobe_events_available": true,
+            "kprobe_events_writable": true,
+            "tracefs_mounted": true
+          },
+          "environment": "docker_linux_behavior_cap_sys_admin",
+          "observed": {
+            "bpffs_mounted": false,
+            "bpftool_path": "",
+            "bpftrace_path": "/usr/bin/bpftrace",
+            "bpftrace_smoke_count": 10,
+            "bpftrace_smoke_exit": "0",
+            "bpftrace_smoke_stderr": "stdin:1:1-24: WARNING: __x64_sys_getpid is not traceable (either non-existing, inlined, or marked as \"notrace\"); attaching to it will likely fail|kprobe:__x64_sys_getpid { @rvmt_getpid = count(); } interval:s:1 { exit(); }|~~~~~~~~~~~~~~~~~",
+            "bpftrace_smoke_stdout": "Attaching 2 probes...|||@rvmt_getpid: 10|",
+            "clang_path": "/usr/bin/clang",
+            "kernel": "6.6.87.2-microsoft-standard-WSL2",
+            "kprobe_events_path": "/sys/kernel/tracing/kprobe_events",
+            "llc_path": "/usr/bin/llc"
+          },
+          "reason": "eBPF kprobe baseline prerequisites are present",
+          "status": "READY"
+        },
+        {
+          "baseline": "ebpf_only",
+          "checks": {
+            "bpf_compiler_available": true,
+            "bpf_loader_or_tracer_available": false,
+            "bpftrace_smoke_passed": false,
+            "container_command_passed": true,
+            "kprobe_events_available": false,
+            "kprobe_events_writable": false,
+            "tracefs_mounted": true
+          },
+          "environment": "wsl",
+          "observed": {
+            "bpffs_mounted": false,
+            "bpftool_path": "",
+            "bpftrace_path": "",
+            "bpftrace_smoke_count": 0,
+            "bpftrace_smoke_exit": "",
+            "bpftrace_smoke_stderr": "",
+            "bpftrace_smoke_stdout": "",
+            "clang_path": "/usr/bin/clang",
+            "kernel": "6.6.87.2-microsoft-standard-WSL2",
+            "kprobe_events_path": "",
+            "llc_path": "/usr/bin/llc"
+          },
+          "reason": "bpftool/bpftrace loader or tracer tooling is not installed; kprobe_events is not visible through tracefs/debugfs; kprobe_events is not writable from this probe environment; bpftrace kprobe smoke did not run or did not capture events",
+          "status": "BLOCKED_CURRENT_ENVIRONMENT"
+        },
+        {
+          "baseline": "ebpf_only",
+          "checks": {
+            "bpf_compiler_available": true,
+            "bpf_loader_or_tracer_available": false,
+            "bpftrace_smoke_passed": false,
+            "container_command_passed": true,
+            "kprobe_events_available": true,
+            "kprobe_events_writable": true,
+            "tracefs_mounted": true
+          },
+          "environment": "wsl_root",
+          "observed": {
+            "bpffs_mounted": false,
+            "bpftool_path": "",
+            "bpftrace_path": "",
+            "bpftrace_smoke_count": 0,
+            "bpftrace_smoke_exit": "",
+            "bpftrace_smoke_stderr": "",
+            "bpftrace_smoke_stdout": "",
+            "clang_path": "/usr/bin/clang",
+            "kernel": "6.6.87.2-microsoft-standard-WSL2",
+            "kprobe_events_path": "/sys/kernel/tracing/kprobe_events",
+            "llc_path": "/usr/bin/llc"
+          },
+          "reason": "bpftool/bpftrace loader or tracer tooling is not installed; bpftrace kprobe smoke did not run or did not capture events",
+          "status": "BLOCKED_CURRENT_ENVIRONMENT"
+        }
+      ],
+      "observed": {
+        "bpffs_mounted": false,
+        "bpftool_path": "",
+        "bpftrace_path": "/usr/bin/bpftrace",
+        "bpftrace_smoke_count": 10,
+        "bpftrace_smoke_exit": "0",
+        "bpftrace_smoke_stderr": "stdin:1:1-24: WARNING: __x64_sys_getpid is not traceable (either non-existing, inlined, or marked as \"notrace\"); attaching to it will likely fail|kprobe:__x64_sys_getpid { @rvmt_getpid = count(); } interval:s:1 { exit(); }|~~~~~~~~~~~~~~~~~",
+        "bpftrace_smoke_stdout": "Attaching 2 probes...|||@rvmt_getpid: 10|",
+        "clang_path": "/usr/bin/clang",
+        "kernel": "6.6.87.2-microsoft-standard-WSL2",
+        "kprobe_events_path": "/sys/kernel/tracing/kprobe_events",
+        "llc_path": "/usr/bin/llc"
+      },
+      "reason": "docker_linux_behavior_cap_sys_admin: eBPF kprobe baseline prerequisites are present",
+      "status": "READY"
+    },
+    "qemu_plugin": {
+      "baseline": "qemu_plugin",
+      "checks": {
+        "docker_linux_behavior.container_command_passed": true,
+        "docker_linux_behavior.qemu_plugin_header_available": false,
+        "docker_linux_behavior.qemu_riscv64_available": true,
+        "docker_linux_behavior.qemu_system_exposes_plugin_option": true,
+        "docker_linux_behavior.qemu_system_riscv64_available": true,
+        "docker_linux_behavior.qemu_user_exposes_plugin_option": false,
+        "docker_linux_behavior_cap_sys_admin.container_command_passed": true,
+        "docker_linux_behavior_cap_sys_admin.qemu_plugin_header_available": false,
+        "docker_linux_behavior_cap_sys_admin.qemu_riscv64_available": true,
+        "docker_linux_behavior_cap_sys_admin.qemu_system_exposes_plugin_option": true,
+        "docker_linux_behavior_cap_sys_admin.qemu_system_riscv64_available": true,
+        "docker_linux_behavior_cap_sys_admin.qemu_user_exposes_plugin_option": false,
+        "wsl.container_command_passed": true,
+        "wsl.qemu_plugin_header_available": false,
+        "wsl.qemu_riscv64_available": false,
+        "wsl.qemu_system_exposes_plugin_option": false,
+        "wsl.qemu_system_riscv64_available": false,
+        "wsl.qemu_user_exposes_plugin_option": false,
+        "wsl_root.container_command_passed": true,
+        "wsl_root.qemu_plugin_header_available": false,
+        "wsl_root.qemu_riscv64_available": false,
+        "wsl_root.qemu_system_exposes_plugin_option": false,
+        "wsl_root.qemu_system_riscv64_available": false,
+        "wsl_root.qemu_user_exposes_plugin_option": false
+      },
+      "environment_results": [
+        {
+          "baseline": "qemu_plugin",
+          "checks": {
+            "container_command_passed": true,
+            "qemu_plugin_header_available": false,
+            "qemu_riscv64_available": true,
+            "qemu_system_exposes_plugin_option": true,
+            "qemu_system_riscv64_available": true,
+            "qemu_user_exposes_plugin_option": false
+          },
+          "environment": "docker_linux_behavior",
+          "observed": {
+            "qemu_path": "/usr/bin/qemu-riscv64",
+            "qemu_plugin_header_count": 0,
+            "qemu_plugin_headers": "",
+            "qemu_system_path": "/usr/bin/qemu-system-riscv64",
+            "qemu_system_version": "QEMU emulator version 8.2.2 (Debian 1:8.2.2+ds-0ubuntu1.16)",
+            "qemu_version": "qemu-riscv64 version 8.2.2 (Debian 1:8.2.2+ds-0ubuntu1.16)"
+          },
+          "reason": "qemu-plugin.h is not installed in the current package set",
+          "status": "BLOCKED_CURRENT_ENVIRONMENT"
+        },
+        {
+          "baseline": "qemu_plugin",
+          "checks": {
+            "container_command_passed": true,
+            "qemu_plugin_header_available": false,
+            "qemu_riscv64_available": true,
+            "qemu_system_exposes_plugin_option": true,
+            "qemu_system_riscv64_available": true,
+            "qemu_user_exposes_plugin_option": false
+          },
+          "environment": "docker_linux_behavior_cap_sys_admin",
+          "observed": {
+            "qemu_path": "/usr/bin/qemu-riscv64",
+            "qemu_plugin_header_count": 0,
+            "qemu_plugin_headers": "",
+            "qemu_system_path": "/usr/bin/qemu-system-riscv64",
+            "qemu_system_version": "QEMU emulator version 8.2.2 (Debian 1:8.2.2+ds-0ubuntu1.16)",
+            "qemu_version": "qemu-riscv64 version 8.2.2 (Debian 1:8.2.2+ds-0ubuntu1.16)"
+          },
+          "reason": "qemu-plugin.h is not installed in the current package set",
+          "status": "BLOCKED_CURRENT_ENVIRONMENT"
+        },
+        {
+          "baseline": "qemu_plugin",
+          "checks": {
+            "container_command_passed": true,
+            "qemu_plugin_header_available": false,
+            "qemu_riscv64_available": false,
+            "qemu_system_exposes_plugin_option": false,
+            "qemu_system_riscv64_available": false,
+            "qemu_user_exposes_plugin_option": false
+          },
+          "environment": "wsl",
+          "observed": {
+            "qemu_path": "",
+            "qemu_plugin_header_count": 0,
+            "qemu_plugin_headers": "",
+            "qemu_system_path": "",
+            "qemu_system_version": "",
+            "qemu_version": ""
+          },
+          "reason": "neither qemu-riscv64 nor qemu-system-riscv64 is available in this probe environment; neither qemu-riscv64 nor qemu-system-riscv64 exposes -plugin in the current package; qemu-plugin.h is not installed in the current package set",
+          "status": "BLOCKED_CURRENT_ENVIRONMENT"
+        },
+        {
+          "baseline": "qemu_plugin",
+          "checks": {
+            "container_command_passed": true,
+            "qemu_plugin_header_available": false,
+            "qemu_riscv64_available": false,
+            "qemu_system_exposes_plugin_option": false,
+            "qemu_system_riscv64_available": false,
+            "qemu_user_exposes_plugin_option": false
+          },
+          "environment": "wsl_root",
+          "observed": {
+            "qemu_path": "",
+            "qemu_plugin_header_count": 0,
+            "qemu_plugin_headers": "",
+            "qemu_system_path": "",
+            "qemu_system_version": "",
+            "qemu_version": ""
+          },
+          "reason": "neither qemu-riscv64 nor qemu-system-riscv64 is available in this probe environment; neither qemu-riscv64 nor qemu-system-riscv64 exposes -plugin in the current package; qemu-plugin.h is not installed in the current package set",
+          "status": "BLOCKED_CURRENT_ENVIRONMENT"
+        }
+      ],
+      "observed": {
+        "docker_linux_behavior": {
+          "qemu_path": "/usr/bin/qemu-riscv64",
+          "qemu_plugin_header_count": 0,
+          "qemu_plugin_headers": "",
+          "qemu_system_path": "/usr/bin/qemu-system-riscv64",
+          "qemu_system_version": "QEMU emulator version 8.2.2 (Debian 1:8.2.2+ds-0ubuntu1.16)",
+          "qemu_version": "qemu-riscv64 version 8.2.2 (Debian 1:8.2.2+ds-0ubuntu1.16)"
+        },
+        "docker_linux_behavior_cap_sys_admin": {
+          "qemu_path": "/usr/bin/qemu-riscv64",
+          "qemu_plugin_header_count": 0,
+          "qemu_plugin_headers": "",
+          "qemu_system_path": "/usr/bin/qemu-system-riscv64",
+          "qemu_system_version": "QEMU emulator version 8.2.2 (Debian 1:8.2.2+ds-0ubuntu1.16)",
+          "qemu_version": "qemu-riscv64 version 8.2.2 (Debian 1:8.2.2+ds-0ubuntu1.16)"
+        },
+        "wsl": {
+          "qemu_path": "",
+          "qemu_plugin_header_count": 0,
+          "qemu_plugin_headers": "",
+          "qemu_system_path": "",
+          "qemu_system_version": "",
+          "qemu_version": ""
+        },
+        "wsl_root": {
+          "qemu_path": "",
+          "qemu_plugin_header_count": 0,
+          "qemu_plugin_headers": "",
+          "qemu_system_path": "",
+          "qemu_system_version": "",
+          "qemu_version": ""
+        }
+      },
+      "reason": "docker_linux_behavior: qemu-plugin.h is not installed in the current package set; docker_linux_behavior_cap_sys_admin: qemu-plugin.h is not installed in the current package set; wsl: neither qemu-riscv64 nor qemu-system-riscv64 is available in this probe environment; neither qemu-riscv64 nor qemu-system-riscv64 exposes -plugin in the current package; qemu-plugin.h is not installed in the current package set; wsl_root: neither qemu-riscv64 nor qemu-system-riscv64 is available in this probe environment; neither qemu-riscv64 nor qemu-system-riscv64 exposes -plugin in the current package; qemu-plugin.h is not installed in the current package set",
+      "status": "BLOCKED_CURRENT_ENVIRONMENT"
+    }
+  },
+  "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+  "interpretation": [
+    "this preflight checks whether current local Docker and WSL environments can run the remaining advanced baselines",
+    "READY or BLOCKED statuses are environment evidence, not completed baseline comparisons",
+    "baseline prerequisites are evaluated per environment and are not combined across environments",
+    "software instrumentation evidence is tracked separately and is not a substitute for eBPF-only or QEMU-plugin evidence"
+  ],
+  "next_actions": [
+    "provide qemu-plugin.h plus either a plugin-capable qemu-riscv64 user-mode binary or a qemu-system-riscv64 harness before running qemu_plugin baseline"
+  ],
+  "non_claims": [
+    "no CVA6 board claim",
+    "no real malware detection claim",
+    "no mature detector claim",
+    "no classifier accuracy claim",
+    "no complete semantic reconstruction claim"
+  ],
+  "probe_environments": [
+    "docker_linux_behavior",
+    "docker_linux_behavior_cap_sys_admin",
+    "wsl",
+    "wsl_root"
+  ],
+  "probes": {
+    "docker_linux_behavior.ebpf_only": {
+      "argv": [
+        "docker",
+        "compose",
+        "-f",
+        "docker-compose.toolchain.yml",
+        "run",
+        "--rm",
+        "linux-behavior",
+        "bash",
+        "-lc",
+        "set +e\nprintf 'kernel=%s\\n' \"$(uname -r 2>/dev/null || true)\"\nprintf 'clang_path=%s\\n' \"$(command -v clang 2>/dev/null || true)\"\nprintf 'llc_path=%s\\n' \"$(command -v llc 2>/dev/null || true)\"\nprintf 'bpftool_path=%s\\n' \"$(command -v bpftool 2>/dev/null || true)\"\nprintf 'bpftrace_path=%s\\n' \"$(command -v bpftrace 2>/dev/null || true)\"\nif [ -e /sys/kernel/tracing/kprobe_events ]; then\n  printf 'kprobe_events_path=%s\\n' \"/sys/kernel/tracing/kprobe_events\"\nelif [ -e /sys/kernel/debug/tracing/kprobe_events ]; then\n  printf 'kprobe_events_path=%s\\n' \"/sys/kernel/debug/tracing/kprobe_events\"\nelse\n  printf 'kprobe_events_path=\\n'\nfi\nif [ -w /sys/kernel/tracing/kprobe_events ] || [ -w /sys/kernel/debug/tracing/kprobe_events ]; then\n  printf 'kprobe_events_writable=1\\n'\nelse\n  printf 'kprobe_events_writable=0\\n'\nfi\nif mount | grep tracefs >/dev/null 2>&1; then\n  printf 'tracefs_mounted=1\\n'\nelse\n  printf 'tracefs_mounted=0\\n'\nfi\nif mount | grep ' bpf ' >/dev/null 2>&1; then\n  printf 'bpffs_mounted=1\\n'\nelse\n  printf 'bpffs_mounted=0\\n'\nfi\ntrue"
+      ],
+      "exit_code": 0,
+      "fields": {
+        "bpffs_mounted": "0",
+        "bpftool_path": "",
+        "bpftrace_path": "/usr/bin/bpftrace",
+        "clang_path": "/usr/bin/clang",
+        "kernel": "6.6.87.2-microsoft-standard-WSL2",
+        "kprobe_events_path": "",
+        "kprobe_events_writable": "0",
+        "llc_path": "/usr/bin/llc",
+        "tracefs_mounted": "0"
+      },
+      "stderr": " Container rv-maltrace-linux-behavior-run-5842bdcaf5f4 Creating \n Container rv-maltrace-linux-behavior-run-5842bdcaf5f4 Created \n"
+    },
+    "docker_linux_behavior.qemu_plugin": {
+      "argv": [
+        "docker",
+        "compose",
+        "-f",
+        "docker-compose.toolchain.yml",
+        "run",
+        "--rm",
+        "linux-behavior",
+        "bash",
+        "-lc",
+        "set +e\nqemu_path=\"$(command -v qemu-riscv64 2>/dev/null || true)\"\nqemu_version=\"\"\nif [ -n \"$qemu_path\" ]; then\n  qemu_version=\"$(qemu-riscv64 --version 2>&1 | head -n 1 || true)\"\nfi\nqemu_system_path=\"$(command -v qemu-system-riscv64 2>/dev/null || true)\"\nqemu_system_version=\"\"\nif [ -n \"$qemu_system_path\" ]; then\n  qemu_system_version=\"$(qemu-system-riscv64 --version 2>&1 | head -n 1 || true)\"\nfi\nhelp_has_plugin=0\nif [ -n \"$qemu_path\" ] && qemu-riscv64 --help 2>&1 | grep -- \"-plugin\" >/dev/null; then\n  help_has_plugin=1\nfi\nsystem_help_has_plugin=0\nif [ -n \"$qemu_system_path\" ] && qemu-system-riscv64 --help 2>&1 | grep -- \"-plugin\" >/dev/null; then\n  system_help_has_plugin=1\nfi\nheaders=\"$(find /usr -name qemu-plugin.h 2>/dev/null | paste -sd ';' -)\"\nheader_count=0\nif [ -n \"$headers\" ]; then\n  header_count=\"$(printf '%s' \"$headers\" | tr ';' '\\n' | grep -c . || true)\"\nfi\nprintf 'qemu_path=%s\\n' \"$qemu_path\"\nprintf 'qemu_version=%s\\n' \"$qemu_version\"\nprintf 'qemu_system_path=%s\\n' \"$qemu_system_path\"\nprintf 'qemu_system_version=%s\\n' \"$qemu_system_version\"\nprintf 'help_has_plugin=%s\\n' \"$help_has_plugin\"\nprintf 'system_help_has_plugin=%s\\n' \"$system_help_has_plugin\"\nprintf 'qemu_plugin_header_count=%s\\n' \"$header_count\"\nprintf 'qemu_plugin_headers=%s\\n' \"$headers\"\ntrue"
+      ],
+      "exit_code": 0,
+      "fields": {
+        "help_has_plugin": "0",
+        "qemu_path": "/usr/bin/qemu-riscv64",
+        "qemu_plugin_header_count": "0",
+        "qemu_plugin_headers": "",
+        "qemu_system_path": "/usr/bin/qemu-system-riscv64",
+        "qemu_system_version": "QEMU emulator version 8.2.2 (Debian 1:8.2.2+ds-0ubuntu1.16)",
+        "qemu_version": "qemu-riscv64 version 8.2.2 (Debian 1:8.2.2+ds-0ubuntu1.16)",
+        "system_help_has_plugin": "1"
+      },
+      "stderr": " Container rv-maltrace-linux-behavior-run-dec970e97314 Creating \n Container rv-maltrace-linux-behavior-run-dec970e97314 Created \n"
+    },
+    "docker_linux_behavior_cap_sys_admin.ebpf_only": {
+      "argv": [
+        "docker",
+        "compose",
+        "-f",
+        "docker-compose.toolchain.yml",
+        "run",
+        "--rm",
+        "--cap-add",
+        "SYS_ADMIN",
+        "--cap-add",
+        "SYS_PTRACE",
+        "linux-behavior",
+        "bash",
+        "-lc",
+        "set +e\nmkdir -p /sys/kernel/tracing /sys/kernel/debug/tracing 2>/dev/null || true\nmount -t tracefs tracefs /sys/kernel/tracing >/tmp/rvmt_tracefs_mount.log 2>&1 || true\nmount -t debugfs debugfs /sys/kernel/debug >/tmp/rvmt_debugfs_mount.log 2>&1 || true\nprintf 'tracefs_mount_log=%s\\n' \"$(tail -n 1 /tmp/rvmt_tracefs_mount.log 2>/dev/null || true)\"\nprintf 'debugfs_mount_log=%s\\n' \"$(tail -n 1 /tmp/rvmt_debugfs_mount.log 2>/dev/null || true)\"\nset +e\nprintf 'kernel=%s\\n' \"$(uname -r 2>/dev/null || true)\"\nprintf 'clang_path=%s\\n' \"$(command -v clang 2>/dev/null || true)\"\nprintf 'llc_path=%s\\n' \"$(command -v llc 2>/dev/null || true)\"\nprintf 'bpftool_path=%s\\n' \"$(command -v bpftool 2>/dev/null || true)\"\nprintf 'bpftrace_path=%s\\n' \"$(command -v bpftrace 2>/dev/null || true)\"\nif [ -e /sys/kernel/tracing/kprobe_events ]; then\n  printf 'kprobe_events_path=%s\\n' \"/sys/kernel/tracing/kprobe_events\"\nelif [ -e /sys/kernel/debug/tracing/kprobe_events ]; then\n  printf 'kprobe_events_path=%s\\n' \"/sys/kernel/debug/tracing/kprobe_events\"\nelse\n  printf 'kprobe_events_path=\\n'\nfi\nif [ -w /sys/kernel/tracing/kprobe_events ] || [ -w /sys/kernel/debug/tracing/kprobe_events ]; then\n  printf 'kprobe_events_writable=1\\n'\nelse\n  printf 'kprobe_events_writable=0\\n'\nfi\nif mount | grep tracefs >/dev/null 2>&1; then\n  printf 'tracefs_mounted=1\\n'\nelse\n  printf 'tracefs_mounted=0\\n'\nfi\nif mount | grep ' bpf ' >/dev/null 2>&1; then\n  printf 'bpffs_mounted=1\\n'\nelse\n  printf 'bpffs_mounted=0\\n'\nfi\ntrue\nif command -v bpftrace >/dev/null 2>&1 && { [ -w /sys/kernel/tracing/kprobe_events ] || [ -w /sys/kernel/debug/tracing/kprobe_events ]; }; then\n  printf 'import os\\nfor _ in range(10):\\n    os.getpid()\\n' > /tmp/rvmt_getpid.py\n  timeout 15 bpftrace -e 'kprobe:__x64_sys_getpid { @rvmt_getpid = count(); } interval:s:1 { exit(); }' -c 'python3 /tmp/rvmt_getpid.py' > /tmp/rvmt_bpftrace.out 2> /tmp/rvmt_bpftrace.err\n  smoke_exit=\"$?\"\n  smoke_count=\"$(awk -F': *' '/@rvmt_getpid/ {print $2}' /tmp/rvmt_bpftrace.out | tail -n 1)\"\n  printf 'bpftrace_smoke_exit=%s\\n' \"$smoke_exit\"\n  printf 'bpftrace_smoke_count=%s\\n' \"$smoke_count\"\n  printf 'bpftrace_smoke_stdout=%s\\n' \"$(tr '\\n' '|' < /tmp/rvmt_bpftrace.out | cut -c 1-240)\"\n  printf 'bpftrace_smoke_stderr=%s\\n' \"$(tr '\\n' '|' < /tmp/rvmt_bpftrace.err | cut -c 1-240)\"\nelse\n  printf 'bpftrace_smoke_exit=not_run\\n'\n  printf 'bpftrace_smoke_count=0\\n'\n  printf 'bpftrace_smoke_stdout=\\n'\n  printf 'bpftrace_smoke_stderr=missing_bpftrace_or_writable_kprobe_events\\n'\nfi\ntrue"
+      ],
+      "exit_code": 0,
+      "fields": {
+        "bpffs_mounted": "0",
+        "bpftool_path": "",
+        "bpftrace_path": "/usr/bin/bpftrace",
+        "bpftrace_smoke_count": "10",
+        "bpftrace_smoke_exit": "0",
+        "bpftrace_smoke_stderr": "stdin:1:1-24: WARNING: __x64_sys_getpid is not traceable (either non-existing, inlined, or marked as \"notrace\"); attaching to it will likely fail|kprobe:__x64_sys_getpid { @rvmt_getpid = count(); } interval:s:1 { exit(); }|~~~~~~~~~~~~~~~~~",
+        "bpftrace_smoke_stdout": "Attaching 2 probes...|||@rvmt_getpid: 10|",
+        "clang_path": "/usr/bin/clang",
+        "debugfs_mount_log": "",
+        "kernel": "6.6.87.2-microsoft-standard-WSL2",
+        "kprobe_events_path": "/sys/kernel/tracing/kprobe_events",
+        "kprobe_events_writable": "1",
+        "llc_path": "/usr/bin/llc",
+        "tracefs_mount_log": "",
+        "tracefs_mounted": "1"
+      },
+      "stderr": " Container rv-maltrace-linux-behavior-run-49ec8bbed3d8 Creating \n Container rv-maltrace-linux-behavior-run-49ec8bbed3d8 Created \n"
+    },
+    "docker_linux_behavior_cap_sys_admin.qemu_plugin": {
+      "argv": [
+        "docker",
+        "compose",
+        "-f",
+        "docker-compose.toolchain.yml",
+        "run",
+        "--rm",
+        "--cap-add",
+        "SYS_ADMIN",
+        "--cap-add",
+        "SYS_PTRACE",
+        "linux-behavior",
+        "bash",
+        "-lc",
+        "set +e\nqemu_path=\"$(command -v qemu-riscv64 2>/dev/null || true)\"\nqemu_version=\"\"\nif [ -n \"$qemu_path\" ]; then\n  qemu_version=\"$(qemu-riscv64 --version 2>&1 | head -n 1 || true)\"\nfi\nqemu_system_path=\"$(command -v qemu-system-riscv64 2>/dev/null || true)\"\nqemu_system_version=\"\"\nif [ -n \"$qemu_system_path\" ]; then\n  qemu_system_version=\"$(qemu-system-riscv64 --version 2>&1 | head -n 1 || true)\"\nfi\nhelp_has_plugin=0\nif [ -n \"$qemu_path\" ] && qemu-riscv64 --help 2>&1 | grep -- \"-plugin\" >/dev/null; then\n  help_has_plugin=1\nfi\nsystem_help_has_plugin=0\nif [ -n \"$qemu_system_path\" ] && qemu-system-riscv64 --help 2>&1 | grep -- \"-plugin\" >/dev/null; then\n  system_help_has_plugin=1\nfi\nheaders=\"$(find /usr -name qemu-plugin.h 2>/dev/null | paste -sd ';' -)\"\nheader_count=0\nif [ -n \"$headers\" ]; then\n  header_count=\"$(printf '%s' \"$headers\" | tr ';' '\\n' | grep -c . || true)\"\nfi\nprintf 'qemu_path=%s\\n' \"$qemu_path\"\nprintf 'qemu_version=%s\\n' \"$qemu_version\"\nprintf 'qemu_system_path=%s\\n' \"$qemu_system_path\"\nprintf 'qemu_system_version=%s\\n' \"$qemu_system_version\"\nprintf 'help_has_plugin=%s\\n' \"$help_has_plugin\"\nprintf 'system_help_has_plugin=%s\\n' \"$system_help_has_plugin\"\nprintf 'qemu_plugin_header_count=%s\\n' \"$header_count\"\nprintf 'qemu_plugin_headers=%s\\n' \"$headers\"\ntrue"
+      ],
+      "exit_code": 0,
+      "fields": {
+        "help_has_plugin": "0",
+        "qemu_path": "/usr/bin/qemu-riscv64",
+        "qemu_plugin_header_count": "0",
+        "qemu_plugin_headers": "",
+        "qemu_system_path": "/usr/bin/qemu-system-riscv64",
+        "qemu_system_version": "QEMU emulator version 8.2.2 (Debian 1:8.2.2+ds-0ubuntu1.16)",
+        "qemu_version": "qemu-riscv64 version 8.2.2 (Debian 1:8.2.2+ds-0ubuntu1.16)",
+        "system_help_has_plugin": "1"
+      },
+      "stderr": " Container rv-maltrace-linux-behavior-run-6c4c56cefe82 Creating \n Container rv-maltrace-linux-behavior-run-6c4c56cefe82 Created \n"
+    },
+    "wsl.ebpf_only": {
+      "argv": [
+        "wsl.exe",
+        "--exec",
+        "sh",
+        "-lc",
+        "set +e\nprintf 'kernel=%s\\n' \"$(uname -r 2>/dev/null || true)\"\nprintf 'clang_path=%s\\n' \"$(command -v clang 2>/dev/null || true)\"\nprintf 'llc_path=%s\\n' \"$(command -v llc 2>/dev/null || true)\"\nprintf 'bpftool_path=%s\\n' \"$(command -v bpftool 2>/dev/null || true)\"\nprintf 'bpftrace_path=%s\\n' \"$(command -v bpftrace 2>/dev/null || true)\"\nif [ -e /sys/kernel/tracing/kprobe_events ]; then\n  printf 'kprobe_events_path=%s\\n' \"/sys/kernel/tracing/kprobe_events\"\nelif [ -e /sys/kernel/debug/tracing/kprobe_events ]; then\n  printf 'kprobe_events_path=%s\\n' \"/sys/kernel/debug/tracing/kprobe_events\"\nelse\n  printf 'kprobe_events_path=\\n'\nfi\nif [ -w /sys/kernel/tracing/kprobe_events ] || [ -w /sys/kernel/debug/tracing/kprobe_events ]; then\n  printf 'kprobe_events_writable=1\\n'\nelse\n  printf 'kprobe_events_writable=0\\n'\nfi\nif mount | grep tracefs >/dev/null 2>&1; then\n  printf 'tracefs_mounted=1\\n'\nelse\n  printf 'tracefs_mounted=0\\n'\nfi\nif mount | grep ' bpf ' >/dev/null 2>&1; then\n  printf 'bpffs_mounted=1\\n'\nelse\n  printf 'bpffs_mounted=0\\n'\nfi\ntrue"
+      ],
+      "exit_code": 0,
+      "fields": {
+        "bpffs_mounted": "0",
+        "bpftool_path": "",
+        "bpftrace_path": "",
+        "clang_path": "/usr/bin/clang",
+        "kernel": "6.6.87.2-microsoft-standard-WSL2",
+        "kprobe_events_path": "",
+        "kprobe_events_writable": "0",
+        "llc_path": "/usr/bin/llc",
+        "tracefs_mounted": "1"
+      },
+      "stderr": ""
+    },
+    "wsl.qemu_plugin": {
+      "argv": [
+        "wsl.exe",
+        "--exec",
+        "sh",
+        "-lc",
+        "set +e\nqemu_path=\"$(command -v qemu-riscv64 2>/dev/null || true)\"\nqemu_version=\"\"\nif [ -n \"$qemu_path\" ]; then\n  qemu_version=\"$(qemu-riscv64 --version 2>&1 | head -n 1 || true)\"\nfi\nqemu_system_path=\"$(command -v qemu-system-riscv64 2>/dev/null || true)\"\nqemu_system_version=\"\"\nif [ -n \"$qemu_system_path\" ]; then\n  qemu_system_version=\"$(qemu-system-riscv64 --version 2>&1 | head -n 1 || true)\"\nfi\nhelp_has_plugin=0\nif [ -n \"$qemu_path\" ] && qemu-riscv64 --help 2>&1 | grep -- \"-plugin\" >/dev/null; then\n  help_has_plugin=1\nfi\nsystem_help_has_plugin=0\nif [ -n \"$qemu_system_path\" ] && qemu-system-riscv64 --help 2>&1 | grep -- \"-plugin\" >/dev/null; then\n  system_help_has_plugin=1\nfi\nheaders=\"$(find /usr -name qemu-plugin.h 2>/dev/null | paste -sd ';' -)\"\nheader_count=0\nif [ -n \"$headers\" ]; then\n  header_count=\"$(printf '%s' \"$headers\" | tr ';' '\\n' | grep -c . || true)\"\nfi\nprintf 'qemu_path=%s\\n' \"$qemu_path\"\nprintf 'qemu_version=%s\\n' \"$qemu_version\"\nprintf 'qemu_system_path=%s\\n' \"$qemu_system_path\"\nprintf 'qemu_system_version=%s\\n' \"$qemu_system_version\"\nprintf 'help_has_plugin=%s\\n' \"$help_has_plugin\"\nprintf 'system_help_has_plugin=%s\\n' \"$system_help_has_plugin\"\nprintf 'qemu_plugin_header_count=%s\\n' \"$header_count\"\nprintf 'qemu_plugin_headers=%s\\n' \"$headers\"\ntrue"
+      ],
+      "exit_code": 0,
+      "fields": {
+        "help_has_plugin": "0",
+        "qemu_path": "",
+        "qemu_plugin_header_count": "0",
+        "qemu_plugin_headers": "",
+        "qemu_system_path": "",
+        "qemu_system_version": "",
+        "qemu_version": "",
+        "system_help_has_plugin": "0"
+      },
+      "stderr": ""
+    },
+    "wsl_root.ebpf_only": {
+      "argv": [
+        "wsl.exe",
+        "--user",
+        "root",
+        "--exec",
+        "sh",
+        "-lc",
+        "set +e\nprintf 'kernel=%s\\n' \"$(uname -r 2>/dev/null || true)\"\nprintf 'clang_path=%s\\n' \"$(command -v clang 2>/dev/null || true)\"\nprintf 'llc_path=%s\\n' \"$(command -v llc 2>/dev/null || true)\"\nprintf 'bpftool_path=%s\\n' \"$(command -v bpftool 2>/dev/null || true)\"\nprintf 'bpftrace_path=%s\\n' \"$(command -v bpftrace 2>/dev/null || true)\"\nif [ -e /sys/kernel/tracing/kprobe_events ]; then\n  printf 'kprobe_events_path=%s\\n' \"/sys/kernel/tracing/kprobe_events\"\nelif [ -e /sys/kernel/debug/tracing/kprobe_events ]; then\n  printf 'kprobe_events_path=%s\\n' \"/sys/kernel/debug/tracing/kprobe_events\"\nelse\n  printf 'kprobe_events_path=\\n'\nfi\nif [ -w /sys/kernel/tracing/kprobe_events ] || [ -w /sys/kernel/debug/tracing/kprobe_events ]; then\n  printf 'kprobe_events_writable=1\\n'\nelse\n  printf 'kprobe_events_writable=0\\n'\nfi\nif mount | grep tracefs >/dev/null 2>&1; then\n  printf 'tracefs_mounted=1\\n'\nelse\n  printf 'tracefs_mounted=0\\n'\nfi\nif mount | grep ' bpf ' >/dev/null 2>&1; then\n  printf 'bpffs_mounted=1\\n'\nelse\n  printf 'bpffs_mounted=0\\n'\nfi\ntrue"
+      ],
+      "exit_code": 0,
+      "fields": {
+        "bpffs_mounted": "0",
+        "bpftool_path": "",
+        "bpftrace_path": "",
+        "clang_path": "/usr/bin/clang",
+        "kernel": "6.6.87.2-microsoft-standard-WSL2",
+        "kprobe_events_path": "/sys/kernel/tracing/kprobe_events",
+        "kprobe_events_writable": "1",
+        "llc_path": "/usr/bin/llc",
+        "tracefs_mounted": "1"
+      },
+      "stderr": ""
+    },
+    "wsl_root.qemu_plugin": {
+      "argv": [
+        "wsl.exe",
+        "--user",
+        "root",
+        "--exec",
+        "sh",
+        "-lc",
+        "set +e\nqemu_path=\"$(command -v qemu-riscv64 2>/dev/null || true)\"\nqemu_version=\"\"\nif [ -n \"$qemu_path\" ]; then\n  qemu_version=\"$(qemu-riscv64 --version 2>&1 | head -n 1 || true)\"\nfi\nqemu_system_path=\"$(command -v qemu-system-riscv64 2>/dev/null || true)\"\nqemu_system_version=\"\"\nif [ -n \"$qemu_system_path\" ]; then\n  qemu_system_version=\"$(qemu-system-riscv64 --version 2>&1 | head -n 1 || true)\"\nfi\nhelp_has_plugin=0\nif [ -n \"$qemu_path\" ] && qemu-riscv64 --help 2>&1 | grep -- \"-plugin\" >/dev/null; then\n  help_has_plugin=1\nfi\nsystem_help_has_plugin=0\nif [ -n \"$qemu_system_path\" ] && qemu-system-riscv64 --help 2>&1 | grep -- \"-plugin\" >/dev/null; then\n  system_help_has_plugin=1\nfi\nheaders=\"$(find /usr -name qemu-plugin.h 2>/dev/null | paste -sd ';' -)\"\nheader_count=0\nif [ -n \"$headers\" ]; then\n  header_count=\"$(printf '%s' \"$headers\" | tr ';' '\\n' | grep -c . || true)\"\nfi\nprintf 'qemu_path=%s\\n' \"$qemu_path\"\nprintf 'qemu_version=%s\\n' \"$qemu_version\"\nprintf 'qemu_system_path=%s\\n' \"$qemu_system_path\"\nprintf 'qemu_system_version=%s\\n' \"$qemu_system_version\"\nprintf 'help_has_plugin=%s\\n' \"$help_has_plugin\"\nprintf 'system_help_has_plugin=%s\\n' \"$system_help_has_plugin\"\nprintf 'qemu_plugin_header_count=%s\\n' \"$header_count\"\nprintf 'qemu_plugin_headers=%s\\n' \"$headers\"\ntrue"
+      ],
+      "exit_code": 0,
+      "fields": {
+        "help_has_plugin": "0",
+        "qemu_path": "",
+        "qemu_plugin_header_count": "0",
+        "qemu_plugin_headers": "",
+        "qemu_system_path": "",
+        "qemu_system_version": "",
+        "qemu_version": "",
+        "system_help_has_plugin": "0"
+      },
+      "stderr": ""
+    }
+  },
+  "run_id": "35t-advanced-baseline-preflight-20260523",
+  "schema": "rvmt.35t.advanced_baseline_preflight.v1",
+  "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "source_run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "status": "BLOCKED_CURRENT_ENVIRONMENT"
+}

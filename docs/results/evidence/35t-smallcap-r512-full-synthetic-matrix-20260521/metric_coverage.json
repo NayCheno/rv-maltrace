@@ -1,0 +1,211 @@
+{
+  "aggregate": {
+    "alignment_argument_accuracy_median": 0.361111,
+    "alignment_precision_median": 0.238095,
+    "alignment_recall_median": 0.461538,
+    "board_trace_on_over_off_median": 0.565744,
+    "entry_return_balance_sample_count": 13,
+    "entry_return_balanced_samples": 13,
+    "host_strace_over_native_median": 2.602458,
+    "max_drop_rate_median": 0.030675,
+    "qemu_strace_over_native_median": 1.842839,
+    "sample_count": 13,
+    "trace_bytes_per_syscall_median": 672.934783
+  },
+  "checks": {
+    "alignment_proxy_present": true,
+    "all_required_metrics_listed": true,
+    "anti_debug_bounded_present": true,
+    "fd_case_studies_pass": true,
+    "metrics_13_samples": true,
+    "process_case_study_pass": true,
+    "resource_summary_present": true,
+    "return_pairing_proxy_present": true,
+    "runtime_and_timing_present": true,
+    "trace_bytes_and_drop_present": true
+  },
+  "coverage": {
+    "DROP rate": {
+      "boundary": "bounded by the primary 13-sample 35T run under the 512-record trace budget",
+      "evidence": [
+        "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggregate/metrics.json",
+        "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggregate/bandwidth_report.md"
+      ],
+      "status": "MEASURED",
+      "value": {
+        "max_drop_rate_median": 0.030675
+      }
+    },
+    "LUT / FF / BRAM / Fmax": {
+      "boundary": "resource/timing evidence is a routed report summary; full raw Vivado artifacts remain outside the lightweight snapshot",
+      "evidence": [
+        "docs/reports/resource_report.md"
+      ],
+      "status": "MEASURED_SUMMARY",
+      "value": {
+        "fmax_recorded": true,
+        "trace_delta_recorded": true
+      }
+    },
+    "anti-debug detectability": {
+      "boundary": "anti_debug_like is synthetic ptrace-oriented behavior evidence; real malware anti-evasion quality is not claimed",
+      "evidence": [
+        "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/evaluation_table.json"
+      ],
+      "status": "BOUNDED_SYNTHETIC_MEASURED",
+      "value": {
+        "anti_debug_behavior_strong": true,
+        "ebpf_baseline_pass": true,
+        "qemu_plugin_baseline_pass": null
+      }
+    },
+    "argument reconstruction accuracy": {
+      "boundary": "aggregate argument accuracy is an alignment-level proxy and does not imply complete pointer semantic reconstruction",
+      "evidence": [
+        "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggregate/metrics.json"
+      ],
+      "status": "MEASURED_PROXY",
+      "value": {
+        "alignment_argument_accuracy_median": 0.361111
+      }
+    },
+    "fd graph accuracy": {
+      "boundary": "closed fd graph evidence is case-study scoped and must not be described as full-suite fd graph accuracy",
+      "evidence": [
+        "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/fd_path_case_studies.json"
+      ],
+      "status": "CASE_STUDY_MEASURED",
+      "value": {
+        "all_have_closed_flows": true,
+        "required_samples_pass": true
+      }
+    },
+    "path string reconstruction accuracy": {
+      "boundary": "measured on the three assessment-prioritized fd/path case-study samples via board syscall side-channel path strings",
+      "evidence": [
+        "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/fd_path_case_studies.json"
+      ],
+      "status": "CASE_STUDY_MEASURED",
+      "value": {
+        "batch_open_read_write": {
+          "closed_flow_count": 4,
+          "pending_openat_count": 0,
+          "status": "PASS",
+          "unresolved_fd_count": 0
+        },
+        "file_scan": {
+          "closed_flow_count": 1,
+          "pending_openat_count": 0,
+          "status": "PASS",
+          "unresolved_fd_count": 0
+        },
+        "self_copy_sim": {
+          "closed_flow_count": 2,
+          "pending_openat_count": 0,
+          "status": "PASS",
+          "unresolved_fd_count": 0
+        }
+      }
+    },
+    "process graph accuracy": {
+      "boundary": "process graph evidence is scoped to the process_chain case study with parent PID intentionally unresolved",
+      "evidence": [
+        "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/process_tree_case_study.json"
+      ],
+      "status": "CASE_STUDY_MEASURED",
+      "value": {
+        "exec_path": true,
+        "graph": true,
+        "positive_child_pid": true,
+        "wait_pid": true
+      }
+    },
+    "return pairing accuracy": {
+      "boundary": "entry/return count balance is a pairing sanity metric; full return-pairing accuracy remains bounded by available trace alignment",
+      "evidence": [
+        "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggregate/metrics.json"
+      ],
+      "status": "MEASURED_PROXY",
+      "value": {
+        "entry_return_balanced_samples": 13,
+        "sample_count": 13
+      }
+    },
+    "runtime overhead": {
+      "boundary": "board trace-on/off runtime ratio is reported as measured perturbation evidence, not acceleration",
+      "evidence": [
+        "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggregate/metrics.json",
+        "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggregate/overhead_report.md"
+      ],
+      "status": "MEASURED",
+      "value": {
+        "board_trace_on_over_off_median": 0.565744
+      }
+    },
+    "syscall precision / recall": {
+      "boundary": "current aggregate reports alignment precision/recall proxies, not a full semantic syscall classifier precision/recall claim",
+      "evidence": [
+        "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggregate/metrics.json"
+      ],
+      "status": "MEASURED_PROXY",
+      "value": {
+        "alignment_precision_median": 0.238095,
+        "alignment_recall_median": 0.461538
+      }
+    },
+    "timing perturbation": {
+      "boundary": "covers host/QEMU strace timing, host eBPF/bpftrace timing, QEMU-plugin syscall-count timing evidence, and board trace-on/off timing",
+      "evidence": [
+        "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggregate/metrics.json",
+        "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/evaluation_table.json"
+      ],
+      "status": "MEASURED",
+      "value": {
+        "host_strace_over_native_median": 2.602458,
+        "qemu_strace_over_native_median": 1.842839
+      }
+    },
+    "trace bytes per syscall": {
+      "boundary": "computed from aggregate trace compact/jsonl bytes and trace event medians",
+      "evidence": [
+        "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggregate/metrics.json",
+        "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggregate/bandwidth_report.md"
+      ],
+      "status": "MEASURED",
+      "value": {
+        "trace_bytes_per_syscall_median": 672.934783
+      }
+    }
+  },
+  "failures": [],
+  "generated_utc": "2026-05-23T01:05:55Z",
+  "interpretation": [
+    "the assessment's P4 metric list is explicitly enumerated and tied to current evidence",
+    "accuracy-style metrics are bounded to existing alignment proxies and fd/process case studies unless stronger full-suite ground truth exists",
+    "advanced baseline perturbation and semantic enrichment accuracy remain bounded to available eBPF, QEMU-plugin, pointer snapshot, and helper evidence"
+  ],
+  "non_claims": [
+    "no complete syscall semantic precision/recall claim",
+    "no full-suite fd graph accuracy claim",
+    "no full-suite process ownership accuracy claim",
+    "no QEMU-plugin hardware-trace or DBI equivalence claim",
+    "no real malware anti-evasion detectability claim"
+  ],
+  "required_metrics": [
+    "syscall precision / recall",
+    "return pairing accuracy",
+    "argument reconstruction accuracy",
+    "path string reconstruction accuracy",
+    "fd graph accuracy",
+    "process graph accuracy",
+    "runtime overhead",
+    "timing perturbation",
+    "trace bytes per syscall",
+    "DROP rate",
+    "LUT / FF / BRAM / Fmax",
+    "anti-debug detectability"
+  ],
+  "run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "schema": "rvmt.35t.metric_coverage.v1",
+  "status": "BOUNDED_METRIC_COVERAGE_READY_WITH_DEFERRED_FULL_ACCURACY"
+}
