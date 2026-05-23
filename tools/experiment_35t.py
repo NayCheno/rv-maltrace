@@ -35,6 +35,7 @@ from rv_maltrace.trace_profiles import (  # noqa: E402
 BENIGN_MANIFEST = Path("experiments/linux_behavior/benign/manifest.json")
 MALWARE_MANIFEST = Path("experiments/linux_behavior/malware_like/manifest.json")
 MALWARE_EXTENSION_PLAN = Path("experiments/linux_behavior/malware_like/extension_plan.json")
+SURROGATE_MANIFEST = Path("experiments/linux_behavior/real_malware_surrogate/manifest.json")
 RULES_PATH = Path("experiments/linux_behavior/behavior_audit_rules.json")
 ROOTFS_EXP_BIN_DIR = Path("build/board/artix7_35t/rootfs_exp_overlay/usr/bin")
 TRACE_OFF = "trace-off"
@@ -47,6 +48,7 @@ TRACE_PROFILE_POLICY_CHOICES = (TRACE_PROFILE_POLICY_UNIFORM, TRACE_PROFILE_POLI
 TRACE_PROFILE_POLICY_35T_TRAP_SAMPLES = frozenset({"illegal_trap"})
 REQUIRED_BASELINES = ("host_native", "host_strace", "qemu_native", "qemu_strace")
 OPTIONAL_BASELINES = ("ebpf_only", "qemu_plugin", "software_instrumentation")
+BEHAVIOR_AUDIT_SAMPLE_CLASSES = frozenset({"malware_like_synthetic", "real_malware_surrogate"})
 UART_TIMESTAMP_RE = re.compile(r"\[[0-9]+(?:\.[0-9]+)?\]\s*")
 UART_MARKERS = (
     "RVMT_EXP_REP_BEGIN",
@@ -156,7 +158,7 @@ def aggregate_root(run_id: str) -> Path:
     return result_root(run_id) / "aggregate"
 
 
-def load_samples(*, include_extensions: bool = False) -> list[Sample]:
+def load_samples(*, include_extensions: bool = False, include_surrogates: bool = False) -> list[Sample]:
     benign = load_json(ROOT / BENIGN_MANIFEST)
     malware = load_json(ROOT / MALWARE_MANIFEST)
     samples: list[Sample] = []
@@ -215,18 +217,53 @@ def load_samples(*, include_extensions: bool = False) -> list[Sample]:
                     network_required=row.get("network_required") is True,
                 )
             )
+    if include_surrogates:
+        surrogate = load_json(ROOT / SURROGATE_MANIFEST)
+        if surrogate.get("true_real_malware") is not False:
+            raise ValueError(f"{SURROGATE_MANIFEST}: surrogate manifest must explicitly set true_real_malware=false")
+        if surrogate.get("repository_payloads_allowed") is not False:
+            raise ValueError(f"{SURROGATE_MANIFEST}: runnable payloads must remain disabled")
+        for row in surrogate.get("samples", []):
+            if not isinstance(row, dict):
+                continue
+            source = row.get("source")
+            if not isinstance(source, str):
+                raise ValueError(f"{SURROGATE_MANIFEST}: surrogate sample {row.get('id')} is missing source")
+            if row.get("destructive") is not False or row.get("true_real_malware") is not False:
+                raise ValueError(f"{SURROGATE_MANIFEST}: surrogate sample {row.get('id')} is not marked safe")
+            samples.append(
+                Sample(
+                    sample_class="real_malware_surrogate",
+                    sample_id=str(row["id"]),
+                    source=source,
+                    command=[str(item) for item in row.get("command", [])],
+                    expected_behavior=[str(item) for item in row.get("expected_behavior", [])],
+                    evidence_dir=str(row.get("evidence_dir", "")),
+                    default_enabled=row.get("default_enabled") is True,
+                    network_required=row.get("network_required") is True,
+                )
+            )
     return samples
 
 
-def selected_samples(sample_ids: Iterable[str] | None = None, *, include_extensions: bool = False) -> list[Sample]:
-    samples = load_samples(include_extensions=include_extensions)
+def selected_samples(
+    sample_ids: Iterable[str] | None = None,
+    *,
+    include_extensions: bool = False,
+    include_surrogates: bool = False,
+) -> list[Sample]:
+    samples = load_samples(include_extensions=include_extensions, include_surrogates=include_surrogates)
     wanted = {item for item in (sample_ids or []) if item}
     if not wanted:
         return [sample for sample in samples if sample.default_enabled]
     result = [
         sample
         for sample in samples
-        if sample.sample_id in wanted or (sample.default_enabled and sample.sample_class in wanted)
+        if sample.sample_id in wanted
+        or (
+            sample.sample_class in wanted
+            and (sample.default_enabled or (include_surrogates and sample.sample_class == "real_malware_surrogate"))
+        )
     ]
     missing = sorted(wanted - {sample.sample_id for sample in result} - {sample.sample_class for sample in result})
     if missing:
@@ -234,10 +271,10 @@ def selected_samples(sample_ids: Iterable[str] | None = None, *, include_extensi
     return result
 
 
-def write_run_malware_manifest(run_id: str, samples: list[Sample]) -> None:
+def write_run_behavior_manifest(run_id: str, samples: list[Sample]) -> None:
     rows = []
     for sample in samples:
-        if sample.sample_class != "malware_like_synthetic":
+        if sample.sample_class not in BEHAVIOR_AUDIT_SAMPLE_CLASSES:
             continue
         rows.append(
             {
@@ -246,6 +283,7 @@ def write_run_malware_manifest(run_id: str, samples: list[Sample]) -> None:
                 "status": "SELECTED_FOR_EXPERIMENT",
                 "provenance": "repository_source",
                 "real_malware": False,
+                "true_real_malware": False,
                 "destructive": False,
                 "network_required": sample.network_required,
                 "source": sample.source,
@@ -254,13 +292,25 @@ def write_run_malware_manifest(run_id: str, samples: list[Sample]) -> None:
                 "expected_behavior": sample.expected_behavior,
             }
         )
+    selected_classes = sorted({row["class"] for row in rows})
+    source_manifests = []
+    if any(row["class"] == "malware_like_synthetic" for row in rows):
+        source_manifests.extend([repo_rel(ROOT / MALWARE_MANIFEST), repo_rel(ROOT / MALWARE_EXTENSION_PLAN)])
+    if any(row["class"] == "real_malware_surrogate" for row in rows):
+        source_manifests.append(repo_rel(ROOT / SURROGATE_MANIFEST))
+    sample_class = selected_classes[0] if len(selected_classes) == 1 else "mixed_behavior_reference"
+    if not selected_classes:
+        sample_class = "none"
     manifest = {
-        "sample_class": "malware_like_synthetic",
-        "source_manifests": [repo_rel(ROOT / MALWARE_MANIFEST), repo_rel(ROOT / MALWARE_EXTENSION_PLAN)],
+        "sample_class": sample_class,
+        "source_manifests": source_manifests,
+        "true_real_malware": False,
+        "claim_boundary": "malware-like and real-malware-surrogate behavior validation only; not a true real-malware detection claim",
         "samples": rows,
     }
-    path = result_root(run_id) / "run_malware_manifest.json"
-    path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
+    for name in ("run_behavior_manifest.json", "run_malware_manifest.json"):
+        path = result_root(run_id) / name
+        path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
 
 
 def trace_profile_for_sample(sample: Sample, default_profile: str, policy: str) -> str:
@@ -325,7 +375,12 @@ def groundtruth_shell(sample: Sample, run_id: str, reps: int) -> str:
         rv_args = []
     host_args_shell = " ".join(sh_quote(arg) for arg in host_args)
     rv_args_shell = " ".join(sh_quote(arg) for arg in rv_args)
-    fixture_env = "env RVMT_FIXTURE_ROOT=experiments/linux_behavior/benign/fixtures"
+    fixture_root = (
+        "experiments/linux_behavior/real_malware_surrogate/fixtures"
+        if sample.sample_class == "real_malware_surrogate"
+        else "experiments/linux_behavior/benign/fixtures"
+    )
+    fixture_env = f"env RVMT_FIXTURE_ROOT={sh_quote(fixture_root)}"
     return f"""
 set -u
 sample={sh_quote(sample.sample_id)}
@@ -411,7 +466,33 @@ def stage_rootfs(args: argparse.Namespace) -> None:
         raise SystemExit(code)
 
 
-def serial_capture(port: str, baud: int, duration: float, commands: list[str], log_path: Path, *, dry_run: bool) -> None:
+def live_marker_summary(line: str) -> str | None:
+    cleaned = clean_uart_line(line)
+    if not cleaned:
+        return None
+    fields = marker_fields(cleaned)
+    if "RVMT_EXP_REP_BEGIN" in cleaned:
+        return f"[board] start {fields.get('sample', 'unknown')} {fields.get('mode', '?')} rep={fields.get('rep', '?')}"
+    if "RVMT_EXP_REP_RESULT" in cleaned:
+        return (
+            f"[board] result {fields.get('sample', 'unknown')} {fields.get('mode', '?')} rep={fields.get('rep', '?')} "
+            f"exit={fields.get('exit', '?')} trace={fields.get('trace_count', '?')} drop={fields.get('drop', '?')}"
+        )
+    if "RVMT_EXP_END" in cleaned:
+        return f"[board] experiment status={fields.get('status', 'unknown')}"
+    return None
+
+
+def serial_capture(
+    port: str,
+    baud: int,
+    duration: float,
+    commands: list[str],
+    log_path: Path,
+    *,
+    dry_run: bool,
+    live_markers: bool = False,
+) -> None:
     print(f"+ capture 35T experiment UART on {port} {baud} 8N1 for {duration:g}s to {log_path}")
     for command in commands:
         print(f"+ send: {command}")
@@ -438,6 +519,10 @@ def serial_capture(port: str, baud: int, duration: float, commands: list[str], l
                 continue
             if "RVMT_EXP_END status=" in clean_uart_line(marker_buffer):
                 exp_end_count += 1
+            if live_markers:
+                summary = live_marker_summary(marker_buffer)
+                if summary:
+                    print(summary, flush=True)
             marker_buffer = ""
         handle.flush()
 
@@ -465,6 +550,8 @@ def serial_capture(port: str, baud: int, duration: float, commands: list[str], l
                 write_log(log, chunk.decode("utf-8", errors="replace"))
                 if expected_exp_ends and exp_end_count >= expected_exp_ends:
                     break
+            elif expected_exp_ends and exp_end_count >= expected_exp_ends:
+                break
 
 
 def stage_board(args: argparse.Namespace, samples: list[Sample]) -> None:
@@ -491,7 +578,7 @@ def stage_board(args: argparse.Namespace, samples: list[Sample]) -> None:
                 ]
             )
     raw_log = result_root(args.run_id) / "board" / "raw_uart.log"
-    serial_capture(args.port, args.baud, args.duration, commands, raw_log, dry_run=args.dry_run)
+    serial_capture(args.port, args.baud, args.duration, commands, raw_log, dry_run=args.dry_run, live_markers=args.live_flow)
     if not args.dry_run:
         parse_board_log(raw_log, args.run_id)
 
@@ -1286,9 +1373,10 @@ def stage_analyze(args: argparse.Namespace, samples: list[Sample]) -> None:
                 "--out-dir",
                 str(audit_dir),
             ]
-            if sample.sample_class == "malware_like_synthetic":
-                run_manifest = result_root(args.run_id) / "run_malware_manifest.json"
-                manifest_path = run_manifest if run_manifest.exists() else ROOT / MALWARE_MANIFEST
+            if sample.sample_class in BEHAVIOR_AUDIT_SAMPLE_CLASSES:
+                run_manifest = result_root(args.run_id) / "run_behavior_manifest.json"
+                fallback_manifest = SURROGATE_MANIFEST if sample.sample_class == "real_malware_surrogate" else MALWARE_MANIFEST
+                manifest_path = run_manifest if run_manifest.exists() else ROOT / fallback_manifest
                 audit_cmd.extend(["--manifest", str(manifest_path), "--sample-id", sample.sample_id])
             code = run_analysis_command(audit_cmd, rep_dir / "audit_behavior.log", dry_run=args.dry_run)
             if code != 0:
@@ -1378,7 +1466,7 @@ def collect_metrics(run_id: str, samples: list[Sample]) -> dict[str, Any]:
         audit_matches = False
         expected_matched = False
         audit_paths = sorted((sample_dir / "board" / TRACE_ON).glob("rep_*/behavior_audit/behavior_audit.json"))
-        expected_rules = set(sample.expected_behavior) if sample.sample_class == "malware_like_synthetic" else set()
+        expected_rules = set(sample.expected_behavior) if sample.sample_class in BEHAVIOR_AUDIT_SAMPLE_CLASSES else set()
         for audit_path in audit_paths:
             audit = load_json(audit_path)
             matches = audit.get("matches", [])
@@ -1402,7 +1490,7 @@ def collect_metrics(run_id: str, samples: list[Sample]) -> dict[str, Any]:
                 expected_matched = True
 
         if audit_paths:
-            if sample.sample_class == "malware_like_synthetic":
+            if sample.sample_class in BEHAVIOR_AUDIT_SAMPLE_CLASSES:
                 if expected_matched:
                     confusion["tp"] += 1
                 else:
@@ -1532,9 +1620,9 @@ def write_reports(run_id: str, samples: list[Sample]) -> None:
     (aggregate / "accuracy_report.md").write_text(
         "\n".join(
             [
-                "# 35T Malware-like Behavior Audit Accuracy",
+                "# 35T Behavior Audit Accuracy",
                 "",
-                "This report measures synthetic malware-like behavior audit accuracy. It is not a real malware detection claim.",
+                "This report measures synthetic malware-like and safe real-malware-surrogate behavior audit accuracy. It is not a true real malware detection claim.",
                 "",
                 "## Sample-level confusion matrix",
                 "",
@@ -1780,7 +1868,11 @@ def self_test() -> int:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Run and analyze the Artix-7 35T RV-MalTrace experiment matrix.")
-    parser.add_argument("--stage", choices=("groundtruth", "rootfs", "board", "analyze", "report", "all", "self-test"), default="all")
+    parser.add_argument(
+        "--stage",
+        choices=("groundtruth", "rootfs", "board", "analyze", "report", "board-analyze-report", "all", "self-test"),
+        default="all",
+    )
     parser.add_argument("--run-id", default="manual")
     parser.add_argument("--port", default="COM5")
     parser.add_argument("--baud", type=int, default=921600)
@@ -1798,14 +1890,29 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="Allow explicitly selected synthetic extension candidates; they remain disabled by default.",
     )
+    parser.add_argument(
+        "--include-surrogate-samples",
+        action="store_true",
+        help="Allow explicitly selected safe real-malware surrogate samples; they remain disabled by default.",
+    )
     parser.add_argument("--syscall-side-channel", action="store_true")
+    parser.add_argument(
+        "--live-flow",
+        action="store_true",
+        help="Print concise board progress while running and a terminal capture dashboard after analyze/report.",
+    )
+    parser.add_argument("--flow-detail", choices=("compact", "full"), default="compact")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--keep-going", action="store_true", default=True)
     args = parser.parse_args(argv)
 
     if args.stage == "self-test":
         return self_test()
-    samples = selected_samples(args.sample, include_extensions=args.include_extension_samples)
+    samples = selected_samples(
+        args.sample,
+        include_extensions=args.include_extension_samples,
+        include_surrogates=args.include_surrogate_samples,
+    )
     profile = get_trace_profile(args.trace_profile)
     sample_profiles = trace_profiles_by_sample(samples, profile.name, args.trace_profile_policy)
     sample_control_masks = {
@@ -1829,7 +1936,9 @@ def main(argv: list[str] | None = None) -> int:
         "warmup": args.warmup,
         "syscall_side_channel": bool(args.syscall_side_channel),
         "include_extension_samples": bool(args.include_extension_samples),
+        "include_surrogate_samples": bool(args.include_surrogate_samples),
         "extension_plan": repo_rel(ROOT / MALWARE_EXTENSION_PLAN),
+        "surrogate_manifest": repo_rel(ROOT / SURROGATE_MANIFEST),
         "samples": [sample.sample_id for sample in samples],
         "network": "loopback_explicit" if any(sample.network_required for sample in samples) else "disabled",
         "real_malware": "forbidden",
@@ -1840,8 +1949,13 @@ def main(argv: list[str] | None = None) -> int:
     else:
         result_root(args.run_id).mkdir(parents=True, exist_ok=True)
         (result_root(args.run_id) / "run_config.json").write_text(json.dumps(config, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-        write_run_malware_manifest(args.run_id, samples)
-    stages = ["groundtruth", "rootfs", "board", "analyze", "report"] if args.stage == "all" else [args.stage]
+        write_run_behavior_manifest(args.run_id, samples)
+    if args.stage == "all":
+        stages = ["groundtruth", "rootfs", "board", "analyze", "report"]
+    elif args.stage == "board-analyze-report":
+        stages = ["board", "analyze", "report"]
+    else:
+        stages = [args.stage]
     for stage in stages:
         if stage == "groundtruth":
             stage_groundtruth(args, samples)
@@ -1855,6 +1969,11 @@ def main(argv: list[str] | None = None) -> int:
             stage_report(args, samples)
         else:
             raise ValueError(stage)
+    if args.live_flow and not args.dry_run and any(stage in {"analyze", "report"} for stage in stages):
+        from rv_maltrace.explain import build_process_view, load_run_artifacts, render_process_console
+
+        print()
+        print(render_process_console(build_process_view(load_run_artifacts(ROOT, args.run_id)), detail=args.flow_detail), end="")
     return 0
 
 

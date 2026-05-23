@@ -90,6 +90,13 @@ static const sample_spec_t samples[] = {
     {"malware_like_synthetic", "multi_level_process_chain", "/usr/bin/multi_level_process_chain", NULL, 0},
     {"malware_like_synthetic", "loopback_network_client", "/usr/bin/loopback_network_client", NULL, 0},
     {"malware_like_synthetic", "file_encryption_sim_non_destructive", "/usr/bin/file_encryption_sim_non_destructive", NULL, 0},
+    {"malware_like_synthetic", "mirai_proc_scan_sim", "/usr/bin/mirai_proc_scan_sim", NULL, 0},
+    {"malware_like_synthetic", "mirai_watchdog_probe_sim", "/usr/bin/mirai_watchdog_probe_sim", NULL, 0},
+    {"malware_like_synthetic", "mirai_encoded_table_sim", "/usr/bin/mirai_encoded_table_sim", NULL, 0},
+    {"malware_like_synthetic", "mirai_c2_loopback_probe", "/usr/bin/mirai_c2_loopback_probe", NULL, 0},
+    {"real_malware_surrogate", "darthra_elf_header_probe", "/usr/bin/darthra_elf_header_probe", NULL, 0},
+    {"real_malware_surrogate", "darthra_rootkit_device_probe", "/usr/bin/darthra_rootkit_device_probe", NULL, 0},
+    {"real_malware_surrogate", "darthra_virus_fixture_walk_sim", "/usr/bin/darthra_virus_fixture_walk_sim", NULL, 0},
 };
 
 static unsigned long parse_ulong(const char *s, const char *name) {

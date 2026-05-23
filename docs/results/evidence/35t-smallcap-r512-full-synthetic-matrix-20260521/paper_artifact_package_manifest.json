@@ -87,7 +87,7 @@
     "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/paper_artifact_package/hash_manifest.md",
     "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/paper_artifact_package/reproduction_commands.md"
   ],
-  "generated_utc": "2026-05-23T05:57:07Z",
+  "generated_utc": "2026-05-23T12:53:48Z",
   "hash_manifest_class_count": 23,
   "lightweight_evidence_files": [
     "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/README.md",

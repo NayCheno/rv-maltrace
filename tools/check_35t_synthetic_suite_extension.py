@@ -38,6 +38,10 @@ REQUIRED_TOPICS = {
     "fork/exec chains",
     "network workloads",
     "file encryption simulation without destructive payload",
+    "Mirai-reference /proc process enumeration",
+    "Mirai-reference watchdog probe",
+    "Mirai-reference encoded string table",
+    "Mirai-reference C2/report callback loopback probe",
 }
 REQUIRED_REAL_MALWARE_POLICIES = {
     "sample_source_policy",

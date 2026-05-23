@@ -17,11 +17,14 @@ chmod +x "$OVERLAY/etc/init.d/S99rvmt-pass"
 rm -rf "$EXP_OVERLAY"
 mkdir -p "$EXP_OVERLAY/usr/bin" \
          "$EXP_OVERLAY/opt/rvmt/experiments/linux_behavior/benign" \
-         "$EXP_OVERLAY/opt/rvmt/experiments/linux_behavior/malware_like"
+         "$EXP_OVERLAY/opt/rvmt/experiments/linux_behavior/malware_like" \
+         "$EXP_OVERLAY/opt/rvmt/experiments/linux_behavior/real_malware_surrogate"
 rsync -a "$ROOT/experiments/linux_behavior/benign/fixtures" \
     "$EXP_OVERLAY/opt/rvmt/experiments/linux_behavior/benign/"
 rsync -a "$ROOT/experiments/linux_behavior/malware_like/fixtures" \
     "$EXP_OVERLAY/opt/rvmt/experiments/linux_behavior/malware_like/"
+rsync -a "$ROOT/experiments/linux_behavior/real_malware_surrogate/fixtures" \
+    "$EXP_OVERLAY/opt/rvmt/experiments/linux_behavior/real_malware_surrogate/"
 find "$LOLV/buildroot" "$OVERLAY" -type f \( -name '*.mk' -o -name '*.in' -o -name '*.sh' -o -name '*defconfig' -o -name 'external.desc' -o -name 'external.mk' -o -name 'Config.in' \) \
   -exec sed -i 's/\r$//' {} +
 
@@ -56,6 +59,11 @@ for source in "$ROOT"/experiments/linux_behavior/malware_like/extension_programs
   "$TARGET_GCC" -O2 -Wall -Wextra -static -o "$EXP_OVERLAY/usr/bin/$name" "$source"
 done
 
+for source in "$ROOT"/experiments/linux_behavior/real_malware_surrogate/programs/*.c; do
+  name="$(basename "$source" .c)"
+  "$TARGET_GCC" -O2 -Wall -Wextra -static -o "$EXP_OVERLAY/usr/bin/$name" "$source"
+done
+
 make BR2_ROOTFS_OVERLAY="$LOLV/buildroot/board/litex_vexriscv/rootfs_overlay $OVERLAY $EXP_OVERLAY"
 
 rm -f "$LOLV/images/Image" "$LOLV/images/rootfs.cpio" "$LOLV/images/opensbi.bin" "$LOLV/images/rootfs.ext4"
@@ -70,6 +78,6 @@ ROOTFS_END=$((ROOTFS_START + ((ROOTFS_SIZE + 4095) / 4096) * 4096))
 printf -v ROOTFS_END_HEX "0x%08x" "$ROOTFS_END"
 TMP_DTS="$EXP_OVERLAY/rv32.dts"
 dtc -I dtb -O dts -o "$TMP_DTS" "$LOLV/images/rv32.dtb"
-sed -i -E "s/linux,initrd-end = <0x[0-9a-fA-F]+>;/linux,initrd-end = <$ROOTFS_END_HEX>;/" "$TMP_DTS"
+sed -i -E "s/linux,initrd-end = (.*);/linux,initrd-end = <$ROOTFS_END_HEX>;/" "$TMP_DTS"
 dtc -I dts -O dtb -o "$LOLV/images/rv32.dtb" "$TMP_DTS"
 echo "updated rv32.dtb linux,initrd-end to $ROOTFS_END_HEX for rootfs.cpio size $ROOTFS_SIZE"

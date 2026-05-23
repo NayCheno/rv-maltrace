@@ -28,7 +28,7 @@
     "trace_top": "rtl/trace/trace_top.sv"
   },
   "failures": [],
-  "generated_utc": "2026-05-22T19:31:50Z",
+  "generated_utc": "2026-05-23T12:49:50Z",
   "interpretation": [
     "synthetic ARG_MEM simulation covers pointer string and guardrail behavior",
     "the current 35T small-capacity evidence does not enable hardware user-pointer memory snapshots",

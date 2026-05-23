@@ -300,6 +300,11 @@ def match_rule(rule_id: str, rule: dict[str, Any], semantic: dict[str, Any], sam
     if isinstance(ordered, list) and ordered and not has_ordered_subsequence(strong_names, [str(item) for item in ordered]):
         sequence_failures.append("ordered:" + ",".join(str(item) for item in ordered))
 
+    forbidden_failures = []
+    forbidden = rule.get("forbidden_syscalls", [])
+    if isinstance(forbidden, list):
+        forbidden_failures = [str(name) for name in forbidden if strong_counts.get(str(name), 0) > 0]
+
     observed_causes = trap_causes(semantic)
     missing_causes = []
     for expected in rule.get("expected_traps", []):
@@ -373,7 +378,15 @@ def match_rule(rule_id: str, rule: dict[str, Any], semantic: dict[str, Any], sam
         evidence_limitations.append("second_close_not_fully_recovered:p0c_self_copy_core_shape")
         count_failures = [failure for failure in count_failures if failure != "close>=2"]
 
-    matched = not missing and not count_failures and not sequence_failures and not missing_causes and not arg_failures and not tag_failures
+    matched = (
+        not missing
+        and not count_failures
+        and not sequence_failures
+        and not forbidden_failures
+        and not missing_causes
+        and not arg_failures
+        and not tag_failures
+    )
     evidence_strength = "strong" if matched else "none"
     weak_matched = False
     weak_reasons: list[str] = []
@@ -513,6 +526,7 @@ def match_rule(rule_id: str, rule: dict[str, Any], semantic: dict[str, Any], sam
         "missing": missing,
         "count_failures": count_failures,
         "sequence_failures": sequence_failures,
+        "forbidden_failures": forbidden_failures,
         "missing_trap_causes": missing_causes,
         "failed_syscalls": failed_syscalls,
         "scoped_failed_syscalls": scoped_failed_syscalls,
@@ -601,6 +615,7 @@ def render_report(result: dict[str, Any]) -> str:
             item.get("missing")
             or item.get("count_failures")
             or item.get("sequence_failures")
+            or item.get("forbidden_failures")
             or item.get("missing_trap_causes")
             or item.get("arg_failures")
             or item.get("tag_failures")

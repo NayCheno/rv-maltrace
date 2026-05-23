@@ -1,0 +1,865 @@
+{
+  "confusion": {
+    "fn": 4,
+    "fp": 0,
+    "tn": 0,
+    "tp": 4
+  },
+  "rule_confusion": {
+    "fn": 23,
+    "fp": 45,
+    "tn": 555,
+    "tp": 17
+  },
+  "samples": [
+    {
+      "alignment_argument_accuracy": {
+        "iqr": null,
+        "max": null,
+        "median": null,
+        "min": null,
+        "spread": null
+      },
+      "alignment_precision": {
+        "iqr": 0.0,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "alignment_recall": {
+        "iqr": 0.0,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "any_behavior_rule_matched": true,
+      "board_trace_off_runtime_ns": {
+        "iqr": 8973470.0,
+        "max": 177020360.0,
+        "median": 170127700.0,
+        "min": 160534160.0,
+        "spread": 16486200.0
+      },
+      "board_trace_on_runtime_ns": {
+        "iqr": 6885140.0,
+        "max": 94657320.0,
+        "median": 91541540.0,
+        "min": 84683360.0,
+        "spread": 9973960.0
+      },
+      "captured_cap_reps": [],
+      "drop_count": {
+        "iqr": 0.0,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "drop_rate": {
+        "iqr": 0.0,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "event_counts": {
+        "MARKER": 10,
+        "SYSCALL_ENTRY": 100,
+        "SYSCALL_RET": 100
+      },
+      "expected_behavior_matched": false,
+      "groundtruth": {},
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "direct_syscall_open_read",
+      "status": "PASS",
+      "trace_compact_bytes": {
+        "iqr": 3.0,
+        "max": 28217.0,
+        "median": 28214.0,
+        "min": 28213.0,
+        "spread": 4.0
+      },
+      "trace_compact_bytes_per_sec": {
+        "iqr": 24163.476803189027,
+        "max": 333170.5307866858,
+        "median": 308198.87889148464,
+        "min": 298075.20432651165,
+        "spread": 35095.32646017417
+      },
+      "trace_events": {
+        "iqr": 0.0,
+        "max": 42.0,
+        "median": 42.0,
+        "min": 42.0,
+        "spread": 0.0
+      },
+      "trace_events_per_sec": {
+        "iqr": 35.9447726842821,
+        "max": 495.9652049706105,
+        "median": 458.8080995797099,
+        "min": 443.70577996503596,
+        "spread": 52.25942500557454
+      },
+      "trace_jsonl_bytes": {
+        "iqr": 1.0,
+        "max": 26674.0,
+        "median": 26673.0,
+        "min": 26672.0,
+        "spread": 2.0
+      },
+      "trace_jsonl_bytes_per_sec": {
+        "iqr": 22816.311578937806,
+        "max": 314961.52254705055,
+        "median": 291375.91524022864,
+        "min": 281795.42797112785,
+        "spread": 33166.0945759227
+      },
+      "trace_on_rep_count": 5
+    },
+    {
+      "alignment_argument_accuracy": {
+        "iqr": null,
+        "max": null,
+        "median": null,
+        "min": null,
+        "spread": null
+      },
+      "alignment_precision": {
+        "iqr": 0.0,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "alignment_recall": {
+        "iqr": 0.0,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "any_behavior_rule_matched": true,
+      "board_trace_off_runtime_ns": {
+        "iqr": 7780650.0,
+        "max": 174756260.0,
+        "median": 169622020.0,
+        "min": 163573540.0,
+        "spread": 11182720.0
+      },
+      "board_trace_on_runtime_ns": {
+        "iqr": 4949600.0,
+        "max": 91668060.0,
+        "median": 90154760.0,
+        "min": 85806740.0,
+        "spread": 5861320.0
+      },
+      "captured_cap_reps": [],
+      "drop_count": {
+        "iqr": 0.0,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "drop_rate": {
+        "iqr": 0.0,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "event_counts": {
+        "MARKER": 10,
+        "SYSCALL_ENTRY": 135,
+        "SYSCALL_RET": 135
+      },
+      "expected_behavior_matched": false,
+      "groundtruth": {},
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "timing_anti_analysis_loop",
+      "status": "PASS",
+      "trace_compact_bytes": {
+        "iqr": 4.5,
+        "max": 37774.0,
+        "median": 37773.0,
+        "min": 37768.0,
+        "spread": 6.0
+      },
+      "trace_compact_bytes_per_sec": {
+        "iqr": 23845.825360924064,
+        "max": 440151.9041511191,
+        "median": 418990.6334396542,
+        "min": 412030.1007788318,
+        "spread": 28121.803372287308
+      },
+      "trace_events": {
+        "iqr": 0.0,
+        "max": 56.0,
+        "median": 56.0,
+        "min": 56.0,
+        "spread": 0.0
+      },
+      "trace_events_per_sec": {
+        "iqr": 35.37133518565395,
+        "max": 652.6293855237944,
+        "median": 621.1541132159855,
+        "min": 610.8998052320514,
+        "spread": 41.72958029174299
+      },
+      "trace_jsonl_bytes": {
+        "iqr": 1.0,
+        "max": 35717.0,
+        "median": 35716.0,
+        "min": 35716.0,
+        "spread": 1.0
+      },
+      "trace_jsonl_bytes_per_sec": {
+        "iqr": 22559.591322068824,
+        "max": 416237.6988101401,
+        "median": 396163.21977896674,
+        "min": 389623.1686369277,
+        "spread": 26614.530173212406
+      },
+      "trace_on_rep_count": 5
+    },
+    {
+      "alignment_argument_accuracy": {
+        "iqr": null,
+        "max": null,
+        "median": null,
+        "min": null,
+        "spread": null
+      },
+      "alignment_precision": {
+        "iqr": 0.0,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "alignment_recall": {
+        "iqr": 0.0,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "any_behavior_rule_matched": true,
+      "board_trace_off_runtime_ns": {
+        "iqr": 4540620.0,
+        "max": 177514620.0,
+        "median": 171301300.0,
+        "min": 170108460.0,
+        "spread": 7406160.0
+      },
+      "board_trace_on_runtime_ns": {
+        "iqr": 4631150.0,
+        "max": 93959900.0,
+        "median": 91172400.0,
+        "min": 86946960.0,
+        "spread": 7012940.0
+      },
+      "captured_cap_reps": [],
+      "drop_count": {
+        "iqr": 0.0,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "drop_rate": {
+        "iqr": 0.0,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "event_counts": {
+        "MARKER": 10,
+        "SYSCALL_ENTRY": 95,
+        "SYSCALL_RET": 95
+      },
+      "expected_behavior_matched": true,
+      "groundtruth": {},
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "proc_status_tracerpid_check",
+      "status": "PASS",
+      "trace_compact_bytes": {
+        "iqr": 4.0,
+        "max": 26857.0,
+        "median": 26856.0,
+        "min": 26850.0,
+        "spread": 7.0
+      },
+      "trace_compact_bytes_per_sec": {
+        "iqr": 15042.065577431582,
+        "max": 308808.95663287136,
+        "median": 294562.828224331,
+        "min": 285813.4161488039,
+        "spread": 22995.54048406746
+      },
+      "trace_events": {
+        "iqr": 0.0,
+        "max": 40.0,
+        "median": 40.0,
+        "min": 40.0,
+        "spread": 0.0
+      },
+      "trace_events_per_sec": {
+        "iqr": 22.455470095624833,
+        "max": 460.0505871625644,
+        "median": 438.7292645581338,
+        "min": 425.7135224707562,
+        "spread": 34.33706469180822
+      },
+      "trace_jsonl_bytes": {
+        "iqr": 2.0,
+        "max": 25383.0,
+        "median": 25382.0,
+        "min": 25379.0,
+        "spread": 4.0
+      },
+      "trace_jsonl_bytes_per_sec": {
+        "iqr": 14237.35349536856,
+        "max": 291890.59628996806,
+        "median": 278395.65482536383,
+        "min": 270136.5156838183,
+        "spread": 21754.080606149742
+      },
+      "trace_on_rep_count": 5
+    },
+    {
+      "alignment_argument_accuracy": {
+        "iqr": null,
+        "max": null,
+        "median": null,
+        "min": null,
+        "spread": null
+      },
+      "alignment_precision": {
+        "iqr": 0.0,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "alignment_recall": {
+        "iqr": 0.0,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "any_behavior_rule_matched": true,
+      "board_trace_off_runtime_ns": {
+        "iqr": 8210200.0,
+        "max": 172683840.0,
+        "median": 166412200.0,
+        "min": 162464700.0,
+        "spread": 10219140.0
+      },
+      "board_trace_on_runtime_ns": {
+        "iqr": 4302550.0,
+        "max": 91943940.0,
+        "median": 86160760.0,
+        "min": 85273480.0,
+        "spread": 6670460.0
+      },
+      "captured_cap_reps": [],
+      "drop_count": {
+        "iqr": 0.0,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "drop_rate": {
+        "iqr": 0.0,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "event_counts": {
+        "MARKER": 10,
+        "SYSCALL_ENTRY": 100,
+        "SYSCALL_RET": 100
+      },
+      "expected_behavior_matched": false,
+      "groundtruth": {},
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "obfuscated_syscall_wrapper",
+      "status": "PASS",
+      "trace_compact_bytes": {
+        "iqr": 2.5,
+        "max": 28217.0,
+        "median": 28216.0,
+        "min": 28214.0,
+        "spread": 3.0
+      },
+      "trace_compact_bytes_per_sec": {
+        "iqr": 15600.161078561214,
+        "max": 330876.6101723537,
+        "median": 327457.65009500843,
+        "min": 306882.6504498284,
+        "spread": 23993.959722525266
+      },
+      "trace_events": {
+        "iqr": 0.0,
+        "max": 42.0,
+        "median": 42.0,
+        "min": 42.0,
+        "spread": 0.0
+      },
+      "trace_events_per_sec": {
+        "iqr": 23.2296451862577,
+        "max": 492.53296570047337,
+        "median": 487.4608812642785,
+        "min": 456.80008927178886,
+        "spread": 35.732876428684506
+      },
+      "trace_jsonl_bytes": {
+        "iqr": 1.0,
+        "max": 26674.0,
+        "median": 26673.0,
+        "min": 26672.0,
+        "spread": 2.0
+      },
+      "trace_jsonl_bytes_per_sec": {
+        "iqr": 14747.04585734324,
+        "max": 312793.61414592207,
+        "median": 309560.8720257342,
+        "min": 290111.56145799276,
+        "spread": 22682.052687929303
+      },
+      "trace_on_rep_count": 5
+    },
+    {
+      "alignment_argument_accuracy": {
+        "iqr": null,
+        "max": null,
+        "median": null,
+        "min": null,
+        "spread": null
+      },
+      "alignment_precision": {
+        "iqr": 0.0,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "alignment_recall": {
+        "iqr": 0.0,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "any_behavior_rule_matched": true,
+      "board_trace_off_runtime_ns": {
+        "iqr": 11250740.0,
+        "max": 178181420.0,
+        "median": 168966740.0,
+        "min": 163492740.0,
+        "spread": 14688680.0
+      },
+      "board_trace_on_runtime_ns": {
+        "iqr": 3383590.0,
+        "max": 98287560.0,
+        "median": 96950340.0,
+        "min": 93126260.0,
+        "spread": 5161300.0
+      },
+      "captured_cap_reps": [],
+      "drop_count": {
+        "iqr": 0.0,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "drop_rate": {
+        "iqr": 0.0,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "event_counts": {
+        "MARKER": 10,
+        "SYSCALL_ENTRY": 95,
+        "SYSCALL_RET": 95
+      },
+      "expected_behavior_matched": true,
+      "groundtruth": {},
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "self_modifying_code_sim",
+      "status": "PASS",
+      "trace_compact_bytes": {
+        "iqr": 3.5,
+        "max": 26859.0,
+        "median": 26853.0,
+        "min": 26853.0,
+        "spread": 6.0
+      },
+      "trace_compact_bytes_per_sec": {
+        "iqr": 9884.96395724325,
+        "max": 288350.4609763132,
+        "median": 276976.8522730297,
+        "min": 273208.53218861064,
+        "spread": 15141.928787702578
+      },
+      "trace_events": {
+        "iqr": 0.0,
+        "max": 40.0,
+        "median": 40.0,
+        "min": 40.0,
+        "spread": 0.0
+      },
+      "trace_events_per_sec": {
+        "iqr": 14.685751355820287,
+        "max": 429.5243897908066,
+        "median": 412.58235917481056,
+        "min": 406.9691016848928,
+        "spread": 22.555288105913803
+      },
+      "trace_jsonl_bytes": {
+        "iqr": 1.5,
+        "max": 25382.0,
+        "median": 25381.0,
+        "min": 25380.0,
+        "spread": 2.0
+      },
+      "trace_jsonl_bytes_per_sec": {
+        "iqr": 9328.777866615157,
+        "max": 272543.96343201154,
+        "median": 261783.5068964173,
+        "min": 258232.0692466066,
+        "spread": 14311.894185404934
+      },
+      "trace_on_rep_count": 5
+    },
+    {
+      "alignment_argument_accuracy": {
+        "iqr": null,
+        "max": null,
+        "median": null,
+        "min": null,
+        "spread": null
+      },
+      "alignment_precision": {
+        "iqr": 0.0,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "alignment_recall": {
+        "iqr": 0.0,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "any_behavior_rule_matched": true,
+      "board_trace_off_runtime_ns": {
+        "iqr": 12977480.0,
+        "max": 182288400.0,
+        "median": 172668200.0,
+        "min": 165239200.0,
+        "spread": 17049200.0
+      },
+      "board_trace_on_runtime_ns": {
+        "iqr": 4081090.0,
+        "max": 101871680.0,
+        "median": 97281420.0,
+        "min": 94852820.0,
+        "spread": 7018860.0
+      },
+      "captured_cap_reps": [],
+      "drop_count": {
+        "iqr": 0.0,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "drop_rate": {
+        "iqr": 0.0,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "event_counts": {
+        "MARKER": 10,
+        "SYSCALL_ENTRY": 110,
+        "SYSCALL_RET": 110
+      },
+      "expected_behavior_matched": true,
+      "groundtruth": {},
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "mprotect_exec_variant",
+      "status": "PASS",
+      "trace_compact_bytes": {
+        "iqr": 3.5,
+        "max": 30958.0,
+        "median": 30956.0,
+        "min": 30952.0,
+        "spread": 6.0
+      },
+      "trace_compact_bytes_per_sec": {
+        "iqr": 13107.034251286765,
+        "max": 326358.24638634885,
+        "median": 318169.6977696255,
+        "min": 303892.1121159482,
+        "spread": 22466.134270400624
+      },
+      "trace_events": {
+        "iqr": 0.0,
+        "max": 46.0,
+        "median": 46.0,
+        "min": 46.0,
+        "spread": 0.0
+      },
+      "trace_events_per_sec": {
+        "iqr": 19.483698630949675,
+        "max": 484.96185985825196,
+        "median": 472.85493982304126,
+        "min": 451.5484578245887,
+        "spread": 33.41340203366326
+      },
+      "trace_jsonl_bytes": {
+        "iqr": 1.5,
+        "max": 29261.0,
+        "median": 29259.0,
+        "min": 29259.0,
+        "spread": 2.0
+      },
+      "trace_jsonl_bytes_per_sec": {
+        "iqr": 12388.255195271107,
+        "max": 308467.3708172303,
+        "median": 300766.5800930949,
+        "min": 287233.9005305498,
+        "spread": 21233.470286680502
+      },
+      "trace_on_rep_count": 5
+    },
+    {
+      "alignment_argument_accuracy": {
+        "iqr": null,
+        "max": null,
+        "median": null,
+        "min": null,
+        "spread": null
+      },
+      "alignment_precision": {
+        "iqr": 0.0,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "alignment_recall": {
+        "iqr": 0.0,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "any_behavior_rule_matched": false,
+      "board_trace_off_runtime_ns": {
+        "iqr": 18140110.0,
+        "max": 630190960.0,
+        "median": 622511720.0,
+        "min": 604431260.0,
+        "spread": 25759700.0
+      },
+      "board_trace_on_runtime_ns": {
+        "iqr": 11440040.0,
+        "max": 549160860.0,
+        "median": 540745180.0,
+        "min": 533680100.0,
+        "spread": 15480760.0
+      },
+      "captured_cap_reps": [],
+      "drop_count": {
+        "iqr": 0.0,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "drop_rate": {
+        "iqr": 0.0,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "event_counts": {
+        "MARKER": 10,
+        "SYSCALL_ENTRY": 245,
+        "SYSCALL_RET": 245
+      },
+      "expected_behavior_matched": false,
+      "groundtruth": {},
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "multi_level_process_chain",
+      "status": "PASS",
+      "trace_compact_bytes": {
+        "iqr": 8.0,
+        "max": 67933.0,
+        "median": 67932.0,
+        "min": 67924.0,
+        "spread": 9.0
+      },
+      "trace_compact_bytes_per_sec": {
+        "iqr": 2644.6367081217613,
+        "max": 127291.61158529238,
+        "median": 125626.63988979059,
+        "min": 123688.71299385758,
+        "spread": 3602.8985914348013
+      },
+      "trace_events": {
+        "iqr": 0.0,
+        "max": 100.0,
+        "median": 100.0,
+        "min": 100.0,
+        "spread": 0.0
+      },
+      "trace_events_per_sec": {
+        "iqr": 3.893210057100191,
+        "max": 187.37816905670644,
+        "median": 184.92998865010685,
+        "min": 182.09600735201704,
+        "spread": 5.2821617046894005
+      },
+      "trace_jsonl_bytes": {
+        "iqr": 3.0,
+        "max": 64172.0,
+        "median": 64169.0,
+        "min": 64168.0,
+        "spread": 4.0
+      },
+      "trace_jsonl_bytes_per_sec": {
+        "iqr": 2499.1552075514046,
+        "max": 120240.57108368853,
+        "median": 118673.27231654657,
+        "min": 116847.3659976423,
+        "spread": 3393.205086046233
+      },
+      "trace_on_rep_count": 5
+    },
+    {
+      "alignment_argument_accuracy": {
+        "iqr": null,
+        "max": null,
+        "median": null,
+        "min": null,
+        "spread": null
+      },
+      "alignment_precision": {
+        "iqr": 0.0,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "alignment_recall": {
+        "iqr": 0.0,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "any_behavior_rule_matched": true,
+      "board_trace_off_runtime_ns": {
+        "iqr": 7455500.0,
+        "max": 179605540.0,
+        "median": 173888120.0,
+        "min": 169532500.0,
+        "spread": 10073040.0
+      },
+      "board_trace_on_runtime_ns": {
+        "iqr": 3145160.0,
+        "max": 96883560.0,
+        "median": 93292560.0,
+        "min": 92078320.0,
+        "spread": 4805240.0
+      },
+      "captured_cap_reps": [],
+      "drop_count": {
+        "iqr": 0.0,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "drop_rate": {
+        "iqr": 0.0,
+        "max": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "spread": 0.0
+      },
+      "event_counts": {
+        "MARKER": 10,
+        "SYSCALL_ENTRY": 110,
+        "SYSCALL_RET": 110
+      },
+      "expected_behavior_matched": true,
+      "groundtruth": {},
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "file_encryption_sim_non_destructive",
+      "status": "PASS",
+      "trace_compact_bytes": {
+        "iqr": 4.5,
+        "max": 30960.0,
+        "median": 30956.0,
+        "min": 30955.0,
+        "spread": 5.0
+      },
+      "trace_compact_bytes_per_sec": {
+        "iqr": 10941.911176961265,
+        "max": 336192.059107942,
+        "median": 331805.6659609298,
+        "min": 319548.5384723683,
+        "spread": 16643.52063557366
+      },
+      "trace_events": {
+        "iqr": 0.0,
+        "max": 46.0,
+        "median": 46.0,
+        "min": 46.0,
+        "spread": 0.0
+      },
+      "trace_events_per_sec": {
+        "iqr": 16.3221440570004,
+        "max": 499.5747098774174,
+        "median": 493.0725451204255,
+        "min": 474.7967560234162,
+        "spread": 24.77795385400117
+      },
+      "trace_jsonl_bytes": {
+        "iqr": 1.0,
+        "max": 29261.0,
+        "median": 29260.0,
+        "min": 29259.0,
+        "spread": 2.0
+      },
+      "trace_jsonl_bytes_per_sec": {
+        "iqr": 10371.733777505811,
+        "max": 317772.9567611572,
+        "median": 313637.01457007934,
+        "min": 302022.3451739387,
+        "spread": 15750.611587218475
+      },
+      "trace_on_rep_count": 5
+    }
+  ],
+  "schema": "rvmt.35t.metrics.v1"
+}

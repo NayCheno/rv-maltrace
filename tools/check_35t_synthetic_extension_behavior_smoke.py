@@ -18,9 +18,9 @@ SCHEMA = "rvmt.35t.synthetic_extension_behavior_smoke.v1"
 PASS_STATUS = "HOST_QEMU_BEHAVIOR_SMOKE_PASS_35T_GATING_DEFERRED"
 BLOCKED_STATUS = "HOST_QEMU_BEHAVIOR_SMOKE_BLOCKED_CURRENT_ENVIRONMENT"
 ACCEPTED_STATUSES = {PASS_STATUS, BLOCKED_STATUS}
-EXPECTED_CANDIDATE_COUNT = 9
-EXPECTED_NON_NETWORK_COUNT = 8
-OPTIONAL_NETWORK_ID = "loopback_network_client"
+EXPECTED_CANDIDATE_COUNT = 13
+EXPECTED_NON_NETWORK_COUNT = 11
+OPTIONAL_NETWORK_IDS = ("loopback_network_client", "mirai_c2_loopback_probe")
 NON_CLAIMS = [
     "no CVA6 board claim",
     "no real malware detection claim",
@@ -351,10 +351,10 @@ def build_report_from_container(
 
     checks = {
         "plan_schema": plan.get("schema") == "rvmt.synthetic_suite_extension_plan.v1",
-        "candidate_count_9": len(candidate_ids) == EXPECTED_CANDIDATE_COUNT,
-        "non_network_candidate_count_8": len(non_network_ids) == EXPECTED_NON_NETWORK_COUNT,
-        "loopback_network_candidate_skipped": network_ids == [OPTIONAL_NETWORK_ID]
-        and sample_by_id.get(OPTIONAL_NETWORK_ID, {}).get("execution_status") == "SKIPPED_NETWORK_OPTIONAL",
+        "candidate_count_expected": len(candidate_ids) == EXPECTED_CANDIDATE_COUNT,
+        "non_network_candidate_count_expected": len(non_network_ids) == EXPECTED_NON_NETWORK_COUNT,
+        "optional_network_candidates_skipped": network_ids == sorted(OPTIONAL_NETWORK_IDS)
+        and all(sample_by_id.get(sample_id, {}).get("execution_status") == "SKIPPED_NETWORK_OPTIONAL" for sample_id in OPTIONAL_NETWORK_IDS),
         "all_candidates_default_disabled": all(row.get("default_enabled") is False for row in candidates),
         "container_command_passed": container_result.get("exit_code") == 0,
         "container_json_present": container_json is not None,
@@ -401,7 +401,7 @@ def build_report_from_container(
         "results_root": rel(results_root, repo_root),
         "current_condition": (
             "non-network synthetic extension candidates compile and execute under host native, host strace, "
-            "QEMU native, and QEMU strace smoke paths; loopback network candidate remains skipped unless "
+            "QEMU native, and QEMU strace smoke paths; loopback network candidates remain skipped unless "
             "explicitly selected; no 35T board run or expanded gate pass is claimed"
         ),
         "checks": checks,
@@ -427,7 +427,7 @@ def build_report_from_container(
             "refresh the Artix-7 rootfs image with selected extension binaries if the current board image does not already contain them",
             "run selected extension candidates on the Artix-7 35T board with the same trace-off/trace-on ordering",
             "analyze extension traces and apply marker, attribution, DROP, capacity, and strong-evidence gates",
-            "keep loopback-network extension disabled unless an explicit loopback-only fixture is selected",
+            "keep loopback-network extensions disabled unless explicit loopback-only fixtures are selected",
         ],
         "interpretation": [
             "this smoke test upgrades the extension evidence from compile/dry-run only to host and QEMU execution evidence for non-network candidates",
@@ -513,17 +513,18 @@ def write_fixture(root: Path) -> tuple[Path, Path, dict[str, Any]]:
     source_root = root / "experiments/linux_behavior/malware_like/extension_programs"
     source_root.mkdir(parents=True, exist_ok=True)
     candidates = []
-    for index in range(EXPECTED_CANDIDATE_COUNT):
-        candidate_id = OPTIONAL_NETWORK_ID if index == 7 else f"candidate_{index}"
+    candidate_ids = [f"candidate_{index}" for index in range(EXPECTED_NON_NETWORK_COUNT)] + list(OPTIONAL_NETWORK_IDS)
+    for candidate_id in candidate_ids:
         source = source_root / f"{candidate_id}.c"
         source.write_text("int main(void) { return 0; }\n", encoding="utf-8")
+        network_required = candidate_id in OPTIONAL_NETWORK_IDS
         candidates.append(
             {
                 "id": candidate_id,
-                "status": "IMPLEMENTED_SOURCE_OPTIONAL_LOOPBACK" if candidate_id == OPTIONAL_NETWORK_ID else "IMPLEMENTED_SOURCE",
+                "status": "IMPLEMENTED_SOURCE_OPTIONAL_LOOPBACK" if network_required else "IMPLEMENTED_SOURCE",
                 "source": rel(source, root),
                 "default_enabled": False,
-                "network_required": candidate_id == OPTIONAL_NETWORK_ID,
+                "network_required": network_required,
                 "expected_syscalls": ["exit_group"],
             }
         )

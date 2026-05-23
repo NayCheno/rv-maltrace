@@ -1,0 +1,323 @@
+{
+  "checks": {
+    "all_samples_pass": true,
+    "expected_samples_present": true,
+    "gate_report_available_or_derived": true,
+    "include_extension_samples_explicit": true,
+    "loopback_network_client_excluded": true,
+    "metrics_exists": true,
+    "network_disabled": true,
+    "real_malware_forbidden": true,
+    "results_root_exists": true,
+    "run_config_exists": true,
+    "runtime_order_abba": true,
+    "trace_profile_policy_35t_small_capacity": true,
+    "trace_records_512": true
+  },
+  "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+  "evidence_root": "docs/results/evidence/35t-extension-r512-nonnetwork-20260523",
+  "excluded_samples": [
+    "loopback_network_client"
+  ],
+  "expected_samples": [
+    "direct_syscall_open_read",
+    "file_encryption_sim_non_destructive",
+    "mprotect_exec_variant",
+    "multi_level_process_chain",
+    "obfuscated_syscall_wrapper",
+    "proc_status_tracerpid_check",
+    "self_modifying_code_sim",
+    "timing_anti_analysis_loop"
+  ],
+  "failures": [],
+  "generated_utc": "2026-05-23T12:59:07Z",
+  "metrics_schema": "rvmt.35t.metrics.v1",
+  "non_claims": [
+    "no CVA6 board claim",
+    "no real malware detection claim",
+    "no mature detector claim",
+    "no classifier accuracy claim",
+    "no complete semantic reconstruction claim",
+    "extension gate is reported separately from the primary 13-sample gate"
+  ],
+  "results_root": "results/experiments/35t/35t-extension-r512-nonnetwork-20260523",
+  "run_id": "35t-extension-r512-nonnetwork-20260523",
+  "samples": [
+    {
+      "behavior_audit_artifact_count": 5,
+      "checks": {
+        "behavior_audit_artifacts_5_of_5": true,
+        "drop_rate_median_le_5pct": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_cap_hit": true,
+        "runtime_process_attribution_pass": true,
+        "sample_status_pass": true,
+        "semantic_artifacts_5_of_5": true,
+        "strong_expected_behavior_matched": true,
+        "trace_on_5_of_5": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.0,
+      "expected_evidence_source": "semantic_trace+syscall_side_channel_auxiliary",
+      "failures": [],
+      "gate_status": "PASS",
+      "matched_expected": [
+        "direct_syscall_file_access"
+      ],
+      "missing_expected_syscalls": [],
+      "sample_id": "direct_syscall_open_read",
+      "sample_status": {
+        "status": "PASS",
+        "trace_on_pass": 5
+      },
+      "semantic_artifact_count": 5,
+      "status": "PASS",
+      "trace_artifact_count": 5,
+      "unknown_event_count": 0
+    },
+    {
+      "behavior_audit_artifact_count": 5,
+      "checks": {
+        "behavior_audit_artifacts_5_of_5": true,
+        "drop_rate_median_le_5pct": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_cap_hit": true,
+        "runtime_process_attribution_pass": true,
+        "sample_status_pass": true,
+        "semantic_artifacts_5_of_5": true,
+        "strong_expected_behavior_matched": true,
+        "trace_on_5_of_5": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.0,
+      "expected_evidence_source": "behavior_audit",
+      "failures": [],
+      "gate_status": "PASS",
+      "matched_expected": [
+        "non_destructive_file_encryption_simulation"
+      ],
+      "missing_expected_syscalls": [],
+      "sample_id": "file_encryption_sim_non_destructive",
+      "sample_status": {
+        "status": "PASS",
+        "trace_on_pass": 5
+      },
+      "semantic_artifact_count": 5,
+      "status": "PASS",
+      "trace_artifact_count": 5,
+      "unknown_event_count": 0
+    },
+    {
+      "behavior_audit_artifact_count": 5,
+      "checks": {
+        "behavior_audit_artifacts_5_of_5": true,
+        "drop_rate_median_le_5pct": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_cap_hit": true,
+        "runtime_process_attribution_pass": true,
+        "sample_status_pass": true,
+        "semantic_artifacts_5_of_5": true,
+        "strong_expected_behavior_matched": true,
+        "trace_on_5_of_5": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.0,
+      "expected_evidence_source": "behavior_audit",
+      "failures": [],
+      "gate_status": "PASS",
+      "matched_expected": [
+        "dynamic_executable_memory_variant"
+      ],
+      "missing_expected_syscalls": [],
+      "sample_id": "mprotect_exec_variant",
+      "sample_status": {
+        "status": "PASS",
+        "trace_on_pass": 5
+      },
+      "semantic_artifact_count": 5,
+      "status": "PASS",
+      "trace_artifact_count": 5,
+      "unknown_event_count": 0
+    },
+    {
+      "behavior_audit_artifact_count": 5,
+      "checks": {
+        "behavior_audit_artifacts_5_of_5": true,
+        "drop_rate_median_le_5pct": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_cap_hit": true,
+        "runtime_process_attribution_pass": true,
+        "sample_status_pass": true,
+        "semantic_artifacts_5_of_5": true,
+        "strong_expected_behavior_matched": true,
+        "trace_on_5_of_5": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.0,
+      "expected_evidence_source": "semantic_trace+syscall_side_channel_auxiliary",
+      "failures": [],
+      "gate_status": "PASS",
+      "matched_expected": [
+        "multi_level_process_creation_chain"
+      ],
+      "missing_expected_syscalls": [],
+      "sample_id": "multi_level_process_chain",
+      "sample_status": {
+        "status": "PASS",
+        "trace_on_pass": 5
+      },
+      "semantic_artifact_count": 5,
+      "status": "PASS",
+      "trace_artifact_count": 5,
+      "unknown_event_count": 0
+    },
+    {
+      "behavior_audit_artifact_count": 5,
+      "checks": {
+        "behavior_audit_artifacts_5_of_5": true,
+        "drop_rate_median_le_5pct": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_cap_hit": true,
+        "runtime_process_attribution_pass": true,
+        "sample_status_pass": true,
+        "semantic_artifacts_5_of_5": true,
+        "strong_expected_behavior_matched": true,
+        "trace_on_5_of_5": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.0,
+      "expected_evidence_source": "semantic_trace+syscall_side_channel_auxiliary",
+      "failures": [],
+      "gate_status": "PASS",
+      "matched_expected": [
+        "obfuscated_syscall_sequence"
+      ],
+      "missing_expected_syscalls": [],
+      "sample_id": "obfuscated_syscall_wrapper",
+      "sample_status": {
+        "status": "PASS",
+        "trace_on_pass": 5
+      },
+      "semantic_artifact_count": 5,
+      "status": "PASS",
+      "trace_artifact_count": 5,
+      "unknown_event_count": 0
+    },
+    {
+      "behavior_audit_artifact_count": 5,
+      "checks": {
+        "behavior_audit_artifacts_5_of_5": true,
+        "drop_rate_median_le_5pct": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_cap_hit": true,
+        "runtime_process_attribution_pass": true,
+        "sample_status_pass": true,
+        "semantic_artifacts_5_of_5": true,
+        "strong_expected_behavior_matched": true,
+        "trace_on_5_of_5": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.0,
+      "expected_evidence_source": "behavior_audit",
+      "failures": [],
+      "gate_status": "PASS",
+      "matched_expected": [
+        "proc_status_anti_debug_check"
+      ],
+      "missing_expected_syscalls": [],
+      "sample_id": "proc_status_tracerpid_check",
+      "sample_status": {
+        "status": "PASS",
+        "trace_on_pass": 5
+      },
+      "semantic_artifact_count": 5,
+      "status": "PASS",
+      "trace_artifact_count": 5,
+      "unknown_event_count": 0
+    },
+    {
+      "behavior_audit_artifact_count": 5,
+      "checks": {
+        "behavior_audit_artifacts_5_of_5": true,
+        "drop_rate_median_le_5pct": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_cap_hit": true,
+        "runtime_process_attribution_pass": true,
+        "sample_status_pass": true,
+        "semantic_artifacts_5_of_5": true,
+        "strong_expected_behavior_matched": true,
+        "trace_on_5_of_5": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.0,
+      "expected_evidence_source": "behavior_audit",
+      "failures": [],
+      "gate_status": "PASS",
+      "matched_expected": [
+        "self_modifying_memory_simulation"
+      ],
+      "missing_expected_syscalls": [],
+      "sample_id": "self_modifying_code_sim",
+      "sample_status": {
+        "status": "PASS",
+        "trace_on_pass": 5
+      },
+      "semantic_artifact_count": 5,
+      "status": "PASS",
+      "trace_artifact_count": 5,
+      "unknown_event_count": 0
+    },
+    {
+      "behavior_audit_artifact_count": 5,
+      "checks": {
+        "behavior_audit_artifacts_5_of_5": true,
+        "drop_rate_median_le_5pct": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_cap_hit": true,
+        "runtime_process_attribution_pass": true,
+        "sample_status_pass": true,
+        "semantic_artifacts_5_of_5": true,
+        "strong_expected_behavior_matched": true,
+        "trace_on_5_of_5": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.0,
+      "expected_evidence_source": "semantic_trace+syscall_side_channel_auxiliary",
+      "failures": [],
+      "gate_status": "PASS",
+      "matched_expected": [
+        "timing_anti_analysis_indicator"
+      ],
+      "missing_expected_syscalls": [],
+      "sample_id": "timing_anti_analysis_loop",
+      "sample_status": {
+        "status": "PASS",
+        "trace_on_pass": 5
+      },
+      "semantic_artifact_count": 5,
+      "status": "PASS",
+      "trace_artifact_count": 5,
+      "unknown_event_count": 0
+    }
+  ],
+  "schema": "rvmt.35t.extension_gate_check.v1",
+  "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "sidechannel_auxiliary_root": "results/experiments/35t/35t-extension-r512-nonnetwork-20260523-sidechannel",
+  "status": "PASS"
+}

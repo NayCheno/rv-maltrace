@@ -1,0 +1,15 @@
+{
+  "network_policy": "loopback_network_client excluded from the default extension gate",
+  "non_claims": [
+    "no CVA6 board claim",
+    "no real malware detection claim",
+    "no mature detector claim",
+    "no classifier accuracy claim",
+    "no complete semantic reconstruction claim",
+    "extension gate is reported separately from the primary 13-sample gate"
+  ],
+  "primary_gate_separation": "extension gate is reported separately from 35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "run_id": "35t-extension-r512-nonnetwork-20260523",
+  "schema": "rvmt.35t.paper_evidence_extension_check.v1",
+  "status": "SUPPORTED_WITH_BOUNDED_EXTENSION_CLAIMS"
+}

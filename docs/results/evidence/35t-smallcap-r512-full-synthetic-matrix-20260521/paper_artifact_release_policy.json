@@ -157,14 +157,14 @@
     },
     {
       "artifact_id": "scripts_and_commands",
-      "class_digest": "6240f872558ab3e11d659a139ffd4fc6668b349a279fd13cc5a15025664cea77",
+      "class_digest": "8e13e5c5d74087f9c9a40e25fbf76cf39280365b58e2f2b1edc95abae98f5843",
       "count": 40,
       "description": "scripts, workflow docs, and command provenance",
       "public_policy": "public",
       "release_action": "may be included directly in a public lightweight artifact package",
       "release_mode": "include_or_reference",
       "status": "READY_PUBLIC",
-      "total_bytes": 1152582
+      "total_bytes": 1156744
     },
     {
       "artifact_id": "synthetic_extension_sources",
@@ -190,7 +190,7 @@
     },
     {
       "artifact_id": "qemu_plugin_baseline_evidence",
-      "class_digest": "6657476271138fb2763c59e817b51f0c9bd98eb14816cb61270a265b8240e7e6",
+      "class_digest": "d61c9ad2a10b18ee6a1ba122a3e2ff32140d260867e82790fb38973a38e330bc",
       "count": 3,
       "description": "QEMU user-mode TCG-plugin syscall-count baseline summary and local raw output for all 13 samples",
       "public_policy": "public_summary",
@@ -201,18 +201,18 @@
     },
     {
       "artifact_id": "raw_artifact_sanitization_evidence",
-      "class_digest": "05555b0e269a3a7221c4273cead08fbfd13ce8501ec626ad48473a8fbb8a4aac",
+      "class_digest": "c4a50ee7714a0443fb05ef760977f7c5d50cbec7566a022cb0bdfa9dab4a342b",
       "count": 2,
       "description": "raw UART and decoded trace hash inventory with sanitized public excerpts",
       "public_policy": "public",
       "release_action": "may be included directly in a public lightweight artifact package",
       "release_mode": "include_or_reference",
       "status": "READY_PUBLIC",
-      "total_bytes": 15171
+      "total_bytes": 15485
     },
     {
       "artifact_id": "pointer_snapshot_design_review_evidence",
-      "class_digest": "d9b4fc5f952768d67df02010b7c4a96ff4a49c26cc9b6323e21268f6e430e55e",
+      "class_digest": "7c66e22bf1c94f282ec2ba0321601eb4751173adb52a6d1ed039c5add320adf9",
       "count": 4,
       "description": "bounded pointer snapshot design review and default-disabled safety evidence",
       "public_policy": "public",
@@ -223,7 +223,7 @@
     },
     {
       "artifact_id": "raw_artifact_escrow_package",
-      "class_digest": "fbd137b60516de25d9fba655eb74baa63bce9bb2f7aa1be1d85e51b4fdad2a09",
+      "class_digest": "615bdebc5ef5b3f7ca1be4581f2266c26196b19379088104a86689420c3889fa",
       "count": 6,
       "description": "local controlled escrow package for full raw UART and decoded trace payloads",
       "public_policy": "local_only_raw_or_sanitized_excerpt",
@@ -234,7 +234,7 @@
     },
     {
       "artifact_id": "negative_failed_cases",
-      "class_digest": "a588e80b5f04458c64a6f4a3a055d2911c4b25f21361bb1eab46ab2a2d147641",
+      "class_digest": "cca21731d31b12f53652321f0702eb10a5107556e20b4d9414092c950e32f72d",
       "count": 9,
       "description": "negative, failed, partial, or bounded-case evidence",
       "public_policy": "public_summary",
@@ -245,17 +245,17 @@
     },
     {
       "artifact_id": "reproduction_readme",
-      "class_digest": "6bae4c6813a40186d57e5e2cdb944f504b95e7882154e0ee72a11256caa62204",
+      "class_digest": "ba24b2abc7c3cb98e1ed75afa10691c545b04332e9dc284cd12e25e1bacc8d4d",
       "count": 3,
       "description": "README and workflow notes for reproducing or auditing the package",
       "public_policy": "public",
       "release_action": "may be included directly in a public lightweight artifact package",
       "release_mode": "include_or_reference",
       "status": "READY_PUBLIC",
-      "total_bytes": 155603
+      "total_bytes": 159912
     }
   ],
-  "generated_utc": "2026-05-23T05:57:07Z",
+  "generated_utc": "2026-05-23T12:53:48Z",
   "local_only_classes": [
     "raw_uart_log",
     "decoded_trace_jsonl",

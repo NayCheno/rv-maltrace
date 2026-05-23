@@ -32,15 +32,15 @@ Claim level: 35T hardware-trace-assisted synthetic malware-like behavior audit p
 | `resource_timing_reports` | `READY_PUBLIC_SUMMARY_OR_HASH` | 4/3 | `public_summary` | 10731 |
 | `elf_hashes` | `READY_PUBLIC_SUMMARY_OR_HASH` | 39/13 | `public_hashes` | 6864 |
 | `bitstream_metadata` | `READY_PUBLIC_SUMMARY_OR_HASH` | 4/1 | `public_summary_no_bitstream_binary` | 12559 |
-| `scripts_and_commands` | `READY_PUBLIC` | 40/4 | `public` | 1152582 |
+| `scripts_and_commands` | `READY_PUBLIC` | 40/4 | `public` | 1156744 |
 | `synthetic_extension_sources` | `READY_PUBLIC` | 10/10 | `public` | 14628 |
 | `synthetic_extension_behavior_smoke_evidence` | `READY_PUBLIC_SUMMARY_OR_HASH` | 3/3 | `public_summary` | 129273 |
 | `qemu_plugin_baseline_evidence` | `READY_PUBLIC_SUMMARY_OR_HASH` | 3/3 | `public_summary` | 139539 |
-| `raw_artifact_sanitization_evidence` | `READY_PUBLIC` | 2/2 | `public` | 15171 |
+| `raw_artifact_sanitization_evidence` | `READY_PUBLIC` | 2/2 | `public` | 15485 |
 | `pointer_snapshot_design_review_evidence` | `READY_PUBLIC` | 4/4 | `public` | 11482 |
 | `raw_artifact_escrow_package` | `READY_LOCAL_ONLY` | 6/6 | `local_only_raw_or_sanitized_excerpt` | 94886 |
 | `negative_failed_cases` | `READY_PUBLIC_SUMMARY_OR_HASH` | 9/3 | `public_summary` | 315909 |
-| `reproduction_readme` | `READY_PUBLIC` | 3/2 | `public` | 155603 |
+| `reproduction_readme` | `READY_PUBLIC` | 3/2 | `public` | 159912 |
 
 ## Missing Classes
 

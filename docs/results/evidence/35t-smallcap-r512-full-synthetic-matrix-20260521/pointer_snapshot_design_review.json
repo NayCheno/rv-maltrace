@@ -56,7 +56,7 @@
   "design_note": "docs/research/semantic/pointer_snapshot_design_review.md",
   "evidence_root": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521",
   "failures": [],
-  "generated_utc": "2026-05-23T00:13:21Z",
+  "generated_utc": "2026-05-23T12:49:50Z",
   "interpretation": [
     "bounded pointer snapshot design review is recorded for openat and execve pathname prefixes",
     "the current 35T policy still keeps hardware user-pointer snapshots default-disabled and deferred",

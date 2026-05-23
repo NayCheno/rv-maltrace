@@ -118,6 +118,11 @@ TASK_ALIASES = {
     "exp:35t": "exp:35t",
     "experiment:35t": "exp:35t",
     "35t": "exp:35t",
+    "run:35t": "exp:35t",
+    "35t:run": "exp:35t",
+    "explain:35t": "explain:35t",
+    "35t:explain": "explain:35t",
+    "sample:explain": "explain:35t",
     "config": "config:show",
     "config:show": "config:show",
     "tasks": "tasks:list",
@@ -168,6 +173,8 @@ DISPLAY_TASKS = [
     "demo:behavior",
     "demo:groundtruth",
     "exp:35t",
+    "run:35t",
+    "explain:35t",
     "config:show",
     "tasks:list",
     "completion:powershell",
@@ -204,6 +211,17 @@ COMPLETION_CANDIDATES = sorted(
         "--tool-prefix",
         "--trace",
         "--trace-profile",
+        "--format",
+        "--out",
+        "--tee-out",
+        "--strict",
+        "--flow",
+        "--detail",
+        "--live-flow",
+        "--flow-detail",
+        "--include-extension-samples",
+        "--trace-profile-policy",
+        "--syscall-side-channel",
         "-h",
         "--runtime-order",
         "--warmup",
@@ -3115,6 +3133,8 @@ def task_exp_35t(root: Path, env: dict[str, str], args: argparse.Namespace) -> N
         cmd.extend(["--trace-records", str(args.trace_records)])
     if args.trace_profile is not None:
         cmd.extend(["--trace-profile", args.trace_profile])
+    if args.trace_profile_policy is not None:
+        cmd.extend(["--trace-profile-policy", args.trace_profile_policy])
     if args.runtime_order is not None:
         cmd.extend(["--runtime-order", args.runtime_order])
     if args.warmup is not None:
@@ -3123,9 +3143,57 @@ def task_exp_35t(root: Path, env: dict[str, str], args: argparse.Namespace) -> N
         cmd.extend(["--baud", str(args.baud)])
     for sample in cli_sample_values(args):
         cmd.extend(["--sample", sample])
+    if args.include_extension_samples:
+        cmd.append("--include-extension-samples")
+    if args.syscall_side_channel:
+        cmd.append("--syscall-side-channel")
+    if args.live_flow:
+        cmd.append("--live-flow")
+        cmd.extend(["--flow-detail", args.flow_detail])
     if args.dry_run:
         cmd.append("--dry-run")
     run(cmd, cwd=root, env=env, dry_run=False)
+
+
+def task_explain_35t(root: Path, args: argparse.Namespace) -> None:
+    from rv_maltrace.explain import (
+        build_explanation,
+        build_process_view,
+        load_run_artifacts,
+        load_sample_artifacts,
+        render_console,
+        render_markdown,
+        render_process_console,
+        render_process_markdown,
+    )
+
+    if args.flow:
+        run_artifacts = load_run_artifacts(root, args.run_id)
+        view = build_process_view(run_artifacts, strict=args.strict)
+        if args.format == "json":
+            text = json.dumps(view, indent=2, sort_keys=True) + "\n"
+        elif args.format == "markdown":
+            text = render_process_markdown(view)
+        else:
+            text = render_process_console(view, detail=args.detail)
+    elif not args.sample:
+        raise TaskError("explain:35t requires --sample")
+    else:
+        artifacts = load_sample_artifacts(root, args.run_id, args.sample[0], args.rep)
+        explanation = build_explanation(artifacts, strict=args.strict)
+        if args.format == "json":
+            text = json.dumps(explanation, indent=2, sort_keys=True) + "\n"
+        elif args.format == "markdown":
+            text = render_markdown(explanation)
+        else:
+            text = render_console(explanation)
+
+    if args.out:
+        Path(args.out).write_text(text, encoding="utf-8", newline="\n")
+        return
+    print(text, end="")
+    if args.tee_out:
+        Path(args.tee_out).write_text(text, encoding="utf-8", newline="\n")
 
 
 def show_config(root: Path, config: dict) -> None:
@@ -3250,7 +3318,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
             "Tasks to run. Supports docker:build, toolchain:build, bootrom:build, "
             "vivado:check, bitstream:build, bitstream:build-trace, sim:trace-unit, sim:cva6-smoke, "
             "sim:cva6-full-soc, sim:cva6-full-soc-tohost, sim:cva6-full-soc-rv64gc, sim:cva6-run, baremetal:build, "
-            "board:artix7:jtag-scan, board:artix7:litex-build, exp:35t, config:show, completion:powershell. Slash groups such as "
+            "board:artix7:jtag-scan, board:artix7:litex-build, exp:35t, run:35t, explain:35t, config:show, completion:powershell. Slash groups such as "
             "tool/bootrom are expanded."
         ),
     )
@@ -3272,9 +3340,16 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--cflag", action="append", default=[], help="For sim:cva6-run --asm, extra compiler flag.")
     parser.add_argument("--no-runtime", action="store_true", help="For sim:cva6-run --asm, do not link the rv-maltrace runtime.")
     parser.add_argument("--sample", action="append", help="For demo and exp:35t tasks, sample id. May repeat for exp:35t.")
+    parser.add_argument("--rep", default="auto", help="For explain:35t, repetition to explain. Defaults to auto.")
+    parser.add_argument("--format", choices=("console", "json", "markdown"), default="console", help="For explain:35t, output format.")
+    parser.add_argument("--out", help="For explain:35t, write output only to this file.")
+    parser.add_argument("--tee-out", help="For explain:35t, print output and save a copy to this file.")
+    parser.add_argument("--strict", action="store_true", help="For explain:35t, fail when required artifacts are missing.")
+    parser.add_argument("--flow", action="store_true", help="For explain:35t, render a run-level terminal process view instead of one sample.")
+    parser.add_argument("--detail", choices=("compact", "full"), default="compact", help="For explain:35t --flow, choose compact dashboard or full evidence detail.")
     parser.add_argument(
         "--stage",
-        choices=("groundtruth", "rootfs", "board", "analyze", "report", "all", "self-test"),
+        choices=("groundtruth", "rootfs", "board", "analyze", "report", "board-analyze-report", "all", "self-test"),
         default="all",
         help="For exp:35t, experiment stage to run.",
     )
@@ -3326,11 +3401,20 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         help="For exp:35t, select the 35T trace profile recorded in run_config and enforced by the board profile mask.",
     )
     parser.add_argument(
+        "--trace-profile-policy",
+        choices=("uniform", "35t_small_capacity"),
+        help="For exp:35t, choose per-sample trace profile policy.",
+    )
+    parser.add_argument(
         "--runtime-order",
         choices=("classic", "abba"),
         help="For exp:35t, choose classic trace-off/trace-on batches or ABBA timing order.",
     )
     parser.add_argument("--warmup", type=int, help="For exp:35t, warmup reps per sample/mode excluded from aggregate metrics.")
+    parser.add_argument("--include-extension-samples", action="store_true", help="For exp:35t, allow explicitly selected extension samples.")
+    parser.add_argument("--syscall-side-channel", action="store_true", help="For exp:35t, enable syscall side-channel logging from the board runner.")
+    parser.add_argument("--live-flow", action="store_true", help="For exp:35t, show live board progress and a compact capture dashboard after analyze/report.")
+    parser.add_argument("--flow-detail", choices=("compact", "full"), default="compact", help="For exp:35t --live-flow, choose compact or full final dashboard.")
     parser.add_argument(
         "--board-step",
         choices=("03_uart_hello", "04_litex_ddr", "05_baremetal", "06_linux_boot", "07_trace_minimal", "08_trace_jsonl_compare"),
@@ -3444,6 +3528,8 @@ def main(argv: list[str] | None = None) -> int:
                 task_demo_groundtruth(root, config, env, args)
             elif task == "exp:35t":
                 task_exp_35t(root, env, args)
+            elif task == "explain:35t":
+                task_explain_35t(root, args)
             else:
                 raise TaskError(f"Unhandled task: {task}")
     except TaskError as exc:

@@ -19,6 +19,9 @@ DEFAULT_ROOTFS_SCRIPT = Path("docker/litex/build-artix7-linux-images.sh")
 DEFAULT_EXPERIMENT = Path("tools/experiment_35t.py")
 DEFAULT_TARGET_SMOKE = Path("docs/results/evidence") / RUN_ID / "synthetic_extension_target_smoke.json"
 DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence") / RUN_ID
+EXPECTED_CANDIDATE_COUNT = 13
+EXPECTED_NON_NETWORK_CANDIDATE_COUNT = 11
+OPTIONAL_NETWORK_IDS = ("loopback_network_client", "mirai_c2_loopback_probe")
 NON_CLAIMS = [
     "no CVA6 board claim",
     "no real malware detection claim",
@@ -165,9 +168,9 @@ def build_report(
     runner_declared = {candidate_id: runner_map.get(candidate_id) for candidate_id in candidate_ids}
     checks = {
         "plan_schema": plan.get("schema") == "rvmt.synthetic_suite_extension_plan.v1",
-        "candidate_count_9": len(candidate_ids) == 9,
-        "non_network_candidates_selected": len(selected_ids) == 8 and not set(selected_ids).intersection(network_ids),
-        "network_candidate_remains_optional": network_ids == ["loopback_network_client"],
+        "candidate_count_expected": len(candidate_ids) == EXPECTED_CANDIDATE_COUNT,
+        "non_network_candidates_selected": len(selected_ids) == EXPECTED_NON_NETWORK_CANDIDATE_COUNT and not set(selected_ids).intersection(network_ids),
+        "network_candidates_remain_optional": network_ids == sorted(OPTIONAL_NETWORK_IDS),
         "plan_default_disabled": plan.get("default_enabled") is False
         and all(row.get("default_enabled") is False for row in candidates),
         "runner_declares_all_candidates": all(candidate_id in runner_map for candidate_id in candidate_ids),
@@ -234,7 +237,7 @@ def build_report(
             "build or refresh the 35T rootfs image that includes the extension binaries",
             "run selected extension candidates on the Artix-7 35T board with trace-off/trace-on ordering",
             "analyze the resulting trace artifacts and apply marker, attribution, DROP, capacity, and strong-evidence gates",
-            "keep loopback-network extension disabled unless an explicit loopback-only fixture is selected",
+            "keep loopback-network extensions disabled unless explicit loopback-only fixtures are selected",
         ],
         "interpretation": [
             "this preflight closes the runner/rootfs/CLI enablement gap for explicit non-network extension candidates",
@@ -293,17 +296,18 @@ def write_fixture(root: Path) -> None:
     source_root = root / "experiments/linux_behavior/malware_like/extension_programs"
     source_root.mkdir(parents=True, exist_ok=True)
     candidates = []
-    for index in range(9):
-        candidate_id = "loopback_network_client" if index == 8 else f"candidate_{index}"
+    candidate_ids = [f"candidate_{index}" for index in range(EXPECTED_NON_NETWORK_CANDIDATE_COUNT)] + list(OPTIONAL_NETWORK_IDS)
+    for candidate_id in candidate_ids:
         source = source_root / f"{candidate_id}.c"
         source.write_text("int main(void) { return 0; }\n", encoding="utf-8")
+        network_required = candidate_id in OPTIONAL_NETWORK_IDS
         candidates.append(
             {
                 "id": candidate_id,
-                "status": "IMPLEMENTED_SOURCE",
+                "status": "IMPLEMENTED_SOURCE_OPTIONAL_LOOPBACK" if network_required else "IMPLEMENTED_SOURCE",
                 "source": rel(source, root),
                 "default_enabled": False,
-                "network_required": candidate_id == "loopback_network_client",
+                "network_required": network_required,
             }
         )
     write_json(

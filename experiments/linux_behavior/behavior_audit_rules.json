@@ -74,6 +74,123 @@
       "family": "anti_analysis",
       "expected_syscalls": ["ptrace"],
       "evidence": "ptrace-oriented anti-debug syscall indicator; clock_gettime alone is not sufficient"
+    },
+    {
+      "id": "direct_syscall_file_access",
+      "family": "direct_syscall",
+      "expected_syscalls": ["openat", "read", "close", "write"],
+      "ordered_syscalls": ["openat", "read", "close", "write"],
+      "evidence": "direct syscall wrapper file read shape"
+    },
+    {
+      "id": "timing_anti_analysis_indicator",
+      "family": "anti_analysis",
+      "expected_syscalls": ["clock_gettime", "openat", "read", "close"],
+      "min_counts": {"clock_gettime": 2},
+      "evidence": "bounded timing loop plus file read shape"
+    },
+    {
+      "id": "proc_status_anti_debug_check",
+      "family": "anti_analysis",
+      "expected_syscalls": ["openat", "read", "close"],
+      "evidence": "/proc/self/status TracerPid read shape"
+    },
+    {
+      "id": "obfuscated_syscall_sequence",
+      "family": "direct_syscall",
+      "expected_syscalls": ["openat", "read", "close", "write"],
+      "ordered_syscalls": ["openat", "read", "close", "write"],
+      "evidence": "obfuscated syscall wrapper open/read/close/write shape"
+    },
+    {
+      "id": "self_modifying_memory_simulation",
+      "family": "memory_permission",
+      "expected_syscalls": ["mmap", "mprotect", "munmap"],
+      "ordered_syscalls": ["mmap", "mprotect", "munmap"],
+      "evidence": "bounded writable memory mutation and protection transition shape"
+    },
+    {
+      "id": "dynamic_executable_memory_variant",
+      "family": "memory_permission",
+      "expected_syscalls": ["mmap", "mprotect", "munmap"],
+      "ordered_syscalls": ["mmap", "mprotect", "munmap"],
+      "arg_bit_requirements": [
+        {"syscall": "mprotect", "arg": "a2", "mask": "0x4"}
+      ],
+      "evidence": "mprotect PROT_EXEC variant shape"
+    },
+    {
+      "id": "multi_level_process_creation_chain",
+      "family": "process_chain",
+      "expected_syscalls": ["clone", "execve", "waitid"],
+      "ordered_syscalls": ["clone", "execve", "waitid"],
+      "evidence": "bounded multi-level clone/exec/wait process chain shape"
+    },
+    {
+      "id": "non_destructive_file_encryption_simulation",
+      "family": "collection_staging",
+      "expected_syscalls": ["openat", "read", "close", "write"],
+      "min_counts": {"openat": 2, "read": 1, "write": 1, "close": 2},
+      "ordered_syscalls": ["openat", "read", "close", "openat", "write", "close"],
+      "evidence": "non-destructive read-transform-write file encryption simulation shape"
+    },
+    {
+      "id": "mirai_proc_scan_simulation",
+      "family": "process_discovery",
+      "expected_syscalls": ["openat", "getdents64", "read", "close", "write"],
+      "min_counts": {"openat": 2, "getdents64": 1, "read": 1, "close": 2},
+      "ordered_syscalls": ["openat", "getdents64", "openat", "read", "close"],
+      "evidence": "Mirai-reference bounded /proc process enumeration shape without signals or process mutation"
+    },
+    {
+      "id": "mirai_watchdog_probe",
+      "family": "environment_probe",
+      "expected_syscalls": ["openat", "read", "close", "write"],
+      "min_counts": {"openat": 3, "read": 1, "close": 1},
+      "requires_failed_syscall": true,
+      "failure_syscalls": ["openat"],
+      "evidence": "Mirai-reference watchdog/environment probe shape using safe failed paths"
+    },
+    {
+      "id": "mirai_encoded_table_access",
+      "family": "configuration_discovery",
+      "expected_syscalls": ["openat", "read", "close", "write"],
+      "min_counts": {"openat": 2, "read": 2, "close": 2},
+      "ordered_syscalls": ["openat", "read", "close", "openat", "read", "close", "write"],
+      "evidence": "Mirai-reference encoded table decode followed by local config/status reads"
+    },
+    {
+      "id": "mirai_loopback_c2_probe",
+      "family": "network_loopback",
+      "expected_syscalls": ["socket", "connect", "close", "write"],
+      "ordered_syscalls": ["socket", "connect", "close", "write"],
+      "evidence": "Mirai-reference C2/report callback connection shape constrained to loopback"
+    },
+    {
+      "id": "surrogate_elf_header_probe",
+      "family": "surrogate_elf_inspection",
+      "expected_syscalls": ["openat", "read", "close"],
+      "min_counts": {"openat": 3, "read": 3, "close": 3},
+      "ordered_syscalls": ["openat", "read", "close", "openat", "read", "close"],
+      "forbidden_syscalls": ["getdents64"],
+      "evidence": "DarthRa-reference ELF/header read-only probe shape without infection, patching, or payload execution"
+    },
+    {
+      "id": "surrogate_rootkit_device_probe",
+      "family": "surrogate_kernel_environment_probe",
+      "expected_syscalls": ["openat", "getdents64", "close"],
+      "min_counts": {"openat": 3, "getdents64": 1, "close": 1},
+      "requires_failed_syscall": true,
+      "failure_syscalls": ["openat"],
+      "evidence": "DarthRa-reference LKM/rootkit-style user-mode procfs/sysfs and safe fake-device probe without kernel hooks"
+    },
+    {
+      "id": "surrogate_virus_file_activity",
+      "family": "surrogate_file_infection_simulation",
+      "expected_syscalls": ["openat", "getdents64", "read", "write", "close"],
+      "min_counts": {"openat": 3, "getdents64": 1, "read": 1, "write": 1, "close": 2},
+      "ordered_syscalls": ["openat", "getdents64", "openat", "read", "openat", "write", "close"],
+      "evidence": "DarthRa-reference virus-style fixture traversal and copy shape constrained to repository fixtures and /tmp outputs"
     }
   ],
   "non_goals": [

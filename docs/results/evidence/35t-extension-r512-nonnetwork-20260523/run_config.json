@@ -1,0 +1,62 @@
+{
+  "artifact_root": "results/experiments/35t/35t-extension-r512-nonnetwork-20260523",
+  "baud": 921600,
+  "board_runner_path": "/usr/bin/rvmt_exp_runner",
+  "duration": 3600.0,
+  "extension_plan": "experiments/linux_behavior/malware_like/extension_plan.json",
+  "include_extension_samples": true,
+  "network": "disabled",
+  "port": "COM5",
+  "real_malware": "forbidden",
+  "reps": 5,
+  "run_id": "35t-extension-r512-nonnetwork-20260523",
+  "runtime_order": "abba",
+  "samples": [
+    "direct_syscall_open_read",
+    "timing_anti_analysis_loop",
+    "proc_status_tracerpid_check",
+    "obfuscated_syscall_wrapper",
+    "self_modifying_code_sim",
+    "mprotect_exec_variant",
+    "multi_level_process_chain",
+    "file_encryption_sim_non_destructive"
+  ],
+  "syscall_side_channel": false,
+  "trace_control_mask": "0x43c",
+  "trace_control_masks_by_sample": {
+    "direct_syscall_open_read": "0x424",
+    "file_encryption_sim_non_destructive": "0x424",
+    "mprotect_exec_variant": "0x424",
+    "multi_level_process_chain": "0x424",
+    "obfuscated_syscall_wrapper": "0x424",
+    "proc_status_tracerpid_check": "0x424",
+    "self_modifying_code_sim": "0x424",
+    "timing_anti_analysis_loop": "0x424"
+  },
+  "trace_controls": {
+    "arg_mem_policy": "disabled",
+    "enable_arg_mem": false,
+    "enable_branch": false,
+    "enable_context": true,
+    "enable_drop": true,
+    "enable_jump": false,
+    "enable_marker": true,
+    "enable_retire": false,
+    "enable_syscall": true,
+    "enable_trap": true
+  },
+  "trace_profile": "p0_syscall_trap_context",
+  "trace_profile_policy": "35t_small_capacity",
+  "trace_profiles_by_sample": {
+    "direct_syscall_open_read": "p0a_syscall_drop",
+    "file_encryption_sim_non_destructive": "p0a_syscall_drop",
+    "mprotect_exec_variant": "p0a_syscall_drop",
+    "multi_level_process_chain": "p0a_syscall_drop",
+    "obfuscated_syscall_wrapper": "p0a_syscall_drop",
+    "proc_status_tracerpid_check": "p0a_syscall_drop",
+    "self_modifying_code_sim": "p0a_syscall_drop",
+    "timing_anti_analysis_loop": "p0a_syscall_drop"
+  },
+  "trace_records": 512,
+  "warmup": 0
+}

@@ -609,7 +609,7 @@
     },
     {
       "artifact_id": "scripts_and_commands",
-      "class_digest": "6240f872558ab3e11d659a139ffd4fc6668b349a279fd13cc5a15025664cea77",
+      "class_digest": "8e13e5c5d74087f9c9a40e25fbf76cf39280365b58e2f2b1edc95abae98f5843",
       "count": 40,
       "description": "scripts, workflow docs, and command provenance",
       "min_count": 4,
@@ -617,9 +617,9 @@
       "public_policy": "public",
       "representative_files": [
         {
-          "bytes": 51720,
+          "bytes": 52098,
           "path": "docs/process/uv_workflow.md",
-          "sha256": "d0c94df8eb2a3b43c98ad70d46bbd08c823128b785d2016761d7acf385d07cd2"
+          "sha256": "5d663ad5372e78d2c8fccfc25e895731ef79c6f4524b5b8b15985d127f95c062"
         },
         {
           "bytes": 1823,
@@ -627,9 +627,9 @@
           "sha256": "48c708fc1bd76b5354dc9a5d3d7771ddfd84668541b056084509dd3bb9f149ca"
         },
         {
-          "bytes": 77621,
+          "bytes": 81442,
           "path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/command_log.md",
-          "sha256": "0dbd72f1a713b55fb2fecfd2c28dc8a0c35e4e12c32f7f607d01fcaf0a2c3e1e"
+          "sha256": "d80b25a176736a05b68af3fef39d9b402f42ddb9b605544e172aa19c6deccac8"
         },
         {
           "bytes": 11975,
@@ -658,7 +658,7 @@
         }
       ],
       "status": "READY_PUBLIC",
-      "total_bytes": 1152582
+      "total_bytes": 1156744
     },
     {
       "artifact_id": "synthetic_extension_sources",
@@ -743,7 +743,7 @@
     },
     {
       "artifact_id": "qemu_plugin_baseline_evidence",
-      "class_digest": "6657476271138fb2763c59e817b51f0c9bd98eb14816cb61270a265b8240e7e6",
+      "class_digest": "d61c9ad2a10b18ee6a1ba122a3e2ff32140d260867e82790fb38973a38e330bc",
       "count": 3,
       "description": "QEMU user-mode TCG-plugin syscall-count baseline summary and local raw output for all 13 samples",
       "min_count": 3,
@@ -763,7 +763,7 @@
         {
           "bytes": 58555,
           "path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/aggregate/qemu_plugin_baseline_raw.json",
-          "sha256": "ff1d8927fc6cd976f60efdf5849e1f9b20bb8c36f8e6ada9a7c2457df2d02415"
+          "sha256": "edda5c43b8ece7b3baddd4e61f08e72f355a747421412fea5164c24b94fbc7e5"
         }
       ],
       "status": "READY_PUBLIC_SUMMARY_OR_HASH",
@@ -771,7 +771,7 @@
     },
     {
       "artifact_id": "raw_artifact_sanitization_evidence",
-      "class_digest": "05555b0e269a3a7221c4273cead08fbfd13ce8501ec626ad48473a8fbb8a4aac",
+      "class_digest": "c4a50ee7714a0443fb05ef760977f7c5d50cbec7566a022cb0bdfa9dab4a342b",
       "count": 2,
       "description": "raw UART and decoded trace hash inventory with sanitized public excerpts",
       "min_count": 2,
@@ -779,22 +779,22 @@
       "public_policy": "public",
       "representative_files": [
         {
-          "bytes": 10657,
+          "bytes": 10974,
           "path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_sanitization.json",
-          "sha256": "24657f380cad680f3f96f6b9425e46ae4ef24299ef3e36419f015ab906c7dfec"
+          "sha256": "22957a0070b6529212c8dca0eb4d5bd81fa2907a548edb09b986f0800e83e8c8"
         },
         {
-          "bytes": 4514,
+          "bytes": 4511,
           "path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_sanitization.md",
-          "sha256": "ad4c04c787d2f60f9dc7381ec02a5aa8be058e571315d0f5547bed6a0b6e340e"
+          "sha256": "4b28a4e68b48c3afccef946a33334c0d797c251fe8a7cd2aeb8355020e15f91d"
         }
       ],
       "status": "READY_PUBLIC",
-      "total_bytes": 15171
+      "total_bytes": 15485
     },
     {
       "artifact_id": "pointer_snapshot_design_review_evidence",
-      "class_digest": "d9b4fc5f952768d67df02010b7c4a96ff4a49c26cc9b6323e21268f6e430e55e",
+      "class_digest": "7c66e22bf1c94f282ec2ba0321601eb4751173adb52a6d1ed039c5add320adf9",
       "count": 4,
       "description": "bounded pointer snapshot design review and default-disabled safety evidence",
       "min_count": 4,
@@ -809,7 +809,7 @@
         {
           "bytes": 4270,
           "path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/pointer_snapshot_design_review.json",
-          "sha256": "9bf11a47467d37c14e7b2a2e18c92574f2cb4fe14c68aa9359fef10fed9df871"
+          "sha256": "74a26e6c46e3fb06ef4b30db1cb811793c83e99fac6422c41135ae494c190098"
         },
         {
           "bytes": 2216,
@@ -827,7 +827,7 @@
     },
     {
       "artifact_id": "raw_artifact_escrow_package",
-      "class_digest": "fbd137b60516de25d9fba655eb74baa63bce9bb2f7aa1be1d85e51b4fdad2a09",
+      "class_digest": "615bdebc5ef5b3f7ca1be4581f2266c26196b19379088104a86689420c3889fa",
       "count": 6,
       "description": "local controlled escrow package for full raw UART and decoded trace payloads",
       "min_count": 6,
@@ -837,7 +837,7 @@
         {
           "bytes": 37690,
           "path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow.json",
-          "sha256": "d8c5d798ab05d91280cb20e190b74059f48aadb79492c8fb3c598e555c1581c6"
+          "sha256": "14b3c30254e36e56705d922869c021a9d903fb9e15dcec736a53aed99b47922a"
         },
         {
           "bytes": 1208,
@@ -862,7 +862,7 @@
         {
           "bytes": 36157,
           "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/payload_manifest.json",
-          "sha256": "261ed2ed3b00653c1902d821652adbf7af37a4e95aad25d6851e6632224103d9"
+          "sha256": "7a01ddd49a053419d8091eb1e4de4a6ad72f7ef1c46ad5c689a96759cfeb05e9"
         }
       ],
       "status": "READY_LOCAL_ONLY",
@@ -870,7 +870,7 @@
     },
     {
       "artifact_id": "negative_failed_cases",
-      "class_digest": "a588e80b5f04458c64a6f4a3a055d2911c4b25f21361bb1eab46ab2a2d147641",
+      "class_digest": "cca21731d31b12f53652321f0702eb10a5107556e20b4d9414092c950e32f72d",
       "count": 9,
       "description": "negative, failed, partial, or bounded-case evidence",
       "min_count": 3,
@@ -900,7 +900,7 @@
         {
           "bytes": 2724,
           "path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/pointer_semantics_preflight.json",
-          "sha256": "d4b3c4495f87feda032e609ca26b49d3b8b7d66c4ff3250e484148c43294fbcc"
+          "sha256": "d9eae2f1b6852bb1d00727bd785fc959f6526608bee898f152c83051f87aed51"
         },
         {
           "bytes": 6155,
@@ -923,7 +923,7 @@
     },
     {
       "artifact_id": "reproduction_readme",
-      "class_digest": "6bae4c6813a40186d57e5e2cdb944f504b95e7882154e0ee72a11256caa62204",
+      "class_digest": "ba24b2abc7c3cb98e1ed75afa10691c545b04332e9dc284cd12e25e1bacc8d4d",
       "count": 3,
       "description": "README and workflow notes for reproducing or auditing the package",
       "min_count": 2,
@@ -931,23 +931,23 @@
       "public_policy": "public",
       "representative_files": [
         {
-          "bytes": 51720,
+          "bytes": 52098,
           "path": "docs/process/uv_workflow.md",
-          "sha256": "d0c94df8eb2a3b43c98ad70d46bbd08c823128b785d2016761d7acf385d07cd2"
+          "sha256": "5d663ad5372e78d2c8fccfc25e895731ef79c6f4524b5b8b15985d127f95c062"
         },
         {
-          "bytes": 26262,
+          "bytes": 26372,
           "path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/README.md",
-          "sha256": "760a5465d46203f5588deed7df1441d98a9c1250a919d9512652ff4872f15a67"
+          "sha256": "fee235833b0e784a4fffab9356ee9379fa7030702b64bc1debce005619575f08"
         },
         {
-          "bytes": 77621,
+          "bytes": 81442,
           "path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/command_log.md",
-          "sha256": "0dbd72f1a713b55fb2fecfd2c28dc8a0c35e4e12c32f7f607d01fcaf0a2c3e1e"
+          "sha256": "d80b25a176736a05b68af3fef39d9b402f42ddb9b605544e172aa19c6deccac8"
         }
       ],
       "status": "READY_PUBLIC",
-      "total_bytes": 155603
+      "total_bytes": 159912
     }
   ],
   "checks": {
@@ -960,7 +960,7 @@
   "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
   "class_count": 23,
   "evidence_root": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521",
-  "generated_utc": "2026-05-23T01:07:15Z",
+  "generated_utc": "2026-05-23T12:53:44Z",
   "interpretation": [
     "current repository can describe the paper artifact inventory and verify required artifact classes locally",
     "large raw traces, raw UART logs, generated bitstreams, board build directories, and ELF binaries remain outside the lightweight committed snapshot",

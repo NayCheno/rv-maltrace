@@ -198,7 +198,7 @@ ARTIFACT_CLASSES = (
         "synthetic_extension_sources",
         "source-implemented synthetic malware-like extension candidates that remain outside the default 35T claim until gated",
         "public",
-        10,
+        14,
         (),
         (
             Path("experiments/linux_behavior/malware_like/extension_plan.json"),
@@ -211,6 +211,10 @@ ARTIFACT_CLASSES = (
             EXTENSION_PROGRAMS_ROOT / "multi_level_process_chain.c",
             EXTENSION_PROGRAMS_ROOT / "loopback_network_client.c",
             EXTENSION_PROGRAMS_ROOT / "file_encryption_sim_non_destructive.c",
+            EXTENSION_PROGRAMS_ROOT / "mirai_proc_scan_sim.c",
+            EXTENSION_PROGRAMS_ROOT / "mirai_watchdog_probe_sim.c",
+            EXTENSION_PROGRAMS_ROOT / "mirai_encoded_table_sim.c",
+            EXTENSION_PROGRAMS_ROOT / "mirai_c2_loopback_probe.c",
         ),
     ),
     ArtifactClass(
@@ -595,6 +599,10 @@ def write_fixture(root: Path) -> None:
         "multi_level_process_chain.c",
         "loopback_network_client.c",
         "file_encryption_sim_non_destructive.c",
+        "mirai_proc_scan_sim.c",
+        "mirai_watchdog_probe_sim.c",
+        "mirai_encoded_table_sim.c",
+        "mirai_c2_loopback_probe.c",
     ]:
         path = root / EXTENSION_PROGRAMS_ROOT / name
         path.parent.mkdir(parents=True, exist_ok=True)
