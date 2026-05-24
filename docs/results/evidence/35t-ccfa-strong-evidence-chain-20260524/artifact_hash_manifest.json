@@ -1,4 +1,10 @@
 {
+  "baseline_comparison_evidence": {
+    "path": "docs/results/evidence/35t-real-malware-derived-baseline-comparison-20260524",
+    "row_count": 6,
+    "row_pass_count": 6,
+    "status": "REAL_MALWARE_DERIVED_BASELINE_COMPARISON_PASS"
+  },
   "board_boot": {
     "mirai_reference": {
       "checks": {
@@ -31,12 +37,19 @@
       "status": "MISSING_OR_INCOMPLETE"
     }
   },
-  "generated_utc": "2026-05-24T07:47:00Z",
+  "generated_utc": "2026-05-24T09:25:04Z",
   "lineage_evidence": {
     "path": "docs/results/evidence/35t-real-malware-derived-lineage-20260524",
     "row_count": 6,
     "row_pass_count": 6,
     "status": "REAL_MALWARE_DERIVED_SURROGATE_LINEAGE_PASS"
+  },
+  "paper_claim_evidence_table": {
+    "deferred_claims": [
+      "c6_surrogate_boot_provenance"
+    ],
+    "path": "docs/results/evidence/35t-paper-claim-evidence-table-20260524",
+    "status": "PAPER_CLAIM_EVIDENCE_TABLE_PASS_WITH_SURROGATE_BOOT_DEFERRED"
   },
   "runs": [
     {
@@ -2476,13 +2489,19 @@
   ],
   "schema": "rvmt.35t.ccfa_style_artifact_hash_manifest.v1",
   "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "surrogate_boot_provenance": {
+    "next_capture_target": "results/board/artix7_35t_litex/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/06_linux_boot/uart_linux_boot.log",
+    "path": "docs/results/evidence/35t-surrogate-boot-provenance-20260524",
+    "run_scoped_boot_status": "MISSING_OR_INCOMPLETE",
+    "status": "SURROGATE_BOOT_PROVENANCE_DEFERRED_RUN_SCOPED_LOG_MISSING"
+  },
   "tooling_provenance": {
-    "class_digest": "e3a559390f6361ef6b1912c5162e02c8dfc7a0cce1aad9d04890971512a7236f",
+    "class_digest": "bcd4fbe2382f37ab609096bb29b857ac46f73a5f4c0831deded279f6ca60e083",
     "files": [
       {
-        "bytes": 47602,
+        "bytes": 54042,
         "path": "tools/check_35t_ccfa_evidence_chain.py",
-        "sha256": "a01ee30fb077aa5268ae8454609802f118c62745372fcf95eb487a0fdbdfc20f"
+        "sha256": "f1f5dbc2d246a221edf2b6f63e28942424f2ffa8b086af43f9ccbef2ea2fd1e9"
       },
       {
         "bytes": 32058,
@@ -2503,6 +2522,21 @@
         "bytes": 22982,
         "path": "tools/check_35t_real_malware_derived_lineage.py",
         "sha256": "fd915e7ef553a51c634d14789d75651a66c6427e28e5752929943118b01cb136"
+      },
+      {
+        "bytes": 21614,
+        "path": "tools/check_35t_behavior_baseline_comparison.py",
+        "sha256": "2be03b19ad4d2a7ca9942c768b58d884fefaa771e5ea89e4dddaecb4655537f3"
+      },
+      {
+        "bytes": 10558,
+        "path": "tools/check_35t_surrogate_boot_provenance.py",
+        "sha256": "82bc485eef806dfeee2f1c8693bffdb86a134bc33ea035863605e7fd0eb9535a"
+      },
+      {
+        "bytes": 21496,
+        "path": "tools/check_35t_claim_evidence_table.py",
+        "sha256": "41039c6fefd8f4e4c056778acf8b0fb4486488bfcc2717f8c9360d753c827b17"
       },
       {
         "bytes": 28685,

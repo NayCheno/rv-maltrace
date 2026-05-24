@@ -10,6 +10,9 @@ Files:
 - `artifact_hash_manifest.json`: hash-linked local raw-to-derived artifact inventory.
 - `claim_boundary.json` / `.md`: real-malware, surrogate, and network-exclusion boundary.
 - linked lineage package: `docs/results/evidence/35t-real-malware-derived-lineage-20260524`.
+- linked baseline package: `docs/results/evidence/35t-real-malware-derived-baseline-comparison-20260524`.
+- linked surrogate boot package: `docs/results/evidence/35t-surrogate-boot-provenance-20260524`.
+- linked paper claim table: `docs/results/evidence/35t-paper-claim-evidence-table-20260524`.
 - `reproduction_commands.md`: commands reviewers can rerun.
 - `reviewer_checklist.md`: concise review path.
 

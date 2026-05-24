@@ -3,31 +3,31 @@
   "committed_artifacts": [
     {
       "artifact": "README.md",
-      "bytes": 972,
+      "bytes": 1268,
       "committed_path": "docs/results/evidence/35t-ccfa-strong-evidence-chain-20260524/README.md",
       "path": "docs/results/evidence/35t-ccfa-strong-evidence-chain-20260524/README.md",
-      "sha256": "d96241bbf6734f7ef0152e99f6ca7c39603df3dd95c978e025eea33898a7f5a7"
+      "sha256": "0eef19d0e7590534c39ca9c70e29f5b18f85e7750a3e172bcaba1eac9415c1b3"
     },
     {
       "artifact": "artifact_hash_manifest.json",
-      "bytes": 154543,
+      "bytes": 155998,
       "committed_path": "docs/results/evidence/35t-ccfa-strong-evidence-chain-20260524/artifact_hash_manifest.json",
       "path": "docs/results/evidence/35t-ccfa-strong-evidence-chain-20260524/artifact_hash_manifest.json",
-      "sha256": "b32811a311995e87b4b570a8ff31b05add364675d76353267a2da878e9e78a22"
+      "sha256": "09d61bd76b3f73797cadd05d5737711b382cacff88681069a4a3bb303d1d5603"
     },
     {
       "artifact": "ccfa_evidence_chain.json",
-      "bytes": 224694,
+      "bytes": 265325,
       "committed_path": "docs/results/evidence/35t-ccfa-strong-evidence-chain-20260524/ccfa_evidence_chain.json",
       "path": "docs/results/evidence/35t-ccfa-strong-evidence-chain-20260524/ccfa_evidence_chain.json",
-      "sha256": "09c83b87667da66ada012da0872012515bdf985b6746a03d28a19baeff063dd1"
+      "sha256": "5208d1b181365b2302f94240166bfe389a9039f37b0c88ecccfa190c1aec4727"
     },
     {
       "artifact": "ccfa_evidence_chain.md",
-      "bytes": 2197,
+      "bytes": 2962,
       "committed_path": "docs/results/evidence/35t-ccfa-strong-evidence-chain-20260524/ccfa_evidence_chain.md",
       "path": "docs/results/evidence/35t-ccfa-strong-evidence-chain-20260524/ccfa_evidence_chain.md",
-      "sha256": "ccc9bcd1494edb71885697828959fb885be6ded3e76b6af3d25b93f6696f0504"
+      "sha256": "763d3abf3f57df942557885bd4746dfb91c0777b6799af1a52f3805ecd9c8327"
     },
     {
       "artifact": "claim_boundary.json",
@@ -45,20 +45,20 @@
     },
     {
       "artifact": "reproduction_commands.md",
-      "bytes": 1979,
+      "bytes": 2355,
       "committed_path": "docs/results/evidence/35t-ccfa-strong-evidence-chain-20260524/reproduction_commands.md",
       "path": "docs/results/evidence/35t-ccfa-strong-evidence-chain-20260524/reproduction_commands.md",
-      "sha256": "282916ad132527510a144ca900530606b7d0cb3ae68d6ea54d2826fbb2e7d064"
+      "sha256": "5e667eda0d6d7f9500490b899c8f94553816b413d353a74a7895c5689a81d694"
     },
     {
       "artifact": "reviewer_checklist.md",
-      "bytes": 792,
+      "bytes": 1176,
       "committed_path": "docs/results/evidence/35t-ccfa-strong-evidence-chain-20260524/reviewer_checklist.md",
       "path": "docs/results/evidence/35t-ccfa-strong-evidence-chain-20260524/reviewer_checklist.md",
-      "sha256": "00267747ad252bdd8ee434ea20dae06661c181af88c2e9522f5e51d9f219abc9"
+      "sha256": "323b6389fc326624f74c51626416aab9764d7bc29b7626f18a70cf14a8b40c59"
     }
   ],
-  "generated_utc": "2026-05-24T07:47:00Z",
+  "generated_utc": "2026-05-24T09:25:04Z",
   "non_claims": [
     "CCF-A-style evidence discipline is not a CCF-A acceptance guarantee",
     "true real-malware validation remains blocked until external quarantine evidence exists",
@@ -74,7 +74,10 @@
     "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521",
     "docs/results/evidence/35t-surrogate-darthra-p0a-r512-abba-r5-20260524",
     "docs/results/evidence/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524",
-    "docs/results/evidence/35t-real-malware-derived-lineage-20260524"
+    "docs/results/evidence/35t-real-malware-derived-lineage-20260524",
+    "docs/results/evidence/35t-real-malware-derived-baseline-comparison-20260524",
+    "docs/results/evidence/35t-surrogate-boot-provenance-20260524",
+    "docs/results/evidence/35t-paper-claim-evidence-table-20260524"
   ],
   "status": "PASS"
 }

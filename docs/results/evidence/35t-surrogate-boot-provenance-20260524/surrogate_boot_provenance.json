@@ -1,0 +1,130 @@
+{
+  "blockers": [
+    "run-scoped surrogate Linux boot log is missing or incomplete"
+  ],
+  "claim": "surrogate run-scoped Linux boot provenance",
+  "failures": [],
+  "generated_utc": "2026-05-24T09:20:56Z",
+  "interpretation": "The surrogate board run artifacts are present. A run-scoped Linux boot log is still deferred unless run_scoped_boot.status is PASS; session boot candidates are supporting context only.",
+  "next_capture_target": "results/board/artix7_35t_litex/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/06_linux_boot/uart_linux_boot.log",
+  "run_artifacts": {
+    "board_raw_uart": {
+      "bytes": 232676,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/board/raw_uart.log",
+      "sha256": "c042a2c7025638da42c019614f8e43f8988e46bed268d58b65aa12777663d58a"
+    },
+    "checks": {
+      "board_raw_uart_exists": true,
+      "run_config_exists": true,
+      "run_root_exists": true
+    },
+    "run_config": {
+      "bytes": 1651,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/run_config.json",
+      "sha256": "967fdf55164f61ad544dbe81b131f776528b0f04a7ed2a9519e346e0895b6978"
+    }
+  },
+  "run_id": "35t-surrogate-darthra-p0a-r512-abba-r5-20260524",
+  "run_scoped_boot": {
+    "checks": {
+      "jumped_to_kernel": false,
+      "linux_version": false,
+      "rvmt_linux_user_pass": false,
+      "serialboot_upload_summary": false
+    },
+    "hash": null,
+    "path": "results/board/artix7_35t_litex/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/06_linux_boot/uart_linux_boot.log",
+    "present": false,
+    "relation": "run_scoped",
+    "status": "MISSING_OR_INCOMPLETE"
+  },
+  "schema": "rvmt.35t.surrogate_boot_provenance.v1",
+  "session_boot_candidates": [
+    {
+      "checks": {
+        "jumped_to_kernel": true,
+        "linux_version": true,
+        "rvmt_linux_user_pass": true,
+        "serialboot_upload_summary": true
+      },
+      "hash": {
+        "bytes": 16352,
+        "path": "results/board/artix7_35t_litex/35t-smoke-20260520/06_linux_boot/uart_linux_boot.log",
+        "sha256": "51e1dff33c47b0d5341c975a4216ec8c7977bf9bcc2b798fcce32e832dbbea6e"
+      },
+      "path": "results/board/artix7_35t_litex/35t-smoke-20260520/06_linux_boot/uart_linux_boot.log",
+      "present": true,
+      "relation": "session_candidate_not_run_scoped",
+      "status": "PASS"
+    },
+    {
+      "checks": {
+        "jumped_to_kernel": true,
+        "linux_version": true,
+        "rvmt_linux_user_pass": true,
+        "serialboot_upload_summary": true
+      },
+      "hash": {
+        "bytes": 16434,
+        "path": "results/board/artix7_35t_litex/35t-sidechannel-closure-r2048-20260522/06_linux_boot/uart_linux_boot.log",
+        "sha256": "36a14feab4e11dcc3ffc3126f33176638768f2f77fc58e4fc369ce1cc8025b51"
+      },
+      "path": "results/board/artix7_35t_litex/35t-sidechannel-closure-r2048-20260522/06_linux_boot/uart_linux_boot.log",
+      "present": true,
+      "relation": "session_candidate_not_run_scoped",
+      "status": "PASS"
+    },
+    {
+      "checks": {
+        "jumped_to_kernel": true,
+        "linux_version": true,
+        "rvmt_linux_user_pass": true,
+        "serialboot_upload_summary": true
+      },
+      "hash": {
+        "bytes": 16434,
+        "path": "results/board/artix7_35t_litex/35t-sidechannel-closure-r1024-20260522/06_linux_boot/uart_linux_boot.log",
+        "sha256": "7b98f13dc61b1545ded50e9ad888733aa9cf6e8b7e83436f336e78c0b8240c30"
+      },
+      "path": "results/board/artix7_35t_litex/35t-sidechannel-closure-r1024-20260522/06_linux_boot/uart_linux_boot.log",
+      "present": true,
+      "relation": "session_candidate_not_run_scoped",
+      "status": "PASS"
+    },
+    {
+      "checks": {
+        "jumped_to_kernel": true,
+        "linux_version": true,
+        "rvmt_linux_user_pass": true,
+        "serialboot_upload_summary": true
+      },
+      "hash": {
+        "bytes": 17507,
+        "path": "results/board/artix7_35t_litex/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/06_linux_boot/uart_linux_boot.log",
+        "sha256": "e69aba47d4eff2950a7d0eacf6dc4faf298faf5ffed1f656f980d3a383f2235c"
+      },
+      "path": "results/board/artix7_35t_litex/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/06_linux_boot/uart_linux_boot.log",
+      "present": true,
+      "relation": "session_candidate_not_run_scoped",
+      "status": "PASS"
+    },
+    {
+      "checks": {
+        "jumped_to_kernel": true,
+        "linux_version": true,
+        "rvmt_linux_user_pass": true,
+        "serialboot_upload_summary": true
+      },
+      "hash": {
+        "bytes": 17507,
+        "path": "results/board/artix7_35t_litex/2026-05-24-com5-ddr/06_linux_boot/uart_linux_boot.log",
+        "sha256": "9c5b456bd121a36a3e5bd4bb571727f029edcf9ab3a62f60dcdf79e42e97ea3c"
+      },
+      "path": "results/board/artix7_35t_litex/2026-05-24-com5-ddr/06_linux_boot/uart_linux_boot.log",
+      "present": true,
+      "relation": "session_candidate_not_run_scoped",
+      "status": "PASS"
+    }
+  ],
+  "status": "SURROGATE_BOOT_PROVENANCE_DEFERRED_RUN_SCOPED_LOG_MISSING"
+}

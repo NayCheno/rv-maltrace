@@ -17,6 +17,9 @@ DEFAULT_RESULTS_BASE = Path("results/experiments/35t")
 DEFAULT_EVIDENCE_BASE = Path("docs/results/evidence")
 DEFAULT_EVIDENCE_ROOT = DEFAULT_EVIDENCE_BASE / "35t-ccfa-strong-evidence-chain-20260524"
 LINEAGE_EVIDENCE_ROOT = DEFAULT_EVIDENCE_BASE / "35t-real-malware-derived-lineage-20260524"
+BASELINE_EVIDENCE_ROOT = DEFAULT_EVIDENCE_BASE / "35t-real-malware-derived-baseline-comparison-20260524"
+BOOT_EVIDENCE_ROOT = DEFAULT_EVIDENCE_BASE / "35t-surrogate-boot-provenance-20260524"
+CLAIM_TABLE_EVIDENCE_ROOT = DEFAULT_EVIDENCE_BASE / "35t-paper-claim-evidence-table-20260524"
 REAL_MALWARE_MANIFEST = Path("experiments/linux_behavior/real_malware/manifest.json")
 REAL_MALWARE_RESULTS_ROOT = Path("results/experiments/real_malware/manual")
 SCHEMA = "rvmt.35t.ccfa_style_evidence_chain.v1"
@@ -60,6 +63,9 @@ TOOLING_PROVENANCE_PATHS = (
     Path("tools/check_35t_extension_gate.py"),
     Path("tools/check_real_malware_validation_gate.py"),
     Path("tools/check_35t_real_malware_derived_lineage.py"),
+    Path("tools/check_35t_behavior_baseline_comparison.py"),
+    Path("tools/check_35t_surrogate_boot_provenance.py"),
+    Path("tools/check_35t_claim_evidence_table.py"),
     Path("tools/check_35t_artifact_package_readiness.py"),
     Path("tools/check_35t_evidence_consistency.py"),
     Path("tools/experiment_35t.py"),
@@ -612,8 +618,12 @@ def reproduction_commands(
         "uv run python tools/check_35t_extension_gate.py --run-id "
         f"{mirai_run_id} --expected-samples {expected_mirai} --no-write",
         "uv run rvmt explain:35t --flow --run-id " + mirai_run_id,
+        "# Expected boundary: true real-malware validation remains blocked unless external quarantine run artifacts exist.",
         "uv run python tools/check_real_malware_validation_gate.py --no-write",
         "uv run python tools/check_35t_real_malware_derived_lineage.py --no-write",
+        "uv run python tools/check_35t_behavior_baseline_comparison.py --no-write",
+        "uv run python tools/check_35t_surrogate_boot_provenance.py --no-write",
+        "uv run python tools/check_35t_claim_evidence_table.py --no-write",
         "uv run python tools/check_35t_artifact_package_readiness.py --no-write",
         "uv run python tools/check_35t_evidence_consistency.py --no-write",
         "uv run python tools/check_35t_ccfa_evidence_chain.py --no-write",
@@ -639,6 +649,9 @@ def build_report(
     surrogate_evidence = repo_root / DEFAULT_EVIDENCE_BASE / surrogate_run_id
     mirai_evidence = repo_root / DEFAULT_EVIDENCE_BASE / mirai_run_id
     lineage_evidence = repo_root / LINEAGE_EVIDENCE_ROOT
+    baseline_evidence = repo_root / BASELINE_EVIDENCE_ROOT
+    boot_evidence = repo_root / BOOT_EVIDENCE_ROOT
+    claim_table_evidence = repo_root / CLAIM_TABLE_EVIDENCE_ROOT
 
     failures: list[str] = []
     limitations: list[dict[str, str]] = []
@@ -651,6 +664,18 @@ def build_report(
     failures.extend(snapshot_failures)
     lineage_snapshot, snapshot_failures = check_evidence_snapshot(
         repo_root, lineage_evidence, label="real_malware_derived_lineage"
+    )
+    failures.extend(snapshot_failures)
+    baseline_snapshot, snapshot_failures = check_evidence_snapshot(
+        repo_root, baseline_evidence, label="real_malware_derived_baseline_comparison"
+    )
+    failures.extend(snapshot_failures)
+    boot_snapshot, snapshot_failures = check_evidence_snapshot(
+        repo_root, boot_evidence, label="surrogate_boot_provenance"
+    )
+    failures.extend(snapshot_failures)
+    claim_table_snapshot, snapshot_failures = check_evidence_snapshot(
+        repo_root, claim_table_evidence, label="paper_claim_evidence_table"
     )
     failures.extend(snapshot_failures)
     if (evidence_root / "evidence_manifest.json").is_file():
@@ -714,6 +739,24 @@ def build_report(
         repo_root,
         "real-malware-derived lineage check",
     )
+    baseline_comparison = read_json(
+        baseline_evidence / "baseline_comparison.json",
+        failures,
+        repo_root,
+        "real-malware-derived baseline comparison",
+    )
+    surrogate_boot_provenance = read_json(
+        boot_evidence / "surrogate_boot_provenance.json",
+        failures,
+        repo_root,
+        "surrogate boot provenance",
+    )
+    paper_claim_table = read_json(
+        claim_table_evidence / "claim_evidence_table.json",
+        failures,
+        repo_root,
+        "paper claim evidence table",
+    )
 
     surrogate_sanitization, sanitize_failures = check_raw_sanitization(
         repo_root, surrogate_evidence, label="surrogate"
@@ -752,7 +795,11 @@ def build_report(
         limitations.append(
             {
                 "id": "surrogate_boot_log_not_run_scoped",
-                "impact": "Surrogate run has board/raw UART and sample artifacts, but no separate Linux boot log under results/board for that run_id.",
+                "impact": (
+                    "Surrogate run has board/raw UART and sample artifacts, but no separate Linux boot log under "
+                    "results/board for that run_id; see "
+                    f"{BOOT_EVIDENCE_ROOT.as_posix()} for the recorded blocker and capture runbook."
+                ),
             }
         )
 
@@ -789,6 +836,25 @@ def build_report(
             "row_count": lineage_check.get("row_count"),
             "row_pass_count": lineage_check.get("row_pass_count"),
         },
+        "baseline_comparison_evidence": {
+            "path": rel(baseline_evidence, repo_root),
+            "status": baseline_comparison.get("status"),
+            "row_count": baseline_comparison.get("row_count"),
+            "row_pass_count": baseline_comparison.get("row_pass_count"),
+        },
+        "surrogate_boot_provenance": {
+            "path": rel(boot_evidence, repo_root),
+            "status": surrogate_boot_provenance.get("status"),
+            "run_scoped_boot_status": surrogate_boot_provenance.get("run_scoped_boot", {}).get("status")
+            if isinstance(surrogate_boot_provenance.get("run_scoped_boot"), dict)
+            else None,
+            "next_capture_target": surrogate_boot_provenance.get("next_capture_target"),
+        },
+        "paper_claim_evidence_table": {
+            "path": rel(claim_table_evidence, repo_root),
+            "status": paper_claim_table.get("status"),
+            "deferred_claims": paper_claim_table.get("deferred_claims"),
+        },
     }
 
     commands = reproduction_commands(surrogate_run_id, mirai_run_id, primary_run_id, evidence_root_arg)
@@ -797,10 +863,27 @@ def build_report(
         "surrogate_evidence_manifest_hashes": not surrogate_snapshot.get("hash_errors"),
         "mirai_evidence_manifest_hashes": not mirai_snapshot.get("hash_errors"),
         "real_malware_derived_lineage_manifest_hashes": not lineage_snapshot.get("hash_errors"),
+        "real_malware_derived_baseline_manifest_hashes": not baseline_snapshot.get("hash_errors"),
+        "surrogate_boot_provenance_manifest_hashes": not boot_snapshot.get("hash_errors"),
+        "paper_claim_table_manifest_hashes": not claim_table_snapshot.get("hash_errors"),
         "real_malware_derived_lineage_pass": lineage_check.get("status")
         == "REAL_MALWARE_DERIVED_SURROGATE_LINEAGE_PASS"
         and lineage_check.get("row_count") == lineage_check.get("row_pass_count")
         and int(lineage_check.get("row_count") or 0) >= 6,
+        "real_malware_derived_baseline_pass": baseline_comparison.get("status")
+        == "REAL_MALWARE_DERIVED_BASELINE_COMPARISON_PASS"
+        and baseline_comparison.get("row_count") == baseline_comparison.get("row_pass_count")
+        and int(baseline_comparison.get("row_count") or 0) >= 6,
+        "surrogate_boot_provenance_recorded": surrogate_boot_provenance.get("status")
+        in {
+            "SURROGATE_BOOT_PROVENANCE_PASS",
+            "SURROGATE_BOOT_PROVENANCE_DEFERRED_RUN_SCOPED_LOG_MISSING",
+        },
+        "paper_claim_table_pass": paper_claim_table.get("status")
+        in {
+            "PAPER_CLAIM_EVIDENCE_TABLE_PASS",
+            "PAPER_CLAIM_EVIDENCE_TABLE_PASS_WITH_SURROGATE_BOOT_DEFERRED",
+        },
         "ccfa_snapshot_manifest_hashes": not ccfa_snapshot.get("hash_errors"),
         "surrogate_run_config": all(surrogate_config.get("checks", {}).values()),
         "mirai_run_config": all(mirai_config.get("checks", {}).values()),
@@ -843,9 +926,15 @@ def build_report(
             "surrogate": surrogate_snapshot,
             "mirai_reference": mirai_snapshot,
             "real_malware_derived_lineage": lineage_snapshot,
+            "real_malware_derived_baseline_comparison": baseline_snapshot,
+            "surrogate_boot_provenance": boot_snapshot,
+            "paper_claim_evidence_table": claim_table_snapshot,
             "ccfa_strong_chain": ccfa_snapshot,
         },
         "real_malware_derived_lineage": lineage_check,
+        "real_malware_derived_baseline_comparison": baseline_comparison,
+        "surrogate_boot_provenance": surrogate_boot_provenance,
+        "paper_claim_evidence_table": paper_claim_table,
         "run_configs": {
             "surrogate": surrogate_config,
             "mirai_reference": mirai_config,
@@ -892,6 +981,21 @@ def render_chain_markdown(report: dict[str, Any]) -> str:
     lines += ["", "## Gate Summary", ""]
     for label, gate in report["gates"].items():
         lines.append(f"- {label}: {gate.get('status')} ({len(gate.get('samples', []))} samples)")
+    lines += ["", "## Evidence Extensions", ""]
+    lines.append(
+        "- real_malware_derived_lineage: "
+        f"{report['real_malware_derived_lineage'].get('status')} "
+        f"({report['real_malware_derived_lineage'].get('row_pass_count')}/"
+        f"{report['real_malware_derived_lineage'].get('row_count')} rows)"
+    )
+    lines.append(
+        "- real_malware_derived_baseline_comparison: "
+        f"{report['real_malware_derived_baseline_comparison'].get('status')} "
+        f"({report['real_malware_derived_baseline_comparison'].get('row_pass_count')}/"
+        f"{report['real_malware_derived_baseline_comparison'].get('row_count')} rows)"
+    )
+    lines.append("- surrogate_boot_provenance: " f"{report['surrogate_boot_provenance'].get('status')}")
+    lines.append("- paper_claim_evidence_table: " f"{report['paper_claim_evidence_table'].get('status')}")
     lines += ["", "## Claim Boundary", ""]
     for key, ok in report["claim_boundary"]["checks"].items():
         lines.append(f"- {key}: {'PASS' if ok else 'FAIL'}")
@@ -936,6 +1040,9 @@ def render_reviewer_checklist(report: dict[str, Any]) -> str:
         "Confirm `claim_boundary.json` keeps true real-malware validation blocked until external quarantine evidence exists.",
         "Verify `artifact_hash_manifest.json` class digests for raw UART, decoded trace, semantic, audit, alignment, and build provenance files.",
         "Confirm the real-malware-derived lineage package has 6/6 PASS rows and keeps surrogate/non-claim boundaries.",
+        "Confirm `baseline_comparison.json` has 6/6 PASS rows for host, strace, QEMU, and board medians.",
+        "Confirm `claim_evidence_table.json` marks completed paper claims as PASS and the surrogate boot claim as DEFERRED when run-scoped boot is absent.",
+        "Review `surrogate_boot_provenance.json` and `boot_capture_runbook.md` before claiming run-scoped surrogate boot provenance.",
         "Run the no-write checker command from `reproduction_commands.md`.",
         "Run the two gate checkers and both `rvmt explain:35t --flow` commands for the surrogate and Mirai-reference runs.",
         "Review limitations before using the evidence as a paper claim.",
@@ -960,6 +1067,9 @@ def render_readme(report: dict[str, Any]) -> str:
         "- `artifact_hash_manifest.json`: hash-linked local raw-to-derived artifact inventory.\n"
         "- `claim_boundary.json` / `.md`: real-malware, surrogate, and network-exclusion boundary.\n"
         "- linked lineage package: `docs/results/evidence/35t-real-malware-derived-lineage-20260524`.\n"
+        "- linked baseline package: `docs/results/evidence/35t-real-malware-derived-baseline-comparison-20260524`.\n"
+        "- linked surrogate boot package: `docs/results/evidence/35t-surrogate-boot-provenance-20260524`.\n"
+        "- linked paper claim table: `docs/results/evidence/35t-paper-claim-evidence-table-20260524`.\n"
         "- `reproduction_commands.md`: commands reviewers can rerun.\n"
         "- `reviewer_checklist.md`: concise review path.\n\n"
         "The package intentionally records bounded limitations instead of upgrading surrogate evidence into a "
@@ -986,6 +1096,9 @@ def snapshot_manifest(repo_root: Path, evidence_root: Path, report: dict[str, An
             f"docs/results/evidence/{run_ids.get('surrogate', SURROGATE_RUN_ID)}",
             f"docs/results/evidence/{run_ids.get('mirai_reference', MIRAI_RUN_ID)}",
             LINEAGE_EVIDENCE_ROOT.as_posix(),
+            BASELINE_EVIDENCE_ROOT.as_posix(),
+            BOOT_EVIDENCE_ROOT.as_posix(),
+            CLAIM_TABLE_EVIDENCE_ROOT.as_posix(),
         ],
         "committed_artifacts": rows,
         "non_claims": NON_CLAIMS,

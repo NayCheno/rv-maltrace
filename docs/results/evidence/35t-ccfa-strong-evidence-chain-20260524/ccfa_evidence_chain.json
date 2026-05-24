@@ -1,5 +1,11 @@
 {
   "artifact_hash_manifest": {
+    "baseline_comparison_evidence": {
+      "path": "docs/results/evidence/35t-real-malware-derived-baseline-comparison-20260524",
+      "row_count": 6,
+      "row_pass_count": 6,
+      "status": "REAL_MALWARE_DERIVED_BASELINE_COMPARISON_PASS"
+    },
     "board_boot": {
       "mirai_reference": {
         "checks": {
@@ -32,12 +38,19 @@
         "status": "MISSING_OR_INCOMPLETE"
       }
     },
-    "generated_utc": "2026-05-24T07:47:00Z",
+    "generated_utc": "2026-05-24T09:25:04Z",
     "lineage_evidence": {
       "path": "docs/results/evidence/35t-real-malware-derived-lineage-20260524",
       "row_count": 6,
       "row_pass_count": 6,
       "status": "REAL_MALWARE_DERIVED_SURROGATE_LINEAGE_PASS"
+    },
+    "paper_claim_evidence_table": {
+      "deferred_claims": [
+        "c6_surrogate_boot_provenance"
+      ],
+      "path": "docs/results/evidence/35t-paper-claim-evidence-table-20260524",
+      "status": "PAPER_CLAIM_EVIDENCE_TABLE_PASS_WITH_SURROGATE_BOOT_DEFERRED"
     },
     "runs": [
       {
@@ -2477,13 +2490,19 @@
     ],
     "schema": "rvmt.35t.ccfa_style_artifact_hash_manifest.v1",
     "scope": "Artix-7 35T / LiteX / VexRiscv",
+    "surrogate_boot_provenance": {
+      "next_capture_target": "results/board/artix7_35t_litex/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/06_linux_boot/uart_linux_boot.log",
+      "path": "docs/results/evidence/35t-surrogate-boot-provenance-20260524",
+      "run_scoped_boot_status": "MISSING_OR_INCOMPLETE",
+      "status": "SURROGATE_BOOT_PROVENANCE_DEFERRED_RUN_SCOPED_LOG_MISSING"
+    },
     "tooling_provenance": {
-      "class_digest": "e3a559390f6361ef6b1912c5162e02c8dfc7a0cce1aad9d04890971512a7236f",
+      "class_digest": "bcd4fbe2382f37ab609096bb29b857ac46f73a5f4c0831deded279f6ca60e083",
       "files": [
         {
-          "bytes": 47602,
+          "bytes": 54042,
           "path": "tools/check_35t_ccfa_evidence_chain.py",
-          "sha256": "a01ee30fb077aa5268ae8454609802f118c62745372fcf95eb487a0fdbdfc20f"
+          "sha256": "f1f5dbc2d246a221edf2b6f63e28942424f2ffa8b086af43f9ccbef2ea2fd1e9"
         },
         {
           "bytes": 32058,
@@ -2504,6 +2523,21 @@
           "bytes": 22982,
           "path": "tools/check_35t_real_malware_derived_lineage.py",
           "sha256": "fd915e7ef553a51c634d14789d75651a66c6427e28e5752929943118b01cb136"
+        },
+        {
+          "bytes": 21614,
+          "path": "tools/check_35t_behavior_baseline_comparison.py",
+          "sha256": "2be03b19ad4d2a7ca9942c768b58d884fefaa771e5ea89e4dddaecb4655537f3"
+        },
+        {
+          "bytes": 10558,
+          "path": "tools/check_35t_surrogate_boot_provenance.py",
+          "sha256": "82bc485eef806dfeee2f1c8693bffdb86a134bc33ea035863605e7fd0eb9535a"
+        },
+        {
+          "bytes": 21496,
+          "path": "tools/check_35t_claim_evidence_table.py",
+          "sha256": "41039c6fefd8f4e4c056778acf8b0fb4486488bfcc2717f8c9360d753c827b17"
         },
         {
           "bytes": 28685,
@@ -2615,11 +2649,17 @@
     "mirai_gate_pass": true,
     "mirai_metrics_zero_fp_fn": true,
     "mirai_run_config": true,
+    "paper_claim_table_manifest_hashes": true,
+    "paper_claim_table_pass": true,
     "primary_evidence_manifest_hashes": true,
     "raw_sanitization_hashes": true,
     "raw_to_derived_hash_inventory": true,
+    "real_malware_derived_baseline_manifest_hashes": true,
+    "real_malware_derived_baseline_pass": true,
     "real_malware_derived_lineage_manifest_hashes": true,
     "real_malware_derived_lineage_pass": true,
+    "surrogate_boot_provenance_manifest_hashes": true,
+    "surrogate_boot_provenance_recorded": true,
     "surrogate_evidence_manifest_hashes": true,
     "surrogate_gate_pass": true,
     "surrogate_metrics_zero_fp_fn": true,
@@ -2839,11 +2879,11 @@
       "status": "PASS"
     }
   },
-  "generated_utc": "2026-05-24T07:47:00Z",
+  "generated_utc": "2026-05-24T09:25:04Z",
   "limitations": [
     {
       "id": "surrogate_boot_log_not_run_scoped",
-      "impact": "Surrogate run has board/raw UART and sample artifacts, but no separate Linux boot log under results/board for that run_id."
+      "impact": "Surrogate run has board/raw UART and sample artifacts, but no separate Linux boot log under results/board for that run_id; see docs/results/evidence/35t-surrogate-boot-provenance-20260524 for the recorded blocker and capture runbook."
     },
     {
       "id": "true_real_malware_deferred",
@@ -2917,6 +2957,228 @@
     "no mature detector or classifier-accuracy claim",
     "no complete semantic reconstruction claim under p0a arg-mem-disabled tracing"
   ],
+  "paper_claim_evidence_table": {
+    "claim_table_policy": "Paper claims are only allowed when their machine-checkable evidence row is PASS. DEFERRED rows may be discussed as limitations or required follow-up, not as completed claims.",
+    "claims": [
+      {
+        "checks": {
+          "artifact_count_positive": true,
+          "manifest_hashes_valid": true,
+          "snapshot_present": true
+        },
+        "evidence": [
+          "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521",
+          "tools/check_35t_artifact_package_readiness.py"
+        ],
+        "id": "c1_primary_35t_package_integrity",
+        "limitations": [
+          "Primary package is synthetic-behavior 35T evidence, not true real-malware evidence."
+        ],
+        "paper_wording": "The primary 35T evidence package is hash-manifested and locally reproducible.",
+        "status": "PASS"
+      },
+      {
+        "checks": {
+          "all_samples_pass": true,
+          "gate_status_pass": true,
+          "manifest_hashes_valid": true,
+          "snapshot_present": true,
+          "three_samples": true
+        },
+        "evidence": [
+          "docs/results/evidence/35t-surrogate-darthra-p0a-r512-abba-r5-20260524",
+          "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524"
+        ],
+        "id": "c2_surrogate_darthra_board_gate",
+        "limitations": [
+          "Repository-authored safe reimplementations retain behavior shape only."
+        ],
+        "paper_wording": "Three DarthRa-derived safe surrogates pass the Artix-7 35T board validation gate.",
+        "status": "PASS"
+      },
+      {
+        "checks": {
+          "all_samples_pass": true,
+          "gate_status_pass": true,
+          "manifest_hashes_valid": true,
+          "network_optional_samples_excluded": true,
+          "snapshot_present": true,
+          "three_samples": true
+        },
+        "evidence": [
+          "docs/results/evidence/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524",
+          "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524"
+        ],
+        "id": "c3_mirai_reference_nonnetwork_board_gate",
+        "limitations": [
+          "Network-required Mirai behavior remains excluded from this non-network claim."
+        ],
+        "paper_wording": "Three non-network Mirai-reference behavior simulations pass the Artix-7 35T board validation gate.",
+        "status": "PASS"
+      },
+      {
+        "checks": {
+          "all_rows_pass": true,
+          "lineage_status_pass": true,
+          "manifest_hashes_valid": true,
+          "six_rows": true,
+          "snapshot_present": true
+        },
+        "evidence": [
+          "docs/results/evidence/35t-real-malware-derived-lineage-20260524",
+          "experiments/linux_behavior/real_malware_surrogate/behavior_lineage_matrix.json"
+        ],
+        "id": "c4_real_malware_derived_lineage",
+        "limitations": [
+          "Lineage is behavior-derived and explicitly not payload-equivalence evidence."
+        ],
+        "paper_wording": "Six board-tested behaviors have explicit real-malware-derived lineage, risk removal, and non-claim boundaries.",
+        "status": "PASS"
+      },
+      {
+        "checks": {
+          "all_rows_pass": true,
+          "baseline_status_pass": true,
+          "manifest_hashes_valid": true,
+          "six_rows": true,
+          "snapshot_present": true
+        },
+        "evidence": [
+          "docs/results/evidence/35t-real-malware-derived-baseline-comparison-20260524",
+          "tools/check_35t_behavior_baseline_comparison.py"
+        ],
+        "id": "c5_same_set_baseline_comparison",
+        "limitations": [
+          "Ratios are descriptive; this is not an advanced QEMU-plugin/eBPF comparison."
+        ],
+        "paper_wording": "The six real-malware-derived behaviors have same-set host, strace, QEMU, and 35T board medians recorded.",
+        "status": "PASS"
+      },
+      {
+        "allow_deferred": true,
+        "checks": {
+          "boot_status_recorded": true,
+          "manifest_hashes_valid": true,
+          "run_artifacts_present": true,
+          "snapshot_present": true
+        },
+        "deferred": true,
+        "evidence": [
+          "docs/results/evidence/35t-surrogate-boot-provenance-20260524",
+          "tools/check_35t_surrogate_boot_provenance.py"
+        ],
+        "id": "c6_surrogate_boot_provenance",
+        "limitations": [
+          "A deferred status means the paper must not claim a surrogate run-scoped Linux boot log until that log is captured."
+        ],
+        "paper_wording": "The surrogate run records boot provenance status and explicitly names the run-scoped boot-log blocker.",
+        "status": "DEFERRED"
+      },
+      {
+        "checks": {
+          "external_quarantine_hash_only": true,
+          "manifest_status_blocked": true,
+          "manual_results_absent": true,
+          "repository_payloads_disallowed": true,
+          "sample_class_real_malware": true
+        },
+        "evidence": [
+          "experiments/linux_behavior/real_malware/manifest.json",
+          "results/experiments/real_malware/manual"
+        ],
+        "id": "c7_true_real_malware_boundary",
+        "limitations": [
+          "No true real-malware board-execution evidence is claimed in this package."
+        ],
+        "paper_wording": "True real-malware validation remains a blocked boundary, not a PASS claim.",
+        "status": "PASS"
+      }
+    ],
+    "deferred_claims": [
+      "c6_surrogate_boot_provenance"
+    ],
+    "evidence_root": "docs/results/evidence/35t-paper-claim-evidence-table-20260524",
+    "failures": [],
+    "generated_utc": "2026-05-24T09:21:08Z",
+    "non_claims": [
+      "not true real-malware execution",
+      "not a CCF-A acceptance guarantee",
+      "not payload-equivalence evidence",
+      "not network-enabled malware behavior",
+      "not malware-family classifier accuracy"
+    ],
+    "repo_root": "D:/Code/research/rv-maltrace",
+    "run_ids": {
+      "mirai_reference": "35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524",
+      "primary_35t": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+      "surrogate": "35t-surrogate-darthra-p0a-r512-abba-r5-20260524"
+    },
+    "schema": "rvmt.35t.paper_claim_evidence_table.v1",
+    "scope": "Artix-7 35T / LiteX / VexRiscv",
+    "snapshots": {
+      "baseline": {
+        "artifact_count": 4,
+        "claim_level": "35T real-malware-derived same-set baseline comparison",
+        "hash_errors": [],
+        "label": "baseline",
+        "path": "docs/results/evidence/35t-real-malware-derived-baseline-comparison-20260524",
+        "present": true,
+        "schema": "rvmt.35t.real_malware_derived_baseline_comparison_snapshot.v1",
+        "status": "PASS"
+      },
+      "lineage": {
+        "artifact_count": 4,
+        "claim_level": "35T real-malware-derived safe surrogate behavior lineage",
+        "hash_errors": [],
+        "label": "lineage",
+        "path": "docs/results/evidence/35t-real-malware-derived-lineage-20260524",
+        "present": true,
+        "schema": "rvmt.35t.real_malware_derived_lineage_snapshot.v1",
+        "status": "PASS"
+      },
+      "mirai_reference": {
+        "artifact_count": 12,
+        "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+        "hash_errors": [],
+        "label": "mirai_reference",
+        "path": "docs/results/evidence/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524",
+        "present": true,
+        "schema": "rvmt.35t.extension_evidence_snapshot.v1",
+        "status": "PASS"
+      },
+      "primary": {
+        "artifact_count": 114,
+        "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+        "hash_errors": [],
+        "label": "primary",
+        "path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521",
+        "present": true,
+        "schema": "rvmt.35t.evidence_snapshot.v1",
+        "status": null
+      },
+      "surrogate": {
+        "artifact_count": 8,
+        "claim_level": "35T hardware-trace-assisted real-malware-surrogate validation",
+        "hash_errors": [],
+        "label": "surrogate",
+        "path": "docs/results/evidence/35t-surrogate-darthra-p0a-r512-abba-r5-20260524",
+        "present": true,
+        "schema": "rvmt.35t.real_malware_surrogate_evidence_snapshot.v1",
+        "status": "PASS"
+      },
+      "surrogate_boot": {
+        "artifact_count": 4,
+        "claim_level": null,
+        "hash_errors": [],
+        "label": "surrogate_boot",
+        "path": "docs/results/evidence/35t-surrogate-boot-provenance-20260524",
+        "present": true,
+        "schema": "rvmt.35t.surrogate_boot_provenance_snapshot.v1",
+        "status": "PASS"
+      }
+    },
+    "status": "PAPER_CLAIM_EVIDENCE_TABLE_PASS_WITH_SURROGATE_BOOT_DEFERRED"
+  },
   "raw_artifact_sanitization": {
     "mirai_reference": {
       "file_count": 31,
@@ -2936,6 +3198,549 @@
       "schema": "rvmt.35t.real_malware_surrogate_raw_artifact_sanitization.v1",
       "status": "HASH_ONLY_RAW_ARTIFACTS_RECORDED"
     }
+  },
+  "real_malware_derived_baseline_comparison": {
+    "claim_boundary": "real-malware-derived safe surrogate behavior validation only; not true real-malware execution",
+    "failures": [],
+    "generated_utc": "2026-05-24T09:20:56Z",
+    "interpretation": "Each row binds the board trace medians to same-sample host native, host strace, QEMU native, and QEMU strace medians already captured in the 35T aggregate metrics. Ratios are descriptive; the pass/fail gate is evidence presence, trace quality, and expected behavior matching.",
+    "matrix_checks": {
+      "rows_present": true,
+      "runs_present": true,
+      "schema": true,
+      "true_real_malware_false": true
+    },
+    "matrix_path": "experiments/linux_behavior/real_malware_surrogate/behavior_lineage_matrix.json",
+    "non_claims": [
+      "same-set baseline comparison only",
+      "not true real-malware execution",
+      "not qemu-plugin or eBPF advanced baseline evidence",
+      "not a performance-equivalence claim",
+      "not malware-family detection accuracy"
+    ],
+    "referenced_file_hashes": {
+      "class_digest": "e61caa4dd8ac2e6924118eb4307883f205d9bc4e83d32bd7a1562b0bca4488d9",
+      "files": [
+        {
+          "bytes": 4825,
+          "path": "docs/results/evidence/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/extension_gate_check.json",
+          "sha256": "25be8fddb8aeac241c426864f256e981a8930c96028444e09206568885ae19f3"
+        },
+        {
+          "bytes": 3929,
+          "path": "docs/results/evidence/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/gate_report.json",
+          "sha256": "c131bc7c9a21ff20c83da18ef78a32ac40837651c738c3912166a3ad281d5f61"
+        },
+        {
+          "bytes": 10087,
+          "path": "experiments/linux_behavior/real_malware_surrogate/behavior_lineage_matrix.json",
+          "sha256": "42fcec687568e7b2ec86bb0af161796d93bf5c1119deae393f2cca0c0dc307f2"
+        },
+        {
+          "bytes": 11375,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/aggregate/metrics.json",
+          "sha256": "89f23a53e6dd403e3379e2190d116e3e81b3516ee9278b2883d417231392ada6"
+        },
+        {
+          "bytes": 11324,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/aggregate/metrics.json",
+          "sha256": "317b35e912a99ecab61478d6e5cd87866d23f528ca68570f0dfc9e6cbffc6d5c"
+        }
+      ]
+    },
+    "repo_root": "D:/Code/research/rv-maltrace",
+    "row_count": 6,
+    "row_pass_count": 6,
+    "rows": [
+      {
+        "baseline_comparison": {
+          "board_trace_on_vs_host_native": 5.532991,
+          "board_trace_on_vs_host_strace": 2.175381,
+          "board_trace_on_vs_qemu_native": 3.442682,
+          "board_trace_on_vs_qemu_strace": 1.782671,
+          "board_trace_on_vs_trace_off": 0.557351
+        },
+        "checks": {
+          "alignment_precision_recorded": true,
+          "alignment_recall_recorded": true,
+          "any_behavior_rule_matched": true,
+          "board_trace_off_median_present": true,
+          "board_trace_on_median_present": true,
+          "drop_rate_median_le_5pct": true,
+          "expected_behavior_matched": true,
+          "gate_present": true,
+          "gate_sample_pass": true,
+          "host_native_baseline_present": true,
+          "host_strace_baseline_present": true,
+          "metrics_present": true,
+          "qemu_native_baseline_present": true,
+          "qemu_strace_baseline_present": true,
+          "run_key_defined": true,
+          "sample_metrics_present": true,
+          "sample_status_pass": true,
+          "trace_compact_bytes_median_positive": true,
+          "trace_events_median_positive": true,
+          "trace_on_rep_count_5": true
+        },
+        "failures": [],
+        "gate": {
+          "checks": {
+            "behavior_audit_artifacts_5_of_5": true,
+            "drop_rate_median_le_5pct": true,
+            "expected_behavior_in_matched": true,
+            "gate_status_pass": true,
+            "marker_scope_pass": true,
+            "no_trace_cap_hit": true,
+            "runtime_process_attribution_pass": true,
+            "sample_present": true,
+            "sample_status_pass": true,
+            "semantic_artifacts_5_of_5": true,
+            "status_pass": true,
+            "strong_expected_behavior_matched": true,
+            "trace_artifacts_5_of_5": true,
+            "trace_on_5_of_5": true,
+            "unknown_corrupt_zero": true
+          },
+          "matched_expected": [
+            "surrogate_elf_header_probe"
+          ],
+          "status": "PASS"
+        },
+        "gate_artifact": "docs/results/evidence/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/gate_report.json",
+        "lineage_id": "rmder_001_darthra_elf_header_probe",
+        "medians": {
+          "alignment_precision": 0.22727272727272727,
+          "alignment_recall": 0.4166666666666667,
+          "board_trace_off_runtime_ns": 171367480.0,
+          "board_trace_on_runtime_ns": 95511860.0,
+          "drop_rate": 0.0,
+          "groundtruth": {
+            "host_native": 17262246.0,
+            "host_strace": 43905798.0,
+            "qemu_native": 27743446.0,
+            "qemu_strace": 53577948.0
+          },
+          "trace_compact_bytes": 36422.0,
+          "trace_events": 54.0
+        },
+        "metrics_path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/aggregate/metrics.json",
+        "run_id": "35t-surrogate-darthra-p0a-r512-abba-r5-20260524",
+        "run_key": "surrogate",
+        "sample_class": "real_malware_surrogate",
+        "sample_id": "darthra_elf_header_probe",
+        "source_behavior_point": "ELF/header-like inspection before deciding whether a file is interesting",
+        "source_category": "elf_magic",
+        "source_family": "DarthRa/LinuxMalwareSourceCode",
+        "status": "PASS"
+      },
+      {
+        "baseline_comparison": {
+          "board_trace_on_vs_host_native": 6.189667,
+          "board_trace_on_vs_host_strace": 2.304267,
+          "board_trace_on_vs_qemu_native": 3.80812,
+          "board_trace_on_vs_qemu_strace": 1.731488,
+          "board_trace_on_vs_trace_off": 0.584195
+        },
+        "checks": {
+          "alignment_precision_recorded": true,
+          "alignment_recall_recorded": true,
+          "any_behavior_rule_matched": true,
+          "board_trace_off_median_present": true,
+          "board_trace_on_median_present": true,
+          "drop_rate_median_le_5pct": true,
+          "expected_behavior_matched": true,
+          "gate_present": true,
+          "gate_sample_pass": true,
+          "host_native_baseline_present": true,
+          "host_strace_baseline_present": true,
+          "metrics_present": true,
+          "qemu_native_baseline_present": true,
+          "qemu_strace_baseline_present": true,
+          "run_key_defined": true,
+          "sample_metrics_present": true,
+          "sample_status_pass": true,
+          "trace_compact_bytes_median_positive": true,
+          "trace_events_median_positive": true,
+          "trace_on_rep_count_5": true
+        },
+        "failures": [],
+        "gate": {
+          "checks": {
+            "behavior_audit_artifacts_5_of_5": true,
+            "drop_rate_median_le_5pct": true,
+            "expected_behavior_in_matched": true,
+            "gate_status_pass": true,
+            "marker_scope_pass": true,
+            "no_trace_cap_hit": true,
+            "runtime_process_attribution_pass": true,
+            "sample_present": true,
+            "sample_status_pass": true,
+            "semantic_artifacts_5_of_5": true,
+            "status_pass": true,
+            "strong_expected_behavior_matched": true,
+            "trace_artifacts_5_of_5": true,
+            "trace_on_5_of_5": true,
+            "unknown_corrupt_zero": true
+          },
+          "matched_expected": [
+            "surrogate_rootkit_device_probe"
+          ],
+          "status": "PASS"
+        },
+        "gate_artifact": "docs/results/evidence/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/gate_report.json",
+        "lineage_id": "rmder_002_darthra_rootkit_device_probe",
+        "medians": {
+          "alignment_precision": 0.22727272727272727,
+          "alignment_recall": 0.38461538461538464,
+          "board_trace_off_runtime_ns": 187788480.0,
+          "board_trace_on_runtime_ns": 109705160.0,
+          "drop_rate": 0.0,
+          "groundtruth": {
+            "host_native": 17723920.0,
+            "host_strace": 47609567.0,
+            "qemu_native": 28808222.0,
+            "qemu_strace": 63358909.0
+          },
+          "trace_compact_bytes": 35062.0,
+          "trace_events": 52.0
+        },
+        "metrics_path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/aggregate/metrics.json",
+        "run_id": "35t-surrogate-darthra-p0a-r512-abba-r5-20260524",
+        "run_key": "surrogate",
+        "sample_class": "real_malware_surrogate",
+        "sample_id": "darthra_rootkit_device_probe",
+        "source_behavior_point": "kernel or device environment probing around rootkit-like logic",
+        "source_category": "lkm_rootkit",
+        "source_family": "DarthRa/LinuxMalwareSourceCode",
+        "status": "PASS"
+      },
+      {
+        "baseline_comparison": {
+          "board_trace_on_vs_host_native": 3.85465,
+          "board_trace_on_vs_host_strace": 1.883444,
+          "board_trace_on_vs_qemu_native": 1.53966,
+          "board_trace_on_vs_qemu_strace": 1.024725,
+          "board_trace_on_vs_trace_off": 0.589678
+        },
+        "checks": {
+          "alignment_precision_recorded": true,
+          "alignment_recall_recorded": true,
+          "any_behavior_rule_matched": true,
+          "board_trace_off_median_present": true,
+          "board_trace_on_median_present": true,
+          "drop_rate_median_le_5pct": true,
+          "expected_behavior_matched": true,
+          "gate_present": true,
+          "gate_sample_pass": true,
+          "host_native_baseline_present": true,
+          "host_strace_baseline_present": true,
+          "metrics_present": true,
+          "qemu_native_baseline_present": true,
+          "qemu_strace_baseline_present": true,
+          "run_key_defined": true,
+          "sample_metrics_present": true,
+          "sample_status_pass": true,
+          "trace_compact_bytes_median_positive": true,
+          "trace_events_median_positive": true,
+          "trace_on_rep_count_5": true
+        },
+        "failures": [],
+        "gate": {
+          "checks": {
+            "behavior_audit_artifacts_5_of_5": true,
+            "drop_rate_median_le_5pct": true,
+            "expected_behavior_in_matched": true,
+            "gate_status_pass": true,
+            "marker_scope_pass": true,
+            "no_trace_cap_hit": true,
+            "runtime_process_attribution_pass": true,
+            "sample_present": true,
+            "sample_status_pass": true,
+            "semantic_artifacts_5_of_5": true,
+            "status_pass": true,
+            "strong_expected_behavior_matched": true,
+            "trace_artifacts_5_of_5": true,
+            "trace_on_5_of_5": true,
+            "unknown_corrupt_zero": true
+          },
+          "matched_expected": [
+            "surrogate_virus_file_activity"
+          ],
+          "status": "PASS"
+        },
+        "gate_artifact": "docs/results/evidence/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/gate_report.json",
+        "lineage_id": "rmder_003_darthra_virus_fixture_walk",
+        "medians": {
+          "alignment_precision": 0.25925925925925924,
+          "alignment_recall": 0.5384615384615384,
+          "board_trace_off_runtime_ns": 192018480.0,
+          "board_trace_on_runtime_ns": 113229020.0,
+          "drop_rate": 0.0,
+          "groundtruth": {
+            "host_native": 29374654.0,
+            "host_strace": 60118067.0,
+            "qemu_native": 73541594.0,
+            "qemu_strace": 110497021.0
+          },
+          "trace_compact_bytes": 44632.0,
+          "trace_events": 66.0
+        },
+        "metrics_path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/aggregate/metrics.json",
+        "run_id": "35t-surrogate-darthra-p0a-r512-abba-r5-20260524",
+        "run_key": "surrogate",
+        "sample_class": "real_malware_surrogate",
+        "sample_id": "darthra_virus_fixture_walk_sim",
+        "source_behavior_point": "file traversal and candidate-file activity around virus-like logic",
+        "source_category": "virus",
+        "source_family": "DarthRa/LinuxMalwareSourceCode",
+        "status": "PASS"
+      },
+      {
+        "baseline_comparison": {
+          "board_trace_on_vs_host_native": 8.462962,
+          "board_trace_on_vs_host_strace": 2.876397,
+          "board_trace_on_vs_qemu_native": 5.057666,
+          "board_trace_on_vs_qemu_strace": 2.353658,
+          "board_trace_on_vs_trace_off": 0.532624
+        },
+        "checks": {
+          "alignment_precision_recorded": true,
+          "alignment_recall_recorded": true,
+          "any_behavior_rule_matched": true,
+          "board_trace_off_median_present": true,
+          "board_trace_on_median_present": true,
+          "drop_rate_median_le_5pct": true,
+          "expected_behavior_matched": true,
+          "gate_present": true,
+          "gate_sample_pass": true,
+          "host_native_baseline_present": true,
+          "host_strace_baseline_present": true,
+          "metrics_present": true,
+          "qemu_native_baseline_present": true,
+          "qemu_strace_baseline_present": true,
+          "run_key_defined": true,
+          "sample_metrics_present": true,
+          "sample_status_pass": true,
+          "trace_compact_bytes_median_positive": true,
+          "trace_events_median_positive": true,
+          "trace_on_rep_count_5": true
+        },
+        "failures": [],
+        "gate": {
+          "checks": {
+            "behavior_audit_artifacts_5_of_5": true,
+            "drop_rate_median_le_5pct": true,
+            "expected_behavior_in_matched": true,
+            "gate_status_pass": true,
+            "marker_scope_pass": true,
+            "no_trace_cap_hit": true,
+            "runtime_process_attribution_pass": true,
+            "sample_present": true,
+            "sample_status_pass": true,
+            "semantic_artifacts_5_of_5": true,
+            "status_pass": true,
+            "strong_expected_behavior_matched": true,
+            "trace_artifacts_5_of_5": true,
+            "trace_on_5_of_5": true,
+            "unknown_corrupt_zero": true
+          },
+          "matched_expected": [
+            "mirai_proc_scan_simulation"
+          ],
+          "status": "PASS"
+        },
+        "gate_artifact": "docs/results/evidence/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/extension_gate_check.json",
+        "lineage_id": "rmder_004_mirai_proc_scan",
+        "medians": {
+          "alignment_precision": 0.22727272727272727,
+          "alignment_recall": 0.4166666666666667,
+          "board_trace_off_runtime_ns": 197431540.0,
+          "board_trace_on_runtime_ns": 105156860.0,
+          "drop_rate": 0.0,
+          "groundtruth": {
+            "host_native": 12425539.0,
+            "host_strace": 36558531.0,
+            "qemu_native": 20791578.0,
+            "qemu_strace": 44678051.0
+          },
+          "trace_compact_bytes": 37787.0,
+          "trace_events": 56.0
+        },
+        "metrics_path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/aggregate/metrics.json",
+        "run_id": "35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524",
+        "run_key": "mirai_reference",
+        "sample_class": "malware_like_synthetic",
+        "sample_id": "mirai_proc_scan_sim",
+        "source_behavior_point": "process and environment probing used around Mirai-style device management",
+        "source_category": "botnet_or_mirai",
+        "source_family": "Mirai",
+        "status": "PASS"
+      },
+      {
+        "baseline_comparison": {
+          "board_trace_on_vs_host_native": 7.997493,
+          "board_trace_on_vs_host_strace": 3.071788,
+          "board_trace_on_vs_qemu_native": 5.11254,
+          "board_trace_on_vs_qemu_strace": 2.484451,
+          "board_trace_on_vs_trace_off": 0.528937
+        },
+        "checks": {
+          "alignment_precision_recorded": true,
+          "alignment_recall_recorded": true,
+          "any_behavior_rule_matched": true,
+          "board_trace_off_median_present": true,
+          "board_trace_on_median_present": true,
+          "drop_rate_median_le_5pct": true,
+          "expected_behavior_matched": true,
+          "gate_present": true,
+          "gate_sample_pass": true,
+          "host_native_baseline_present": true,
+          "host_strace_baseline_present": true,
+          "metrics_present": true,
+          "qemu_native_baseline_present": true,
+          "qemu_strace_baseline_present": true,
+          "run_key_defined": true,
+          "sample_metrics_present": true,
+          "sample_status_pass": true,
+          "trace_compact_bytes_median_positive": true,
+          "trace_events_median_positive": true,
+          "trace_on_rep_count_5": true
+        },
+        "failures": [],
+        "gate": {
+          "checks": {
+            "behavior_audit_artifacts_5_of_5": true,
+            "drop_rate_median_le_5pct": true,
+            "expected_behavior_in_matched": true,
+            "gate_status_pass": true,
+            "marker_scope_pass": true,
+            "no_trace_cap_hit": true,
+            "runtime_process_attribution_pass": true,
+            "sample_present": true,
+            "sample_status_pass": true,
+            "semantic_artifacts_5_of_5": true,
+            "status_pass": true,
+            "strong_expected_behavior_matched": true,
+            "trace_artifacts_5_of_5": true,
+            "trace_on_5_of_5": true,
+            "unknown_corrupt_zero": true
+          },
+          "matched_expected": [
+            "mirai_watchdog_probe"
+          ],
+          "status": "PASS"
+        },
+        "gate_artifact": "docs/results/evidence/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/extension_gate_check.json",
+        "lineage_id": "rmder_005_mirai_watchdog_probe",
+        "medians": {
+          "alignment_precision": 0.22727272727272727,
+          "alignment_recall": 0.4166666666666667,
+          "board_trace_off_runtime_ns": 184875700.0,
+          "board_trace_on_runtime_ns": 97787520.0,
+          "drop_rate": 0.0,
+          "groundtruth": {
+            "host_native": 12227272.0,
+            "host_strace": 31834068.0,
+            "qemu_native": 19126992.0,
+            "qemu_strace": 39359810.0
+          },
+          "trace_compact_bytes": 32314.0,
+          "trace_events": 48.0
+        },
+        "metrics_path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/aggregate/metrics.json",
+        "run_id": "35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524",
+        "run_key": "mirai_reference",
+        "sample_class": "malware_like_synthetic",
+        "sample_id": "mirai_watchdog_probe_sim",
+        "source_behavior_point": "watchdog and runtime environment probing",
+        "source_category": "botnet_or_mirai",
+        "source_family": "Mirai",
+        "status": "PASS"
+      },
+      {
+        "baseline_comparison": {
+          "board_trace_on_vs_host_native": 5.434461,
+          "board_trace_on_vs_host_strace": 2.591504,
+          "board_trace_on_vs_qemu_native": 2.280973,
+          "board_trace_on_vs_qemu_strace": 1.579017,
+          "board_trace_on_vs_trace_off": 0.53547
+        },
+        "checks": {
+          "alignment_precision_recorded": true,
+          "alignment_recall_recorded": true,
+          "any_behavior_rule_matched": true,
+          "board_trace_off_median_present": true,
+          "board_trace_on_median_present": true,
+          "drop_rate_median_le_5pct": true,
+          "expected_behavior_matched": true,
+          "gate_present": true,
+          "gate_sample_pass": true,
+          "host_native_baseline_present": true,
+          "host_strace_baseline_present": true,
+          "metrics_present": true,
+          "qemu_native_baseline_present": true,
+          "qemu_strace_baseline_present": true,
+          "run_key_defined": true,
+          "sample_metrics_present": true,
+          "sample_status_pass": true,
+          "trace_compact_bytes_median_positive": true,
+          "trace_events_median_positive": true,
+          "trace_on_rep_count_5": true
+        },
+        "failures": [],
+        "gate": {
+          "checks": {
+            "behavior_audit_artifacts_5_of_5": true,
+            "drop_rate_median_le_5pct": true,
+            "expected_behavior_in_matched": true,
+            "gate_status_pass": true,
+            "marker_scope_pass": true,
+            "no_trace_cap_hit": true,
+            "runtime_process_attribution_pass": true,
+            "sample_present": true,
+            "sample_status_pass": true,
+            "semantic_artifacts_5_of_5": true,
+            "status_pass": true,
+            "strong_expected_behavior_matched": true,
+            "trace_artifacts_5_of_5": true,
+            "trace_on_5_of_5": true,
+            "unknown_corrupt_zero": true
+          },
+          "matched_expected": [
+            "mirai_encoded_table_access"
+          ],
+          "status": "PASS"
+        },
+        "gate_artifact": "docs/results/evidence/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/extension_gate_check.json",
+        "lineage_id": "rmder_006_mirai_encoded_table",
+        "medians": {
+          "alignment_precision": 0.23809523809523808,
+          "alignment_recall": 0.4166666666666667,
+          "board_trace_off_runtime_ns": 187726920.0,
+          "board_trace_on_runtime_ns": 100522060.0,
+          "drop_rate": 0.0,
+          "groundtruth": {
+            "host_native": 18497152.0,
+            "host_strace": 38789085.0,
+            "qemu_native": 44069824.0,
+            "qemu_strace": 63661163.0
+          },
+          "trace_compact_bytes": 33680.0,
+          "trace_events": 50.0
+        },
+        "metrics_path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/aggregate/metrics.json",
+        "run_id": "35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524",
+        "run_key": "mirai_reference",
+        "sample_class": "malware_like_synthetic",
+        "sample_id": "mirai_encoded_table_sim",
+        "source_behavior_point": "encoded string table or configuration access",
+        "source_category": "botnet_or_mirai",
+        "source_family": "Mirai",
+        "status": "PASS"
+      }
+    ],
+    "schema": "rvmt.35t.real_malware_derived_baseline_comparison.v1",
+    "status": "REAL_MALWARE_DERIVED_BASELINE_COMPARISON_PASS"
   },
   "real_malware_derived_lineage": {
     "claim_boundary": "real-malware-derived safe surrogate behavior validation only; not true real-malware execution",
@@ -3907,8 +4712,12 @@
     "uv run python tools/experiment_35t.py --run-id 35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524 --runtime-order abba --reps 5 --trace-records 512 --trace-profile p0a_syscall_drop --trace-profile-policy 35t_small_capacity --include-extension-samples --sample mirai_proc_scan_sim --sample mirai_watchdog_probe_sim --sample mirai_encoded_table_sim",
     "uv run python tools/check_35t_extension_gate.py --run-id 35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524 --expected-samples mirai_proc_scan_sim,mirai_watchdog_probe_sim,mirai_encoded_table_sim --no-write",
     "uv run rvmt explain:35t --flow --run-id 35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524",
+    "# Expected boundary: true real-malware validation remains blocked unless external quarantine run artifacts exist.",
     "uv run python tools/check_real_malware_validation_gate.py --no-write",
     "uv run python tools/check_35t_real_malware_derived_lineage.py --no-write",
+    "uv run python tools/check_35t_behavior_baseline_comparison.py --no-write",
+    "uv run python tools/check_35t_surrogate_boot_provenance.py --no-write",
+    "uv run python tools/check_35t_claim_evidence_table.py --no-write",
     "uv run python tools/check_35t_artifact_package_readiness.py --no-write",
     "uv run python tools/check_35t_evidence_consistency.py --no-write",
     "uv run python tools/check_35t_ccfa_evidence_chain.py --no-write",
@@ -4082,6 +4891,16 @@
       "schema": "rvmt.35t.extension_evidence_snapshot.v1",
       "status": "PASS"
     },
+    "paper_claim_evidence_table": {
+      "artifact_count": 3,
+      "claim_level": "35T paper-ready claim/evidence mapping",
+      "hash_errors": [],
+      "label": "paper_claim_evidence_table",
+      "path": "docs/results/evidence/35t-paper-claim-evidence-table-20260524",
+      "present": true,
+      "schema": "rvmt.35t.paper_claim_evidence_table_snapshot.v1",
+      "status": "PASS"
+    },
     "primary_35t": {
       "artifact_count": 114,
       "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
@@ -4091,6 +4910,16 @@
       "present": true,
       "schema": "rvmt.35t.evidence_snapshot.v1",
       "status": null
+    },
+    "real_malware_derived_baseline_comparison": {
+      "artifact_count": 4,
+      "claim_level": "35T real-malware-derived same-set baseline comparison",
+      "hash_errors": [],
+      "label": "real_malware_derived_baseline_comparison",
+      "path": "docs/results/evidence/35t-real-malware-derived-baseline-comparison-20260524",
+      "present": true,
+      "schema": "rvmt.35t.real_malware_derived_baseline_comparison_snapshot.v1",
+      "status": "PASS"
     },
     "real_malware_derived_lineage": {
       "artifact_count": 4,
@@ -4111,7 +4940,147 @@
       "present": true,
       "schema": "rvmt.35t.real_malware_surrogate_evidence_snapshot.v1",
       "status": "PASS"
+    },
+    "surrogate_boot_provenance": {
+      "artifact_count": 4,
+      "claim_level": null,
+      "hash_errors": [],
+      "label": "surrogate_boot_provenance",
+      "path": "docs/results/evidence/35t-surrogate-boot-provenance-20260524",
+      "present": true,
+      "schema": "rvmt.35t.surrogate_boot_provenance_snapshot.v1",
+      "status": "PASS"
     }
   },
-  "status": "CCFA_STYLE_STRONG_EVIDENCE_CHAIN_PASS_WITH_BOUNDED_LIMITATIONS"
+  "status": "CCFA_STYLE_STRONG_EVIDENCE_CHAIN_PASS_WITH_BOUNDED_LIMITATIONS",
+  "surrogate_boot_provenance": {
+    "blockers": [
+      "run-scoped surrogate Linux boot log is missing or incomplete"
+    ],
+    "claim": "surrogate run-scoped Linux boot provenance",
+    "failures": [],
+    "generated_utc": "2026-05-24T09:20:56Z",
+    "interpretation": "The surrogate board run artifacts are present. A run-scoped Linux boot log is still deferred unless run_scoped_boot.status is PASS; session boot candidates are supporting context only.",
+    "next_capture_target": "results/board/artix7_35t_litex/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/06_linux_boot/uart_linux_boot.log",
+    "run_artifacts": {
+      "board_raw_uart": {
+        "bytes": 232676,
+        "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/board/raw_uart.log",
+        "sha256": "c042a2c7025638da42c019614f8e43f8988e46bed268d58b65aa12777663d58a"
+      },
+      "checks": {
+        "board_raw_uart_exists": true,
+        "run_config_exists": true,
+        "run_root_exists": true
+      },
+      "run_config": {
+        "bytes": 1651,
+        "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/run_config.json",
+        "sha256": "967fdf55164f61ad544dbe81b131f776528b0f04a7ed2a9519e346e0895b6978"
+      }
+    },
+    "run_id": "35t-surrogate-darthra-p0a-r512-abba-r5-20260524",
+    "run_scoped_boot": {
+      "checks": {
+        "jumped_to_kernel": false,
+        "linux_version": false,
+        "rvmt_linux_user_pass": false,
+        "serialboot_upload_summary": false
+      },
+      "hash": null,
+      "path": "results/board/artix7_35t_litex/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/06_linux_boot/uart_linux_boot.log",
+      "present": false,
+      "relation": "run_scoped",
+      "status": "MISSING_OR_INCOMPLETE"
+    },
+    "schema": "rvmt.35t.surrogate_boot_provenance.v1",
+    "session_boot_candidates": [
+      {
+        "checks": {
+          "jumped_to_kernel": true,
+          "linux_version": true,
+          "rvmt_linux_user_pass": true,
+          "serialboot_upload_summary": true
+        },
+        "hash": {
+          "bytes": 16352,
+          "path": "results/board/artix7_35t_litex/35t-smoke-20260520/06_linux_boot/uart_linux_boot.log",
+          "sha256": "51e1dff33c47b0d5341c975a4216ec8c7977bf9bcc2b798fcce32e832dbbea6e"
+        },
+        "path": "results/board/artix7_35t_litex/35t-smoke-20260520/06_linux_boot/uart_linux_boot.log",
+        "present": true,
+        "relation": "session_candidate_not_run_scoped",
+        "status": "PASS"
+      },
+      {
+        "checks": {
+          "jumped_to_kernel": true,
+          "linux_version": true,
+          "rvmt_linux_user_pass": true,
+          "serialboot_upload_summary": true
+        },
+        "hash": {
+          "bytes": 16434,
+          "path": "results/board/artix7_35t_litex/35t-sidechannel-closure-r2048-20260522/06_linux_boot/uart_linux_boot.log",
+          "sha256": "36a14feab4e11dcc3ffc3126f33176638768f2f77fc58e4fc369ce1cc8025b51"
+        },
+        "path": "results/board/artix7_35t_litex/35t-sidechannel-closure-r2048-20260522/06_linux_boot/uart_linux_boot.log",
+        "present": true,
+        "relation": "session_candidate_not_run_scoped",
+        "status": "PASS"
+      },
+      {
+        "checks": {
+          "jumped_to_kernel": true,
+          "linux_version": true,
+          "rvmt_linux_user_pass": true,
+          "serialboot_upload_summary": true
+        },
+        "hash": {
+          "bytes": 16434,
+          "path": "results/board/artix7_35t_litex/35t-sidechannel-closure-r1024-20260522/06_linux_boot/uart_linux_boot.log",
+          "sha256": "7b98f13dc61b1545ded50e9ad888733aa9cf6e8b7e83436f336e78c0b8240c30"
+        },
+        "path": "results/board/artix7_35t_litex/35t-sidechannel-closure-r1024-20260522/06_linux_boot/uart_linux_boot.log",
+        "present": true,
+        "relation": "session_candidate_not_run_scoped",
+        "status": "PASS"
+      },
+      {
+        "checks": {
+          "jumped_to_kernel": true,
+          "linux_version": true,
+          "rvmt_linux_user_pass": true,
+          "serialboot_upload_summary": true
+        },
+        "hash": {
+          "bytes": 17507,
+          "path": "results/board/artix7_35t_litex/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/06_linux_boot/uart_linux_boot.log",
+          "sha256": "e69aba47d4eff2950a7d0eacf6dc4faf298faf5ffed1f656f980d3a383f2235c"
+        },
+        "path": "results/board/artix7_35t_litex/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/06_linux_boot/uart_linux_boot.log",
+        "present": true,
+        "relation": "session_candidate_not_run_scoped",
+        "status": "PASS"
+      },
+      {
+        "checks": {
+          "jumped_to_kernel": true,
+          "linux_version": true,
+          "rvmt_linux_user_pass": true,
+          "serialboot_upload_summary": true
+        },
+        "hash": {
+          "bytes": 17507,
+          "path": "results/board/artix7_35t_litex/2026-05-24-com5-ddr/06_linux_boot/uart_linux_boot.log",
+          "sha256": "9c5b456bd121a36a3e5bd4bb571727f029edcf9ab3a62f60dcdf79e42e97ea3c"
+        },
+        "path": "results/board/artix7_35t_litex/2026-05-24-com5-ddr/06_linux_boot/uart_linux_boot.log",
+        "present": true,
+        "relation": "session_candidate_not_run_scoped",
+        "status": "PASS"
+      }
+    ],
+    "status": "SURROGATE_BOOT_PROVENANCE_DEFERRED_RUN_SCOPED_LOG_MISSING"
+  }
 }

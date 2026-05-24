@@ -18,7 +18,13 @@ This package is a CCF-A-style evidence-chain discipline artifact, not an accepta
 - surrogate_evidence_manifest_hashes: PASS
 - mirai_evidence_manifest_hashes: PASS
 - real_malware_derived_lineage_manifest_hashes: PASS
+- real_malware_derived_baseline_manifest_hashes: PASS
+- surrogate_boot_provenance_manifest_hashes: PASS
+- paper_claim_table_manifest_hashes: PASS
 - real_malware_derived_lineage_pass: PASS
+- real_malware_derived_baseline_pass: PASS
+- surrogate_boot_provenance_recorded: PASS
+- paper_claim_table_pass: PASS
 - ccfa_snapshot_manifest_hashes: PASS
 - surrogate_run_config: PASS
 - mirai_run_config: PASS
@@ -37,6 +43,13 @@ This package is a CCF-A-style evidence-chain discipline artifact, not an accepta
 - surrogate: PASS (3 samples)
 - mirai_reference: PASS (3 samples)
 
+## Evidence Extensions
+
+- real_malware_derived_lineage: REAL_MALWARE_DERIVED_SURROGATE_LINEAGE_PASS (6/6 rows)
+- real_malware_derived_baseline_comparison: REAL_MALWARE_DERIVED_BASELINE_COMPARISON_PASS (6/6 rows)
+- surrogate_boot_provenance: SURROGATE_BOOT_PROVENANCE_DEFERRED_RUN_SCOPED_LOG_MISSING
+- paper_claim_evidence_table: PAPER_CLAIM_EVIDENCE_TABLE_PASS_WITH_SURROGATE_BOOT_DEFERRED
+
 ## Claim Boundary
 
 - manifest_schema: PASS
@@ -50,7 +63,7 @@ This package is a CCF-A-style evidence-chain discipline artifact, not an accepta
 
 ## Limitations
 
-- surrogate_boot_log_not_run_scoped: Surrogate run has board/raw UART and sample artifacts, but no separate Linux boot log under results/board for that run_id.
+- surrogate_boot_log_not_run_scoped: Surrogate run has board/raw UART and sample artifacts, but no separate Linux boot log under results/board for that run_id; see docs/results/evidence/35t-surrogate-boot-provenance-20260524 for the recorded blocker and capture runbook.
 - true_real_malware_deferred: The strong chain supports surrogate and non-network reference behavior only; true real-malware PASS still requires external quarantine artifacts.
 - p0a_arg_mem_disabled: The p0a trace profile proves syscall/control-flow behavior but intentionally does not provide complete fd/path or process-tree reconstruction.
 - public_package_lightweight: Raw UART, decoded traces, ELFs, and boot logs are hash-linked local artifacts; public release remains hash/sanitized unless raw escrow is approved.
