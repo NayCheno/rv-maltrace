@@ -433,7 +433,7 @@ def load_run_artifacts(repo_root: Path, run_id: str) -> RunArtifacts:
         warnings,
         missing,
         "extension_gate_check",
-        [evidence_root / "extension_gate_check.json"],
+        [evidence_root / "extension_gate_check.json", evidence_root / "real_malware_surrogate_validation_gate.json"],
     )
     _load_optional_json(
         paths,

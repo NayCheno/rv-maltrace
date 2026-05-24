@@ -1,0 +1,16 @@
+# Real-malware-surrogate 35T Gate Report: 35t-surrogate-darthra-p0a-r512-abba-r5-20260524
+
+Status: PASS
+
+| Sample | Status | Trace reps | DROP median | Matched expected |
+| --- | --- | ---: | ---: | --- |
+| `darthra_elf_header_probe` | `PASS` | 5 | 0.0 | `surrogate_elf_header_probe` |
+| `darthra_rootkit_device_probe` | `PASS` | 5 | 0.0 | `surrogate_rootkit_device_probe` |
+| `darthra_virus_fixture_walk_sim` | `PASS` | 5 | 0.0 | `surrogate_virus_file_activity` |
+
+## Non-claims
+
+- surrogate samples are repository-authored safe reimplementations
+- no external real-malware payload was stored in this repository
+- no external real-malware payload was executed by this checker
+- this is not a true real-malware detection PASS

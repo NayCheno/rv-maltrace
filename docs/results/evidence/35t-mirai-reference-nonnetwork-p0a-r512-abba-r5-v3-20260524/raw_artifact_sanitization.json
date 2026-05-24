@@ -1,0 +1,172 @@
+{
+  "files": [
+    {
+      "bytes": 216251,
+      "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/board/raw_uart.log",
+      "sha256": "f6247720087b03850e28a138cbb50c4ea36541469f9c1ea8743dc1b57d8b8082"
+    },
+    {
+      "bytes": 8334,
+      "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_00/trace_raw_uart.log",
+      "sha256": "fd6a82df47e1216e3b0753c13b68a1fbed86ab777581b6a3797ef64ccb62780b"
+    },
+    {
+      "bytes": 8332,
+      "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_01/trace_raw_uart.log",
+      "sha256": "92a57e95a46dd5b502e29c5507d7bcc3ef5d8187dbcdeb907d1e65084ddd17e6"
+    },
+    {
+      "bytes": 8334,
+      "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_02/trace_raw_uart.log",
+      "sha256": "197882646681239eac42c8a05e10d46b7238a98846f2f0ec2ad4c53bb74702be"
+    },
+    {
+      "bytes": 8334,
+      "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_03/trace_raw_uart.log",
+      "sha256": "107670814eef7d5f1853e02749abd2b25c0a4393253b4b93e0bb32d5fdf70838"
+    },
+    {
+      "bytes": 8334,
+      "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_04/trace_raw_uart.log",
+      "sha256": "69cb293e811aa22b4559add4be3a63f606ed12eb839c0b76fca35f491e8a4d5f"
+    },
+    {
+      "bytes": 9330,
+      "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_00/trace_raw_uart.log",
+      "sha256": "935fbfdafdff27930a8ed6c7e5debd6039a70db4599adadb34c5d89a0b8b883a"
+    },
+    {
+      "bytes": 9330,
+      "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_01/trace_raw_uart.log",
+      "sha256": "876441efcd6686db9b0836f5472558d68dbf74a5bf0b3c8443604784347ea170"
+    },
+    {
+      "bytes": 9330,
+      "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_02/trace_raw_uart.log",
+      "sha256": "3b72efb7664ffefea9279bf07c6816974434dc34f1f19b5f3bfb1dc0a5969fd8"
+    },
+    {
+      "bytes": 9330,
+      "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_03/trace_raw_uart.log",
+      "sha256": "56c86d66745f778399a6218112b6e6b9fe5dff225ffd1c3a3cddb4a2e57c6b97"
+    },
+    {
+      "bytes": 9330,
+      "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_04/trace_raw_uart.log",
+      "sha256": "7fde0f5ed4991fcff13456a868d697d24a6c13aad634ce6034549ed538a1196d"
+    },
+    {
+      "bytes": 8002,
+      "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_00/trace_raw_uart.log",
+      "sha256": "9be9fd8d2978bce446c0a86f9cb4f13f2ffdb5642077ff509d8148c97a061f1b"
+    },
+    {
+      "bytes": 8001,
+      "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_01/trace_raw_uart.log",
+      "sha256": "f1dd1b209e834ba799148819e259dbe3d53c5093881d2e9fb7cea194faede699"
+    },
+    {
+      "bytes": 8001,
+      "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_02/trace_raw_uart.log",
+      "sha256": "b94768f1d713e545f4ff20281ca09651170a8dd4da9511ed07c1803ae7b345d3"
+    },
+    {
+      "bytes": 8002,
+      "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_03/trace_raw_uart.log",
+      "sha256": "9f9aaec04bcc8bf00a66f6237245601c165030e75e864f1639fa32ed3f5dc387"
+    },
+    {
+      "bytes": 8002,
+      "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_04/trace_raw_uart.log",
+      "sha256": "0c509bcc59040ff515a9d3a062f9ea8e67c9b7ade13fe5a644728a1e0f492686"
+    },
+    {
+      "bytes": 31844,
+      "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_00/trace.jsonl",
+      "sha256": "cfcd95c9b6be4af578c754c233db6b8c40f6b452ebc5505482b8ce44bfabe568"
+    },
+    {
+      "bytes": 31843,
+      "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_01/trace.jsonl",
+      "sha256": "5e136cbd36b25fe0302a1f47948cd210acde7eec7dadd9aa9a1756e0e2913a6d"
+    },
+    {
+      "bytes": 31843,
+      "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_02/trace.jsonl",
+      "sha256": "2f41d29d940bd7e296b33dc07d28a0bd832cbffccb2fcc545bb53a8837ba4985"
+    },
+    {
+      "bytes": 31843,
+      "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_03/trace.jsonl",
+      "sha256": "b89851320434ab031df230ca10cd178a353eed150aa4dade068318bb47bd30ce"
+    },
+    {
+      "bytes": 31843,
+      "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_04/trace.jsonl",
+      "sha256": "04511dcd7bf5b0a2a48efec76c8839a14ce075dd4f77b6f8cb5a4b91509a3c1c"
+    },
+    {
+      "bytes": 35722,
+      "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_00/trace.jsonl",
+      "sha256": "c2a5f6f40cf4608cd1055c1b1fa684f62a10ffdbe024d0efa0560e528713018c"
+    },
+    {
+      "bytes": 35723,
+      "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_01/trace.jsonl",
+      "sha256": "91b9bb29cba2587bb536c4163179402f0deaeb0b78d8272699ab983782d0e048"
+    },
+    {
+      "bytes": 35723,
+      "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_02/trace.jsonl",
+      "sha256": "98e5c48265c200ab88e147bfdb631072c6e7119f624e664fdc8cb5fae75900f4"
+    },
+    {
+      "bytes": 35723,
+      "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_03/trace.jsonl",
+      "sha256": "cbafb86775248da6004badeaf1b828e5909fbfb222a44087bd88b1e73adc5c7b"
+    },
+    {
+      "bytes": 35725,
+      "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_04/trace.jsonl",
+      "sha256": "b52ca968fbdbdf86fffd6304683e37072681a3670ef96f18d4f174ad8c3d814d"
+    },
+    {
+      "bytes": 30551,
+      "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_00/trace.jsonl",
+      "sha256": "d16dfc6251aa2fde5db10bb3175bd6e19cbf817ca8d80b036927f65dbdd76bb7"
+    },
+    {
+      "bytes": 30548,
+      "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_01/trace.jsonl",
+      "sha256": "96acd434ddd517f627b7486635c911cc1d1ef0a55b6b02c210b462ac9b19a455"
+    },
+    {
+      "bytes": 29879,
+      "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_02/trace.jsonl",
+      "sha256": "4713a62df1e6afb3a4cdfc986c282115032af38d81490b5a615cb10e5f0ea1db"
+    },
+    {
+      "bytes": 30550,
+      "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_03/trace.jsonl",
+      "sha256": "2891c0dc0fe986f87a52e5582adeb348d64ab32bf4952c159a5c5d14cd0078f3"
+    },
+    {
+      "bytes": 30550,
+      "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_04/trace.jsonl",
+      "sha256": "76695681c6240c1fd77775f5a5452091c2de8c82c32321a1194e6bfbe0d60272"
+    }
+  ],
+  "non_claims": [
+    "no CVA6 board claim",
+    "no real malware detection claim",
+    "no mature detector claim",
+    "no classifier accuracy claim",
+    "no complete semantic reconstruction claim",
+    "extension gate is reported separately from the primary 13-sample gate"
+  ],
+  "policy": "hashes and summaries are public; full raw UART and decoded trace payload release remains controlled",
+  "raw_file_count": 31,
+  "run_id": "35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524",
+  "schema": "rvmt.35t.extension_raw_artifact_sanitization.v1",
+  "status": "RAW_ARTIFACT_HASHES_RECORDED_FULL_RAW_DEFERRED"
+}

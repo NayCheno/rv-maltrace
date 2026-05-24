@@ -272,7 +272,45 @@ def manifest_expected_behaviors(manifest: dict[str, Any], sample_id: str | None)
     return []
 
 
-def match_rule(rule_id: str, rule: dict[str, Any], semantic: dict[str, Any], sample_id: str | None = None) -> dict[str, Any]:
+def manifest_sample_class(manifest: dict[str, Any], sample_id: str | None) -> str | None:
+    if sample_id is None:
+        return None
+    samples = manifest.get("samples", [])
+    if not isinstance(samples, list):
+        return str(manifest.get("sample_class")) if manifest.get("sample_class") else None
+    for sample in samples:
+        if isinstance(sample, dict) and sample.get("id") == sample_id:
+            sample_class = sample.get("class") or sample.get("sample_class") or manifest.get("sample_class")
+            return str(sample_class) if sample_class else None
+    return str(manifest.get("sample_class")) if manifest.get("sample_class") else None
+
+
+def rule_scope_failures(rule_id: str, rule: dict[str, Any], sample_class: str | None, sample_id: str | None) -> list[str]:
+    sample_allowed = rule.get("allowed_samples")
+    if isinstance(sample_allowed, list) and sample_allowed:
+        allowed_samples = {str(item) for item in sample_allowed}
+        if sample_id not in allowed_samples:
+            return [f"sample:{sample_id or 'unspecified'} not in {','.join(sorted(allowed_samples))}"]
+    if sample_class is None:
+        return []
+    allowed = rule.get("allowed_sample_classes")
+    if isinstance(allowed, list) and allowed:
+        allowed_set = {str(item) for item in allowed}
+        return [] if sample_class in allowed_set else [f"sample_class:{sample_class} not in {','.join(sorted(allowed_set))}"]
+    if sample_class == "real_malware_surrogate" and not rule_id.startswith("surrogate_"):
+        return [f"sample_class:{sample_class} requires surrogate-scoped rule"]
+    if sample_class == "malware_like_synthetic" and rule_id.startswith("surrogate_"):
+        return [f"sample_class:{sample_class} excludes surrogate-scoped rule"]
+    return []
+
+
+def match_rule(
+    rule_id: str,
+    rule: dict[str, Any],
+    semantic: dict[str, Any],
+    sample_id: str | None = None,
+    sample_class: str | None = None,
+) -> dict[str, Any]:
     all_rows = syscall_rows(semantic)
     names = [row["name"] for row in all_rows if isinstance(row.get("name"), str)]
     counts = {name: names.count(name) for name in sorted(set(names))}
@@ -304,6 +342,7 @@ def match_rule(rule_id: str, rule: dict[str, Any], semantic: dict[str, Any], sam
     forbidden = rule.get("forbidden_syscalls", [])
     if isinstance(forbidden, list):
         forbidden_failures = [str(name) for name in forbidden if strong_counts.get(str(name), 0) > 0]
+    scope_failures = rule_scope_failures(rule_id, rule, sample_class, sample_id)
 
     observed_causes = trap_causes(semantic)
     missing_causes = []
@@ -383,6 +422,7 @@ def match_rule(rule_id: str, rule: dict[str, Any], semantic: dict[str, Any], sam
         and not count_failures
         and not sequence_failures
         and not forbidden_failures
+        and not scope_failures
         and not missing_causes
         and not arg_failures
         and not tag_failures
@@ -527,6 +567,7 @@ def match_rule(rule_id: str, rule: dict[str, Any], semantic: dict[str, Any], sam
         "count_failures": count_failures,
         "sequence_failures": sequence_failures,
         "forbidden_failures": forbidden_failures,
+        "scope_failures": scope_failures,
         "missing_trap_causes": missing_causes,
         "failed_syscalls": failed_syscalls,
         "scoped_failed_syscalls": scoped_failed_syscalls,
@@ -544,8 +585,9 @@ def audit(
     sample_id: str | None = None,
 ) -> dict[str, Any]:
     expected = manifest_expected_behaviors(manifest or {}, sample_id)
+    sample_class = manifest_sample_class(manifest or {}, sample_id)
     rule_ids = sorted(set(expected) | set(rules))
-    matches = [match_rule(rule_id, rules[rule_id], semantic, sample_id) for rule_id in rule_ids if rule_id in rules]
+    matches = [match_rule(rule_id, rules[rule_id], semantic, sample_id, sample_class) for rule_id in rule_ids if rule_id in rules]
     matched_expected = [item["rule"] for item in matches if item["rule"] in expected and item["matched"]]
     matched_rules = [item["rule"] for item in matches if item["matched"]]
     weak_matched_rules = [item["rule"] for item in matches if item.get("weak_matched")]
@@ -572,6 +614,7 @@ def audit(
         "source": semantic.get("source"),
         "graph": graph_summary(graph),
         "sample_id": sample_id,
+        "sample_class": sample_class,
         "status": "DERIVED_AUDIT",
         "expected_behavior": expected,
         "matched_expected_behavior": matched_expected,
@@ -616,6 +659,7 @@ def render_report(result: dict[str, Any]) -> str:
             or item.get("count_failures")
             or item.get("sequence_failures")
             or item.get("forbidden_failures")
+            or item.get("scope_failures")
             or item.get("missing_trap_causes")
             or item.get("arg_failures")
             or item.get("tag_failures")
@@ -1102,6 +1146,58 @@ def self_test() -> int:
         )
         if "parent_child_pid_boundary_not_fully_recovered:p0a_process_chain" not in process_chain_match.get("evidence_limitations", []):
             print("[FAIL] self-test missed process_chain pid-boundary limitation", file=sys.stderr)
+            return 1
+        surrogate_scope_result = audit(
+            strong_semantic,
+            graph,
+            real_rules,
+            {
+                "sample_class": "real_malware_surrogate",
+                "samples": [
+                    {
+                        "id": "surrogate_scope_fixture",
+                        "class": "real_malware_surrogate",
+                        "expected_behavior": ["many_file_scan"],
+                    }
+                ],
+            },
+            "surrogate_scope_fixture",
+        )
+        if "many_file_scan" in surrogate_scope_result.get("matched_expected_behavior", []):
+            print("[FAIL] self-test allowed generic malware-like rule as surrogate strong evidence", file=sys.stderr)
+            return 1
+        many_file_match = next(
+            item for item in surrogate_scope_result.get("matches", []) if isinstance(item, dict) and item.get("rule") == "many_file_scan"
+        )
+        if not many_file_match.get("scope_failures"):
+            print("[FAIL] self-test missed surrogate rule scope failure", file=sys.stderr)
+            return 1
+        sample_scoped_rules = {
+            "mirai_proc_scan_simulation": {
+                "id": "mirai_proc_scan_simulation",
+                "family": "process_discovery",
+                "expected_syscalls": ["openat", "read", "close"],
+                "min_counts": {"openat": 1, "read": 1, "close": 1},
+                "allowed_samples": ["mirai_proc_scan_sim"],
+            }
+        }
+        scoped_mirai_result = audit(
+            strong_semantic,
+            graph,
+            sample_scoped_rules,
+            {"samples": [{"id": "plain_file_reader", "expected_behavior": ["mirai_proc_scan_simulation"]}]},
+            "plain_file_reader",
+        )
+        if "mirai_proc_scan_simulation" in scoped_mirai_result.get("matched_expected_behavior", []):
+            print("[FAIL] self-test allowed sample-scoped Mirai rule on a different sample", file=sys.stderr)
+            return 1
+        scoped_match = next(
+            item
+            for item in scoped_mirai_result.get("matches", [])
+            if isinstance(item, dict) and item.get("rule") == "mirai_proc_scan_simulation"
+        )
+        if not scoped_match.get("scope_failures"):
+            print("[FAIL] self-test missed sample scope failure", file=sys.stderr)
             return 1
         report = (out_dir / "behavior_audit_report.md").read_text(encoding="utf-8")
         if "many_file_scan" not in report or "not malware detection quality evidence" not in report:

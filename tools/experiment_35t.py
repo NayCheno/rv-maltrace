@@ -375,11 +375,12 @@ def groundtruth_shell(sample: Sample, run_id: str, reps: int) -> str:
         rv_args = []
     host_args_shell = " ".join(sh_quote(arg) for arg in host_args)
     rv_args_shell = " ".join(sh_quote(arg) for arg in rv_args)
-    fixture_root = (
-        "experiments/linux_behavior/real_malware_surrogate/fixtures"
-        if sample.sample_class == "real_malware_surrogate"
-        else "experiments/linux_behavior/benign/fixtures"
-    )
+    if sample.sample_class == "real_malware_surrogate":
+        fixture_root = "experiments/linux_behavior/real_malware_surrogate/fixtures"
+    elif sample.sample_class == "malware_like_synthetic":
+        fixture_root = "experiments/linux_behavior/malware_like/fixtures"
+    else:
+        fixture_root = "experiments/linux_behavior/benign/fixtures"
     fixture_env = f"env RVMT_FIXTURE_ROOT={sh_quote(fixture_root)}"
     return f"""
 set -u

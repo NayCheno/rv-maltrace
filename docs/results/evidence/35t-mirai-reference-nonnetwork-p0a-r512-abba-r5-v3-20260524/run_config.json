@@ -1,0 +1,49 @@
+{
+  "artifact_root": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524",
+  "baud": 921600,
+  "board_runner_path": "/usr/bin/rvmt_exp_runner",
+  "duration": 3600.0,
+  "extension_plan": "experiments/linux_behavior/malware_like/extension_plan.json",
+  "include_extension_samples": true,
+  "include_surrogate_samples": false,
+  "network": "disabled",
+  "port": "COM5",
+  "real_malware": "forbidden",
+  "reps": 5,
+  "run_id": "35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524",
+  "runtime_order": "abba",
+  "samples": [
+    "mirai_proc_scan_sim",
+    "mirai_watchdog_probe_sim",
+    "mirai_encoded_table_sim"
+  ],
+  "surrogate_manifest": "experiments/linux_behavior/real_malware_surrogate/manifest.json",
+  "syscall_side_channel": false,
+  "trace_control_mask": "0x424",
+  "trace_control_masks_by_sample": {
+    "mirai_encoded_table_sim": "0x424",
+    "mirai_proc_scan_sim": "0x424",
+    "mirai_watchdog_probe_sim": "0x424"
+  },
+  "trace_controls": {
+    "arg_mem_policy": "disabled",
+    "enable_arg_mem": false,
+    "enable_branch": false,
+    "enable_context": false,
+    "enable_drop": true,
+    "enable_jump": false,
+    "enable_marker": true,
+    "enable_retire": false,
+    "enable_syscall": true,
+    "enable_trap": false
+  },
+  "trace_profile": "p0a_syscall_drop",
+  "trace_profile_policy": "35t_small_capacity",
+  "trace_profiles_by_sample": {
+    "mirai_encoded_table_sim": "p0a_syscall_drop",
+    "mirai_proc_scan_sim": "p0a_syscall_drop",
+    "mirai_watchdog_probe_sim": "p0a_syscall_drop"
+  },
+  "trace_records": 512,
+  "warmup": 0
+}

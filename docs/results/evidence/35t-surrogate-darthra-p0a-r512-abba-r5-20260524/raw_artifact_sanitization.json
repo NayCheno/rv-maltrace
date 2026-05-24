@@ -1,0 +1,173 @@
+{
+  "files": [
+    {
+      "bytes": 232676,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/board/raw_uart.log",
+      "sha256": "c042a2c7025638da42c019614f8e43f8988e46bed268d58b65aa12777663d58a"
+    },
+    {
+      "bytes": 8998,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_00/trace_raw_uart.log",
+      "sha256": "2fd3e826104c7b069a9b1dbd7142f736ee4d37cf668fe2b4ed93a7ab4f870c21"
+    },
+    {
+      "bytes": 8999,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_01/trace_raw_uart.log",
+      "sha256": "74a2ed214c91a81ed1664d1ad5e1f5799ed9a29062a1fa45438ee04bd931b757"
+    },
+    {
+      "bytes": 8998,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_02/trace_raw_uart.log",
+      "sha256": "efc8b68c8de5b8cd0e06f8f5ae0f58b25e70e84dad9221c02f40fd5a61d31929"
+    },
+    {
+      "bytes": 8998,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_03/trace_raw_uart.log",
+      "sha256": "28dc0202399e0b823302e9872bac8aa797c2e1609be565c6297448b3ee60d9bd"
+    },
+    {
+      "bytes": 8999,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_04/trace_raw_uart.log",
+      "sha256": "115915f423befcf6e0cc49f984e17390384e4bf6e57cbe90e5cf09b81104879e"
+    },
+    {
+      "bytes": 8666,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_00/trace_raw_uart.log",
+      "sha256": "6888c6d0724b63b7a3413283444dbbb12258e63d0b156dc0604fdbad93486210"
+    },
+    {
+      "bytes": 8666,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_01/trace_raw_uart.log",
+      "sha256": "7122d95bf4771c6a815034cb876a3f282871ba2c8a20765132e41a9f9982f9b2"
+    },
+    {
+      "bytes": 8666,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_02/trace_raw_uart.log",
+      "sha256": "f3c393cc96d8227ed268c671350d016539bf7db0405ba9ffd0008abb4d24b2a1"
+    },
+    {
+      "bytes": 8667,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_03/trace_raw_uart.log",
+      "sha256": "d572d825ea9e69a4e4538584930451af0ae69e2e22ceec3eb75d8dc14e8430dc"
+    },
+    {
+      "bytes": 8666,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_04/trace_raw_uart.log",
+      "sha256": "a6b23d4ed2f93a6e68ab204c7b4338e1a129d8953f35bb0a21e6cfd63fbadd2c"
+    },
+    {
+      "bytes": 10990,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_00/trace_raw_uart.log",
+      "sha256": "a9fbd09764e5e5c2ef33d1cd4186d14c2552da409fca23f4611872ab1780480c"
+    },
+    {
+      "bytes": 10990,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_01/trace_raw_uart.log",
+      "sha256": "ab61e921ffebcac1a4254a2ba4009b14677146a7791c1df00fddd97534fe7765"
+    },
+    {
+      "bytes": 10990,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_02/trace_raw_uart.log",
+      "sha256": "3d22bcfc2469ce8d69f0be25e3c48fd5e9e40fbb103d188d3bb6cb2e6d7ddf73"
+    },
+    {
+      "bytes": 10991,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_03/trace_raw_uart.log",
+      "sha256": "35b9fa793ca0e5f3836698bed59431b171fdd5c174e5631654bc91425a7c2c6b"
+    },
+    {
+      "bytes": 10990,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_04/trace_raw_uart.log",
+      "sha256": "7e2a6d8b3379c3cb589fec7b0b4c40796c780fc242f2e4f8f4469249229240d3"
+    },
+    {
+      "bytes": 34432,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_00/trace.jsonl",
+      "sha256": "8cb1b6809119574a9015a6408f5685f921dd0a45d0988f7db97ea9b894f12fc4"
+    },
+    {
+      "bytes": 34432,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_01/trace.jsonl",
+      "sha256": "eaa8cce9f1eef2c0682eba990a6221ba6e96c5c1189067b278cf64837a57b4d9"
+    },
+    {
+      "bytes": 34432,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_02/trace.jsonl",
+      "sha256": "d872713edbb3c7458e7a3aa97912bdd730e0fff086dcd2c181e150a638bc0503"
+    },
+    {
+      "bytes": 34432,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_03/trace.jsonl",
+      "sha256": "2b0cac2d294c312a322c38293e9eb6d27b6776da423c948a84d43c5d892a548f"
+    },
+    {
+      "bytes": 34429,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_04/trace.jsonl",
+      "sha256": "51b058ec6cbb452c3013905bc20684582d01e610b25a3d2a9b0512d26e4460c1"
+    },
+    {
+      "bytes": 33140,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_00/trace.jsonl",
+      "sha256": "7e866083e6713eff0f6ff90c6b8d596aaf4860ca5a345c3d9099d073c590b3ad"
+    },
+    {
+      "bytes": 33140,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_01/trace.jsonl",
+      "sha256": "fed1c69e7464fc0436ae6f2ab22c9bcfde20f10d17b3593430ad6b7d39e30869"
+    },
+    {
+      "bytes": 33138,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_02/trace.jsonl",
+      "sha256": "265761b82a9f538274f55fedd2d22a40627d71998267b1e860b23807cdae5028"
+    },
+    {
+      "bytes": 33138,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_03/trace.jsonl",
+      "sha256": "e21053623598bef3b183635a5f38acaf17eea1ea197a22285acbe3a141a7453a"
+    },
+    {
+      "bytes": 33139,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_04/trace.jsonl",
+      "sha256": "55ec6572cb48f583330a9510b1af316a8021888093f0577976c66420679f58d7"
+    },
+    {
+      "bytes": 42190,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_00/trace.jsonl",
+      "sha256": "d7a43c34574c528dd783ec8956998d666ed1d1858f671f77e76259120e52072a"
+    },
+    {
+      "bytes": 42188,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_01/trace.jsonl",
+      "sha256": "a80447b5f2db8e8703d612c71cdd74fa78bd0f7932a96384a0b169411ddc8efb"
+    },
+    {
+      "bytes": 42189,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_02/trace.jsonl",
+      "sha256": "9acd47d0bc1fd29a7410bd6635d9efea1e668574b1e65f98155ab26422d9d38a"
+    },
+    {
+      "bytes": 42190,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_03/trace.jsonl",
+      "sha256": "2459c9a73db8e5ce14193d1914921225dde2e5ac9300c0287a5910cdcd4cdd8d"
+    },
+    {
+      "bytes": 42189,
+      "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_04/trace.jsonl",
+      "sha256": "4e2441da95780e8881a21ec900ade8f1f9ed4d17c3d9d1f6160f3b463aa45e07"
+    }
+  ],
+  "local_only_classes": [
+    "raw_uart_log",
+    "decoded_trace_jsonl"
+  ],
+  "non_claims": [
+    "surrogate samples are repository-authored safe reimplementations",
+    "no external real-malware payload was stored in this repository",
+    "no external real-malware payload was executed by this checker",
+    "this is not a true real-malware detection PASS"
+  ],
+  "policy": "raw UART and decoded trace JSONL stay local by default; public package records hashes and summaries",
+  "run_id": "35t-surrogate-darthra-p0a-r512-abba-r5-20260524",
+  "schema": "rvmt.35t.real_malware_surrogate_raw_artifact_sanitization.v1",
+  "status": "HASH_ONLY_RAW_ARTIFACTS_RECORDED"
+}

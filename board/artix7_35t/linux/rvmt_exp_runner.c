@@ -497,7 +497,13 @@ static int wait_for_stop(pid_t pid, int *status_out) {
 
 static void exec_sample_child(const sample_spec_t *sample) {
     chdir("/opt/rvmt");
-    setenv("RVMT_FIXTURE_ROOT", "experiments/linux_behavior/benign/fixtures", 1);
+    if (strcmp(sample->sample_class, "real_malware_surrogate") == 0) {
+        setenv("RVMT_FIXTURE_ROOT", "experiments/linux_behavior/real_malware_surrogate/fixtures", 1);
+    } else if (strcmp(sample->sample_class, "malware_like_synthetic") == 0) {
+        setenv("RVMT_FIXTURE_ROOT", "experiments/linux_behavior/malware_like/fixtures", 1);
+    } else {
+        setenv("RVMT_FIXTURE_ROOT", "experiments/linux_behavior/benign/fixtures", 1);
+    }
     if (sample->argv1 != NULL) {
         execl(sample->argv0, sample->argv0, sample->argv1, (char *)NULL);
     } else {

@@ -1,0 +1,26 @@
+{
+  "controlled_raw_policy": "raw UART and decoded trace JSONL are represented by hashes and controlled release policy",
+  "local_only_policy": "bitstreams, board build directories, and ELF binaries stay local-only",
+  "non_claims": [
+    "no CVA6 board claim",
+    "no real malware detection claim",
+    "no mature detector claim",
+    "no classifier accuracy claim",
+    "no complete semantic reconstruction claim",
+    "extension gate is reported separately from the primary 13-sample gate"
+  ],
+  "public_lightweight": [
+    "README.md",
+    "run_config.json",
+    "gate_report.json",
+    "gate_report.md",
+    "sample_matrix_summary.json",
+    "metrics.json",
+    "malware_behavior_audit.json",
+    "extension_gate_check.json"
+  ],
+  "run_id": "35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524",
+  "schema": "rvmt.35t.extension_artifact_package_readiness.v1",
+  "sidechannel_auxiliary_root": null,
+  "status": "LIGHTWEIGHT_EXTENSION_EVIDENCE_READY"
+}

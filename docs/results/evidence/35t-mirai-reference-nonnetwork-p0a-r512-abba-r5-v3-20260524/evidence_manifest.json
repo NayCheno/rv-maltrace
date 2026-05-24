@@ -1,0 +1,89 @@
+{
+  "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+  "committed_artifacts": [
+    {
+      "artifact": "README.md",
+      "bytes": 699,
+      "committed_path": "docs/results/evidence/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/README.md",
+      "sha256": "01f1c018957ac71307562540ee32037760cf7de46bc1b775e6d6af8b237a7670"
+    },
+    {
+      "artifact": "artifact_package_readiness.json",
+      "bytes": 967,
+      "committed_path": "docs/results/evidence/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/artifact_package_readiness.json",
+      "sha256": "3b29c7bbbf973c836cd5737c3ba60fad6f39e71da039cda94e308e16457ba2b6"
+    },
+    {
+      "artifact": "extension_gate_check.json",
+      "bytes": 4825,
+      "committed_path": "docs/results/evidence/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/extension_gate_check.json",
+      "sha256": "25be8fddb8aeac241c426864f256e981a8930c96028444e09206568885ae19f3"
+    },
+    {
+      "artifact": "extension_gate_check.md",
+      "bytes": 1265,
+      "committed_path": "docs/results/evidence/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/extension_gate_check.md",
+      "sha256": "bcc3a005d2f18688d7c9aa7e63a1fcfa3215897e22b274d8cfdd76821bb0deed"
+    },
+    {
+      "artifact": "gate_report.json",
+      "bytes": 3810,
+      "committed_path": "docs/results/evidence/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/gate_report.json",
+      "sha256": "22f95aab17dd761e07874d5ebbf6fb23778a1a59bf37556567eb8907e471902a"
+    },
+    {
+      "artifact": "gate_report.md",
+      "bytes": 1265,
+      "committed_path": "docs/results/evidence/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/gate_report.md",
+      "sha256": "bcc3a005d2f18688d7c9aa7e63a1fcfa3215897e22b274d8cfdd76821bb0deed"
+    },
+    {
+      "artifact": "malware_behavior_audit.json",
+      "bytes": 846,
+      "committed_path": "docs/results/evidence/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/malware_behavior_audit.json",
+      "sha256": "5bb9d3fda0dcb67cf7a39490fc102a677f333551556d115643e8480a0ebc1721"
+    },
+    {
+      "artifact": "metrics.json",
+      "bytes": 10953,
+      "committed_path": "docs/results/evidence/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/metrics.json",
+      "sha256": "9ffe2d0da9fff06ea5e598886289daa06411148136f7d749db59f6b7608a4346"
+    },
+    {
+      "artifact": "paper_evidence_extension_check.json",
+      "bytes": 704,
+      "committed_path": "docs/results/evidence/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/paper_evidence_extension_check.json",
+      "sha256": "39b6f9abefff973fe02dc161e10fdf02e2730ac6b4fb0254c0a9913a467c2109"
+    },
+    {
+      "artifact": "raw_artifact_sanitization.json",
+      "bytes": 10180,
+      "committed_path": "docs/results/evidence/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/raw_artifact_sanitization.json",
+      "sha256": "5a43954ffee2b3bda16aea67f252d94d67d3756461bd5ce99a154664790d8b76"
+    },
+    {
+      "artifact": "run_config.json",
+      "bytes": 1589,
+      "committed_path": "docs/results/evidence/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/run_config.json",
+      "sha256": "25869de81e4ad33717ed3bab3f76b0adfcedc9142a1d88b4e0695b84dabfbb7e"
+    },
+    {
+      "artifact": "sample_matrix_summary.json",
+      "bytes": 3353,
+      "committed_path": "docs/results/evidence/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/sample_matrix_summary.json",
+      "sha256": "9eb9e362c5475f6010cf6784d8249febcfd369bbd3027f78c14e96e67e4a4e1b"
+    }
+  ],
+  "non_claims": [
+    "no CVA6 board claim",
+    "no real malware detection claim",
+    "no mature detector claim",
+    "no classifier accuracy claim",
+    "no complete semantic reconstruction claim",
+    "extension gate is reported separately from the primary 13-sample gate"
+  ],
+  "run_id": "35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524",
+  "schema": "rvmt.35t.extension_evidence_snapshot.v1",
+  "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "status": "PASS"
+}

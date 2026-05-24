@@ -1,0 +1,27 @@
+{
+  "checks": {
+    "default_disabled": true,
+    "external_quarantine_hash_only": true,
+    "manifest_schema": true,
+    "manual_real_malware_results_absent": true,
+    "mirai_network_optional_samples_excluded": true,
+    "no_repository_payload_files": true,
+    "repository_payloads_disallowed": true,
+    "sample_class_real_malware": true
+  },
+  "non_claims": [
+    "CCF-A-style evidence discipline is not a CCF-A acceptance guarantee",
+    "true real-malware validation remains blocked until external quarantine evidence exists",
+    "surrogate samples are repository-authored safe reimplementations",
+    "Mirai-reference samples are non-network synthetic reference behaviors",
+    "no CVA6 board claim",
+    "no mature detector or classifier-accuracy claim",
+    "no complete semantic reconstruction claim under p0a arg-mem-disabled tracing"
+  ],
+  "real_malware_manifest": "experiments/linux_behavior/real_malware/manifest.json",
+  "real_malware_results_root": "results/experiments/real_malware/manual",
+  "repository_payload_findings": [],
+  "schema": "rvmt.35t.ccfa_style_claim_boundary.v1",
+  "status": "PASS",
+  "true_real_malware_gate_status": "REAL_MALWARE_VALIDATION_BLOCKED_NO_RUN_ARTIFACTS"
+}

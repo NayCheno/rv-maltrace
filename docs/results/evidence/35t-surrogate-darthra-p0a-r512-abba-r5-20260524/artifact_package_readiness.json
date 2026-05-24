@@ -1,0 +1,25 @@
+{
+  "controlled_raw_policy": "raw UART logs and decoded trace JSONL are represented by hashes and controlled release policy",
+  "local_only_policy": "ELF binaries, full rootfs images, bitstreams, and board build directories stay local-only",
+  "non_claims": [
+    "surrogate samples are repository-authored safe reimplementations",
+    "no external real-malware payload was stored in this repository",
+    "no external real-malware payload was executed by this checker",
+    "this is not a true real-malware detection PASS"
+  ],
+  "public_lightweight": [
+    "README.md",
+    "real_malware_surrogate_validation_gate.json",
+    "real_malware_surrogate_validation_gate.md",
+    "gate_report.json",
+    "gate_report.md",
+    "sample_matrix_summary.json",
+    "artifact_package_readiness.json",
+    "raw_artifact_sanitization.json",
+    "evidence_manifest.json"
+  ],
+  "run_id": "35t-surrogate-darthra-p0a-r512-abba-r5-20260524",
+  "sample_count": 3,
+  "schema": "rvmt.35t.real_malware_surrogate_artifact_package_readiness.v1",
+  "status": "LIGHTWEIGHT_SURROGATE_EVIDENCE_READY"
+}
