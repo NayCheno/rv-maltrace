@@ -37,7 +37,7 @@
       "status": "MISSING_OR_INCOMPLETE"
     }
   },
-  "generated_utc": "2026-05-24T09:25:04Z",
+  "generated_utc": "2026-05-27T16:55:46Z",
   "lineage_evidence": {
     "path": "docs/results/evidence/35t-real-malware-derived-lineage-20260524",
     "row_count": 6,
@@ -2496,17 +2496,17 @@
     "status": "SURROGATE_BOOT_PROVENANCE_DEFERRED_RUN_SCOPED_LOG_MISSING"
   },
   "tooling_provenance": {
-    "class_digest": "bcd4fbe2382f37ab609096bb29b857ac46f73a5f4c0831deded279f6ca60e083",
+    "class_digest": "11994acf4872008ea262be3ed9f6837f390eaf75d0b08dcaa399d155f6c3369b",
     "files": [
       {
-        "bytes": 54042,
+        "bytes": 54343,
         "path": "tools/check_35t_ccfa_evidence_chain.py",
-        "sha256": "f1f5dbc2d246a221edf2b6f63e28942424f2ffa8b086af43f9ccbef2ea2fd1e9"
+        "sha256": "1e7dbfdf927132fcc1542b052fc702ffce31cd97708699e63fdf99af7b70373a"
       },
       {
-        "bytes": 32058,
+        "bytes": 32285,
         "path": "tools/check_real_malware_surrogate_gate.py",
-        "sha256": "06ae40e24d78106a639776d59e89f095e95acb89cee684ec66996cac6e5cfa01"
+        "sha256": "fde4d7131960851889135a75ef7c6475f2f8586bb4f34d9e1b3333f910ec3398"
       },
       {
         "bytes": 33488,
@@ -2519,14 +2519,14 @@
         "sha256": "dfa5dd2ffeee5d5233a6068dc6ee770197047c8d765fe57594c6b242b8b82ee5"
       },
       {
-        "bytes": 22982,
+        "bytes": 23087,
         "path": "tools/check_35t_real_malware_derived_lineage.py",
-        "sha256": "fd915e7ef553a51c634d14789d75651a66c6427e28e5752929943118b01cb136"
+        "sha256": "227fccbff6400116c661cc9818f136f2a7a9fd2b9c979b75fd8802183e0c51c5"
       },
       {
-        "bytes": 21614,
+        "bytes": 21738,
         "path": "tools/check_35t_behavior_baseline_comparison.py",
-        "sha256": "2be03b19ad4d2a7ca9942c768b58d884fefaa771e5ea89e4dddaecb4655537f3"
+        "sha256": "50849b022c46daa31ad900ba508bbaddd8d4212a90db5330b931088c21e01a4f"
       },
       {
         "bytes": 10558,
@@ -2534,9 +2534,9 @@
         "sha256": "82bc485eef806dfeee2f1c8693bffdb86a134bc33ea035863605e7fd0eb9535a"
       },
       {
-        "bytes": 21496,
+        "bytes": 21813,
         "path": "tools/check_35t_claim_evidence_table.py",
-        "sha256": "41039c6fefd8f4e4c056778acf8b0fb4486488bfcc2717f8c9360d753c827b17"
+        "sha256": "94b61c7261fe4959b6b573eb5153064fe8035fe5426b25051dc73041cb37d598"
       },
       {
         "bytes": 28685,
@@ -2549,9 +2549,9 @@
         "sha256": "f3c86df02aeb1006d22c2b2811dac71149fe1c8ace2f8e801bc6b77a660290ec"
       },
       {
-        "bytes": 89244,
+        "bytes": 89262,
         "path": "tools/experiment_35t.py",
-        "sha256": "3327576c0a5e7ea85f8959c04fc0de5471f1e0a0eb769560d9438619fb0416a7"
+        "sha256": "859f673885e282f4f9c8f493b02610a0c6967ca93078e837ac185563f42d1f7f"
       },
       {
         "bytes": 55475,
@@ -2584,19 +2584,19 @@
         "sha256": "98246e48e5e4a953b8b9df180b41f2dc71be206577ac6db612158f1acf5eaef9"
       },
       {
-        "bytes": 3732,
+        "bytes": 3824,
         "path": "experiments/linux_behavior/real_malware/reference_sources/mirai_botnet_behavior_reference.json",
-        "sha256": "a0cb2ed1ad1409164d52d3db9c03478a9913209d2ad193ab516d56c8b0eb262e"
+        "sha256": "53277120be66c0c777acd0836a5d1ac01d7ee5269903dba162bf82e370a4e3d3"
       },
       {
-        "bytes": 4200,
+        "bytes": 4244,
         "path": "experiments/linux_behavior/real_malware_surrogate/manifest.json",
-        "sha256": "e95265bc6595b47d9dc43255165db7e58214d2b2d9ca44db7be9c50cb61aae09"
+        "sha256": "8a1afdd5409b423fdce4f24174989fd01765b39693527c65df67b19f36e5378f"
       },
       {
-        "bytes": 10087,
+        "bytes": 10171,
         "path": "experiments/linux_behavior/real_malware_surrogate/behavior_lineage_matrix.json",
-        "sha256": "42fcec687568e7b2ec86bb0af161796d93bf5c1119deae393f2cca0c0dc307f2"
+        "sha256": "b6e7440d2ebb28574555c6e0e3e385bbcd991e39c3a3e095a52ed2adfa57f6ff"
       },
       {
         "bytes": 1877,
@@ -2629,9 +2629,9 @@
         "sha256": "e525bb4ed4c6d7aa128e9731f4dc49bb801173330af22cb851e377eee07b4d16"
       },
       {
-        "bytes": 6398,
+        "bytes": 6935,
         "path": "docs/linux/linux_real_malware_surrogate_validation.md",
-        "sha256": "72c97f9b60fd6c26ae0bd6253faa1f0fad4dae452bfc56d9292f28f8a38834b4"
+        "sha256": "21d6c1f0278b1d0c7dd82edd4d9bf7673b01078f116a5da96e91d089b1f5c2f9"
       }
     ],
     "missing": [],

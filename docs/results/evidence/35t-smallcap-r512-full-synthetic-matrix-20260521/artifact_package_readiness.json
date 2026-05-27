@@ -609,7 +609,7 @@
     },
     {
       "artifact_id": "scripts_and_commands",
-      "class_digest": "8e13e5c5d74087f9c9a40e25fbf76cf39280365b58e2f2b1edc95abae98f5843",
+      "class_digest": "997edaf0cc258cd611a624e00df13c3efca74331260866ff97385b73680e5460",
       "count": 40,
       "description": "scripts, workflow docs, and command provenance",
       "min_count": 4,
@@ -658,21 +658,21 @@
         }
       ],
       "status": "READY_PUBLIC",
-      "total_bytes": 1156744
+      "total_bytes": 1164190
     },
     {
       "artifact_id": "synthetic_extension_sources",
-      "class_digest": "8189c7293ff85cd9876e7de4a7c194f3ca765b0bab9a171bffd3696b839f35c5",
-      "count": 10,
+      "class_digest": "56ea4d6f8524fe616bc75b2a5891be6f6bbcdf7831619d2c394519d6ff5af463",
+      "count": 14,
       "description": "source-implemented synthetic malware-like extension candidates that remain outside the default 35T claim until gated",
-      "min_count": 10,
+      "min_count": 14,
       "missing": false,
       "public_policy": "public",
       "representative_files": [
         {
-          "bytes": 7462,
+          "bytes": 11511,
           "path": "experiments/linux_behavior/malware_like/extension_plan.json",
-          "sha256": "de9aee48032056d9b5fe9d8a38c106aca9bb54becbe83c1ce28c9764bb94b2f4"
+          "sha256": "b9777d331c7a48e23bbd57db2fb09258d42c12ffc47224b1f6f8ecc28117d793"
         },
         {
           "bytes": 523,
@@ -690,28 +690,28 @@
           "sha256": "810832c0ec3157030f5d8eace47581440150e51df76293370ed27621e440a851"
         },
         {
-          "bytes": 889,
-          "path": "experiments/linux_behavior/malware_like/extension_programs/mprotect_exec_variant.c",
-          "sha256": "59b78c01fbb2dc61e9d0b6caa03985b4603951b78cbc07dbe86d4303ab5089d5"
+          "bytes": 624,
+          "path": "experiments/linux_behavior/malware_like/extension_programs/mirai_c2_loopback_probe.c",
+          "sha256": "37c05a9c5ad66be48f8a3b314a90fa69e0b42425261b3e4dcb0cb17b7063929f"
         },
         {
-          "bytes": 860,
-          "path": "experiments/linux_behavior/malware_like/extension_programs/multi_level_process_chain.c",
-          "sha256": "e4d518bbbfb2bc6b84525e1e0ec6a9f90490212a93bcc3e5e727fd6076013eef"
+          "bytes": 2068,
+          "path": "experiments/linux_behavior/malware_like/extension_programs/mirai_encoded_table_sim.c",
+          "sha256": "b9b8a7a37cf338eabc71f93c58c8a7442114108138c43d3f29d379f9f6378ff8"
         },
         {
-          "bytes": 922,
-          "path": "experiments/linux_behavior/malware_like/extension_programs/obfuscated_syscall_wrapper.c",
-          "sha256": "24e1a1be7f465bd5986c847d62b11d259f3dd7487bdc487525e01dde334d0665"
+          "bytes": 1877,
+          "path": "experiments/linux_behavior/malware_like/extension_programs/mirai_proc_scan_sim.c",
+          "sha256": "153d21ec86d20075ce2dfabfa59e38fb0272153e24fbcff6607c2b7b74b76bd3"
         },
         {
-          "bytes": 728,
-          "path": "experiments/linux_behavior/malware_like/extension_programs/proc_status_tracerpid_check.c",
-          "sha256": "f91088a284975e507af335408c9bb4f913e73c15e2df9072c5268ba894bd98c0"
+          "bytes": 823,
+          "path": "experiments/linux_behavior/malware_like/extension_programs/mirai_watchdog_probe_sim.c",
+          "sha256": "405fa66f890a810552992613cbe23018fd3f9de5e9f949d71f504c3019081bf4"
         }
       ],
       "status": "READY_PUBLIC",
-      "total_bytes": 14628
+      "total_bytes": 24069
     },
     {
       "artifact_id": "synthetic_extension_behavior_smoke_evidence",
@@ -870,7 +870,7 @@
     },
     {
       "artifact_id": "negative_failed_cases",
-      "class_digest": "cca21731d31b12f53652321f0702eb10a5107556e20b4d9414092c950e32f72d",
+      "class_digest": "bcae8dc9fc065bf5da22f15868d0a07c05fafda8b5f82498eef6667326e23a8f",
       "count": 9,
       "description": "negative, failed, partial, or bounded-case evidence",
       "min_count": 3,
@@ -893,9 +893,9 @@
           "sha256": "068929f75d95947314f36eb56d7a45b1a2ddea8f7f8f36c2ee0dc2338139e8fa"
         },
         {
-          "bytes": 22102,
+          "bytes": 22502,
           "path": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/paper_evidence_check.json",
-          "sha256": "792c65c7922e7f696417598e17e53091ff5cbcbe29031d5083aa3333efe6a965"
+          "sha256": "16f12d49a4a0144feab217306a30ca5a1dceac2ee79c82e0c3a028bb32b92e65"
         },
         {
           "bytes": 2724,
@@ -919,7 +919,7 @@
         }
       ],
       "status": "READY_PUBLIC_SUMMARY_OR_HASH",
-      "total_bytes": 315909
+      "total_bytes": 316309
     },
     {
       "artifact_id": "reproduction_readme",
@@ -960,7 +960,7 @@
   "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
   "class_count": 23,
   "evidence_root": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521",
-  "generated_utc": "2026-05-23T12:53:44Z",
+  "generated_utc": "2026-05-27T16:54:16Z",
   "interpretation": [
     "current repository can describe the paper artifact inventory and verify required artifact classes locally",
     "large raw traces, raw UART logs, generated bitstreams, board build directories, and ELF binaries remain outside the lightweight committed snapshot",

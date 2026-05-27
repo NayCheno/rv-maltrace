@@ -116,6 +116,7 @@ Boundaries:
 
 - 35T / LiteX / VexRiscv prototype scope
 - controlled benign and synthetic malware-like workload matrix
+- real-malware-derived behavior evidence is handled by the 5/24 lineage and claim-table packages
 - 512-record 35T small-capacity primary trace gate with 13/13 sample gate PASS
 - targeted dual-channel validation bundle with strict trace gate separated from side-channel semantic capture
 - targeted board side-channel fd/path closure for representative file-scan behavior
@@ -123,14 +124,15 @@ Boundaries:
 - focused R2048 side-channel closure for the four previously failing semantic samples
 - 512-record 35T small-capacity hardware trace prototype with decoded trace artifacts for all trace-on repetitions
 - full-matrix local code-analysis artifacts for code maps, trace-code joins, runtime process maps, semantic recovery, and rule audit
-- 8-rule synthetic malware-like behavior audit with real-malware detection claims explicitly deferred
+- 8-rule synthetic malware-like behavior audit with malware-family accuracy claims explicitly deferred
 - ELF-symbol function-level attribution for the case-study samples
 
 ## Forbidden Claims
 
 - CVA6 validation
-- real malware execution or real malware detection
-- classifier accuracy, family coverage, IOC coverage, or TTP coverage
+- uncontrolled or network-enabled real-malware payload execution
+- malware-family detection accuracy, classifier accuracy, family coverage, IOC coverage, or TTP coverage
+- payload equivalence to original malware binaries or full harmful capability sets
 - mature production detector readiness
 - complete semantic reconstruction
 - source-line attribution
@@ -143,7 +145,7 @@ Boundaries:
 - The R2048 side-channel closure is a focused larger-buffer follow-up for the four failed samples, not a single 13-sample side-channel rerun.
 - Hardware trace evidence is scoped to 35T / LiteX / VexRiscv and must not be generalized to CVA6.
 - Local code analysis is prototype-level attribution: PC-in-ELF is static code-range evidence and source-line attribution remains unavailable.
-- Malware analysis is a controlled synthetic behavior-rule audit, not real malware execution, family classification, IOC/TTP coverage, or detector accuracy evidence.
+- The primary matrix is controlled synthetic behavior-rule audit evidence; real-malware-derived behavior feasibility is supported by separate 5/24 lineage packages and must not be written as family classification, IOC/TTP coverage, payload equivalence, or detector accuracy evidence.
 - Function attribution is symbol/range based; source-line records are unavailable.
 - Process-tree evidence still leaves the target parent PID unresolved and must not be described as complete process ownership.
 

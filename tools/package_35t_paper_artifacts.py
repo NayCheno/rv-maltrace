@@ -134,7 +134,7 @@ def build_hash_manifest(readiness: dict[str, Any]) -> dict[str, Any]:
 
 def validation_commands() -> list[str]:
     return [
-        "uv run --no-sync python tools/check_35t_application_closure.py --repo-root .",
+        "uv run --no-sync python tools/check_35t_application_closure.py --repo-root . --no-write",
         "uv run --no-sync python tools/check_35t_paper_evidence.py --no-write",
         "uv run --no-sync python tools/check_35t_fd_path_case_studies.py --no-write",
         "uv run --no-sync python tools/check_35t_process_tree_case_study.py --no-write",

@@ -64,7 +64,7 @@ This package is a CCF-A-style evidence-chain discipline artifact, not an accepta
 ## Limitations
 
 - surrogate_boot_log_not_run_scoped: Surrogate run has board/raw UART and sample artifacts, but no separate Linux boot log under results/board for that run_id; see docs/results/evidence/35t-surrogate-boot-provenance-20260524 for the recorded blocker and capture runbook.
-- true_real_malware_deferred: The strong chain supports surrogate and non-network reference behavior only; true real-malware PASS still requires external quarantine artifacts.
+- external_payload_execution_deferred: The strong chain supports real-malware-derived behavior traceability and rule-detection/audit feasibility; uncontrolled or network-enabled external payload execution remains outside the completed claim.
 - p0a_arg_mem_disabled: The p0a trace profile proves syscall/control-flow behavior but intentionally does not provide complete fd/path or process-tree reconstruction.
 - public_package_lightweight: Raw UART, decoded traces, ELFs, and boot logs are hash-linked local artifacts; public release remains hash/sanitized unless raw escrow is approved.
 

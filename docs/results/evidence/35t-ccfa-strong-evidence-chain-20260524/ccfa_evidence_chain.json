@@ -38,7 +38,7 @@
         "status": "MISSING_OR_INCOMPLETE"
       }
     },
-    "generated_utc": "2026-05-24T09:25:04Z",
+    "generated_utc": "2026-05-27T16:55:46Z",
     "lineage_evidence": {
       "path": "docs/results/evidence/35t-real-malware-derived-lineage-20260524",
       "row_count": 6,
@@ -2497,17 +2497,17 @@
       "status": "SURROGATE_BOOT_PROVENANCE_DEFERRED_RUN_SCOPED_LOG_MISSING"
     },
     "tooling_provenance": {
-      "class_digest": "bcd4fbe2382f37ab609096bb29b857ac46f73a5f4c0831deded279f6ca60e083",
+      "class_digest": "11994acf4872008ea262be3ed9f6837f390eaf75d0b08dcaa399d155f6c3369b",
       "files": [
         {
-          "bytes": 54042,
+          "bytes": 54343,
           "path": "tools/check_35t_ccfa_evidence_chain.py",
-          "sha256": "f1f5dbc2d246a221edf2b6f63e28942424f2ffa8b086af43f9ccbef2ea2fd1e9"
+          "sha256": "1e7dbfdf927132fcc1542b052fc702ffce31cd97708699e63fdf99af7b70373a"
         },
         {
-          "bytes": 32058,
+          "bytes": 32285,
           "path": "tools/check_real_malware_surrogate_gate.py",
-          "sha256": "06ae40e24d78106a639776d59e89f095e95acb89cee684ec66996cac6e5cfa01"
+          "sha256": "fde4d7131960851889135a75ef7c6475f2f8586bb4f34d9e1b3333f910ec3398"
         },
         {
           "bytes": 33488,
@@ -2520,14 +2520,14 @@
           "sha256": "dfa5dd2ffeee5d5233a6068dc6ee770197047c8d765fe57594c6b242b8b82ee5"
         },
         {
-          "bytes": 22982,
+          "bytes": 23087,
           "path": "tools/check_35t_real_malware_derived_lineage.py",
-          "sha256": "fd915e7ef553a51c634d14789d75651a66c6427e28e5752929943118b01cb136"
+          "sha256": "227fccbff6400116c661cc9818f136f2a7a9fd2b9c979b75fd8802183e0c51c5"
         },
         {
-          "bytes": 21614,
+          "bytes": 21738,
           "path": "tools/check_35t_behavior_baseline_comparison.py",
-          "sha256": "2be03b19ad4d2a7ca9942c768b58d884fefaa771e5ea89e4dddaecb4655537f3"
+          "sha256": "50849b022c46daa31ad900ba508bbaddd8d4212a90db5330b931088c21e01a4f"
         },
         {
           "bytes": 10558,
@@ -2535,9 +2535,9 @@
           "sha256": "82bc485eef806dfeee2f1c8693bffdb86a134bc33ea035863605e7fd0eb9535a"
         },
         {
-          "bytes": 21496,
+          "bytes": 21813,
           "path": "tools/check_35t_claim_evidence_table.py",
-          "sha256": "41039c6fefd8f4e4c056778acf8b0fb4486488bfcc2717f8c9360d753c827b17"
+          "sha256": "94b61c7261fe4959b6b573eb5153064fe8035fe5426b25051dc73041cb37d598"
         },
         {
           "bytes": 28685,
@@ -2550,9 +2550,9 @@
           "sha256": "f3c86df02aeb1006d22c2b2811dac71149fe1c8ace2f8e801bc6b77a660290ec"
         },
         {
-          "bytes": 89244,
+          "bytes": 89262,
           "path": "tools/experiment_35t.py",
-          "sha256": "3327576c0a5e7ea85f8959c04fc0de5471f1e0a0eb769560d9438619fb0416a7"
+          "sha256": "859f673885e282f4f9c8f493b02610a0c6967ca93078e837ac185563f42d1f7f"
         },
         {
           "bytes": 55475,
@@ -2585,19 +2585,19 @@
           "sha256": "98246e48e5e4a953b8b9df180b41f2dc71be206577ac6db612158f1acf5eaef9"
         },
         {
-          "bytes": 3732,
+          "bytes": 3824,
           "path": "experiments/linux_behavior/real_malware/reference_sources/mirai_botnet_behavior_reference.json",
-          "sha256": "a0cb2ed1ad1409164d52d3db9c03478a9913209d2ad193ab516d56c8b0eb262e"
+          "sha256": "53277120be66c0c777acd0836a5d1ac01d7ee5269903dba162bf82e370a4e3d3"
         },
         {
-          "bytes": 4200,
+          "bytes": 4244,
           "path": "experiments/linux_behavior/real_malware_surrogate/manifest.json",
-          "sha256": "e95265bc6595b47d9dc43255165db7e58214d2b2d9ca44db7be9c50cb61aae09"
+          "sha256": "8a1afdd5409b423fdce4f24174989fd01765b39693527c65df67b19f36e5378f"
         },
         {
-          "bytes": 10087,
+          "bytes": 10171,
           "path": "experiments/linux_behavior/real_malware_surrogate/behavior_lineage_matrix.json",
-          "sha256": "42fcec687568e7b2ec86bb0af161796d93bf5c1119deae393f2cca0c0dc307f2"
+          "sha256": "b6e7440d2ebb28574555c6e0e3e385bbcd991e39c3a3e095a52ed2adfa57f6ff"
         },
         {
           "bytes": 1877,
@@ -2630,9 +2630,9 @@
           "sha256": "e525bb4ed4c6d7aa128e9731f4dc49bb801173330af22cb851e377eee07b4d16"
         },
         {
-          "bytes": 6398,
+          "bytes": 6935,
           "path": "docs/linux/linux_real_malware_surrogate_validation.md",
-          "sha256": "72c97f9b60fd6c26ae0bd6253faa1f0fad4dae452bfc56d9292f28f8a38834b4"
+          "sha256": "21d6c1f0278b1d0c7dd82edd4d9bf7673b01078f116a5da96e91d089b1f5c2f9"
         }
       ],
       "missing": [],
@@ -2677,11 +2677,12 @@
       "repository_payloads_disallowed": true,
       "sample_class_real_malware": true
     },
+    "external_payload_gate_status": "REAL_MALWARE_VALIDATION_BLOCKED_NO_RUN_ARTIFACTS",
     "non_claims": [
       "CCF-A-style evidence discipline is not a CCF-A acceptance guarantee",
-      "true real-malware validation remains blocked until external quarantine evidence exists",
-      "surrogate samples are repository-authored safe reimplementations",
-      "Mirai-reference samples are non-network synthetic reference behaviors",
+      "external-quarantine payload execution remains a separate gated boundary",
+      "DarthRa-derived samples are safety-controlled malware behavior cases",
+      "Mirai-reference samples are non-network malware behavior cases",
       "no CVA6 board claim",
       "no mature detector or classifier-accuracy claim",
       "no complete semantic reconstruction claim under p0a arg-mem-disabled tracing"
@@ -2879,15 +2880,15 @@
       "status": "PASS"
     }
   },
-  "generated_utc": "2026-05-24T09:25:04Z",
+  "generated_utc": "2026-05-27T16:55:46Z",
   "limitations": [
     {
       "id": "surrogate_boot_log_not_run_scoped",
       "impact": "Surrogate run has board/raw UART and sample artifacts, but no separate Linux boot log under results/board for that run_id; see docs/results/evidence/35t-surrogate-boot-provenance-20260524 for the recorded blocker and capture runbook."
     },
     {
-      "id": "true_real_malware_deferred",
-      "impact": "The strong chain supports surrogate and non-network reference behavior only; true real-malware PASS still requires external quarantine artifacts."
+      "id": "external_payload_execution_deferred",
+      "impact": "The strong chain supports real-malware-derived behavior traceability and rule-detection/audit feasibility; uncontrolled or network-enabled external payload execution remains outside the completed claim."
     },
     {
       "id": "p0a_arg_mem_disabled",
@@ -2950,9 +2951,9 @@
   },
   "non_claims": [
     "CCF-A-style evidence discipline is not a CCF-A acceptance guarantee",
-    "true real-malware validation remains blocked until external quarantine evidence exists",
-    "surrogate samples are repository-authored safe reimplementations",
-    "Mirai-reference samples are non-network synthetic reference behaviors",
+    "external-quarantine payload execution remains a separate gated boundary",
+    "DarthRa-derived samples are safety-controlled malware behavior cases",
+    "Mirai-reference samples are non-network malware behavior cases",
     "no CVA6 board claim",
     "no mature detector or classifier-accuracy claim",
     "no complete semantic reconstruction claim under p0a arg-mem-disabled tracing"
@@ -2972,7 +2973,7 @@
         ],
         "id": "c1_primary_35t_package_integrity",
         "limitations": [
-          "Primary package is synthetic-behavior 35T evidence, not true real-malware evidence."
+          "Primary package is the synthetic/benign feasibility gate; real-malware-derived behavior evidence is covered by the dedicated lineage rows."
         ],
         "paper_wording": "The primary 35T evidence package is hash-manifested and locally reproducible.",
         "status": "PASS"
@@ -2991,9 +2992,9 @@
         ],
         "id": "c2_surrogate_darthra_board_gate",
         "limitations": [
-          "Repository-authored safe reimplementations retain behavior shape only."
+          "Safety controls bound harmful effects; the paper claim is behavior traceability and rule-detection/audit feasibility, not payload equivalence."
         ],
-        "paper_wording": "Three DarthRa-derived safe surrogates pass the Artix-7 35T board validation gate.",
+        "paper_wording": "Three safety-controlled DarthRa-derived malware behavior cases pass the Artix-7 35T board validation gate.",
         "status": "PASS"
       },
       {
@@ -3013,7 +3014,7 @@
         "limitations": [
           "Network-required Mirai behavior remains excluded from this non-network claim."
         ],
-        "paper_wording": "Three non-network Mirai-reference behavior simulations pass the Artix-7 35T board validation gate.",
+        "paper_wording": "Three non-network Mirai-reference malware behavior cases pass the Artix-7 35T board validation gate.",
         "status": "PASS"
       },
       {
@@ -3086,11 +3087,11 @@
           "experiments/linux_behavior/real_malware/manifest.json",
           "results/experiments/real_malware/manual"
         ],
-        "id": "c7_true_real_malware_boundary",
+        "id": "c7_external_payload_boundary",
         "limitations": [
-          "No true real-malware board-execution evidence is claimed in this package."
+          "No uncontrolled, network-enabled, or payload-equivalent malware execution is claimed in this package."
         ],
-        "paper_wording": "True real-malware validation remains a blocked boundary, not a PASS claim.",
+        "paper_wording": "Direct external-quarantine payload execution remains a separate gated boundary, not a prerequisite for the current real-malware-derived behavior feasibility claim.",
         "status": "PASS"
       }
     ],
@@ -3099,12 +3100,11 @@
     ],
     "evidence_root": "docs/results/evidence/35t-paper-claim-evidence-table-20260524",
     "failures": [],
-    "generated_utc": "2026-05-24T09:21:08Z",
+    "generated_utc": "2026-05-27T16:55:37Z",
     "non_claims": [
-      "not true real-malware execution",
+      "not uncontrolled or network-enabled external-payload execution",
       "not a CCF-A acceptance guarantee",
       "not payload-equivalence evidence",
-      "not network-enabled malware behavior",
       "not malware-family classifier accuracy"
     ],
     "repo_root": "D:/Code/research/rv-maltrace",
@@ -3128,7 +3128,7 @@
       },
       "lineage": {
         "artifact_count": 4,
-        "claim_level": "35T real-malware-derived safe surrogate behavior lineage",
+        "claim_level": "35T real-malware-derived behavior lineage",
         "hash_errors": [],
         "label": "lineage",
         "path": "docs/results/evidence/35t-real-malware-derived-lineage-20260524",
@@ -3158,7 +3158,7 @@
       },
       "surrogate": {
         "artifact_count": 8,
-        "claim_level": "35T hardware-trace-assisted real-malware-surrogate validation",
+        "claim_level": "35T hardware-trace-assisted real-malware-derived behavior validation",
         "hash_errors": [],
         "label": "surrogate",
         "path": "docs/results/evidence/35t-surrogate-darthra-p0a-r512-abba-r5-20260524",
@@ -3200,9 +3200,9 @@
     }
   },
   "real_malware_derived_baseline_comparison": {
-    "claim_boundary": "real-malware-derived safe surrogate behavior validation only; not true real-malware execution",
+    "claim_boundary": "real-malware-derived safety-controlled behavior validation; not payload equivalence, network-enabled payload execution, or malware-family accuracy",
     "failures": [],
-    "generated_utc": "2026-05-24T09:20:56Z",
+    "generated_utc": "2026-05-27T16:54:06Z",
     "interpretation": "Each row binds the board trace medians to same-sample host native, host strace, QEMU native, and QEMU strace medians already captured in the 35T aggregate metrics. Ratios are descriptive; the pass/fail gate is evidence presence, trace quality, and expected behavior matching.",
     "matrix_checks": {
       "rows_present": true,
@@ -3213,13 +3213,13 @@
     "matrix_path": "experiments/linux_behavior/real_malware_surrogate/behavior_lineage_matrix.json",
     "non_claims": [
       "same-set baseline comparison only",
-      "not true real-malware execution",
+      "not uncontrolled or network-enabled external-payload execution",
       "not qemu-plugin or eBPF advanced baseline evidence",
       "not a performance-equivalence claim",
       "not malware-family detection accuracy"
     ],
     "referenced_file_hashes": {
-      "class_digest": "e61caa4dd8ac2e6924118eb4307883f205d9bc4e83d32bd7a1562b0bca4488d9",
+      "class_digest": "b4e5f1dc5353d8550de41f73dd3236fa65c623744ede25904df1f6605b1ecc38",
       "files": [
         {
           "bytes": 4825,
@@ -3227,14 +3227,14 @@
           "sha256": "25be8fddb8aeac241c426864f256e981a8930c96028444e09206568885ae19f3"
         },
         {
-          "bytes": 3929,
+          "bytes": 3953,
           "path": "docs/results/evidence/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/gate_report.json",
-          "sha256": "c131bc7c9a21ff20c83da18ef78a32ac40837651c738c3912166a3ad281d5f61"
+          "sha256": "9beaf94cca69696c0f753d88e579e99b32ccb68481710b3cc23cd146574a5022"
         },
         {
-          "bytes": 10087,
+          "bytes": 10171,
           "path": "experiments/linux_behavior/real_malware_surrogate/behavior_lineage_matrix.json",
-          "sha256": "42fcec687568e7b2ec86bb0af161796d93bf5c1119deae393f2cca0c0dc307f2"
+          "sha256": "b6e7440d2ebb28574555c6e0e3e385bbcd991e39c3a3e095a52ed2adfa57f6ff"
         },
         {
           "bytes": 11375,
@@ -3743,12 +3743,12 @@
     "status": "REAL_MALWARE_DERIVED_BASELINE_COMPARISON_PASS"
   },
   "real_malware_derived_lineage": {
-    "claim_boundary": "real-malware-derived safe surrogate behavior validation only; not true real-malware execution",
+    "claim_boundary": "real-malware-derived safety-controlled behavior validation; not payload equivalence, network-enabled payload execution, or malware-family accuracy",
     "excluded_behavior_checks": {
       "mirai_c2_loopback_probe": true
     },
     "failures": [],
-    "generated_utc": "2026-05-24T07:46:48Z",
+    "generated_utc": "2026-05-27T16:54:06Z",
     "matrix_checks": {
       "imported_malware_source_disallowed": true,
       "repository_authored_safe_reimplementation_only": true,
@@ -3759,14 +3759,14 @@
     },
     "matrix_path": "experiments/linux_behavior/real_malware_surrogate/behavior_lineage_matrix.json",
     "non_claims": [
-      "real-malware-derived surrogate behavior only",
-      "not true real-malware execution",
+      "real-malware-derived behavior validation only",
+      "not uncontrolled or network-enabled external-payload execution",
       "not payload-equivalence evidence",
       "not network-enabled malware behavior",
       "not malware-family detection accuracy"
     ],
     "referenced_file_hashes": {
-      "class_digest": "381898559289c31fcb8484e95687ffcb883be69a57df5b78a1a4e029b0b82ddc",
+      "class_digest": "2c330e352469c8f93592c3ef410ab1b102b340eba18fa835d5dfde0654f5095d",
       "files": [
         {
           "bytes": 11511,
@@ -3794,19 +3794,19 @@
           "sha256": "ed268254c3e649ae9dfccdb14b8cbffebec3b41a8175ce01ccf0fabe24fe3831"
         },
         {
-          "bytes": 3732,
+          "bytes": 3824,
           "path": "experiments/linux_behavior/real_malware/reference_sources/mirai_botnet_behavior_reference.json",
-          "sha256": "a0cb2ed1ad1409164d52d3db9c03478a9913209d2ad193ab516d56c8b0eb262e"
+          "sha256": "53277120be66c0c777acd0836a5d1ac01d7ee5269903dba162bf82e370a4e3d3"
         },
         {
-          "bytes": 10087,
+          "bytes": 10171,
           "path": "experiments/linux_behavior/real_malware_surrogate/behavior_lineage_matrix.json",
-          "sha256": "42fcec687568e7b2ec86bb0af161796d93bf5c1119deae393f2cca0c0dc307f2"
+          "sha256": "b6e7440d2ebb28574555c6e0e3e385bbcd991e39c3a3e095a52ed2adfa57f6ff"
         },
         {
-          "bytes": 4200,
+          "bytes": 4244,
           "path": "experiments/linux_behavior/real_malware_surrogate/manifest.json",
-          "sha256": "e95265bc6595b47d9dc43255165db7e58214d2b2d9ca44db7be9c50cb61aae09"
+          "sha256": "8a1afdd5409b423fdce4f24174989fd01765b39693527c65df67b19f36e5378f"
         },
         {
           "bytes": 1406,
@@ -4712,7 +4712,7 @@
     "uv run python tools/experiment_35t.py --run-id 35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524 --runtime-order abba --reps 5 --trace-records 512 --trace-profile p0a_syscall_drop --trace-profile-policy 35t_small_capacity --include-extension-samples --sample mirai_proc_scan_sim --sample mirai_watchdog_probe_sim --sample mirai_encoded_table_sim",
     "uv run python tools/check_35t_extension_gate.py --run-id 35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524 --expected-samples mirai_proc_scan_sim,mirai_watchdog_probe_sim,mirai_encoded_table_sim --no-write",
     "uv run rvmt explain:35t --flow --run-id 35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524",
-    "# Expected boundary: true real-malware validation remains blocked unless external quarantine run artifacts exist.",
+    "# Expected boundary: direct external-quarantine payload execution remains separate unless gated run artifacts exist.",
     "uv run python tools/check_real_malware_validation_gate.py --no-write",
     "uv run python tools/check_35t_real_malware_derived_lineage.py --no-write",
     "uv run python tools/check_35t_behavior_baseline_comparison.py --no-write",
@@ -4923,7 +4923,7 @@
     },
     "real_malware_derived_lineage": {
       "artifact_count": 4,
-      "claim_level": "35T real-malware-derived safe surrogate behavior lineage",
+      "claim_level": "35T real-malware-derived behavior lineage",
       "hash_errors": [],
       "label": "real_malware_derived_lineage",
       "path": "docs/results/evidence/35t-real-malware-derived-lineage-20260524",
@@ -4933,7 +4933,7 @@
     },
     "surrogate": {
       "artifact_count": 8,
-      "claim_level": "35T hardware-trace-assisted real-malware-surrogate validation",
+      "claim_level": "35T hardware-trace-assisted real-malware-derived behavior validation",
       "hash_errors": [],
       "label": "surrogate",
       "path": "docs/results/evidence/35t-surrogate-darthra-p0a-r512-abba-r5-20260524",

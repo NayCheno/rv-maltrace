@@ -1,4 +1,4 @@
-# Real-malware-surrogate 35T Gate Report: 35t-surrogate-darthra-p0a-r512-abba-r5-20260524
+# Real-malware-derived 35T Gate Report: 35t-surrogate-darthra-p0a-r512-abba-r5-20260524
 
 Status: PASS
 
@@ -10,7 +10,7 @@ Status: PASS
 
 ## Non-claims
 
-- surrogate samples are repository-authored safe reimplementations
+- DarthRa-derived samples are safety-controlled malware behavior cases
 - no external real-malware payload was stored in this repository
 - no external real-malware payload was executed by this checker
-- this is not a true real-malware detection PASS
+- not payload-equivalence or malware-family accuracy evidence

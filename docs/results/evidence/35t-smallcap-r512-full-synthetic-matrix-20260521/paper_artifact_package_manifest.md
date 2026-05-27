@@ -14,7 +14,7 @@ Readiness: `LIGHTWEIGHT_PACKAGE_READY_FULL_REPRO_DEFERRED` from `docs/results/ev
 
 ## Validation Commands
 
-- `uv run --no-sync python tools/check_35t_application_closure.py --repo-root .`
+- `uv run --no-sync python tools/check_35t_application_closure.py --repo-root . --no-write`
 - `uv run --no-sync python tools/check_35t_paper_evidence.py --no-write`
 - `uv run --no-sync python tools/check_35t_fd_path_case_studies.py --no-write`
 - `uv run --no-sync python tools/check_35t_process_tree_case_study.py --no-write`

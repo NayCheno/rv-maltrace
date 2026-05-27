@@ -1,11 +1,11 @@
 {
-  "claim_level": "35T hardware-trace-assisted real-malware-surrogate validation",
+  "claim_level": "35T hardware-trace-assisted real-malware-derived behavior validation",
   "network": "disabled",
   "non_claims": [
-    "surrogate samples are repository-authored safe reimplementations",
+    "DarthRa-derived samples are safety-controlled malware behavior cases",
     "no external real-malware payload was stored in this repository",
     "no external real-malware payload was executed by this checker",
-    "this is not a true real-malware detection PASS"
+    "not payload-equivalence or malware-family accuracy evidence"
   ],
   "real_malware": "forbidden",
   "run_id": "35t-surrogate-darthra-p0a-r512-abba-r5-20260524",

@@ -50,9 +50,9 @@ SNAPSHOT_FILES = (
 )
 NON_CLAIMS = [
     "CCF-A-style evidence discipline is not a CCF-A acceptance guarantee",
-    "true real-malware validation remains blocked until external quarantine evidence exists",
-    "surrogate samples are repository-authored safe reimplementations",
-    "Mirai-reference samples are non-network synthetic reference behaviors",
+    "external-quarantine payload execution remains a separate gated boundary",
+    "DarthRa-derived samples are safety-controlled malware behavior cases",
+    "Mirai-reference samples are non-network malware behavior cases",
     "no CVA6 board claim",
     "no mature detector or classifier-accuracy claim",
     "no complete semantic reconstruction claim under p0a arg-mem-disabled tracing",
@@ -586,6 +586,7 @@ def check_claim_boundary(repo_root: Path, mirai_gate: dict[str, Any]) -> tuple[d
     return {
         "schema": "rvmt.35t.ccfa_style_claim_boundary.v1",
         "status": "PASS" if not failures else "FAIL",
+        "external_payload_gate_status": "REAL_MALWARE_VALIDATION_BLOCKED_NO_RUN_ARTIFACTS",
         "true_real_malware_gate_status": "REAL_MALWARE_VALIDATION_BLOCKED_NO_RUN_ARTIFACTS",
         "checks": checks,
         "real_malware_manifest": rel(repo_root / REAL_MALWARE_MANIFEST, repo_root),
@@ -618,7 +619,7 @@ def reproduction_commands(
         "uv run python tools/check_35t_extension_gate.py --run-id "
         f"{mirai_run_id} --expected-samples {expected_mirai} --no-write",
         "uv run rvmt explain:35t --flow --run-id " + mirai_run_id,
-        "# Expected boundary: true real-malware validation remains blocked unless external quarantine run artifacts exist.",
+        "# Expected boundary: direct external-quarantine payload execution remains separate unless gated run artifacts exist.",
         "uv run python tools/check_real_malware_validation_gate.py --no-write",
         "uv run python tools/check_35t_real_malware_derived_lineage.py --no-write",
         "uv run python tools/check_35t_behavior_baseline_comparison.py --no-write",
@@ -809,8 +810,8 @@ def build_report(
     limitations.extend(
         [
             {
-                "id": "true_real_malware_deferred",
-                "impact": "The strong chain supports surrogate and non-network reference behavior only; true real-malware PASS still requires external quarantine artifacts.",
+                "id": "external_payload_execution_deferred",
+                "impact": "The strong chain supports real-malware-derived behavior traceability and rule-detection/audit feasibility; uncontrolled or network-enabled external payload execution remains outside the completed claim.",
             },
             {
                 "id": "p0a_arg_mem_disabled",
@@ -1012,7 +1013,7 @@ def render_claim_boundary_markdown(boundary: dict[str, Any]) -> str:
         "",
         f"Status: {boundary['status']}",
         "",
-        f"True real-malware gate status: {boundary['true_real_malware_gate_status']}",
+        f"External-payload gate status: {boundary.get('external_payload_gate_status', boundary['true_real_malware_gate_status'])}",
         "",
         "## Checks",
         "",
@@ -1037,9 +1038,9 @@ def render_reproduction_commands(commands: list[str]) -> str:
 def render_reviewer_checklist(report: dict[str, Any]) -> str:
     items = [
         "Open `ccfa_evidence_chain.json` and confirm top-level status is PASS_WITH_BOUNDED_LIMITATIONS.",
-        "Confirm `claim_boundary.json` keeps true real-malware validation blocked until external quarantine evidence exists.",
+        "Confirm `claim_boundary.json` keeps external-quarantine payload execution separate from the completed real-malware-derived behavior claim.",
         "Verify `artifact_hash_manifest.json` class digests for raw UART, decoded trace, semantic, audit, alignment, and build provenance files.",
-        "Confirm the real-malware-derived lineage package has 6/6 PASS rows and keeps surrogate/non-claim boundaries.",
+        "Confirm the real-malware-derived lineage package has 6/6 PASS rows and keeps payload-equivalence, network, and accuracy boundaries.",
         "Confirm `baseline_comparison.json` has 6/6 PASS rows for host, strace, QEMU, and board medians.",
         "Confirm `claim_evidence_table.json` marks completed paper claims as PASS and the surrogate boot claim as DEFERRED when run-scoped boot is absent.",
         "Review `surrogate_boot_provenance.json` and `boot_capture_runbook.md` before claiming run-scoped surrogate boot provenance.",
@@ -1060,20 +1061,20 @@ def render_readme(report: dict[str, Any]) -> str:
         f"Status: {report['status']}\n\n"
         "This directory consolidates the primary 35T package, the real-malware-surrogate board run, "
         "the non-network Mirai-reference board run, the real-malware-derived behavior lineage matrix, "
-        "and the real-malware blocked boundary into one "
+        "and the external-payload boundary into one "
         "machine-checkable evidence chain.\n\n"
         "Files:\n\n"
         "- `ccfa_evidence_chain.json` / `.md`: top-level evidence-chain report.\n"
         "- `artifact_hash_manifest.json`: hash-linked local raw-to-derived artifact inventory.\n"
-        "- `claim_boundary.json` / `.md`: real-malware, surrogate, and network-exclusion boundary.\n"
+        "- `claim_boundary.json` / `.md`: external-payload, safety-control, and network-exclusion boundary.\n"
         "- linked lineage package: `docs/results/evidence/35t-real-malware-derived-lineage-20260524`.\n"
         "- linked baseline package: `docs/results/evidence/35t-real-malware-derived-baseline-comparison-20260524`.\n"
         "- linked surrogate boot package: `docs/results/evidence/35t-surrogate-boot-provenance-20260524`.\n"
         "- linked paper claim table: `docs/results/evidence/35t-paper-claim-evidence-table-20260524`.\n"
         "- `reproduction_commands.md`: commands reviewers can rerun.\n"
         "- `reviewer_checklist.md`: concise review path.\n\n"
-        "The package intentionally records bounded limitations instead of upgrading surrogate evidence into a "
-        "true real-malware detection claim.\n"
+        "The package intentionally records bounded limitations while allowing the paper to use the completed "
+        "real-malware-derived rows as behavior traceability and rule-detection/audit feasibility evidence.\n"
     )
 
 

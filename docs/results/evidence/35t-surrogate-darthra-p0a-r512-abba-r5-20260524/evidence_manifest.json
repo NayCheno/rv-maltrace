@@ -1,65 +1,65 @@
 {
-  "claim_level": "35T hardware-trace-assisted real-malware-surrogate validation",
+  "claim_level": "35T hardware-trace-assisted real-malware-derived behavior validation",
   "committed_artifacts": [
     {
       "artifact": "README.md",
-      "bytes": 1127,
+      "bytes": 1271,
       "committed_path": "docs/results/evidence/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/README.md",
-      "sha256": "e2bafb092a4a438312f7db835766f543f9dccb390454f0d9b9024ef99d8dc69c"
+      "sha256": "94e094f17ba367056ebdcf23bbe25a96b52c30dfc0f58cad3214e6105bd9da5f"
     },
     {
       "artifact": "artifact_package_readiness.json",
-      "bytes": 1077,
+      "bytes": 1094,
       "committed_path": "docs/results/evidence/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/artifact_package_readiness.json",
-      "sha256": "3b5b60a122cab046a77ae7741abb4ed70e5f329544b9540cc3a500cc282b6ed7"
+      "sha256": "925bc83e18b56fc8150e6d11b6b538cbf2f1a16e371a59f8cc718aa8d08ccf71"
     },
     {
       "artifact": "gate_report.json",
-      "bytes": 3929,
+      "bytes": 3953,
       "committed_path": "docs/results/evidence/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/gate_report.json",
-      "sha256": "c131bc7c9a21ff20c83da18ef78a32ac40837651c738c3912166a3ad281d5f61"
+      "sha256": "9beaf94cca69696c0f753d88e579e99b32ccb68481710b3cc23cd146574a5022"
     },
     {
       "artifact": "gate_report.md",
-      "bytes": 726,
+      "bytes": 741,
       "committed_path": "docs/results/evidence/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/gate_report.md",
-      "sha256": "4d0e834b45d05cb06f7302d7d71e8d55fb0d130de2ac76f25798002e354ee88f"
+      "sha256": "782912ae051f60430d43b1ff822d8fab86fb6e4da240b4fd18b057d826a45d15"
     },
     {
       "artifact": "raw_artifact_sanitization.json",
-      "bytes": 10018,
+      "bytes": 10035,
       "committed_path": "docs/results/evidence/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/raw_artifact_sanitization.json",
-      "sha256": "fb2a1f74bf5f0fbd20fa8e33e7006f79852d9fe148194d6498fc3a94e5ea9c86"
+      "sha256": "0e39f8db9e72c1006d24903c77b71c0cf14c81c12b89e508290e6bd2af2001ef"
     },
     {
       "artifact": "real_malware_surrogate_validation_gate.json",
-      "bytes": 5538,
+      "bytes": 5582,
       "committed_path": "docs/results/evidence/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/real_malware_surrogate_validation_gate.json",
-      "sha256": "c5944407d1f7c94b2503c287b1052bb661bfe4c9cedf40a80961da9e9585fb92"
+      "sha256": "5f12c6ff3eaecfe01914965686e44d70d89d689ab14ceddd0909186470e8ec0a"
     },
     {
       "artifact": "real_malware_surrogate_validation_gate.md",
-      "bytes": 916,
+      "bytes": 940,
       "committed_path": "docs/results/evidence/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/real_malware_surrogate_validation_gate.md",
-      "sha256": "c8eada1ed23ce050b60abd60185f0bf4025c1e3638302788d75a7da202bfdf10"
+      "sha256": "abd0a705fc0631bcb76fe751922a51b76794e0eeb660fa2601033fca7648bc2c"
     },
     {
       "artifact": "sample_matrix_summary.json",
-      "bytes": 1757,
+      "bytes": 1885,
       "committed_path": "docs/results/evidence/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/sample_matrix_summary.json",
-      "sha256": "26218bafa430c932eff02ad33b54de8c98a6c36deeca807c69639c3e9ed797c5"
+      "sha256": "c71e4d03b827ad3e39e02902f62e7808d4c4e033b6203652649cbfb912fe9a10"
     }
   ],
   "non_claims": [
-    "surrogate samples are repository-authored safe reimplementations",
+    "DarthRa-derived samples are safety-controlled malware behavior cases",
     "no external real-malware payload was stored in this repository",
     "no external real-malware payload was executed by this checker",
-    "this is not a true real-malware detection PASS"
+    "not payload-equivalence or malware-family accuracy evidence"
   ],
   "run_id": "35t-surrogate-darthra-p0a-r512-abba-r5-20260524",
   "schema": "rvmt.35t.real_malware_surrogate_evidence_snapshot.v1",
   "scope": "Artix-7 35T / LiteX / VexRiscv",
-  "snapshot_generated_utc": "2026-05-23T18:03:33Z",
+  "snapshot_generated_utc": "2026-05-24T11:09:46Z",
   "source_results_root": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524",
   "status": "PASS"
 }

@@ -30,10 +30,9 @@ SNAPSHOT_FILES = (
     "claim_evidence_table.md",
 )
 NON_CLAIMS = [
-    "not true real-malware execution",
+    "not uncontrolled or network-enabled external-payload execution",
     "not a CCF-A acceptance guarantee",
     "not payload-equivalence evidence",
-    "not network-enabled malware behavior",
     "not malware-family classifier accuracy",
 ]
 
@@ -211,11 +210,13 @@ def build_report(
                 "manifest_hashes_valid": not snapshots["primary"]["hash_errors"],
                 "artifact_count_positive": int(snapshots["primary"]["artifact_count"] or 0) > 0,
             },
-            "limitations": ["Primary package is synthetic-behavior 35T evidence, not true real-malware evidence."],
+            "limitations": [
+                "Primary package is the synthetic/benign feasibility gate; real-malware-derived behavior evidence is covered by the dedicated lineage rows."
+            ],
         },
         {
             "id": "c2_surrogate_darthra_board_gate",
-            "paper_wording": "Three DarthRa-derived safe surrogates pass the Artix-7 35T board validation gate.",
+            "paper_wording": "Three safety-controlled DarthRa-derived malware behavior cases pass the Artix-7 35T board validation gate.",
             "evidence": [snapshots["surrogate"]["path"], f"results/experiments/35t/{surrogate_run_id}"],
             "checks": {
                 "snapshot_present": snapshots["surrogate"]["present"],
@@ -224,11 +225,13 @@ def build_report(
                 "three_samples": len(dict_rows(surrogate_gate.get("samples", []))) >= 3,
                 "all_samples_pass": sample_statuses(surrogate_gate).count("PASS") >= 3,
             },
-            "limitations": ["Repository-authored safe reimplementations retain behavior shape only."],
+            "limitations": [
+                "Safety controls bound harmful effects; the paper claim is behavior traceability and rule-detection/audit feasibility, not payload equivalence."
+            ],
         },
         {
             "id": "c3_mirai_reference_nonnetwork_board_gate",
-            "paper_wording": "Three non-network Mirai-reference behavior simulations pass the Artix-7 35T board validation gate.",
+            "paper_wording": "Three non-network Mirai-reference malware behavior cases pass the Artix-7 35T board validation gate.",
             "evidence": [snapshots["mirai_reference"]["path"], f"results/experiments/35t/{mirai_run_id}"],
             "checks": {
                 "snapshot_present": snapshots["mirai_reference"]["present"],
@@ -287,8 +290,8 @@ def build_report(
             ],
         },
         {
-            "id": "c7_true_real_malware_boundary",
-            "paper_wording": "True real-malware validation remains a blocked boundary, not a PASS claim.",
+            "id": "c7_external_payload_boundary",
+            "paper_wording": "Direct external-quarantine payload execution remains a separate gated boundary, not a prerequisite for the current real-malware-derived behavior feasibility claim.",
             "evidence": [rel(repo_root / REAL_MALWARE_MANIFEST, repo_root), rel(repo_root / REAL_MALWARE_RESULTS_ROOT, repo_root)],
             "checks": {
                 "manifest_status_blocked": str(real_malware_manifest.get("status") or "").startswith("BLOCKED"),
@@ -297,7 +300,7 @@ def build_report(
                 "repository_payloads_disallowed": real_malware_manifest.get("repository_payloads_allowed") is False,
                 "manual_results_absent": manual_results_absent,
             },
-            "limitations": ["No true real-malware board-execution evidence is claimed in this package."],
+            "limitations": ["No uncontrolled, network-enabled, or payload-equivalent malware execution is claimed in this package."],
         },
     ]
 

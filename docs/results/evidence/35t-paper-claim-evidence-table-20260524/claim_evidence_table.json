@@ -13,7 +13,7 @@
       ],
       "id": "c1_primary_35t_package_integrity",
       "limitations": [
-        "Primary package is synthetic-behavior 35T evidence, not true real-malware evidence."
+        "Primary package is the synthetic/benign feasibility gate; real-malware-derived behavior evidence is covered by the dedicated lineage rows."
       ],
       "paper_wording": "The primary 35T evidence package is hash-manifested and locally reproducible.",
       "status": "PASS"
@@ -32,9 +32,9 @@
       ],
       "id": "c2_surrogate_darthra_board_gate",
       "limitations": [
-        "Repository-authored safe reimplementations retain behavior shape only."
+        "Safety controls bound harmful effects; the paper claim is behavior traceability and rule-detection/audit feasibility, not payload equivalence."
       ],
-      "paper_wording": "Three DarthRa-derived safe surrogates pass the Artix-7 35T board validation gate.",
+      "paper_wording": "Three safety-controlled DarthRa-derived malware behavior cases pass the Artix-7 35T board validation gate.",
       "status": "PASS"
     },
     {
@@ -54,7 +54,7 @@
       "limitations": [
         "Network-required Mirai behavior remains excluded from this non-network claim."
       ],
-      "paper_wording": "Three non-network Mirai-reference behavior simulations pass the Artix-7 35T board validation gate.",
+      "paper_wording": "Three non-network Mirai-reference malware behavior cases pass the Artix-7 35T board validation gate.",
       "status": "PASS"
     },
     {
@@ -127,11 +127,11 @@
         "experiments/linux_behavior/real_malware/manifest.json",
         "results/experiments/real_malware/manual"
       ],
-      "id": "c7_true_real_malware_boundary",
+      "id": "c7_external_payload_boundary",
       "limitations": [
-        "No true real-malware board-execution evidence is claimed in this package."
+        "No uncontrolled, network-enabled, or payload-equivalent malware execution is claimed in this package."
       ],
-      "paper_wording": "True real-malware validation remains a blocked boundary, not a PASS claim.",
+      "paper_wording": "Direct external-quarantine payload execution remains a separate gated boundary, not a prerequisite for the current real-malware-derived behavior feasibility claim.",
       "status": "PASS"
     }
   ],
@@ -140,12 +140,11 @@
   ],
   "evidence_root": "docs/results/evidence/35t-paper-claim-evidence-table-20260524",
   "failures": [],
-  "generated_utc": "2026-05-24T09:21:08Z",
+  "generated_utc": "2026-05-27T16:55:37Z",
   "non_claims": [
-    "not true real-malware execution",
+    "not uncontrolled or network-enabled external-payload execution",
     "not a CCF-A acceptance guarantee",
     "not payload-equivalence evidence",
-    "not network-enabled malware behavior",
     "not malware-family classifier accuracy"
   ],
   "repo_root": "D:/Code/research/rv-maltrace",
@@ -169,7 +168,7 @@
     },
     "lineage": {
       "artifact_count": 4,
-      "claim_level": "35T real-malware-derived safe surrogate behavior lineage",
+      "claim_level": "35T real-malware-derived behavior lineage",
       "hash_errors": [],
       "label": "lineage",
       "path": "docs/results/evidence/35t-real-malware-derived-lineage-20260524",
@@ -199,7 +198,7 @@
     },
     "surrogate": {
       "artifact_count": 8,
-      "claim_level": "35T hardware-trace-assisted real-malware-surrogate validation",
+      "claim_level": "35T hardware-trace-assisted real-malware-derived behavior validation",
       "hash_errors": [],
       "label": "surrogate",
       "path": "docs/results/evidence/35t-surrogate-darthra-p0a-r512-abba-r5-20260524",

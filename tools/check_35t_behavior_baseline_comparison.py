@@ -27,7 +27,7 @@ SNAPSHOT_FILES = (
 )
 NON_CLAIMS = [
     "same-set baseline comparison only",
-    "not true real-malware execution",
+    "not uncontrolled or network-enabled external-payload execution",
     "not qemu-plugin or eBPF advanced baseline evidence",
     "not a performance-equivalence claim",
     "not malware-family detection accuracy",
@@ -418,8 +418,8 @@ def render_readme(report: dict[str, Any]) -> str:
         "# 35T Real-malware-derived Baseline Comparison\n\n"
         f"Status: {report['status']}\n\n"
         "This package records same-sample host native, host strace, QEMU native, QEMU strace, "
-        "and board trace-on/off medians for the six real-malware-derived safe behavior rows.\n\n"
-        "It is a comparison/provenance package, not a true real-malware execution claim.\n"
+        "and board trace-on/off medians for the six real-malware-derived behavior rows.\n\n"
+        "It is a comparison/provenance package for behavior traceability and rule-detection/audit feasibility, not a payload-equivalence or uncontrolled external-payload execution claim.\n"
     )
 
 

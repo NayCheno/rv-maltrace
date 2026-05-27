@@ -2,7 +2,7 @@
 
 ## Claim Boundary
 
-State the bounded claim as a 35T / LiteX / VexRiscv hardware-trace-assisted synthetic malware-like behavior audit prototype.
+State the bounded claim as a 35T / LiteX / VexRiscv hardware-trace-assisted malware-behavior evidence-chain prototype. The core 13-sample matrix remains the controlled synthetic/benign feasibility gate; the 5/24 evidence packages add board-tested real-malware-derived DarthRa and Mirai behavior cases.
 
 ## Primary 35T Gate
 
@@ -24,6 +24,10 @@ Describe public lightweight artifacts, controlled raw package policy, and local-
 
 Report extension samples separately from the primary 13-sample gate. The first extension gate is network-free and excludes `loopback_network_client` by default.
 
+## Real-Malware-Derived Behavior Evidence
+
+Report the six board-tested real-malware-derived behavior rows as evidence that RV-MalTrace can track, validate, and rule-detect/audit behaviors selected from real malware references under safety controls. Describe the safety controls as execution containment, not as a reason to remove these rows from the real-malware feasibility narrative.
+
 ## Limitations
 
-Repeat non-claims for CVA6 validation, real malware detection, mature detector status, classifier accuracy, complete semantic reconstruction, and enabled hardware user-pointer snapshot.
+Repeat non-claims for CVA6 validation, uncontrolled/network-enabled payload execution, malware-family accuracy, IOC/TTP coverage, mature detector status, complete semantic reconstruction, and enabled hardware user-pointer snapshot.

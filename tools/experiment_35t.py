@@ -305,7 +305,7 @@ def write_run_behavior_manifest(run_id: str, samples: list[Sample]) -> None:
         "sample_class": sample_class,
         "source_manifests": source_manifests,
         "true_real_malware": False,
-        "claim_boundary": "malware-like and real-malware-surrogate behavior validation only; not a true real-malware detection claim",
+        "claim_boundary": "malware-like and real-malware-derived behavior validation only; not payload-equivalence or malware-family accuracy evidence",
         "samples": rows,
     }
     for name in ("run_behavior_manifest.json", "run_malware_manifest.json"):

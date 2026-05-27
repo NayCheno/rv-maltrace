@@ -714,13 +714,14 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Check 35T application closure docs and evidence snapshot consistency.")
     parser.add_argument("--repo-root", type=Path, default=Path("."))
     parser.add_argument("--evidence-root", type=Path, default=DEFAULT_EVIDENCE_ROOT)
+    parser.add_argument("--no-write", action="store_true", help="Check only; do not update application_closure_check artifacts.")
     parser.add_argument("--self-test", action="store_true")
     args = parser.parse_args(argv)
 
     if args.self_test:
         return self_test()
     try:
-        report = check_repo(args.repo_root, args.evidence_root, write_outputs=True)
+        report = check_repo(args.repo_root, args.evidence_root, write_outputs=not args.no_write)
     except Exception as exc:
         print(f"check_35t_application_closure: error: {exc}", file=sys.stderr)
         return 2

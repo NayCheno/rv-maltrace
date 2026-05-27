@@ -19,7 +19,7 @@ Status: PASS
 | `elf_hashes` | `summary_or_hash_only` | 39 | publish summaries, class digests, representative hashes, and paths; do not require raw payload release |
 | `bitstream_metadata` | `summary_or_hash_only` | 4 | publish summaries, class digests, representative hashes, and paths; do not require raw payload release |
 | `scripts_and_commands` | `include_or_reference` | 40 | may be included directly in a public lightweight artifact package |
-| `synthetic_extension_sources` | `include_or_reference` | 10 | may be included directly in a public lightweight artifact package |
+| `synthetic_extension_sources` | `include_or_reference` | 14 | may be included directly in a public lightweight artifact package |
 | `synthetic_extension_behavior_smoke_evidence` | `summary_or_hash_only` | 3 | publish summaries, class digests, representative hashes, and paths; do not require raw payload release |
 | `qemu_plugin_baseline_evidence` | `summary_or_hash_only` | 3 | publish summaries, class digests, representative hashes, and paths; do not require raw payload release |
 | `raw_artifact_sanitization_evidence` | `include_or_reference` | 2 | may be included directly in a public lightweight artifact package |

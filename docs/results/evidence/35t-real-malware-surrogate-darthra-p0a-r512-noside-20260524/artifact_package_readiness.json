@@ -2,10 +2,10 @@
   "controlled_raw_policy": "raw UART logs and decoded trace JSONL are represented by hashes and controlled release policy",
   "local_only_policy": "ELF binaries, full rootfs images, bitstreams, and board build directories stay local-only",
   "non_claims": [
-    "surrogate samples are repository-authored safe reimplementations",
+    "DarthRa-derived samples are safety-controlled malware behavior cases",
     "no external real-malware payload was stored in this repository",
     "no external real-malware payload was executed by this checker",
-    "this is not a true real-malware detection PASS"
+    "not payload-equivalence or malware-family accuracy evidence"
   ],
   "public_lightweight": [
     "README.md",

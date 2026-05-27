@@ -18,7 +18,7 @@ uv run python tools/check_35t_extension_gate.py --run-id 35t-mirai-reference-non
 ```powershell
 uv run rvmt explain:35t --flow --run-id 35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524
 ```
-# Expected boundary: true real-malware validation remains blocked unless external quarantine run artifacts exist.
+# Expected boundary: direct external-quarantine payload execution remains separate unless gated run artifacts exist.
 ```powershell
 uv run python tools/check_real_malware_validation_gate.py --no-write
 ```

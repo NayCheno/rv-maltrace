@@ -157,25 +157,25 @@
     },
     {
       "artifact_id": "scripts_and_commands",
-      "class_digest": "8e13e5c5d74087f9c9a40e25fbf76cf39280365b58e2f2b1edc95abae98f5843",
+      "class_digest": "fb190bbc7a122f75faff25acc0a0ebbef937ad3509636b2d60b3783339a8430a",
       "count": 40,
       "description": "scripts, workflow docs, and command provenance",
       "public_policy": "public",
       "release_action": "may be included directly in a public lightweight artifact package",
       "release_mode": "include_or_reference",
       "status": "READY_PUBLIC",
-      "total_bytes": 1156744
+      "total_bytes": 1163710
     },
     {
       "artifact_id": "synthetic_extension_sources",
-      "class_digest": "8189c7293ff85cd9876e7de4a7c194f3ca765b0bab9a171bffd3696b839f35c5",
-      "count": 10,
+      "class_digest": "56ea4d6f8524fe616bc75b2a5891be6f6bbcdf7831619d2c394519d6ff5af463",
+      "count": 14,
       "description": "source-implemented synthetic malware-like extension candidates that remain outside the default 35T claim until gated",
       "public_policy": "public",
       "release_action": "may be included directly in a public lightweight artifact package",
       "release_mode": "include_or_reference",
       "status": "READY_PUBLIC",
-      "total_bytes": 14628
+      "total_bytes": 24069
     },
     {
       "artifact_id": "synthetic_extension_behavior_smoke_evidence",
@@ -234,14 +234,14 @@
     },
     {
       "artifact_id": "negative_failed_cases",
-      "class_digest": "cca21731d31b12f53652321f0702eb10a5107556e20b4d9414092c950e32f72d",
+      "class_digest": "599a0a06c74388c9293388ba80379ce2285f890e98863a481c1c2cddb5e56d27",
       "count": 9,
       "description": "negative, failed, partial, or bounded-case evidence",
       "public_policy": "public_summary",
       "release_action": "publish summaries, class digests, representative hashes, and paths; do not require raw payload release",
       "release_mode": "summary_or_hash_only",
       "status": "READY_PUBLIC_SUMMARY_OR_HASH",
-      "total_bytes": 315909
+      "total_bytes": 316267
     },
     {
       "artifact_id": "reproduction_readme",
@@ -255,7 +255,7 @@
       "total_bytes": 159912
     }
   ],
-  "generated_utc": "2026-05-23T12:53:48Z",
+  "generated_utc": "2026-05-27T16:54:14Z",
   "local_only_classes": [
     "raw_uart_log",
     "decoded_trace_jsonl",

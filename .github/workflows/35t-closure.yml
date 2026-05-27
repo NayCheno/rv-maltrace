@@ -28,7 +28,7 @@ jobs:
       - name: Run lightweight 35T closure checks
         run: |
           uv run --no-sync python tools/check_35t_application_closure.py --self-test
-          uv run --no-sync python tools/check_35t_application_closure.py --repo-root .
+          uv run --no-sync python tools/check_35t_application_closure.py --repo-root . --no-write
           uv run --no-sync python tools/check_35t_fd_path_case_studies.py --self-test
           uv run --no-sync python tools/check_35t_fd_path_case_studies.py --no-write
           uv run --no-sync python tools/check_35t_process_tree_case_study.py --self-test

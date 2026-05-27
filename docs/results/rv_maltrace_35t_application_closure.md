@@ -314,10 +314,10 @@ Still deliberately not claimed:
    - Function-level attribution is `PASS` through ELF symbol ranges in `function_attribution_summary.md`; `source_attribution_summary.md` remains `PARTIAL` because no DWARF/source-location records are committed.
 
 3. `complete semantic reconstruction`
-   - fd/path and process-tree explanations are closed for the targeted 35T validation artifacts, but they do not prove complete process ownership, complete memory semantics, real malware behavior, or broad semantic reconstruction.
+   - fd/path and process-tree explanations are closed for the targeted 35T validation artifacts, but they do not prove complete process ownership, complete memory semantics, or broad semantic reconstruction.
 
-4. `real malware detection quality`
-   - Strong, weak, and benign-overlap evidence must remain separated; this result is still a controlled synthetic behavior audit, not a real-malware accuracy claim.
+4. `real malware accuracy or payload-equivalence`
+   - Strong, weak, and benign-overlap evidence must remain separated. The 5/24 real-malware-derived packages support a feasibility statement about tracking, validating, and rule-detecting/auditing selected behaviors from real malware references; they do not measure malware-family accuracy, IOC/TTP coverage, or equivalence to the original harmful payloads.
 
 ## Recommended Paper Wording
 
@@ -325,7 +325,8 @@ Acceptable wording:
 
 ```text
 We validated the current RV-MalTrace prototype on an Artix-7 35T LiteX/VexRiscv
-board using controlled benign and synthetic malware-like workloads.
+board using controlled benign, synthetic malware-like, and real-malware-derived
+behavior workloads.
 ```
 
 ```text
@@ -335,14 +336,16 @@ strong-evidence gates.
 ```
 
 ```text
-The current 35T result demonstrates a hardware-trace-assisted synthetic
-behavior audit prototype, not a mature real-malware detector.
+The current 35T result demonstrates that selected behaviors from real malware
+references can be traced, verified, and rule-detected/audited under safety controls; it
+does not claim malware-family accuracy or mature detector readiness.
 ```
 
 Do not use wording that says or implies:
 
-- RV-MalTrace detects real malware.
+- RV-MalTrace measures real-malware family detection accuracy.
 - The current result validates CVA6.
-- The current synthetic matrix measures real malware detection accuracy.
+- The current result executes uncontrolled or network-enabled malware payloads.
+- The current result is payload-equivalent to the original malware binaries.
 - The full matrix passed because the trace capacity was increased.
 - The system has complete semantic reconstruction.

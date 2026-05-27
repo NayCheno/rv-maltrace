@@ -2,7 +2,7 @@
 
 Status: PASS
 
-True real-malware gate status: REAL_MALWARE_VALIDATION_BLOCKED_NO_RUN_ARTIFACTS
+External-payload gate status: REAL_MALWARE_VALIDATION_BLOCKED_NO_RUN_ARTIFACTS
 
 ## Checks
 
@@ -18,9 +18,9 @@ True real-malware gate status: REAL_MALWARE_VALIDATION_BLOCKED_NO_RUN_ARTIFACTS
 ## Non-claims
 
 - CCF-A-style evidence discipline is not a CCF-A acceptance guarantee
-- true real-malware validation remains blocked until external quarantine evidence exists
-- surrogate samples are repository-authored safe reimplementations
-- Mirai-reference samples are non-network synthetic reference behaviors
+- external-quarantine payload execution remains a separate gated boundary
+- DarthRa-derived samples are safety-controlled malware behavior cases
+- Mirai-reference samples are non-network malware behavior cases
 - no CVA6 board claim
 - no mature detector or classifier-accuracy claim
 - no complete semantic reconstruction claim under p0a arg-mem-disabled tracing

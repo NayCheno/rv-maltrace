@@ -62,7 +62,7 @@ Claim level: 35T hardware-trace-assisted synthetic malware-like behavior audit p
 ## Interpretation
 
 - 35T evidence supports a bounded feasibility/constrained-board prototype result
-- 35T evidence does not by itself support a CCF-A main contribution, real malware detection, CVA6 validation, or complete reconstruction claim
+- 35T evidence does not by itself support a CCF-A main contribution, malware-family accuracy, CVA6 validation, or complete reconstruction claim
 - paper-facing wording must keep the dual-channel trace-gate and side-channel semantic evidence separated
 
 ## Positive Forbidden Findings

@@ -10,25 +10,24 @@
     },
     {
       "artifact": "claim_evidence_table.json",
-      "bytes": 8453,
+      "bytes": 8702,
       "committed_path": "docs/results/evidence/35t-paper-claim-evidence-table-20260524/claim_evidence_table.json",
       "path": "docs/results/evidence/35t-paper-claim-evidence-table-20260524/claim_evidence_table.json",
-      "sha256": "62036fe7412062228e943f5b8a730380ed1a5b371c35130f4dc3fcea9a3f1134"
+      "sha256": "392fe6816a5265dcc9e5c8023a9246fdd4519bb4a775cfd7d5e569bb085101af"
     },
     {
       "artifact": "claim_evidence_table.md",
-      "bytes": 3133,
+      "bytes": 3395,
       "committed_path": "docs/results/evidence/35t-paper-claim-evidence-table-20260524/claim_evidence_table.md",
       "path": "docs/results/evidence/35t-paper-claim-evidence-table-20260524/claim_evidence_table.md",
-      "sha256": "99e59e890f3c7eb670ca4f05ac136d815806f1660dd1b8c623aa2a3f52aff7cb"
+      "sha256": "80a9f9f9edb1fac7fb9fe5dbcd28da0205aa7deac813d2d95acd62cd6a651031"
     }
   ],
-  "generated_utc": "2026-05-24T09:21:08Z",
+  "generated_utc": "2026-05-27T16:55:37Z",
   "non_claims": [
-    "not true real-malware execution",
+    "not uncontrolled or network-enabled external-payload execution",
     "not a CCF-A acceptance guarantee",
     "not payload-equivalence evidence",
-    "not network-enabled malware behavior",
     "not malware-family classifier accuracy"
   ],
   "schema": "rvmt.35t.paper_claim_evidence_table_snapshot.v1",

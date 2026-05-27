@@ -40,14 +40,15 @@ Priority closure:
 Allowed claim:
 
 ```text
-35T / LiteX / VexRiscv hardware-trace-assisted synthetic malware-like behavior audit prototype.
+35T / LiteX / VexRiscv hardware-trace-assisted malware-behavior evidence-chain prototype.
 ```
 
 Forbidden positive claims:
 
 - CVA6 validation.
-- Real malware detection.
-- Classifier accuracy.
+- Uncontrolled or network-enabled real-malware payload execution.
+- Malware-family detection accuracy, IOC coverage, TTP coverage, or classifier accuracy.
+- Payload equivalence to original malware binaries or full harmful capability sets.
 - Complete semantic reconstruction.
 - Mature detector.
 - Standalone CCF-A main contribution.

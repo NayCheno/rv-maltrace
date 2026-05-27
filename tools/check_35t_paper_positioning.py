@@ -176,6 +176,7 @@ def build_report(
             [
                 "prototype scope",
                 "controlled benign and synthetic malware-like workload matrix",
+                "real-malware-derived behavior evidence",
                 "512-record 35T small-capacity",
                 "targeted dual-channel validation bundle",
             ],
@@ -184,7 +185,8 @@ def build_report(
             "\n".join(str(item) for item in forbidden_claims if item),
             [
                 "CVA6 validation",
-                "real malware execution or real malware detection",
+                "uncontrolled or network-enabled real-malware payload execution",
+                "payload equivalence",
                 "classifier accuracy",
                 "mature production detector readiness",
                 "complete semantic reconstruction",
@@ -196,7 +198,7 @@ def build_report(
             for item in limitations
         ),
         "paper_doc_supported_wording": "bounded prototype paper claim" in paper_doc
-        and "35T hardware-trace-assisted synthetic behavior audit prototype" in paper_doc,
+        and "35T hardware-trace-assisted malware-behavior evidence-chain prototype" in paper_doc,
         "paper_doc_forbidden_wording": "Forbidden Wording" in paper_doc
         and "single-trace all-gates PASS for the side-channel semantic capture" in paper_doc,
         "closure_doc_has_recommended_wording": "Recommended Paper Wording" in closure_doc
@@ -240,7 +242,7 @@ def build_report(
         },
         "interpretation": [
             "35T evidence supports a bounded feasibility/constrained-board prototype result",
-            "35T evidence does not by itself support a CCF-A main contribution, real malware detection, CVA6 validation, or complete reconstruction claim",
+            "35T evidence does not by itself support a CCF-A main contribution, malware-family accuracy, CVA6 validation, or complete reconstruction claim",
             "paper-facing wording must keep the dual-channel trace-gate and side-channel semantic evidence separated",
         ],
         "positive_forbidden_findings": positive_findings,
@@ -314,7 +316,7 @@ def write_fixture(root: Path, *, bad_positive: bool = False) -> Path:
     paper_doc.parent.mkdir(parents=True, exist_ok=True)
     paper_doc.write_text(
         "# Paper\n\nThe current evidence supports a bounded prototype paper claim.\n"
-        "35T hardware-trace-assisted synthetic behavior audit prototype.\n\n"
+        "35T hardware-trace-assisted malware-behavior evidence-chain prototype.\n\n"
         "## Forbidden Wording\n\n- single-trace all-gates PASS for the side-channel semantic capture\n",
         encoding="utf-8",
     )
@@ -343,13 +345,15 @@ def write_fixture(root: Path, *, bad_positive: bool = False) -> Path:
             "supported_claims": [
                 "35T / LiteX / VexRiscv prototype scope",
                 "controlled benign and synthetic malware-like workload matrix",
+                "real-malware-derived behavior evidence",
                 "512-record 35T small-capacity primary trace gate with 13/13 sample gate PASS",
                 "targeted dual-channel validation bundle",
             ],
             "forbidden_claims": [
                 "CVA6 validation",
-                "real malware execution or real malware detection",
-                "classifier accuracy, family coverage, IOC coverage, or TTP coverage",
+                "uncontrolled or network-enabled real-malware payload execution",
+                "payload equivalence",
+                "malware-family detection accuracy, classifier accuracy, family coverage, IOC coverage, or TTP coverage",
                 "mature production detector readiness",
                 "complete semantic reconstruction",
             ],
