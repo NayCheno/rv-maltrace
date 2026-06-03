@@ -53,6 +53,16 @@ def matched_rules(audit: dict[str, Any]) -> list[str]:
     return [str(item.get("rule")) for item in matches if isinstance(item, dict) and item.get("matched")]
 
 
+def weak_matched_rules(audit: dict[str, Any]) -> list[str]:
+    expected = audit.get("weak_matched_expected_behavior")
+    if isinstance(expected, list):
+        return [str(item) for item in expected]
+    weak = audit.get("weak_expected_behavior")
+    if isinstance(weak, list):
+        return [str(item) for item in weak]
+    return []
+
+
 def render_timeline(trace: list[dict[str, Any]], semantic: dict[str, Any], sample_id: str) -> str:
     rows = []
     for index, event in enumerate(trace):
@@ -140,7 +150,10 @@ def render_graph(graph: dict[str, Any], sample_id: str) -> str:
 
 def render_scorecard(sample_id: str, sample: dict[str, Any], audit: dict[str, Any]) -> str:
     rules = matched_rules(audit)
-    matched_text = ", ".join(rules) if rules else "none"
+    weak_rules = weak_matched_rules(audit)
+    displayed_rules = rules or weak_rules
+    matched_text = ", ".join(displayed_rules) if displayed_rules else "none"
+    evidence_strength = "strong" if rules else ("weak" if weak_rules else "none")
     expected = sample.get("expected_behavior", audit.get("expected_behavior", []))
     if not isinstance(expected, list):
         expected = []
@@ -152,6 +165,7 @@ def render_scorecard(sample_id: str, sample: dict[str, Any], audit: dict[str, An
         f"Real malware: {str(sample.get('real_malware', False)).lower()}",
         "",
         f"Matched malware-like behavior rule: {matched_text}",
+        f"Evidence strength: {evidence_strength}",
         "",
         "## Expected behavior rules",
         "",

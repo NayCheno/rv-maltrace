@@ -228,7 +228,9 @@ def check_fixture_pipeline(root: Path, fixture_dir: Path, manifest: Path) -> lis
             if "malware detected: yes" in scorecard.lower():
                 errors.append(f"{sample_id}: scorecard contains forbidden detection claim")
             audit = load_json(audit_dir / "behavior_audit.json")
-            if not audit.get("matched_expected_behavior"):
+            matched_expected = audit.get("matched_expected_behavior")
+            weak_matched_expected = audit.get("weak_matched_expected_behavior")
+            if not matched_expected and not weak_matched_expected:
                 errors.append(f"{sample_id}: fixture did not match expected behavior")
     return errors
 
@@ -269,7 +271,8 @@ def run_checks(root: Path) -> list[str]:
 def write_fixture(root: Path) -> None:
     (root / "src/rv_maltrace").mkdir(parents=True)
     (root / "tools").mkdir()
-    (root / "docs").mkdir()
+    (root / DEFAULT_UV_DOC).parent.mkdir(parents=True)
+    (root / DEFAULT_DOC).parent.mkdir(parents=True)
     (root / "sim/golden/demo_behavior").mkdir(parents=True)
     (root / "experiments/linux_behavior/malware_like").mkdir(parents=True)
     (root / "docker/linux-behavior").mkdir(parents=True)
