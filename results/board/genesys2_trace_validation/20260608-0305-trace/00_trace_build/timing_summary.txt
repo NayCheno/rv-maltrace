@@ -1,0 +1,38 @@
+Trace-Enabled Timing Summary
+============================
+
+Build target:
+build/vivado/genesys2-cv64a6_imafdc_sv39-trace/
+
+Reports:
+build/vivado/genesys2-cv64a6_imafdc_sv39-trace/reports/ariane.timing.rpt
+build/vivado/genesys2-cv64a6_imafdc_sv39-trace/reports/ariane.check_timing.rpt
+
+Implementation status:
+- Design State: Routed
+- route_design completed successfully
+- Routable nets fully routed
+- Failed nets: 0
+- Nets with routing errors: 0
+- Nodes with overlaps: 0
+- Bitgen completed successfully
+- write_cfgmem completed successfully
+
+Worst reported path:
+- Slack (MET): 0.177 ns
+- Path group: mem_refclk
+- Requirement: 1.250 ns
+- Data Path Delay: 1.183 ns
+- Logic delay: 0.576 ns
+- Route delay: 0.607 ns
+
+check_timing excerpt:
+- no_clock: 126
+- constant_clock: 0
+- unconstrained_internal_endpoints: 33
+- generated_clocks: 0
+
+Build outputs observed, not committed:
+- work-fpga/ariane_xilinx.bit, 11,443,738 bytes, 2026-06-08 04:12:07 +08:00
+- work-fpga/ariane_xilinx.mcs, 32,188,150 bytes, 2026-06-08 04:12:23 +08:00
+- work-fpga/ariane_xilinx.dcp, 40,297,192 bytes, 2026-06-08 04:12:07 +08:00

@@ -15,7 +15,7 @@ Trace-specific queue/drop rows are taken from current trace RTL parameters and t
 
 | Design | Device | State | LUT | FF | RAMB36 | RAMB18 | BRAM18 equiv | DSP |
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| ariane_xilinx | xc7k325tffg900-2 | Routed | 84923 | 56491 | 53 | 2 | 108 | 27 |
+| ariane_xilinx | xc7k325tffg900-2 | Routed | 84928 | 56491 | 53 | 2 | 108 | 27 |
 
 ## Timing
 
@@ -54,7 +54,7 @@ Drop rows:
 
 | Metric | Baseline | Trace-enabled | Delta |
 | --- | ---: | ---: | ---: |
-| LUT | 84923 | 125717 | +40794 (+48.04%) |
+| LUT | 84928 | 125731 | +40803 (+48.04%) |
 | FF | 56491 | 59301 | +2810 (+4.97%) |
 | BRAM18 equiv | 108 | 108 | +0 (+0.00%) |
 | DSP | 27 | 27 | +0 (+0.00%) |

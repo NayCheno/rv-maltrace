@@ -1,0 +1,9 @@
+# No constraint drift relative to the committed Phase 2 UART routing.
+# Command used:
+#   git -C rtl/cva6 diff -- corev_apu/fpga/constraints/genesys-2.xdc
+# Result:
+#   no hunks
+#
+# The active committed UART mapping remains:
+#   tx AC26 LVCMOS33 DRIVE 8 SLEW SLOW
+#   rx AJ27 LVCMOS33 PULLUP TRUE
