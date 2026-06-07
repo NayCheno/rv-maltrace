@@ -1,0 +1,38 @@
+Run ID: 20260608-0107-baseline
+Timestamp: 2026-06-08 03:00 Asia/Shanghai
+
+Baseline bitstream:
+- Path: build/vivado/genesys2-cv64a6_imafdc_sv39/work-fpga/ariane_xilinx.bit
+- Program transcript: results/board/genesys2_baseline/20260608-0107-baseline/04_cva6_baremetal_boot/program_during_uart_update.log
+
+Payload:
+- Purpose: no-trace CVA6 bare-metal UART end marker for Phase 4 board acceptance.
+- Load address: 0x80000000 through the existing CVA6 FPGA boot ROM UART update path.
+- Source: results/board/genesys2_baseline/20260608-0107-baseline/04_cva6_baremetal_boot/rvmt_cva6_uart_pass.S
+- Linker: results/board/genesys2_baseline/20260608-0107-baseline/04_cva6_baremetal_boot/rvmt_cva6_uart_pass_linker.ld
+- Build directory: build/board/genesys2_cva6_phase4
+- Binary: build/board/genesys2_cva6_phase4/rvmt_cva6_uart_pass.bin
+- Binary size: 126 bytes
+- Binary SHA256: e69c155b8bdfc94636d429a0ec3b56deed03969f19f40ac04022ab1ae121f686
+- ELF SHA256: 46c6a31f44b66fc765ce98242dcd65928c04cf3be40911a3737dc60eaffcad25
+- Objdump SHA256: 4bdd8cbb2dc20bb7275dcd95d5957df05f0f89920fd44dbf88043f557816f31a
+
+Build:
+- Configured command attempted first: uv run rvmt baremetal:build
+- Configured command result: failed because riscv-none-elf-gcc was not on the host PATH.
+- Recovery build: Docker cva6-toolchain container with Ubuntu packages gcc-riscv64-unknown-elf and binutils-riscv64-unknown-elf.
+- Compiler: riscv64-unknown-elf-gcc (13.2.0-11ubuntu1+12) 13.2.0
+- Compile flags: -march=rv64gc -mabi=lp64d -nostdlib -ffreestanding -Wl,--no-relax
+- Build transcript: program_build.log
+
+Load and completion:
+- COM port: COM6, 115200 8N1.
+- Loader script: uart_bootrom_update.py
+- Transfer: boot ROM prompt detected, host sent update trigger 0x78, size 0x0000007e, then paced 126 payload bytes to avoid RX FIFO overrun while the ROM printed progress dots.
+- Completion log: serial_or_tohost.log
+- Required marker: RVMT_BAREMETAL_PASS
+- Result: marker captured three times over the PMOD JC UART path.
+
+Trace boundary:
+- Phase 4 used the baseline non-trace bitstream path.
+- No trace-enabled bitstream, trace dump, or Linux claim is part of this evidence.

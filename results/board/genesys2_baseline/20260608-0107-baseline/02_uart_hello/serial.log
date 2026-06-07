@@ -1,0 +1,4 @@
+﻿# start=2026-06-08 02:41:28 +0800
+# port=COM6 baud=115200 framing=8N1 duration_seconds=20.0
+# action=capture already-programmed baseline CVA6 UART
+[000005.793] << b'could not initialize sd... exiting\r\n' | could not initialize sd... exiting

@@ -1,0 +1,9 @@
+# No CVA6 bare-metal completion was captured in this phase.
+
+Relevant UART evidence from the programmed baseline bitstream:
+
+could not initialize sd... exiting
+
+The message was captured on COM6 at 115200 8N1 in
+`../02_uart_hello/serial.log`. It proves baseline UART visibility but is not a
+bare-metal completion marker.

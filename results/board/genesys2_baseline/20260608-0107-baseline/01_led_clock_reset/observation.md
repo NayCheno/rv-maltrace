@@ -1,6 +1,6 @@
-# Genesys2 CVA6 Phase 3 Observation
-
 Status: PASS
+
+# Genesys2 CVA6 Phase 3 Observation
 
 Run ID: 20260608-0107-baseline
 Timestamp: 2026-06-08 02:40 Asia/Shanghai

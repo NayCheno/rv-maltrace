@@ -1,0 +1,12 @@
+﻿RVMT_SERIAL_OPEN port=COM6 baud=115200 8N1
+could not initialize sd... exiting
+Hello World!
+Hit any key to enter update mode .
+RVMT_HOST_SENT_UPDATE_TRIGGER=0x78
+ updating!
+receiving boot image
+size:
+RVMT_HOST_SENT_PAYLOAD_BYTES=126
+0000007E
+receiving ..................
+RVMT_UART_MARKER_MISSING sent_trigger=True sent_payload=True payload_bytes=126
