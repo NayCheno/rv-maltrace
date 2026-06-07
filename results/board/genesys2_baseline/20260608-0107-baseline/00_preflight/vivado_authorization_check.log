@@ -1,0 +1,11 @@
+# command=uv run python tools/check_vivado_authorization.py
+# start=2026-06-08 01:54:07 +08:00
+# cwd=D:\Code\research\rv-maltrace
+[PASS] Configured Vivado target: pyproject.toml selects xc7k325tffg900-2 / digilentinc.com:genesys2:part0:1.1 with Vivado D:/Application/vivado/2025.2/Vivado/bin/vivado.bat
+[PASS] Genesys 2 board files: vendor/vivado-boards/new/board_files/genesys2/H has board.xml, mig.prj, part0_pins.xml, preset.xml
+[PASS] Bitstream/license artifact evidence: build/vivado/genesys2-cv64a6_imafdc_sv39/work-fpga/ariane_xilinx.bit (11443738 bytes), build/vivado/genesys2-cv64a6_imafdc_sv39/work-fpga/ariane_xilinx.mcs, and build/vivado/genesys2-cv64a6_imafdc_sv39/work-fpga/ariane_xilinx.dcp exist
+[PASS] Routed implementation report: build/vivado/genesys2-cv64a6_imafdc_sv39/reports/ariane.timing.rpt is Routed for 7k325t-ffg900, Slack (MET) 0.177 ns, Vivado v.2025.2 (win64) Build 6299465 Fri Nov 14 19:35:11 GMT 2025, Mon Jun  8 01:52:55 2026
+[PASS] Route implementation status: 130576/130576 routable nets fully routed, 0 routing errors
+[PASS] Vivado authorization evidence is present; rerun vivado:check before rebuilding
+# exit_code=0
+# end=2026-06-08 01:54:07 +08:00
