@@ -1,0 +1,282 @@
+{
+  "aggregate": {
+    "board_trace_on_over_off_median": 0.565744,
+    "cap_hit_sample_count": 0,
+    "cap_hit_samples": [],
+    "host_strace_over_native_median": 2.602458,
+    "max_drop_rate_median": 0.030675,
+    "qemu_strace_over_native_median": 1.842839,
+    "sample_count": 13,
+    "trace_events_median": 46.0
+  },
+  "anti_debug_visibility": {
+    "all_reps_strong": true,
+    "evidence": [
+      {
+        "matched": true,
+        "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/anti_debug_like/board/trace-on/rep_00/behavior_audit/behavior_audit.json",
+        "strong": true
+      },
+      {
+        "matched": true,
+        "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/anti_debug_like/board/trace-on/rep_01/behavior_audit/behavior_audit.json",
+        "strong": true
+      },
+      {
+        "matched": true,
+        "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/anti_debug_like/board/trace-on/rep_02/behavior_audit/behavior_audit.json",
+        "strong": true
+      },
+      {
+        "matched": true,
+        "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/anti_debug_like/board/trace-on/rep_03/behavior_audit/behavior_audit.json",
+        "strong": true
+      },
+      {
+        "matched": true,
+        "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/anti_debug_like/board/trace-on/rep_04/behavior_audit/behavior_audit.json",
+        "strong": true
+      }
+    ],
+    "interpretation": "anti_analysis_indicator is synthetic ptrace-oriented behavior evidence, not real malware evasion quality.",
+    "matched_count": 5,
+    "rep_count": 5,
+    "sample": "anti_debug_like",
+    "strong_count": 5
+  },
+  "baseline_table": {
+    "ebpf_only": {
+      "evidence": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/ebpf_baseline_summary.json",
+      "sample_count": 13,
+      "samples_with_evidence": 13,
+      "status": "PASS"
+    },
+    "host_native": {
+      "evidence": "groundtruth median timing field in aggregate metrics",
+      "sample_count": 13,
+      "samples_with_evidence": 13,
+      "status": "PASS"
+    },
+    "host_strace": {
+      "evidence": "groundtruth median timing field in aggregate metrics",
+      "sample_count": 13,
+      "samples_with_evidence": 13,
+      "status": "PASS"
+    },
+    "qemu_native": {
+      "evidence": "groundtruth median timing field in aggregate metrics",
+      "sample_count": 13,
+      "samples_with_evidence": 13,
+      "status": "PASS"
+    },
+    "qemu_plugin": {
+      "evidence": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/qemu_plugin_baseline_summary.json",
+      "sample_count": 13,
+      "samples_with_evidence": 13,
+      "status": "PASS"
+    },
+    "qemu_strace": {
+      "evidence": "groundtruth median timing field in aggregate metrics",
+      "sample_count": 13,
+      "samples_with_evidence": 13,
+      "status": "PASS"
+    },
+    "rvmaltrace_event_only": {
+      "evidence": "primary 512-record hardware trace gate and per-sample trace metrics",
+      "sample_count": 13,
+      "samples_with_evidence": 13,
+      "status": "PASS"
+    },
+    "rvmaltrace_helper_or_ebpf_companion": {
+      "evidence": "optional enrichment route, not an MVP dependency",
+      "sample_count": 13,
+      "samples_with_evidence": 0,
+      "status": "DEFERRED"
+    },
+    "rvmaltrace_pointer_snapshot": {
+      "evidence": "selective pointer snapshot route remains gated/default-disabled",
+      "sample_count": 13,
+      "samples_with_evidence": 0,
+      "status": "DEFERRED"
+    },
+    "software_instrumentation": {
+      "evidence": "results/experiments/35t/35t-software-instrumentation-baseline-20260523/aggregate/software_instrumentation_baseline_summary.json",
+      "sample_count": 13,
+      "samples_with_evidence": 13,
+      "status": "PASS"
+    }
+  },
+  "checks": {
+    "all_samples_pass": true,
+    "anti_debug_behavior_strong": true,
+    "bandwidth_report_present": true,
+    "ebpf_baseline_pass": true,
+    "host_qemu_strace_baselines_pass": true,
+    "metrics_13_samples": true,
+    "overhead_report_present": true,
+    "pointer_snapshot_deferred_recorded": true,
+    "qemu_plugin_baseline_pass": true,
+    "required_groundtruth_present": true,
+    "resource_delta_present": true,
+    "software_instrumentation_pass": true,
+    "trace_drop_and_cap_bounded": true
+  },
+  "failures": [],
+  "generated_utc": "2026-05-23T01:05:55Z",
+  "interpretation": [
+    "available timing baselines cover host native, host strace, QEMU native, QEMU strace, source-level software instrumentation, and host eBPF/bpftrace",
+    "QEMU-plugin syscall-count evidence is included only from the separate 13-sample plugin baseline summary",
+    "the eBPF-only baseline is host Linux bpftrace evidence and is not a hardware trace substitute",
+    "trace-on/off ratios are measured board runtime ratios and are not acceleration claims",
+    "anti_debug_like provides synthetic ptrace-oriented anti-analysis behavior evidence, not real malware evasion quality evidence",
+    "resource/timing evidence is available as routed report summaries; full raw Vivado artifacts remain outside the lightweight snapshot"
+  ],
+  "non_claims": [
+    "no real malware detection claim",
+    "no classifier accuracy claim",
+    "no QEMU-plugin hardware-trace or DBI equivalence claim",
+    "no eBPF baseline hardware-trace substitution claim",
+    "no single-trace all-gates side-channel claim"
+  ],
+  "resource_timing": {
+    "bandwidth_report": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggregate/bandwidth_report.md",
+    "overhead_report": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggregate/overhead_report.md",
+    "resource_report": "docs/07-evaluation-evidence/reports/resource_report.md",
+    "trace_delta_recorded": true
+  },
+  "run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "sample_table": [
+    {
+      "board_trace_on_over_off": 0.592099,
+      "drop_rate_median": 0.0,
+      "host_strace_over_native": 2.643258,
+      "qemu_strace_over_native": 1.645817,
+      "sample_class": "benign",
+      "sample_id": "hello",
+      "status": "PASS",
+      "trace_events_median": 36.0
+    },
+    {
+      "board_trace_on_over_off": 0.575913,
+      "drop_rate_median": 0.0,
+      "host_strace_over_native": 2.835349,
+      "qemu_strace_over_native": 1.897406,
+      "sample_class": "benign",
+      "sample_id": "ls",
+      "status": "PASS",
+      "trace_events_median": 52.0
+    },
+    {
+      "board_trace_on_over_off": 0.588477,
+      "drop_rate_median": 0.0,
+      "host_strace_over_native": 2.349729,
+      "qemu_strace_over_native": 1.638323,
+      "sample_class": "benign",
+      "sample_id": "cat",
+      "status": "PASS",
+      "trace_events_median": 44.0
+    },
+    {
+      "board_trace_on_over_off": 0.565744,
+      "drop_rate_median": 0.0,
+      "host_strace_over_native": 2.421125,
+      "qemu_strace_over_native": 1.566832,
+      "sample_class": "benign",
+      "sample_id": "cp",
+      "status": "PASS",
+      "trace_events_median": 48.0
+    },
+    {
+      "board_trace_on_over_off": 0.599186,
+      "drop_rate_median": 0.0,
+      "host_strace_over_native": 2.392692,
+      "qemu_strace_over_native": 1.604932,
+      "sample_class": "benign",
+      "sample_id": "sha256sum",
+      "status": "PASS",
+      "trace_events_median": 48.0
+    },
+    {
+      "board_trace_on_over_off": 0.542023,
+      "drop_rate_median": 0.0,
+      "host_strace_over_native": 2.197842,
+      "qemu_strace_over_native": 1.482878,
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "file_scan",
+      "status": "PASS",
+      "trace_events_median": 42.0
+    },
+    {
+      "board_trace_on_over_off": 0.531706,
+      "drop_rate_median": 0.0,
+      "host_strace_over_native": 2.365218,
+      "qemu_strace_over_native": 1.710051,
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "batch_open_read_write",
+      "status": "PASS",
+      "trace_events_median": 58.0
+    },
+    {
+      "board_trace_on_over_off": 0.585426,
+      "drop_rate_median": 0.0,
+      "host_strace_over_native": 2.630538,
+      "qemu_strace_over_native": 2.214131,
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "self_copy_sim",
+      "status": "PASS",
+      "trace_events_median": 46.0
+    },
+    {
+      "board_trace_on_over_off": 0.538565,
+      "drop_rate_median": 0.0,
+      "host_strace_over_native": 2.634479,
+      "qemu_strace_over_native": 1.872079,
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "abnormal_syscall_sequence",
+      "status": "PASS",
+      "trace_events_median": 46.0
+    },
+    {
+      "board_trace_on_over_off": 0.527802,
+      "drop_rate_median": 0.030675,
+      "host_strace_over_native": 2.347277,
+      "qemu_strace_over_native": 1.844767,
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "illegal_trap",
+      "status": "PASS",
+      "trace_events_median": 158.0
+    },
+    {
+      "board_trace_on_over_off": 0.915844,
+      "drop_rate_median": 0.0,
+      "host_strace_over_native": 4.084555,
+      "qemu_strace_over_native": 1.842839,
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "process_chain",
+      "status": "PASS",
+      "trace_events_median": 154.0
+    },
+    {
+      "board_trace_on_over_off": 0.537006,
+      "drop_rate_median": 0.0,
+      "host_strace_over_native": 2.602458,
+      "qemu_strace_over_native": 1.953584,
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "dynamic_executable_memory",
+      "status": "PASS",
+      "trace_events_median": 42.0
+    },
+    {
+      "board_trace_on_over_off": 0.555109,
+      "drop_rate_median": 0.0,
+      "host_strace_over_native": 2.692152,
+      "qemu_strace_over_native": 2.0994,
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "anti_debug_like",
+      "status": "PASS",
+      "trace_events_median": 46.0
+    }
+  ],
+  "schema": "rvmt.35t.evaluation_table.v1",
+  "status": "BOUNDED_EVALUATION_TABLE_READY_WITH_EBPF_AND_QEMU_PLUGIN"
+}

@@ -1,0 +1,2641 @@
+{
+  "baseline_comparison_evidence": {
+    "path": "docs/07-evaluation-evidence/evidence/35t-real-malware-derived-baseline-comparison-20260524",
+    "row_count": 6,
+    "row_pass_count": 6,
+    "status": "REAL_MALWARE_DERIVED_BASELINE_COMPARISON_PASS"
+  },
+  "board_boot": {
+    "mirai_reference": {
+      "checks": {
+        "jumped_to_kernel": true,
+        "linux_version": true,
+        "rvmt_linux_user_pass": true,
+        "serialboot_upload_summary": true
+      },
+      "hash": {
+        "bytes": 17507,
+        "path": "results/board/artix7_35t_litex/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/06_linux_boot/uart_linux_boot.log",
+        "sha256": "e69aba47d4eff2950a7d0eacf6dc4faf298faf5ffed1f656f980d3a383f2235c"
+      },
+      "path": "results/board/artix7_35t_litex/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/06_linux_boot/uart_linux_boot.log",
+      "present": true,
+      "run_id": "35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524",
+      "status": "PASS"
+    },
+    "surrogate": {
+      "checks": {
+        "jumped_to_kernel": false,
+        "linux_version": false,
+        "rvmt_linux_user_pass": false,
+        "serialboot_upload_summary": false
+      },
+      "hash": null,
+      "path": "results/board/artix7_35t_litex/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/06_linux_boot/uart_linux_boot.log",
+      "present": false,
+      "run_id": "35t-surrogate-darthra-p0a-r512-abba-r5-20260524",
+      "status": "MISSING_OR_INCOMPLETE"
+    }
+  },
+  "generated_utc": "2026-05-27T16:55:46Z",
+  "lineage_evidence": {
+    "path": "docs/07-evaluation-evidence/evidence/35t-real-malware-derived-lineage-20260524",
+    "row_count": 6,
+    "row_pass_count": 6,
+    "status": "REAL_MALWARE_DERIVED_SURROGATE_LINEAGE_PASS"
+  },
+  "paper_claim_evidence_table": {
+    "deferred_claims": [
+      "c6_surrogate_boot_provenance"
+    ],
+    "path": "docs/07-evaluation-evidence/evidence/35t-paper-claim-evidence-table-20260524",
+    "status": "PAPER_CLAIM_EVIDENCE_TABLE_PASS_WITH_SURROGATE_BOOT_DEFERRED"
+  },
+  "runs": [
+    {
+      "classes": [
+        {
+          "artifact_id": "run_metadata",
+          "class_digest": "456c6949cfa13db7767d37610b66415bad07ddf9ecb79535855d52d83440896d",
+          "count": 3,
+          "description": "run config and run manifests",
+          "min_count": 2,
+          "representative_files": [
+            {
+              "bytes": 2180,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/run_behavior_manifest.json",
+              "sha256": "4ca7573f1ec7618e467e1d9d217026129e884b58a8242a997a66a7f16ba120ba"
+            },
+            {
+              "bytes": 1651,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/run_config.json",
+              "sha256": "967fdf55164f61ad544dbe81b131f776528b0f04a7ed2a9519e346e0895b6978"
+            },
+            {
+              "bytes": 2180,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/run_malware_manifest.json",
+              "sha256": "4ca7573f1ec7618e467e1d9d217026129e884b58a8242a997a66a7f16ba120ba"
+            }
+          ],
+          "status": "PASS",
+          "total_bytes": 6011
+        },
+        {
+          "artifact_id": "raw_uart",
+          "class_digest": "c74f3523c6b22c516c9db6095e15c994fe5bc306b267f90b34d4fc0d7c909238",
+          "count": 16,
+          "description": "board-level and per-repetition raw UART captures",
+          "min_count": 1,
+          "representative_files": [
+            {
+              "bytes": 232676,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/board/raw_uart.log",
+              "sha256": "c042a2c7025638da42c019614f8e43f8988e46bed268d58b65aa12777663d58a"
+            },
+            {
+              "bytes": 8998,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_00/trace_raw_uart.log",
+              "sha256": "2fd3e826104c7b069a9b1dbd7142f736ee4d37cf668fe2b4ed93a7ab4f870c21"
+            },
+            {
+              "bytes": 8999,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_01/trace_raw_uart.log",
+              "sha256": "74a2ed214c91a81ed1664d1ad5e1f5799ed9a29062a1fa45438ee04bd931b757"
+            },
+            {
+              "bytes": 8998,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_02/trace_raw_uart.log",
+              "sha256": "efc8b68c8de5b8cd0e06f8f5ae0f58b25e70e84dad9221c02f40fd5a61d31929"
+            },
+            {
+              "bytes": 8998,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_03/trace_raw_uart.log",
+              "sha256": "28dc0202399e0b823302e9872bac8aa797c2e1609be565c6297448b3ee60d9bd"
+            }
+          ],
+          "status": "PASS",
+          "total_bytes": 375950
+        },
+        {
+          "artifact_id": "decoded_trace",
+          "class_digest": "d15bbd4f031be6248def1150a94aa694212ab8a19e70d77b2e52291fa114ca4e",
+          "count": 15,
+          "description": "decoded hardware trace JSONL",
+          "min_count": 15,
+          "representative_files": [
+            {
+              "bytes": 34432,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_00/trace.jsonl",
+              "sha256": "8cb1b6809119574a9015a6408f5685f921dd0a45d0988f7db97ea9b894f12fc4"
+            },
+            {
+              "bytes": 34432,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_01/trace.jsonl",
+              "sha256": "eaa8cce9f1eef2c0682eba990a6221ba6e96c5c1189067b278cf64837a57b4d9"
+            },
+            {
+              "bytes": 34432,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_02/trace.jsonl",
+              "sha256": "d872713edbb3c7458e7a3aa97912bdd730e0fff086dcd2c181e150a638bc0503"
+            },
+            {
+              "bytes": 34432,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_03/trace.jsonl",
+              "sha256": "2b0cac2d294c312a322c38293e9eb6d27b6776da423c948a84d43c5d892a548f"
+            },
+            {
+              "bytes": 34429,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_04/trace.jsonl",
+              "sha256": "51b058ec6cbb452c3013905bc20684582d01e610b25a3d2a9b0512d26e4460c1"
+            }
+          ],
+          "status": "PASS",
+          "total_bytes": 548798
+        },
+        {
+          "artifact_id": "runtime_process_map",
+          "class_digest": "a42f382fdd62f17f154544a2c0a08c6d19b1c8e3c28be0a5e849102b1ef9c78f",
+          "count": 15,
+          "description": "runtime process attribution maps",
+          "min_count": 15,
+          "representative_files": [
+            {
+              "bytes": 11685,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_00/runtime_process_map.json",
+              "sha256": "79149027e3efac5e541ae82510396a9a9b535b054ca9c1782b4852bf502ee5eb"
+            },
+            {
+              "bytes": 11685,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_01/runtime_process_map.json",
+              "sha256": "8443bc747f8bb4399f1ce683291ac472ccb8dff76030119379f809b0e8e76e37"
+            },
+            {
+              "bytes": 11655,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_02/runtime_process_map.json",
+              "sha256": "393e443a0f914eb985dcd42e87dbd8135b530104498cbdcfb20ef7584022b15e"
+            },
+            {
+              "bytes": 11685,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_03/runtime_process_map.json",
+              "sha256": "101c38b14a405eb57dd26e3564560e92c1510bb3e80c03ad7c2bf8bb0b4334e5"
+            },
+            {
+              "bytes": 11685,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_04/runtime_process_map.json",
+              "sha256": "3a2cddf5d1ba081502e0126e313c161f7a83a234b9cf19ec16c557221614078b"
+            }
+          ],
+          "status": "PASS",
+          "total_bytes": 175737
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "class_digest": "77ae0b36d45734394caa4cff248d849e291dbcfd183ac4468c1b9c70b991cdcb",
+          "count": 30,
+          "description": "trace-to-code map summaries and joins",
+          "min_count": 15,
+          "representative_files": [
+            {
+              "bytes": 72962,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_00/trace_code_map/trace.code_map.jsonl",
+              "sha256": "05b436704fe4b4c82c944e6b873ab34080702db322fcb94be15206bf26632268"
+            },
+            {
+              "bytes": 2611,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_00/trace_code_map/trace_code_map_summary.json",
+              "sha256": "c76b39f52baada71e76a2678cbe90bea8ecd44cc07dd73ad491dcd3071b6f20e"
+            },
+            {
+              "bytes": 72871,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_01/trace_code_map/trace.code_map.jsonl",
+              "sha256": "bba4e02e1a6f7b2af07dfb3ce7fcb23c877860a2deb710954ff6a75bb145a3d5"
+            },
+            {
+              "bytes": 2611,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_01/trace_code_map/trace_code_map_summary.json",
+              "sha256": "851de38d893463043b6519c4f7a8268b77964e2851ae4d45f40a7a4127f7ca87"
+            },
+            {
+              "bytes": 72852,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_02/trace_code_map/trace.code_map.jsonl",
+              "sha256": "bd30a5ed973517c2845244abde49f9c3982b889f231e125d9c3a1af979bb8436"
+            }
+          ],
+          "status": "PASS",
+          "total_bytes": 1202849
+        },
+        {
+          "artifact_id": "semantic_events",
+          "class_digest": "b58fa0132e134aeafac902313dd65d1e7835168ff10f444abc752844fd8c6258",
+          "count": 15,
+          "description": "semantic event recovery outputs",
+          "min_count": 15,
+          "representative_files": [
+            {
+              "bytes": 174172,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_00/behavior_recovery/semantic_events.json",
+              "sha256": "f0a407f9bf26aa5ac52042ea706ebcc4fe6388f4964b1d10406125a3691a6c57"
+            },
+            {
+              "bytes": 172074,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_01/behavior_recovery/semantic_events.json",
+              "sha256": "50d1fbf648cdaf39395944a623eef3f11e22a2081eab0b1abbeba3162b9b5082"
+            },
+            {
+              "bytes": 171114,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_02/behavior_recovery/semantic_events.json",
+              "sha256": "98b6b6a846d858dc1af9cfda4904deb42efef42439ab26805a95f237cd588985"
+            },
+            {
+              "bytes": 171114,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_03/behavior_recovery/semantic_events.json",
+              "sha256": "4702ec1c74ea415c10fddbbe1d797e4b362e353cfbf576ae065934f1b29d0f1d"
+            },
+            {
+              "bytes": 172069,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_04/behavior_recovery/semantic_events.json",
+              "sha256": "0954c1ec95a8f69317e44e0f28a0fb6046263021c68243d792c3e8373a920cfb"
+            }
+          ],
+          "status": "PASS",
+          "total_bytes": 2733969
+        },
+        {
+          "artifact_id": "behavior_audit",
+          "class_digest": "9e8121b0d5fe976a9d65981da1597f9295c7dec4ee45c52e7736b18385feb03e",
+          "count": 15,
+          "description": "per-repetition behavior audit evidence",
+          "min_count": 15,
+          "representative_files": [
+            {
+              "bytes": 34657,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_00/behavior_audit/behavior_audit.json",
+              "sha256": "1a36e915235109eec72b3c5fb9d7a64a4bb2b300303f54a9ca9cc8b700a74762"
+            },
+            {
+              "bytes": 33064,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_01/behavior_audit/behavior_audit.json",
+              "sha256": "49a6d9220beff1e9d9d0757b7f42eed02643fa6621fe804c6bc771a09e883d7c"
+            },
+            {
+              "bytes": 33571,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_02/behavior_audit/behavior_audit.json",
+              "sha256": "20f9cd5b54be1be8d3b84c3deac7d3eb53ac0475a7438a24d0043a15b4e1161c"
+            },
+            {
+              "bytes": 32881,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_03/behavior_audit/behavior_audit.json",
+              "sha256": "80009585b309554d633784c46cbe6e963295bb065cd0c7e8f742182d155c8a21"
+            },
+            {
+              "bytes": 33547,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_04/behavior_audit/behavior_audit.json",
+              "sha256": "6b493bbe50fb6ff9804896c9547707a63bc8bf41d725a00a11f8da30784fd377"
+            }
+          ],
+          "status": "PASS",
+          "total_bytes": 543016
+        },
+        {
+          "artifact_id": "alignment",
+          "class_digest": "fc66abddc5acee390d1dce1b31c9ba052e5b7335e0ff02d5e7b8f03852ca64ea",
+          "count": 15,
+          "description": "trace-to-groundtruth alignment evidence",
+          "min_count": 15,
+          "representative_files": [
+            {
+              "bytes": 1853,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_00/alignment/alignment.json",
+              "sha256": "08e0d9469f381147b991ecc3c603dd772bf5b3a582d054e18badfd85d4bdb900"
+            },
+            {
+              "bytes": 1834,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_01/alignment/alignment.json",
+              "sha256": "72f252b4bd102c1b2ea9c282ed3201f30260a49f4e1c033a897b4db119019115"
+            },
+            {
+              "bytes": 1823,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_02/alignment/alignment.json",
+              "sha256": "d47769276fd67bd5c3dd819dd058484acc2cc4a658c825ed7d04adb3cab30efe"
+            },
+            {
+              "bytes": 1851,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_03/alignment/alignment.json",
+              "sha256": "dc5a115df97ffa6495be5039750c0e1edc935c654d3591ab2a1b76f3c58109fd"
+            },
+            {
+              "bytes": 1802,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_04/alignment/alignment.json",
+              "sha256": "9843039eda22dd549881c566e5b3f43a7b0ad1785b19f3a65342b9705700e810"
+            }
+          ],
+          "status": "PASS",
+          "total_bytes": 27507
+        },
+        {
+          "artifact_id": "build_provenance",
+          "class_digest": "4d0c0e91342562585e1fbcbc376319a074155f11b0e5505b8b998c191ed880b0",
+          "count": 12,
+          "description": "source, host ELF, RISC-V ELF hashes and compiler records",
+          "min_count": 9,
+          "representative_files": [
+            {
+              "bytes": 106,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/build/compiler.txt",
+              "sha256": "80c6f3854c60d8a625d176ba7128baa697f0b0967be0f30386797793d3275c30"
+            },
+            {
+              "bytes": 230,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/build/host_elf.sha256",
+              "sha256": "1772bd882af80cb27422109fd301e4bb2f9e2b383fc57e63f22fd0f848764250"
+            },
+            {
+              "bytes": 231,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/build/riscv_elf.sha256",
+              "sha256": "4bd179dc91a50a1cfba981f1e90fa42140e0a5e7c0166e6b65334d4c5f06b7a2"
+            },
+            {
+              "bytes": 152,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/build/source.sha256",
+              "sha256": "b64976e92b0c7a932dc46aa9af1f6f3c445b9c676a087e58d9af7cc634ab8de4"
+            },
+            {
+              "bytes": 106,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/build/compiler.txt",
+              "sha256": "80c6f3854c60d8a625d176ba7128baa697f0b0967be0f30386797793d3275c30"
+            }
+          ],
+          "status": "PASS",
+          "total_bytes": 2207
+        },
+        {
+          "artifact_id": "aggregate_reports",
+          "class_digest": "2392c34af782b6bb4444134b29006b5f59b9be37f55be7fe2bab5b04ea0c0bdb",
+          "count": 7,
+          "description": "aggregate metrics and reports",
+          "min_count": 3,
+          "representative_files": [
+            {
+              "bytes": 314,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/aggregate/accuracy_report.md",
+              "sha256": "0d53dc3cb0ac72c9783ecd487da5f7a20a3ee67befcecae5cda4e1e6848afc5d"
+            },
+            {
+              "bytes": 661,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/aggregate/artifact_index.md",
+              "sha256": "c0490b3c450a1d6f6ee9ff7bbe5a9492147bbc822c795274473b098474035937"
+            },
+            {
+              "bytes": 1357,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/aggregate/bandwidth_report.md",
+              "sha256": "02f9c39803086ac3a98500f688b65f284b78e4e05839e6f21145f596ca077357"
+            },
+            {
+              "bytes": 396,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/aggregate/debug_rule_evidence.log",
+              "sha256": "3d5608640ad79141783a920f315b31b9f2c35dec0c062fa64b14544f244ed7ac"
+            },
+            {
+              "bytes": 852,
+              "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/aggregate/metrics.csv",
+              "sha256": "4499fb27159de95af61d77e44bf6e926bdf3179518f0d38ed61a756fc37f69bf"
+            }
+          ],
+          "status": "PASS",
+          "total_bytes": 16292
+        }
+      ],
+      "files": [
+        {
+          "artifact_id": "aggregate_reports",
+          "bytes": 314,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/aggregate/accuracy_report.md",
+          "sha256": "0d53dc3cb0ac72c9783ecd487da5f7a20a3ee67befcecae5cda4e1e6848afc5d"
+        },
+        {
+          "artifact_id": "aggregate_reports",
+          "bytes": 661,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/aggregate/artifact_index.md",
+          "sha256": "c0490b3c450a1d6f6ee9ff7bbe5a9492147bbc822c795274473b098474035937"
+        },
+        {
+          "artifact_id": "aggregate_reports",
+          "bytes": 1357,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/aggregate/bandwidth_report.md",
+          "sha256": "02f9c39803086ac3a98500f688b65f284b78e4e05839e6f21145f596ca077357"
+        },
+        {
+          "artifact_id": "aggregate_reports",
+          "bytes": 396,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/aggregate/debug_rule_evidence.log",
+          "sha256": "3d5608640ad79141783a920f315b31b9f2c35dec0c062fa64b14544f244ed7ac"
+        },
+        {
+          "artifact_id": "aggregate_reports",
+          "bytes": 852,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/aggregate/metrics.csv",
+          "sha256": "4499fb27159de95af61d77e44bf6e926bdf3179518f0d38ed61a756fc37f69bf"
+        },
+        {
+          "artifact_id": "aggregate_reports",
+          "bytes": 11324,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/aggregate/metrics.json",
+          "sha256": "317b35e912a99ecab61478d6e5cd87866d23f528ca68570f0dfc9e6cbffc6d5c"
+        },
+        {
+          "artifact_id": "aggregate_reports",
+          "bytes": 1388,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/aggregate/overhead_report.md",
+          "sha256": "9ab3cd6d12f338e89ae6e1d8ecf89efceaac24268c4bfdccf1cb68f372f735e8"
+        },
+        {
+          "artifact_id": "alignment",
+          "bytes": 1853,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_00/alignment/alignment.json",
+          "sha256": "08e0d9469f381147b991ecc3c603dd772bf5b3a582d054e18badfd85d4bdb900"
+        },
+        {
+          "artifact_id": "alignment",
+          "bytes": 1834,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_01/alignment/alignment.json",
+          "sha256": "72f252b4bd102c1b2ea9c282ed3201f30260a49f4e1c033a897b4db119019115"
+        },
+        {
+          "artifact_id": "alignment",
+          "bytes": 1823,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_02/alignment/alignment.json",
+          "sha256": "d47769276fd67bd5c3dd819dd058484acc2cc4a658c825ed7d04adb3cab30efe"
+        },
+        {
+          "artifact_id": "alignment",
+          "bytes": 1851,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_03/alignment/alignment.json",
+          "sha256": "dc5a115df97ffa6495be5039750c0e1edc935c654d3591ab2a1b76f3c58109fd"
+        },
+        {
+          "artifact_id": "alignment",
+          "bytes": 1802,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_04/alignment/alignment.json",
+          "sha256": "9843039eda22dd549881c566e5b3f43a7b0ad1785b19f3a65342b9705700e810"
+        },
+        {
+          "artifact_id": "alignment",
+          "bytes": 1765,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_00/alignment/alignment.json",
+          "sha256": "92d41742149d78907f49442dc0b104f2cb1f8d4228d6803a80106eb7f51122b3"
+        },
+        {
+          "artifact_id": "alignment",
+          "bytes": 1777,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_01/alignment/alignment.json",
+          "sha256": "8bfa7465c405d60cacdf43ef6df9a2ca5e1e9261f277a73477d394916fbca9d4"
+        },
+        {
+          "artifact_id": "alignment",
+          "bytes": 1791,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_02/alignment/alignment.json",
+          "sha256": "4f55c8cd1ebab4c76705b6f644c7eceb0653ec263cb067714e9a08a358f16967"
+        },
+        {
+          "artifact_id": "alignment",
+          "bytes": 1763,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_03/alignment/alignment.json",
+          "sha256": "64fc1be014a521b18f3bed4ead2865acb1480b2c4a0d274db4fc03e56a3e5f30"
+        },
+        {
+          "artifact_id": "alignment",
+          "bytes": 1760,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_04/alignment/alignment.json",
+          "sha256": "8ecdee43f10f4e56561600a8c03cff4a7f0cc29e941093a4b000ab523ede9278"
+        },
+        {
+          "artifact_id": "alignment",
+          "bytes": 1910,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_00/alignment/alignment.json",
+          "sha256": "e27ce1b85722a753a784840a4a219f784ecc9985db3f02eb8f09343e453ea4e7"
+        },
+        {
+          "artifact_id": "alignment",
+          "bytes": 1910,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_01/alignment/alignment.json",
+          "sha256": "4e8fd684229df11411473e607e649223456789eda1442dbe3ae195442d9fb2cd"
+        },
+        {
+          "artifact_id": "alignment",
+          "bytes": 1880,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_02/alignment/alignment.json",
+          "sha256": "022e9dc3f9601ffe45eedc4e5415193c68a9e8573ea34b0917a0bf684ddb1a4c"
+        },
+        {
+          "artifact_id": "alignment",
+          "bytes": 1908,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_03/alignment/alignment.json",
+          "sha256": "9530239e95b6aba5435b2b6bdaadc76ebac71337d318048623819ce46d50bdc9"
+        },
+        {
+          "artifact_id": "alignment",
+          "bytes": 1880,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_04/alignment/alignment.json",
+          "sha256": "0f74c2151ee68662b3be3952a59565cf78a2b4e30149ad5f40c122f6444b4cf6"
+        },
+        {
+          "artifact_id": "behavior_audit",
+          "bytes": 34657,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_00/behavior_audit/behavior_audit.json",
+          "sha256": "1a36e915235109eec72b3c5fb9d7a64a4bb2b300303f54a9ca9cc8b700a74762"
+        },
+        {
+          "artifact_id": "behavior_audit",
+          "bytes": 33064,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_01/behavior_audit/behavior_audit.json",
+          "sha256": "49a6d9220beff1e9d9d0757b7f42eed02643fa6621fe804c6bc771a09e883d7c"
+        },
+        {
+          "artifact_id": "behavior_audit",
+          "bytes": 33571,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_02/behavior_audit/behavior_audit.json",
+          "sha256": "20f9cd5b54be1be8d3b84c3deac7d3eb53ac0475a7438a24d0043a15b4e1161c"
+        },
+        {
+          "artifact_id": "behavior_audit",
+          "bytes": 32881,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_03/behavior_audit/behavior_audit.json",
+          "sha256": "80009585b309554d633784c46cbe6e963295bb065cd0c7e8f742182d155c8a21"
+        },
+        {
+          "artifact_id": "behavior_audit",
+          "bytes": 33547,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_04/behavior_audit/behavior_audit.json",
+          "sha256": "6b493bbe50fb6ff9804896c9547707a63bc8bf41d725a00a11f8da30784fd377"
+        },
+        {
+          "artifact_id": "behavior_audit",
+          "bytes": 38550,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_00/behavior_audit/behavior_audit.json",
+          "sha256": "bda02ae0712e9bdbb01d16f7b95ca615c0ae355d7689afab47be0c51fa58c83b"
+        },
+        {
+          "artifact_id": "behavior_audit",
+          "bytes": 38807,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_01/behavior_audit/behavior_audit.json",
+          "sha256": "9809b994cc555f15a926c26cffcc25cf68c5520d6890986f0bbc470659cc7ba0"
+        },
+        {
+          "artifact_id": "behavior_audit",
+          "bytes": 37588,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_02/behavior_audit/behavior_audit.json",
+          "sha256": "0ea509b49e95d741f015d9d23898d5421ce9e4db77c92beb4b66446241d70b26"
+        },
+        {
+          "artifact_id": "behavior_audit",
+          "bytes": 38191,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_03/behavior_audit/behavior_audit.json",
+          "sha256": "9fac632751455c117a25f3a46fe2174e7698e99a5318db9caacfeeed01ca85b4"
+        },
+        {
+          "artifact_id": "behavior_audit",
+          "bytes": 38617,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_04/behavior_audit/behavior_audit.json",
+          "sha256": "2da6d4bfea9c60e4cc4f948d631c3d887f1f370e2166ef20776e209247cf8e30"
+        },
+        {
+          "artifact_id": "behavior_audit",
+          "bytes": 36968,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_00/behavior_audit/behavior_audit.json",
+          "sha256": "2b44cbd19eeef9e7a612bf388bb76ad63930eacd0d984c9e6cad2e0ad6ee470f"
+        },
+        {
+          "artifact_id": "behavior_audit",
+          "bytes": 36882,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_01/behavior_audit/behavior_audit.json",
+          "sha256": "bed8561f55a98cedd10c4ac24ce568aef02a4a6bddac6b61e4a8bca8a0cc906a"
+        },
+        {
+          "artifact_id": "behavior_audit",
+          "bytes": 36624,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_02/behavior_audit/behavior_audit.json",
+          "sha256": "b81bc20b3306cf48885cddcf241f17ad59e42566bd2a5164dc248f335c3662e0"
+        },
+        {
+          "artifact_id": "behavior_audit",
+          "bytes": 36951,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_03/behavior_audit/behavior_audit.json",
+          "sha256": "e2f158f0cc05b483ac224072efef306b64f779c5939cd266364750014db3bf85"
+        },
+        {
+          "artifact_id": "behavior_audit",
+          "bytes": 36118,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_04/behavior_audit/behavior_audit.json",
+          "sha256": "367c9de9b0a3ac33b4a682ee673fea4bd38c293691a51e45c415c914cfc7f9ff"
+        },
+        {
+          "artifact_id": "build_provenance",
+          "bytes": 106,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/build/compiler.txt",
+          "sha256": "80c6f3854c60d8a625d176ba7128baa697f0b0967be0f30386797793d3275c30"
+        },
+        {
+          "artifact_id": "build_provenance",
+          "bytes": 230,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/build/host_elf.sha256",
+          "sha256": "1772bd882af80cb27422109fd301e4bb2f9e2b383fc57e63f22fd0f848764250"
+        },
+        {
+          "artifact_id": "build_provenance",
+          "bytes": 231,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/build/riscv_elf.sha256",
+          "sha256": "4bd179dc91a50a1cfba981f1e90fa42140e0a5e7c0166e6b65334d4c5f06b7a2"
+        },
+        {
+          "artifact_id": "build_provenance",
+          "bytes": 152,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/build/source.sha256",
+          "sha256": "b64976e92b0c7a932dc46aa9af1f6f3c445b9c676a087e58d9af7cc634ab8de4"
+        },
+        {
+          "artifact_id": "build_provenance",
+          "bytes": 106,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/build/compiler.txt",
+          "sha256": "80c6f3854c60d8a625d176ba7128baa697f0b0967be0f30386797793d3275c30"
+        },
+        {
+          "artifact_id": "build_provenance",
+          "bytes": 238,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/build/host_elf.sha256",
+          "sha256": "c2cdce510527692b03a2aa962b589587411ad71297af66ad31faa98aa15942e0"
+        },
+        {
+          "artifact_id": "build_provenance",
+          "bytes": 239,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/build/riscv_elf.sha256",
+          "sha256": "635abafe396f9625568cf8a67c1f7ffc42ab9d71cb14f52850be7922b318787e"
+        },
+        {
+          "artifact_id": "build_provenance",
+          "bytes": 156,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/build/source.sha256",
+          "sha256": "03bd5352fd455fa430fe999d9c1aab2838f00e65c2a862e476110e1c00187020"
+        },
+        {
+          "artifact_id": "build_provenance",
+          "bytes": 106,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/build/compiler.txt",
+          "sha256": "80c6f3854c60d8a625d176ba7128baa697f0b0967be0f30386797793d3275c30"
+        },
+        {
+          "artifact_id": "build_provenance",
+          "bytes": 242,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/build/host_elf.sha256",
+          "sha256": "6b7edaa32b33ae8483e33a06a436c827d2138f82fb0c567956b8494a7f461174"
+        },
+        {
+          "artifact_id": "build_provenance",
+          "bytes": 243,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/build/riscv_elf.sha256",
+          "sha256": "28ef5689a63538f4485d49e744cd00212caa02281de0946337cc4c75932a4696"
+        },
+        {
+          "artifact_id": "build_provenance",
+          "bytes": 158,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/build/source.sha256",
+          "sha256": "df4c9ff30e0af235cf864001d6385a773ee0f3842b93cab1ea6c048f2a48da8e"
+        },
+        {
+          "artifact_id": "decoded_trace",
+          "bytes": 34432,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_00/trace.jsonl",
+          "sha256": "8cb1b6809119574a9015a6408f5685f921dd0a45d0988f7db97ea9b894f12fc4"
+        },
+        {
+          "artifact_id": "decoded_trace",
+          "bytes": 34432,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_01/trace.jsonl",
+          "sha256": "eaa8cce9f1eef2c0682eba990a6221ba6e96c5c1189067b278cf64837a57b4d9"
+        },
+        {
+          "artifact_id": "decoded_trace",
+          "bytes": 34432,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_02/trace.jsonl",
+          "sha256": "d872713edbb3c7458e7a3aa97912bdd730e0fff086dcd2c181e150a638bc0503"
+        },
+        {
+          "artifact_id": "decoded_trace",
+          "bytes": 34432,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_03/trace.jsonl",
+          "sha256": "2b0cac2d294c312a322c38293e9eb6d27b6776da423c948a84d43c5d892a548f"
+        },
+        {
+          "artifact_id": "decoded_trace",
+          "bytes": 34429,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_04/trace.jsonl",
+          "sha256": "51b058ec6cbb452c3013905bc20684582d01e610b25a3d2a9b0512d26e4460c1"
+        },
+        {
+          "artifact_id": "decoded_trace",
+          "bytes": 33140,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_00/trace.jsonl",
+          "sha256": "7e866083e6713eff0f6ff90c6b8d596aaf4860ca5a345c3d9099d073c590b3ad"
+        },
+        {
+          "artifact_id": "decoded_trace",
+          "bytes": 33140,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_01/trace.jsonl",
+          "sha256": "fed1c69e7464fc0436ae6f2ab22c9bcfde20f10d17b3593430ad6b7d39e30869"
+        },
+        {
+          "artifact_id": "decoded_trace",
+          "bytes": 33138,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_02/trace.jsonl",
+          "sha256": "265761b82a9f538274f55fedd2d22a40627d71998267b1e860b23807cdae5028"
+        },
+        {
+          "artifact_id": "decoded_trace",
+          "bytes": 33138,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_03/trace.jsonl",
+          "sha256": "e21053623598bef3b183635a5f38acaf17eea1ea197a22285acbe3a141a7453a"
+        },
+        {
+          "artifact_id": "decoded_trace",
+          "bytes": 33139,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_04/trace.jsonl",
+          "sha256": "55ec6572cb48f583330a9510b1af316a8021888093f0577976c66420679f58d7"
+        },
+        {
+          "artifact_id": "decoded_trace",
+          "bytes": 42190,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_00/trace.jsonl",
+          "sha256": "d7a43c34574c528dd783ec8956998d666ed1d1858f671f77e76259120e52072a"
+        },
+        {
+          "artifact_id": "decoded_trace",
+          "bytes": 42188,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_01/trace.jsonl",
+          "sha256": "a80447b5f2db8e8703d612c71cdd74fa78bd0f7932a96384a0b169411ddc8efb"
+        },
+        {
+          "artifact_id": "decoded_trace",
+          "bytes": 42189,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_02/trace.jsonl",
+          "sha256": "9acd47d0bc1fd29a7410bd6635d9efea1e668574b1e65f98155ab26422d9d38a"
+        },
+        {
+          "artifact_id": "decoded_trace",
+          "bytes": 42190,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_03/trace.jsonl",
+          "sha256": "2459c9a73db8e5ce14193d1914921225dde2e5ac9300c0287a5910cdcd4cdd8d"
+        },
+        {
+          "artifact_id": "decoded_trace",
+          "bytes": 42189,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_04/trace.jsonl",
+          "sha256": "4e2441da95780e8881a21ec900ade8f1f9ed4d17c3d9d1f6160f3b463aa45e07"
+        },
+        {
+          "artifact_id": "raw_uart",
+          "bytes": 232676,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/board/raw_uart.log",
+          "sha256": "c042a2c7025638da42c019614f8e43f8988e46bed268d58b65aa12777663d58a"
+        },
+        {
+          "artifact_id": "raw_uart",
+          "bytes": 8998,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_00/trace_raw_uart.log",
+          "sha256": "2fd3e826104c7b069a9b1dbd7142f736ee4d37cf668fe2b4ed93a7ab4f870c21"
+        },
+        {
+          "artifact_id": "raw_uart",
+          "bytes": 8999,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_01/trace_raw_uart.log",
+          "sha256": "74a2ed214c91a81ed1664d1ad5e1f5799ed9a29062a1fa45438ee04bd931b757"
+        },
+        {
+          "artifact_id": "raw_uart",
+          "bytes": 8998,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_02/trace_raw_uart.log",
+          "sha256": "efc8b68c8de5b8cd0e06f8f5ae0f58b25e70e84dad9221c02f40fd5a61d31929"
+        },
+        {
+          "artifact_id": "raw_uart",
+          "bytes": 8998,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_03/trace_raw_uart.log",
+          "sha256": "28dc0202399e0b823302e9872bac8aa797c2e1609be565c6297448b3ee60d9bd"
+        },
+        {
+          "artifact_id": "raw_uart",
+          "bytes": 8999,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_04/trace_raw_uart.log",
+          "sha256": "115915f423befcf6e0cc49f984e17390384e4bf6e57cbe90e5cf09b81104879e"
+        },
+        {
+          "artifact_id": "raw_uart",
+          "bytes": 8666,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_00/trace_raw_uart.log",
+          "sha256": "6888c6d0724b63b7a3413283444dbbb12258e63d0b156dc0604fdbad93486210"
+        },
+        {
+          "artifact_id": "raw_uart",
+          "bytes": 8666,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_01/trace_raw_uart.log",
+          "sha256": "7122d95bf4771c6a815034cb876a3f282871ba2c8a20765132e41a9f9982f9b2"
+        },
+        {
+          "artifact_id": "raw_uart",
+          "bytes": 8666,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_02/trace_raw_uart.log",
+          "sha256": "f3c393cc96d8227ed268c671350d016539bf7db0405ba9ffd0008abb4d24b2a1"
+        },
+        {
+          "artifact_id": "raw_uart",
+          "bytes": 8667,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_03/trace_raw_uart.log",
+          "sha256": "d572d825ea9e69a4e4538584930451af0ae69e2e22ceec3eb75d8dc14e8430dc"
+        },
+        {
+          "artifact_id": "raw_uart",
+          "bytes": 8666,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_04/trace_raw_uart.log",
+          "sha256": "a6b23d4ed2f93a6e68ab204c7b4338e1a129d8953f35bb0a21e6cfd63fbadd2c"
+        },
+        {
+          "artifact_id": "raw_uart",
+          "bytes": 10990,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_00/trace_raw_uart.log",
+          "sha256": "a9fbd09764e5e5c2ef33d1cd4186d14c2552da409fca23f4611872ab1780480c"
+        },
+        {
+          "artifact_id": "raw_uart",
+          "bytes": 10990,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_01/trace_raw_uart.log",
+          "sha256": "ab61e921ffebcac1a4254a2ba4009b14677146a7791c1df00fddd97534fe7765"
+        },
+        {
+          "artifact_id": "raw_uart",
+          "bytes": 10990,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_02/trace_raw_uart.log",
+          "sha256": "3d22bcfc2469ce8d69f0be25e3c48fd5e9e40fbb103d188d3bb6cb2e6d7ddf73"
+        },
+        {
+          "artifact_id": "raw_uart",
+          "bytes": 10991,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_03/trace_raw_uart.log",
+          "sha256": "35b9fa793ca0e5f3836698bed59431b171fdd5c174e5631654bc91425a7c2c6b"
+        },
+        {
+          "artifact_id": "raw_uart",
+          "bytes": 10990,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_04/trace_raw_uart.log",
+          "sha256": "7e2a6d8b3379c3cb589fec7b0b4c40796c780fc242f2e4f8f4469249229240d3"
+        },
+        {
+          "artifact_id": "run_metadata",
+          "bytes": 2180,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/run_behavior_manifest.json",
+          "sha256": "4ca7573f1ec7618e467e1d9d217026129e884b58a8242a997a66a7f16ba120ba"
+        },
+        {
+          "artifact_id": "run_metadata",
+          "bytes": 1651,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/run_config.json",
+          "sha256": "967fdf55164f61ad544dbe81b131f776528b0f04a7ed2a9519e346e0895b6978"
+        },
+        {
+          "artifact_id": "run_metadata",
+          "bytes": 2180,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/run_malware_manifest.json",
+          "sha256": "4ca7573f1ec7618e467e1d9d217026129e884b58a8242a997a66a7f16ba120ba"
+        },
+        {
+          "artifact_id": "runtime_process_map",
+          "bytes": 11685,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_00/runtime_process_map.json",
+          "sha256": "79149027e3efac5e541ae82510396a9a9b535b054ca9c1782b4852bf502ee5eb"
+        },
+        {
+          "artifact_id": "runtime_process_map",
+          "bytes": 11685,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_01/runtime_process_map.json",
+          "sha256": "8443bc747f8bb4399f1ce683291ac472ccb8dff76030119379f809b0e8e76e37"
+        },
+        {
+          "artifact_id": "runtime_process_map",
+          "bytes": 11655,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_02/runtime_process_map.json",
+          "sha256": "393e443a0f914eb985dcd42e87dbd8135b530104498cbdcfb20ef7584022b15e"
+        },
+        {
+          "artifact_id": "runtime_process_map",
+          "bytes": 11685,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_03/runtime_process_map.json",
+          "sha256": "101c38b14a405eb57dd26e3564560e92c1510bb3e80c03ad7c2bf8bb0b4334e5"
+        },
+        {
+          "artifact_id": "runtime_process_map",
+          "bytes": 11685,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_04/runtime_process_map.json",
+          "sha256": "3a2cddf5d1ba081502e0126e313c161f7a83a234b9cf19ec16c557221614078b"
+        },
+        {
+          "artifact_id": "runtime_process_map",
+          "bytes": 11725,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_00/runtime_process_map.json",
+          "sha256": "07609b11398313defd3c440aea7ea4b9eb47a3f8cb30f980459ab3fdd5488a58"
+        },
+        {
+          "artifact_id": "runtime_process_map",
+          "bytes": 11717,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_01/runtime_process_map.json",
+          "sha256": "56b6ca8c5e671336a53feda561b353ea61f11601e45eb766d687e2a56e523e4a"
+        },
+        {
+          "artifact_id": "runtime_process_map",
+          "bytes": 11725,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_02/runtime_process_map.json",
+          "sha256": "fcad19dcdcff1fc64aa25a3ae29f4e93022b3b430b33092acdc29c4bf04e4291"
+        },
+        {
+          "artifact_id": "runtime_process_map",
+          "bytes": 11725,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_03/runtime_process_map.json",
+          "sha256": "ce15402f838681abeb3c577546a9fd6d3e4767fd1c8dbe3a0ed5212306fcd8f9"
+        },
+        {
+          "artifact_id": "runtime_process_map",
+          "bytes": 11725,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_04/runtime_process_map.json",
+          "sha256": "4946c5574ff8629053bbd064b31cb16d940de561109a7b1f87a6306589fe448b"
+        },
+        {
+          "artifact_id": "runtime_process_map",
+          "bytes": 11745,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_00/runtime_process_map.json",
+          "sha256": "cba0ea2325bf784171adbbefda762fdb84fc669a8521d1c12d46c636df068fd7"
+        },
+        {
+          "artifact_id": "runtime_process_map",
+          "bytes": 11745,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_01/runtime_process_map.json",
+          "sha256": "a5691b87d9165337673b7d3f499bb9277bb3b9fc030cc6b484ceb6a0344c64b6"
+        },
+        {
+          "artifact_id": "runtime_process_map",
+          "bytes": 11745,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_02/runtime_process_map.json",
+          "sha256": "42d0590d05bc619782ba441ab374a655db974a216b074f1355b907dd48c845f1"
+        },
+        {
+          "artifact_id": "runtime_process_map",
+          "bytes": 11745,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_03/runtime_process_map.json",
+          "sha256": "570534a8508c7e0cd43a34411b273fde542d29f970b32832ab6364465ea14f5d"
+        },
+        {
+          "artifact_id": "runtime_process_map",
+          "bytes": 11745,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_04/runtime_process_map.json",
+          "sha256": "89e217e309979a2378a543899c48395c1b2cf499d0ec424fcb5e4b49a4f832a4"
+        },
+        {
+          "artifact_id": "semantic_events",
+          "bytes": 174172,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_00/behavior_recovery/semantic_events.json",
+          "sha256": "f0a407f9bf26aa5ac52042ea706ebcc4fe6388f4964b1d10406125a3691a6c57"
+        },
+        {
+          "artifact_id": "semantic_events",
+          "bytes": 172074,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_01/behavior_recovery/semantic_events.json",
+          "sha256": "50d1fbf648cdaf39395944a623eef3f11e22a2081eab0b1abbeba3162b9b5082"
+        },
+        {
+          "artifact_id": "semantic_events",
+          "bytes": 171114,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_02/behavior_recovery/semantic_events.json",
+          "sha256": "98b6b6a846d858dc1af9cfda4904deb42efef42439ab26805a95f237cd588985"
+        },
+        {
+          "artifact_id": "semantic_events",
+          "bytes": 171114,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_03/behavior_recovery/semantic_events.json",
+          "sha256": "4702ec1c74ea415c10fddbbe1d797e4b362e353cfbf576ae065934f1b29d0f1d"
+        },
+        {
+          "artifact_id": "semantic_events",
+          "bytes": 172069,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_04/behavior_recovery/semantic_events.json",
+          "sha256": "0954c1ec95a8f69317e44e0f28a0fb6046263021c68243d792c3e8373a920cfb"
+        },
+        {
+          "artifact_id": "semantic_events",
+          "bytes": 160402,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_00/behavior_recovery/semantic_events.json",
+          "sha256": "ea97b2ba1fce5dfb4d97cbbc849b0af77066a356b82d24da95f410abdc9ab2cf"
+        },
+        {
+          "artifact_id": "semantic_events",
+          "bytes": 161632,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_01/behavior_recovery/semantic_events.json",
+          "sha256": "8bc9b0355db213395a5d51823159188150eb87e9a8dcb048639731a91a7ef26f"
+        },
+        {
+          "artifact_id": "semantic_events",
+          "bytes": 158222,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_02/behavior_recovery/semantic_events.json",
+          "sha256": "9bc24d6d2cb97f88479a68472e82cd82b9cd121318a3971a6329551e5506e13e"
+        },
+        {
+          "artifact_id": "semantic_events",
+          "bytes": 160441,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_03/behavior_recovery/semantic_events.json",
+          "sha256": "f2c4c297c7c0a45abfecdd5c54dbc0380b84f18053e2f333700e643634d70cfe"
+        },
+        {
+          "artifact_id": "semantic_events",
+          "bytes": 159352,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_04/behavior_recovery/semantic_events.json",
+          "sha256": "e253381263401d8e3e85247ac3e92df5e959439185af285920acd0fc4c11c8d9"
+        },
+        {
+          "artifact_id": "semantic_events",
+          "bytes": 214491,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_00/behavior_recovery/semantic_events.json",
+          "sha256": "818465dd7d72ff61519705e0f7b2a1dc330b0178e17cfffdd40223c316df6496"
+        },
+        {
+          "artifact_id": "semantic_events",
+          "bytes": 215088,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_01/behavior_recovery/semantic_events.json",
+          "sha256": "4b20d37ad566523c765a8bf602d4d6d8300104a6092016cd0ee3dd5e4bf76114"
+        },
+        {
+          "artifact_id": "semantic_events",
+          "bytes": 215916,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_02/behavior_recovery/semantic_events.json",
+          "sha256": "7e4ce5573c1dc09bdb0f257a6797b4890f7e831ce3cf8fceaaa351f8493b3d16"
+        },
+        {
+          "artifact_id": "semantic_events",
+          "bytes": 213296,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_03/behavior_recovery/semantic_events.json",
+          "sha256": "c98730bb0e31a3bfbf3310d1290a5450b96a1cda385517ccb291424ef51c208f"
+        },
+        {
+          "artifact_id": "semantic_events",
+          "bytes": 214586,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_04/behavior_recovery/semantic_events.json",
+          "sha256": "48819634e525ac214356a25305c837eaa927bec126a49db09dc6c8ce1035a8b7"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 72962,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_00/trace_code_map/trace.code_map.jsonl",
+          "sha256": "05b436704fe4b4c82c944e6b873ab34080702db322fcb94be15206bf26632268"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 2611,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_00/trace_code_map/trace_code_map_summary.json",
+          "sha256": "c76b39f52baada71e76a2678cbe90bea8ecd44cc07dd73ad491dcd3071b6f20e"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 72871,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_01/trace_code_map/trace.code_map.jsonl",
+          "sha256": "bba4e02e1a6f7b2af07dfb3ce7fcb23c877860a2deb710954ff6a75bb145a3d5"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 2611,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_01/trace_code_map/trace_code_map_summary.json",
+          "sha256": "851de38d893463043b6519c4f7a8268b77964e2851ae4d45f40a7a4127f7ca87"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 72852,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_02/trace_code_map/trace.code_map.jsonl",
+          "sha256": "bd30a5ed973517c2845244abde49f9c3982b889f231e125d9c3a1af979bb8436"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 2612,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_02/trace_code_map/trace_code_map_summary.json",
+          "sha256": "cad6e887a63e8ea2135f0549bf8cbbeae26306d1af8a5cfbeb44c1f640d4bc7f"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 72852,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_03/trace_code_map/trace.code_map.jsonl",
+          "sha256": "8d74c1d80805586b4e505b5088fcc343992743f3d33b8f2275ac75531645f8d9"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 2612,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_03/trace_code_map/trace_code_map_summary.json",
+          "sha256": "497f8ebd1d8b67bff0e976d3fc98bc7520eb662c7bb2c6dc69351b490726bd3d"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 72868,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_04/trace_code_map/trace.code_map.jsonl",
+          "sha256": "427cde12d4d167ecfd7084b84aefd2633dbadd8150596b4a2f655097d1d12824"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 2611,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_elf_header_probe/board/trace-on/rep_04/trace_code_map/trace_code_map_summary.json",
+          "sha256": "acbb0f85359e60ad9bd7bf8de08f2ac283c047a24d776462872179d512c1f5a2"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 69983,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_00/trace_code_map/trace.code_map.jsonl",
+          "sha256": "59b378cb157292d273841eff9aa62ee67230ae85d44f2f3db597afa3263cfb37"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 2640,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_00/trace_code_map/trace_code_map_summary.json",
+          "sha256": "8ca0ff5dca86cb812594e24caac1cae5cfbe027cf55a31e065742126977bdf02"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 70184,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_01/trace_code_map/trace.code_map.jsonl",
+          "sha256": "85263c2e9f0e6f4a3358fc6cff1edf59b9cdaa55f08671ed50637b0c7d257f1d"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 2639,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_01/trace_code_map/trace_code_map_summary.json",
+          "sha256": "0345250491f5d6e88a6e42aacdde15545282d9c7a70669dee12cd08345e8d1ec"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 69741,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_02/trace_code_map/trace.code_map.jsonl",
+          "sha256": "223a195ff25c94c0c6775645bf9e60bc1926e5f33384c624403fac6a12a37471"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 2640,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_02/trace_code_map/trace_code_map_summary.json",
+          "sha256": "af6243f903efe0e5f4b2e2cddf0665406e7aa514bf83474c9faffc7ac55065ba"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 69961,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_03/trace_code_map/trace.code_map.jsonl",
+          "sha256": "75ac2f77128d816e1375e3853920cd74f7a78018483bdb92751d145ea9b33252"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 2640,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_03/trace_code_map/trace_code_map_summary.json",
+          "sha256": "030bdaecee0869c975635a4db0ca702fd332f5a3ba9cf3ec03790c5a4828aa98"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 69811,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_04/trace_code_map/trace.code_map.jsonl",
+          "sha256": "bfa3b52470419c13f08f7216d4735ceb0df80f844076c89cad8132f3ce81350b"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 2640,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_rootkit_device_probe/board/trace-on/rep_04/trace_code_map/trace_code_map_summary.json",
+          "sha256": "675dd2156509b4d0d972a40cc84e822a5a8fa5b14b8e95d7f07ba712d1c78ce7"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 89699,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_00/trace_code_map/trace.code_map.jsonl",
+          "sha256": "0323581add3930ff766cf4fed5cbaa80b3bb44d5d1727ea6a70fc1bf8fec3e5b"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 2654,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_00/trace_code_map/trace_code_map_summary.json",
+          "sha256": "b1181629d60378898b667deb767d78927cc9a3c93f4c65b5f95e858d189b827c"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 89989,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_01/trace_code_map/trace.code_map.jsonl",
+          "sha256": "b28c9d0d9912bb6626d470d34ce83215d736d4dd97675bb5c73bdbf577ff600f"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 2654,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_01/trace_code_map/trace_code_map_summary.json",
+          "sha256": "57fd5d31b7cb88d6abb2e4ee8b56ee1266044223197b7a987343b4c6e4a33020"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 89880,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_02/trace_code_map/trace.code_map.jsonl",
+          "sha256": "487aa42302ee3f73e2b5d0953ff4b6901adca0dbcae4c5da39a01f4ea870f49c"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 2654,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_02/trace_code_map/trace_code_map_summary.json",
+          "sha256": "b24e1719d0e389b20dc59307911cdf6a2fdaef660bdda33790abb25631cbec49"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 89589,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_03/trace_code_map/trace.code_map.jsonl",
+          "sha256": "08023ed266f2b10e190a6cb02014cca81d7cae285ae583b7e87327d4e6e27d06"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 2654,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_03/trace_code_map/trace_code_map_summary.json",
+          "sha256": "6f605e22dcb076b55d92fa75108bc340af76ebfcabfa1f25a419c6f8e1eb7d2a"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 90081,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_04/trace_code_map/trace.code_map.jsonl",
+          "sha256": "20c88178f84fe3c39ba5099075a20e69c16c521cc0857806a4cfab6cec5f64ae"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 2654,
+          "path": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/samples/real_malware_surrogate/darthra_virus_fixture_walk_sim/board/trace-on/rep_04/trace_code_map/trace_code_map_summary.json",
+          "sha256": "538cf2d7a2d5691f1d9fc405f6ebb50877463aec93e1a496bb37f7c10c6757f1"
+        }
+      ],
+      "label": "surrogate",
+      "results_root": "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524",
+      "run_id": "35t-surrogate-darthra-p0a-r512-abba-r5-20260524"
+    },
+    {
+      "classes": [
+        {
+          "artifact_id": "run_metadata",
+          "class_digest": "72c5def10bccc60d2bb3ffe17e4272acfc0a5cf2402901c965557637e40c9969",
+          "count": 3,
+          "description": "run config and run manifests",
+          "min_count": 2,
+          "representative_files": [
+            {
+              "bytes": 2160,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/run_behavior_manifest.json",
+              "sha256": "9f39580eb1293b3f03f672a9b61a5f8385b5dda28300c303277353d6dce517d1"
+            },
+            {
+              "bytes": 1638,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/run_config.json",
+              "sha256": "1b105cd1eadae2efb6d3a75514b554fe3b74ecc424eb0f6d41250d06d8934873"
+            },
+            {
+              "bytes": 2160,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/run_malware_manifest.json",
+              "sha256": "9f39580eb1293b3f03f672a9b61a5f8385b5dda28300c303277353d6dce517d1"
+            }
+          ],
+          "status": "PASS",
+          "total_bytes": 5958
+        },
+        {
+          "artifact_id": "raw_uart",
+          "class_digest": "c87b4ffc6352d6486eabea59049ea916bfb0752edea935d21fbfd9597dbc6fe5",
+          "count": 16,
+          "description": "board-level and per-repetition raw UART captures",
+          "min_count": 1,
+          "representative_files": [
+            {
+              "bytes": 216251,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/board/raw_uart.log",
+              "sha256": "f6247720087b03850e28a138cbb50c4ea36541469f9c1ea8743dc1b57d8b8082"
+            },
+            {
+              "bytes": 8334,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_00/trace_raw_uart.log",
+              "sha256": "fd6a82df47e1216e3b0753c13b68a1fbed86ab777581b6a3797ef64ccb62780b"
+            },
+            {
+              "bytes": 8332,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_01/trace_raw_uart.log",
+              "sha256": "92a57e95a46dd5b502e29c5507d7bcc3ef5d8187dbcdeb907d1e65084ddd17e6"
+            },
+            {
+              "bytes": 8334,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_02/trace_raw_uart.log",
+              "sha256": "197882646681239eac42c8a05e10d46b7238a98846f2f0ec2ad4c53bb74702be"
+            },
+            {
+              "bytes": 8334,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_03/trace_raw_uart.log",
+              "sha256": "107670814eef7d5f1853e02749abd2b25c0a4393253b4b93e0bb32d5fdf70838"
+            }
+          ],
+          "status": "PASS",
+          "total_bytes": 344577
+        },
+        {
+          "artifact_id": "decoded_trace",
+          "class_digest": "6c0a96fe4dae49abb8f26c9e415f0ad5d56cc95934fb8c1e49316b211de14add",
+          "count": 15,
+          "description": "decoded hardware trace JSONL",
+          "min_count": 15,
+          "representative_files": [
+            {
+              "bytes": 31844,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_00/trace.jsonl",
+              "sha256": "cfcd95c9b6be4af578c754c233db6b8c40f6b452ebc5505482b8ce44bfabe568"
+            },
+            {
+              "bytes": 31843,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_01/trace.jsonl",
+              "sha256": "5e136cbd36b25fe0302a1f47948cd210acde7eec7dadd9aa9a1756e0e2913a6d"
+            },
+            {
+              "bytes": 31843,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_02/trace.jsonl",
+              "sha256": "2f41d29d940bd7e296b33dc07d28a0bd832cbffccb2fcc545bb53a8837ba4985"
+            },
+            {
+              "bytes": 31843,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_03/trace.jsonl",
+              "sha256": "b89851320434ab031df230ca10cd178a353eed150aa4dade068318bb47bd30ce"
+            },
+            {
+              "bytes": 31843,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_04/trace.jsonl",
+              "sha256": "04511dcd7bf5b0a2a48efec76c8839a14ce075dd4f77b6f8cb5a4b91509a3c1c"
+            }
+          ],
+          "status": "PASS",
+          "total_bytes": 489910
+        },
+        {
+          "artifact_id": "runtime_process_map",
+          "class_digest": "739a087a833a18bc96576d4afa6ccd769d94fd8537a2993c2aec37d5f14b03f1",
+          "count": 15,
+          "description": "runtime process attribution maps",
+          "min_count": 15,
+          "representative_files": [
+            {
+              "bytes": 11665,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_00/runtime_process_map.json",
+              "sha256": "7ce2b7cc0b53d8531b958dfbd78f2807f9f47400dcab0135d61ccba5d14cd8b1"
+            },
+            {
+              "bytes": 11665,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_01/runtime_process_map.json",
+              "sha256": "15ce4d1c2748a5a2aa13ee18ffcdfd42e6a462358a132f2b2f2f7fa6d908bf92"
+            },
+            {
+              "bytes": 11671,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_02/runtime_process_map.json",
+              "sha256": "34b9054f21db2e3d071004cac5508c9a62855d0052b890d53f2a700b6493f7e3"
+            },
+            {
+              "bytes": 11671,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_03/runtime_process_map.json",
+              "sha256": "3ec434e49ff0576c1080241314c786e1c9707f4078acbc29c43c18e5120784a7"
+            },
+            {
+              "bytes": 11671,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_04/runtime_process_map.json",
+              "sha256": "e6c476ed337b8466722036c168f511780ee30f63ea9754e9b1a7d98b938d462d"
+            }
+          ],
+          "status": "PASS",
+          "total_bytes": 174843
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "class_digest": "0172513071954b623039a3d6db44d5ac55edabcd7040473bf1ddce0d48ce54b0",
+          "count": 30,
+          "description": "trace-to-code map summaries and joins",
+          "min_count": 15,
+          "representative_files": [
+            {
+              "bytes": 67426,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_00/trace_code_map/trace.code_map.jsonl",
+              "sha256": "6b335267c083362f1fb1293e560f8f35fae57344e9d21ee4a81f6c394db700a0"
+            },
+            {
+              "bytes": 2640,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_00/trace_code_map/trace_code_map_summary.json",
+              "sha256": "01551868b549760566bf1d8237c2341dd89156d6899f42486ddac720b7c2d014"
+            },
+            {
+              "bytes": 67334,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_01/trace_code_map/trace.code_map.jsonl",
+              "sha256": "a1a298b4af40db0c0f44de28690cbc8fe9127127ed715ea15aa7bef3a88a85ba"
+            },
+            {
+              "bytes": 2640,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_01/trace_code_map/trace_code_map_summary.json",
+              "sha256": "259df0a6c88bfa3cb61ec08ec393b60cf57610e9f28e6261a62617997266232c"
+            },
+            {
+              "bytes": 67334,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_02/trace_code_map/trace.code_map.jsonl",
+              "sha256": "04a6f779d1112e3fb4f8a929c6144c65ff844ec158266b284d978407a8b4aa34"
+            }
+          ],
+          "status": "PASS",
+          "total_bytes": 1072317
+        },
+        {
+          "artifact_id": "semantic_events",
+          "class_digest": "a0fb424944ad511615c8cde637bd77f3ddeae94528792003545154b87bb83cd2",
+          "count": 15,
+          "description": "semantic event recovery outputs",
+          "min_count": 15,
+          "representative_files": [
+            {
+              "bytes": 160769,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_00/behavior_recovery/semantic_events.json",
+              "sha256": "15d8c7ae3ccb89b29256e37105f4991fecaf0787c67b77e7f910e9daf2826201"
+            },
+            {
+              "bytes": 160048,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_01/behavior_recovery/semantic_events.json",
+              "sha256": "5318d2719530396ef727fbc561f864d69900d3d469c825a99a0cf9862c78cd82"
+            },
+            {
+              "bytes": 160053,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_02/behavior_recovery/semantic_events.json",
+              "sha256": "f93c8005a5f17f8196ff1bacfa2302ad86c08d548aefbb85177db96224a6d607"
+            },
+            {
+              "bytes": 160257,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_03/behavior_recovery/semantic_events.json",
+              "sha256": "905ffb4b6194a4866482ddce8eb508986afe09a460932c8dcc69bd234da83a5f"
+            },
+            {
+              "bytes": 160391,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_04/behavior_recovery/semantic_events.json",
+              "sha256": "a4d04151dd39cfa8190be9955958ce4579c9c0acbf38fa5198fed7a442f19fdc"
+            }
+          ],
+          "status": "PASS",
+          "total_bytes": 2427711
+        },
+        {
+          "artifact_id": "behavior_audit",
+          "class_digest": "a782fee961a138ada79b35533fdb9c4f2c2a0422a53e5703c2f52962af39e947",
+          "count": 15,
+          "description": "per-repetition behavior audit evidence",
+          "min_count": 15,
+          "representative_files": [
+            {
+              "bytes": 33462,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_00/behavior_audit/behavior_audit.json",
+              "sha256": "a51acaf39f6e7502997f5236aa8b1f715e4378ed5fe91d2ed31c37956e1d3dc1"
+            },
+            {
+              "bytes": 33391,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_01/behavior_audit/behavior_audit.json",
+              "sha256": "d21dd31fcf394eec1b2f1ad6c46e0d5126fd3bb46bda9cca88468553b56d3353"
+            },
+            {
+              "bytes": 33414,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_02/behavior_audit/behavior_audit.json",
+              "sha256": "ecb9e3870370f87e0f5f8b701783576e07ffd50b1c51afa02836d8a947c98343"
+            },
+            {
+              "bytes": 34060,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_03/behavior_audit/behavior_audit.json",
+              "sha256": "6f325299ee95a31648bdbf491b4e9aa040e808f25833226c635b17a789203157"
+            },
+            {
+              "bytes": 35461,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_04/behavior_audit/behavior_audit.json",
+              "sha256": "3a9acaa545e05d7cc1540df45fbac3d0f055a409b4035b4ffe7de06d1609a2bd"
+            }
+          ],
+          "status": "PASS",
+          "total_bytes": 516109
+        },
+        {
+          "artifact_id": "alignment",
+          "class_digest": "f3b042b40120b3423f5e62f18a3395ec8132614c4a3b0bd9d0bbaf3ec886e167",
+          "count": 15,
+          "description": "trace-to-groundtruth alignment evidence",
+          "min_count": 15,
+          "representative_files": [
+            {
+              "bytes": 1886,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_00/alignment/alignment.json",
+              "sha256": "f87dcdd40351f77da90acd1578759c921f01e452b28f39d769b110332f5f26b1"
+            },
+            {
+              "bytes": 1886,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_01/alignment/alignment.json",
+              "sha256": "f13012d6623f4c37a802adfcef9ee56f5392f7a08265e30cc660345615587a35"
+            },
+            {
+              "bytes": 1886,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_02/alignment/alignment.json",
+              "sha256": "866eeb865779a4e542ff8e3d5ea8852c8a8711337a1b4f139fbbf9b253b0eb7f"
+            },
+            {
+              "bytes": 1888,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_03/alignment/alignment.json",
+              "sha256": "9898b1ad6dcd14c16c13ec80ad47f84def24bdc9a81f72d1cc46b50208924c16"
+            },
+            {
+              "bytes": 1888,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_04/alignment/alignment.json",
+              "sha256": "e101516def9ffca1a4276b502e7bcbb556da4826ac116067e6979bbd389a6595"
+            }
+          ],
+          "status": "PASS",
+          "total_bytes": 28194
+        },
+        {
+          "artifact_id": "build_provenance",
+          "class_digest": "9d75e83ee7c643447e579391ce7f4e6194ab23c0170ef1783fac40ec8b166c82",
+          "count": 12,
+          "description": "source, host ELF, RISC-V ELF hashes and compiler records",
+          "min_count": 9,
+          "representative_files": [
+            {
+              "bytes": 106,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/build/compiler.txt",
+              "sha256": "80c6f3854c60d8a625d176ba7128baa697f0b0967be0f30386797793d3275c30"
+            },
+            {
+              "bytes": 240,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/build/host_elf.sha256",
+              "sha256": "58734c695e3a4c6074b92c23b8f03c26efa7d361de7888ed5278d26fcecb1c59"
+            },
+            {
+              "bytes": 241,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/build/riscv_elf.sha256",
+              "sha256": "0d217e45ca9332a4daf0c30ef2cd08198abbb6851aef22b77a08034c1b8660d2"
+            },
+            {
+              "bytes": 151,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/build/source.sha256",
+              "sha256": "a24e0a5eb3c4408594783bf59bb11707edcaa57dbe0b863763a50863972d7156"
+            },
+            {
+              "bytes": 106,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/build/compiler.txt",
+              "sha256": "80c6f3854c60d8a625d176ba7128baa697f0b0967be0f30386797793d3275c30"
+            }
+          ],
+          "status": "PASS",
+          "total_bytes": 2199
+        },
+        {
+          "artifact_id": "aggregate_reports",
+          "class_digest": "fb20f35c9e8c81b40e594206f79aab7d1681b81576959119128c10df79c6a987",
+          "count": 7,
+          "description": "aggregate metrics and reports",
+          "min_count": 3,
+          "representative_files": [
+            {
+              "bytes": 314,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/aggregate/accuracy_report.md",
+              "sha256": "0d53dc3cb0ac72c9783ecd487da5f7a20a3ee67befcecae5cda4e1e6848afc5d"
+            },
+            {
+              "bytes": 677,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/aggregate/artifact_index.md",
+              "sha256": "602737f7ba0649a62430b9364939836c033f6f984d3f6638ecc6acc8aa5f844a"
+            },
+            {
+              "bytes": 1331,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/aggregate/bandwidth_report.md",
+              "sha256": "4b0add288c03af72e0127506afa3161810171e9a126214fd419e69ba36857948"
+            },
+            {
+              "bytes": 376,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/aggregate/debug_rule_evidence.log",
+              "sha256": "d7db0abec1e5e4723c6ebb0935c21ffa262d507bd25140e63ef482de9cfb9142"
+            },
+            {
+              "bytes": 844,
+              "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/aggregate/metrics.csv",
+              "sha256": "10d3b4d4b4e3aa2bd7eb642fe6538cdc010b6f78325a2e62b455ed245fa4ef77"
+            }
+          ],
+          "status": "PASS",
+          "total_bytes": 16286
+        }
+      ],
+      "files": [
+        {
+          "artifact_id": "aggregate_reports",
+          "bytes": 314,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/aggregate/accuracy_report.md",
+          "sha256": "0d53dc3cb0ac72c9783ecd487da5f7a20a3ee67befcecae5cda4e1e6848afc5d"
+        },
+        {
+          "artifact_id": "aggregate_reports",
+          "bytes": 677,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/aggregate/artifact_index.md",
+          "sha256": "602737f7ba0649a62430b9364939836c033f6f984d3f6638ecc6acc8aa5f844a"
+        },
+        {
+          "artifact_id": "aggregate_reports",
+          "bytes": 1331,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/aggregate/bandwidth_report.md",
+          "sha256": "4b0add288c03af72e0127506afa3161810171e9a126214fd419e69ba36857948"
+        },
+        {
+          "artifact_id": "aggregate_reports",
+          "bytes": 376,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/aggregate/debug_rule_evidence.log",
+          "sha256": "d7db0abec1e5e4723c6ebb0935c21ffa262d507bd25140e63ef482de9cfb9142"
+        },
+        {
+          "artifact_id": "aggregate_reports",
+          "bytes": 844,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/aggregate/metrics.csv",
+          "sha256": "10d3b4d4b4e3aa2bd7eb642fe6538cdc010b6f78325a2e62b455ed245fa4ef77"
+        },
+        {
+          "artifact_id": "aggregate_reports",
+          "bytes": 11375,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/aggregate/metrics.json",
+          "sha256": "89f23a53e6dd403e3379e2190d116e3e81b3516ee9278b2883d417231392ada6"
+        },
+        {
+          "artifact_id": "aggregate_reports",
+          "bytes": 1369,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/aggregate/overhead_report.md",
+          "sha256": "0cdc6e1f9af32dfb65847b548aa080effcf2e295739f168f4ffe78580f4b84dd"
+        },
+        {
+          "artifact_id": "alignment",
+          "bytes": 1886,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_00/alignment/alignment.json",
+          "sha256": "f87dcdd40351f77da90acd1578759c921f01e452b28f39d769b110332f5f26b1"
+        },
+        {
+          "artifact_id": "alignment",
+          "bytes": 1886,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_01/alignment/alignment.json",
+          "sha256": "f13012d6623f4c37a802adfcef9ee56f5392f7a08265e30cc660345615587a35"
+        },
+        {
+          "artifact_id": "alignment",
+          "bytes": 1886,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_02/alignment/alignment.json",
+          "sha256": "866eeb865779a4e542ff8e3d5ea8852c8a8711337a1b4f139fbbf9b253b0eb7f"
+        },
+        {
+          "artifact_id": "alignment",
+          "bytes": 1888,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_03/alignment/alignment.json",
+          "sha256": "9898b1ad6dcd14c16c13ec80ad47f84def24bdc9a81f72d1cc46b50208924c16"
+        },
+        {
+          "artifact_id": "alignment",
+          "bytes": 1888,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_04/alignment/alignment.json",
+          "sha256": "e101516def9ffca1a4276b502e7bcbb556da4826ac116067e6979bbd389a6595"
+        },
+        {
+          "artifact_id": "alignment",
+          "bytes": 1872,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_00/alignment/alignment.json",
+          "sha256": "7f0ca039b61850a230cdd75f429fb3da308867de3da753905ca19dd334e0b99d"
+        },
+        {
+          "artifact_id": "alignment",
+          "bytes": 1874,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_01/alignment/alignment.json",
+          "sha256": "28bcbb57127cdea8434c539158504060a22da4e969cda008acb303deda2e2b2a"
+        },
+        {
+          "artifact_id": "alignment",
+          "bytes": 1876,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_02/alignment/alignment.json",
+          "sha256": "8d4a232da183871eae31c7bf939370a897b42a3a41322121b449d4f6b60b6fb4"
+        },
+        {
+          "artifact_id": "alignment",
+          "bytes": 1872,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_03/alignment/alignment.json",
+          "sha256": "a59b1a778d557d3b210f44cf751b210b7c00a9b27ea8797fc3ad9a10d6e86a38"
+        },
+        {
+          "artifact_id": "alignment",
+          "bytes": 1853,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_04/alignment/alignment.json",
+          "sha256": "c115107ccfd528c73301e1eae6656bd35f4d55c52bc8a152e8f032ee3a707ba7"
+        },
+        {
+          "artifact_id": "alignment",
+          "bytes": 1889,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_00/alignment/alignment.json",
+          "sha256": "e9f7a2539206cf2b746a3350a05327ed5d8f16296c329d3bb5395f4262e8fc65"
+        },
+        {
+          "artifact_id": "alignment",
+          "bytes": 1889,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_01/alignment/alignment.json",
+          "sha256": "71d242d17df75602bc76506f9318356e4ca17a3cfeece9a11dfaf3238c66ff06"
+        },
+        {
+          "artifact_id": "alignment",
+          "bytes": 1873,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_02/alignment/alignment.json",
+          "sha256": "b5fc09ab5649b2280c9a2f6c31a3f194bf1d21350b841b500773d7305695c368"
+        },
+        {
+          "artifact_id": "alignment",
+          "bytes": 1889,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_03/alignment/alignment.json",
+          "sha256": "faceadd7f7fdc7b0bc9555da98c1f012c4305cf2df2021575c8e4b3b3d62f5d9"
+        },
+        {
+          "artifact_id": "alignment",
+          "bytes": 1873,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_04/alignment/alignment.json",
+          "sha256": "33ccd0aad023399a6a47720f433538acec018583e06d67a7f2c3e974dc16319b"
+        },
+        {
+          "artifact_id": "behavior_audit",
+          "bytes": 33462,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_00/behavior_audit/behavior_audit.json",
+          "sha256": "a51acaf39f6e7502997f5236aa8b1f715e4378ed5fe91d2ed31c37956e1d3dc1"
+        },
+        {
+          "artifact_id": "behavior_audit",
+          "bytes": 33391,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_01/behavior_audit/behavior_audit.json",
+          "sha256": "d21dd31fcf394eec1b2f1ad6c46e0d5126fd3bb46bda9cca88468553b56d3353"
+        },
+        {
+          "artifact_id": "behavior_audit",
+          "bytes": 33414,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_02/behavior_audit/behavior_audit.json",
+          "sha256": "ecb9e3870370f87e0f5f8b701783576e07ffd50b1c51afa02836d8a947c98343"
+        },
+        {
+          "artifact_id": "behavior_audit",
+          "bytes": 34060,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_03/behavior_audit/behavior_audit.json",
+          "sha256": "6f325299ee95a31648bdbf491b4e9aa040e808f25833226c635b17a789203157"
+        },
+        {
+          "artifact_id": "behavior_audit",
+          "bytes": 35461,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_04/behavior_audit/behavior_audit.json",
+          "sha256": "3a9acaa545e05d7cc1540df45fbac3d0f055a409b4035b4ffe7de06d1609a2bd"
+        },
+        {
+          "artifact_id": "behavior_audit",
+          "bytes": 33580,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_00/behavior_audit/behavior_audit.json",
+          "sha256": "65019c47fa281b0e5c6d1d2f3304e66bb12193d37de38b829a3c581ffdfe7e89"
+        },
+        {
+          "artifact_id": "behavior_audit",
+          "bytes": 35172,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_01/behavior_audit/behavior_audit.json",
+          "sha256": "6ee7483bcb3166fc64e7bd4bf5a453a5b6230122d2668cbfc2f0d6ef7eff2eec"
+        },
+        {
+          "artifact_id": "behavior_audit",
+          "bytes": 33902,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_02/behavior_audit/behavior_audit.json",
+          "sha256": "332525474b945432b709f0b3686c9d4503dc45f003b5ab7b53a4de4cc4066e14"
+        },
+        {
+          "artifact_id": "behavior_audit",
+          "bytes": 33884,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_03/behavior_audit/behavior_audit.json",
+          "sha256": "74308b89520920cd84844df01fbcc461ac2af9f03d696ed234cedcb96f1c7039"
+        },
+        {
+          "artifact_id": "behavior_audit",
+          "bytes": 34568,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_04/behavior_audit/behavior_audit.json",
+          "sha256": "e747f383807130b44328effd8b6217fbcea93067cf33148173e232bca03a4813"
+        },
+        {
+          "artifact_id": "behavior_audit",
+          "bytes": 35358,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_00/behavior_audit/behavior_audit.json",
+          "sha256": "0da5e1573e46ad32e8bb48a19c32cd48f644f7ee8a28d4134217dcac63dd7123"
+        },
+        {
+          "artifact_id": "behavior_audit",
+          "bytes": 36028,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_01/behavior_audit/behavior_audit.json",
+          "sha256": "0f9c85d3d6022a366eeb0f6a3a7044898f9d92f021a816b8c338fec654a1c772"
+        },
+        {
+          "artifact_id": "behavior_audit",
+          "bytes": 34634,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_02/behavior_audit/behavior_audit.json",
+          "sha256": "ec4b370bf8e21e7915dbc38c7b205afc1954f40f2a9cfa9ac3cc22edcdbe466e"
+        },
+        {
+          "artifact_id": "behavior_audit",
+          "bytes": 34768,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_03/behavior_audit/behavior_audit.json",
+          "sha256": "a2002ad7b09af18f19b82ea5ecb126e1920f44110368fdb04a3153a599967491"
+        },
+        {
+          "artifact_id": "behavior_audit",
+          "bytes": 34427,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_04/behavior_audit/behavior_audit.json",
+          "sha256": "edcc627e3bb910c9a72d87a7bb2964401db0fb86c5527cd46168ea5810d9f0c2"
+        },
+        {
+          "artifact_id": "build_provenance",
+          "bytes": 106,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/build/compiler.txt",
+          "sha256": "80c6f3854c60d8a625d176ba7128baa697f0b0967be0f30386797793d3275c30"
+        },
+        {
+          "artifact_id": "build_provenance",
+          "bytes": 240,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/build/host_elf.sha256",
+          "sha256": "58734c695e3a4c6074b92c23b8f03c26efa7d361de7888ed5278d26fcecb1c59"
+        },
+        {
+          "artifact_id": "build_provenance",
+          "bytes": 241,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/build/riscv_elf.sha256",
+          "sha256": "0d217e45ca9332a4daf0c30ef2cd08198abbb6851aef22b77a08034c1b8660d2"
+        },
+        {
+          "artifact_id": "build_provenance",
+          "bytes": 151,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/build/source.sha256",
+          "sha256": "a24e0a5eb3c4408594783bf59bb11707edcaa57dbe0b863763a50863972d7156"
+        },
+        {
+          "artifact_id": "build_provenance",
+          "bytes": 106,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/build/compiler.txt",
+          "sha256": "80c6f3854c60d8a625d176ba7128baa697f0b0967be0f30386797793d3275c30"
+        },
+        {
+          "artifact_id": "build_provenance",
+          "bytes": 232,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/build/host_elf.sha256",
+          "sha256": "084c1817844b7eea578e6c33864b51ab83bdc0517a6f4a625af6acbba8db3755"
+        },
+        {
+          "artifact_id": "build_provenance",
+          "bytes": 233,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/build/riscv_elf.sha256",
+          "sha256": "a52439b2bcf8f08d4b63a2bba985f7884eb6c9922df77efd3ef02a4e151c8a76"
+        },
+        {
+          "artifact_id": "build_provenance",
+          "bytes": 147,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/build/source.sha256",
+          "sha256": "d84b1e3205f17b32b85645fff2b21f35f3aabd3ebd9d1f052995cd71ea83c169"
+        },
+        {
+          "artifact_id": "build_provenance",
+          "bytes": 106,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/build/compiler.txt",
+          "sha256": "80c6f3854c60d8a625d176ba7128baa697f0b0967be0f30386797793d3275c30"
+        },
+        {
+          "artifact_id": "build_provenance",
+          "bytes": 242,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/build/host_elf.sha256",
+          "sha256": "3f8250e2843c01225c459a8d0c7ac9d614cdb17f20b6b01f8293edafc1e8d065"
+        },
+        {
+          "artifact_id": "build_provenance",
+          "bytes": 243,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/build/riscv_elf.sha256",
+          "sha256": "a9eb9eb4398f1922210921d3e34c7a4bbd9c5419afee0bf8dd6563903567c75d"
+        },
+        {
+          "artifact_id": "build_provenance",
+          "bytes": 152,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/build/source.sha256",
+          "sha256": "88274e760a9d1009b69ed48d16101839d13ec9512fe91b33536709e77533a973"
+        },
+        {
+          "artifact_id": "decoded_trace",
+          "bytes": 31844,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_00/trace.jsonl",
+          "sha256": "cfcd95c9b6be4af578c754c233db6b8c40f6b452ebc5505482b8ce44bfabe568"
+        },
+        {
+          "artifact_id": "decoded_trace",
+          "bytes": 31843,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_01/trace.jsonl",
+          "sha256": "5e136cbd36b25fe0302a1f47948cd210acde7eec7dadd9aa9a1756e0e2913a6d"
+        },
+        {
+          "artifact_id": "decoded_trace",
+          "bytes": 31843,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_02/trace.jsonl",
+          "sha256": "2f41d29d940bd7e296b33dc07d28a0bd832cbffccb2fcc545bb53a8837ba4985"
+        },
+        {
+          "artifact_id": "decoded_trace",
+          "bytes": 31843,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_03/trace.jsonl",
+          "sha256": "b89851320434ab031df230ca10cd178a353eed150aa4dade068318bb47bd30ce"
+        },
+        {
+          "artifact_id": "decoded_trace",
+          "bytes": 31843,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_04/trace.jsonl",
+          "sha256": "04511dcd7bf5b0a2a48efec76c8839a14ce075dd4f77b6f8cb5a4b91509a3c1c"
+        },
+        {
+          "artifact_id": "decoded_trace",
+          "bytes": 35722,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_00/trace.jsonl",
+          "sha256": "c2a5f6f40cf4608cd1055c1b1fa684f62a10ffdbe024d0efa0560e528713018c"
+        },
+        {
+          "artifact_id": "decoded_trace",
+          "bytes": 35723,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_01/trace.jsonl",
+          "sha256": "91b9bb29cba2587bb536c4163179402f0deaeb0b78d8272699ab983782d0e048"
+        },
+        {
+          "artifact_id": "decoded_trace",
+          "bytes": 35723,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_02/trace.jsonl",
+          "sha256": "98e5c48265c200ab88e147bfdb631072c6e7119f624e664fdc8cb5fae75900f4"
+        },
+        {
+          "artifact_id": "decoded_trace",
+          "bytes": 35723,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_03/trace.jsonl",
+          "sha256": "cbafb86775248da6004badeaf1b828e5909fbfb222a44087bd88b1e73adc5c7b"
+        },
+        {
+          "artifact_id": "decoded_trace",
+          "bytes": 35725,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_04/trace.jsonl",
+          "sha256": "b52ca968fbdbdf86fffd6304683e37072681a3670ef96f18d4f174ad8c3d814d"
+        },
+        {
+          "artifact_id": "decoded_trace",
+          "bytes": 30551,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_00/trace.jsonl",
+          "sha256": "d16dfc6251aa2fde5db10bb3175bd6e19cbf817ca8d80b036927f65dbdd76bb7"
+        },
+        {
+          "artifact_id": "decoded_trace",
+          "bytes": 30548,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_01/trace.jsonl",
+          "sha256": "96acd434ddd517f627b7486635c911cc1d1ef0a55b6b02c210b462ac9b19a455"
+        },
+        {
+          "artifact_id": "decoded_trace",
+          "bytes": 29879,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_02/trace.jsonl",
+          "sha256": "4713a62df1e6afb3a4cdfc986c282115032af38d81490b5a615cb10e5f0ea1db"
+        },
+        {
+          "artifact_id": "decoded_trace",
+          "bytes": 30550,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_03/trace.jsonl",
+          "sha256": "2891c0dc0fe986f87a52e5582adeb348d64ab32bf4952c159a5c5d14cd0078f3"
+        },
+        {
+          "artifact_id": "decoded_trace",
+          "bytes": 30550,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_04/trace.jsonl",
+          "sha256": "76695681c6240c1fd77775f5a5452091c2de8c82c32321a1194e6bfbe0d60272"
+        },
+        {
+          "artifact_id": "raw_uart",
+          "bytes": 216251,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/board/raw_uart.log",
+          "sha256": "f6247720087b03850e28a138cbb50c4ea36541469f9c1ea8743dc1b57d8b8082"
+        },
+        {
+          "artifact_id": "raw_uart",
+          "bytes": 8334,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_00/trace_raw_uart.log",
+          "sha256": "fd6a82df47e1216e3b0753c13b68a1fbed86ab777581b6a3797ef64ccb62780b"
+        },
+        {
+          "artifact_id": "raw_uart",
+          "bytes": 8332,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_01/trace_raw_uart.log",
+          "sha256": "92a57e95a46dd5b502e29c5507d7bcc3ef5d8187dbcdeb907d1e65084ddd17e6"
+        },
+        {
+          "artifact_id": "raw_uart",
+          "bytes": 8334,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_02/trace_raw_uart.log",
+          "sha256": "197882646681239eac42c8a05e10d46b7238a98846f2f0ec2ad4c53bb74702be"
+        },
+        {
+          "artifact_id": "raw_uart",
+          "bytes": 8334,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_03/trace_raw_uart.log",
+          "sha256": "107670814eef7d5f1853e02749abd2b25c0a4393253b4b93e0bb32d5fdf70838"
+        },
+        {
+          "artifact_id": "raw_uart",
+          "bytes": 8334,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_04/trace_raw_uart.log",
+          "sha256": "69cb293e811aa22b4559add4be3a63f606ed12eb839c0b76fca35f491e8a4d5f"
+        },
+        {
+          "artifact_id": "raw_uart",
+          "bytes": 9330,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_00/trace_raw_uart.log",
+          "sha256": "935fbfdafdff27930a8ed6c7e5debd6039a70db4599adadb34c5d89a0b8b883a"
+        },
+        {
+          "artifact_id": "raw_uart",
+          "bytes": 9330,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_01/trace_raw_uart.log",
+          "sha256": "876441efcd6686db9b0836f5472558d68dbf74a5bf0b3c8443604784347ea170"
+        },
+        {
+          "artifact_id": "raw_uart",
+          "bytes": 9330,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_02/trace_raw_uart.log",
+          "sha256": "3b72efb7664ffefea9279bf07c6816974434dc34f1f19b5f3bfb1dc0a5969fd8"
+        },
+        {
+          "artifact_id": "raw_uart",
+          "bytes": 9330,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_03/trace_raw_uart.log",
+          "sha256": "56c86d66745f778399a6218112b6e6b9fe5dff225ffd1c3a3cddb4a2e57c6b97"
+        },
+        {
+          "artifact_id": "raw_uart",
+          "bytes": 9330,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_04/trace_raw_uart.log",
+          "sha256": "7fde0f5ed4991fcff13456a868d697d24a6c13aad634ce6034549ed538a1196d"
+        },
+        {
+          "artifact_id": "raw_uart",
+          "bytes": 8002,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_00/trace_raw_uart.log",
+          "sha256": "9be9fd8d2978bce446c0a86f9cb4f13f2ffdb5642077ff509d8148c97a061f1b"
+        },
+        {
+          "artifact_id": "raw_uart",
+          "bytes": 8001,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_01/trace_raw_uart.log",
+          "sha256": "f1dd1b209e834ba799148819e259dbe3d53c5093881d2e9fb7cea194faede699"
+        },
+        {
+          "artifact_id": "raw_uart",
+          "bytes": 8001,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_02/trace_raw_uart.log",
+          "sha256": "b94768f1d713e545f4ff20281ca09651170a8dd4da9511ed07c1803ae7b345d3"
+        },
+        {
+          "artifact_id": "raw_uart",
+          "bytes": 8002,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_03/trace_raw_uart.log",
+          "sha256": "9f9aaec04bcc8bf00a66f6237245601c165030e75e864f1639fa32ed3f5dc387"
+        },
+        {
+          "artifact_id": "raw_uart",
+          "bytes": 8002,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_04/trace_raw_uart.log",
+          "sha256": "0c509bcc59040ff515a9d3a062f9ea8e67c9b7ade13fe5a644728a1e0f492686"
+        },
+        {
+          "artifact_id": "run_metadata",
+          "bytes": 2160,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/run_behavior_manifest.json",
+          "sha256": "9f39580eb1293b3f03f672a9b61a5f8385b5dda28300c303277353d6dce517d1"
+        },
+        {
+          "artifact_id": "run_metadata",
+          "bytes": 1638,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/run_config.json",
+          "sha256": "1b105cd1eadae2efb6d3a75514b554fe3b74ecc424eb0f6d41250d06d8934873"
+        },
+        {
+          "artifact_id": "run_metadata",
+          "bytes": 2160,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/run_malware_manifest.json",
+          "sha256": "9f39580eb1293b3f03f672a9b61a5f8385b5dda28300c303277353d6dce517d1"
+        },
+        {
+          "artifact_id": "runtime_process_map",
+          "bytes": 11665,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_00/runtime_process_map.json",
+          "sha256": "7ce2b7cc0b53d8531b958dfbd78f2807f9f47400dcab0135d61ccba5d14cd8b1"
+        },
+        {
+          "artifact_id": "runtime_process_map",
+          "bytes": 11665,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_01/runtime_process_map.json",
+          "sha256": "15ce4d1c2748a5a2aa13ee18ffcdfd42e6a462358a132f2b2f2f7fa6d908bf92"
+        },
+        {
+          "artifact_id": "runtime_process_map",
+          "bytes": 11671,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_02/runtime_process_map.json",
+          "sha256": "34b9054f21db2e3d071004cac5508c9a62855d0052b890d53f2a700b6493f7e3"
+        },
+        {
+          "artifact_id": "runtime_process_map",
+          "bytes": 11671,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_03/runtime_process_map.json",
+          "sha256": "3ec434e49ff0576c1080241314c786e1c9707f4078acbc29c43c18e5120784a7"
+        },
+        {
+          "artifact_id": "runtime_process_map",
+          "bytes": 11671,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_04/runtime_process_map.json",
+          "sha256": "e6c476ed337b8466722036c168f511780ee30f63ea9754e9b1a7d98b938d462d"
+        },
+        {
+          "artifact_id": "runtime_process_map",
+          "bytes": 11625,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_00/runtime_process_map.json",
+          "sha256": "46e36876e001e22a8d79501b76cd6d1039e1e83a3a073ef4cc04f5364babb609"
+        },
+        {
+          "artifact_id": "runtime_process_map",
+          "bytes": 11625,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_01/runtime_process_map.json",
+          "sha256": "182caef6d06138a62a8f969f4b242d811232483d22e3df5e90a6c8d601cc9fae"
+        },
+        {
+          "artifact_id": "runtime_process_map",
+          "bytes": 11625,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_02/runtime_process_map.json",
+          "sha256": "dbc6f480f02f7f3f22a34c6c340b906a0e77030f59caed5018f4cb65b50946ea"
+        },
+        {
+          "artifact_id": "runtime_process_map",
+          "bytes": 11625,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_03/runtime_process_map.json",
+          "sha256": "a15a025ce62c3ae2205589297c83f04a87564526c2f7182a9eac7df2a43211f9"
+        },
+        {
+          "artifact_id": "runtime_process_map",
+          "bytes": 11625,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_04/runtime_process_map.json",
+          "sha256": "11c1c4d5d343ec810363a159810ad08b5935c74a9c850cc0ba0d6ae3ef0cc755"
+        },
+        {
+          "artifact_id": "runtime_process_map",
+          "bytes": 11675,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_00/runtime_process_map.json",
+          "sha256": "b92c25bcc73e1380345c365aa8b191e01938ebac526d3031182a8496049ae5cf"
+        },
+        {
+          "artifact_id": "runtime_process_map",
+          "bytes": 11675,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_01/runtime_process_map.json",
+          "sha256": "d11b4a8428d0ec71ea8ddcd1bf126115175f945626d4a5bfbcaff6aac880b32e"
+        },
+        {
+          "artifact_id": "runtime_process_map",
+          "bytes": 11675,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_02/runtime_process_map.json",
+          "sha256": "5e3a20bbd9f7dd969ea4c831c287299c2bf82413e8c12845045a0a9b8fe7adaa"
+        },
+        {
+          "artifact_id": "runtime_process_map",
+          "bytes": 11675,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_03/runtime_process_map.json",
+          "sha256": "4d3937a25f6ab9462ec74b97ff1a4df3d1f704ce1a75dfb92f01926de003e508"
+        },
+        {
+          "artifact_id": "runtime_process_map",
+          "bytes": 11675,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_04/runtime_process_map.json",
+          "sha256": "9a22595b4ecb3c8d96cd6f12d48aada98db91f071ab4ccfb07d20ec71692b2df"
+        },
+        {
+          "artifact_id": "semantic_events",
+          "bytes": 160769,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_00/behavior_recovery/semantic_events.json",
+          "sha256": "15d8c7ae3ccb89b29256e37105f4991fecaf0787c67b77e7f910e9daf2826201"
+        },
+        {
+          "artifact_id": "semantic_events",
+          "bytes": 160048,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_01/behavior_recovery/semantic_events.json",
+          "sha256": "5318d2719530396ef727fbc561f864d69900d3d469c825a99a0cf9862c78cd82"
+        },
+        {
+          "artifact_id": "semantic_events",
+          "bytes": 160053,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_02/behavior_recovery/semantic_events.json",
+          "sha256": "f93c8005a5f17f8196ff1bacfa2302ad86c08d548aefbb85177db96224a6d607"
+        },
+        {
+          "artifact_id": "semantic_events",
+          "bytes": 160257,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_03/behavior_recovery/semantic_events.json",
+          "sha256": "905ffb4b6194a4866482ddce8eb508986afe09a460932c8dcc69bd234da83a5f"
+        },
+        {
+          "artifact_id": "semantic_events",
+          "bytes": 160391,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_04/behavior_recovery/semantic_events.json",
+          "sha256": "a4d04151dd39cfa8190be9955958ce4579c9c0acbf38fa5198fed7a442f19fdc"
+        },
+        {
+          "artifact_id": "semantic_events",
+          "bytes": 176658,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_00/behavior_recovery/semantic_events.json",
+          "sha256": "48afce2c45ad08feafc08563c9965e223c35ca00c56f3fde9b70278f555093d5"
+        },
+        {
+          "artifact_id": "semantic_events",
+          "bytes": 177931,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_01/behavior_recovery/semantic_events.json",
+          "sha256": "eb087f25d5ef5fc774016b0abec9b411c3730c605e27f1d547ff4db9d7e8bb6f"
+        },
+        {
+          "artifact_id": "semantic_events",
+          "bytes": 176767,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_02/behavior_recovery/semantic_events.json",
+          "sha256": "2131a6d4c0426914c91b7d5e00a1223b27da52a45f69c89fc1b7350773900cbc"
+        },
+        {
+          "artifact_id": "semantic_events",
+          "bytes": 178944,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_03/behavior_recovery/semantic_events.json",
+          "sha256": "64bc07c9ab2eb2991b693afe9c9894f671a1dedd2fdf359b1687a2b6d6b5fda5"
+        },
+        {
+          "artifact_id": "semantic_events",
+          "bytes": 177731,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_04/behavior_recovery/semantic_events.json",
+          "sha256": "31b39a09d27a9e88d1b2829b1f7802201b5ab2010f5f03cb0030d58045470d5d"
+        },
+        {
+          "artifact_id": "semantic_events",
+          "bytes": 148722,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_00/behavior_recovery/semantic_events.json",
+          "sha256": "0322688e03db39daf22f22d6d01a63765db28b3046f0214f641633e3217aa3f0"
+        },
+        {
+          "artifact_id": "semantic_events",
+          "bytes": 146830,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_01/behavior_recovery/semantic_events.json",
+          "sha256": "23f5cb66f2831df1875a88374003f4830e4aab2e8edab463c4151f827e5ba4a1"
+        },
+        {
+          "artifact_id": "semantic_events",
+          "bytes": 145208,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_02/behavior_recovery/semantic_events.json",
+          "sha256": "143979e02306c072330a07ddaac2b2a1300e2d9b32165f78a23d110613d4477f"
+        },
+        {
+          "artifact_id": "semantic_events",
+          "bytes": 149102,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_03/behavior_recovery/semantic_events.json",
+          "sha256": "90e7c08259e94882296a59a4e01061e3452fe927304f5afb242f9a46aa93489d"
+        },
+        {
+          "artifact_id": "semantic_events",
+          "bytes": 148300,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_04/behavior_recovery/semantic_events.json",
+          "sha256": "9c25fc21f6958307c2fb481d4627e64a782fb1fe528567715368fd6c74613442"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 67426,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_00/trace_code_map/trace.code_map.jsonl",
+          "sha256": "6b335267c083362f1fb1293e560f8f35fae57344e9d21ee4a81f6c394db700a0"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 2640,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_00/trace_code_map/trace_code_map_summary.json",
+          "sha256": "01551868b549760566bf1d8237c2341dd89156d6899f42486ddac720b7c2d014"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 67334,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_01/trace_code_map/trace.code_map.jsonl",
+          "sha256": "a1a298b4af40db0c0f44de28690cbc8fe9127127ed715ea15aa7bef3a88a85ba"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 2640,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_01/trace_code_map/trace_code_map_summary.json",
+          "sha256": "259df0a6c88bfa3cb61ec08ec393b60cf57610e9f28e6261a62617997266232c"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 67334,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_02/trace_code_map/trace.code_map.jsonl",
+          "sha256": "04a6f779d1112e3fb4f8a929c6144c65ff844ec158266b284d978407a8b4aa34"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 2640,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_02/trace_code_map/trace_code_map_summary.json",
+          "sha256": "ff10419bdbe1ecd0ad184cf92cef218dc6b16db4b0be82ef2981a014212dcd76"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 67315,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_03/trace_code_map/trace.code_map.jsonl",
+          "sha256": "c7a69c396af06d64dc809bc284e0a32b8810f42abb4e202c6e15eb16014b18ff"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 2640,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_03/trace_code_map/trace_code_map_summary.json",
+          "sha256": "87fe9259fb412748f1576566bd784701a971a4fbb24d07c930247af61968bc0b"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 66932,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_04/trace_code_map/trace.code_map.jsonl",
+          "sha256": "50093e2e63d7cf461b0bfac12f2c5e4000808047dbc5aaaeb0db280842141d6a"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 2641,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_encoded_table_sim/board/trace-on/rep_04/trace_code_map/trace_code_map_summary.json",
+          "sha256": "d52d6cffdf2d7ffd9989105515ed4186c438a629ded221f92c8e86a0cb71a1fd"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 75063,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_00/trace_code_map/trace.code_map.jsonl",
+          "sha256": "bb0f6b8f4519804690c4e32e029862bbcfc8a74a87e5966c7f9cb58879880c4b"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 2613,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_00/trace_code_map/trace_code_map_summary.json",
+          "sha256": "a06f8ec31a5a09fe3985d6ce53d24fb7466d308c8e6a09ec4468316c94574f58"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 75265,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_01/trace_code_map/trace.code_map.jsonl",
+          "sha256": "20959efab68c7fe692d47aa5ded1f24d779510af634be6b50a315ca9a4dba2cf"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 2613,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_01/trace_code_map/trace_code_map_summary.json",
+          "sha256": "2a3617bd93a2ea151751305b5fd1c7e5199c4dbc4398cd5f494699ae2e946f65"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 75265,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_02/trace_code_map/trace.code_map.jsonl",
+          "sha256": "c0a1dcbab90bd9392b0d7883f38831657b315cb4842824eb42b84691c6089e83"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 2613,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_02/trace_code_map/trace_code_map_summary.json",
+          "sha256": "a63e2445cc9184fa7d65c9d266af5d1fbb8e01b409b915c14513faf9227a44d5"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 75485,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_03/trace_code_map/trace.code_map.jsonl",
+          "sha256": "86ed4e10a9699b6ee7e915c17404fa51e884690954e76b908e351bbbe26d9797"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 2612,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_03/trace_code_map/trace_code_map_summary.json",
+          "sha256": "c3a7df923739799d41f091f41692d1cec1017bed276944fdd0c7b1b6eacc3938"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 75286,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_04/trace_code_map/trace.code_map.jsonl",
+          "sha256": "0ba0f3f894ad302c0197e2dc681793c34ec06c809eac18d85283f00480b76ab2"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 2613,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_proc_scan_sim/board/trace-on/rep_04/trace_code_map/trace_code_map_summary.json",
+          "sha256": "6d9301b0491d5adf3374b8b33d02e76302aee02c881ecdd4d6ed25c485585000"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 64528,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_00/trace_code_map/trace.code_map.jsonl",
+          "sha256": "00608f1816d4e0f3ce33b12bc694d948ea9022ea45d63bea8b058927cccf502a"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 2647,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_00/trace_code_map/trace_code_map_summary.json",
+          "sha256": "9fa30b08265d464d03b124bc84351ec8e23de6d130b0e8edf7882ad668e95106"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 64104,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_01/trace_code_map/trace.code_map.jsonl",
+          "sha256": "98da5fc1dc92ef3a961051f56a22f56c13b661a516da66df2a3dedc4ebdcd188"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 2648,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_01/trace_code_map/trace_code_map_summary.json",
+          "sha256": "4a596898d3eb0bd0cea3a8477b617527ab10da7ba5d9764e93a5baac58d0c6fc"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 62954,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_02/trace_code_map/trace.code_map.jsonl",
+          "sha256": "fccb49367e0c3cbb54179bd229a6307fbfa33c55dfd02d4772a9b08fdc969142"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 2647,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_02/trace_code_map/trace_code_map_summary.json",
+          "sha256": "045e65179fb6ce0d7111a893b604ff002e7597486a11389b3094b0c9b0d420b2"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 64307,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_03/trace_code_map/trace.code_map.jsonl",
+          "sha256": "3bc6b3b42db7b50370fb372cfffeab1e222e20b343c2e44a71fff281d440d7d0"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 2648,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_03/trace_code_map/trace_code_map_summary.json",
+          "sha256": "5d5d7f5008dbd0809bbc1a072bd35d5840f48a7bfe4417bf6c9ed54abf6a44ac"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 64216,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_04/trace_code_map/trace.code_map.jsonl",
+          "sha256": "9e9d2aa47d804debb92fa53f7fa422b41e8cb06fe0ed19084b50334a654520e6"
+        },
+        {
+          "artifact_id": "trace_code_map",
+          "bytes": 2648,
+          "path": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524/samples/malware_like_synthetic/mirai_watchdog_probe_sim/board/trace-on/rep_04/trace_code_map/trace_code_map_summary.json",
+          "sha256": "5222ca2f4eb708a20245c973d9014637958dc9539832727e89baddeefda8b9ca"
+        }
+      ],
+      "label": "mirai_reference",
+      "results_root": "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524",
+      "run_id": "35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524"
+    }
+  ],
+  "schema": "rvmt.35t.ccfa_style_artifact_hash_manifest.v1",
+  "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "surrogate_boot_provenance": {
+    "next_capture_target": "results/board/artix7_35t_litex/35t-surrogate-darthra-p0a-r512-abba-r5-20260524/06_linux_boot/uart_linux_boot.log",
+    "path": "docs/07-evaluation-evidence/evidence/35t-surrogate-boot-provenance-20260524",
+    "run_scoped_boot_status": "MISSING_OR_INCOMPLETE",
+    "status": "SURROGATE_BOOT_PROVENANCE_DEFERRED_RUN_SCOPED_LOG_MISSING"
+  },
+  "tooling_provenance": {
+    "class_digest": "11994acf4872008ea262be3ed9f6837f390eaf75d0b08dcaa399d155f6c3369b",
+    "files": [
+      {
+        "bytes": 54343,
+        "path": "tools/check_35t_ccfa_evidence_chain.py",
+        "sha256": "1e7dbfdf927132fcc1542b052fc702ffce31cd97708699e63fdf99af7b70373a"
+      },
+      {
+        "bytes": 32285,
+        "path": "tools/check_real_malware_surrogate_gate.py",
+        "sha256": "fde4d7131960851889135a75ef7c6475f2f8586bb4f34d9e1b3333f910ec3398"
+      },
+      {
+        "bytes": 33488,
+        "path": "tools/check_35t_extension_gate.py",
+        "sha256": "675b48b797770d5089235dfa2ddf68536fb7eef2b032eecaf85a79997dde1d82"
+      },
+      {
+        "bytes": 15621,
+        "path": "tools/check_real_malware_validation_gate.py",
+        "sha256": "dfa5dd2ffeee5d5233a6068dc6ee770197047c8d765fe57594c6b242b8b82ee5"
+      },
+      {
+        "bytes": 23087,
+        "path": "tools/check_35t_real_malware_derived_lineage.py",
+        "sha256": "227fccbff6400116c661cc9818f136f2a7a9fd2b9c979b75fd8802183e0c51c5"
+      },
+      {
+        "bytes": 21738,
+        "path": "tools/check_35t_behavior_baseline_comparison.py",
+        "sha256": "50849b022c46daa31ad900ba508bbaddd8d4212a90db5330b931088c21e01a4f"
+      },
+      {
+        "bytes": 10558,
+        "path": "tools/check_35t_surrogate_boot_provenance.py",
+        "sha256": "82bc485eef806dfeee2f1c8693bffdb86a134bc33ea035863605e7fd0eb9535a"
+      },
+      {
+        "bytes": 21813,
+        "path": "tools/check_35t_claim_evidence_table.py",
+        "sha256": "94b61c7261fe4959b6b573eb5153064fe8035fe5426b25051dc73041cb37d598"
+      },
+      {
+        "bytes": 28685,
+        "path": "tools/check_35t_artifact_package_readiness.py",
+        "sha256": "567356ac40a108a61aa4ad7e2f73656bd26dadeda79e3a2b373baf49e44a6d23"
+      },
+      {
+        "bytes": 61299,
+        "path": "tools/check_35t_evidence_consistency.py",
+        "sha256": "f3c86df02aeb1006d22c2b2811dac71149fe1c8ace2f8e801bc6b77a660290ec"
+      },
+      {
+        "bytes": 89262,
+        "path": "tools/experiment_35t.py",
+        "sha256": "859f673885e282f4f9c8f493b02610a0c6967ca93078e837ac185563f42d1f7f"
+      },
+      {
+        "bytes": 55475,
+        "path": "tools/audit_behavior.py",
+        "sha256": "26e485c17bee5d89c9520e6f0354384db536bc5fe073795b5ed65e0fbd1fd02d"
+      },
+      {
+        "bytes": 74364,
+        "path": "src/rv_maltrace/explain.py",
+        "sha256": "d5d1be58149a1017692f806327a6995a54aa7f491b43d0b433b8bf5e0df2c14c"
+      },
+      {
+        "bytes": 8229,
+        "path": "experiments/linux_behavior/behavior_audit_rules.json",
+        "sha256": "5661835c0d77c84d83b1480e99c34e0093efcaf856709ce629407b855788dd62"
+      },
+      {
+        "bytes": 11511,
+        "path": "experiments/linux_behavior/malware_like/extension_plan.json",
+        "sha256": "b9777d331c7a48e23bbd57db2fb09258d42c12ffc47224b1f6f8ecc28117d793"
+      },
+      {
+        "bytes": 4633,
+        "path": "experiments/linux_behavior/malware_like/manifest.json",
+        "sha256": "7a626e2ab95b3869eb0f28f4d95610931c76074c2675b2c9a890e8f608745923"
+      },
+      {
+        "bytes": 2525,
+        "path": "experiments/linux_behavior/real_malware/manifest.json",
+        "sha256": "98246e48e5e4a953b8b9df180b41f2dc71be206577ac6db612158f1acf5eaef9"
+      },
+      {
+        "bytes": 3824,
+        "path": "experiments/linux_behavior/real_malware/reference_sources/mirai_botnet_behavior_reference.json",
+        "sha256": "53277120be66c0c777acd0836a5d1ac01d7ee5269903dba162bf82e370a4e3d3"
+      },
+      {
+        "bytes": 4244,
+        "path": "experiments/linux_behavior/real_malware_surrogate/manifest.json",
+        "sha256": "8a1afdd5409b423fdce4f24174989fd01765b39693527c65df67b19f36e5378f"
+      },
+      {
+        "bytes": 10171,
+        "path": "experiments/linux_behavior/real_malware_surrogate/behavior_lineage_matrix.json",
+        "sha256": "b6e7440d2ebb28574555c6e0e3e385bbcd991e39c3a3e095a52ed2adfa57f6ff"
+      },
+      {
+        "bytes": 1877,
+        "path": "experiments/linux_behavior/malware_like/extension_programs/mirai_proc_scan_sim.c",
+        "sha256": "153d21ec86d20075ce2dfabfa59e38fb0272153e24fbcff6607c2b7b74b76bd3"
+      },
+      {
+        "bytes": 823,
+        "path": "experiments/linux_behavior/malware_like/extension_programs/mirai_watchdog_probe_sim.c",
+        "sha256": "405fa66f890a810552992613cbe23018fd3f9de5e9f949d71f504c3019081bf4"
+      },
+      {
+        "bytes": 2068,
+        "path": "experiments/linux_behavior/malware_like/extension_programs/mirai_encoded_table_sim.c",
+        "sha256": "b9b8a7a37cf338eabc71f93c58c8a7442114108138c43d3f29d379f9f6378ff8"
+      },
+      {
+        "bytes": 1406,
+        "path": "experiments/linux_behavior/real_malware_surrogate/programs/darthra_elf_header_probe.c",
+        "sha256": "f2cdbf81f6f6d4dcac1f68cfc13d9b4262e93387b8458cc4747323117ffcc33d"
+      },
+      {
+        "bytes": 2072,
+        "path": "experiments/linux_behavior/real_malware_surrogate/programs/darthra_rootkit_device_probe.c",
+        "sha256": "f72ce6c9dd164ef3eea5b8e496f7eb7eb6bb17fe4cad825e2797710f12dfe9ef"
+      },
+      {
+        "bytes": 3108,
+        "path": "experiments/linux_behavior/real_malware_surrogate/programs/darthra_virus_fixture_walk_sim.c",
+        "sha256": "e525bb4ed4c6d7aa128e9731f4dc49bb801173330af22cb851e377eee07b4d16"
+      },
+      {
+        "bytes": 6935,
+        "path": "docs/04-runtime-linux/linux_real_malware_surrogate_validation.md",
+        "sha256": "21d6c1f0278b1d0c7dd82edd4d9bf7673b01078f116a5da96e91d089b1f5c2f9"
+      }
+    ],
+    "missing": [],
+    "schema": "rvmt.35t.ccfa_style_tooling_provenance.v1",
+    "status": "PASS"
+  }
+}

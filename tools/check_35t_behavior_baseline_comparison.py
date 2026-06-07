@@ -13,7 +13,7 @@ from typing import Any
 
 
 DEFAULT_MATRIX = Path("experiments/linux_behavior/real_malware_surrogate/behavior_lineage_matrix.json")
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence/35t-real-malware-derived-baseline-comparison-20260524")
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence/35t-real-malware-derived-baseline-comparison-20260524")
 RESULTS_BASE = Path("results/experiments/35t")
 SCHEMA = "rvmt.35t.real_malware_derived_baseline_comparison.v1"
 PASS_STATUS = "REAL_MALWARE_DERIVED_BASELINE_COMPARISON_PASS"

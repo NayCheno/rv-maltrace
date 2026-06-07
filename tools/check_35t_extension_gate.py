@@ -12,7 +12,7 @@ from typing import Any
 
 DEFAULT_RUN_ID = "35t-extension-r512-nonnetwork-20260523"
 DEFAULT_RESULTS_ROOT = Path("results/experiments/35t") / DEFAULT_RUN_ID
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence") / DEFAULT_RUN_ID
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / DEFAULT_RUN_ID
 MALWARE_EXTENSION_PLAN = Path("experiments/linux_behavior/malware_like/extension_plan.json")
 SCHEMA = "rvmt.35t.extension_gate_check.v1"
 EXPECTED_STATUS = "PASS"
@@ -744,7 +744,7 @@ def main(argv: list[str] | None = None) -> int:
         return self_test()
     expected = parse_expected(args.expected_samples)
     results_root = args.results_root or (Path("results/experiments/35t") / args.run_id)
-    evidence_root = args.evidence_root or (Path("docs/results/evidence") / args.run_id)
+    evidence_root = args.evidence_root or (Path("docs/07-evaluation-evidence/evidence") / args.run_id)
     try:
         report = build_report(args.repo_root, results_root, evidence_root, expected)
         if not args.no_write:

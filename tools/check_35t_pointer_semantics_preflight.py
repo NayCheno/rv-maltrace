@@ -12,8 +12,8 @@ from typing import Any
 
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
 STATUS = "SYNTHETIC_ARG_MEM_GUARDRAILS_PASS_SIDE_CHANNEL_CLOSURE_HARDWARE_POINTER_DEFERRED"
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence") / RUN_ID
-DEFAULT_SIM_RESULTS = Path("docs/reports/sim_results.md")
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / RUN_ID
+DEFAULT_SIM_RESULTS = Path("docs/07-evaluation-evidence/reports/sim_results.md")
 DEFAULT_TRACE_PROFILES = Path("src/rv_maltrace/trace_profiles.py")
 DEFAULT_TRACE_PKG = Path("rtl/trace/trace_pkg.sv")
 DEFAULT_TRACE_TOP = Path("rtl/trace/trace_top.sv")

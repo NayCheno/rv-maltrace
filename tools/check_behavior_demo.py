@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import argparse
 import json
@@ -14,8 +14,8 @@ DEFAULT_MANIFEST = Path("experiments/linux_behavior/malware_like/manifest.json")
 DEFAULT_FIXTURE_DIR = Path("sim/golden/demo_behavior")
 DEFAULT_RENDER_TOOL = Path("tools/render_behavior_demo.py")
 DEFAULT_CLI = Path("src/rv_maltrace/cli.py")
-DEFAULT_UV_DOC = Path("docs/process/uv_workflow.md")
-DEFAULT_DOC = Path("docs/linux/behavior_demo.md")
+DEFAULT_UV_DOC = Path("docs/10-process/uv_workflow.md")
+DEFAULT_DOC = Path("docs/04-runtime-linux/behavior_demo.md")
 DEFAULT_README = Path("README.md")
 DEFAULT_COMPOSE = Path("docker-compose.toolchain.yml")
 DEFAULT_DOCKERFILE = Path("docker/linux-behavior/Dockerfile")

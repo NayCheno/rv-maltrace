@@ -997,7 +997,7 @@ def record_artix7_board_identity(root: Path, config: dict, env: dict[str, str], 
     observation = [
         "- Board path: EmbedFire Shengteng Pro A35T / XC7A35T-FGG484-2.",
         f"- Primary UART: board CH340 on `{args.port}` at `{args.baud} 8N1`.",
-        "- Source material: `docs/board/artix7_35t_pinmap.xlsx` and `docs/board/artix8_35t_hw_spec.pdf`.",
+        "- Source material: `docs/03-platform-architecture/artix7-35t/artix7_35t_pinmap.xlsx` and `docs/03-platform-architecture/artix7-35t/artix8_35t_hw_spec.pdf`.",
         "- Vivado executable: `" + vivado + "`.",
         "- Notes: repository hardware spec PDF is currently named `artix8_35t_hw_spec.pdf`.",
     ]

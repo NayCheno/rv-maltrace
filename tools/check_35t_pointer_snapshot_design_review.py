@@ -12,12 +12,12 @@ from typing import Any
 
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
 DEFAULT_DESIGN = Path("experiments/linux_behavior/pointer_snapshot_design_review.json")
-DEFAULT_DESIGN_NOTE = Path("docs/research/semantic/pointer_snapshot_design_review.md")
+DEFAULT_DESIGN_NOTE = Path("docs/05-semantic-analysis/pointer_snapshot_design_review.md")
 DEFAULT_GATE = Path("experiments/linux_behavior/pointer_snapshot_enablement_gate.json")
 DEFAULT_ROUTES = Path("experiments/linux_behavior/semantic_enrichment_routes.json")
 DEFAULT_STRATEGY = Path("experiments/linux_behavior/semantic_enrichment_strategy.json")
 DEFAULT_TRACE_PROFILES = Path("src/rv_maltrace/trace_profiles.py")
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence") / RUN_ID
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / RUN_ID
 SCHEMA = "rvmt.35t.pointer_snapshot_design_review.check.v1"
 DESIGN_SCHEMA = "rvmt.35t.pointer_snapshot_design_review.v1"
 STATUS = "POINTER_SNAPSHOT_DESIGN_REVIEW_PASS_NOT_ENABLED"

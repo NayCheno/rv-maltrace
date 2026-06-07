@@ -9,7 +9,7 @@ from typing import Any
 
 
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence") / RUN_ID
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / RUN_ID
 STATUS = "PASS_CURRENT_EXTERNAL_CONDITIONS_RECORDED"
 ASSESSMENT_STATUS = "PASS_WITH_BOUNDED_REMAINING_WORK"
 P3_STATUS = "PARTIAL_BOUNDED_SYNTHETIC_ARG_MEM_GUARDRAILS"
@@ -545,7 +545,7 @@ def build_report(repo_root: Path, evidence_root_arg: Path) -> dict[str, Any]:
             "pointer_snapshot_design_review.json",
             "pointer_snapshot_design_review.md",
             "experiments/linux_behavior/pointer_snapshot_design_review.json",
-            "docs/research/semantic/pointer_snapshot_design_review.md",
+            "docs/05-semantic-analysis/pointer_snapshot_design_review.md",
             "pointer_snapshot_enablement_gate.json",
         ],
         current_condition=(
@@ -803,7 +803,7 @@ def write_fixture(
     )
     (evidence / "pointer_snapshot_design_review.md").write_text("fixture\n", encoding="utf-8")
     write_json(root / "experiments/linux_behavior/pointer_snapshot_design_review.json", {"schema": "fixture"})
-    note = root / "docs/research/semantic/pointer_snapshot_design_review.md"
+    note = root / "docs/05-semantic-analysis/pointer_snapshot_design_review.md"
     note.parent.mkdir(parents=True, exist_ok=True)
     note.write_text("fixture\n", encoding="utf-8")
     ebpf_status = "PASS" if missing_ebpf_block else "BLOCKED_CURRENT_ENVIRONMENT"

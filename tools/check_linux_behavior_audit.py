@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import argparse
 import json
@@ -11,11 +11,11 @@ from typing import Any
 
 
 DEFAULT_SPEC = Path("experiments/linux_behavior/behavior_audit_rules.json")
-DEFAULT_DOC = Path("docs/linux/linux_behavior_audit.md")
+DEFAULT_DOC = Path("docs/04-runtime-linux/linux_behavior_audit.md")
 DEFAULT_TOOL = Path("tools/audit_behavior.py")
 DEFAULT_MANIFEST = Path("experiments/linux_behavior/malware_like/manifest.json")
 DEFAULT_POLICY = Path("experiments/linux_behavior/policy.json")
-DEFAULT_UV_DOC = Path("docs/process/uv_workflow.md")
+DEFAULT_UV_DOC = Path("docs/10-process/uv_workflow.md")
 
 SPEC_KEYS = {
     "phase",
@@ -258,7 +258,7 @@ def check_uv_doc(path: Path) -> list[str]:
         ("tools/audit_behavior.py --self-test", "audit self-test command"),
         ("--graph build/behavior_recovery_smoke/behavior_graph.json", "audit graph argument"),
         ("tools/check_linux_behavior_audit.py", "Phase 6.5 checker command"),
-        ("docs/linux/linux_behavior_audit.md", "Phase 6.5 doc reference"),
+        ("docs/04-runtime-linux/linux_behavior_audit.md", "Phase 6.5 doc reference"),
         ("experiments/linux_behavior/behavior_audit_rules.json", "Phase 6.5 spec reference"),
     ):
         if token not in text:
@@ -399,7 +399,7 @@ must not be used to claim malware detection quality
         "uv run python tools/audit_behavior.py --semantic build/behavior_recovery_smoke/semantic_events.json "
         "--graph build/behavior_recovery_smoke/behavior_graph.json\n"
         "uv run python tools/check_linux_behavior_audit.py\n"
-        "docs/linux/linux_behavior_audit.md\n"
+        "docs/04-runtime-linux/linux_behavior_audit.md\n"
         "experiments/linux_behavior/behavior_audit_rules.json\n",
         encoding="utf-8",
     )

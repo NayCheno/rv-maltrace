@@ -1,0 +1,59 @@
+{
+  "checks": {
+    "board_minimal_mem_mode_none": true,
+    "p2_profile_gated_but_disabled": true,
+    "routes_remain_deferred": true,
+    "rtl_arg_mem_tap_instantiated": true,
+    "side_channel_semantic_closure_present": true,
+    "sim_pointer_guardrails_pass": true,
+    "sim_pointer_string_pass": true,
+    "small_capacity_35t_profiles_arg_mem_disabled": true,
+    "strategy_keeps_pointer_snapshot_optional": true,
+    "trace_mem_default_none": true
+  },
+  "current_35t_pointer_semantics": {
+    "hardware_user_pointer_snapshot": "DEFERRED",
+    "side_channel_scope": "fd/path and process representative closure only",
+    "small_capacity_profiles": "ARG_MEM_DISABLED",
+    "trace_mem_mode": "TRACE_MEM_MODE_NONE"
+  },
+  "evidence": {
+    "board_minimal_top": "rtl/trace/trace_board_minimal_top.sv",
+    "semantic_routes": "experiments/linux_behavior/semantic_enrichment_routes.json",
+    "semantic_strategy": "experiments/linux_behavior/semantic_enrichment_strategy.json",
+    "side_channel": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_syscall_side_channel_smoke.json",
+    "sim_results": "docs/07-evaluation-evidence/reports/sim_results.md",
+    "trace_pkg": "rtl/trace/trace_pkg.sv",
+    "trace_profiles": "src/rv_maltrace/trace_profiles.py",
+    "trace_top": "rtl/trace/trace_top.sv"
+  },
+  "failures": [],
+  "generated_utc": "2026-05-23T12:49:50Z",
+  "interpretation": [
+    "synthetic ARG_MEM simulation covers pointer string and guardrail behavior",
+    "the current 35T small-capacity evidence does not enable hardware user-pointer memory snapshots",
+    "board syscall side-channel evidence closes representative fd/path and process-tree semantics without changing the hardware pointer claim",
+    "P3 remains bounded until gated selective memory snapshot or trusted helper alignment is implemented and measured"
+  ],
+  "non_claims": [
+    "no 35T hardware user-pointer snapshot PASS claim",
+    "no default ARG_MEM enablement claim",
+    "no complete syscall argument reconstruction claim",
+    "no real malware detection claim"
+  ],
+  "run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "schema": "rvmt.35t.pointer_semantics_preflight.v1",
+  "status": "SYNTHETIC_ARG_MEM_GUARDRAILS_PASS_SIDE_CHANNEL_CLOSURE_HARDWARE_POINTER_DEFERRED",
+  "synthetic_arg_mem_tests": {
+    "pointer_guardrails": {
+      "arg_mem": 14,
+      "notes": "Confirms page-boundary continuity, max-length limiting, multi-byte load clipping, watch timeout, and unrelated S-mode load rejection.",
+      "status": "PASS"
+    },
+    "pointer_string": {
+      "arg_mem": 5,
+      "notes": "Confirms synthetic openat pathname capture as five ordered `ARG_MEM` bytes ending at NUL.",
+      "status": "PASS"
+    }
+  }
+}

@@ -10,7 +10,7 @@ from typing import Any
 
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
 DEFAULT_ASSESSMENT = Path("D:/Download/rv_maltrace_35t_assessment.md")
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence") / RUN_ID
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / RUN_ID
 SCHEMA = "rvmt.35t.assessment_requirement_matrix.v1"
 STATUS = "ASSESSMENT_REQUIREMENT_MATRIX_PASS_WITH_BOUNDED_EXTERNAL_WORK"
 CLAIM_LEVEL = "35T hardware-trace-assisted synthetic malware-like behavior audit prototype"
@@ -1228,12 +1228,12 @@ def write_fixture(root: Path, *, omit_external: bool = False, missing_token: boo
             "schema": "rvmt.35t.paper_artifact_package_manifest.v1",
             "status": PACKAGE_STATUS,
             "lightweight_evidence_files": [
-                "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/assessment_requirement_matrix.json",
-                "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/assessment_requirement_matrix.md",
-                "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_sanitization.json",
-                "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_sanitization.md",
-                "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow.json",
-                "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow.md",
+                "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/assessment_requirement_matrix.json",
+                "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/assessment_requirement_matrix.md",
+                "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_sanitization.json",
+                "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_sanitization.md",
+                "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow.json",
+                "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow.md",
             ],
         },
     )

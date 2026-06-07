@@ -10,7 +10,7 @@ from typing import Any
 
 
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence") / RUN_ID
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / RUN_ID
 EXPECTED_SCHEMA = "rvmt.35t.targeted_board_validation_plan.v1"
 EXPECTED_STATUS = "AWAITING_BOARD_RUN"
 EXPECTED_SCOPE = "Artix-7 35T / LiteX / VexRiscv"

@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import argparse
 import json
@@ -14,7 +14,7 @@ DEFAULT_TIMING_REPORT = Path("build/vivado/genesys2-cv64a6_imafdc_sv39/reports/a
 DEFAULT_TRACE_UTIL_REPORT = Path("build/vivado/genesys2-cv64a6_imafdc_sv39-trace/reports/ariane.utilization.rpt")
 DEFAULT_TRACE_TIMING_REPORT = Path("build/vivado/genesys2-cv64a6_imafdc_sv39-trace/reports/ariane.timing.rpt")
 DEFAULT_SIM_SUMMARY = Path("results/vivado_sim/summary.json")
-DEFAULT_OUT = Path("docs/reports/resource_report.md")
+DEFAULT_OUT = Path("docs/07-evaluation-evidence/reports/resource_report.md")
 TRACE_PARAM_FILES = (
     Path("rtl/trace/trace_top.sv"),
     Path("rtl/trace/cva6_rvfi_trace_adapter.sv"),

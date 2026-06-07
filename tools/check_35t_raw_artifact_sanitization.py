@@ -14,7 +14,7 @@ from typing import Any
 
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
 DEFAULT_RESULTS_ROOT = Path("results/experiments/35t") / RUN_ID
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence") / RUN_ID
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / RUN_ID
 SCHEMA = "rvmt.35t.raw_artifact_sanitization.v1"
 STATUS = "RAW_ARTIFACT_HASH_EXCERPT_READY_FULL_RAW_DEFERRED"
 CLAIM_LEVEL = "35T hardware-trace-assisted synthetic malware-like behavior audit prototype"

@@ -11,7 +11,7 @@ from typing import Any
 
 PRIMARY_RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
 EXTENSION_RUN_ID = "35t-extension-r512-nonnetwork-20260523"
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence/35t-semantic-case-study-matrix-20260523")
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence/35t-semantic-case-study-matrix-20260523")
 PROCESS_TREE_SAMPLES = ("process_chain", "multi_level_process_chain")
 
 

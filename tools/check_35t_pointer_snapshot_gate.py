@@ -10,7 +10,7 @@ from typing import Any
 
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
 DEFAULT_GATE = Path("experiments/linux_behavior/pointer_snapshot_enablement_gate.json")
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence") / RUN_ID
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / RUN_ID
 DEFAULT_POINTER_PREFLIGHT = DEFAULT_EVIDENCE_ROOT / "pointer_semantics_preflight.json"
 DEFAULT_THREAT_MODEL = DEFAULT_EVIDENCE_ROOT / "threat_model_boundary.json"
 DEFAULT_ARTIFACT_READINESS = DEFAULT_EVIDENCE_ROOT / "artifact_package_readiness.json"

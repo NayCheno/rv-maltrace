@@ -13,7 +13,7 @@ from typing import Any
 
 RUN_ID = "35t-qemu-plugin-build-preflight-20260523"
 SOURCE_RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence") / SOURCE_RUN_ID
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / SOURCE_RUN_ID
 SCHEMA = "rvmt.35t.qemu_plugin_build_preflight.v1"
 STATUS = "QEMU_PLUGIN_SYSTEM_BUILD_LOAD_PREFLIGHT_PASS_USER_BASELINE_BLOCKED"
 QEMU_VERSION_TAG = "v8.2.2"

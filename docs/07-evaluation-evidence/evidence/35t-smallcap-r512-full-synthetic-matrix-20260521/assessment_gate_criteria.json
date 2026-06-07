@@ -1,0 +1,418 @@
+{
+  "assessment_source": "D:\\Download\\rv_maltrace_35t_assessment.md",
+  "checks": {
+    "assessment_lists_gate_conditions": true,
+    "benign_malware_like_split": true,
+    "drop_within_limit_all_samples": true,
+    "gate_claim_level": true,
+    "gate_run_id": true,
+    "gate_schema": true,
+    "ls_benign_overlap_bounded": true,
+    "malware_like_manifest_synthetic_non_network": true,
+    "marker_scope_all_reps_pass": true,
+    "no_cap_hit_all_samples": true,
+    "per_sample_profile_policy": true,
+    "run_config_real_malware_forbidden": true,
+    "runtime_process_attribution_all_reps_pass": true,
+    "sample_count_13": true,
+    "sample_matrix_summary_matches": true,
+    "sample_set_exact": true,
+    "sample_status_13_pass": true,
+    "strong_expected_rules_all_malware_like": true,
+    "trace_profile_policy": true,
+    "trace_records_512": true,
+    "unknown_corrupt_zero_all_samples": true
+  },
+  "evidence": {
+    "gate_report": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggregate/gate_report.json",
+    "run_config": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/run_config.json",
+    "sample_manifest": "experiments/linux_behavior/malware_like/manifest.json",
+    "sample_matrix_summary": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/sample_matrix_summary.json"
+  },
+  "failures": [],
+  "interpretation": [
+    "the 35T primary gate is a 512-record, 13-sample full-matrix PASS under the small-capacity profile policy",
+    "marker scope and runtime process attribution pass for every trace-on repetition in the primary gate",
+    "benign overlap is explicitly bounded to the ls directory traversal rule and is not a malware-detection claim"
+  ],
+  "non_claims": [
+    "no real malware detection claim",
+    "no classifier accuracy claim",
+    "no complete semantic reconstruction claim",
+    "no CVA6 board claim"
+  ],
+  "run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "sample_rows": [
+    {
+      "benign_expected_rule_overlap": [],
+      "checks": {
+        "benign_overlap_bounded": true,
+        "drop_within_limit": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_record_cap_hit": true,
+        "profile_policy": true,
+        "runtime_process_attribution_pass": true,
+        "sample_status_pass": true,
+        "strong_expected_rule": true,
+        "unexpected_events_empty": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.0,
+      "drop_rate_median_limit": 0.05,
+      "expected_rule": null,
+      "failures": [],
+      "gate_status": "PASS",
+      "matched_expected": [],
+      "sample_class": "benign",
+      "sample_id": "hello",
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "benign_expected_rule_overlap": [
+        "many_file_scan"
+      ],
+      "checks": {
+        "benign_overlap_bounded": true,
+        "drop_within_limit": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_record_cap_hit": true,
+        "profile_policy": true,
+        "runtime_process_attribution_pass": true,
+        "sample_status_pass": true,
+        "strong_expected_rule": true,
+        "unexpected_events_empty": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.0,
+      "drop_rate_median_limit": 0.05,
+      "expected_rule": null,
+      "failures": [],
+      "gate_status": "PASS",
+      "matched_expected": [],
+      "sample_class": "benign",
+      "sample_id": "ls",
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "benign_expected_rule_overlap": [],
+      "checks": {
+        "benign_overlap_bounded": true,
+        "drop_within_limit": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_record_cap_hit": true,
+        "profile_policy": true,
+        "runtime_process_attribution_pass": true,
+        "sample_status_pass": true,
+        "strong_expected_rule": true,
+        "unexpected_events_empty": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.0,
+      "drop_rate_median_limit": 0.05,
+      "expected_rule": null,
+      "failures": [],
+      "gate_status": "PASS",
+      "matched_expected": [],
+      "sample_class": "benign",
+      "sample_id": "cat",
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "benign_expected_rule_overlap": [],
+      "checks": {
+        "benign_overlap_bounded": true,
+        "drop_within_limit": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_record_cap_hit": true,
+        "profile_policy": true,
+        "runtime_process_attribution_pass": true,
+        "sample_status_pass": true,
+        "strong_expected_rule": true,
+        "unexpected_events_empty": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.0,
+      "drop_rate_median_limit": 0.05,
+      "expected_rule": null,
+      "failures": [],
+      "gate_status": "PASS",
+      "matched_expected": [],
+      "sample_class": "benign",
+      "sample_id": "cp",
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "benign_expected_rule_overlap": [],
+      "checks": {
+        "benign_overlap_bounded": true,
+        "drop_within_limit": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_record_cap_hit": true,
+        "profile_policy": true,
+        "runtime_process_attribution_pass": true,
+        "sample_status_pass": true,
+        "strong_expected_rule": true,
+        "unexpected_events_empty": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.0,
+      "drop_rate_median_limit": 0.05,
+      "expected_rule": null,
+      "failures": [],
+      "gate_status": "PASS",
+      "matched_expected": [],
+      "sample_class": "benign",
+      "sample_id": "sha256sum",
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "benign_expected_rule_overlap": [],
+      "checks": {
+        "benign_overlap_bounded": true,
+        "drop_within_limit": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_record_cap_hit": true,
+        "profile_policy": true,
+        "runtime_process_attribution_pass": true,
+        "sample_status_pass": true,
+        "strong_expected_rule": true,
+        "unexpected_events_empty": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.0,
+      "drop_rate_median_limit": 0.05,
+      "expected_rule": "many_file_scan",
+      "failures": [],
+      "gate_status": "PASS",
+      "matched_expected": [
+        "many_file_scan"
+      ],
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "file_scan",
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "benign_expected_rule_overlap": [],
+      "checks": {
+        "benign_overlap_bounded": true,
+        "drop_within_limit": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_record_cap_hit": true,
+        "profile_policy": true,
+        "runtime_process_attribution_pass": true,
+        "sample_status_pass": true,
+        "strong_expected_rule": true,
+        "unexpected_events_empty": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.0,
+      "drop_rate_median_limit": 0.05,
+      "expected_rule": "batch_file_read_write",
+      "failures": [],
+      "gate_status": "PASS",
+      "matched_expected": [
+        "batch_file_read_write"
+      ],
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "batch_open_read_write",
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "benign_expected_rule_overlap": [],
+      "checks": {
+        "benign_overlap_bounded": true,
+        "drop_within_limit": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_record_cap_hit": true,
+        "profile_policy": true,
+        "runtime_process_attribution_pass": true,
+        "sample_status_pass": true,
+        "strong_expected_rule": true,
+        "unexpected_events_empty": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.0,
+      "drop_rate_median_limit": 0.05,
+      "expected_rule": "self_copy_simulation",
+      "failures": [],
+      "gate_status": "PASS",
+      "matched_expected": [
+        "self_copy_simulation"
+      ],
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "self_copy_sim",
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "benign_expected_rule_overlap": [],
+      "checks": {
+        "benign_overlap_bounded": true,
+        "drop_within_limit": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_record_cap_hit": true,
+        "profile_policy": true,
+        "runtime_process_attribution_pass": true,
+        "sample_status_pass": true,
+        "strong_expected_rule": true,
+        "unexpected_events_empty": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.0,
+      "drop_rate_median_limit": 0.05,
+      "expected_rule": "abnormal_syscall_sequence",
+      "failures": [],
+      "gate_status": "PASS",
+      "matched_expected": [
+        "abnormal_syscall_sequence"
+      ],
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "abnormal_syscall_sequence",
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "benign_expected_rule_overlap": [],
+      "checks": {
+        "benign_overlap_bounded": true,
+        "drop_within_limit": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_record_cap_hit": true,
+        "profile_policy": true,
+        "runtime_process_attribution_pass": true,
+        "sample_status_pass": true,
+        "strong_expected_rule": true,
+        "unexpected_events_empty": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.03067484662576687,
+      "drop_rate_median_limit": 0.05,
+      "expected_rule": "illegal_instruction_trap",
+      "failures": [],
+      "gate_status": "PASS",
+      "matched_expected": [
+        "illegal_instruction_trap"
+      ],
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "illegal_trap",
+      "trace_profile": "p0c_syscall_trap_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "benign_expected_rule_overlap": [],
+      "checks": {
+        "benign_overlap_bounded": true,
+        "drop_within_limit": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_record_cap_hit": true,
+        "profile_policy": true,
+        "runtime_process_attribution_pass": true,
+        "sample_status_pass": true,
+        "strong_expected_rule": true,
+        "unexpected_events_empty": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.0,
+      "drop_rate_median_limit": 0.05,
+      "expected_rule": "process_creation_chain",
+      "failures": [],
+      "gate_status": "PASS",
+      "matched_expected": [
+        "process_creation_chain"
+      ],
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "process_chain",
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "benign_expected_rule_overlap": [],
+      "checks": {
+        "benign_overlap_bounded": true,
+        "drop_within_limit": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_record_cap_hit": true,
+        "profile_policy": true,
+        "runtime_process_attribution_pass": true,
+        "sample_status_pass": true,
+        "strong_expected_rule": true,
+        "unexpected_events_empty": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.0,
+      "drop_rate_median_limit": 0.05,
+      "expected_rule": "dynamic_executable_memory",
+      "failures": [],
+      "gate_status": "PASS",
+      "matched_expected": [
+        "dynamic_executable_memory"
+      ],
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "dynamic_executable_memory",
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    },
+    {
+      "benign_expected_rule_overlap": [],
+      "checks": {
+        "benign_overlap_bounded": true,
+        "drop_within_limit": true,
+        "gate_status_pass": true,
+        "marker_scope_pass": true,
+        "no_trace_record_cap_hit": true,
+        "profile_policy": true,
+        "runtime_process_attribution_pass": true,
+        "sample_status_pass": true,
+        "strong_expected_rule": true,
+        "unexpected_events_empty": true,
+        "unknown_corrupt_zero": true
+      },
+      "corrupt_record_count": 0,
+      "drop_rate_median": 0.0,
+      "drop_rate_median_limit": 0.05,
+      "expected_rule": "anti_analysis_indicator",
+      "failures": [],
+      "gate_status": "PASS",
+      "matched_expected": [
+        "anti_analysis_indicator"
+      ],
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "anti_debug_like",
+      "trace_profile": "p0a_syscall_drop",
+      "unknown_event_count": 0
+    }
+  ],
+  "schema": "rvmt.35t.assessment_gate_criteria.v1",
+  "status": "ASSESSMENT_GATE_CRITERIA_PASS"
+}

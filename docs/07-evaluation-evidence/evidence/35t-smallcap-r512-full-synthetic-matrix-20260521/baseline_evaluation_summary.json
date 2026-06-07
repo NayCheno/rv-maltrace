@@ -1,0 +1,404 @@
+{
+  "baselines": {
+    "ebpf_only": {
+      "evidence": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/ebpf_baseline_summary.json",
+      "instrumentation": "bpftrace tracepoint:raw_syscalls:sys_enter comm-filtered host binaries",
+      "run_id": "35t-ebpf-baseline-20260523",
+      "sample_count": 13,
+      "samples_with_evidence": 13,
+      "status": "PASS"
+    },
+    "host_native": {
+      "evidence": "groundtruth median timing field in aggregate metrics",
+      "sample_count": 13,
+      "samples_with_evidence": 13,
+      "status": "PASS"
+    },
+    "host_strace": {
+      "evidence": "groundtruth median timing field in aggregate metrics",
+      "sample_count": 13,
+      "samples_with_evidence": 13,
+      "status": "PASS"
+    },
+    "qemu_native": {
+      "evidence": "groundtruth median timing field in aggregate metrics",
+      "sample_count": 13,
+      "samples_with_evidence": 13,
+      "status": "PASS"
+    },
+    "qemu_plugin": {
+      "evidence": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/qemu_plugin_baseline_summary.json",
+      "instrumentation": "QEMU user-mode TCG plugin syscall-count baseline",
+      "qemu_version": "qemu-riscv64 version 8.2.2",
+      "run_id": "35t-qemu-plugin-baseline-20260523",
+      "sample_count": 13,
+      "samples_with_evidence": 13,
+      "status": "PASS",
+      "system_build_load_preflight": {
+        "current_condition": "qemu-system-riscv64 can load a freshly built minimal QEMU TCG plugin when the matching official QEMU 8.2.2 plugin header is fetched at probe time; qemu-riscv64 user-mode still does not expose -plugin, and no 13-sample QEMU-plugin baseline is recorded",
+        "evidence": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/qemu_plugin_build_preflight.json",
+        "status": "PASS"
+      }
+    },
+    "qemu_strace": {
+      "evidence": "groundtruth median timing field in aggregate metrics",
+      "sample_count": 13,
+      "samples_with_evidence": 13,
+      "status": "PASS"
+    },
+    "rvmaltrace_event_only": {
+      "evidence": "primary 512-record hardware trace gate and per-sample trace metrics",
+      "sample_count": 13,
+      "samples_with_evidence": 13,
+      "status": "PASS"
+    },
+    "rvmaltrace_helper_or_ebpf_companion": {
+      "evidence": "optional enrichment route, not an MVP dependency",
+      "sample_count": 13,
+      "samples_with_evidence": 0,
+      "status": "DEFERRED"
+    },
+    "rvmaltrace_pointer_snapshot": {
+      "evidence": "selective pointer snapshot route remains gated/default-disabled",
+      "sample_count": 13,
+      "samples_with_evidence": 0,
+      "status": "DEFERRED"
+    },
+    "software_instrumentation": {
+      "evidence": "results/experiments/35t/35t-software-instrumentation-baseline-20260523/aggregate/software_instrumentation_baseline_summary.json",
+      "instrumentation": "gcc -finstrument-functions host binary",
+      "run_id": "35t-software-instrumentation-baseline-20260523",
+      "sample_count": 13,
+      "samples_with_evidence": 13,
+      "status": "PASS"
+    }
+  },
+  "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+  "interpretation": [
+    "host native, host strace, QEMU native, and QEMU strace timing fields are present for the 13-sample 35T run",
+    "software instrumentation baseline is reported as PASS only when its independent summary has schema, run-id, sample-count, and pass-count evidence",
+    "eBPF-only and QEMU-plugin are reported as PASS only when their independent summaries supply 13/13 sample evidence",
+    "board trace-on/off ratios are measured runtime ratios only and are not acceleration claims"
+  ],
+  "limitations": [
+    "timing fields alone do not prove syscall semantic accuracy or anti-debug detectability",
+    "QEMU-plugin syscall-count evidence is a simulator software baseline and not a hardware trace, real malware, or DBI comparison claim",
+    "the eBPF-only baseline is host Linux bpftrace evidence and is not a hardware, QEMU-plugin, or pointer-snapshot substitute",
+    "software instrumentation is source-level function instrumentation and does not provide syscall argument reconstruction",
+    "no real malware detection quality or classifier accuracy is measured"
+  ],
+  "non_claims": [
+    "no CVA6 board claim",
+    "no real malware detection claim",
+    "no mature detector claim",
+    "no classifier accuracy claim",
+    "no complete semantic reconstruction claim"
+  ],
+  "run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "sample_count": 13,
+  "samples": [
+    {
+      "alignment_argument_accuracy_median": 0.40384615384615385,
+      "alignment_precision_median": 0.10526315789473684,
+      "alignment_recall_median": 0.2222222222222222,
+      "board_trace_off_median_ns": 174854200.0,
+      "board_trace_on_median_ns": 103531000.0,
+      "board_trace_on_over_trace_off": 0.5920990173527431,
+      "cap_hit_count": 0,
+      "drop_rate_median": 0.0,
+      "groundtruth_median_ns": {
+        "host_native": 13666309.0,
+        "host_strace": 36123584.0,
+        "qemu_native": 23388065.0,
+        "qemu_strace": 38492464.0
+      },
+      "host_strace_over_host_native": 2.643258249173204,
+      "missing_groundtruth": [],
+      "qemu_strace_over_qemu_native": 1.6458165307818324,
+      "sample_class": "benign",
+      "sample_id": "hello",
+      "status": "PASS",
+      "trace_events_median": 36.0
+    },
+    {
+      "alignment_argument_accuracy_median": 0.3611111111111111,
+      "alignment_precision_median": 0.21428571428571427,
+      "alignment_recall_median": 0.5,
+      "board_trace_off_median_ns": 201395280.0,
+      "board_trace_on_median_ns": 115986240.0,
+      "board_trace_on_over_trace_off": 0.575913397771785,
+      "cap_hit_count": 0,
+      "drop_rate_median": 0.0,
+      "groundtruth_median_ns": {
+        "host_native": 15165233.0,
+        "host_strace": 42998734.0,
+        "qemu_native": 25245547.0,
+        "qemu_strace": 47901047.0
+      },
+      "host_strace_over_host_native": 2.8353493810480854,
+      "missing_groundtruth": [],
+      "qemu_strace_over_qemu_native": 1.8974057880385797,
+      "sample_class": "benign",
+      "sample_id": "ls",
+      "status": "PASS",
+      "trace_events_median": 52.0
+    },
+    {
+      "alignment_argument_accuracy_median": 0.3602941176470588,
+      "alignment_precision_median": 0.2608695652173913,
+      "alignment_recall_median": 0.5,
+      "board_trace_off_median_ns": 187654720.0,
+      "board_trace_on_median_ns": 110430420.0,
+      "board_trace_on_over_trace_off": 0.58847664476545,
+      "cap_hit_count": 0,
+      "drop_rate_median": 0.0,
+      "groundtruth_median_ns": {
+        "host_native": 17322475.0,
+        "host_strace": 40703114.0,
+        "qemu_native": 35251594.0,
+        "qemu_strace": 57753486.0
+      },
+      "host_strace_over_host_native": 2.349728546296069,
+      "missing_groundtruth": [],
+      "qemu_strace_over_qemu_native": 1.6383226812381875,
+      "sample_class": "benign",
+      "sample_id": "cat",
+      "status": "PASS",
+      "trace_events_median": 44.0
+    },
+    {
+      "alignment_argument_accuracy_median": 0.35526315789473684,
+      "alignment_precision_median": 0.2727272727272727,
+      "alignment_recall_median": 0.5,
+      "board_trace_off_median_ns": 184810500.0,
+      "board_trace_on_median_ns": 104555420.0,
+      "board_trace_on_over_trace_off": 0.565743937709167,
+      "cap_hit_count": 0,
+      "drop_rate_median": 0.0,
+      "groundtruth_median_ns": {
+        "host_native": 18281850.0,
+        "host_strace": 44262653.0,
+        "qemu_native": 38925977.0,
+        "qemu_strace": 60990471.0
+      },
+      "host_strace_over_host_native": 2.4211254878472364,
+      "missing_groundtruth": [],
+      "qemu_strace_over_qemu_native": 1.566832118304956,
+      "sample_class": "benign",
+      "sample_id": "cp",
+      "status": "PASS",
+      "trace_events_median": 48.0
+    },
+    {
+      "alignment_argument_accuracy_median": 0.3611111111111111,
+      "alignment_precision_median": 0.2,
+      "alignment_recall_median": 0.38461538461538464,
+      "board_trace_off_median_ns": 183641280.0,
+      "board_trace_on_median_ns": 110035220.0,
+      "board_trace_on_over_trace_off": 0.599185651504934,
+      "cap_hit_count": 0,
+      "drop_rate_median": 0.0,
+      "groundtruth_median_ns": {
+        "host_native": 18055161.0,
+        "host_strace": 43200432.0,
+        "qemu_native": 37083002.0,
+        "qemu_strace": 59515681.0
+      },
+      "host_strace_over_host_native": 2.3926915966022126,
+      "missing_groundtruth": [],
+      "qemu_strace_over_qemu_native": 1.6049315802426136,
+      "sample_class": "benign",
+      "sample_id": "sha256sum",
+      "status": "PASS",
+      "trace_events_median": 48.0
+    },
+    {
+      "alignment_argument_accuracy_median": 0.3828125,
+      "alignment_precision_median": 0.23809523809523808,
+      "alignment_recall_median": 0.45454545454545453,
+      "board_trace_off_median_ns": 165274120.0,
+      "board_trace_on_median_ns": 89582340.0,
+      "board_trace_on_over_trace_off": 0.5420227921951725,
+      "cap_hit_count": 0,
+      "drop_rate_median": 0.0,
+      "groundtruth_median_ns": {
+        "host_native": 18217692.0,
+        "host_strace": 40039601.0,
+        "qemu_native": 37063712.0,
+        "qemu_strace": 54960954.0
+      },
+      "host_strace_over_host_native": 2.197841581688833,
+      "missing_groundtruth": [],
+      "qemu_strace_over_qemu_native": 1.4828777538526092,
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "file_scan",
+      "status": "PASS",
+      "trace_events_median": 42.0
+    },
+    {
+      "alignment_argument_accuracy_median": 0.3541666666666667,
+      "alignment_precision_median": 0.2727272727272727,
+      "alignment_recall_median": 0.5,
+      "board_trace_off_median_ns": 173704660.0,
+      "board_trace_on_median_ns": 92359840.0,
+      "board_trace_on_over_trace_off": 0.5317061729950134,
+      "cap_hit_count": 0,
+      "drop_rate_median": 0.0,
+      "groundtruth_median_ns": {
+        "host_native": 20885934.0,
+        "host_strace": 49399784.0,
+        "qemu_native": 47846727.0,
+        "qemu_strace": 81820360.0
+      },
+      "host_strace_over_host_native": 2.3652178542745563,
+      "missing_groundtruth": [],
+      "qemu_strace_over_qemu_native": 1.7100513479218755,
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "batch_open_read_write",
+      "status": "PASS",
+      "trace_events_median": 58.0
+    },
+    {
+      "alignment_argument_accuracy_median": 0.375,
+      "alignment_precision_median": 0.2727272727272727,
+      "alignment_recall_median": 0.5,
+      "board_trace_off_median_ns": 170882640.0,
+      "board_trace_on_median_ns": 100039080.0,
+      "board_trace_on_over_trace_off": 0.5854256465138882,
+      "cap_hit_count": 0,
+      "drop_rate_median": 0.0,
+      "groundtruth_median_ns": {
+        "host_native": 15836124.0,
+        "host_strace": 41657524.0,
+        "qemu_native": 22843598.0,
+        "qemu_strace": 50578722.0
+      },
+      "host_strace_over_host_native": 2.630537876566261,
+      "missing_groundtruth": [],
+      "qemu_strace_over_qemu_native": 2.2141311539451887,
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "self_copy_sim",
+      "status": "PASS",
+      "trace_events_median": 46.0
+    },
+    {
+      "alignment_argument_accuracy_median": 0.3611111111111111,
+      "alignment_precision_median": 0.2857142857142857,
+      "alignment_recall_median": 0.5,
+      "board_trace_off_median_ns": 177306440.0,
+      "board_trace_on_median_ns": 95491020.0,
+      "board_trace_on_over_trace_off": 0.5385648710785689,
+      "cap_hit_count": 0,
+      "drop_rate_median": 0.0,
+      "groundtruth_median_ns": {
+        "host_native": 14358546.0,
+        "host_strace": 37827292.0,
+        "qemu_native": 22614038.0,
+        "qemu_strace": 42335260.0
+      },
+      "host_strace_over_host_native": 2.6344792850195278,
+      "missing_groundtruth": [],
+      "qemu_strace_over_qemu_native": 1.8720787503762044,
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "abnormal_syscall_sequence",
+      "status": "PASS",
+      "trace_events_median": 46.0
+    },
+    {
+      "alignment_argument_accuracy_median": 0.4017857142857143,
+      "alignment_precision_median": 0.16666666666666666,
+      "alignment_recall_median": 0.3,
+      "board_trace_off_median_ns": 176128460.0,
+      "board_trace_on_median_ns": 92960920.0,
+      "board_trace_on_over_trace_off": 0.5278018101106431,
+      "cap_hit_count": 0,
+      "drop_rate_median": 0.03067484662576687,
+      "groundtruth_median_ns": {
+        "host_native": 15360235.0,
+        "host_strace": 36054729.0,
+        "qemu_native": 22528639.0,
+        "qemu_strace": 41560080.0
+      },
+      "host_strace_over_host_native": 2.347277173819281,
+      "missing_groundtruth": [],
+      "qemu_strace_over_qemu_native": 1.8447665657921013,
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "illegal_trap",
+      "status": "PASS",
+      "trace_events_median": 158.0
+    },
+    {
+      "alignment_argument_accuracy_median": 0.3472222222222222,
+      "alignment_precision_median": 0.13513513513513514,
+      "alignment_recall_median": 0.45454545454545453,
+      "board_trace_off_median_ns": 957517720.0,
+      "board_trace_on_median_ns": 876936860.0,
+      "board_trace_on_over_trace_off": 0.9158440012995268,
+      "cap_hit_count": 0,
+      "drop_rate_median": 0.0,
+      "groundtruth_median_ns": {
+        "host_native": 16239865.0,
+        "host_strace": 66332619.0,
+        "qemu_native": 26363001.0,
+        "qemu_strace": 48582779.0
+      },
+      "host_strace_over_host_native": 4.0845548285038085,
+      "missing_groundtruth": [],
+      "qemu_strace_over_qemu_native": 1.8428394779486599,
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "process_chain",
+      "status": "PASS",
+      "trace_events_median": 154.0
+    },
+    {
+      "alignment_argument_accuracy_median": 0.390625,
+      "alignment_precision_median": 0.15789473684210525,
+      "alignment_recall_median": 0.3,
+      "board_trace_off_median_ns": 183797660.0,
+      "board_trace_on_median_ns": 98700420.0,
+      "board_trace_on_over_trace_off": 0.5370058574195123,
+      "cap_hit_count": 0,
+      "drop_rate_median": 0.0,
+      "groundtruth_median_ns": {
+        "host_native": 14020517.0,
+        "host_strace": 36487811.0,
+        "qemu_native": 22712367.0,
+        "qemu_strace": 44370507.0
+      },
+      "host_strace_over_host_native": 2.6024583116300204,
+      "missing_groundtruth": [],
+      "qemu_strace_over_qemu_native": 1.9535835696913493,
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "dynamic_executable_memory",
+      "status": "PASS",
+      "trace_events_median": 42.0
+    },
+    {
+      "alignment_argument_accuracy_median": 0.375,
+      "alignment_precision_median": 0.2857142857142857,
+      "alignment_recall_median": 0.46153846153846156,
+      "board_trace_off_median_ns": 169952500.0,
+      "board_trace_on_median_ns": 94342080.0,
+      "board_trace_on_over_trace_off": 0.555108515614657,
+      "cap_hit_count": 0,
+      "drop_rate_median": 0.0,
+      "groundtruth_median_ns": {
+        "host_native": 13959018.0,
+        "host_strace": 37579804.0,
+        "qemu_native": 22596632.0,
+        "qemu_strace": 47439378.0
+      },
+      "host_strace_over_host_native": 2.6921524135866863,
+      "missing_groundtruth": [],
+      "qemu_strace_over_qemu_native": 2.0994003885180765,
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "anti_debug_like",
+      "status": "PASS",
+      "trace_events_median": 46.0
+    }
+  ],
+  "schema": "rvmt.35t.baseline_evaluation.summary.v1",
+  "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "source_metrics": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggregate/metrics.json",
+  "status": "HOST_QEMU_STRACE_SOFTWARE_INSTRUMENTATION_EBPF_AND_QEMU_PLUGIN_PASS"
+}

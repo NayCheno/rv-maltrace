@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import argparse
 import json
@@ -10,8 +10,8 @@ from typing import Any
 
 
 DEFAULT_MANIFEST = Path("board/trace_validation/manifest.json")
-DEFAULT_DOC = Path("docs/board/board_trace_validation.md")
-DEFAULT_BOARD_DOC = Path("docs/board/board_bringup.md")
+DEFAULT_DOC = Path("docs/03-platform-architecture/genesys2/board_trace_validation.md")
+DEFAULT_BOARD_DOC = Path("docs/03-platform-architecture/genesys2/board_bringup.md")
 
 EXPECTED_PROGRAMS = {
     "hello_write": {
@@ -214,7 +214,7 @@ def check_doc(path: Path, board_doc: Path) -> list[str]:
             errors.append(f"{path}: {program_id} evidence directory mismatch")
 
     board_text = board_doc.read_text(encoding="utf-8")
-    if "docs/board/board_trace_validation.md" not in board_text:
+    if "docs/03-platform-architecture/genesys2/board_trace_validation.md" not in board_text:
         errors.append(f"{board_doc}: missing Phase 5.3 validation program link")
     if "board/trace_validation/manifest.json" not in board_text:
         errors.append(f"{board_doc}: missing trace validation manifest reference")
@@ -306,7 +306,7 @@ The first-board trace profile from Phase 5.2 remains active
         encoding="utf-8",
     )
     (root / DEFAULT_BOARD_DOC).write_text(
-        "Phase 5.3 is tracked in docs/board/board_trace_validation.md and board/trace_validation/manifest.json.\n",
+        "Phase 5.3 is tracked in docs/03-platform-architecture/genesys2/board_trace_validation.md and board/trace_validation/manifest.json.\n",
         encoding="utf-8",
     )
 

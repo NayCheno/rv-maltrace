@@ -1,0 +1,2367 @@
+{
+  "checks": {
+    "all_reps_have_plugin_counts": true,
+    "all_samples_passed": true,
+    "container_command_passed": true,
+    "container_json_present": true,
+    "non_claims_recorded": true,
+    "plugin_compiled": true,
+    "qemu_binary_exists": true,
+    "qemu_help_has_plugin": true,
+    "qemu_source_include_exists": true,
+    "sample_binaries_present": true,
+    "sample_count_13": true,
+    "sample_manifest_count_13": true,
+    "timing_paths_recorded": true
+  },
+  "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+  "container_probe": {
+    "argv": [
+      "docker",
+      "compose",
+      "-f",
+      "docker-compose.toolchain.yml",
+      "run",
+      "--rm",
+      "linux-behavior",
+      "bash",
+      "-lc",
+      "<inline qemu plugin baseline script>"
+    ],
+    "exit_code": 0,
+    "inline_script_sha256": "d8ecd4e55d05d3ff6c840fe9db4065ed6c35f3f3624ccb777b2fdd0081c58c1f",
+    "stderr_tail": " Container rv-maltrace-linux-behavior-run-7c09256e0f05 Creating \n Container rv-maltrace-linux-behavior-run-7c09256e0f05 Created \n"
+  },
+  "evidence_root": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "failures": [],
+  "generated_utc": "2026-05-23T00:56:52Z",
+  "interpretation": [
+    "this is a QEMU user-mode TCG-plugin syscall-count baseline for the existing 13 synthetic 35T samples",
+    "the baseline uses an upstream QEMU 8.2.2 riscv64-linux-user build configured with --enable-plugins",
+    "per-sample plugin output and timing are recorded under the local results tree",
+    "this simulator software baseline must not be reported as hardware trace, real malware detection, or complete semantic reconstruction"
+  ],
+  "missing_sample_binaries": [],
+  "non_claims": [
+    "no CVA6 board claim",
+    "no real malware detection claim",
+    "no mature detector claim",
+    "no classifier accuracy claim",
+    "no complete semantic reconstruction claim",
+    "QEMU-plugin syscall-count evidence is a simulator software baseline, not hardware trace evidence"
+  ],
+  "pass_count": 13,
+  "plugin": {
+    "compile": {
+      "command": [
+        "gcc",
+        "-fPIC",
+        "-shared",
+        "-O2",
+        "-Wall",
+        "-Wextra",
+        "-Iresults/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/include/qemu",
+        "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.c",
+        "-o",
+        "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so"
+      ],
+      "exit_code": 0,
+      "runtime_ns": 252703127,
+      "stderr_bytes": 0,
+      "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/plugin_compile.stderr.txt",
+      "stdout_bytes": 0,
+      "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/plugin_compile.stdout.txt",
+      "timed_out": false
+    },
+    "shared_object": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+    "source": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.c",
+    "source_sha256": "96347dfa59cea1eb6a2920ec427f812cc0da65cf50840e9a358624707b982d13"
+  },
+  "qemu": {
+    "binary": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+    "build_root": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2",
+    "help_has_plugin": true,
+    "source_tar_sha256": "847346c1b82c1a54b2c38f6edbd85549edeb17430b7d4d3da12620e2962bc4f3",
+    "version": "qemu-riscv64 version 8.2.2"
+  },
+  "reps": 3,
+  "results_root": "results/experiments/35t/35t-qemu-plugin-baseline-20260523",
+  "run_id": "35t-qemu-plugin-baseline-20260523",
+  "sample_count": 13,
+  "samples": [
+    {
+      "rep_results": [
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/hello/build/hello.riscv",
+            "hello"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 9,
+          "rep": 0,
+          "runtime_ns": 30918877,
+          "stderr_bytes": 330,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/hello/qemu_plugin/qemu_plugin.0.stderr.txt",
+          "stdout_bytes": 25,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/hello/qemu_plugin/qemu_plugin.0.stdout.txt",
+          "timed_out": false
+        },
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/hello/build/hello.riscv",
+            "hello"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 9,
+          "rep": 1,
+          "runtime_ns": 28960653,
+          "stderr_bytes": 330,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/hello/qemu_plugin/qemu_plugin.1.stderr.txt",
+          "stdout_bytes": 25,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/hello/qemu_plugin/qemu_plugin.1.stdout.txt",
+          "timed_out": false
+        },
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/hello/build/hello.riscv",
+            "hello"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 9,
+          "rep": 2,
+          "runtime_ns": 28401821,
+          "stderr_bytes": 330,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/hello/qemu_plugin/qemu_plugin.2.stderr.txt",
+          "stdout_bytes": 25,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/hello/qemu_plugin/qemu_plugin.2.stdout.txt",
+          "timed_out": false
+        }
+      ],
+      "reps": 3,
+      "riscv_binary": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/hello/build/hello.riscv",
+      "sample_class": "benign",
+      "sample_id": "hello",
+      "status": "PASS",
+      "syscall_counts": {
+        "214": {
+          "calls": 15,
+          "errors": 0
+        },
+        "226": {
+          "calls": 3,
+          "errors": 0
+        },
+        "261": {
+          "calls": 3,
+          "errors": 0
+        },
+        "278": {
+          "calls": 3,
+          "errors": 0
+        },
+        "64": {
+          "calls": 3,
+          "errors": 0
+        },
+        "78": {
+          "calls": 3,
+          "errors": 0
+        },
+        "94": {
+          "calls": 3,
+          "errors": 0
+        },
+        "96": {
+          "calls": 3,
+          "errors": 0
+        },
+        "99": {
+          "calls": 3,
+          "errors": 3
+        }
+      },
+      "syscall_name_counts": {
+        "brk": {
+          "calls": 15,
+          "errors": 0,
+          "number": 214
+        },
+        "exit_group": {
+          "calls": 3,
+          "errors": 0,
+          "number": 94
+        },
+        "getrandom": {
+          "calls": 3,
+          "errors": 0,
+          "number": 278
+        },
+        "mprotect": {
+          "calls": 3,
+          "errors": 0,
+          "number": 226
+        },
+        "prlimit64": {
+          "calls": 3,
+          "errors": 0,
+          "number": 261
+        },
+        "readlinkat": {
+          "calls": 3,
+          "errors": 0,
+          "number": 78
+        },
+        "set_robust_list": {
+          "calls": 3,
+          "errors": 3,
+          "number": 99
+        },
+        "set_tid_address": {
+          "calls": 3,
+          "errors": 0,
+          "number": 96
+        },
+        "write": {
+          "calls": 3,
+          "errors": 0,
+          "number": 64
+        }
+      },
+      "timings_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/hello/qemu_plugin/timings.jsonl"
+    },
+    {
+      "rep_results": [
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/ls/build/ls.riscv",
+            "ls"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 12,
+          "rep": 0,
+          "runtime_ns": 29086595,
+          "stderr_bytes": 414,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/ls/qemu_plugin/qemu_plugin.0.stderr.txt",
+          "stdout_bytes": 5,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/ls/qemu_plugin/qemu_plugin.0.stdout.txt",
+          "timed_out": false
+        },
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/ls/build/ls.riscv",
+            "ls"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 12,
+          "rep": 1,
+          "runtime_ns": 29665263,
+          "stderr_bytes": 414,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/ls/qemu_plugin/qemu_plugin.1.stderr.txt",
+          "stdout_bytes": 5,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/ls/qemu_plugin/qemu_plugin.1.stdout.txt",
+          "timed_out": false
+        },
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/ls/build/ls.riscv",
+            "ls"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 12,
+          "rep": 2,
+          "runtime_ns": 29079977,
+          "stderr_bytes": 414,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/ls/qemu_plugin/qemu_plugin.2.stderr.txt",
+          "stdout_bytes": 5,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/ls/qemu_plugin/qemu_plugin.2.stdout.txt",
+          "timed_out": false
+        }
+      ],
+      "reps": 3,
+      "riscv_binary": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/ls/build/ls.riscv",
+      "sample_class": "benign",
+      "sample_id": "ls",
+      "status": "PASS",
+      "syscall_counts": {
+        "214": {
+          "calls": 15,
+          "errors": 0
+        },
+        "226": {
+          "calls": 3,
+          "errors": 0
+        },
+        "261": {
+          "calls": 3,
+          "errors": 0
+        },
+        "278": {
+          "calls": 3,
+          "errors": 0
+        },
+        "56": {
+          "calls": 3,
+          "errors": 0
+        },
+        "57": {
+          "calls": 3,
+          "errors": 0
+        },
+        "61": {
+          "calls": 6,
+          "errors": 0
+        },
+        "64": {
+          "calls": 6,
+          "errors": 0
+        },
+        "78": {
+          "calls": 3,
+          "errors": 0
+        },
+        "94": {
+          "calls": 3,
+          "errors": 0
+        },
+        "96": {
+          "calls": 3,
+          "errors": 0
+        },
+        "99": {
+          "calls": 3,
+          "errors": 3
+        }
+      },
+      "syscall_name_counts": {
+        "brk": {
+          "calls": 15,
+          "errors": 0,
+          "number": 214
+        },
+        "close": {
+          "calls": 3,
+          "errors": 0,
+          "number": 57
+        },
+        "exit_group": {
+          "calls": 3,
+          "errors": 0,
+          "number": 94
+        },
+        "getrandom": {
+          "calls": 3,
+          "errors": 0,
+          "number": 278
+        },
+        "mprotect": {
+          "calls": 3,
+          "errors": 0,
+          "number": 226
+        },
+        "openat": {
+          "calls": 3,
+          "errors": 0,
+          "number": 56
+        },
+        "prlimit64": {
+          "calls": 3,
+          "errors": 0,
+          "number": 261
+        },
+        "readlinkat": {
+          "calls": 3,
+          "errors": 0,
+          "number": 78
+        },
+        "set_robust_list": {
+          "calls": 3,
+          "errors": 3,
+          "number": 99
+        },
+        "set_tid_address": {
+          "calls": 3,
+          "errors": 0,
+          "number": 96
+        },
+        "sys_61": {
+          "calls": 6,
+          "errors": 0,
+          "number": 61
+        },
+        "write": {
+          "calls": 6,
+          "errors": 0,
+          "number": 64
+        }
+      },
+      "timings_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/ls/qemu_plugin/timings.jsonl"
+    },
+    {
+      "rep_results": [
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/build/cat.riscv",
+            "cat"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 12,
+          "rep": 0,
+          "runtime_ns": 39133999,
+          "stderr_bytes": 414,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/cat/qemu_plugin/qemu_plugin.0.stderr.txt",
+          "stdout_bytes": 66,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/cat/qemu_plugin/qemu_plugin.0.stdout.txt",
+          "timed_out": false
+        },
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/build/cat.riscv",
+            "cat"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 12,
+          "rep": 1,
+          "runtime_ns": 38349293,
+          "stderr_bytes": 414,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/cat/qemu_plugin/qemu_plugin.1.stderr.txt",
+          "stdout_bytes": 66,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/cat/qemu_plugin/qemu_plugin.1.stdout.txt",
+          "timed_out": false
+        },
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/build/cat.riscv",
+            "cat"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 12,
+          "rep": 2,
+          "runtime_ns": 37698824,
+          "stderr_bytes": 414,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/cat/qemu_plugin/qemu_plugin.2.stderr.txt",
+          "stdout_bytes": 66,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/cat/qemu_plugin/qemu_plugin.2.stdout.txt",
+          "timed_out": false
+        }
+      ],
+      "reps": 3,
+      "riscv_binary": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/build/cat.riscv",
+      "sample_class": "benign",
+      "sample_id": "cat",
+      "status": "PASS",
+      "syscall_counts": {
+        "214": {
+          "calls": 15,
+          "errors": 0
+        },
+        "226": {
+          "calls": 3,
+          "errors": 0
+        },
+        "261": {
+          "calls": 3,
+          "errors": 0
+        },
+        "278": {
+          "calls": 3,
+          "errors": 0
+        },
+        "56": {
+          "calls": 3,
+          "errors": 0
+        },
+        "57": {
+          "calls": 3,
+          "errors": 0
+        },
+        "63": {
+          "calls": 6,
+          "errors": 0
+        },
+        "64": {
+          "calls": 3,
+          "errors": 0
+        },
+        "78": {
+          "calls": 3,
+          "errors": 0
+        },
+        "94": {
+          "calls": 3,
+          "errors": 0
+        },
+        "96": {
+          "calls": 3,
+          "errors": 0
+        },
+        "99": {
+          "calls": 3,
+          "errors": 3
+        }
+      },
+      "syscall_name_counts": {
+        "brk": {
+          "calls": 15,
+          "errors": 0,
+          "number": 214
+        },
+        "close": {
+          "calls": 3,
+          "errors": 0,
+          "number": 57
+        },
+        "exit_group": {
+          "calls": 3,
+          "errors": 0,
+          "number": 94
+        },
+        "getrandom": {
+          "calls": 3,
+          "errors": 0,
+          "number": 278
+        },
+        "mprotect": {
+          "calls": 3,
+          "errors": 0,
+          "number": 226
+        },
+        "openat": {
+          "calls": 3,
+          "errors": 0,
+          "number": 56
+        },
+        "prlimit64": {
+          "calls": 3,
+          "errors": 0,
+          "number": 261
+        },
+        "read": {
+          "calls": 6,
+          "errors": 0,
+          "number": 63
+        },
+        "readlinkat": {
+          "calls": 3,
+          "errors": 0,
+          "number": 78
+        },
+        "set_robust_list": {
+          "calls": 3,
+          "errors": 3,
+          "number": 99
+        },
+        "set_tid_address": {
+          "calls": 3,
+          "errors": 0,
+          "number": 96
+        },
+        "write": {
+          "calls": 3,
+          "errors": 0,
+          "number": 64
+        }
+      },
+      "timings_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/cat/qemu_plugin/timings.jsonl"
+    },
+    {
+      "rep_results": [
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/build/cp.riscv",
+            "cp"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 12,
+          "rep": 0,
+          "runtime_ns": 38108292,
+          "stderr_bytes": 414,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/cp/qemu_plugin/qemu_plugin.0.stderr.txt",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/cp/qemu_plugin/qemu_plugin.0.stdout.txt",
+          "timed_out": false
+        },
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/build/cp.riscv",
+            "cp"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 12,
+          "rep": 1,
+          "runtime_ns": 38568884,
+          "stderr_bytes": 414,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/cp/qemu_plugin/qemu_plugin.1.stderr.txt",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/cp/qemu_plugin/qemu_plugin.1.stdout.txt",
+          "timed_out": false
+        },
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/build/cp.riscv",
+            "cp"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 12,
+          "rep": 2,
+          "runtime_ns": 38916232,
+          "stderr_bytes": 414,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/cp/qemu_plugin/qemu_plugin.2.stderr.txt",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/cp/qemu_plugin/qemu_plugin.2.stdout.txt",
+          "timed_out": false
+        }
+      ],
+      "reps": 3,
+      "riscv_binary": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/build/cp.riscv",
+      "sample_class": "benign",
+      "sample_id": "cp",
+      "status": "PASS",
+      "syscall_counts": {
+        "214": {
+          "calls": 15,
+          "errors": 0
+        },
+        "226": {
+          "calls": 3,
+          "errors": 0
+        },
+        "261": {
+          "calls": 3,
+          "errors": 0
+        },
+        "278": {
+          "calls": 3,
+          "errors": 0
+        },
+        "56": {
+          "calls": 6,
+          "errors": 0
+        },
+        "57": {
+          "calls": 6,
+          "errors": 0
+        },
+        "63": {
+          "calls": 6,
+          "errors": 0
+        },
+        "64": {
+          "calls": 3,
+          "errors": 0
+        },
+        "78": {
+          "calls": 3,
+          "errors": 0
+        },
+        "94": {
+          "calls": 3,
+          "errors": 0
+        },
+        "96": {
+          "calls": 3,
+          "errors": 0
+        },
+        "99": {
+          "calls": 3,
+          "errors": 3
+        }
+      },
+      "syscall_name_counts": {
+        "brk": {
+          "calls": 15,
+          "errors": 0,
+          "number": 214
+        },
+        "close": {
+          "calls": 6,
+          "errors": 0,
+          "number": 57
+        },
+        "exit_group": {
+          "calls": 3,
+          "errors": 0,
+          "number": 94
+        },
+        "getrandom": {
+          "calls": 3,
+          "errors": 0,
+          "number": 278
+        },
+        "mprotect": {
+          "calls": 3,
+          "errors": 0,
+          "number": 226
+        },
+        "openat": {
+          "calls": 6,
+          "errors": 0,
+          "number": 56
+        },
+        "prlimit64": {
+          "calls": 3,
+          "errors": 0,
+          "number": 261
+        },
+        "read": {
+          "calls": 6,
+          "errors": 0,
+          "number": 63
+        },
+        "readlinkat": {
+          "calls": 3,
+          "errors": 0,
+          "number": 78
+        },
+        "set_robust_list": {
+          "calls": 3,
+          "errors": 3,
+          "number": 99
+        },
+        "set_tid_address": {
+          "calls": 3,
+          "errors": 0,
+          "number": 96
+        },
+        "write": {
+          "calls": 3,
+          "errors": 0,
+          "number": 64
+        }
+      },
+      "timings_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/cp/qemu_plugin/timings.jsonl"
+    },
+    {
+      "rep_results": [
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/sha256sum/build/sha256sum.riscv",
+            "sha256sum"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 13,
+          "rep": 0,
+          "runtime_ns": 43500360,
+          "stderr_bytes": 442,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/sha256sum/qemu_plugin/qemu_plugin.0.stderr.txt",
+          "stdout_bytes": 71,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/sha256sum/qemu_plugin/qemu_plugin.0.stdout.txt",
+          "timed_out": false
+        },
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/sha256sum/build/sha256sum.riscv",
+            "sha256sum"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 13,
+          "rep": 1,
+          "runtime_ns": 40596862,
+          "stderr_bytes": 442,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/sha256sum/qemu_plugin/qemu_plugin.1.stderr.txt",
+          "stdout_bytes": 71,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/sha256sum/qemu_plugin/qemu_plugin.1.stdout.txt",
+          "timed_out": false
+        },
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/sha256sum/build/sha256sum.riscv",
+            "sha256sum"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 13,
+          "rep": 2,
+          "runtime_ns": 39068627,
+          "stderr_bytes": 442,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/sha256sum/qemu_plugin/qemu_plugin.2.stderr.txt",
+          "stdout_bytes": 71,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/sha256sum/qemu_plugin/qemu_plugin.2.stdout.txt",
+          "timed_out": false
+        }
+      ],
+      "reps": 3,
+      "riscv_binary": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/sha256sum/build/sha256sum.riscv",
+      "sample_class": "benign",
+      "sample_id": "sha256sum",
+      "status": "PASS",
+      "syscall_counts": {
+        "214": {
+          "calls": 15,
+          "errors": 0
+        },
+        "226": {
+          "calls": 3,
+          "errors": 0
+        },
+        "261": {
+          "calls": 3,
+          "errors": 0
+        },
+        "278": {
+          "calls": 3,
+          "errors": 0
+        },
+        "56": {
+          "calls": 3,
+          "errors": 0
+        },
+        "57": {
+          "calls": 3,
+          "errors": 0
+        },
+        "63": {
+          "calls": 6,
+          "errors": 0
+        },
+        "64": {
+          "calls": 3,
+          "errors": 0
+        },
+        "78": {
+          "calls": 3,
+          "errors": 0
+        },
+        "80": {
+          "calls": 3,
+          "errors": 0
+        },
+        "94": {
+          "calls": 3,
+          "errors": 0
+        },
+        "96": {
+          "calls": 3,
+          "errors": 0
+        },
+        "99": {
+          "calls": 3,
+          "errors": 3
+        }
+      },
+      "syscall_name_counts": {
+        "brk": {
+          "calls": 15,
+          "errors": 0,
+          "number": 214
+        },
+        "close": {
+          "calls": 3,
+          "errors": 0,
+          "number": 57
+        },
+        "exit_group": {
+          "calls": 3,
+          "errors": 0,
+          "number": 94
+        },
+        "fstat": {
+          "calls": 3,
+          "errors": 0,
+          "number": 80
+        },
+        "getrandom": {
+          "calls": 3,
+          "errors": 0,
+          "number": 278
+        },
+        "mprotect": {
+          "calls": 3,
+          "errors": 0,
+          "number": 226
+        },
+        "openat": {
+          "calls": 3,
+          "errors": 0,
+          "number": 56
+        },
+        "prlimit64": {
+          "calls": 3,
+          "errors": 0,
+          "number": 261
+        },
+        "read": {
+          "calls": 6,
+          "errors": 0,
+          "number": 63
+        },
+        "readlinkat": {
+          "calls": 3,
+          "errors": 0,
+          "number": 78
+        },
+        "set_robust_list": {
+          "calls": 3,
+          "errors": 3,
+          "number": 99
+        },
+        "set_tid_address": {
+          "calls": 3,
+          "errors": 0,
+          "number": 96
+        },
+        "write": {
+          "calls": 3,
+          "errors": 0,
+          "number": 64
+        }
+      },
+      "timings_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/benign/sha256sum/qemu_plugin/timings.jsonl"
+    },
+    {
+      "rep_results": [
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/file_scan/build/file_scan.riscv"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 11,
+          "rep": 0,
+          "runtime_ns": 38417798,
+          "stderr_bytes": 386,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/file_scan/qemu_plugin/qemu_plugin.0.stderr.txt",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/file_scan/qemu_plugin/qemu_plugin.0.stdout.txt",
+          "timed_out": false
+        },
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/file_scan/build/file_scan.riscv"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 11,
+          "rep": 1,
+          "runtime_ns": 37745233,
+          "stderr_bytes": 386,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/file_scan/qemu_plugin/qemu_plugin.1.stderr.txt",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/file_scan/qemu_plugin/qemu_plugin.1.stdout.txt",
+          "timed_out": false
+        },
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/file_scan/build/file_scan.riscv"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 11,
+          "rep": 2,
+          "runtime_ns": 36663029,
+          "stderr_bytes": 386,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/file_scan/qemu_plugin/qemu_plugin.2.stderr.txt",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/file_scan/qemu_plugin/qemu_plugin.2.stdout.txt",
+          "timed_out": false
+        }
+      ],
+      "reps": 3,
+      "riscv_binary": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/file_scan/build/file_scan.riscv",
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "file_scan",
+      "status": "PASS",
+      "syscall_counts": {
+        "214": {
+          "calls": 15,
+          "errors": 0
+        },
+        "226": {
+          "calls": 3,
+          "errors": 0
+        },
+        "261": {
+          "calls": 3,
+          "errors": 0
+        },
+        "278": {
+          "calls": 3,
+          "errors": 0
+        },
+        "56": {
+          "calls": 3,
+          "errors": 0
+        },
+        "57": {
+          "calls": 3,
+          "errors": 0
+        },
+        "61": {
+          "calls": 6,
+          "errors": 0
+        },
+        "78": {
+          "calls": 3,
+          "errors": 0
+        },
+        "94": {
+          "calls": 3,
+          "errors": 0
+        },
+        "96": {
+          "calls": 3,
+          "errors": 0
+        },
+        "99": {
+          "calls": 3,
+          "errors": 3
+        }
+      },
+      "syscall_name_counts": {
+        "brk": {
+          "calls": 15,
+          "errors": 0,
+          "number": 214
+        },
+        "close": {
+          "calls": 3,
+          "errors": 0,
+          "number": 57
+        },
+        "exit_group": {
+          "calls": 3,
+          "errors": 0,
+          "number": 94
+        },
+        "getrandom": {
+          "calls": 3,
+          "errors": 0,
+          "number": 278
+        },
+        "mprotect": {
+          "calls": 3,
+          "errors": 0,
+          "number": 226
+        },
+        "openat": {
+          "calls": 3,
+          "errors": 0,
+          "number": 56
+        },
+        "prlimit64": {
+          "calls": 3,
+          "errors": 0,
+          "number": 261
+        },
+        "readlinkat": {
+          "calls": 3,
+          "errors": 0,
+          "number": 78
+        },
+        "set_robust_list": {
+          "calls": 3,
+          "errors": 3,
+          "number": 99
+        },
+        "set_tid_address": {
+          "calls": 3,
+          "errors": 0,
+          "number": 96
+        },
+        "sys_61": {
+          "calls": 6,
+          "errors": 0,
+          "number": 61
+        }
+      },
+      "timings_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/file_scan/qemu_plugin/timings.jsonl"
+    },
+    {
+      "rep_results": [
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/batch_open_read_write/build/batch_open_read_write.riscv"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 12,
+          "rep": 0,
+          "runtime_ns": 47075375,
+          "stderr_bytes": 414,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/batch_open_read_write/qemu_plugin/qemu_plugin.0.stderr.txt",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/batch_open_read_write/qemu_plugin/qemu_plugin.0.stdout.txt",
+          "timed_out": false
+        },
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/batch_open_read_write/build/batch_open_read_write.riscv"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 12,
+          "rep": 1,
+          "runtime_ns": 48099914,
+          "stderr_bytes": 414,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/batch_open_read_write/qemu_plugin/qemu_plugin.1.stderr.txt",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/batch_open_read_write/qemu_plugin/qemu_plugin.1.stdout.txt",
+          "timed_out": false
+        },
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/batch_open_read_write/build/batch_open_read_write.riscv"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 12,
+          "rep": 2,
+          "runtime_ns": 48680878,
+          "stderr_bytes": 414,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/batch_open_read_write/qemu_plugin/qemu_plugin.2.stderr.txt",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/batch_open_read_write/qemu_plugin/qemu_plugin.2.stdout.txt",
+          "timed_out": false
+        }
+      ],
+      "reps": 3,
+      "riscv_binary": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/batch_open_read_write/build/batch_open_read_write.riscv",
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "batch_open_read_write",
+      "status": "PASS",
+      "syscall_counts": {
+        "214": {
+          "calls": 15,
+          "errors": 0
+        },
+        "226": {
+          "calls": 3,
+          "errors": 0
+        },
+        "261": {
+          "calls": 3,
+          "errors": 0
+        },
+        "278": {
+          "calls": 3,
+          "errors": 0
+        },
+        "56": {
+          "calls": 12,
+          "errors": 0
+        },
+        "57": {
+          "calls": 12,
+          "errors": 0
+        },
+        "63": {
+          "calls": 6,
+          "errors": 0
+        },
+        "64": {
+          "calls": 6,
+          "errors": 0
+        },
+        "78": {
+          "calls": 3,
+          "errors": 0
+        },
+        "94": {
+          "calls": 3,
+          "errors": 0
+        },
+        "96": {
+          "calls": 3,
+          "errors": 0
+        },
+        "99": {
+          "calls": 3,
+          "errors": 3
+        }
+      },
+      "syscall_name_counts": {
+        "brk": {
+          "calls": 15,
+          "errors": 0,
+          "number": 214
+        },
+        "close": {
+          "calls": 12,
+          "errors": 0,
+          "number": 57
+        },
+        "exit_group": {
+          "calls": 3,
+          "errors": 0,
+          "number": 94
+        },
+        "getrandom": {
+          "calls": 3,
+          "errors": 0,
+          "number": 278
+        },
+        "mprotect": {
+          "calls": 3,
+          "errors": 0,
+          "number": 226
+        },
+        "openat": {
+          "calls": 12,
+          "errors": 0,
+          "number": 56
+        },
+        "prlimit64": {
+          "calls": 3,
+          "errors": 0,
+          "number": 261
+        },
+        "read": {
+          "calls": 6,
+          "errors": 0,
+          "number": 63
+        },
+        "readlinkat": {
+          "calls": 3,
+          "errors": 0,
+          "number": 78
+        },
+        "set_robust_list": {
+          "calls": 3,
+          "errors": 3,
+          "number": 99
+        },
+        "set_tid_address": {
+          "calls": 3,
+          "errors": 0,
+          "number": 96
+        },
+        "write": {
+          "calls": 6,
+          "errors": 0,
+          "number": 64
+        }
+      },
+      "timings_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/batch_open_read_write/qemu_plugin/timings.jsonl"
+    },
+    {
+      "rep_results": [
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/self_copy_sim/build/self_copy_sim.riscv"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 12,
+          "rep": 0,
+          "runtime_ns": 29614297,
+          "stderr_bytes": 414,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/self_copy_sim/qemu_plugin/qemu_plugin.0.stderr.txt",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/self_copy_sim/qemu_plugin/qemu_plugin.0.stdout.txt",
+          "timed_out": false
+        },
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/self_copy_sim/build/self_copy_sim.riscv"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 12,
+          "rep": 1,
+          "runtime_ns": 31292107,
+          "stderr_bytes": 414,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/self_copy_sim/qemu_plugin/qemu_plugin.1.stderr.txt",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/self_copy_sim/qemu_plugin/qemu_plugin.1.stdout.txt",
+          "timed_out": false
+        },
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/self_copy_sim/build/self_copy_sim.riscv"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 12,
+          "rep": 2,
+          "runtime_ns": 30449263,
+          "stderr_bytes": 414,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/self_copy_sim/qemu_plugin/qemu_plugin.2.stderr.txt",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/self_copy_sim/qemu_plugin/qemu_plugin.2.stdout.txt",
+          "timed_out": false
+        }
+      ],
+      "reps": 3,
+      "riscv_binary": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/self_copy_sim/build/self_copy_sim.riscv",
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "self_copy_sim",
+      "status": "PASS",
+      "syscall_counts": {
+        "214": {
+          "calls": 15,
+          "errors": 0
+        },
+        "226": {
+          "calls": 3,
+          "errors": 0
+        },
+        "261": {
+          "calls": 3,
+          "errors": 0
+        },
+        "278": {
+          "calls": 3,
+          "errors": 0
+        },
+        "56": {
+          "calls": 6,
+          "errors": 0
+        },
+        "57": {
+          "calls": 6,
+          "errors": 0
+        },
+        "63": {
+          "calls": 3,
+          "errors": 0
+        },
+        "64": {
+          "calls": 3,
+          "errors": 0
+        },
+        "78": {
+          "calls": 3,
+          "errors": 0
+        },
+        "94": {
+          "calls": 3,
+          "errors": 0
+        },
+        "96": {
+          "calls": 3,
+          "errors": 0
+        },
+        "99": {
+          "calls": 3,
+          "errors": 3
+        }
+      },
+      "syscall_name_counts": {
+        "brk": {
+          "calls": 15,
+          "errors": 0,
+          "number": 214
+        },
+        "close": {
+          "calls": 6,
+          "errors": 0,
+          "number": 57
+        },
+        "exit_group": {
+          "calls": 3,
+          "errors": 0,
+          "number": 94
+        },
+        "getrandom": {
+          "calls": 3,
+          "errors": 0,
+          "number": 278
+        },
+        "mprotect": {
+          "calls": 3,
+          "errors": 0,
+          "number": 226
+        },
+        "openat": {
+          "calls": 6,
+          "errors": 0,
+          "number": 56
+        },
+        "prlimit64": {
+          "calls": 3,
+          "errors": 0,
+          "number": 261
+        },
+        "read": {
+          "calls": 3,
+          "errors": 0,
+          "number": 63
+        },
+        "readlinkat": {
+          "calls": 3,
+          "errors": 0,
+          "number": 78
+        },
+        "set_robust_list": {
+          "calls": 3,
+          "errors": 3,
+          "number": 99
+        },
+        "set_tid_address": {
+          "calls": 3,
+          "errors": 0,
+          "number": 96
+        },
+        "write": {
+          "calls": 3,
+          "errors": 0,
+          "number": 64
+        }
+      },
+      "timings_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/self_copy_sim/qemu_plugin/timings.jsonl"
+    },
+    {
+      "rep_results": [
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/abnormal_syscall_sequence/build/abnormal_syscall_sequence.riscv"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 12,
+          "rep": 0,
+          "runtime_ns": 29529288,
+          "stderr_bytes": 414,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/abnormal_syscall_sequence/qemu_plugin/qemu_plugin.0.stderr.txt",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/abnormal_syscall_sequence/qemu_plugin/qemu_plugin.0.stdout.txt",
+          "timed_out": false
+        },
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/abnormal_syscall_sequence/build/abnormal_syscall_sequence.riscv"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 12,
+          "rep": 1,
+          "runtime_ns": 31129533,
+          "stderr_bytes": 414,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/abnormal_syscall_sequence/qemu_plugin/qemu_plugin.1.stderr.txt",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/abnormal_syscall_sequence/qemu_plugin/qemu_plugin.1.stdout.txt",
+          "timed_out": false
+        },
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/abnormal_syscall_sequence/build/abnormal_syscall_sequence.riscv"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 12,
+          "rep": 2,
+          "runtime_ns": 31033709,
+          "stderr_bytes": 414,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/abnormal_syscall_sequence/qemu_plugin/qemu_plugin.2.stderr.txt",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/abnormal_syscall_sequence/qemu_plugin/qemu_plugin.2.stdout.txt",
+          "timed_out": false
+        }
+      ],
+      "reps": 3,
+      "riscv_binary": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/abnormal_syscall_sequence/build/abnormal_syscall_sequence.riscv",
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "abnormal_syscall_sequence",
+      "status": "PASS",
+      "syscall_counts": {
+        "214": {
+          "calls": 15,
+          "errors": 0
+        },
+        "226": {
+          "calls": 3,
+          "errors": 0
+        },
+        "261": {
+          "calls": 3,
+          "errors": 0
+        },
+        "278": {
+          "calls": 3,
+          "errors": 0
+        },
+        "56": {
+          "calls": 3,
+          "errors": 3
+        },
+        "57": {
+          "calls": 9,
+          "errors": 9
+        },
+        "63": {
+          "calls": 3,
+          "errors": 3
+        },
+        "64": {
+          "calls": 3,
+          "errors": 3
+        },
+        "78": {
+          "calls": 3,
+          "errors": 0
+        },
+        "94": {
+          "calls": 3,
+          "errors": 0
+        },
+        "96": {
+          "calls": 3,
+          "errors": 0
+        },
+        "99": {
+          "calls": 3,
+          "errors": 3
+        }
+      },
+      "syscall_name_counts": {
+        "brk": {
+          "calls": 15,
+          "errors": 0,
+          "number": 214
+        },
+        "close": {
+          "calls": 9,
+          "errors": 9,
+          "number": 57
+        },
+        "exit_group": {
+          "calls": 3,
+          "errors": 0,
+          "number": 94
+        },
+        "getrandom": {
+          "calls": 3,
+          "errors": 0,
+          "number": 278
+        },
+        "mprotect": {
+          "calls": 3,
+          "errors": 0,
+          "number": 226
+        },
+        "openat": {
+          "calls": 3,
+          "errors": 3,
+          "number": 56
+        },
+        "prlimit64": {
+          "calls": 3,
+          "errors": 0,
+          "number": 261
+        },
+        "read": {
+          "calls": 3,
+          "errors": 3,
+          "number": 63
+        },
+        "readlinkat": {
+          "calls": 3,
+          "errors": 0,
+          "number": 78
+        },
+        "set_robust_list": {
+          "calls": 3,
+          "errors": 3,
+          "number": 99
+        },
+        "set_tid_address": {
+          "calls": 3,
+          "errors": 0,
+          "number": 96
+        },
+        "write": {
+          "calls": 3,
+          "errors": 3,
+          "number": 64
+        }
+      },
+      "timings_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/abnormal_syscall_sequence/qemu_plugin/timings.jsonl"
+    },
+    {
+      "rep_results": [
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/illegal_trap/build/illegal_trap.riscv"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 10,
+          "rep": 0,
+          "runtime_ns": 30353813,
+          "stderr_bytes": 359,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/illegal_trap/qemu_plugin/qemu_plugin.0.stderr.txt",
+          "stdout_bytes": 17,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/illegal_trap/qemu_plugin/qemu_plugin.0.stdout.txt",
+          "timed_out": false
+        },
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/illegal_trap/build/illegal_trap.riscv"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 10,
+          "rep": 1,
+          "runtime_ns": 31603266,
+          "stderr_bytes": 359,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/illegal_trap/qemu_plugin/qemu_plugin.1.stderr.txt",
+          "stdout_bytes": 17,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/illegal_trap/qemu_plugin/qemu_plugin.1.stdout.txt",
+          "timed_out": false
+        },
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/illegal_trap/build/illegal_trap.riscv"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 10,
+          "rep": 2,
+          "runtime_ns": 30138073,
+          "stderr_bytes": 359,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/illegal_trap/qemu_plugin/qemu_plugin.2.stderr.txt",
+          "stdout_bytes": 17,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/illegal_trap/qemu_plugin/qemu_plugin.2.stdout.txt",
+          "timed_out": false
+        }
+      ],
+      "reps": 3,
+      "riscv_binary": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/illegal_trap/build/illegal_trap.riscv",
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "illegal_trap",
+      "status": "PASS",
+      "syscall_counts": {
+        "134": {
+          "calls": 3,
+          "errors": 0
+        },
+        "214": {
+          "calls": 15,
+          "errors": 0
+        },
+        "226": {
+          "calls": 3,
+          "errors": 0
+        },
+        "261": {
+          "calls": 3,
+          "errors": 0
+        },
+        "278": {
+          "calls": 3,
+          "errors": 0
+        },
+        "64": {
+          "calls": 3,
+          "errors": 0
+        },
+        "78": {
+          "calls": 3,
+          "errors": 0
+        },
+        "94": {
+          "calls": 3,
+          "errors": 0
+        },
+        "96": {
+          "calls": 3,
+          "errors": 0
+        },
+        "99": {
+          "calls": 3,
+          "errors": 3
+        }
+      },
+      "syscall_name_counts": {
+        "brk": {
+          "calls": 15,
+          "errors": 0,
+          "number": 214
+        },
+        "exit_group": {
+          "calls": 3,
+          "errors": 0,
+          "number": 94
+        },
+        "getrandom": {
+          "calls": 3,
+          "errors": 0,
+          "number": 278
+        },
+        "mprotect": {
+          "calls": 3,
+          "errors": 0,
+          "number": 226
+        },
+        "prlimit64": {
+          "calls": 3,
+          "errors": 0,
+          "number": 261
+        },
+        "readlinkat": {
+          "calls": 3,
+          "errors": 0,
+          "number": 78
+        },
+        "set_robust_list": {
+          "calls": 3,
+          "errors": 3,
+          "number": 99
+        },
+        "set_tid_address": {
+          "calls": 3,
+          "errors": 0,
+          "number": 96
+        },
+        "sys_134": {
+          "calls": 3,
+          "errors": 0,
+          "number": 134
+        },
+        "write": {
+          "calls": 3,
+          "errors": 0,
+          "number": 64
+        }
+      },
+      "timings_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/illegal_trap/qemu_plugin/timings.jsonl"
+    },
+    {
+      "rep_results": [
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/process_chain/build/process_chain.riscv"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 10,
+          "rep": 0,
+          "runtime_ns": 33882533,
+          "stderr_bytes": 359,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/process_chain/qemu_plugin/qemu_plugin.0.stderr.txt",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/process_chain/qemu_plugin/qemu_plugin.0.stdout.txt",
+          "timed_out": false
+        },
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/process_chain/build/process_chain.riscv"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 10,
+          "rep": 1,
+          "runtime_ns": 33288994,
+          "stderr_bytes": 359,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/process_chain/qemu_plugin/qemu_plugin.1.stderr.txt",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/process_chain/qemu_plugin/qemu_plugin.1.stdout.txt",
+          "timed_out": false
+        },
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/process_chain/build/process_chain.riscv"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 10,
+          "rep": 2,
+          "runtime_ns": 34139689,
+          "stderr_bytes": 359,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/process_chain/qemu_plugin/qemu_plugin.2.stderr.txt",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/process_chain/qemu_plugin/qemu_plugin.2.stdout.txt",
+          "timed_out": false
+        }
+      ],
+      "reps": 3,
+      "riscv_binary": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/process_chain/build/process_chain.riscv",
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "process_chain",
+      "status": "PASS",
+      "syscall_counts": {
+        "214": {
+          "calls": 15,
+          "errors": 0
+        },
+        "220": {
+          "calls": 6,
+          "errors": 0
+        },
+        "226": {
+          "calls": 3,
+          "errors": 0
+        },
+        "261": {
+          "calls": 3,
+          "errors": 0
+        },
+        "278": {
+          "calls": 3,
+          "errors": 0
+        },
+        "78": {
+          "calls": 3,
+          "errors": 0
+        },
+        "94": {
+          "calls": 3,
+          "errors": 0
+        },
+        "95": {
+          "calls": 6,
+          "errors": 0
+        },
+        "96": {
+          "calls": 3,
+          "errors": 0
+        },
+        "99": {
+          "calls": 3,
+          "errors": 3
+        }
+      },
+      "syscall_name_counts": {
+        "brk": {
+          "calls": 15,
+          "errors": 0,
+          "number": 214
+        },
+        "clone": {
+          "calls": 6,
+          "errors": 0,
+          "number": 220
+        },
+        "exit_group": {
+          "calls": 3,
+          "errors": 0,
+          "number": 94
+        },
+        "getrandom": {
+          "calls": 3,
+          "errors": 0,
+          "number": 278
+        },
+        "mprotect": {
+          "calls": 3,
+          "errors": 0,
+          "number": 226
+        },
+        "prlimit64": {
+          "calls": 3,
+          "errors": 0,
+          "number": 261
+        },
+        "readlinkat": {
+          "calls": 3,
+          "errors": 0,
+          "number": 78
+        },
+        "set_robust_list": {
+          "calls": 3,
+          "errors": 3,
+          "number": 99
+        },
+        "set_tid_address": {
+          "calls": 3,
+          "errors": 0,
+          "number": 96
+        },
+        "waitid": {
+          "calls": 6,
+          "errors": 0,
+          "number": 95
+        }
+      },
+      "timings_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/process_chain/qemu_plugin/timings.jsonl"
+    },
+    {
+      "rep_results": [
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/dynamic_executable_memory/build/dynamic_executable_memory.riscv"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 10,
+          "rep": 0,
+          "runtime_ns": 30378049,
+          "stderr_bytes": 360,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/dynamic_executable_memory/qemu_plugin/qemu_plugin.0.stderr.txt",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/dynamic_executable_memory/qemu_plugin/qemu_plugin.0.stdout.txt",
+          "timed_out": false
+        },
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/dynamic_executable_memory/build/dynamic_executable_memory.riscv"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 10,
+          "rep": 1,
+          "runtime_ns": 31692504,
+          "stderr_bytes": 360,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/dynamic_executable_memory/qemu_plugin/qemu_plugin.1.stderr.txt",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/dynamic_executable_memory/qemu_plugin/qemu_plugin.1.stdout.txt",
+          "timed_out": false
+        },
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/dynamic_executable_memory/build/dynamic_executable_memory.riscv"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 10,
+          "rep": 2,
+          "runtime_ns": 30909952,
+          "stderr_bytes": 360,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/dynamic_executable_memory/qemu_plugin/qemu_plugin.2.stderr.txt",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/dynamic_executable_memory/qemu_plugin/qemu_plugin.2.stdout.txt",
+          "timed_out": false
+        }
+      ],
+      "reps": 3,
+      "riscv_binary": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/dynamic_executable_memory/build/dynamic_executable_memory.riscv",
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "dynamic_executable_memory",
+      "status": "PASS",
+      "syscall_counts": {
+        "214": {
+          "calls": 15,
+          "errors": 0
+        },
+        "215": {
+          "calls": 3,
+          "errors": 0
+        },
+        "222": {
+          "calls": 3,
+          "errors": 0
+        },
+        "226": {
+          "calls": 9,
+          "errors": 0
+        },
+        "261": {
+          "calls": 3,
+          "errors": 0
+        },
+        "278": {
+          "calls": 3,
+          "errors": 0
+        },
+        "78": {
+          "calls": 3,
+          "errors": 0
+        },
+        "94": {
+          "calls": 3,
+          "errors": 0
+        },
+        "96": {
+          "calls": 3,
+          "errors": 0
+        },
+        "99": {
+          "calls": 3,
+          "errors": 3
+        }
+      },
+      "syscall_name_counts": {
+        "brk": {
+          "calls": 15,
+          "errors": 0,
+          "number": 214
+        },
+        "exit_group": {
+          "calls": 3,
+          "errors": 0,
+          "number": 94
+        },
+        "getrandom": {
+          "calls": 3,
+          "errors": 0,
+          "number": 278
+        },
+        "mmap": {
+          "calls": 3,
+          "errors": 0,
+          "number": 222
+        },
+        "mprotect": {
+          "calls": 9,
+          "errors": 0,
+          "number": 226
+        },
+        "munmap": {
+          "calls": 3,
+          "errors": 0,
+          "number": 215
+        },
+        "prlimit64": {
+          "calls": 3,
+          "errors": 0,
+          "number": 261
+        },
+        "readlinkat": {
+          "calls": 3,
+          "errors": 0,
+          "number": 78
+        },
+        "set_robust_list": {
+          "calls": 3,
+          "errors": 3,
+          "number": 99
+        },
+        "set_tid_address": {
+          "calls": 3,
+          "errors": 0,
+          "number": 96
+        }
+      },
+      "timings_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/dynamic_executable_memory/qemu_plugin/timings.jsonl"
+    },
+    {
+      "rep_results": [
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/anti_debug_like/build/anti_debug_like.riscv"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 13,
+          "rep": 0,
+          "runtime_ns": 30347209,
+          "stderr_bytes": 444,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/anti_debug_like/qemu_plugin/qemu_plugin.0.stderr.txt",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/anti_debug_like/qemu_plugin/qemu_plugin.0.stdout.txt",
+          "timed_out": false
+        },
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/anti_debug_like/build/anti_debug_like.riscv"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 13,
+          "rep": 1,
+          "runtime_ns": 32001622,
+          "stderr_bytes": 444,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/anti_debug_like/qemu_plugin/qemu_plugin.1.stderr.txt",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/anti_debug_like/qemu_plugin/qemu_plugin.1.stdout.txt",
+          "timed_out": false
+        },
+        {
+          "command": [
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/qemu_user_plugin/qemu-8.2.2/build/qemu-riscv64",
+            "-d",
+            "plugin",
+            "-plugin",
+            "results/experiments/35t/35t-qemu-plugin-baseline-20260523/rvmt_qemu_syscall_count_plugin.so",
+            "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/anti_debug_like/build/anti_debug_like.riscv"
+          ],
+          "exit_code": 0,
+          "plugin_count_rows": 13,
+          "rep": 2,
+          "runtime_ns": 31544240,
+          "stderr_bytes": 444,
+          "stderr_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/anti_debug_like/qemu_plugin/qemu_plugin.2.stderr.txt",
+          "stdout_bytes": 0,
+          "stdout_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/anti_debug_like/qemu_plugin/qemu_plugin.2.stdout.txt",
+          "timed_out": false
+        }
+      ],
+      "reps": 3,
+      "riscv_binary": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/anti_debug_like/build/anti_debug_like.riscv",
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "anti_debug_like",
+      "status": "PASS",
+      "syscall_counts": {
+        "113": {
+          "calls": 6,
+          "errors": 0
+        },
+        "117": {
+          "calls": 3,
+          "errors": 3
+        },
+        "214": {
+          "calls": 15,
+          "errors": 0
+        },
+        "226": {
+          "calls": 3,
+          "errors": 0
+        },
+        "261": {
+          "calls": 3,
+          "errors": 0
+        },
+        "278": {
+          "calls": 3,
+          "errors": 0
+        },
+        "56": {
+          "calls": 3,
+          "errors": 0
+        },
+        "57": {
+          "calls": 3,
+          "errors": 0
+        },
+        "63": {
+          "calls": 3,
+          "errors": 0
+        },
+        "78": {
+          "calls": 3,
+          "errors": 0
+        },
+        "94": {
+          "calls": 3,
+          "errors": 0
+        },
+        "96": {
+          "calls": 3,
+          "errors": 0
+        },
+        "99": {
+          "calls": 3,
+          "errors": 3
+        }
+      },
+      "syscall_name_counts": {
+        "brk": {
+          "calls": 15,
+          "errors": 0,
+          "number": 214
+        },
+        "clock_gettime": {
+          "calls": 6,
+          "errors": 0,
+          "number": 113
+        },
+        "close": {
+          "calls": 3,
+          "errors": 0,
+          "number": 57
+        },
+        "exit_group": {
+          "calls": 3,
+          "errors": 0,
+          "number": 94
+        },
+        "getrandom": {
+          "calls": 3,
+          "errors": 0,
+          "number": 278
+        },
+        "mprotect": {
+          "calls": 3,
+          "errors": 0,
+          "number": 226
+        },
+        "openat": {
+          "calls": 3,
+          "errors": 0,
+          "number": 56
+        },
+        "prlimit64": {
+          "calls": 3,
+          "errors": 0,
+          "number": 261
+        },
+        "read": {
+          "calls": 3,
+          "errors": 0,
+          "number": 63
+        },
+        "readlinkat": {
+          "calls": 3,
+          "errors": 0,
+          "number": 78
+        },
+        "set_robust_list": {
+          "calls": 3,
+          "errors": 3,
+          "number": 99
+        },
+        "set_tid_address": {
+          "calls": 3,
+          "errors": 0,
+          "number": 96
+        },
+        "sys_117": {
+          "calls": 3,
+          "errors": 3,
+          "number": 117
+        }
+      },
+      "timings_path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/samples/malware_like_synthetic/anti_debug_like/qemu_plugin/timings.jsonl"
+    }
+  ],
+  "schema": "rvmt.35t.qemu_plugin_baseline.v1",
+  "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "source_run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "status": "QEMU_PLUGIN_BASELINE_PASS_13_SAMPLES"
+}

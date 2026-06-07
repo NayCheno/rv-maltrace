@@ -1,0 +1,51 @@
+{
+  "advanced_baselines": {
+    "QEMU plugin": "PASS",
+    "eBPF-only": "PASS",
+    "software instrumentation": "PASS"
+  },
+  "checks": {
+    "ebpf_status_consistent": true,
+    "groundtruth_baselines_pass": true,
+    "no_positive_forbidden_claims": true,
+    "non_claims": true,
+    "qemu_plugin_status_consistent": true,
+    "run_id": true,
+    "sample_count": true,
+    "sample_groundtruth_complete": true,
+    "schema": true,
+    "software_instrumentation_status_consistent": true,
+    "status": true
+  },
+  "failures": [],
+  "groundtruth_baselines": {
+    "host_native": {
+      "evidence": "groundtruth median timing field in aggregate metrics",
+      "sample_count": 13,
+      "samples_with_evidence": 13,
+      "status": "PASS"
+    },
+    "host_strace": {
+      "evidence": "groundtruth median timing field in aggregate metrics",
+      "sample_count": 13,
+      "samples_with_evidence": 13,
+      "status": "PASS"
+    },
+    "qemu_native": {
+      "evidence": "groundtruth median timing field in aggregate metrics",
+      "sample_count": 13,
+      "samples_with_evidence": 13,
+      "status": "PASS"
+    },
+    "qemu_strace": {
+      "evidence": "groundtruth median timing field in aggregate metrics",
+      "sample_count": 13,
+      "samples_with_evidence": 13,
+      "status": "PASS"
+    }
+  },
+  "run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "schema": "rvmt.35t.baseline_evaluation.check.v1",
+  "status": "PASS",
+  "summary": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/baseline_evaluation_summary.json"
+}

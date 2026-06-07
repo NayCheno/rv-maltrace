@@ -1,0 +1,67 @@
+{
+  "checks": {
+    "all_required_samples_accounted": true,
+    "extension_results_root_exists": true,
+    "matrix_keeps_partial_boundaries": true,
+    "primary_results_root_exists": true
+  },
+  "evidence_root": "docs/07-evaluation-evidence/evidence/35t-semantic-case-study-matrix-20260523",
+  "extension_run_id": "35t-extension-r512-nonnetwork-20260523",
+  "failures": [],
+  "generated_utc": "2026-05-23T12:56:16Z",
+  "interpretation": [
+    "process-tree matrix distinguishes closed, partial, and missing evidence",
+    "partial means clone/exec/wait shape is present but ownership or path closure remains bounded"
+  ],
+  "primary_run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "samples": [
+    {
+      "candidate_count": 5,
+      "candidate_status_counts": {
+        "closed": 0,
+        "missing": 0,
+        "partial": 5
+      },
+      "failures": [],
+      "sample_id": "process_chain",
+      "selected_candidate": {
+        "clone_count": 2,
+        "exec_path_count": 0,
+        "execve_count": 3,
+        "limitations": [
+          "parent-child PID ownership or exec path string is partial"
+        ],
+        "rep": "rep_04",
+        "source": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/process_chain/board/trace-on/rep_04/behavior_recovery/semantic_events.json",
+        "status": "partial",
+        "wait_count": 4
+      },
+      "status": "partial"
+    },
+    {
+      "candidate_count": 5,
+      "candidate_status_counts": {
+        "closed": 0,
+        "missing": 1,
+        "partial": 4
+      },
+      "failures": [],
+      "sample_id": "multi_level_process_chain",
+      "selected_candidate": {
+        "clone_count": 3,
+        "exec_path_count": 0,
+        "execve_count": 1,
+        "limitations": [
+          "parent-child PID ownership or exec path string is partial"
+        ],
+        "rep": "rep_03",
+        "source": "results/experiments/35t/35t-extension-r512-nonnetwork-20260523/samples/malware_like_synthetic/multi_level_process_chain/board/trace-on/rep_03/behavior_recovery/semantic_events.json",
+        "status": "partial",
+        "wait_count": 3
+      },
+      "status": "partial"
+    }
+  ],
+  "schema": "rvmt.35t.process_tree_case_study_matrix.v1",
+  "status": "PASS"
+}

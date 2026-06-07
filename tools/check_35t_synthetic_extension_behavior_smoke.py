@@ -12,7 +12,7 @@ from typing import Any
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
 SMOKE_RUN_ID = "35t-extension-behavior-smoke-20260523"
 DEFAULT_EXTENSION_PLAN = Path("experiments/linux_behavior/malware_like/extension_plan.json")
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence") / RUN_ID
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / RUN_ID
 DEFAULT_RESULTS_ROOT = Path("results/experiments/35t") / SMOKE_RUN_ID
 SCHEMA = "rvmt.35t.synthetic_extension_behavior_smoke.v1"
 PASS_STATUS = "HOST_QEMU_BEHAVIOR_SMOKE_PASS_35T_GATING_DEFERRED"

@@ -11,7 +11,7 @@ from typing import Any
 REPO_ROOT = Path(__file__).resolve().parents[1]
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
 DEFAULT_METRICS = Path("results/experiments/35t") / RUN_ID / "aggregate/metrics.json"
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence") / RUN_ID
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / RUN_ID
 DEFAULT_ADVANCED_BASELINE_PREFLIGHT = DEFAULT_EVIDENCE_ROOT / "advanced_baseline_preflight.json"
 DEFAULT_QEMU_PLUGIN_BUILD_PREFLIGHT = DEFAULT_EVIDENCE_ROOT / "qemu_plugin_build_preflight.json"
 DEFAULT_QEMU_PLUGIN_BASELINE_SUMMARY = DEFAULT_EVIDENCE_ROOT / "qemu_plugin_baseline_summary.json"

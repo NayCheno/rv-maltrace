@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import argparse
 import re
@@ -7,8 +7,8 @@ import tempfile
 from pathlib import Path
 
 
-DEFAULT_RUNBOOK = Path("docs/board/baseline_bringup_runbook.md")
-DEFAULT_BOARD_DOC = Path("docs/board/board_bringup.md")
+DEFAULT_RUNBOOK = Path("docs/03-platform-architecture/genesys2/baseline_bringup_runbook.md")
+DEFAULT_BOARD_DOC = Path("docs/03-platform-architecture/genesys2/board_bringup.md")
 
 STEPS = (
     (1, "01_led_clock_reset", "LED Blink / Clock Reset Sanity", "TODO (BOARD)"),
@@ -126,7 +126,7 @@ def check_runbook(path: Path) -> list[str]:
 def check_board_doc(path: Path) -> list[str]:
     text = path.read_text(encoding="utf-8")
     errors: list[str] = []
-    if "docs/board/baseline_bringup_runbook.md" not in text:
+    if "docs/03-platform-architecture/genesys2/baseline_bringup_runbook.md" not in text:
         errors.append(f"{path}: missing runbook link")
     lowered = text.lower()
     for phrase in FORBIDDEN_SUCCESS_CLAIMS:
@@ -228,7 +228,7 @@ def write_good_fixture(root: Path) -> None:
     board_lines = [
         "# Genesys 2 Board Bring-up",
         "",
-        "Runbook: docs/board/baseline_bringup_runbook.md",
+        "Runbook: docs/03-platform-architecture/genesys2/baseline_bringup_runbook.md",
         "",
         "| Gate | Status | Evidence |",
         "| --- | --- | --- |",
@@ -335,7 +335,7 @@ def self_test() -> int:
         root = Path(tmp)
         write_good_fixture(root)
         board_doc = root / DEFAULT_BOARD_DOC
-        board_doc.write_text(board_doc.read_text(encoding="utf-8").replace("docs/board/baseline_bringup_runbook.md", ""), encoding="utf-8")
+        board_doc.write_text(board_doc.read_text(encoding="utf-8").replace("docs/03-platform-architecture/genesys2/baseline_bringup_runbook.md", ""), encoding="utf-8")
         errors = run_checks(root, DEFAULT_RUNBOOK, DEFAULT_BOARD_DOC)
         if not any("runbook link" in error for error in errors):
             print("[FAIL] self-test missed missing runbook link", file=sys.stderr)

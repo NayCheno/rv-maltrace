@@ -10,7 +10,7 @@ from typing import Any
 
 SOURCE_RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
 VALIDATION_RUN_ID = "35t-targeted-board-validation-20260522"
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence") / SOURCE_RUN_ID
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / SOURCE_RUN_ID
 PRIMARY_GATE = Path("results/experiments/35t") / SOURCE_RUN_ID / "aggregate/gate_report.json"
 VALIDATION_GATE = Path("results/experiments/35t") / VALIDATION_RUN_ID / "aggregate/gate_report.json"
 VALIDATION_BUNDLE = Path("results/experiments/35t") / VALIDATION_RUN_ID / "board_validation_bundle/bundle_manifest.json"

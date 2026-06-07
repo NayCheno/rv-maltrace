@@ -12,7 +12,7 @@ from typing import Any
 
 PRIMARY_RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
 RUN_ID = "35t-advanced-baseline-preflight-20260523"
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence") / PRIMARY_RUN_ID
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / PRIMARY_RUN_ID
 EXPECTED_SCOPE = "Artix-7 35T / LiteX / VexRiscv"
 EXPECTED_CLAIM_LEVEL = "35T hardware-trace-assisted synthetic malware-like behavior audit prototype"
 NON_CLAIMS = [

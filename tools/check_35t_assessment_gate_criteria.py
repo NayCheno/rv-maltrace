@@ -11,7 +11,7 @@ from typing import Any
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
 DEFAULT_ASSESSMENT = Path("D:/Download/rv_maltrace_35t_assessment.md")
 DEFAULT_RESULTS_ROOT = Path("results/experiments/35t") / RUN_ID
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence") / RUN_ID
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / RUN_ID
 DEFAULT_GATE_REPORT = DEFAULT_RESULTS_ROOT / "aggregate/gate_report.json"
 DEFAULT_RUN_CONFIG = DEFAULT_RESULTS_ROOT / "run_config.json"
 DEFAULT_SAMPLE_MANIFEST = Path("experiments/linux_behavior/malware_like/manifest.json")

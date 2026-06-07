@@ -1,0 +1,377 @@
+{
+  "assessment_source": "D:/Download/rv_maltrace_35t_assessment.md",
+  "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+  "failures": [],
+  "goals": [
+    {
+      "checks": {
+        "application_closure_check_pass": true,
+        "cva6_out_of_scope": true,
+        "hardware_trace_prototype_pass": true,
+        "local_code_analysis_bounded_pass": true,
+        "malware_behavior_audit_bounded_pass": true,
+        "manifest_claim_level": true,
+        "manifest_run_id": true,
+        "manifest_scope": true,
+        "no_positive_forbidden_claims": true,
+        "non_claims_present": true,
+        "paper_evidence_bounded": true,
+        "paper_positioning_bounded": true,
+        "real_malware_false": true
+      },
+      "evidence": {
+        "application_closure_check": "application_closure_check.json",
+        "hardware_trace_prototype": "hardware_trace_prototype.json",
+        "local_code_analysis": "local_code_analysis.json",
+        "malware_behavior_audit": "malware_behavior_audit.json",
+        "manifest": "evidence_manifest.json",
+        "paper_evidence_check": "paper_evidence_check.json",
+        "paper_positioning": "paper_positioning.json"
+      },
+      "id": "P0_claim_boundary",
+      "remaining_work": [
+        "keep the 35T result phrased as a synthetic malware-like behavior audit prototype",
+        "do not infer CVA6, real malware, classifier accuracy, or complete reconstruction claims"
+      ],
+      "status": "PASS"
+    },
+    {
+      "checks": {
+        "case_studies_cover_required_samples": true,
+        "case_studies_pass": true,
+        "case_studies_schema": true,
+        "case_studies_side_channel_backed": true,
+        "closed_flow": true,
+        "path_source_recorded": true,
+        "schema": true,
+        "side_channel_or_semantic_source": true,
+        "status_pass": true
+      },
+      "evidence": {
+        "case_studies": "fd_path_case_studies.json",
+        "case_study_samples": [
+          "batch_open_read_write",
+          "file_scan",
+          "self_copy_sim"
+        ],
+        "closed_flow_count": 1,
+        "sample": "file_scan",
+        "selected_candidate": {
+          "sample": "file_scan",
+          "source": "results/experiments/35t/35t-targeted-board-validation-20260522/samples/malware_like_synthetic/file_scan/board/trace-on/rep_00/syscall_side_channel.json",
+          "source_type": "syscall_side_channel"
+        },
+        "summary": "fd_path_flow_summary.json"
+      },
+      "id": "P1_fd_path_flow",
+      "remaining_work": [
+        "broaden from the three prioritized case-study samples to full-suite fd/path graph coverage",
+        "keep trace-proven, inferred, and missing links separated"
+      ],
+      "status": "PASS"
+    },
+    {
+      "checks": {
+        "case_study_exec_path": true,
+        "case_study_graph": true,
+        "case_study_pass": true,
+        "case_study_positive_child_pid": true,
+        "case_study_schema": true,
+        "case_study_side_channel_backed": true,
+        "case_study_wait_pid": true,
+        "closed_edge": true,
+        "non_complete_parent_boundary": true,
+        "schema": true,
+        "status_pass": true
+      },
+      "evidence": {
+        "case_study": "process_tree_case_study.json",
+        "edge_count": 2,
+        "sample": "process_chain",
+        "summary": "process_tree_summary.json"
+      },
+      "id": "P2_process_tree",
+      "remaining_work": [
+        "resolve target parent PID only when PID/SATP/ASID or equivalent runtime ownership evidence exists",
+        "do not describe the representative graph as complete OS process ownership"
+      ],
+      "status": "PASS"
+    },
+    {
+      "checks": {
+        "hardware_pointer_snapshot_deferred": true,
+        "helper_alignment_preserves_hardware_pointer_deferral": true,
+        "helper_or_ebpf_route_present": true,
+        "pointer_design_default_disabled": true,
+        "pointer_preflight_schema": true,
+        "pointer_snapshot_design_review_recorded": true,
+        "pointer_snapshot_gate_default_disabled": true,
+        "pointer_snapshot_gate_enablement_requirements": true,
+        "pointer_snapshot_gate_recorded": true,
+        "pointer_snapshot_gate_schema": true,
+        "routes_deferred": true,
+        "selective_memory_route_present": true,
+        "side_channel_fd_path_closure_recorded": true,
+        "side_channel_process_closure_recorded": true,
+        "strategy_keeps_mvp_unblocked": true,
+        "synthetic_arg_mem_guardrails_recorded": true,
+        "threat_model_ready": true,
+        "threat_model_schema": true,
+        "trace_mem_default_none": true,
+        "trusted_helper_alignment_recorded": true,
+        "trusted_kernel_user_mode_boundary": true
+      },
+      "completed_under_current_conditions": [
+        "board syscall side-channel supplies representative path and process semantic closure",
+        "trusted helper alignment is recorded for representative fd/path and process-tree evidence under dual-channel board validation",
+        "synthetic ARG_MEM simulation covers pointer string and guardrail behavior",
+        "bounded pointer snapshot design review records allowlist, limits, default-disabled policy, and non-substitution rules",
+        "pointer snapshot enablement requirements are recorded while current 35T memory capture remains default-disabled",
+        "semantic threat model is bounded to trusted kernel and user-mode malware-like workloads",
+        "hardware user-pointer memory snapshot remains deferred and default-disabled"
+      ],
+      "evidence": {
+        "helper_alignment": "helper_alignment.json",
+        "paper_evidence": "paper_evidence_check.json",
+        "pointer_preflight": "pointer_semantics_preflight.json",
+        "pointer_snapshot_design_review": "pointer_snapshot_design_review.json",
+        "pointer_snapshot_gate": "pointer_snapshot_enablement_gate.json",
+        "routes": "experiments/linux_behavior/semantic_enrichment_routes.json",
+        "strategy": "experiments/linux_behavior/semantic_enrichment_strategy.json",
+        "threat_model": "threat_model_boundary.json"
+      },
+      "id": "P3_pointer_argument_semantics",
+      "remaining_work": [
+        "implement gated selective user-pointer snapshot before claiming hardware pointer capture",
+        "extend trusted helper alignment beyond representative case studies before claiming broad pointer semantic reconstruction",
+        "measure timing, bandwidth, and noninterference before enabling any memory payload route"
+      ],
+      "status": "PARTIAL_BOUNDED_SYNTHETIC_ARG_MEM_GUARDRAILS"
+    },
+    {
+      "checks": {
+        "advanced_preflight_covers_remaining_baselines": true,
+        "advanced_preflight_schema": true,
+        "baseline_check_pass": true,
+        "baseline_execution_spec_covers_assessment": true,
+        "baseline_execution_spec_pass": true,
+        "baseline_execution_spec_prevents_substitution": true,
+        "baseline_execution_spec_schema": true,
+        "baseline_summary_accepted": true,
+        "baseline_summary_schema": true,
+        "evaluation_table_has_ebpf_and_qemu_plugin_pass": true,
+        "evaluation_table_ready": true,
+        "evaluation_table_schema": true,
+        "groundtruth_for_13_samples": true,
+        "metric_coverage_lists_required_metrics": true,
+        "metric_coverage_ready": true,
+        "metric_coverage_schema": true,
+        "metrics_schema": true,
+        "plan_lists_required_baselines": true,
+        "qemu_plugin_baseline_recorded": true,
+        "qemu_plugin_build_preflight_recorded": true
+      },
+      "completed_under_current_conditions": [
+        "host native, host strace, QEMU native, and QEMU strace timing fields are present for the 13-sample 35T run",
+        "software-instrumentation baseline is closed only when its independent summary reports 13/13 PASS",
+        "bounded evaluation table combines timing, drop/cap, resource, anti-debug, eBPF baseline, and QEMU-plugin syscall-count evidence",
+        "metric coverage table enumerates the assessment's required P4 metrics and marks measured, proxy, case-study, and deferred scopes",
+        "baseline execution spec maps required baseline families to concrete current evidence, commands, and non-substitution rules",
+        "QEMU-plugin system-mode build/load preflight records that a minimal plugin can be compiled and loaded",
+        "QEMU-plugin is reported PASS only because qemu_plugin_baseline_summary.json records 13/13 plugin evidence",
+        "bounded baseline summary/check prevent QEMU-plugin simulator evidence from being treated as hardware trace or real malware evidence"
+      ],
+      "evidence": {
+        "advanced_preflight": "advanced_baseline_preflight.json",
+        "check": "baseline_evaluation_check.json",
+        "evaluation_table": "evaluation_table.json",
+        "execution_spec": "baseline_execution_spec_check.json",
+        "groundtruth_sample_count": 13,
+        "metric_coverage": "metric_coverage.json",
+        "metrics": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggregate/metrics.json",
+        "plan": "docs/07-evaluation-evidence/evaluation_plan.md",
+        "qemu_plugin_baseline": "qemu_plugin_baseline_summary.json",
+        "qemu_plugin_build_preflight": "qemu_plugin_build_preflight.json",
+        "summary": "baseline_evaluation_summary.json"
+      },
+      "id": "P4_baseline_evaluation",
+      "remaining_work": [
+        "extend advanced baselines beyond the current simulator/host software evidence only if the paper claim requires it",
+        "keep QEMU-plugin evidence separated from hardware trace, DBI, and real malware claims"
+      ],
+      "status": "HOST_QEMU_STRACE_SOFTWARE_INSTRUMENTATION_EBPF_AND_QEMU_PLUGIN_PASS"
+    },
+    {
+      "checks": {
+        "all_real_malware_false": true,
+        "expected_8_sample_suite": true,
+        "extension_behavior_smoke_executes_non_network": true,
+        "extension_behavior_smoke_expected_syscalls": true,
+        "extension_behavior_smoke_no_35t_claim": true,
+        "extension_behavior_smoke_schema": true,
+        "extension_behavior_smoke_skips_network": true,
+        "extension_behavior_smoke_status_recorded": true,
+        "extension_candidates_cover_topics": true,
+        "extension_check_ready": true,
+        "extension_check_schema": true,
+        "extension_enablement_default_excludes_extensions": true,
+        "extension_enablement_explicit_selects_non_network": true,
+        "extension_enablement_no_35t_claim": true,
+        "extension_enablement_schema": true,
+        "extension_enablement_status_recorded": true,
+        "extension_host_smoke_candidate_count_matches": true,
+        "extension_host_smoke_no_35t_claim": true,
+        "extension_host_smoke_no_execution": true,
+        "extension_host_smoke_schema": true,
+        "extension_host_smoke_status_recorded": true,
+        "extension_target_smoke_candidate_count_matches": true,
+        "extension_target_smoke_no_35t_claim": true,
+        "extension_target_smoke_no_execution": true,
+        "extension_target_smoke_schema": true,
+        "extension_target_smoke_status_recorded": true,
+        "extension_topics_in_plan": true,
+        "manifest_schema": true,
+        "network_free_current_suite": true,
+        "real_malware_policy_gates_recorded": true
+      },
+      "completed_under_current_conditions": [
+        "9 synthetic-only extension candidate sources are present, non-destructive, disabled by default, and policy-gated",
+        "host compile smoke is recorded when Linux or WSL compile-only tooling is available; otherwise the current environment blocker is explicit",
+        "RISC-V target cross-compile smoke is recorded when Docker target tooling is available; otherwise the current environment blocker is explicit",
+        "host/QEMU behavior smoke executes non-network extension candidates and records expected QEMU guest syscall coverage when Docker tooling is available",
+        "the 35T runner/rootfs/experiment CLI path now exposes extension candidates only through explicit selection, with default 13-sample coverage unchanged",
+        "host/QEMU behavior smoke remains pre-board evidence and does not claim expanded 35T coverage"
+      ],
+      "evidence": {
+        "behavior_smoke": "synthetic_extension_behavior_smoke.json",
+        "behavior_smoke_status": "HOST_QEMU_BEHAVIOR_SMOKE_PASS_35T_GATING_DEFERRED",
+        "behavior_smoke_summary_counts": {
+          "candidate_count": 9,
+          "compile_pass_count": 9,
+          "executed_candidate_count": 8,
+          "execution_pass_count": 8,
+          "network_skipped_count": 1
+        },
+        "candidate_count": 9,
+        "candidate_topics": [
+          "/proc/self/status TracerPid check",
+          "direct-syscall",
+          "file encryption simulation without destructive payload",
+          "fork/exec chains",
+          "mmap/mprotect executable memory variants",
+          "network workloads",
+          "packed code",
+          "self-modifying code",
+          "timing checks"
+        ],
+        "current_samples": [
+          "abnormal_syscall_sequence",
+          "anti_debug_like",
+          "batch_open_read_write",
+          "dynamic_executable_memory",
+          "file_scan",
+          "illegal_trap",
+          "process_chain",
+          "self_copy_sim"
+        ],
+        "enablement_preflight": "extension_35t_enablement_preflight.json",
+        "enablement_preflight_status": "EXTENSION_35T_ENABLEMENT_PREFLIGHT_PASS_GATING_DEFERRED",
+        "extension_check": "synthetic_suite_extension_check.json",
+        "extension_plan": "experiments/linux_behavior/malware_like/extension_plan.json",
+        "extension_source_files": [
+          "experiments/linux_behavior/malware_like/extension_programs/direct_syscall_open_read.c",
+          "experiments/linux_behavior/malware_like/extension_programs/file_encryption_sim_non_destructive.c",
+          "experiments/linux_behavior/malware_like/extension_programs/loopback_network_client.c",
+          "experiments/linux_behavior/malware_like/extension_programs/mprotect_exec_variant.c",
+          "experiments/linux_behavior/malware_like/extension_programs/multi_level_process_chain.c",
+          "experiments/linux_behavior/malware_like/extension_programs/obfuscated_syscall_wrapper.c",
+          "experiments/linux_behavior/malware_like/extension_programs/proc_status_tracerpid_check.c",
+          "experiments/linux_behavior/malware_like/extension_programs/self_modifying_code_sim.c",
+          "experiments/linux_behavior/malware_like/extension_programs/timing_anti_analysis_loop.c"
+        ],
+        "host_smoke": "synthetic_extension_host_smoke.json",
+        "host_smoke_blocked_reasons": [],
+        "host_smoke_compiled_candidate_count": 9,
+        "host_smoke_status": "HOST_COMPILE_SMOKE_PASS_35T_GATING_DEFERRED",
+        "implemented_candidate_count": 9,
+        "manifest": "experiments/linux_behavior/malware_like/manifest.json",
+        "selected_non_network_candidate_ids": [
+          "direct_syscall_open_read",
+          "file_encryption_sim_non_destructive",
+          "mprotect_exec_variant",
+          "multi_level_process_chain",
+          "obfuscated_syscall_wrapper",
+          "proc_status_tracerpid_check",
+          "self_modifying_code_sim",
+          "timing_anti_analysis_loop"
+        ],
+        "target_smoke": "synthetic_extension_target_smoke.json",
+        "target_smoke_compiled_candidate_count": 9,
+        "target_smoke_status": "TARGET_COMPILE_SMOKE_PASS_35T_GATING_DEFERRED"
+      },
+      "id": "P5_synthetic_suite_extension",
+      "remaining_work": [
+        "refresh the board image if needed, then run the source-implemented synthetic extension candidates through the same 35T gates before claiming expanded coverage",
+        "keep real malware legal, ethical, containment, and sanitization policy outside the current 35T success claim"
+      ],
+      "status": "IMPLEMENTED_EXTENSION_SOURCES_READY_FOR_35T_GATING"
+    },
+    {
+      "checks": {
+        "artifact_readiness_bounded_pass": true,
+        "artifact_readiness_classes_accounted": true,
+        "artifact_readiness_schema": true,
+        "bundle_checked": true,
+        "committed_artifacts_present": true,
+        "large_outputs_excluded": true,
+        "manifest_schema": true,
+        "missing_artifacts_recorded": true,
+        "paper_package_bounded_pass": true,
+        "paper_package_schema": true,
+        "paper_package_uses_readiness": true,
+        "raw_escrow_hash_verified": true,
+        "raw_escrow_public_release_deferred": true,
+        "raw_escrow_ready": true,
+        "raw_escrow_schema": true,
+        "raw_sanitization_hash_excerpt_ready": true,
+        "raw_sanitization_keeps_full_raw_deferred": true,
+        "raw_sanitization_schema": true
+      },
+      "evidence": {
+        "artifact_class_count": 23,
+        "artifact_readiness": "artifact_package_readiness.json",
+        "artifact_readiness_status": "LIGHTWEIGHT_PACKAGE_READY_FULL_REPRO_DEFERRED",
+        "committed_artifact_count": 114,
+        "paper_package_manifest": "paper_artifact_package_manifest.json",
+        "paper_package_status": "LIGHTWEIGHT_RELEASE_CANDIDATE_READY_FULL_RAW_DEFERRED",
+        "raw_artifact_escrow": "raw_artifact_escrow.json",
+        "raw_artifact_escrow_status": "LOCAL_RAW_ARTIFACT_ESCROW_READY_PUBLIC_RELEASE_DEFERRED",
+        "raw_artifact_sanitization": "raw_artifact_sanitization.json",
+        "raw_artifact_sanitization_status": "RAW_ARTIFACT_HASH_EXCERPT_READY_FULL_RAW_DEFERRED",
+        "snapshot_manifest": "evidence_manifest.json",
+        "validation_bundle_status": "PASS"
+      },
+      "id": "P6_artifact_package",
+      "remaining_work": [
+        "turn the lightweight release-candidate package into a full release after raw traces and UART logs are approved for public or controlled external release",
+        "keep generated bitstreams, board build directories, ELF binaries, and large raw artifacts out of the lightweight committed snapshot unless explicitly approved"
+      ],
+      "status": "LIGHTWEIGHT_ARTIFACT_PASS_FULL_REPRO_DEFERRED"
+    }
+  ],
+  "interpretation": "All assessment goals are either closed with current 35T evidence or explicitly bounded as partial/deferred where hardware, baseline, or artifact conditions are not yet available.",
+  "non_claims": [
+    "no CVA6 board claim",
+    "no real malware detection claim",
+    "no mature detector claim",
+    "no classifier accuracy claim",
+    "no complete semantic reconstruction claim"
+  ],
+  "run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "schema": "rvmt.35t.assessment_closure.v1",
+  "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "status": "PASS_WITH_BOUNDED_REMAINING_WORK",
+  "warnings": [
+    "side-channel semantic capture has strict gate failures and is not used as the trace-gate channel"
+  ]
+}

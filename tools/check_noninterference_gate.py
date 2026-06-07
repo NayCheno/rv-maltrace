@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import argparse
 import json
@@ -12,12 +12,12 @@ from typing import Any
 
 
 DEFAULT_SPEC = Path("experiments/hardware/noninterference_gate.json")
-DEFAULT_DOC = Path("docs/validation/noninterference_resource_gate.md")
+DEFAULT_DOC = Path("docs/06-validation-gates/noninterference_resource_gate.md")
 DEFAULT_SUMMARY = Path("results/vivado_sim/summary.json")
-DEFAULT_RESOURCE_REPORT = Path("docs/reports/resource_report.md")
+DEFAULT_RESOURCE_REPORT = Path("docs/07-evaluation-evidence/reports/resource_report.md")
 DEFAULT_TIMING_CHECK = Path("tools/check_timing_principles.py")
 DEFAULT_REPORT_TOOL = Path("tools/generate_noninterference_report.py")
-DEFAULT_UV_DOC = Path("docs/process/uv_workflow.md")
+DEFAULT_UV_DOC = Path("docs/10-process/uv_workflow.md")
 EXPECTED_CHECKS = [
     "no_core_backpressure_ports",
     "pipelined_sideband_snapshot",
@@ -94,8 +94,8 @@ def check_spec(path: Path) -> list[str]:
         errors.append(f"{path}: unexpected scope")
     refs = spec.get("evidence_refs", [])
     for ref in (
-        "docs/architecture/timing_principles.md",
-        "docs/reports/resource_report.md",
+        "docs/02-trace-architecture/timing_principles.md",
+        "docs/07-evaluation-evidence/reports/resource_report.md",
         "results/vivado_sim/summary.json",
         "tools/check_timing_principles.py",
         "tools/generate_resource_report.py",
@@ -290,7 +290,7 @@ def check_uv_doc(path: Path) -> list[str]:
         ("tools/check_noninterference_gate.py", "Phase 3.4 checker command"),
         ("tools/generate_noninterference_report.py --self-test", "Phase 3.4 report self-test command"),
         ("tools/generate_noninterference_report.py --out-dir build/noninterference_gate", "Phase 3.4 report command"),
-        ("docs/validation/noninterference_resource_gate.md", "Phase 3.4 doc reference"),
+        ("docs/06-validation-gates/noninterference_resource_gate.md", "Phase 3.4 doc reference"),
         ("experiments/hardware/noninterference_gate.json", "Phase 3.4 spec reference"),
     ):
         if token not in text:
@@ -391,8 +391,8 @@ def write_fixture(root: Path) -> None:
                 "status": "CHECKED(TRACE_SYNTHESIS)",
                 "scope": "trace_sideband_noninterference_and_resource_gate",
                 "evidence_refs": [
-                    "docs/architecture/timing_principles.md",
-                    "docs/reports/resource_report.md",
+                    "docs/02-trace-architecture/timing_principles.md",
+                    "docs/07-evaluation-evidence/reports/resource_report.md",
                     "results/vivado_sim/summary.json",
                     "tools/check_timing_principles.py",
                     "tools/generate_resource_report.py",
@@ -446,7 +446,7 @@ Trace-enabled FPGA LUT/FF/BRAM/DSP/slack delta
         "uv run python tools/generate_noninterference_report.py --self-test\n"
         "uv run python tools/generate_noninterference_report.py --out-dir build/noninterference_gate\n"
         "uv run python tools/check_noninterference_gate.py\n"
-        "docs/validation/noninterference_resource_gate.md\n"
+        "docs/06-validation-gates/noninterference_resource_gate.md\n"
         "experiments/hardware/noninterference_gate.json\n",
         encoding="utf-8",
     )

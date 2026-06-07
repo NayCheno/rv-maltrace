@@ -1,0 +1,1002 @@
+{
+  "artifact_classes": [
+    {
+      "artifact_id": "run_config",
+      "class_digest": "cc18a4fa9b2af045a33be03a136654510790b05f7cb9d8559b402b3fff72e644",
+      "count": 1,
+      "description": "experiment run configuration",
+      "min_count": 1,
+      "missing": false,
+      "public_policy": "public",
+      "representative_files": [
+        {
+          "bytes": 2110,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/run_config.json",
+          "sha256": "342c5ccad66289b644b156840d7a5e106e434890d2982af886e24ee261745340"
+        }
+      ],
+      "status": "READY_PUBLIC",
+      "total_bytes": 2110
+    },
+    {
+      "artifact_id": "raw_uart_log",
+      "class_digest": "754990ce6b39095fe2e402681885fd7b41a679bbc2130fef2824d2dc445fb00f",
+      "count": 2,
+      "description": "raw board UART capture logs",
+      "min_count": 1,
+      "missing": false,
+      "public_policy": "local_only_raw_or_sanitized_excerpt",
+      "representative_files": [
+        {
+          "bytes": 1056962,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/board/raw_uart.log",
+          "sha256": "14b26de8471ce2b0a0adabe5ebf08c094a13ec0699cf3c2c84b39817ed33382c"
+        },
+        {
+          "bytes": 1056962,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/board/raw_uart.log",
+          "sha256": "14b26de8471ce2b0a0adabe5ebf08c094a13ec0699cf3c2c84b39817ed33382c"
+        }
+      ],
+      "status": "READY_LOCAL_ONLY",
+      "total_bytes": 2113924
+    },
+    {
+      "artifact_id": "decoded_trace_jsonl",
+      "class_digest": "475a8150dad18919cd693c2aadd2be32cb6b0be9386b972cfcf75a94477b9011",
+      "count": 65,
+      "description": "decoded per-repetition trace JSONL",
+      "min_count": 13,
+      "missing": false,
+      "public_policy": "local_only_hash_or_summary",
+      "representative_files": [
+        {
+          "bytes": 27966,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_00/trace.jsonl",
+          "sha256": "a6da6beaeb0912d200d7a7cac3fc3094d2dd668f44cf6a6db40662a10982c963"
+        },
+        {
+          "bytes": 27966,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_01/trace.jsonl",
+          "sha256": "c8ab1dfcb2bc303a3a3bc17e609195dffd093a8f249b3eb5aa68b961b035a4f6"
+        },
+        {
+          "bytes": 27966,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_02/trace.jsonl",
+          "sha256": "ad759d06bff8e968e2248e29f4879a01d6e8dabaa778c16b63fb56d7d0081035"
+        },
+        {
+          "bytes": 27967,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_03/trace.jsonl",
+          "sha256": "26684f1b7a28f3b5afd77dd666473b53070e931c08d2adb39d1e4ac4aed04deb"
+        },
+        {
+          "bytes": 27966,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_04/trace.jsonl",
+          "sha256": "e4fec8068701a224c7510e729a54121fe7d31c2113c2efb346378aa0b20bff48"
+        },
+        {
+          "bytes": 30555,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_00/trace.jsonl",
+          "sha256": "1a485ec466b0f3f47cb9dfa1afece3e2aac9f3efb41c947c91a5572e42942281"
+        },
+        {
+          "bytes": 30553,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_01/trace.jsonl",
+          "sha256": "36436877105d42d5f307da02af2877956788cc7bbfb20c6b21df633e41b9303b"
+        },
+        {
+          "bytes": 30553,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_02/trace.jsonl",
+          "sha256": "260312347755bf447736e1e56befeb29f5f62ee8e4f2d214d560ddeeef24d159"
+        }
+      ],
+      "status": "READY_LOCAL_ONLY",
+      "total_bytes": 2624240
+    },
+    {
+      "artifact_id": "runtime_process_map",
+      "class_digest": "de1d15c4e51ce8d19a7ad2cd1629767bb3bff9780777a7d5a0bd9094777fd407",
+      "count": 65,
+      "description": "runtime process attribution maps",
+      "min_count": 13,
+      "missing": false,
+      "public_policy": "public_or_summary",
+      "representative_files": [
+        {
+          "bytes": 11612,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_00/runtime_process_map.json",
+          "sha256": "bc21728b73f7a6b757678ffe9cebfd431f428bc0fbd452d2ccf9da89c3887d88"
+        },
+        {
+          "bytes": 11612,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_01/runtime_process_map.json",
+          "sha256": "62f266ab88109a50d30146af893f6ee90344b67a618df44fdcb907057dc509ff"
+        },
+        {
+          "bytes": 11612,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_02/runtime_process_map.json",
+          "sha256": "28501b6948758032df4a88bf0140044eb0a680d38049a6f176e1026287098a81"
+        },
+        {
+          "bytes": 11612,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_03/runtime_process_map.json",
+          "sha256": "2260999c5657190e3fc97b61a81972db890a6a1f88477d2620e742b92f4884df"
+        },
+        {
+          "bytes": 11612,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_04/runtime_process_map.json",
+          "sha256": "e299431aa0b68c11ae3d7e480a0bc87763f42196d6158e98df8c6808db290027"
+        },
+        {
+          "bytes": 11611,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_00/runtime_process_map.json",
+          "sha256": "20678007b6832b9b1130f3af33c6e6d6b2032772cb94174d3dea3ce7dda15fb5"
+        },
+        {
+          "bytes": 11611,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_01/runtime_process_map.json",
+          "sha256": "285862950d8b5e363dbda54ba3e9728bcd013c5cda6ab052379bb26272b665f3"
+        },
+        {
+          "bytes": 11611,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_02/runtime_process_map.json",
+          "sha256": "a49fff080322a3c26e5862eac7a75f1837e07d14dca61448af9e818ac6e058f9"
+        }
+      ],
+      "status": "READY_PUBLIC_SUMMARY_OR_HASH",
+      "total_bytes": 753951
+    },
+    {
+      "artifact_id": "code_map",
+      "class_digest": "8399307452128192b5e5131c7ea82ffc338e62d57048600a80f8737c8dc7f1c6",
+      "count": 13,
+      "description": "ELF code-map artifacts",
+      "min_count": 13,
+      "missing": false,
+      "public_policy": "public_or_summary",
+      "representative_files": [
+        {
+          "bytes": 374036,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/build/cat.code_map.json",
+          "sha256": "c403f3e760f2277eb027b5c17f86c0e262f0786a051880ccb05aa6dae73e4c56"
+        },
+        {
+          "bytes": 374035,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/build/cp.code_map.json",
+          "sha256": "74a2c67c30a9fcbe3fa2c8a7b8b65934440084940f174156e7f5d7cce4919adb"
+        },
+        {
+          "bytes": 374038,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/hello/build/hello.code_map.json",
+          "sha256": "57d5822d02f946e720fe2e7d5e166bc7a88810f7d4266dea6db7a67d6f14c4f5"
+        },
+        {
+          "bytes": 374035,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/ls/build/ls.code_map.json",
+          "sha256": "12a3541577a5f509e7d5e0968ddd674df0387f521cd009abbfc8bcfbccb5f0b9"
+        },
+        {
+          "bytes": 374042,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/sha256sum/build/sha256sum.code_map.json",
+          "sha256": "6585ce8da98fb9678342098e93473ac101254b7c897602bee5b228611b868a6b"
+        },
+        {
+          "bytes": 354608,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/abnormal_syscall_sequence/build/abnormal_syscall_sequence.code_map.json",
+          "sha256": "e38ff687c5e394a78290d62568d228b2127dccf4b26617717df514f3a9f69c67"
+        },
+        {
+          "bytes": 355117,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/anti_debug_like/build/anti_debug_like.code_map.json",
+          "sha256": "b1237da2b0b9c14aa61045c827953f5356245bdfc3b3a741dee2eb40ff027765"
+        },
+        {
+          "bytes": 355291,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/batch_open_read_write/build/batch_open_read_write.code_map.json",
+          "sha256": "42dfe6871807149009397a867776f0affa92a0c0abaa3634bd23cbe0c69d047c"
+        }
+      ],
+      "status": "READY_PUBLIC_SUMMARY_OR_HASH",
+      "total_bytes": 4711845
+    },
+    {
+      "artifact_id": "trace_code_map_summary",
+      "class_digest": "d85407b15bb29b083f7b1b92660bf33b00e4d8ec256dd9fbd96be2dad4e7ac7e",
+      "count": 65,
+      "description": "trace-to-code join summaries",
+      "min_count": 13,
+      "missing": false,
+      "public_policy": "public_or_summary",
+      "representative_files": [
+        {
+          "bytes": 1991,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_00/trace_code_map/trace_code_map_summary.json",
+          "sha256": "df78bbfe9bca544d0606f50bdd483a72a8a5e68f665b57551df652059a172073"
+        },
+        {
+          "bytes": 1991,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_01/trace_code_map/trace_code_map_summary.json",
+          "sha256": "ee5b84f978c421c0e299771f0a39959a48f14e29497daa160fa3532e264f470f"
+        },
+        {
+          "bytes": 1991,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_02/trace_code_map/trace_code_map_summary.json",
+          "sha256": "3099cf0902045201a6dc7df4a8ff3d4cf0399a39c88fc2b5bebf8de406b6ebf9"
+        },
+        {
+          "bytes": 1991,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_03/trace_code_map/trace_code_map_summary.json",
+          "sha256": "8ed3073cf99005cec8c467d7d33149557bdfb66f7cdcb68316ca4bbd2d852d5f"
+        },
+        {
+          "bytes": 1991,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_04/trace_code_map/trace_code_map_summary.json",
+          "sha256": "ea18ae328fa2fa83784c926aa97a800874624603089b4860ef3a0dcb8fc4421f"
+        },
+        {
+          "bytes": 1987,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_00/trace_code_map/trace_code_map_summary.json",
+          "sha256": "cf0928548d02cec566c2fc350c8824c6b3a86bcb7921d71070d11090f5e04d90"
+        },
+        {
+          "bytes": 1986,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_01/trace_code_map/trace_code_map_summary.json",
+          "sha256": "f1ff2d611df05a091ea2376d83c07921a5d01dcc333d5ae7b76535319f667c03"
+        },
+        {
+          "bytes": 1986,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_02/trace_code_map/trace_code_map_summary.json",
+          "sha256": "080aa2cb4d2874bf4bf211ff2d55a7a53126c4805f564ec031b963708ee48736"
+        }
+      ],
+      "status": "READY_PUBLIC_SUMMARY_OR_HASH",
+      "total_bytes": 134581
+    },
+    {
+      "artifact_id": "semantic_events",
+      "class_digest": "43ab06a4d8c9e5f109b0a4a7ecda2be536f6ba7d65dfb256adbfbd6eb2d5d5cc",
+      "count": 65,
+      "description": "recovered semantic events",
+      "min_count": 13,
+      "missing": false,
+      "public_policy": "public_or_summary",
+      "representative_files": [
+        {
+          "bytes": 133856,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_00/behavior_recovery/semantic_events.json",
+          "sha256": "9c33f10df97af9182f8ecd0da8560a63b5c3ed7bdcde0d8048a8883b39cde7aa"
+        },
+        {
+          "bytes": 133189,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_01/behavior_recovery/semantic_events.json",
+          "sha256": "2d42b7e5fc22f5dac30f57c9fecf613222766c3322b48bbac20afd4ae6839af9"
+        },
+        {
+          "bytes": 132625,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_02/behavior_recovery/semantic_events.json",
+          "sha256": "b9fb516b08ee2f5820396494f2a078c25c3c879e7bd74c40233effab3692d064"
+        },
+        {
+          "bytes": 134371,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_03/behavior_recovery/semantic_events.json",
+          "sha256": "4a65ed5c46d6ff9ddd49883b389ac704e086bbddd47e945b51ce794d4c8381f3"
+        },
+        {
+          "bytes": 135224,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_04/behavior_recovery/semantic_events.json",
+          "sha256": "6cda33b1e9e9890c310ce42b23d8df473f0702e16be6418f2a3e63491067be63"
+        },
+        {
+          "bytes": 144511,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_00/behavior_recovery/semantic_events.json",
+          "sha256": "2a04eb331095248a7cd04e49da9850b629056634100b0fd980fd129810924b63"
+        },
+        {
+          "bytes": 146323,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_01/behavior_recovery/semantic_events.json",
+          "sha256": "37f31961e1ccf889abd967b3e96c2c7b455e41d67237ed8253c80a622bf1dc3e"
+        },
+        {
+          "bytes": 144978,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_02/behavior_recovery/semantic_events.json",
+          "sha256": "33454254b74cc83fce2dcd8636fc6ce54bba22fcc294681bce6c87a45540ebc5"
+        }
+      ],
+      "status": "READY_PUBLIC_SUMMARY_OR_HASH",
+      "total_bytes": 11354901
+    },
+    {
+      "artifact_id": "behavior_graph",
+      "class_digest": "0b330085d7769b1603d1c286729ffb133f40ae233ebdc39f26474ca5cc69dfd3",
+      "count": 65,
+      "description": "behavior graph artifacts",
+      "min_count": 13,
+      "missing": false,
+      "public_policy": "public_or_summary",
+      "representative_files": [
+        {
+          "bytes": 158776,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_00/behavior_recovery/behavior_graph.json",
+          "sha256": "dfa07832e0b703a70e1b510728594ad0094c40d89d65d304725d7aafacc9324e"
+        },
+        {
+          "bytes": 158093,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_01/behavior_recovery/behavior_graph.json",
+          "sha256": "a6d42935ef8e04e525282ada1c979ab026e0ad32463c27d43b1076ff90677ad5"
+        },
+        {
+          "bytes": 157505,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_02/behavior_recovery/behavior_graph.json",
+          "sha256": "64e711e8e6494c3b181b9a72930a4a5db6cdeb75578afe1eb2d434c12e118be8"
+        },
+        {
+          "bytes": 159321,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_03/behavior_recovery/behavior_graph.json",
+          "sha256": "6be3c6e80bd1300d20e5e72c2cf73641440aacb70f3ead9fcb094af771e5a482"
+        },
+        {
+          "bytes": 160542,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_04/behavior_recovery/behavior_graph.json",
+          "sha256": "3e5ea540ee4619f6c1d4bf1efc803c09f5b5c6c728dfde365608cbf7ecdb40c5"
+        },
+        {
+          "bytes": 171598,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_00/behavior_recovery/behavior_graph.json",
+          "sha256": "c338dbd363236f186f369b410662e505d55fd0751aa20cfb30ce0e56ec50599a"
+        },
+        {
+          "bytes": 173822,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_01/behavior_recovery/behavior_graph.json",
+          "sha256": "bdbe1015bf34133c68f222089709307a7768fcb5d0022501a70a4ffa6937a024"
+        },
+        {
+          "bytes": 172087,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_02/behavior_recovery/behavior_graph.json",
+          "sha256": "f4e952e7952afdbf07b3d94180903394637d0f828c59b50f6ccc47e011330782"
+        }
+      ],
+      "status": "READY_PUBLIC_SUMMARY_OR_HASH",
+      "total_bytes": 13741455
+    },
+    {
+      "artifact_id": "behavior_audit",
+      "class_digest": "8ba8b2ae2a18986f02b4cbfbb0724ec10cceea4e025417c2d86bef3b1a413160",
+      "count": 65,
+      "description": "rule-based behavior audit artifacts",
+      "min_count": 13,
+      "missing": false,
+      "public_policy": "public_or_summary",
+      "representative_files": [
+        {
+          "bytes": 11746,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_00/behavior_audit/behavior_audit.json",
+          "sha256": "843f39ced948af52a56d25abdffb2708bbb81ed91197c132481a67f06186e66a"
+        },
+        {
+          "bytes": 11810,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_01/behavior_audit/behavior_audit.json",
+          "sha256": "bbbb97aeb3495c94e192ec6bad728ace52a29361f6927ac9026ba5597bda9aed"
+        },
+        {
+          "bytes": 11519,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_02/behavior_audit/behavior_audit.json",
+          "sha256": "1a1c31a99b8315142e8558046c4f4f60235db39ec76aad0bb506e1d2517c1bbb"
+        },
+        {
+          "bytes": 11498,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_03/behavior_audit/behavior_audit.json",
+          "sha256": "ac551683b5dcb1a44db5277e103087935a57dcf7b43854397af691ebbffdbf1d"
+        },
+        {
+          "bytes": 11762,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_04/behavior_audit/behavior_audit.json",
+          "sha256": "803e7ed22e1fc1c0e652fb45eb2f04fd986392bf6ff644403134fc25042b7639"
+        },
+        {
+          "bytes": 11740,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_00/behavior_audit/behavior_audit.json",
+          "sha256": "fca6387bc3b58d097be7dbba19c56edce55a82ab97fc06a948527fc36f7e78e6"
+        },
+        {
+          "bytes": 11412,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_01/behavior_audit/behavior_audit.json",
+          "sha256": "576914744aa01a7b12ab1c6cdf3d97e3c76e0fc31acf38f7ff63855b733e5c1e"
+        },
+        {
+          "bytes": 11449,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_02/behavior_audit/behavior_audit.json",
+          "sha256": "43dc108fd1c4ab4c0c4726d7de195ee2d8c89049b549ac6c7437e2341594b397"
+        }
+      ],
+      "status": "READY_PUBLIC_SUMMARY_OR_HASH",
+      "total_bytes": 779853
+    },
+    {
+      "artifact_id": "alignment",
+      "class_digest": "f8891038a5aeb1f999cd6ee14ca82e7ff2ada76dd26d79862523c7a04335aef8",
+      "count": 65,
+      "description": "trace-to-groundtruth alignment artifacts",
+      "min_count": 13,
+      "missing": false,
+      "public_policy": "public_or_summary",
+      "representative_files": [
+        {
+          "bytes": 1729,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_00/alignment/alignment.json",
+          "sha256": "9578d2dbb838cc98e9ab63d93bc680ac840c9faa1ffcd061cec5703534924f0b"
+        },
+        {
+          "bytes": 1731,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_01/alignment/alignment.json",
+          "sha256": "7e25199412f2b6160f0c25e54969827f82ac89cd5054a2ac612df7be616b746f"
+        },
+        {
+          "bytes": 1729,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_02/alignment/alignment.json",
+          "sha256": "b6019962d6a96d3319a622b010f522d89627e4abbca57c71ed088b468cfc3cc6"
+        },
+        {
+          "bytes": 1729,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_03/alignment/alignment.json",
+          "sha256": "5252ec339bd508dacf986c68aea6de6ab256fb7907c5973817402e4f08cd195c"
+        },
+        {
+          "bytes": 1731,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_04/alignment/alignment.json",
+          "sha256": "ca9a6c4fe5e3f39d9e2c7eab850205776fbab14b33173c3876c84e2b4df46c35"
+        },
+        {
+          "bytes": 1726,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_00/alignment/alignment.json",
+          "sha256": "303e6061f718043cc2c0a0a348aa54d8211f018dc1cf89b2b1f6268d4e54b47a"
+        },
+        {
+          "bytes": 1728,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_01/alignment/alignment.json",
+          "sha256": "671fc6c8d6238380e6f40608049dc792b6bd78db39dc9416fe15a31b864c30cb"
+        },
+        {
+          "bytes": 1739,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_02/alignment/alignment.json",
+          "sha256": "18510705a47f4efb7d71a9ca1475b51201d346b871653aac3bc68048284ed232"
+        }
+      ],
+      "status": "READY_PUBLIC_SUMMARY_OR_HASH",
+      "total_bytes": 114157
+    },
+    {
+      "artifact_id": "metrics",
+      "class_digest": "d01b12e3cdb8dbaecd7403795ed2f96d24e8466144552af9544f393e05181f40",
+      "count": 2,
+      "description": "aggregate metrics and tables",
+      "min_count": 1,
+      "missing": false,
+      "public_policy": "public",
+      "representative_files": [
+        {
+          "bytes": 2466,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggregate/metrics.csv",
+          "sha256": "981bdeeb574397e301b206cf473d4ed4021dbdaddda2351b833a235b84f5ee34"
+        },
+        {
+          "bytes": 47877,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggregate/metrics.json",
+          "sha256": "f2bec794ca54b4d546661718814ad29cad12aaf42aad2bbbf60a699e0795d04e"
+        }
+      ],
+      "status": "READY_PUBLIC",
+      "total_bytes": 50343
+    },
+    {
+      "artifact_id": "resource_timing_reports",
+      "class_digest": "be9de9d8293d8ec8e4e1b32bae5788be025eb9361282dd80457e6827875c36e1",
+      "count": 4,
+      "description": "runtime overhead, bandwidth, FPGA resource, and timing reports",
+      "min_count": 3,
+      "missing": false,
+      "public_policy": "public_summary",
+      "representative_files": [
+        {
+          "bytes": 1602,
+          "path": "docs/03-platform-architecture/genesys2/vivado_authorization.md",
+          "sha256": "970138a5ea1017f5c3cce6ae3beb30b71541c7175c4bfa87650288f297fc55e3"
+        },
+        {
+          "bytes": 2473,
+          "path": "docs/07-evaluation-evidence/reports/resource_report.md",
+          "sha256": "0d797d0a1b2e197039a8a877f5a3da939fa83ee42ea9e9f27b0e319d7ccb529b"
+        },
+        {
+          "bytes": 2938,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggregate/bandwidth_report.md",
+          "sha256": "6059b4af2c5fb970fbf9cd58ad6e99e6b42eb66d3ec66179f3c6d0d292a90cee"
+        },
+        {
+          "bytes": 3743,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggregate/overhead_report.md",
+          "sha256": "790260c4be1a8cf185af77323c78b32536c003c9bfdaeb8516a818ea46f4f4ca"
+        }
+      ],
+      "status": "READY_PUBLIC_SUMMARY_OR_HASH",
+      "total_bytes": 10756
+    },
+    {
+      "artifact_id": "elf_hashes",
+      "class_digest": "ed11b335066272d61d721168242954b43b61566a1c1d5bffe708921b39a7413b",
+      "count": 39,
+      "description": "source, host ELF, and RISC-V ELF SHA-256 records",
+      "min_count": 13,
+      "missing": false,
+      "public_policy": "public_hashes",
+      "representative_files": [
+        {
+          "bytes": 173,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/build/host_elf.sha256",
+          "sha256": "d4408d2780091a620e7eb05300cbeb60356797a6fae18b5420909259bd124225"
+        },
+        {
+          "bytes": 174,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/build/riscv_elf.sha256",
+          "sha256": "b28b6dc27b059b9648ac174dfbc9f84cc84b255e0d47fd19fd642f43cf779aae"
+        },
+        {
+          "bytes": 112,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/build/source.sha256",
+          "sha256": "871dd38d2d117b33a8d787babfd942d096bc45374250707894c65cedbba76967"
+        },
+        {
+          "bytes": 171,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/build/host_elf.sha256",
+          "sha256": "46b49b79a25d402c2a1d3a0884ac40ad1c95116341745a9261559435c9e13a2e"
+        },
+        {
+          "bytes": 172,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/build/riscv_elf.sha256",
+          "sha256": "97d0d6ad885a5ff4a74f128158529ba340a27fa3bc3cedf08139217342778bed"
+        },
+        {
+          "bytes": 112,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/build/source.sha256",
+          "sha256": "871dd38d2d117b33a8d787babfd942d096bc45374250707894c65cedbba76967"
+        },
+        {
+          "bytes": 177,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/hello/build/host_elf.sha256",
+          "sha256": "6e27f73b9897634ef8e076de20c92907e887ab18e510e66c2e3a9efc3467ad6d"
+        },
+        {
+          "bytes": 178,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/hello/build/riscv_elf.sha256",
+          "sha256": "28c600fc4bd66955dffe8bc2b49e8df1df4297756e1983c0c826ffa38d57a8ee"
+        }
+      ],
+      "status": "READY_PUBLIC_SUMMARY_OR_HASH",
+      "total_bytes": 6864
+    },
+    {
+      "artifact_id": "bitstream_metadata",
+      "class_digest": "305b6e4cab620dd7e5b4faec95a33b5d26ac02dc9cdb61bd8ec97382fd179383",
+      "count": 4,
+      "description": "bitstream/resource metadata without committing generated bitstreams",
+      "min_count": 1,
+      "missing": false,
+      "public_policy": "public_summary_no_bitstream_binary",
+      "representative_files": [
+        {
+          "bytes": 1602,
+          "path": "docs/03-platform-architecture/genesys2/vivado_authorization.md",
+          "sha256": "970138a5ea1017f5c3cce6ae3beb30b71541c7175c4bfa87650288f297fc55e3"
+        },
+        {
+          "bytes": 4886,
+          "path": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_attempt_summary.json",
+          "sha256": "5168224f0ddb71d0d2c743b5b6c971dbf78362b8d5c33a70d90847157640a098"
+        },
+        {
+          "bytes": 3653,
+          "path": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_status.json",
+          "sha256": "31c6d8278c9b5e000dbc9db11d34aafdb330b9c30f88d32560101ed3328e3117"
+        },
+        {
+          "bytes": 2473,
+          "path": "docs/07-evaluation-evidence/reports/resource_report.md",
+          "sha256": "0d797d0a1b2e197039a8a877f5a3da939fa83ee42ea9e9f27b0e319d7ccb529b"
+        }
+      ],
+      "status": "READY_PUBLIC_SUMMARY_OR_HASH",
+      "total_bytes": 12614
+    },
+    {
+      "artifact_id": "scripts_and_commands",
+      "class_digest": "19315f1446246d7a965159ad54e99ef800ae1e0f5fce98a1842fa769f1d885e2",
+      "count": 40,
+      "description": "scripts, workflow docs, and command provenance",
+      "min_count": 4,
+      "missing": false,
+      "public_policy": "public",
+      "representative_files": [
+        {
+          "bytes": 1823,
+          "path": "docs/05-semantic-analysis/pointer_snapshot_design_review.md",
+          "sha256": "48c708fc1bd76b5354dc9a5d3d7771ddfd84668541b056084509dd3bb9f149ca"
+        },
+        {
+          "bytes": 81532,
+          "path": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/command_log.md",
+          "sha256": "c0c7693131dc61ce78f0d9e377f199bdb969c20a6b2cbb0f160af050bd012b17"
+        },
+        {
+          "bytes": 52398,
+          "path": "docs/10-process/uv_workflow.md",
+          "sha256": "0800349a069433c995705fac75e84429477672ccb951a58c388eaccbb43a9031"
+        },
+        {
+          "bytes": 12050,
+          "path": "experiments/linux_behavior/baseline_execution_spec.json",
+          "sha256": "5507a12e765d7ef71f8533caf015136f2c0e0516fab005bceedbeea0bc72dee1"
+        },
+        {
+          "bytes": 3173,
+          "path": "experiments/linux_behavior/pointer_snapshot_design_review.json",
+          "sha256": "cb0f273dd5f90b7b5e63eba59465c33723e4fc8698dfbe3bebd87b2c1c4c14a9"
+        },
+        {
+          "bytes": 3280,
+          "path": "experiments/linux_behavior/pointer_snapshot_enablement_gate.json",
+          "sha256": "b9a659c9d1b9811247233a75125f36e6551b1dffab501734ec1ae5b836243af2"
+        },
+        {
+          "bytes": 69055,
+          "path": "tools/check_35t_assessment_closure.py",
+          "sha256": "8ebf5d8930244984044d6414bcd4714105d7a206c6bb1714123b3120d3e290e0"
+        },
+        {
+          "bytes": 21850,
+          "path": "tools/check_35t_assessment_gate_criteria.py",
+          "sha256": "093408ac080427297dd08a27e43c864f8ddfea4ff00115da7c3a629a789f5bcf"
+        }
+      ],
+      "status": "READY_PUBLIC",
+      "total_bytes": 1166113
+    },
+    {
+      "artifact_id": "synthetic_extension_sources",
+      "class_digest": "56ea4d6f8524fe616bc75b2a5891be6f6bbcdf7831619d2c394519d6ff5af463",
+      "count": 14,
+      "description": "source-implemented synthetic malware-like extension candidates that remain outside the default 35T claim until gated",
+      "min_count": 14,
+      "missing": false,
+      "public_policy": "public",
+      "representative_files": [
+        {
+          "bytes": 11511,
+          "path": "experiments/linux_behavior/malware_like/extension_plan.json",
+          "sha256": "b9777d331c7a48e23bbd57db2fb09258d42c12ffc47224b1f6f8ecc28117d793"
+        },
+        {
+          "bytes": 523,
+          "path": "experiments/linux_behavior/malware_like/extension_programs/direct_syscall_open_read.c",
+          "sha256": "1ed81571969640d81e1ae55656c52b4b49c630805c5a60878486d01fee4ef7f2"
+        },
+        {
+          "bytes": 966,
+          "path": "experiments/linux_behavior/malware_like/extension_programs/file_encryption_sim_non_destructive.c",
+          "sha256": "dd125fec304259abaa8892d8ea646a3b8849a1ee27624d2b1aeaeea5079fd6fb"
+        },
+        {
+          "bytes": 550,
+          "path": "experiments/linux_behavior/malware_like/extension_programs/loopback_network_client.c",
+          "sha256": "810832c0ec3157030f5d8eace47581440150e51df76293370ed27621e440a851"
+        },
+        {
+          "bytes": 624,
+          "path": "experiments/linux_behavior/malware_like/extension_programs/mirai_c2_loopback_probe.c",
+          "sha256": "37c05a9c5ad66be48f8a3b314a90fa69e0b42425261b3e4dcb0cb17b7063929f"
+        },
+        {
+          "bytes": 2068,
+          "path": "experiments/linux_behavior/malware_like/extension_programs/mirai_encoded_table_sim.c",
+          "sha256": "b9b8a7a37cf338eabc71f93c58c8a7442114108138c43d3f29d379f9f6378ff8"
+        },
+        {
+          "bytes": 1877,
+          "path": "experiments/linux_behavior/malware_like/extension_programs/mirai_proc_scan_sim.c",
+          "sha256": "153d21ec86d20075ce2dfabfa59e38fb0272153e24fbcff6607c2b7b74b76bd3"
+        },
+        {
+          "bytes": 823,
+          "path": "experiments/linux_behavior/malware_like/extension_programs/mirai_watchdog_probe_sim.c",
+          "sha256": "405fa66f890a810552992613cbe23018fd3f9de5e9f949d71f504c3019081bf4"
+        }
+      ],
+      "status": "READY_PUBLIC",
+      "total_bytes": 24069
+    },
+    {
+      "artifact_id": "synthetic_extension_behavior_smoke_evidence",
+      "class_digest": "2befbe52af9ff59d8de08402d5ef0bf9b84f4fc74b593026123304ac059b0d50",
+      "count": 3,
+      "description": "host and QEMU behavior smoke evidence for non-network synthetic extension candidates",
+      "min_count": 3,
+      "missing": false,
+      "public_policy": "public_summary",
+      "representative_files": [
+        {
+          "bytes": 64933,
+          "path": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/synthetic_extension_behavior_smoke.json",
+          "sha256": "443a11b36fe64778e12c301cd88920c4b2f71d2104caff919771cf84fe76de88"
+        },
+        {
+          "bytes": 3373,
+          "path": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/synthetic_extension_behavior_smoke.md",
+          "sha256": "2542ee02b22beb6c7b8cd385169c54bdbdc37a7e899a36c442c83abbc9721c84"
+        },
+        {
+          "bytes": 60967,
+          "path": "results/experiments/35t/35t-extension-behavior-smoke-20260523/aggregate/synthetic_extension_behavior_smoke_raw.json",
+          "sha256": "ceb1b748c3b82cb4e793fc28c0f0082d1bbfb8b4b5810c842b94d5368279405a"
+        }
+      ],
+      "status": "READY_PUBLIC_SUMMARY_OR_HASH",
+      "total_bytes": 129273
+    },
+    {
+      "artifact_id": "qemu_plugin_baseline_evidence",
+      "class_digest": "a297683538a3c6418ced764353336d0b5c2ca82b5550fca7ab3de026bea1e866",
+      "count": 3,
+      "description": "QEMU user-mode TCG-plugin syscall-count baseline summary and local raw output for all 13 samples",
+      "min_count": 3,
+      "missing": false,
+      "public_policy": "public_summary",
+      "representative_files": [
+        {
+          "bytes": 76941,
+          "path": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/qemu_plugin_baseline_summary.json",
+          "sha256": "553f4f92228f28e0f03a29e1d4dfc479be5ef73af98c2c8d3c963c47fb851603"
+        },
+        {
+          "bytes": 4058,
+          "path": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/qemu_plugin_baseline_summary.md",
+          "sha256": "f7c7ca4730ee9a1451269048e8405a7d3360b2d2be7ca9995dabf8eac0ac1066"
+        },
+        {
+          "bytes": 58555,
+          "path": "results/experiments/35t/35t-qemu-plugin-baseline-20260523/aggregate/qemu_plugin_baseline_raw.json",
+          "sha256": "edda5c43b8ece7b3baddd4e61f08e72f355a747421412fea5164c24b94fbc7e5"
+        }
+      ],
+      "status": "READY_PUBLIC_SUMMARY_OR_HASH",
+      "total_bytes": 139554
+    },
+    {
+      "artifact_id": "raw_artifact_sanitization_evidence",
+      "class_digest": "e438f4f0fe6a554c4fc6dc56aacf79f5f171d41f7f0d1b7e9097e52b731d55af",
+      "count": 2,
+      "description": "raw UART and decoded trace hash inventory with sanitized public excerpts",
+      "min_count": 2,
+      "missing": false,
+      "public_policy": "public",
+      "representative_files": [
+        {
+          "bytes": 10989,
+          "path": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_sanitization.json",
+          "sha256": "7ccf11592801f841c9a414fbfbe662f643403cfe6e92f9f32b56eb377ea6b52e"
+        },
+        {
+          "bytes": 4511,
+          "path": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_sanitization.md",
+          "sha256": "4b28a4e68b48c3afccef946a33334c0d797c251fe8a7cd2aeb8355020e15f91d"
+        }
+      ],
+      "status": "READY_PUBLIC",
+      "total_bytes": 15500
+    },
+    {
+      "artifact_id": "pointer_snapshot_design_review_evidence",
+      "class_digest": "c637ecbdf218f354b80602bc66a681958f6fc0a858330697dccfb87c6ef95b72",
+      "count": 4,
+      "description": "bounded pointer snapshot design review and default-disabled safety evidence",
+      "min_count": 4,
+      "missing": false,
+      "public_policy": "public",
+      "representative_files": [
+        {
+          "bytes": 1823,
+          "path": "docs/05-semantic-analysis/pointer_snapshot_design_review.md",
+          "sha256": "48c708fc1bd76b5354dc9a5d3d7771ddfd84668541b056084509dd3bb9f149ca"
+        },
+        {
+          "bytes": 4288,
+          "path": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/pointer_snapshot_design_review.json",
+          "sha256": "4c2a08970a0104c33c829d335cbf56cb29b9c04690303d0b36ff25e28d419ba2"
+        },
+        {
+          "bytes": 2219,
+          "path": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/pointer_snapshot_design_review.md",
+          "sha256": "ce67199eb8dfa12c722207154069c479d402208e8e41fd3fea991bffe3084b52"
+        },
+        {
+          "bytes": 3173,
+          "path": "experiments/linux_behavior/pointer_snapshot_design_review.json",
+          "sha256": "cb0f273dd5f90b7b5e63eba59465c33723e4fc8698dfbe3bebd87b2c1c4c14a9"
+        }
+      ],
+      "status": "READY_PUBLIC",
+      "total_bytes": 11503
+    },
+    {
+      "artifact_id": "raw_artifact_escrow_package",
+      "class_digest": "25fcd61baddceffb820f8f466104a2e078aefedc39855ebcd938f7950b2b58b3",
+      "count": 6,
+      "description": "local controlled escrow package for full raw UART and decoded trace payloads",
+      "min_count": 6,
+      "missing": false,
+      "public_policy": "local_only_raw_or_sanitized_excerpt",
+      "representative_files": [
+        {
+          "bytes": 37705,
+          "path": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow.json",
+          "sha256": "fc4a3e2f1a4cb06b7b998aa67da0214657881936e420e7616b04bdb5cf8d5562"
+        },
+        {
+          "bytes": 1208,
+          "path": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow.md",
+          "sha256": "b5f97ba81bfad68bfd3af1c6743fd0b7e22af5e02cec59b3bea0d8d919bf89c1"
+        },
+        {
+          "bytes": 1052,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/README.md",
+          "sha256": "c16f1b1cceaae46c1a08c7afe6dcc397b405048da6133a0a48c382cfa5db21d4"
+        },
+        {
+          "bytes": 719,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/access_policy.md",
+          "sha256": "6d334d39c63ecdf331a60b6ce71f169d84ec7018540196e5b4cb63464f0b94bc"
+        },
+        {
+          "bytes": 18060,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/payload_hash_manifest.md",
+          "sha256": "b087c46b08f3ea2a18940c9bc35f683861e2a15a1b2519381c877e0c6e8f6dd5"
+        },
+        {
+          "bytes": 36157,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/payload_manifest.json",
+          "sha256": "7a01ddd49a053419d8091eb1e4de4a6ad72f7ef1c46ad5c689a96759cfeb05e9"
+        }
+      ],
+      "status": "READY_LOCAL_ONLY",
+      "total_bytes": 94901
+    },
+    {
+      "artifact_id": "negative_failed_cases",
+      "class_digest": "af9f5ce0bbef19bfc2a2e8afb182ca7607854de174def207098eeabe9c9e9039",
+      "count": 9,
+      "description": "negative, failed, partial, or bounded-case evidence",
+      "min_count": 3,
+      "missing": false,
+      "public_policy": "public_summary",
+      "representative_files": [
+        {
+          "bytes": 33066,
+          "path": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/advanced_baseline_preflight.json",
+          "sha256": "821dd96d16a78365fc1ee81b6fc19cc8a68d51226bab0fb630402a5b9713f8d0"
+        },
+        {
+          "bytes": 10336,
+          "path": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/evaluation_table.json",
+          "sha256": "5a811ce60fa8ae00ed65285d095b32747e67d3c2adef2560f76d5de69f9a58ca"
+        },
+        {
+          "bytes": 7350,
+          "path": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/extension_35t_enablement_preflight.json",
+          "sha256": "290b3773a13c08d08ea539b3bf3b6653b6862ff5b6c387c96b2a27a35418e2e3"
+        },
+        {
+          "bytes": 22517,
+          "path": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/paper_evidence_check.json",
+          "sha256": "351b233b044f7d5c554df4d2ecb7b54c318f289acc60fa3768119a38f56bf289"
+        },
+        {
+          "bytes": 2762,
+          "path": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/pointer_semantics_preflight.json",
+          "sha256": "6c3d91291b964d9cd6a1937a996137adea7bb0ae7ac823f2609f4fe95d4b7a4f"
+        },
+        {
+          "bytes": 6155,
+          "path": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/qemu_plugin_build_preflight.json",
+          "sha256": "91d8f28413562e6f746e1faa7138858474d6216e31a1884ac9506d3609c1c5eb"
+        },
+        {
+          "bytes": 177902,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggregate/process_chain_capacity_debug.json",
+          "sha256": "6b458369f5eaffbf983f18dc7ac6adc658cb1f455275a3f4abe017652bbf2ab7"
+        },
+        {
+          "bytes": 42707,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/aggregate/rule_evidence_debug_summary.json",
+          "sha256": "4ec07cd3531d53142b4c60358238befc2229403df9451db149fd9d0256cae066"
+        }
+      ],
+      "status": "READY_PUBLIC_SUMMARY_OR_HASH",
+      "total_bytes": 316430
+    },
+    {
+      "artifact_id": "reproduction_readme",
+      "class_digest": "c6e8bd91a9614693206b6a702ad74c531f853dce0d7ab47e87896953f98b3c25",
+      "count": 3,
+      "description": "README and workflow notes for reproducing or auditing the package",
+      "min_count": 2,
+      "missing": false,
+      "public_policy": "public",
+      "representative_files": [
+        {
+          "bytes": 26372,
+          "path": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/README.md",
+          "sha256": "fee235833b0e784a4fffab9356ee9379fa7030702b64bc1debce005619575f08"
+        },
+        {
+          "bytes": 81532,
+          "path": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/command_log.md",
+          "sha256": "c0c7693131dc61ce78f0d9e377f199bdb969c20a6b2cbb0f160af050bd012b17"
+        },
+        {
+          "bytes": 52398,
+          "path": "docs/10-process/uv_workflow.md",
+          "sha256": "0800349a069433c995705fac75e84429477672ccb951a58c388eaccbb43a9031"
+        }
+      ],
+      "status": "READY_PUBLIC",
+      "total_bytes": 160302
+    }
+  ],
+  "checks": {
+    "all_required_classes_accounted": true,
+    "evidence_root_exists": true,
+    "non_claims_present": true,
+    "raw_large_artifacts_have_policy": true,
+    "results_root_exists": true
+  },
+  "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+  "class_count": 23,
+  "evidence_root": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "generated_utc": "2026-06-07T14:56:52Z",
+  "interpretation": [
+    "current repository can describe the paper artifact inventory and verify required artifact classes locally",
+    "large raw traces, raw UART logs, generated bitstreams, board build directories, and ELF binaries remain outside the lightweight committed snapshot",
+    "full reproduction packaging remains deferred until raw artifacts are sanitized or explicitly released with hashes and access policy"
+  ],
+  "local_only_classes": [
+    "raw_uart_log",
+    "decoded_trace_jsonl",
+    "raw_artifact_escrow_package"
+  ],
+  "missing_classes": [],
+  "non_claims": [
+    "no CVA6 board claim",
+    "no real malware detection claim",
+    "no mature detector claim",
+    "no classifier accuracy claim",
+    "no complete semantic reconstruction claim"
+  ],
+  "run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "schema": "rvmt.35t.artifact_package_readiness.v1",
+  "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "source_results_root": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "status": "LIGHTWEIGHT_PACKAGE_READY_FULL_REPRO_DEFERRED",
+  "summary_or_hash_classes": [
+    "runtime_process_map",
+    "code_map",
+    "trace_code_map_summary",
+    "semantic_events",
+    "behavior_graph",
+    "behavior_audit",
+    "alignment",
+    "resource_timing_reports",
+    "elf_hashes",
+    "bitstream_metadata",
+    "synthetic_extension_behavior_smoke_evidence",
+    "qemu_plugin_baseline_evidence",
+    "negative_failed_cases"
+  ]
+}

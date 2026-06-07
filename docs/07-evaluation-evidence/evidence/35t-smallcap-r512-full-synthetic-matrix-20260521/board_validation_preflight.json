@@ -1,0 +1,108 @@
+{
+  "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+  "failures": [],
+  "generated_utc": "2026-05-21T20:38:19Z",
+  "hardware_ready": true,
+  "hardware_ready_basis": "requested UART port is visible through pyserial; this does not prove the 35T board image is running",
+  "host_tools": {
+    "docker": {
+      "available": true,
+      "command": "docker",
+      "exit_code": 0,
+      "version": "Docker version 29.4.1, build 055a478"
+    },
+    "python": {
+      "available": true,
+      "command": "D:\\Code\\research\\rv-maltrace\\.venv\\Scripts\\python.exe",
+      "exit_code": 0,
+      "version": "Python 3.14.3"
+    },
+    "uv": {
+      "available": true,
+      "command": "uv",
+      "exit_code": 0,
+      "version": "uv 0.11.7 (9d177269e 2026-04-15 x86_64-pc-windows-msvc)"
+    }
+  },
+  "non_claims": [
+    "no CVA6 board claim",
+    "no real malware detection claim",
+    "no mature detector claim",
+    "no classifier accuracy claim",
+    "no complete semantic reconstruction claim"
+  ],
+  "require_board": false,
+  "result_paths": {
+    "bundle_root": "results/experiments/35t/35t-targeted-board-validation-20260522/board_validation_bundle",
+    "bundle_root_exists": true,
+    "results_root": "results/experiments/35t/35t-targeted-board-validation-20260522",
+    "results_root_exists": true
+  },
+  "runbook_checks": {
+    "claim_level": true,
+    "hardware_required": true,
+    "phases": true,
+    "schema": true,
+    "scope": true,
+    "source_run_id": true,
+    "status": true,
+    "syscall_side_channel": true,
+    "trace_profile_policy": true,
+    "trace_records": true
+  },
+  "runbook_path": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_runbook.json",
+  "schema": "rvmt.35t.board_validation_preflight.v1",
+  "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "script_checks": {
+    "tools/check_35t_board_validation.py": {
+      "ok": true,
+      "path": "tools/check_35t_board_validation.py"
+    },
+    "tools/experiment_35t.py": {
+      "ok": true,
+      "path": "tools/experiment_35t.py"
+    },
+    "tools/package_35t_board_validation.py": {
+      "ok": true,
+      "path": "tools/package_35t_board_validation.py"
+    },
+    "tools/prepare_35t_board_validation_run.py": {
+      "ok": true,
+      "path": "tools/prepare_35t_board_validation_run.py"
+    }
+  },
+  "serial": {
+    "available_ports": [
+      {
+        "description": "Standard Serial over Bluetooth link (COM3)",
+        "device": "COM3"
+      },
+      {
+        "description": "USB Serial Port (COM13)",
+        "device": "COM13"
+      },
+      {
+        "description": "USB-SERIAL CH340 (COM6)",
+        "device": "COM6"
+      },
+      {
+        "description": "Standard Serial over Bluetooth link (COM4)",
+        "device": "COM4"
+      },
+      {
+        "description": "USB-SERIAL CH340 (COM5)",
+        "device": "COM5"
+      }
+    ],
+    "pyserial_available": true,
+    "pyserial_version": "3.5",
+    "requested_port": "COM5",
+    "requested_port_present": true
+  },
+  "source_run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "status": "READY_FOR_BOARD_RUN",
+  "validation_run_id": "35t-targeted-board-validation-20260522",
+  "warnings": [
+    "target validation results root already exists; inspect before overwriting or rerunning"
+  ]
+}

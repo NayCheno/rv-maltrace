@@ -11,7 +11,7 @@ from typing import Any
 
 
 SURROGATE_RUN_ID = "35t-surrogate-darthra-p0a-r512-abba-r5-20260524"
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence/35t-surrogate-boot-provenance-20260524")
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence/35t-surrogate-boot-provenance-20260524")
 BOARD_ROOT = Path("results/board/artix7_35t_litex")
 RESULTS_BASE = Path("results/experiments/35t")
 SCHEMA = "rvmt.35t.surrogate_boot_provenance.v1"

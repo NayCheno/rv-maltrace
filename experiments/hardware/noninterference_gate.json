@@ -3,8 +3,8 @@
   "status": "CHECKED(TRACE_SYNTHESIS)",
   "scope": "trace_sideband_noninterference_and_resource_gate",
   "evidence_refs": [
-    "docs/architecture/timing_principles.md",
-    "docs/reports/resource_report.md",
+    "docs/02-trace-architecture/timing_principles.md",
+    "docs/07-evaluation-evidence/reports/resource_report.md",
     "results/vivado_sim/summary.json",
     "tools/check_timing_principles.py",
     "tools/generate_resource_report.py",
@@ -39,13 +39,13 @@
       "id": "baseline_resource_snapshot",
       "status": "CHECKED(BASELINE)",
       "command": "uv run python tools/generate_resource_report.py",
-      "evidence": "docs/reports/resource_report.md records the existing Genesys 2 routed baseline plus trace queue/drop rows"
+      "evidence": "docs/07-evaluation-evidence/reports/resource_report.md records the existing Genesys 2 routed baseline plus trace queue/drop rows"
     },
     {
       "id": "trace_enabled_fpga_resource_delta",
       "status": "CHECKED(TRACE_SYNTHESIS)",
       "command": "uv run rvmt bitstream:build-trace && uv run python tools/generate_resource_report.py",
-      "evidence": "docs/reports/resource_report.md records baseline vs trace-enabled routed LUT/FF/BRAM/DSP/slack delta from build/vivado/genesys2-cv64a6_imafdc_sv39-trace reports"
+      "evidence": "docs/07-evaluation-evidence/reports/resource_report.md records baseline vs trace-enabled routed LUT/FF/BRAM/DSP/slack delta from build/vivado/genesys2-cv64a6_imafdc_sv39-trace reports"
     }
   ],
   "non_goals": [

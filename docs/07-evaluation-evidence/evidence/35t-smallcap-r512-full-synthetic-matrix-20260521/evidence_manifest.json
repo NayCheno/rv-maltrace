@@ -1,0 +1,953 @@
+{
+    "claim_level":  "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+    "committed_artifacts":  [
+                                {
+                                    "artifact":  "advanced_baseline_preflight.json",
+                                    "bytes":  33066,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/advanced_baseline_preflight.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "821dd96d16a78365fc1ee81b6fc19cc8a68d51226bab0fb630402a5b9713f8d0",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "advanced_baseline_preflight.md",
+                                    "bytes":  5138,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/advanced_baseline_preflight.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "e3411fb8745583dddb8f7a8dd0db7caf4a6fb84fc4f499f9e284ffba21820769",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "application_closure_check.json",
+                                    "bytes":  5456,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/application_closure_check.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "6aba1b251049e7e0ed124ad34509b71b4f72247a77843161eeea67e8535b32d5",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "application_closure_check.md",
+                                    "bytes":  2520,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/application_closure_check.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "f511312bb54f67ea3cf20287b5ac45de07bbb154e1ded22515c9213ce2b65f5c",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "artifact_package_readiness.json",
+                                    "bytes":  47373,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/artifact_package_readiness.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "6e1cd8e2083551598fd0c80d4c884b6d6299414c458df81fcd9f5d2c25b04cae",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "artifact_package_readiness.md",
+                                    "bytes":  3627,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/artifact_package_readiness.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "d10f78345cfcf414300cf7a4d2f6cbc9eb8cd5dfb09251ea26bb92acddae35c0",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "assessment_closure.json",
+                                    "bytes":  18872,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/assessment_closure.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "b2b5a7d819ce1ed27bd629024446f1f0a0e4851267deffbad74154bead85bccc",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "assessment_closure.md",
+                                    "bytes":  5825,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/assessment_closure.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "46c2e36c734faa6853f0b55a7d67908bb995c47bff539fc7ca5b4dacd6db9582",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "assessment_gate_criteria.json",
+                                    "bytes":  13867,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/assessment_gate_criteria.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "af4ab628b86ec1a815f329bab1e751448bf1fae60474c2554e18c5250fedae7c",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "assessment_gate_criteria.md",
+                                    "bytes":  3380,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/assessment_gate_criteria.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "f299af620ab54fcaadbcdbc3ffa4dc8239bc8b26130c089dc4cdb6d6d8d6de10",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "assessment_reconciliation.json",
+                                    "bytes":  6867,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/assessment_reconciliation.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "addd2d088db22b5329d9ce8227ffaee678616a239f490aaef28b2d71f9774e91",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "assessment_reconciliation.md",
+                                    "bytes":  3561,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/assessment_reconciliation.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "b586195852931c9289880505bed3f50ced1d18f87f678dd619d8e0577ed9c956",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "assessment_requirement_matrix.json",
+                                    "bytes":  24580,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/assessment_requirement_matrix.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "dfaf7a0195687e77eaa4a9ea90b3ff80e218c80d9a1d72e977c18a60943e9df0",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "assessment_requirement_matrix.md",
+                                    "bytes":  6639,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/assessment_requirement_matrix.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "b38696a80792e500f19b278cd335d8635b31db2dde8f3fcbafa8115545c4ae87",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "assessment_traceability.json",
+                                    "bytes":  13254,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/assessment_traceability.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "7bc0ef7c441505b171d68f8ce2f6042aa03f03cb736bf4eba916b5385538475f",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "assessment_traceability.md",
+                                    "bytes":  3861,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/assessment_traceability.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "d972085078ba77b0babb87e5fe9921eb8ad392bced6e12140651219f00fff00a",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "baseline_evaluation_check.json",
+                                    "bytes":  1563,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/baseline_evaluation_check.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "fdaef18a9f24e8086a49b1f3703584cdc0ea5f76117384339a32908f91ded5f1",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "baseline_evaluation_check.md",
+                                    "bytes":  659,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/baseline_evaluation_check.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "bda6cbba99d626a84775784832ab3668552bfc2d455fa4773039e3926f474398",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "baseline_evaluation_summary.json",
+                                    "bytes":  15929,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/baseline_evaluation_summary.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "ea13e8f13925ddc7ae71060fd03137bcb65c4cb55e2769cfbcc739ba580a75c2",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "baseline_evaluation_summary.md",
+                                    "bytes":  3963,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/baseline_evaluation_summary.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "4513926d643743331f51fa7782e37db3014688c36a6aafecd919cc0e2e17459b",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "baseline_execution_spec_check.json",
+                                    "bytes":  4110,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/baseline_execution_spec_check.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "2abfe20c40e06ac3dc27a82bfaa5163dc4ba49a6c5f9f0a24f2c0493dc4143c1",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "baseline_execution_spec_check.md",
+                                    "bytes":  1965,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/baseline_execution_spec_check.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "3860483db1a584fe31518a456208c36a7f06ba646c09365673d4a661d0f111b6",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "board_syscall_side_channel_smoke.json",
+                                    "bytes":  4759,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_syscall_side_channel_smoke.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "b5749009ac608966b32f2067db31fb65cadd3cfe15c944e20393bf0f352275ed",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "board_syscall_side_channel_smoke.md",
+                                    "bytes":  1967,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_syscall_side_channel_smoke.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "8a01714aeb13e5757c35cc3082bbedaa97f0cb6741a585277c25f8499d5595ff",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "board_validation_attempt_summary.json",
+                                    "bytes":  4871,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_attempt_summary.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "4f90386bff8045331bdee55bc49ffc9f2790865b9c592ada9b6fee5deb78b002",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "board_validation_attempt_summary.md",
+                                    "bytes":  1853,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_attempt_summary.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "0338dd4e13469b8b47540747d32798cf60699111601a08a807d620cebe4b1d39",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "board_validation_plan.json",
+                                    "bytes":  3132,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_plan.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "364e5d1b5ef6d939d9f8bd2f9dd8f1985be8a2046785b979a0a44491f4c842d1",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "board_validation_plan.md",
+                                    "bytes":  3857,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_plan.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "72fcfdcc7bdf68b6736a29ec0bfdb9f92443718e7e64548a1b1df58e930dbfe6",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "board_validation_preflight.json",
+                                    "bytes":  3323,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_preflight.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "1d9aece117d5a13a117ce19d75ba16febc2fa0729ba6059765601b262eac4f5e",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "board_validation_preflight.md",
+                                    "bytes":  1875,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_preflight.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "ab6b5623eed643da374299d605498f3602fc31d788c7f4fe021f108562ea4813",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "board_validation_runbook.json",
+                                    "bytes":  8879,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_runbook.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "0333c3462f1934f4aa51123bfa14cc99ce3918ef2f0392e27d1e1c6aeba210a0",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "board_validation_runbook.md",
+                                    "bytes":  7445,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_runbook.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "e20f6aceb16a143e89098b91bccd2c8f32a5e2385745e18c877860d02ed0ccb0",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "board_validation_status.json",
+                                    "bytes":  3638,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_status.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "6f9f066a29ec335173ad07e8d0493b05cc4464ff247ceb7984f50f7d0ae48ea2",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "board_validation_status.md",
+                                    "bytes":  1702,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/board_validation_status.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "806f6af2f62f6ff846809f96784f042fd6895957695ce298ed6e9e8cda75a2d1",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "case_study_artifact_index.json",
+                                    "bytes":  10535,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/case_study_artifact_index.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "41eac076c485c0c0a20264e2204e3d1b1b93e849abcd21ee07742fc93613279c",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "command_log.md",
+                                    "bytes":  81442,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/command_log.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "d80b25a176736a05b68af3fef39d9b402f42ddb9b605544e172aa19c6deccac8",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "ebpf_baseline_summary.json",
+                                    "bytes":  45327,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/ebpf_baseline_summary.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "f878f42d611ac6d1290ab3312b4a6673998ee94b4c26bcd2d20a20daa8655d48",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "ebpf_baseline_summary.md",
+                                    "bytes":  2106,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/ebpf_baseline_summary.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "423b4937247ef4870f1bac05d57bfbb81e3c81e84e5998b75a60f7f3bc36b008",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "evaluation_table.json",
+                                    "bytes":  10283,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/evaluation_table.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "3b0d20f30bb413b804d47d37a205c48f9c48ffb14a63d86e6cee5af080c37621",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "evaluation_table.md",
+                                    "bytes":  2602,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/evaluation_table.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "d6a6ebf7ac25e04aaa19de8af23fb38c9fa9927a610ee6ef9ed2c4f70975b9b7",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "explanation_readiness_summary.json",
+                                    "bytes":  28876,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/explanation_readiness_summary.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "c194e8a679e0c0109ad2c9de6c9a8e40ee6d35248e0d0d6288eab199afd8f236",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "explanation_readiness_summary.md",
+                                    "bytes":  1919,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/explanation_readiness_summary.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "7f826acc73effc75b2c4ef756adad3e53d3722bed4314f66d1ade1f3512c112d",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "extension_35t_enablement_preflight.json",
+                                    "bytes":  7335,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/extension_35t_enablement_preflight.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "068929f75d95947314f36eb56d7a45b1a2ddea8f7f8f36c2ee0dc2338139e8fa",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "extension_35t_enablement_preflight.md",
+                                    "bytes":  2906,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/extension_35t_enablement_preflight.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "f6bd479b2c0b2d7044b1bfd9423753802b0a22cbfc548d0f68c6380e4c36cf00",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "fd_path_case_studies.json",
+                                    "bytes":  5666,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/fd_path_case_studies.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "330c1f57b313ce4f1d29eb6bc1ce8dc53cc1455ee625e691472b8a038cb20b61",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "fd_path_case_studies.md",
+                                    "bytes":  2685,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/fd_path_case_studies.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "9948a2cf1b5bf91a12dc104f1fa3904240702cea6d557f5e999bd6cb091199bd",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "fd_path_flow_summary.json",
+                                    "bytes":  2848,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/fd_path_flow_summary.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "3a441823935cca938f301b495740b9260ffa77099c5de23691b54dee4758e0d1",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "fd_path_flow_summary.md",
+                                    "bytes":  652,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/fd_path_flow_summary.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "16d8c18a333f95737361b3ed758e74871dc0af3915b948f48751b5cf318e5f61",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "function_attribution_summary.json",
+                                    "bytes":  5419,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/function_attribution_summary.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "54bff4fc7593605ea992bd407b9ca58257e1b615633b8abdd3c8924e5c63c37d",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "function_attribution_summary.md",
+                                    "bytes":  1004,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/function_attribution_summary.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "aa806a8cac7dfb00743ba205ed4e1db65240153f44af86541cdd28f04804bb94",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "gate_report.json",
+                                    "bytes":  452093,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/gate_report.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "f9681214af3400559f794c8318c3651af5df521979931bad5df1b1dbf7b579c7",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "gate_report.md",
+                                    "bytes":  7512,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/gate_report.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "c4808365431ffe7fffd662de574590eff1bd6184beaa9b7dbfa3b00f80681355",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "hardware_trace_prototype.json",
+                                    "bytes":  30178,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/hardware_trace_prototype.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "2ebf526b9b4a6b9af17a9940f067ed8fd8a184843d440c4437009fb2ecde44e3",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "hardware_trace_prototype.md",
+                                    "bytes":  3265,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/hardware_trace_prototype.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "6297e01f91d3ca88b8e80ac9daf9d08f78bc740d90ecd4a27e16d4288550a82b",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "helper_alignment.json",
+                                    "bytes":  5059,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/helper_alignment.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "d51eab46513c0a0b1d749e6305894c51023cbc54d42bbd110d5f50bb5c9a884c",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "helper_alignment.md",
+                                    "bytes":  2856,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/helper_alignment.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "5204f2936d703ff618bca4ac65f193ef571b4c702934a924214e5d5e8d8a533e",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "local_code_analysis.json",
+                                    "bytes":  66264,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/local_code_analysis.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "984f4d9590314610649b562cfbb7dd3ab3c9944df6c19d63748c9020a58ad712",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "local_code_analysis.md",
+                                    "bytes":  3090,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/local_code_analysis.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "e931ac4cd40dc1a595593924a2116c8e9fb9de48222383ffaf7737406255ae84",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "malware_behavior_audit.json",
+                                    "bytes":  43216,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/malware_behavior_audit.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "0186bb6d0c0935a0b24c6c8a2779abc53bd497e27ed0d78953ec055419a70c49",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "malware_behavior_audit.md",
+                                    "bytes":  2217,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/malware_behavior_audit.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "a05c62048f44566d70786dce0f748a098d90a1632a5ef58c0139f2e74026a102",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "metric_coverage.json",
+                                    "bytes":  8387,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/metric_coverage.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "d85fe9c97bc789a2ebfeeed91625977b254a3e6786a0c7b276f15c9011a38d00",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "metric_coverage.md",
+                                    "bytes":  4235,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/metric_coverage.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "c3837a24be04096e15d4a73f2a2571ad6746bde726e4ec062dc34960ed560eba",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "paper_artifact_package_manifest.json",
+                                    "bytes":  28439,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/paper_artifact_package_manifest.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "db6a427956fc9adfcf3bcf7be73eed941033c8a26dfc408aeff0c41843d158b2",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "paper_artifact_package_manifest.md",
+                                    "bytes":  3583,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/paper_artifact_package_manifest.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "9b52d0b7412f3ca565582bb2971ad9728d57395e053b9648767109871131804e",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "paper_artifact_release_policy.json",
+                                    "bytes":  13246,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/paper_artifact_release_policy.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "ae0b158e57ae4bff04e5ddde3de53beb9be128adfbf886684b93599e4da2a34e",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "paper_artifact_release_policy.md",
+                                    "bytes":  3807,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/paper_artifact_release_policy.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "51cb70ccc01bd2018fce056be6507ba431ae4206f379a7029fe5fc38ca224cfa",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "paper_evidence_check.json",
+                                    "bytes":  22502,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/paper_evidence_check.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "16f12d49a4a0144feab217306a30ca5a1dceac2ee79c82e0c3a028bb32b92e65",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "paper_evidence_check.md",
+                                    "bytes":  7693,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/paper_evidence_check.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "a327831261cd3b8e96c9dcc9e3b0876808556f7f5848fc04c56264fb30cc8bd8",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "paper_positioning.json",
+                                    "bytes":  3036,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/paper_positioning.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "b0b23f4c9c6ee464687b74cc93b8ff67b390e360c0968a8954b27c93b6ba01b6",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "paper_positioning.md",
+                                    "bytes":  2736,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/paper_positioning.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "6eab97c3042da553dc37c457fb16e6ae899f4384e9f9b223691c2714b55e4aee",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "pointer_semantics_preflight.json",
+                                    "bytes":  2724,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/pointer_semantics_preflight.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "d9eae2f1b6852bb1d00727bd785fc959f6526608bee898f152c83051f87aed51",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "pointer_semantics_preflight.md",
+                                    "bytes":  2004,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/pointer_semantics_preflight.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "405077fba145fae012ab41ffdff667ddefaa9155dbeabf644729177b9871f4d6",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "pointer_snapshot_design_review.json",
+                                    "bytes":  4270,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/pointer_snapshot_design_review.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "74a26e6c46e3fb06ef4b30db1cb811793c83e99fac6422c41135ae494c190098",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "pointer_snapshot_design_review.md",
+                                    "bytes":  2216,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/pointer_snapshot_design_review.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "55bf4fc78024d081ebb01669599a06b8112735e58fc2b2780e2040a8b2ddb250",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "pointer_snapshot_enablement_gate.json",
+                                    "bytes":  2439,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/pointer_snapshot_enablement_gate.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "f2fcf13a665c81132626be7afbf280d0fbf21cc757d138f5e6433f45acd51b2d",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "pointer_snapshot_enablement_gate.md",
+                                    "bytes":  1619,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/pointer_snapshot_enablement_gate.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "8ec8120849567abe08285e256890b11634724e928ae4d834378d76d19a50d7d9",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "process_chain_capacity_debug.json",
+                                    "bytes":  177902,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/process_chain_capacity_debug.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "6b458369f5eaffbf983f18dc7ac6adc658cb1f455275a3f4abe017652bbf2ab7",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "process_chain_capacity_debug.md",
+                                    "bytes":  14910,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/process_chain_capacity_debug.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "b0272161c61c2fc8a401b0dcf71ec9d1db00257093e00433e30842761b3f6f80",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "process_tree_case_study.json",
+                                    "bytes":  3815,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/process_tree_case_study.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "e104a3c52eea7705a9152d300d726a30f63adca2de44a1d20dd6ff3eef7af011",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "process_tree_case_study.md",
+                                    "bytes":  1983,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/process_tree_case_study.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "62d0343c21e92c674f94c14eda17b97cc8b820f3ac6c2e590c9ca28eb4995ab0",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "process_tree_summary.json",
+                                    "bytes":  5235,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/process_tree_summary.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "d9498e48abe26a07a1024677d545b8efff5e3d96f891190fa78e05db793bf575",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "process_tree_summary.md",
+                                    "bytes":  782,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/process_tree_summary.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "0fa5284c675952d07ff0e1958a192142ff4b653fd944973b2cebec2c132550e9",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "qemu_plugin_baseline_summary.json",
+                                    "bytes":  76926,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/qemu_plugin_baseline_summary.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "0d63613e65db062cc52138d37ba652a023d74b9fcac1f03949f19bfd09257f6b",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "qemu_plugin_baseline_summary.md",
+                                    "bytes":  4058,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/qemu_plugin_baseline_summary.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "f7c7ca4730ee9a1451269048e8405a7d3360b2d2be7ca9995dabf8eac0ac1066",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "qemu_plugin_build_preflight.json",
+                                    "bytes":  6155,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/qemu_plugin_build_preflight.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "91d8f28413562e6f746e1faa7138858474d6216e31a1884ac9506d3609c1c5eb",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "qemu_plugin_build_preflight.md",
+                                    "bytes":  1719,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/qemu_plugin_build_preflight.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "55b5797f4e0794e93d5bae1c9c006fef7efa9ee70c69fcdfa2293cbb2f9073c1",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "raw_artifact_escrow.json",
+                                    "bytes":  37690,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "14b3c30254e36e56705d922869c021a9d903fb9e15dcec736a53aed99b47922a",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "raw_artifact_escrow.md",
+                                    "bytes":  1208,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "b5f97ba81bfad68bfd3af1c6743fd0b7e22af5e02cec59b3bea0d8d919bf89c1",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "raw_artifact_sanitization.json",
+                                    "bytes":  10974,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_sanitization.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "22957a0070b6529212c8dca0eb4d5bd81fa2907a548edb09b986f0800e83e8c8",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "raw_artifact_sanitization.md",
+                                    "bytes":  4511,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_sanitization.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "4b28a4e68b48c3afccef946a33334c0d797c251fe8a7cd2aeb8355020e15f91d",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "README.md",
+                                    "bytes":  26372,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/README.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "fee235833b0e784a4fffab9356ee9379fa7030702b64bc1debce005619575f08",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "remaining_external_work.json",
+                                    "bytes":  18205,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/remaining_external_work.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "e629c38df2fbcd779302a6dec5cb5b92b825c54433285bdf3beb2c5547e61e84",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "remaining_external_work.md",
+                                    "bytes":  6948,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/remaining_external_work.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "1b4bf844c7634042eaed42938e5b27366ab9503c853caada0a79cec14b128b20",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "run_config.json",
+                                    "bytes":  2110,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/run_config.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "342c5ccad66289b644b156840d7a5e106e434890d2982af886e24ee261745340",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "sample_matrix_summary.json",
+                                    "bytes":  9265,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/sample_matrix_summary.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "2e140238de7ce0506d3c8ca50e2f4be7acd03b09d40b8732de79763ad3c20fa0",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "sample_matrix_summary.md",
+                                    "bytes":  1874,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/sample_matrix_summary.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "5e68392113393b85e987ae29b66bebecc0345857e777c9ebd782c8bdb22a409a",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "semantic_failure_triage.json",
+                                    "bytes":  13635,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/semantic_failure_triage.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "8c551b15c4942bac92041dc52c84b4e6e965cee4f8bba578d0d8dd4804e8cdf8",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "semantic_failure_triage.md",
+                                    "bytes":  2873,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/semantic_failure_triage.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "bcb4156c488a0f30739516e01432c48bce2dbc08934d91775eb923f980cba7b7",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "side_channel_closure_plan.json",
+                                    "bytes":  12394,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/side_channel_closure_plan.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "6a9c30d8c0a4e0a124d5bf0a1cb558c4ac42ce4909624849e48cf3cc9b855f4e",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "side_channel_closure_plan.md",
+                                    "bytes":  7519,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/side_channel_closure_plan.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "ad716637beded2709e2099a8f6423c688a890b78daf9d3fe920d05480a0ba6e2",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "software_instrumentation_baseline_summary.json",
+                                    "bytes":  14192,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/software_instrumentation_baseline_summary.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "d8f9102413feeedf70962a8be3c00da429621677e603681297c504a8f4ae097f",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "software_instrumentation_baseline_summary.md",
+                                    "bytes":  1798,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/software_instrumentation_baseline_summary.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "342ec1ccd9680482d5b806a9433bc0515fac821279366d71c6ad535d9b891898",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "source_attribution_summary.json",
+                                    "bytes":  8813,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/source_attribution_summary.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "dd370730acf866d2f1f88cde8dee29a9d2653d954b275579866f265fe8b56d81",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "source_attribution_summary.md",
+                                    "bytes":  1230,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/source_attribution_summary.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "b06f6cafe79e71bfe79dcab3f33a2d72501c5634ae31855f84c46b510c299706",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "synthetic_extension_behavior_smoke.json",
+                                    "bytes":  64933,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/synthetic_extension_behavior_smoke.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "443a11b36fe64778e12c301cd88920c4b2f71d2104caff919771cf84fe76de88",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "synthetic_extension_behavior_smoke.md",
+                                    "bytes":  3373,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/synthetic_extension_behavior_smoke.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "2542ee02b22beb6c7b8cd385169c54bdbdc37a7e899a36c442c83abbc9721c84",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "synthetic_extension_host_smoke.json",
+                                    "bytes":  12527,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/synthetic_extension_host_smoke.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "59967b1cf2a1910c31adf2565d64ee77bab67b97fdff4c3c313c692b68f7be21",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "synthetic_extension_host_smoke.md",
+                                    "bytes":  3376,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/synthetic_extension_host_smoke.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "e856fe85785e6b4dd9756522127c637aa96a063f19fd7c38169a4ed87a30ce2a",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "synthetic_extension_target_smoke.json",
+                                    "bytes":  10558,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/synthetic_extension_target_smoke.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "7b36c44f822eb3fc786952cf690e360121fb40e5ab19c00bc128da1de7311b34",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "synthetic_extension_target_smoke.md",
+                                    "bytes":  3039,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/synthetic_extension_target_smoke.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "d7316bbfd22de8fe596a3a34a7624fc1234cdb8427ebec115abc1e1e0700ee4e",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "synthetic_suite_extension_check.json",
+                                    "bytes":  4638,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/synthetic_suite_extension_check.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "bf1781edc101de6f04d6c55cab5d493d73a33e9cba61d722ad0e432b99ca6886",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "synthetic_suite_extension_check.md",
+                                    "bytes":  3623,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/synthetic_suite_extension_check.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "377bc6a14e166e17126aeb83c7da054ebd08b635d5b7b54ce37ebb90a37a84f8",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "threat_model_boundary.json",
+                                    "bytes":  3371,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/threat_model_boundary.json",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "50aa69c74583c87b47744298ca79c44c29dc97a878c4006416c810cb6e66e740",
+                                    "source_path":  null
+                                },
+                                {
+                                    "artifact":  "threat_model_boundary.md",
+                                    "bytes":  2583,
+                                    "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/threat_model_boundary.md",
+                                    "mode":  "generated_lightweight_summary",
+                                    "sha256":  "2b175d9a3c8fdcfb5cba69ed76deb24a44db29151678f6338b8ad2540b442245",
+                                    "source_path":  null
+                                }
+                            ],
+    "cva6_in_scope":  false,
+    "excluded_artifact_classes":  [
+                                      "large trace dumps",
+                                      "raw UART logs",
+                                      "bitstreams",
+                                      "Vivado builds",
+                                      "board build directories",
+                                      "ELF binaries",
+                                      "complete results tree"
+                                  ],
+    "full_matrix_ready":  true,
+    "gate":  "13/13 PASS",
+    "manifest_self":  {
+                          "artifact":  "evidence_manifest.json",
+                          "committed_path":  "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/evidence_manifest.json",
+                          "hash_excluded_reason":  "self-referential manifest hash would be unstable"
+                      },
+    "missing_artifacts":  [
+
+                          ],
+    "non_claims":  [
+                       "no CVA6 board claim",
+                       "no real malware detection claim",
+                       "no mature detector claim",
+                       "no classifier accuracy claim",
+                       "no complete semantic reconstruction claim"
+                   ],
+    "real_malware":  false,
+    "run_id":  "35t-smallcap-r512-full-synthetic-matrix-20260521",
+    "samples":  13,
+    "schema":  "rvmt.35t.evidence_snapshot.v1",
+    "scope":  "Artix-7 35T / LiteX / VexRiscv",
+    "snapshot_generated_utc":  "2026-05-23T05:57:18Z",
+    "source_results_root":  "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521",
+    "trace_profile_policy":  "35t_small_capacity",
+    "trace_records":  512
+}

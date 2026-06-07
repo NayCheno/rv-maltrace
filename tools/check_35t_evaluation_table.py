@@ -12,8 +12,8 @@ from typing import Any
 
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
 DEFAULT_RESULTS_ROOT = Path("results/experiments/35t") / RUN_ID
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence") / RUN_ID
-DEFAULT_RESOURCE_REPORT = Path("docs/reports/resource_report.md")
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / RUN_ID
+DEFAULT_RESOURCE_REPORT = Path("docs/07-evaluation-evidence/reports/resource_report.md")
 STATUS = "BOUNDED_EVALUATION_TABLE_READY_WITH_EBPF_AND_QEMU_PLUGIN"
 QEMU_PLUGIN_BASELINE_STATUS = "QEMU_PLUGIN_BASELINE_PASS_13_SAMPLES"
 ADVANCED_NON_PASS_STATUSES = {"BLOCKED_CURRENT_ENVIRONMENT", "READY_NOT_RUN", "NOT_RUN", "DEFERRED"}

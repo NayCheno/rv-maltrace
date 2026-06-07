@@ -9,7 +9,7 @@ from typing import Any
 
 
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence") / RUN_ID
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / RUN_ID
 EXPECTED_SCOPE = "Artix-7 35T / LiteX / VexRiscv"
 EXPECTED_CLAIM_LEVEL = "35T hardware-trace-assisted synthetic malware-like behavior audit prototype"
 HOST_QEMU_STRACE_STATUS = "HOST_QEMU_STRACE_BASELINE_PASS_WITH_MISSING_ADVANCED_BASELINES"
@@ -444,7 +444,7 @@ def baseline_goal(
         "status": status,
         "checks": checks,
         "evidence": {
-            "plan": "docs/research/evaluation_plan.md",
+            "plan": "docs/07-evaluation-evidence/evaluation_plan.md",
             "metrics": f"results/experiments/35t/{RUN_ID}/aggregate/metrics.json",
             "groundtruth_sample_count": len(groundtruth_samples),
             "summary": "baseline_evaluation_summary.json" if baseline_summary else None,
@@ -807,9 +807,9 @@ def build_report(repo_root: Path, evidence_root_arg: Path) -> dict[str, Any]:
         repo_root,
         "targeted board-validation bundle",
     )
-    closure_text = read_text(repo_root / "docs/results/rv_maltrace_35t_application_closure.md", failures, repo_root, "closure result card")
-    case_text = read_text(repo_root / "docs/results/rv_maltrace_35t_application_case_studies.md", failures, repo_root, "case-study document")
-    eval_plan = read_text(repo_root / "docs/research/evaluation_plan.md", failures, repo_root, "evaluation plan")
+    closure_text = read_text(repo_root / "docs/08-publication/rv_maltrace_35t_application_closure.md", failures, repo_root, "closure result card")
+    case_text = read_text(repo_root / "docs/08-publication/rv_maltrace_35t_application_case_studies.md", failures, repo_root, "case-study document")
+    eval_plan = read_text(repo_root / "docs/07-evaluation-evidence/evaluation_plan.md", failures, repo_root, "evaluation plan")
 
     goals = [
         claim_boundary_goal(
@@ -1293,17 +1293,17 @@ def write_self_test_fixture(root: Path) -> None:
             "checks": {"payload_files_present_and_hashed": True, "public_release_deferred": True},
         },
     )
-    (root / "docs/results").mkdir(parents=True, exist_ok=True)
-    (root / "docs/results/rv_maltrace_35t_application_closure.md").write_text(
+    (root / "docs/08-publication").mkdir(parents=True, exist_ok=True)
+    (root / "docs/08-publication/rv_maltrace_35t_application_closure.md").write_text(
         "no real malware detection claim\n",
         encoding="utf-8",
     )
-    (root / "docs/results/rv_maltrace_35t_application_case_studies.md").write_text(
+    (root / "docs/08-publication/rv_maltrace_35t_application_case_studies.md").write_text(
         "no CVA6 board claim\n",
         encoding="utf-8",
     )
-    (root / "docs/research").mkdir(parents=True)
-    (root / "docs/research/evaluation_plan.md").write_text(
+    (root / "docs/05-semantic-analysis").mkdir(parents=True)
+    (root / "docs/07-evaluation-evidence/evaluation_plan.md").write_text(
         "\n".join(
             [
                 "`strace` / `ptrace`",

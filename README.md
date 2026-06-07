@@ -1,4 +1,4 @@
-﻿# RV-MalTrace
+# RV-MalTrace
 
 RV-MalTrace is a CVA6/RISC-V hardware-assisted behavior tracing project. The
 current repository focus is a reproducible committed-event trace MVP: collect
@@ -6,7 +6,7 @@ sideband trace events from committed execution, compare simulation output with
 golden JSONL traces, and keep board and Linux claims behind explicit evidence
 gates.
 
-The paper-level direction is described in `docs/planning/next-plan.md`: RV-MalScope, a
+The paper-level direction is described in `docs/09-planning/next-plan.md`: RV-MalScope, a
 low-perturbation RISC-V syscall/control-flow/trap/context tracer with planned
 semantic reconstruction, board validation, and evasion-resistance evaluation.
 
@@ -60,7 +60,7 @@ uv run python tools/check_35t_experiment_bundle.py --self-test
 
 ## Behavior Demo
 
-The behavior demo evidence bundle is documented in `docs/linux/behavior_demo.md`.
+The behavior demo evidence bundle is documented in `docs/04-runtime-linux/behavior_demo.md`.
 It writes artifacts under `results/demo/<run-id>/<sample-id>/` and can also
 use a custom output root for smoke runs:
 
@@ -80,20 +80,20 @@ claims.
 
 ## Core Artifacts
 
-- `docs/process/version_lock.md` records the current CVA6, Vivado, bare-metal
+- `docs/10-process/version_lock.md` records the current CVA6, Vivado, bare-metal
   toolchain, board target, and decoder anchors. Linux kernel, Buildroot, and
   `riscv64-linux-gnu-gcc` anchors remain TODO until the Linux bring-up gate.
-- `docs/architecture/signal_map.md` maps committed CVA6/RVFI signals into the trace adapter.
-- `docs/architecture/trace_format.md` defines the JSONL event schema, packet fields,
+- `docs/02-trace-architecture/signal_map.md` maps committed CVA6/RVFI signals into the trace adapter.
+- `docs/02-trace-architecture/trace_format.md` defines the JSONL event schema, packet fields,
   comparison rules, filters, compression prototype, and disabled memory modes.
-- `docs/reports/sim_results.md` summarizes current Vivado simulation evidence.
-- `docs/board/board_bringup.md`, `docs/board/board_trace_minimal.md`, and
-  `docs/board/board_trace_validation.md` separate repository-local build evidence
+- `docs/07-evaluation-evidence/reports/sim_results.md` summarizes current Vivado simulation evidence.
+- `docs/03-platform-architecture/genesys2/board_bringup.md`, `docs/03-platform-architecture/genesys2/board_trace_minimal.md`, and
+  `docs/03-platform-architecture/genesys2/board_trace_validation.md` separate repository-local build evidence
   from physical-board evidence.
-- `docs/research/evaluation_plan.md` defines the CCF-A-oriented research questions,
+- `docs/07-evaluation-evidence/evaluation_plan.md` defines the CCF-A-oriented research questions,
   baselines, datasets, metrics, and required artifact gates.
 - `docs/README.md` indexes the categorized documentation tree.
-- `docs/board/artix7_35t_bringup.md` records the low-cost Artix-7 35T
+- `docs/03-platform-architecture/artix7-35t/artix7_35t_bringup.md` records the low-cost Artix-7 35T
   LiteX/VexRiscv prototype path.
 
 ## Evidence Policy

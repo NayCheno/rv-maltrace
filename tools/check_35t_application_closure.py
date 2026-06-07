@@ -10,7 +10,7 @@ from typing import Any
 
 
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence") / RUN_ID
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / RUN_ID
 EXPECTED_FIELDS: dict[str, Any] = {
     "run_id": RUN_ID,
     "trace_records": 512,
@@ -255,8 +255,8 @@ def write_report(report: dict[str, Any], evidence_root: Path) -> None:
 def check_repo(repo_root: Path, evidence_root_arg: Path, write_outputs: bool) -> dict[str, Any]:
     repo_root = repo_root.resolve()
     evidence_root = repo_path(repo_root, evidence_root_arg).resolve()
-    closure_path = repo_root / "docs/results/rv_maltrace_35t_application_closure.md"
-    case_path = repo_root / "docs/results/rv_maltrace_35t_application_case_studies.md"
+    closure_path = repo_root / "docs/08-publication/rv_maltrace_35t_application_closure.md"
+    case_path = repo_root / "docs/08-publication/rv_maltrace_35t_application_case_studies.md"
     manifest_path = evidence_root / "evidence_manifest.json"
     readiness_path = evidence_root / "explanation_readiness_summary.json"
     board_attempt_path = evidence_root / "board_validation_attempt_summary.json"
@@ -416,7 +416,7 @@ def check_repo(repo_root: Path, evidence_root_arg: Path, write_outputs: bool) ->
         failures.append("manifest schema must be rvmt.35t.evidence_snapshot.v1")
     if manifest.get("source_results_root") != f"results/experiments/35t/{RUN_ID}":
         failures.append("manifest source_results_root does not point to the primary 35T run")
-    if "docs/results/evidence/" not in closure_text:
+    if "docs/07-evaluation-evidence/evidence/" not in closure_text:
         failures.append("closure doc does not reference the committed evidence snapshot path")
     readiness_results = {
         "schema_ok": readiness.get("schema") == "rvmt.35t.explanation_readiness.v1",
@@ -585,7 +585,7 @@ def check_repo(repo_root: Path, evidence_root_arg: Path, write_outputs: bool) ->
 def self_test() -> int:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
-        docs = root / "docs/results"
+        docs = root / "docs/08-publication"
         evidence = root / DEFAULT_EVIDENCE_ROOT
         docs.mkdir(parents=True)
         evidence.mkdir(parents=True)

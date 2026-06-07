@@ -10,7 +10,7 @@ from typing import Any
 
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
 DEFAULT_RESULTS_ROOT = Path("results/experiments/35t") / RUN_ID
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence") / RUN_ID
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / RUN_ID
 SAMPLES = [
     "illegal_trap",
     "process_chain",

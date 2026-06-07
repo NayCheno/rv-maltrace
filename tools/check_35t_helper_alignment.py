@@ -11,7 +11,7 @@ from typing import Any
 
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
 SEMANTIC_RUN_ID = "35t-targeted-board-validation-20260522"
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence") / RUN_ID
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / RUN_ID
 DEFAULT_SEMANTIC_RESULTS_ROOT = Path("results/experiments/35t") / SEMANTIC_RUN_ID
 DEFAULT_BUNDLE_ROOT = DEFAULT_SEMANTIC_RESULTS_ROOT / "board_validation_bundle"
 SCHEMA = "rvmt.35t.helper_alignment.v1"

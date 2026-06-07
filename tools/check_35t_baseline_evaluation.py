@@ -10,7 +10,7 @@ from typing import Any
 
 
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence") / RUN_ID
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / RUN_ID
 SUMMARY_NAME = "baseline_evaluation_summary.json"
 EXPECTED_SCHEMA = "rvmt.35t.baseline_evaluation.summary.v1"
 HOST_QEMU_STRACE_STATUS = "HOST_QEMU_STRACE_BASELINE_PASS_WITH_MISSING_ADVANCED_BASELINES"

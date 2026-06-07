@@ -1,0 +1,131 @@
+{
+  "assessment_source": "D:\\Download\\rv_maltrace_35t_assessment.md",
+  "checks": {
+    "all_rows_have_evidence": true,
+    "assessment_has_baseline_blocked_snapshot": true,
+    "assessment_has_fd_path_partial_snapshot": true,
+    "assessment_has_lightweight_artifact_snapshot": true,
+    "assessment_has_process_tree_partial_snapshot": true,
+    "closure_bounded_pass": true,
+    "external_conditions_not_silently_closed": true,
+    "no_unreconciled_rows": true,
+    "p1_snapshot_updated": true,
+    "p2_snapshot_updated": true,
+    "p3_snapshot_design_and_helper_updated": true,
+    "p4_snapshot_updated": true,
+    "p5_sources_recorded_without_35t_claim": true,
+    "p6_local_raw_escrow_ready_public_release_deferred": true,
+    "paper_positioning_ready": true,
+    "remaining_external_work_recorded": true,
+    "satisfied_conditions_not_silent": true,
+    "traceability_bounded_pass": true
+  },
+  "evidence_root": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "failures": [],
+  "interpretation": [
+    "the assessment document is treated as a source snapshot, while current repository evidence is authoritative",
+    "P1/P2 have been upgraded only to representative board-side-channel case-study closure, not full semantic reconstruction",
+    "P3-P6 retain explicit deferred or current-environment boundaries where required external evidence is unavailable"
+  ],
+  "reconciliation_rows": [
+    {
+      "assessment_snapshot": "freeze 35T claim and CCF-A/CVA6/real-malware non-claims",
+      "boundary": "35T remains a bounded synthetic malware-like behavior audit prototype.",
+      "current_status": "PASS",
+      "evidence": [
+        "paper_positioning.json",
+        "paper_evidence_check.json",
+        "hardware_trace_prototype.json",
+        "local_code_analysis.json",
+        "malware_behavior_audit.json",
+        "assessment_closure.json"
+      ],
+      "goal_id": "P0_claim_boundary",
+      "reconciliation_status": "BOUNDARY_LOCAL_CODE_AND_MALWARE_AUDIT_CONFIRMED"
+    },
+    {
+      "assessment_snapshot": "assessment snapshot says fd/path Flow Summary is PARTIAL and no flows are fully linked",
+      "boundary": "P1 is closed only for the prioritized representative case studies; path strings are side-channel backed, not enabled hardware pointer snapshots.",
+      "current_status": "PASS",
+      "evidence": [
+        "fd_path_case_studies.json",
+        "fd_path_flow_summary.json",
+        "assessment_closure.json"
+      ],
+      "goal_id": "P1_fd_path_flow",
+      "reconciliation_status": "UPDATED_BY_CURRENT_BOARD_SIDE_CHANNEL_CASE_STUDIES"
+    },
+    {
+      "assessment_snapshot": "assessment snapshot says Process Tree Summary is PARTIAL and no strict edges are closed",
+      "boundary": "P2 is a representative process-chain explanation; target parent PID remains intentionally unresolved.",
+      "current_status": "PASS",
+      "evidence": [
+        "process_tree_case_study.json",
+        "process_tree_summary.json",
+        "assessment_closure.json"
+      ],
+      "goal_id": "P2_process_tree",
+      "reconciliation_status": "UPDATED_BY_CURRENT_BOARD_SIDE_CHANNEL_CASE_STUDY"
+    },
+    {
+      "assessment_snapshot": "assessment says pointer argument semantic reconstruction is the key remaining CCF-A step",
+      "boundary": "Pointer snapshot design review and representative trusted-helper alignment are recorded under the trusted-kernel boundary; hardware user-pointer snapshot remains deferred.",
+      "current_status": "PARTIAL_BOUNDED_SYNTHETIC_ARG_MEM_GUARDRAILS",
+      "evidence": [
+        "pointer_semantics_preflight.json",
+        "pointer_snapshot_enablement_gate.json",
+        "pointer_snapshot_design_review.json",
+        "helper_alignment.json",
+        "remaining_external_work.json"
+      ],
+      "goal_id": "P3_pointer_argument_semantics",
+      "reconciliation_status": "POINTER_DESIGN_AND_HELPER_ALIGNMENT_RECORDED_HARDWARE_SNAPSHOT_STILL_DEFERRED"
+    },
+    {
+      "assessment_snapshot": "assessment says optional eBPF-only, QEMU-plugin, and software instrumentation baselines are blocked",
+      "boundary": "Software instrumentation, host eBPF, and QEMU-plugin syscall-count evidence are recorded under bounded simulator/software claims.",
+      "current_status": "HOST_QEMU_STRACE_SOFTWARE_INSTRUMENTATION_EBPF_AND_QEMU_PLUGIN_PASS",
+      "evidence": [
+        "baseline_evaluation_summary.json",
+        "baseline_execution_spec_check.json",
+        "advanced_baseline_preflight.json",
+        "qemu_plugin_build_preflight.json",
+        "qemu_plugin_baseline_summary.json"
+      ],
+      "goal_id": "P4_baseline_evaluation",
+      "reconciliation_status": "SOFTWARE_INSTRUMENTATION_EBPF_AND_QEMU_PLUGIN_UPDATED"
+    },
+    {
+      "assessment_snapshot": "assessment recommends synthetic suite expansion before any real malware route",
+      "boundary": "Implemented source candidates have host/QEMU behavior smoke plus a default-disabled runner/rootfs/CLI enablement path, but are not expanded 35T coverage; host smoke status is HOST_COMPILE_SMOKE_PASS_35T_GATING_DEFERRED; target smoke status is TARGET_COMPILE_SMOKE_PASS_35T_GATING_DEFERRED; behavior smoke status is HOST_QEMU_BEHAVIOR_SMOKE_PASS_35T_GATING_DEFERRED; enablement status is EXTENSION_35T_ENABLEMENT_PREFLIGHT_PASS_GATING_DEFERRED.",
+      "current_status": "IMPLEMENTED_EXTENSION_SOURCES_READY_FOR_35T_GATING",
+      "evidence": [
+        "synthetic_suite_extension_check.json",
+        "synthetic_extension_host_smoke.json",
+        "synthetic_extension_target_smoke.json",
+        "synthetic_extension_behavior_smoke.json",
+        "extension_35t_enablement_preflight.json",
+        "experiments/linux_behavior/malware_like/extension_plan.json"
+      ],
+      "goal_id": "P5_synthetic_suite_extension",
+      "reconciliation_status": "EXTENSION_ENABLEMENT_PREFLIGHT_RECORDED_35T_GATING_DEFERRED"
+    },
+    {
+      "assessment_snapshot": "assessment says the committed evidence snapshot is lightweight and full paper artifacts need more packaging",
+      "boundary": "The lightweight release candidate, sanitized excerpts, and local raw escrow package are ready; public or external raw release still requires approval or a controlled-release destination.",
+      "current_status": "LIGHTWEIGHT_ARTIFACT_PASS_FULL_REPRO_DEFERRED",
+      "evidence": [
+        "raw_artifact_sanitization.json",
+        "raw_artifact_escrow.json",
+        "artifact_package_readiness.json",
+        "paper_artifact_package_manifest.json",
+        "paper_artifact_release_policy.json"
+      ],
+      "goal_id": "P6_artifact_package",
+      "reconciliation_status": "LOCAL_RAW_ESCROW_READY_PUBLIC_RELEASE_DEFERRED"
+    }
+  ],
+  "run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "schema": "rvmt.35t.assessment_reconciliation.v1",
+  "status": "CURRENT_EVIDENCE_RECONCILED_WITH_ASSESSMENT_SNAPSHOT"
+}

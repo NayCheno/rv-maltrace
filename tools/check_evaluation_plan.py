@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import argparse
 import re
@@ -7,11 +7,11 @@ import tempfile
 from pathlib import Path
 
 
-DEFAULT_DOC = Path("docs/research/evaluation_plan.md")
-DEFAULT_UV_DOC = Path("docs/process/uv_workflow.md")
+DEFAULT_DOC = Path("docs/07-evaluation-evidence/evaluation_plan.md")
+DEFAULT_UV_DOC = Path("docs/10-process/uv_workflow.md")
 
 REQUIRED_TEXT = (
-    "This document turns `docs/planning/next-plan.md` Section 9 and Stage 3 into a checkable evaluation plan.",
+    "This document turns `docs/09-planning/next-plan.md` Section 9 and Stage 3 into a checkable evaluation plan.",
     "research design and artifact gate, not evaluation evidence.",
     "RQ1",
     "Correctness: can committed syscall/control-flow/trap/context events be captured accurately?",
@@ -233,7 +233,7 @@ def check_doc(path: Path) -> list[str]:
 def check_uv_doc(path: Path) -> list[str]:
     text = path.read_text(encoding="utf-8")
     errors: list[str] = []
-    for token in ("tools/check_evaluation_plan.py", "docs/research/evaluation_plan.md"):
+    for token in ("tools/check_evaluation_plan.py", "docs/07-evaluation-evidence/evaluation_plan.md"):
         if token not in text:
             errors.append(f"{path}: missing {token}")
     return errors
@@ -253,7 +253,7 @@ def self_test() -> int:
         doc.write_text(source_doc, encoding="utf-8")
         uv_doc.write_text(
             "uv run python tools/check_evaluation_plan.py\n"
-            "docs/research/evaluation_plan.md\n",
+            "docs/07-evaluation-evidence/evaluation_plan.md\n",
             encoding="utf-8",
         )
 

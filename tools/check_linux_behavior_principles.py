@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import argparse
 import json
@@ -10,9 +10,9 @@ from typing import Any
 
 
 DEFAULT_POLICY = Path("experiments/linux_behavior/policy.json")
-DEFAULT_DOC = Path("docs/linux/linux_behavior_experiment_principles.md")
-DEFAULT_UV_DOC = Path("docs/process/uv_workflow.md")
-DEFAULT_RISK_LOG = Path("docs/process/risk_log.md")
+DEFAULT_DOC = Path("docs/04-runtime-linux/linux_behavior_experiment_principles.md")
+DEFAULT_UV_DOC = Path("docs/10-process/uv_workflow.md")
+DEFAULT_RISK_LOG = Path("docs/10-process/risk_log.md")
 
 EXPECTED_ALLOWED = ["benign", "malware_like_synthetic"]
 EXPECTED_BLOCKED = ["real_malware", "unknown_provenance"]
@@ -147,7 +147,7 @@ def check_cross_refs(uv_doc: Path, risk_log: Path) -> list[str]:
     uv_text = uv_doc.read_text(encoding="utf-8")
     if "tools/check_linux_behavior_principles.py" not in uv_text:
         errors.append(f"{uv_doc}: missing Phase 6.1 checker command")
-    if "docs/linux/linux_behavior_experiment_principles.md" not in uv_text:
+    if "docs/04-runtime-linux/linux_behavior_experiment_principles.md" not in uv_text:
         errors.append(f"{uv_doc}: missing Phase 6.1 principles document reference")
     if "experiments/linux_behavior/policy.json" not in uv_text:
         errors.append(f"{uv_doc}: missing Phase 6.1 policy reference")
@@ -229,7 +229,7 @@ must stay split into `benign` and `malware_like_synthetic`
     )
     (root / DEFAULT_UV_DOC).write_text(
         "uv run python tools/check_linux_behavior_principles.py\n"
-        "docs/linux/linux_behavior_experiment_principles.md\n"
+        "docs/04-runtime-linux/linux_behavior_experiment_principles.md\n"
         "experiments/linux_behavior/policy.json\n",
         encoding="utf-8",
     )

@@ -11,7 +11,7 @@ from typing import Any
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
 DEFAULT_ASSESSMENT = Path("D:/Download/rv_maltrace_35t_assessment.md")
 DEFAULT_RESULTS_ROOT = Path("results/experiments/35t") / RUN_ID
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence") / RUN_ID
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / RUN_ID
 SCHEMA = "rvmt.35t.local_code_analysis.v1"
 STATUS = "LOCAL_CODE_ANALYSIS_PROTOTYPE_PASS_WITH_BOUNDED_ATTRIBUTION"
 BENIGN_SAMPLES = ["hello", "ls", "cat", "cp", "sha256sum"]

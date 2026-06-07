@@ -13,7 +13,7 @@ from typing import Any
 
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
 DEFAULT_RESULTS_ROOT = Path("results/experiments/35t") / RUN_ID
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence") / RUN_ID
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / RUN_ID
 DEFAULT_RAW_ESCROW_DIR = DEFAULT_RESULTS_ROOT / "raw_artifact_escrow_package"
 DEFAULT_EXTENSION_BEHAVIOR_RESULTS = Path("results/experiments/35t/35t-extension-behavior-smoke-20260523")
 EXTENSION_PROGRAMS_ROOT = Path("experiments/linux_behavior/malware_like/extension_programs")
@@ -123,7 +123,7 @@ ARTIFACT_CLASSES = (
         "public_summary",
         3,
         ("aggregate/overhead_report.md", "aggregate/bandwidth_report.md"),
-        (Path("docs/reports/resource_report.md"), Path("docs/board/vivado_authorization.md")),
+        (Path("docs/07-evaluation-evidence/reports/resource_report.md"), Path("docs/03-platform-architecture/genesys2/vivado_authorization.md")),
     ),
     ArtifactClass(
         "elf_hashes",
@@ -139,8 +139,8 @@ ARTIFACT_CLASSES = (
         1,
         (),
         (
-            Path("docs/reports/resource_report.md"),
-            Path("docs/board/vivado_authorization.md"),
+            Path("docs/07-evaluation-evidence/reports/resource_report.md"),
+            Path("docs/03-platform-architecture/genesys2/vivado_authorization.md"),
             DEFAULT_EVIDENCE_ROOT / "board_validation_status.json",
             DEFAULT_EVIDENCE_ROOT / "board_validation_attempt_summary.json",
         ),
@@ -186,11 +186,11 @@ ARTIFACT_CLASSES = (
             Path("tools/check_35t_raw_artifact_sanitization.py"),
             Path("tools/check_35t_raw_artifact_escrow.py"),
             Path("tools/package_35t_paper_artifacts.py"),
-            Path("docs/process/uv_workflow.md"),
+            Path("docs/10-process/uv_workflow.md"),
             Path("experiments/linux_behavior/baseline_execution_spec.json"),
             Path("experiments/linux_behavior/pointer_snapshot_enablement_gate.json"),
             Path("experiments/linux_behavior/pointer_snapshot_design_review.json"),
-            Path("docs/research/semantic/pointer_snapshot_design_review.md"),
+            Path("docs/05-semantic-analysis/pointer_snapshot_design_review.md"),
             DEFAULT_EVIDENCE_ROOT / "command_log.md",
         ),
     ),
@@ -262,7 +262,7 @@ ARTIFACT_CLASSES = (
             DEFAULT_EVIDENCE_ROOT / "pointer_snapshot_design_review.json",
             DEFAULT_EVIDENCE_ROOT / "pointer_snapshot_design_review.md",
             Path("experiments/linux_behavior/pointer_snapshot_design_review.json"),
-            Path("docs/research/semantic/pointer_snapshot_design_review.md"),
+            Path("docs/05-semantic-analysis/pointer_snapshot_design_review.md"),
         ),
     ),
     ArtifactClass(
@@ -305,7 +305,7 @@ ARTIFACT_CLASSES = (
         "public",
         2,
         (),
-        (DEFAULT_EVIDENCE_ROOT / "README.md", Path("docs/process/uv_workflow.md"), DEFAULT_EVIDENCE_ROOT / "command_log.md"),
+        (DEFAULT_EVIDENCE_ROOT / "README.md", Path("docs/10-process/uv_workflow.md"), DEFAULT_EVIDENCE_ROOT / "command_log.md"),
     ),
 )
 
@@ -528,9 +528,9 @@ def write_fixture(root: Path) -> None:
         evidence / "board_validation_attempt_summary.json",
         evidence / "README.md",
         evidence / "command_log.md",
-        root / "docs/reports/resource_report.md",
-        root / "docs/board/vivado_authorization.md",
-        root / "docs/process/uv_workflow.md",
+        root / "docs/07-evaluation-evidence/reports/resource_report.md",
+        root / "docs/03-platform-architecture/genesys2/vivado_authorization.md",
+        root / "docs/10-process/uv_workflow.md",
         root / "tools/experiment_35t.py",
         root / "tools/package_35t_board_validation.py",
         root / "tools/check_35t_paper_evidence.py",
@@ -568,7 +568,7 @@ def write_fixture(root: Path) -> None:
         root / "experiments/linux_behavior/baseline_execution_spec.json",
         root / "experiments/linux_behavior/pointer_snapshot_enablement_gate.json",
         root / "experiments/linux_behavior/pointer_snapshot_design_review.json",
-        root / "docs/research/semantic/pointer_snapshot_design_review.md",
+        root / "docs/05-semantic-analysis/pointer_snapshot_design_review.md",
         root / "experiments/linux_behavior/malware_like/extension_plan.json",
         evidence / "raw_artifact_sanitization.json",
         evidence / "raw_artifact_sanitization.md",

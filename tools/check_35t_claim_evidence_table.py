@@ -13,7 +13,7 @@ from typing import Any
 PRIMARY_RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
 SURROGATE_RUN_ID = "35t-surrogate-darthra-p0a-r512-abba-r5-20260524"
 MIRAI_RUN_ID = "35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524"
-DEFAULT_EVIDENCE_BASE = Path("docs/results/evidence")
+DEFAULT_EVIDENCE_BASE = Path("docs/07-evaluation-evidence/evidence")
 DEFAULT_EVIDENCE_ROOT = DEFAULT_EVIDENCE_BASE / "35t-paper-claim-evidence-table-20260524"
 LINEAGE_EVIDENCE_ROOT = DEFAULT_EVIDENCE_BASE / "35t-real-malware-derived-lineage-20260524"
 BASELINE_EVIDENCE_ROOT = DEFAULT_EVIDENCE_BASE / "35t-real-malware-derived-baseline-comparison-20260524"
@@ -389,9 +389,9 @@ def snapshot_manifest(repo_root: Path, evidence_root: Path, report: dict[str, An
         "generated_utc": utc_now(),
         "claim_level": "35T paper-ready claim/evidence mapping",
         "source_reports": [
-            f"docs/results/evidence/{report['run_ids']['primary_35t']}",
-            f"docs/results/evidence/{report['run_ids']['surrogate']}",
-            f"docs/results/evidence/{report['run_ids']['mirai_reference']}",
+            f"docs/07-evaluation-evidence/evidence/{report['run_ids']['primary_35t']}",
+            f"docs/07-evaluation-evidence/evidence/{report['run_ids']['surrogate']}",
+            f"docs/07-evaluation-evidence/evidence/{report['run_ids']['mirai_reference']}",
             LINEAGE_EVIDENCE_ROOT.as_posix(),
             BASELINE_EVIDENCE_ROOT.as_posix(),
             BOOT_EVIDENCE_ROOT.as_posix(),

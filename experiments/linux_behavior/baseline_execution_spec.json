@@ -4,8 +4,8 @@
   "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
   "scope": "Artix-7 35T / LiteX / VexRiscv",
   "sample_count": 13,
-  "status_source": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/baseline_evaluation_summary.json",
-  "preflight_source": "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/advanced_baseline_preflight.json",
+  "status_source": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/baseline_evaluation_summary.json",
+  "preflight_source": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/advanced_baseline_preflight.json",
   "coverage_map": {
     "strace_ptrace": [
       "host_strace",
@@ -122,7 +122,7 @@
       "purpose": "kernel-side semantic software baseline using eBPF/kprobes where the host permits it",
       "required_artifacts": [
         "results/experiments/35t/35t-ebpf-baseline-20260523/aggregate/ebpf_baseline_summary.json",
-        "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/ebpf_baseline_summary.json",
+        "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/ebpf_baseline_summary.json",
         "per-sample bpftrace scripts and local raw bpftrace logs under results/experiments/35t/35t-ebpf-baseline-20260523",
         "kernel and tracefs/kprobe capability record",
         "per-sample event count and conservative end-to-end overhead summary"
@@ -152,8 +152,8 @@
       "required_artifacts": [
         "upstream qemu-riscv64 user-mode binary built with --enable-plugins",
         "qemu-plugin.h and syscall-count plugin build transcript",
-        "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/qemu_plugin_baseline_summary.json",
-        "docs/results/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/qemu_plugin_build_preflight.json",
+        "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/qemu_plugin_baseline_summary.json",
+        "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521/qemu_plugin_build_preflight.json",
         "per-sample plugin syscall-count output and timings under results/experiments/35t/35t-qemu-plugin-baseline-20260523"
       ],
       "reproduction_commands": [

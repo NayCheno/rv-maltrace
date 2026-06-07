@@ -18,7 +18,7 @@ from rv_maltrace.process_tree import load_semantic_events, recover_process_tree 
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
 VALIDATION_RUN_ID = "35t-targeted-board-validation-20260522"
 DEFAULT_SOURCE_RESULTS_ROOT = Path("results/experiments/35t") / VALIDATION_RUN_ID
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence") / RUN_ID
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / RUN_ID
 SAMPLE = "process_chain"
 NON_CLAIMS = [
     "no real malware detection claim",

@@ -1,0 +1,89 @@
+{
+  "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+  "committed_artifacts": [
+    {
+      "artifact": "README.md",
+      "bytes": 786,
+      "committed_path": "docs/07-evaluation-evidence/evidence/35t-extension-r512-nonnetwork-20260523/README.md",
+      "sha256": "fa0d4fc8d29e939cb3eaf74448d3ee9a9ac32acf7ca3d333528ba5dfc89a0c49"
+    },
+    {
+      "artifact": "artifact_package_readiness.json",
+      "bytes": 1018,
+      "committed_path": "docs/07-evaluation-evidence/evidence/35t-extension-r512-nonnetwork-20260523/artifact_package_readiness.json",
+      "sha256": "968b2d61151cb4661ae3f5dd203bbf0ea31e9ece796ef70bbbbdddbd96b532ef"
+    },
+    {
+      "artifact": "extension_gate_check.json",
+      "bytes": 10491,
+      "committed_path": "docs/07-evaluation-evidence/evidence/35t-extension-r512-nonnetwork-20260523/extension_gate_check.json",
+      "sha256": "fb69fe2065ff5eb4ef48a994820af129087476b502e63b7396234f20f1f08e18"
+    },
+    {
+      "artifact": "extension_gate_check.md",
+      "bytes": 1962,
+      "committed_path": "docs/07-evaluation-evidence/evidence/35t-extension-r512-nonnetwork-20260523/extension_gate_check.md",
+      "sha256": "0ad1e48f0214e0456cb81fe7e91f9a2c6341381183ecc005078bdb9e7f6b5bea"
+    },
+    {
+      "artifact": "gate_report.json",
+      "bytes": 9370,
+      "committed_path": "docs/07-evaluation-evidence/evidence/35t-extension-r512-nonnetwork-20260523/gate_report.json",
+      "sha256": "50a89d0675491a2038317b1c5f9d0eedd5f6922b278123a971b483f07f0f07c8"
+    },
+    {
+      "artifact": "gate_report.md",
+      "bytes": 1962,
+      "committed_path": "docs/07-evaluation-evidence/evidence/35t-extension-r512-nonnetwork-20260523/gate_report.md",
+      "sha256": "0ad1e48f0214e0456cb81fe7e91f9a2c6341381183ecc005078bdb9e7f6b5bea"
+    },
+    {
+      "artifact": "malware_behavior_audit.json",
+      "bytes": 1560,
+      "committed_path": "docs/07-evaluation-evidence/evidence/35t-extension-r512-nonnetwork-20260523/malware_behavior_audit.json",
+      "sha256": "7e02706c366a2f0f4d0b5fcd8558cd3b2594eb37ad0b6e5132fdd083fcf4d6ff"
+    },
+    {
+      "artifact": "metrics.json",
+      "bytes": 21203,
+      "committed_path": "docs/07-evaluation-evidence/evidence/35t-extension-r512-nonnetwork-20260523/metrics.json",
+      "sha256": "51f443d188e52318981e5c7e2d8e8c66861f2222a77fc6c0fc474c4f4baf8a15"
+    },
+    {
+      "artifact": "paper_evidence_extension_check.json",
+      "bytes": 664,
+      "committed_path": "docs/07-evaluation-evidence/evidence/35t-extension-r512-nonnetwork-20260523/paper_evidence_extension_check.json",
+      "sha256": "55957dea775b0772af439d8e4f3d53ef18ce2cb259b1843b1a9d9f0e2bb2abb6"
+    },
+    {
+      "artifact": "raw_artifact_sanitization.json",
+      "bytes": 24263,
+      "committed_path": "docs/07-evaluation-evidence/evidence/35t-extension-r512-nonnetwork-20260523/raw_artifact_sanitization.json",
+      "sha256": "b3c85e045caa6b11acacfe6423bafd8aaf10d67078de1034639e9b60ba61c3d4"
+    },
+    {
+      "artifact": "run_config.json",
+      "bytes": 2108,
+      "committed_path": "docs/07-evaluation-evidence/evidence/35t-extension-r512-nonnetwork-20260523/run_config.json",
+      "sha256": "115f98d0d6f009511f24ec9253cb769c4eeaa07243e84fa0a3ecb100d54139ef"
+    },
+    {
+      "artifact": "sample_matrix_summary.json",
+      "bytes": 8841,
+      "committed_path": "docs/07-evaluation-evidence/evidence/35t-extension-r512-nonnetwork-20260523/sample_matrix_summary.json",
+      "sha256": "745b8624fe3e60e9a2f38dd06f5ba8216227ae691a7d3f27e85dd665903f3f87"
+    }
+  ],
+  "non_claims": [
+    "no CVA6 board claim",
+    "no real malware detection claim",
+    "no mature detector claim",
+    "no classifier accuracy claim",
+    "no complete semantic reconstruction claim",
+    "extension gate is reported separately from the primary 13-sample gate"
+  ],
+  "run_id": "35t-extension-r512-nonnetwork-20260523",
+  "schema": "rvmt.35t.extension_evidence_snapshot.v1",
+  "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "status": "PASS"
+}

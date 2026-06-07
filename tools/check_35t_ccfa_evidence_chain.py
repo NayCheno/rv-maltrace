@@ -14,7 +14,7 @@ PRIMARY_RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
 SURROGATE_RUN_ID = "35t-surrogate-darthra-p0a-r512-abba-r5-20260524"
 MIRAI_RUN_ID = "35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524"
 DEFAULT_RESULTS_BASE = Path("results/experiments/35t")
-DEFAULT_EVIDENCE_BASE = Path("docs/results/evidence")
+DEFAULT_EVIDENCE_BASE = Path("docs/07-evaluation-evidence/evidence")
 DEFAULT_EVIDENCE_ROOT = DEFAULT_EVIDENCE_BASE / "35t-ccfa-strong-evidence-chain-20260524"
 LINEAGE_EVIDENCE_ROOT = DEFAULT_EVIDENCE_BASE / "35t-real-malware-derived-lineage-20260524"
 BASELINE_EVIDENCE_ROOT = DEFAULT_EVIDENCE_BASE / "35t-real-malware-derived-baseline-comparison-20260524"
@@ -84,7 +84,7 @@ TOOLING_PROVENANCE_PATHS = (
     Path("experiments/linux_behavior/real_malware_surrogate/programs/darthra_elf_header_probe.c"),
     Path("experiments/linux_behavior/real_malware_surrogate/programs/darthra_rootkit_device_probe.c"),
     Path("experiments/linux_behavior/real_malware_surrogate/programs/darthra_virus_fixture_walk_sim.c"),
-    Path("docs/linux/linux_real_malware_surrogate_validation.md"),
+    Path("docs/04-runtime-linux/linux_real_malware_surrogate_validation.md"),
 )
 
 
@@ -628,7 +628,7 @@ def reproduction_commands(
         "uv run python tools/check_35t_artifact_package_readiness.py --no-write",
         "uv run python tools/check_35t_evidence_consistency.py --no-write",
         "uv run python tools/check_35t_ccfa_evidence_chain.py --no-write",
-        f"# Primary 35T evidence root: docs/results/evidence/{primary_run_id}",
+        f"# Primary 35T evidence root: docs/07-evaluation-evidence/evidence/{primary_run_id}",
         f"# Strengthened evidence root: {evidence_root.as_posix()}",
     ]
 
@@ -1067,10 +1067,10 @@ def render_readme(report: dict[str, Any]) -> str:
         "- `ccfa_evidence_chain.json` / `.md`: top-level evidence-chain report.\n"
         "- `artifact_hash_manifest.json`: hash-linked local raw-to-derived artifact inventory.\n"
         "- `claim_boundary.json` / `.md`: external-payload, safety-control, and network-exclusion boundary.\n"
-        "- linked lineage package: `docs/results/evidence/35t-real-malware-derived-lineage-20260524`.\n"
-        "- linked baseline package: `docs/results/evidence/35t-real-malware-derived-baseline-comparison-20260524`.\n"
-        "- linked surrogate boot package: `docs/results/evidence/35t-surrogate-boot-provenance-20260524`.\n"
-        "- linked paper claim table: `docs/results/evidence/35t-paper-claim-evidence-table-20260524`.\n"
+        "- linked lineage package: `docs/07-evaluation-evidence/evidence/35t-real-malware-derived-lineage-20260524`.\n"
+        "- linked baseline package: `docs/07-evaluation-evidence/evidence/35t-real-malware-derived-baseline-comparison-20260524`.\n"
+        "- linked surrogate boot package: `docs/07-evaluation-evidence/evidence/35t-surrogate-boot-provenance-20260524`.\n"
+        "- linked paper claim table: `docs/07-evaluation-evidence/evidence/35t-paper-claim-evidence-table-20260524`.\n"
         "- `reproduction_commands.md`: commands reviewers can rerun.\n"
         "- `reviewer_checklist.md`: concise review path.\n\n"
         "The package intentionally records bounded limitations while allowing the paper to use the completed "
@@ -1093,9 +1093,9 @@ def snapshot_manifest(repo_root: Path, evidence_root: Path, report: dict[str, An
         "scope": EXPECTED_SCOPE,
         "claim_level": EXPECTED_CLAIM_LEVEL,
         "source_reports": [
-            f"docs/results/evidence/{run_ids.get('primary_35t', PRIMARY_RUN_ID)}",
-            f"docs/results/evidence/{run_ids.get('surrogate', SURROGATE_RUN_ID)}",
-            f"docs/results/evidence/{run_ids.get('mirai_reference', MIRAI_RUN_ID)}",
+            f"docs/07-evaluation-evidence/evidence/{run_ids.get('primary_35t', PRIMARY_RUN_ID)}",
+            f"docs/07-evaluation-evidence/evidence/{run_ids.get('surrogate', SURROGATE_RUN_ID)}",
+            f"docs/07-evaluation-evidence/evidence/{run_ids.get('mirai_reference', MIRAI_RUN_ID)}",
             LINEAGE_EVIDENCE_ROOT.as_posix(),
             BASELINE_EVIDENCE_ROOT.as_posix(),
             BOOT_EVIDENCE_ROOT.as_posix(),

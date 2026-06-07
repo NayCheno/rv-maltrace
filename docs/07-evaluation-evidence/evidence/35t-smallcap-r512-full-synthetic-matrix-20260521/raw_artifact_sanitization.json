@@ -1,0 +1,264 @@
+{
+  "checks": {
+    "decoded_trace_inventory_present": true,
+    "decoded_trace_representatives_valid_jsonl": true,
+    "evidence_root_exists": true,
+    "full_raw_release_deferred": true,
+    "hashes_recorded_for_all_raw_classes": true,
+    "raw_uart_inventory_present": true,
+    "results_root_exists": true,
+    "sanitized_excerpts_do_not_expose_scanned_patterns": true,
+    "sanitized_excerpts_generated": true
+  },
+  "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+  "class_count": 2,
+  "evidence_root": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "failures": [],
+  "generated_utc": "2026-05-23T12:53:33Z",
+  "interpretation": [
+    "raw UART logs and decoded trace JSONL are inventoried with hashes and representative sanitized excerpts",
+    "this report does not publish full raw logs or full decoded trace JSONL",
+    "full raw artifact release remains a P6 external condition until approval, escrow, or controlled-release policy is complete"
+  ],
+  "raw_artifact_classes": [
+    {
+      "artifact_id": "raw_uart_log",
+      "class_digest": "754990ce6b39095fe2e402681885fd7b41a679bbc2130fef2824d2dc445fb00f",
+      "description": "raw board UART capture logs",
+      "excerpt_redaction_findings": {},
+      "file_count": 2,
+      "full_raw_status": "DEFERRED_PENDING_SANITIZATION_APPROVAL_AND_CONTROLLED_RELEASE",
+      "jsonl_invalid_line_count_in_representatives": 0,
+      "min_count": 1,
+      "release_mode": "hash_and_sanitized_excerpt_public",
+      "representative_files": [
+        {
+          "bytes": 1056962,
+          "line_count": 6516,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/board/raw_uart.log",
+          "sha256": "14b26de8471ce2b0a0adabe5ebf08c094a13ec0699cf3c2c84b39817ed33382c"
+        },
+        {
+          "bytes": 1056962,
+          "line_count": 6516,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/board/raw_uart.log",
+          "sha256": "14b26de8471ce2b0a0adabe5ebf08c094a13ec0699cf3c2c84b39817ed33382c"
+        }
+      ],
+      "representative_total_lines": 13032,
+      "sanitized_excerpt": {
+        "lines": [
+          "# port=COM5 baud=921600 framing=8N1",
+          "[000001.025] >> root",
+          "[000001.200] root",
+          "[000001.200] -sh: root: not found",
+          "[000001.200] /opt/rvmt # [000003.129] >> cd /opt/rvmt",
+          "[000003.340] cd /opt/rvmt",
+          "[000003.340] /opt/rvmt # [000005.267] >> /usr/bin/rvmt_exp_runner 0xf0004000 512 5 abba --control-mask 0x424 --warmup 0 hello ls cat cp sha256sum file_scan batch_open_read_write self_copy_sim abnormal_syscall_sequence process_ch...<truncated>",
+          "[000006.995] /usr/bin/rvmt_exp_runner 0xf0004000 512 5 abba --control-mask 0x424",
+          "[000006.995]",
+          "[000006.995] --warmup 0 hello ls cat cp sha256sum file_scan batch_open_read_write self_copy_s",
+          "[000006.995]",
+          "[000006.995] im abnormal_syscall_sequence process_chain dynamic_executable_memory anti_debug_"
+        ],
+        "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/board/raw_uart.log"
+      },
+      "sanitized_excerpt_unredacted_findings": {},
+      "source_sensitive_pattern_findings": {},
+      "total_bytes": 2113924
+    },
+    {
+      "artifact_id": "decoded_trace_jsonl",
+      "class_digest": "475a8150dad18919cd693c2aadd2be32cb6b0be9386b972cfcf75a94477b9011",
+      "description": "decoded per-repetition trace JSONL",
+      "excerpt_redaction_findings": {},
+      "file_count": 65,
+      "full_raw_status": "DEFERRED_PENDING_SANITIZATION_APPROVAL_AND_CONTROLLED_RELEASE",
+      "jsonl_invalid_line_count_in_representatives": 0,
+      "min_count": 13,
+      "release_mode": "hash_and_sanitized_excerpt_public",
+      "representative_files": [
+        {
+          "bytes": 27966,
+          "first_invalid_json_line": null,
+          "invalid_json_line_count": 0,
+          "line_count": 44,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_00/trace.jsonl",
+          "sha256": "a6da6beaeb0912d200d7a7cac3fc3094d2dd668f44cf6a6db40662a10982c963"
+        },
+        {
+          "bytes": 27966,
+          "first_invalid_json_line": null,
+          "invalid_json_line_count": 0,
+          "line_count": 44,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_01/trace.jsonl",
+          "sha256": "c8ab1dfcb2bc303a3a3bc17e609195dffd093a8f249b3eb5aa68b961b035a4f6"
+        },
+        {
+          "bytes": 27966,
+          "first_invalid_json_line": null,
+          "invalid_json_line_count": 0,
+          "line_count": 44,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_02/trace.jsonl",
+          "sha256": "ad759d06bff8e968e2248e29f4879a01d6e8dabaa778c16b63fb56d7d0081035"
+        },
+        {
+          "bytes": 27967,
+          "first_invalid_json_line": null,
+          "invalid_json_line_count": 0,
+          "line_count": 44,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_03/trace.jsonl",
+          "sha256": "26684f1b7a28f3b5afd77dd666473b53070e931c08d2adb39d1e4ac4aed04deb"
+        },
+        {
+          "bytes": 27966,
+          "first_invalid_json_line": null,
+          "invalid_json_line_count": 0,
+          "line_count": 44,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_04/trace.jsonl",
+          "sha256": "e4fec8068701a224c7510e729a54121fe7d31c2113c2efb346378aa0b20bff48"
+        },
+        {
+          "bytes": 30555,
+          "first_invalid_json_line": null,
+          "invalid_json_line_count": 0,
+          "line_count": 48,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_00/trace.jsonl",
+          "sha256": "1a485ec466b0f3f47cb9dfa1afece3e2aac9f3efb41c947c91a5572e42942281"
+        },
+        {
+          "bytes": 30553,
+          "first_invalid_json_line": null,
+          "invalid_json_line_count": 0,
+          "line_count": 48,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_01/trace.jsonl",
+          "sha256": "36436877105d42d5f307da02af2877956788cc7bbfb20c6b21df633e41b9303b"
+        },
+        {
+          "bytes": 30553,
+          "first_invalid_json_line": null,
+          "invalid_json_line_count": 0,
+          "line_count": 48,
+          "path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_02/trace.jsonl",
+          "sha256": "260312347755bf447736e1e56befeb29f5f62ee8e4f2d214d560ddeeef24d159"
+        }
+      ],
+      "representative_total_lines": 364,
+      "sanitized_excerpt": {
+        "events": [
+          {
+            "cycle": 18995356,
+            "evt": "MARKER",
+            "evt_code": 12,
+            "parser_warning_count": 0,
+            "pc": "0x0000000000000000",
+            "raw_word_count": 16,
+            "record_index": 0,
+            "value": "0xb0005c07"
+          },
+          {
+            "cycle": 18995718,
+            "evt": "SYSCALL_ENTRY",
+            "evt_code": 4,
+            "parser_warning_count": 0,
+            "pc": "0x000000000101f554",
+            "priv": "U",
+            "raw_word_count": 16,
+            "record_index": 1,
+            "syscall_id": "0x0000ba04"
+          },
+          {
+            "cycle": 19002612,
+            "duration": 6894,
+            "evt": "SYSCALL_RET",
+            "evt_code": 5,
+            "parser_warning_count": 0,
+            "pc": "0x00000000c068d6f4",
+            "priv": "S",
+            "raw_word_count": 16,
+            "record_index": 2,
+            "syscall_id": "0x0000ba04",
+            "target": "0x000000000101f558"
+          },
+          {
+            "cycle": 19003318,
+            "evt": "SYSCALL_ENTRY",
+            "evt_code": 4,
+            "parser_warning_count": 0,
+            "pc": "0x0000000001021ec0",
+            "priv": "U",
+            "raw_word_count": 16,
+            "record_index": 3,
+            "syscall_id": "0x0000ba05"
+          },
+          {
+            "cycle": 19051643,
+            "duration": 48325,
+            "evt": "SYSCALL_RET",
+            "evt_code": 5,
+            "parser_warning_count": 0,
+            "pc": "0x00000000c068d6f4",
+            "priv": "S",
+            "raw_word_count": 16,
+            "record_index": 4,
+            "syscall_id": "0x0000ba05",
+            "target": "0x0000000001021ec4"
+          },
+          {
+            "cycle": 19053168,
+            "evt": "SYSCALL_ENTRY",
+            "evt_code": 4,
+            "parser_warning_count": 0,
+            "pc": "0x0000000001054d70",
+            "priv": "U",
+            "raw_word_count": 16,
+            "record_index": 5,
+            "syscall_id": "0x0000ba06"
+          },
+          {
+            "cycle": 19080189,
+            "duration": 27021,
+            "evt": "SYSCALL_RET",
+            "evt_code": 5,
+            "parser_warning_count": 0,
+            "pc": "0x0000000040f00618",
+            "priv": "M",
+            "raw_word_count": 16,
+            "record_index": 6,
+            "syscall_id": "0x0000ba06",
+            "target": "0x00000000c005da80"
+          },
+          {
+            "cycle": 19852088,
+            "evt": "SYSCALL_ENTRY",
+            "evt_code": 4,
+            "parser_warning_count": 0,
+            "pc": "0x0000000000028ec0",
+            "priv": "U",
+            "raw_word_count": 16,
+            "record_index": 7,
+            "syscall_id": "0x0000ba07"
+          }
+        ],
+        "invalid_excerpt_lines": 0,
+        "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_00/trace.jsonl"
+      },
+      "sanitized_excerpt_unredacted_findings": {},
+      "source_sensitive_pattern_findings": {},
+      "total_bytes": 2624240
+    }
+  ],
+  "release_policy": {
+    "full_raw_material": "deferred until explicit sanitization approval or controlled-release approval",
+    "local_only_full_raw_classes": [
+      "raw_uart_log",
+      "decoded_trace_jsonl"
+    ],
+    "public_material": "class hashes, representative file hashes, counts, and sanitized excerpts only"
+  },
+  "run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "schema": "rvmt.35t.raw_artifact_sanitization.v1",
+  "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "source_results_root": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "status": "RAW_ARTIFACT_HASH_EXCERPT_READY_FULL_RAW_DEFERRED"
+}

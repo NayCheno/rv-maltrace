@@ -1,0 +1,83 @@
+{
+  "claim_level": "35T hardware-trace-assisted malware-behavior evidence chain prototype",
+  "committed_artifacts": [
+    {
+      "artifact": "README.md",
+      "bytes": 1335,
+      "committed_path": "docs/07-evaluation-evidence/evidence/35t-ccfa-strong-evidence-chain-20260524/README.md",
+      "path": "docs/07-evaluation-evidence/evidence/35t-ccfa-strong-evidence-chain-20260524/README.md",
+      "sha256": "3c5031f6a0662ab911c25c5da3c937e24cf241b2b77ad697436d66dc915bed87"
+    },
+    {
+      "artifact": "artifact_hash_manifest.json",
+      "bytes": 155998,
+      "committed_path": "docs/07-evaluation-evidence/evidence/35t-ccfa-strong-evidence-chain-20260524/artifact_hash_manifest.json",
+      "path": "docs/07-evaluation-evidence/evidence/35t-ccfa-strong-evidence-chain-20260524/artifact_hash_manifest.json",
+      "sha256": "105810a5fd267a0bff7b37d14ec839ebab48db8381839f4f6aad742fbf3b4bf2"
+    },
+    {
+      "artifact": "ccfa_evidence_chain.json",
+      "bytes": 265854,
+      "committed_path": "docs/07-evaluation-evidence/evidence/35t-ccfa-strong-evidence-chain-20260524/ccfa_evidence_chain.json",
+      "path": "docs/07-evaluation-evidence/evidence/35t-ccfa-strong-evidence-chain-20260524/ccfa_evidence_chain.json",
+      "sha256": "8c40ce14c6e0656b926947f16240ac51d5603741bafec794658e2d5c7c641f69"
+    },
+    {
+      "artifact": "ccfa_evidence_chain.md",
+      "bytes": 3028,
+      "committed_path": "docs/07-evaluation-evidence/evidence/35t-ccfa-strong-evidence-chain-20260524/ccfa_evidence_chain.md",
+      "path": "docs/07-evaluation-evidence/evidence/35t-ccfa-strong-evidence-chain-20260524/ccfa_evidence_chain.md",
+      "sha256": "5b4833673ed1b7a5c266ad25e106a142b8923ac59e48990f2da79984e4b95611"
+    },
+    {
+      "artifact": "claim_boundary.json",
+      "bytes": 1277,
+      "committed_path": "docs/07-evaluation-evidence/evidence/35t-ccfa-strong-evidence-chain-20260524/claim_boundary.json",
+      "path": "docs/07-evaluation-evidence/evidence/35t-ccfa-strong-evidence-chain-20260524/claim_boundary.json",
+      "sha256": "8e5402b9508fa21cfa9e46790319ca4fb80f101af201629a3b2236ab174050ed"
+    },
+    {
+      "artifact": "claim_boundary.md",
+      "bytes": 861,
+      "committed_path": "docs/07-evaluation-evidence/evidence/35t-ccfa-strong-evidence-chain-20260524/claim_boundary.md",
+      "path": "docs/07-evaluation-evidence/evidence/35t-ccfa-strong-evidence-chain-20260524/claim_boundary.md",
+      "sha256": "470d1d3d05d20851ffbd3a6d2ee81256364db91e1c74c0dd00deba461a5bcedd"
+    },
+    {
+      "artifact": "reproduction_commands.md",
+      "bytes": 2358,
+      "committed_path": "docs/07-evaluation-evidence/evidence/35t-ccfa-strong-evidence-chain-20260524/reproduction_commands.md",
+      "path": "docs/07-evaluation-evidence/evidence/35t-ccfa-strong-evidence-chain-20260524/reproduction_commands.md",
+      "sha256": "11364909eb79d924bd8e57ee82fff8e958a16356050b8de92992388aed41f5a0"
+    },
+    {
+      "artifact": "reviewer_checklist.md",
+      "bytes": 1222,
+      "committed_path": "docs/07-evaluation-evidence/evidence/35t-ccfa-strong-evidence-chain-20260524/reviewer_checklist.md",
+      "path": "docs/07-evaluation-evidence/evidence/35t-ccfa-strong-evidence-chain-20260524/reviewer_checklist.md",
+      "sha256": "d6eda8fd1daa31903d38147059c075ef99c03a58d677685bd1e08d2b231cb02c"
+    }
+  ],
+  "generated_utc": "2026-05-27T16:55:46Z",
+  "non_claims": [
+    "CCF-A-style evidence discipline is not a CCF-A acceptance guarantee",
+    "external-quarantine payload execution remains a separate gated boundary",
+    "DarthRa-derived samples are safety-controlled malware behavior cases",
+    "Mirai-reference samples are non-network malware behavior cases",
+    "no CVA6 board claim",
+    "no mature detector or classifier-accuracy claim",
+    "no complete semantic reconstruction claim under p0a arg-mem-disabled tracing"
+  ],
+  "schema": "rvmt.35t.ccfa_style_evidence_snapshot.v1",
+  "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "source_reports": [
+    "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521",
+    "docs/07-evaluation-evidence/evidence/35t-surrogate-darthra-p0a-r512-abba-r5-20260524",
+    "docs/07-evaluation-evidence/evidence/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524",
+    "docs/07-evaluation-evidence/evidence/35t-real-malware-derived-lineage-20260524",
+    "docs/07-evaluation-evidence/evidence/35t-real-malware-derived-baseline-comparison-20260524",
+    "docs/07-evaluation-evidence/evidence/35t-surrogate-boot-provenance-20260524",
+    "docs/07-evaluation-evidence/evidence/35t-paper-claim-evidence-table-20260524"
+  ],
+  "status": "PASS"
+}

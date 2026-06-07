@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import argparse
 import json
@@ -16,8 +16,8 @@ DEFAULT_FILELIST = Path("sim/vivado/trace_rtl.f")
 DEFAULT_RUN_ALL = Path("sim/vivado/run_all_tests.tcl")
 DEFAULT_TRACE_TB = Path("sim/tb/tb_trace_top_unit.sv")
 DEFAULT_GOLDEN = Path("sim/golden/board_minimal.expected.json")
-DEFAULT_DOC = Path("docs/board/board_trace_minimal.md")
-DEFAULT_BOARD_DOC = Path("docs/board/board_bringup.md")
+DEFAULT_DOC = Path("docs/03-platform-architecture/genesys2/board_trace_minimal.md")
+DEFAULT_BOARD_DOC = Path("docs/03-platform-architecture/genesys2/board_bringup.md")
 
 EXPECTED_ASSIGNMENTS = {
     "trace_enable_retire_o": "1'b0",
@@ -278,7 +278,7 @@ def check_policy_doc(path: Path, board_doc: Path) -> list[str]:
             errors.append(f"{path}: {message}")
 
     board_text = board_doc.read_text(encoding="utf-8")
-    if "docs/board/board_trace_minimal.md" not in board_text:
+    if "docs/03-platform-architecture/genesys2/board_trace_minimal.md" not in board_text:
         errors.append(f"{board_doc}: missing Phase 5.2 minimal trace policy link")
     if "trace_board_minimal_top.sv" not in board_text:
         errors.append(f"{board_doc}: missing trace_board_minimal_top.sv reference")
@@ -491,7 +491,7 @@ Only syscall, trap, context, and branch behavior events are enabled for the firs
         encoding="utf-8",
     )
     (root / DEFAULT_BOARD_DOC).write_text(
-        "Phase 5.2 is tracked in docs/board/board_trace_minimal.md and trace_board_minimal_top.sv.\n",
+        "Phase 5.2 is tracked in docs/03-platform-architecture/genesys2/board_trace_minimal.md and trace_board_minimal_top.sv.\n",
         encoding="utf-8",
     )
 

@@ -325,7 +325,7 @@ def self_test() -> int:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
         results = root / "results/experiments/35t" / RUN_ID
-        evidence = root / "docs/results/evidence" / RUN_ID
+        evidence = root / "docs/07-evaluation-evidence/evidence" / RUN_ID
         evidence.mkdir(parents=True)
         (evidence / "evidence_manifest.json").write_text(
             json.dumps(
@@ -386,7 +386,7 @@ def main(argv: list[str] | None = None) -> int:
         return self_test()
     repo_root = args.repo_root.resolve()
     results_root = args.results_root or repo_root / "results/experiments/35t" / RUN_ID
-    evidence_root = args.evidence_root or repo_root / "docs/results/evidence" / RUN_ID
+    evidence_root = args.evidence_root or repo_root / "docs/07-evaluation-evidence/evidence" / RUN_ID
     try:
         report = build_report(repo_root, results_root.resolve(), evidence_root.resolve())
         write_outputs(report, evidence_root.resolve())

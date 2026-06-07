@@ -1,0 +1,472 @@
+{
+  "access_policy": {
+    "public_release": "not public; explicit sanitization and distribution approval required",
+    "release_conditions": [
+      "raw UART and decoded trace JSONL remain local until reviewed for disclosure risk",
+      "public release requires an approved controlled-release destination or sanitized replacements",
+      "hashes in this report are the verification handle for any later release"
+    ],
+    "status": "LOCAL_CONTROLLED_ACCESS_PUBLIC_RELEASE_DEFERRED",
+    "storage": "local workspace results directory"
+  },
+  "checks": {
+    "all_raw_classes_present": true,
+    "package_generated_files_present": true,
+    "package_manifest_present": true,
+    "payload_files_present_and_hashed": true,
+    "public_release_deferred": true,
+    "raw_sanitization_ready": true,
+    "results_root_exists": true
+  },
+  "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+  "evidence_root": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "failures": [],
+  "generated_files": [
+    "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/README.md",
+    "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/payload_manifest.json",
+    "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/payload_hash_manifest.md",
+    "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/access_policy.md"
+  ],
+  "generated_utc": "2026-05-23T12:53:37Z",
+  "interpretation": [
+    "full raw UART and decoded trace JSONL are copied into a local controlled escrow package",
+    "the evidence summary records counts, sizes, and hashes but does not publish raw payloads in docs",
+    "P6 full public raw release remains deferred until an approved release or sanitized replacement exists"
+  ],
+  "non_claims": [
+    "no CVA6 board claim",
+    "no real malware detection claim",
+    "no mature detector claim",
+    "no classifier accuracy claim",
+    "no complete semantic reconstruction claim"
+  ],
+  "package_dir": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package",
+  "payload_file_count": 66,
+  "payload_status": "LOCAL_CONTROLLED_ESCROW_PACKAGE_READY",
+  "payload_total_bytes": 3681202,
+  "raw_artifact_classes": [
+    {
+      "artifact_id": "raw_uart_log",
+      "class_digest": "a5f6d95cf29dadd7aba37967d6cdf70edf088d0a9b098b0ba77867ba8de9357b",
+      "description": "raw board UART capture logs",
+      "file_count": 1,
+      "files": [
+        {
+          "bytes": 1056962,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/board/raw_uart.log",
+          "sha256": "14b26de8471ce2b0a0adabe5ebf08c094a13ec0699cf3c2c84b39817ed33382c",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/board/raw_uart.log"
+        }
+      ],
+      "min_count": 1,
+      "status": "READY_FOR_LOCAL_ESCROW",
+      "total_bytes": 1056962
+    },
+    {
+      "artifact_id": "decoded_trace_jsonl",
+      "class_digest": "475a8150dad18919cd693c2aadd2be32cb6b0be9386b972cfcf75a94477b9011",
+      "description": "decoded per-repetition trace JSONL",
+      "file_count": 65,
+      "files": [
+        {
+          "bytes": 27966,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/benign/cat/board/trace-on/rep_00/trace.jsonl",
+          "sha256": "a6da6beaeb0912d200d7a7cac3fc3094d2dd668f44cf6a6db40662a10982c963",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_00/trace.jsonl"
+        },
+        {
+          "bytes": 27966,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/benign/cat/board/trace-on/rep_01/trace.jsonl",
+          "sha256": "c8ab1dfcb2bc303a3a3bc17e609195dffd093a8f249b3eb5aa68b961b035a4f6",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_01/trace.jsonl"
+        },
+        {
+          "bytes": 27966,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/benign/cat/board/trace-on/rep_02/trace.jsonl",
+          "sha256": "ad759d06bff8e968e2248e29f4879a01d6e8dabaa778c16b63fb56d7d0081035",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_02/trace.jsonl"
+        },
+        {
+          "bytes": 27967,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/benign/cat/board/trace-on/rep_03/trace.jsonl",
+          "sha256": "26684f1b7a28f3b5afd77dd666473b53070e931c08d2adb39d1e4ac4aed04deb",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_03/trace.jsonl"
+        },
+        {
+          "bytes": 27966,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/benign/cat/board/trace-on/rep_04/trace.jsonl",
+          "sha256": "e4fec8068701a224c7510e729a54121fe7d31c2113c2efb346378aa0b20bff48",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cat/board/trace-on/rep_04/trace.jsonl"
+        },
+        {
+          "bytes": 30555,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/benign/cp/board/trace-on/rep_00/trace.jsonl",
+          "sha256": "1a485ec466b0f3f47cb9dfa1afece3e2aac9f3efb41c947c91a5572e42942281",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_00/trace.jsonl"
+        },
+        {
+          "bytes": 30553,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/benign/cp/board/trace-on/rep_01/trace.jsonl",
+          "sha256": "36436877105d42d5f307da02af2877956788cc7bbfb20c6b21df633e41b9303b",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_01/trace.jsonl"
+        },
+        {
+          "bytes": 30553,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/benign/cp/board/trace-on/rep_02/trace.jsonl",
+          "sha256": "260312347755bf447736e1e56befeb29f5f62ee8e4f2d214d560ddeeef24d159",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_02/trace.jsonl"
+        },
+        {
+          "bytes": 30552,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/benign/cp/board/trace-on/rep_03/trace.jsonl",
+          "sha256": "91b9ef1339012b4e0406b1e56479614d6d1efe0603ae464c66de8214650ce7d3",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_03/trace.jsonl"
+        },
+        {
+          "bytes": 30554,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/benign/cp/board/trace-on/rep_04/trace.jsonl",
+          "sha256": "591ce3c2c9021b119a40c77a3d6c7826b50d786bb7e4bf1c4ee73aee1858fbb2",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/cp/board/trace-on/rep_04/trace.jsonl"
+        },
+        {
+          "bytes": 22793,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/benign/hello/board/trace-on/rep_00/trace.jsonl",
+          "sha256": "4796418d26cf17560c0ec717d6d64cafce5225f58b0c1ec1372aca65d2ab7815",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/hello/board/trace-on/rep_00/trace.jsonl"
+        },
+        {
+          "bytes": 22795,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/benign/hello/board/trace-on/rep_01/trace.jsonl",
+          "sha256": "986faddd7fe59f768640b3ce43488e7c323c2340d8a6a40cb0cd62d8db6cf34d",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/hello/board/trace-on/rep_01/trace.jsonl"
+        },
+        {
+          "bytes": 22794,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/benign/hello/board/trace-on/rep_02/trace.jsonl",
+          "sha256": "23e41f258ad7e3447bed1a2877dc1c6247b51d0dde0adb7877f16cd38b9199a5",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/hello/board/trace-on/rep_02/trace.jsonl"
+        },
+        {
+          "bytes": 22794,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/benign/hello/board/trace-on/rep_03/trace.jsonl",
+          "sha256": "66a3a8018f533b4a9c37ede46a4f3060042a4e8fc8ae3c8be289ba5a4358c031",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/hello/board/trace-on/rep_03/trace.jsonl"
+        },
+        {
+          "bytes": 22795,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/benign/hello/board/trace-on/rep_04/trace.jsonl",
+          "sha256": "087288bd310871d5e3ca5721dc9a194b1b77a587c88a529e6c537a839d28de6d",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/hello/board/trace-on/rep_04/trace.jsonl"
+        },
+        {
+          "bytes": 33138,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/benign/ls/board/trace-on/rep_00/trace.jsonl",
+          "sha256": "3035526928295979cd46ed17c22dfdefc8998371a85567cfa557c04dcca414df",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/ls/board/trace-on/rep_00/trace.jsonl"
+        },
+        {
+          "bytes": 33138,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/benign/ls/board/trace-on/rep_01/trace.jsonl",
+          "sha256": "676ee2bd2eccc6552f52980295976c119af1a473eb85df778fb66cf00b3b74df",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/ls/board/trace-on/rep_01/trace.jsonl"
+        },
+        {
+          "bytes": 33138,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/benign/ls/board/trace-on/rep_02/trace.jsonl",
+          "sha256": "2ab2792db9b34318873cc53d5dd1e9997ccafd81085a135c5c9672c1dc0cfc74",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/ls/board/trace-on/rep_02/trace.jsonl"
+        },
+        {
+          "bytes": 33139,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/benign/ls/board/trace-on/rep_03/trace.jsonl",
+          "sha256": "7c5ef3e8b31b601f093ff5bc194120546b680fa62b7ab0f6c4937488de347afe",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/ls/board/trace-on/rep_03/trace.jsonl"
+        },
+        {
+          "bytes": 33138,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/benign/ls/board/trace-on/rep_04/trace.jsonl",
+          "sha256": "f6c7d7e4d459397b467fdd2e1c62dd753d6edfa7570777e417ee19194fdf3887",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/ls/board/trace-on/rep_04/trace.jsonl"
+        },
+        {
+          "bytes": 30553,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/benign/sha256sum/board/trace-on/rep_00/trace.jsonl",
+          "sha256": "99c72867137cb83676f251140421e4f576b531f3c0d87d295c55e538a9835500",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/sha256sum/board/trace-on/rep_00/trace.jsonl"
+        },
+        {
+          "bytes": 30553,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/benign/sha256sum/board/trace-on/rep_01/trace.jsonl",
+          "sha256": "884c819f971e1975d524cface925ecef561281c8e3cffa51ebeab1f21d0b9349",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/sha256sum/board/trace-on/rep_01/trace.jsonl"
+        },
+        {
+          "bytes": 30552,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/benign/sha256sum/board/trace-on/rep_02/trace.jsonl",
+          "sha256": "688a47b0444740230bed82d431100a4480cb6982ea28e067d51f26fdabd24fab",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/sha256sum/board/trace-on/rep_02/trace.jsonl"
+        },
+        {
+          "bytes": 30553,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/benign/sha256sum/board/trace-on/rep_03/trace.jsonl",
+          "sha256": "d4a11cada7f157f40b0bf220f310e73fff229c4e11dcd3f07b928f1076bd2443",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/sha256sum/board/trace-on/rep_03/trace.jsonl"
+        },
+        {
+          "bytes": 30554,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/benign/sha256sum/board/trace-on/rep_04/trace.jsonl",
+          "sha256": "b7ac7887aba5d078a6dd6320cde7b672d3effc83ce8631d24d8eaa4afe07ea8d",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/benign/sha256sum/board/trace-on/rep_04/trace.jsonl"
+        },
+        {
+          "bytes": 29254,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/abnormal_syscall_sequence/board/trace-on/rep_00/trace.jsonl",
+          "sha256": "f6c584d64a99ce5eb54ab68eabbd1a09556a0eaaef3a126bf775d275784285ae",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/abnormal_syscall_sequence/board/trace-on/rep_00/trace.jsonl"
+        },
+        {
+          "bytes": 29253,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/abnormal_syscall_sequence/board/trace-on/rep_01/trace.jsonl",
+          "sha256": "e67aad799f6f5f5b8ba22da563062245288223fa147526d8ce36e2f5d3c84242",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/abnormal_syscall_sequence/board/trace-on/rep_01/trace.jsonl"
+        },
+        {
+          "bytes": 29255,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/abnormal_syscall_sequence/board/trace-on/rep_02/trace.jsonl",
+          "sha256": "b0d061ce9f2112f2590250fd229eb8da99820925421c8c4c54e18e28e0548820",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/abnormal_syscall_sequence/board/trace-on/rep_02/trace.jsonl"
+        },
+        {
+          "bytes": 29255,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/abnormal_syscall_sequence/board/trace-on/rep_03/trace.jsonl",
+          "sha256": "638105578a0c089da012608f8318231d0024ee17d02dd964e93cbbb2f8b2d704",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/abnormal_syscall_sequence/board/trace-on/rep_03/trace.jsonl"
+        },
+        {
+          "bytes": 29255,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/abnormal_syscall_sequence/board/trace-on/rep_04/trace.jsonl",
+          "sha256": "d70d0a46f84012589aa4828d9d8fd731d9f5ce1042b4afc29e29fec2f491226c",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/abnormal_syscall_sequence/board/trace-on/rep_04/trace.jsonl"
+        },
+        {
+          "bytes": 29257,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/anti_debug_like/board/trace-on/rep_00/trace.jsonl",
+          "sha256": "93e85b70690b097ba4620d4f78ead1a283275932d4e7892fd7ebd4982155d215",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/anti_debug_like/board/trace-on/rep_00/trace.jsonl"
+        },
+        {
+          "bytes": 29256,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/anti_debug_like/board/trace-on/rep_01/trace.jsonl",
+          "sha256": "f39440f5e98943f88be2cbf6f4d619a00a74c03daf9f6abecd2240229923d3b5",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/anti_debug_like/board/trace-on/rep_01/trace.jsonl"
+        },
+        {
+          "bytes": 29258,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/anti_debug_like/board/trace-on/rep_02/trace.jsonl",
+          "sha256": "e704d40c7de871b455168bae028e0a44939b1436f30c21a3034aa9d96e9ee0ea",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/anti_debug_like/board/trace-on/rep_02/trace.jsonl"
+        },
+        {
+          "bytes": 29255,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/anti_debug_like/board/trace-on/rep_03/trace.jsonl",
+          "sha256": "d27c6acfb3f676a36103c24da888f5fa2bc84e389f39120bbe5a591b3fc48e19",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/anti_debug_like/board/trace-on/rep_03/trace.jsonl"
+        },
+        {
+          "bytes": 29258,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/anti_debug_like/board/trace-on/rep_04/trace.jsonl",
+          "sha256": "5d013b94365e40ffce5a158491e1783853be0a19d3f51fa80d65807c699a6bc6",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/anti_debug_like/board/trace-on/rep_04/trace.jsonl"
+        },
+        {
+          "bytes": 37017,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/batch_open_read_write/board/trace-on/rep_00/trace.jsonl",
+          "sha256": "dd1f06231d45db30497b17a1bfe8395269ba5ea904bc0810762269b7511605ec",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/batch_open_read_write/board/trace-on/rep_00/trace.jsonl"
+        },
+        {
+          "bytes": 37018,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/batch_open_read_write/board/trace-on/rep_01/trace.jsonl",
+          "sha256": "7748c28cc1dbdb87d5273dbfb4b4eb42231a1bf0910bdec1dca557a6f633eb7c",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/batch_open_read_write/board/trace-on/rep_01/trace.jsonl"
+        },
+        {
+          "bytes": 37016,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/batch_open_read_write/board/trace-on/rep_02/trace.jsonl",
+          "sha256": "c464ef846d7b70ea6f40e48c8f510ee29af37b0079a60dee8989ac40dac6e61e",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/batch_open_read_write/board/trace-on/rep_02/trace.jsonl"
+        },
+        {
+          "bytes": 37016,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/batch_open_read_write/board/trace-on/rep_03/trace.jsonl",
+          "sha256": "a3d6fd9024ab6d1cb79d843eaaa0696b9ff6572569a9dbcc9b9197619f1ec8be",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/batch_open_read_write/board/trace-on/rep_03/trace.jsonl"
+        },
+        {
+          "bytes": 37018,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/batch_open_read_write/board/trace-on/rep_04/trace.jsonl",
+          "sha256": "4b4b65730f52557c4ea29ba688de1d7704dae16ff7211122ecf39633bdc99a10",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/batch_open_read_write/board/trace-on/rep_04/trace.jsonl"
+        },
+        {
+          "bytes": 26674,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/dynamic_executable_memory/board/trace-on/rep_00/trace.jsonl",
+          "sha256": "719a69997bda1c3f16f364720013385979351817c50f2b4d4c2c617bd15f1044",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/dynamic_executable_memory/board/trace-on/rep_00/trace.jsonl"
+        },
+        {
+          "bytes": 26674,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/dynamic_executable_memory/board/trace-on/rep_01/trace.jsonl",
+          "sha256": "9e41a31eb7ef45118d7a04278fc9702ad17393fedb7c2d4e4b4c27f58305041a",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/dynamic_executable_memory/board/trace-on/rep_01/trace.jsonl"
+        },
+        {
+          "bytes": 26674,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/dynamic_executable_memory/board/trace-on/rep_02/trace.jsonl",
+          "sha256": "cd8c1541d07d4a4c3002bdb8a5fe440698ffaea33bd7077aaefa09f9561b0b83",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/dynamic_executable_memory/board/trace-on/rep_02/trace.jsonl"
+        },
+        {
+          "bytes": 26674,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/dynamic_executable_memory/board/trace-on/rep_03/trace.jsonl",
+          "sha256": "886584571507dc69436561ea91f8f6c393106dc36a12cd1b2572b08d130745a1",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/dynamic_executable_memory/board/trace-on/rep_03/trace.jsonl"
+        },
+        {
+          "bytes": 26673,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/dynamic_executable_memory/board/trace-on/rep_04/trace.jsonl",
+          "sha256": "0d366ee89ffceaeadb0272b09f34e1b7a5387b03cd0e1f4c0c34086b6ee7f633",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/dynamic_executable_memory/board/trace-on/rep_04/trace.jsonl"
+        },
+        {
+          "bytes": 26673,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/file_scan/board/trace-on/rep_00/trace.jsonl",
+          "sha256": "a0d54acd936665b000aad79464ffd26fb1708f43499c304a7458afbef5f66770",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/file_scan/board/trace-on/rep_00/trace.jsonl"
+        },
+        {
+          "bytes": 26672,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/file_scan/board/trace-on/rep_01/trace.jsonl",
+          "sha256": "8764387658841a7358d9199d865e8bfdcad579ac4a5c3ec24a836ceb7455f3eb",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/file_scan/board/trace-on/rep_01/trace.jsonl"
+        },
+        {
+          "bytes": 26673,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/file_scan/board/trace-on/rep_02/trace.jsonl",
+          "sha256": "4a989e321a741aecc6401318d9f6f0b517fc9ea5d4334977ede8d5ab3b2202f4",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/file_scan/board/trace-on/rep_02/trace.jsonl"
+        },
+        {
+          "bytes": 26673,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/file_scan/board/trace-on/rep_03/trace.jsonl",
+          "sha256": "80f53be7b9779eb5d41db77a7832ef93e9c70ceed46a30d5e68e5d6ef1075f94",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/file_scan/board/trace-on/rep_03/trace.jsonl"
+        },
+        {
+          "bytes": 26673,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/file_scan/board/trace-on/rep_04/trace.jsonl",
+          "sha256": "2712ee571a615e326f206d1080c9d47f98f14335a83cc98eb4c8ca5473704dfd",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/file_scan/board/trace-on/rep_04/trace.jsonl"
+        },
+        {
+          "bytes": 103105,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/illegal_trap/board/trace-on/rep_00/trace.jsonl",
+          "sha256": "72ec05efdee096311b85f9d7527b30fdd7a81f2797ee24f607ba59a01465ee97",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/illegal_trap/board/trace-on/rep_00/trace.jsonl"
+        },
+        {
+          "bytes": 101787,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/illegal_trap/board/trace-on/rep_01/trace.jsonl",
+          "sha256": "bfbc456277cf491f80677430671692dfbe2e14ccbdc09c05e43c7af5c4978aa7",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/illegal_trap/board/trace-on/rep_01/trace.jsonl"
+        },
+        {
+          "bytes": 103764,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/illegal_trap/board/trace-on/rep_02/trace.jsonl",
+          "sha256": "5507e0a75ff7236ae215853bffb759b751122b0081d8a2b5ff55142a3baab9de",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/illegal_trap/board/trace-on/rep_02/trace.jsonl"
+        },
+        {
+          "bytes": 107718,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/illegal_trap/board/trace-on/rep_03/trace.jsonl",
+          "sha256": "6a63db191a6dcbc4bd811183c6f283d7858e3aed5aee599b7d7b44f75a4cb268",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/illegal_trap/board/trace-on/rep_03/trace.jsonl"
+        },
+        {
+          "bytes": 96514,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/illegal_trap/board/trace-on/rep_04/trace.jsonl",
+          "sha256": "323bdaf757f7d88a3968544dbf83f7d21262464826f0eb2ee6fa80a16b691bf4",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/illegal_trap/board/trace-on/rep_04/trace.jsonl"
+        },
+        {
+          "bytes": 99128,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/process_chain/board/trace-on/rep_00/trace.jsonl",
+          "sha256": "073e6fc8c73e0bd036364b14fd799804b977098256503e893b46c38b64dac142",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/process_chain/board/trace-on/rep_00/trace.jsonl"
+        },
+        {
+          "bytes": 99132,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/process_chain/board/trace-on/rep_01/trace.jsonl",
+          "sha256": "485e818059ce2909fad3bb8dc0a5719bb990c64432e865bce5794f3eea8106bc",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/process_chain/board/trace-on/rep_01/trace.jsonl"
+        },
+        {
+          "bytes": 99134,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/process_chain/board/trace-on/rep_02/trace.jsonl",
+          "sha256": "954d0fb6dbb7febff2d4274f0c0cfea123812597535991a3be047fd266be6309",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/process_chain/board/trace-on/rep_02/trace.jsonl"
+        },
+        {
+          "bytes": 99129,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/process_chain/board/trace-on/rep_03/trace.jsonl",
+          "sha256": "5f69181507a7ea6f6b01dcfad73309d7736cb95141864e7d89af3ab834dc994a",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/process_chain/board/trace-on/rep_03/trace.jsonl"
+        },
+        {
+          "bytes": 99132,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/process_chain/board/trace-on/rep_04/trace.jsonl",
+          "sha256": "c4ffd0cefb40524dde2e7ff93af2a332c88711318ecf2641a23ce8d13ddebb44",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/process_chain/board/trace-on/rep_04/trace.jsonl"
+        },
+        {
+          "bytes": 29261,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/self_copy_sim/board/trace-on/rep_00/trace.jsonl",
+          "sha256": "2c2dfae1ab2a389e4ce3bc7aca9ba450d035669f9971ca22ee11efed3c372f40",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/self_copy_sim/board/trace-on/rep_00/trace.jsonl"
+        },
+        {
+          "bytes": 29258,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/self_copy_sim/board/trace-on/rep_01/trace.jsonl",
+          "sha256": "c0782e20794434edac33fc09e801d5d0bc27987f91de600ad08cfecf26e8ef21",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/self_copy_sim/board/trace-on/rep_01/trace.jsonl"
+        },
+        {
+          "bytes": 29261,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/self_copy_sim/board/trace-on/rep_02/trace.jsonl",
+          "sha256": "e8082c367b5aec8e91d51279d07a7a7990cf138bdb005a8dad6b46ca3688147d",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/self_copy_sim/board/trace-on/rep_02/trace.jsonl"
+        },
+        {
+          "bytes": 29260,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/self_copy_sim/board/trace-on/rep_03/trace.jsonl",
+          "sha256": "e8cb63acb54c971342e564b91680c301f4c51c9cfeca4bb677bda236d38e3e8e",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/self_copy_sim/board/trace-on/rep_03/trace.jsonl"
+        },
+        {
+          "bytes": 29258,
+          "payload_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/raw_artifact_escrow_package/raw_payload/samples/malware_like_synthetic/self_copy_sim/board/trace-on/rep_04/trace.jsonl",
+          "sha256": "fde302b821d8f46d2aea2ff04e79558a1f7ab3da0d1d3598f33f82f8d1b40b12",
+          "source_path": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521/samples/malware_like_synthetic/self_copy_sim/board/trace-on/rep_04/trace.jsonl"
+        }
+      ],
+      "min_count": 13,
+      "status": "READY_FOR_LOCAL_ESCROW",
+      "total_bytes": 2624240
+    }
+  ],
+  "run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "schema": "rvmt.35t.raw_artifact_escrow.v1",
+  "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "source_results_root": "results/experiments/35t/35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "status": "LOCAL_RAW_ARTIFACT_ESCROW_READY_PUBLIC_RELEASE_DEFERRED"
+}

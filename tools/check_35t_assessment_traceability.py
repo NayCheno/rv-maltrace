@@ -10,7 +10,7 @@ from typing import Any
 
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
 DEFAULT_ASSESSMENT = Path("D:/Download/rv_maltrace_35t_assessment.md")
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence") / RUN_ID
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / RUN_ID
 DEFAULT_CLOSURE = DEFAULT_EVIDENCE_ROOT / "assessment_closure.json"
 SCHEMA = "rvmt.35t.assessment_traceability.v1"
 STATUS = "PASS_WITH_BOUNDED_REMAINING_WORK"

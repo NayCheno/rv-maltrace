@@ -35,8 +35,8 @@ are needed to reproduce the gate.
 
 ## Evidence Boundary
 
-- Bitstream generation evidence belongs in `docs/board/board_bringup.md` and
-  `docs/board/baseline_pass_criteria.md` only when the expected Vivado artifacts
+- Bitstream generation evidence belongs in `docs/03-platform-architecture/genesys2/board_bringup.md` and
+  `docs/03-platform-architecture/genesys2/baseline_pass_criteria.md` only when the expected Vivado artifacts
   exist.
 - Physical-board evidence must include run-specific transcripts, UART/tohost
   output, trace dumps, and decoded comparisons under `results/board/...`.

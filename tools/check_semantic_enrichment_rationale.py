@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import argparse
 import json
@@ -10,9 +10,9 @@ from typing import Any
 
 
 DEFAULT_SPEC = Path("experiments/linux_behavior/semantic_enrichment_rationale.json")
-DEFAULT_DOC = Path("docs/research/semantic/semantic_enrichment_rationale.md")
-DEFAULT_RISK_LOG = Path("docs/process/risk_log.md")
-DEFAULT_UV_DOC = Path("docs/process/uv_workflow.md")
+DEFAULT_DOC = Path("docs/05-semantic-analysis/semantic_enrichment_rationale.md")
+DEFAULT_RISK_LOG = Path("docs/10-process/risk_log.md")
+DEFAULT_UV_DOC = Path("docs/10-process/uv_workflow.md")
 
 SPEC_KEYS = {
     "phase",
@@ -142,7 +142,7 @@ def check_cross_refs(uv_doc: Path, risk_log: Path) -> list[str]:
     uv_text = uv_doc.read_text(encoding="utf-8")
     for token, label in (
         ("tools/check_semantic_enrichment_rationale.py", "Phase 7.1 checker command"),
-        ("docs/research/semantic/semantic_enrichment_rationale.md", "Phase 7.1 doc reference"),
+        ("docs/05-semantic-analysis/semantic_enrichment_rationale.md", "Phase 7.1 doc reference"),
         ("experiments/linux_behavior/semantic_enrichment_rationale.json", "Phase 7.1 spec reference"),
     ):
         if token not in uv_text:
@@ -211,7 +211,7 @@ after the FPGA trace path works
     )
     (root / DEFAULT_UV_DOC).write_text(
         "uv run python tools/check_semantic_enrichment_rationale.py\n"
-        "docs/research/semantic/semantic_enrichment_rationale.md\n"
+        "docs/05-semantic-analysis/semantic_enrichment_rationale.md\n"
         "experiments/linux_behavior/semantic_enrichment_rationale.json\n",
         encoding="utf-8",
     )
@@ -293,7 +293,7 @@ def self_test() -> int:
 
     for token, expected in (
         ("uv run python tools/check_semantic_enrichment_rationale.py", "checker command"),
-        ("docs/research/semantic/semantic_enrichment_rationale.md", "doc reference"),
+        ("docs/05-semantic-analysis/semantic_enrichment_rationale.md", "doc reference"),
         ("experiments/linux_behavior/semantic_enrichment_rationale.json", "spec reference"),
     ):
         with tempfile.TemporaryDirectory() as tmp:

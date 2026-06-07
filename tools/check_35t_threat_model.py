@@ -11,9 +11,9 @@ from typing import Any
 
 
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence") / RUN_ID
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / RUN_ID
 DEFAULT_SPEC = Path("experiments/linux_behavior/semantic_threat_model.json")
-DEFAULT_DOC = Path("docs/research/semantic/semantic_threat_model.md")
+DEFAULT_DOC = Path("docs/05-semantic-analysis/semantic_threat_model.md")
 STATUS = "TRUSTED_KERNEL_USER_MODE_THREAT_MODEL_BOUNDARY_SPECIFIED"
 EXPECTED_CLAIM_LEVEL = "35T hardware-trace-assisted synthetic malware-like behavior audit prototype"
 EXPECTED_TRUSTED = {

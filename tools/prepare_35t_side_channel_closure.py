@@ -11,7 +11,7 @@ from typing import Any
 
 SOURCE_RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
 BASELINE_SIDE_CHANNEL_RUN_ID = "35t-targeted-board-validation-20260522"
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence") / SOURCE_RUN_ID
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / SOURCE_RUN_ID
 DEFAULT_RESULTS_ROOT = Path("results/experiments/35t")
 DEFAULT_TRACE_RECORDS = 2048
 DEFAULT_REPS = 5

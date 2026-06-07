@@ -10,7 +10,7 @@ from typing import Any
 
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
 DEFAULT_SPEC = Path("experiments/linux_behavior/baseline_execution_spec.json")
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence") / RUN_ID
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / RUN_ID
 DEFAULT_SUMMARY = DEFAULT_EVIDENCE_ROOT / "baseline_evaluation_summary.json"
 DEFAULT_ADVANCED_PREFLIGHT = DEFAULT_EVIDENCE_ROOT / "advanced_baseline_preflight.json"
 DEFAULT_POINTER_PREFLIGHT = DEFAULT_EVIDENCE_ROOT / "pointer_semantics_preflight.json"

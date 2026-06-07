@@ -22,7 +22,7 @@ from experiment_35t import Sample, selected_samples  # noqa: E402
 SOURCE_RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
 RUN_ID = "35t-qemu-plugin-baseline-20260523"
 DEFAULT_RESULTS_ROOT = Path("results/experiments/35t") / RUN_ID
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence") / SOURCE_RUN_ID
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / SOURCE_RUN_ID
 DEFAULT_QEMU_BUILD_ROOT = DEFAULT_RESULTS_ROOT / "qemu_user_plugin/qemu-8.2.2"
 DEFAULT_QEMU_BIN = DEFAULT_QEMU_BUILD_ROOT / "build/qemu-riscv64"
 SCHEMA = "rvmt.35t.qemu_plugin_baseline.v1"

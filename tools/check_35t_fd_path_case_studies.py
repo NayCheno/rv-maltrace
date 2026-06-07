@@ -18,7 +18,7 @@ from rv_maltrace.fd_path_flow import load_semantic_events, recover_fd_path_flow 
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
 VALIDATION_RUN_ID = "35t-targeted-board-validation-20260522"
 DEFAULT_SOURCE_RESULTS_ROOT = Path("results/experiments/35t") / VALIDATION_RUN_ID
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence") / RUN_ID
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / RUN_ID
 REQUIRED_SAMPLES = ("file_scan", "batch_open_read_write", "self_copy_sim")
 EXPECTED_STATUS = "PASS"
 NON_CLAIMS = [

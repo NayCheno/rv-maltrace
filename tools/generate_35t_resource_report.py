@@ -10,7 +10,7 @@ from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_OUT = Path("docs/reports/artix7_35t_resource_report.md")
+DEFAULT_OUT = Path("docs/07-evaluation-evidence/reports/artix7_35t_resource_report.md")
 LOLV_BUILD = Path("vendor/litex/linux-on-litex-vexriscv/build")
 
 

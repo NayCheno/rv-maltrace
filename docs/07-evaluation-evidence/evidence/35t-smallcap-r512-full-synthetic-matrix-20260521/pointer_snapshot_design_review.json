@@ -1,0 +1,123 @@
+{
+  "allowlist": [
+    {
+      "argument": "a1",
+      "max_bytes": 64,
+      "name": "openat",
+      "payload": "pathname_prefix",
+      "termination": "nul_or_max_bytes"
+    },
+    {
+      "argument": "a0",
+      "max_bytes": 64,
+      "name": "execve",
+      "payload": "pathname_prefix",
+      "termination": "nul_or_max_bytes"
+    }
+  ],
+  "artifact_policy": {
+    "public_release": "hash_or_sanitized_summary_until_payload_review",
+    "raw_pointer_payloads": "local_only_or_controlled_release",
+    "run_id_required": true,
+    "sanitization_required_before_publication": true
+  },
+  "checks": {
+    "allowlist_limits_bounded": true,
+    "artifact_policy_deferred": true,
+    "current_policy_default_disabled": true,
+    "current_policy_hardware_deferred": true,
+    "current_policy_trace_mem_none": true,
+    "design_claim_level": true,
+    "design_note_tokens_present": true,
+    "design_run_id": true,
+    "design_schema": true,
+    "design_scope": true,
+    "design_status": true,
+    "gate_design_review_required": true,
+    "measurement_gates_pre_enablement": true,
+    "non_claims_present": true,
+    "non_substitution_rules_present": true,
+    "p2_profile_arg_mem_disabled": true,
+    "required_allowlist_present": true,
+    "required_guardrails_present": true,
+    "required_measurement_gates_present": true,
+    "route_selective_memory_snapshot": true,
+    "routes_still_deferred": true,
+    "small_capacity_profiles_arg_mem_disabled": true,
+    "strategy_allows_design_review_only": true
+  },
+  "current_policy": {
+    "default_enabled": false,
+    "hardware_user_pointer_snapshot": "DEFERRED",
+    "small_capacity_profiles": "ARG_MEM_DISABLED",
+    "trace_mem_mode": "TRACE_MEM_MODE_NONE"
+  },
+  "design": "experiments/linux_behavior/pointer_snapshot_design_review.json",
+  "design_note": "docs/05-semantic-analysis/pointer_snapshot_design_review.md",
+  "evidence_root": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "failures": [],
+  "generated_utc": "2026-05-23T12:49:50Z",
+  "interpretation": [
+    "bounded pointer snapshot design review is recorded for openat and execve pathname prefixes",
+    "the current 35T policy still keeps hardware user-pointer snapshots default-disabled and deferred",
+    "this design review is not timing, bandwidth, noninterference, semantic accuracy, or enabled-board evidence"
+  ],
+  "measurement_gates": [
+    {
+      "evidence_required": [
+        "post-synthesis or post-implementation timing report",
+        "LUT/FF/BRAM delta",
+        "Fmax/slack comparison against event-only 35T"
+      ],
+      "id": "timing_resource_gate",
+      "status": "REQUIRED_BEFORE_ENABLEMENT"
+    },
+    {
+      "evidence_required": [
+        "trace bytes per syscall",
+        "DROP rate",
+        "cap-hit accounting",
+        "bounded raw payload volume"
+      ],
+      "id": "bandwidth_drop_gate",
+      "status": "REQUIRED_BEFORE_ENABLEMENT"
+    },
+    {
+      "evidence_required": [
+        "paired trace-off/trace-on runtime comparison",
+        "syscall sequence equivalence check",
+        "explicit perturbation limits and failures"
+      ],
+      "id": "noninterference_gate",
+      "status": "REQUIRED_BEFORE_ENABLEMENT"
+    },
+    {
+      "evidence_required": [
+        "openat pathname reconstruction accuracy",
+        "execve pathname reconstruction accuracy",
+        "fd/path graph update against ground truth",
+        "separation of trace-proven, inferred, and missing pointer fields"
+      ],
+      "id": "semantic_accuracy_gate",
+      "status": "REQUIRED_BEFORE_ENABLEMENT"
+    }
+  ],
+  "non_claims": [
+    "no 35T hardware user-pointer snapshot PASS claim",
+    "no default memory payload tracing",
+    "no complete syscall argument reconstruction claim",
+    "no malicious-kernel or kernel-rootkit resistance claim",
+    "no real malware detection claim"
+  ],
+  "run_id": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+  "safety_guardrails": [
+    "default_disabled_control_path",
+    "page_boundary_clipping",
+    "fault_timeout_handling",
+    "no_load_store_payload_trace_mode",
+    "no_core_backpressure",
+    "drop_record_on_overflow"
+  ],
+  "schema": "rvmt.35t.pointer_snapshot_design_review.check.v1",
+  "status": "POINTER_SNAPSHOT_DESIGN_REVIEW_PASS_NOT_ENABLED"
+}

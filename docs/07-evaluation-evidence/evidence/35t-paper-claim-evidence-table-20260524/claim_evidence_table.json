@@ -1,0 +1,221 @@
+{
+  "claim_table_policy": "Paper claims are only allowed when their machine-checkable evidence row is PASS. DEFERRED rows may be discussed as limitations or required follow-up, not as completed claims.",
+  "claims": [
+    {
+      "checks": {
+        "artifact_count_positive": true,
+        "manifest_hashes_valid": true,
+        "snapshot_present": true
+      },
+      "evidence": [
+        "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521",
+        "tools/check_35t_artifact_package_readiness.py"
+      ],
+      "id": "c1_primary_35t_package_integrity",
+      "limitations": [
+        "Primary package is the synthetic/benign feasibility gate; real-malware-derived behavior evidence is covered by the dedicated lineage rows."
+      ],
+      "paper_wording": "The primary 35T evidence package is hash-manifested and locally reproducible.",
+      "status": "PASS"
+    },
+    {
+      "checks": {
+        "all_samples_pass": true,
+        "gate_status_pass": true,
+        "manifest_hashes_valid": true,
+        "snapshot_present": true,
+        "three_samples": true
+      },
+      "evidence": [
+        "docs/07-evaluation-evidence/evidence/35t-surrogate-darthra-p0a-r512-abba-r5-20260524",
+        "results/experiments/35t/35t-surrogate-darthra-p0a-r512-abba-r5-20260524"
+      ],
+      "id": "c2_surrogate_darthra_board_gate",
+      "limitations": [
+        "Safety controls bound harmful effects; the paper claim is behavior traceability and rule-detection/audit feasibility, not payload equivalence."
+      ],
+      "paper_wording": "Three safety-controlled DarthRa-derived malware behavior cases pass the Artix-7 35T board validation gate.",
+      "status": "PASS"
+    },
+    {
+      "checks": {
+        "all_samples_pass": true,
+        "gate_status_pass": true,
+        "manifest_hashes_valid": true,
+        "network_optional_samples_excluded": true,
+        "snapshot_present": true,
+        "three_samples": true
+      },
+      "evidence": [
+        "docs/07-evaluation-evidence/evidence/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524",
+        "results/experiments/35t/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524"
+      ],
+      "id": "c3_mirai_reference_nonnetwork_board_gate",
+      "limitations": [
+        "Network-required Mirai behavior remains excluded from this non-network claim."
+      ],
+      "paper_wording": "Three non-network Mirai-reference malware behavior cases pass the Artix-7 35T board validation gate.",
+      "status": "PASS"
+    },
+    {
+      "checks": {
+        "all_rows_pass": true,
+        "lineage_status_pass": true,
+        "manifest_hashes_valid": true,
+        "six_rows": true,
+        "snapshot_present": true
+      },
+      "evidence": [
+        "docs/07-evaluation-evidence/evidence/35t-real-malware-derived-lineage-20260524",
+        "experiments/linux_behavior/real_malware_surrogate/behavior_lineage_matrix.json"
+      ],
+      "id": "c4_real_malware_derived_lineage",
+      "limitations": [
+        "Lineage is behavior-derived and explicitly not payload-equivalence evidence."
+      ],
+      "paper_wording": "Six board-tested behaviors have explicit real-malware-derived lineage, risk removal, and non-claim boundaries.",
+      "status": "PASS"
+    },
+    {
+      "checks": {
+        "all_rows_pass": true,
+        "baseline_status_pass": true,
+        "manifest_hashes_valid": true,
+        "six_rows": true,
+        "snapshot_present": true
+      },
+      "evidence": [
+        "docs/07-evaluation-evidence/evidence/35t-real-malware-derived-baseline-comparison-20260524",
+        "tools/check_35t_behavior_baseline_comparison.py"
+      ],
+      "id": "c5_same_set_baseline_comparison",
+      "limitations": [
+        "Ratios are descriptive; this is not an advanced QEMU-plugin/eBPF comparison."
+      ],
+      "paper_wording": "The six real-malware-derived behaviors have same-set host, strace, QEMU, and 35T board medians recorded.",
+      "status": "PASS"
+    },
+    {
+      "allow_deferred": true,
+      "checks": {
+        "boot_status_recorded": true,
+        "manifest_hashes_valid": true,
+        "run_artifacts_present": true,
+        "snapshot_present": true
+      },
+      "deferred": true,
+      "evidence": [
+        "docs/07-evaluation-evidence/evidence/35t-surrogate-boot-provenance-20260524",
+        "tools/check_35t_surrogate_boot_provenance.py"
+      ],
+      "id": "c6_surrogate_boot_provenance",
+      "limitations": [
+        "A deferred status means the paper must not claim a surrogate run-scoped Linux boot log until that log is captured."
+      ],
+      "paper_wording": "The surrogate run records boot provenance status and explicitly names the run-scoped boot-log blocker.",
+      "status": "DEFERRED"
+    },
+    {
+      "checks": {
+        "external_quarantine_hash_only": true,
+        "manifest_status_blocked": true,
+        "manual_results_absent": true,
+        "repository_payloads_disallowed": true,
+        "sample_class_real_malware": true
+      },
+      "evidence": [
+        "experiments/linux_behavior/real_malware/manifest.json",
+        "results/experiments/real_malware/manual"
+      ],
+      "id": "c7_external_payload_boundary",
+      "limitations": [
+        "No uncontrolled, network-enabled, or payload-equivalent malware execution is claimed in this package."
+      ],
+      "paper_wording": "Direct external-quarantine payload execution remains a separate gated boundary, not a prerequisite for the current real-malware-derived behavior feasibility claim.",
+      "status": "PASS"
+    }
+  ],
+  "deferred_claims": [
+    "c6_surrogate_boot_provenance"
+  ],
+  "evidence_root": "docs/07-evaluation-evidence/evidence/35t-paper-claim-evidence-table-20260524",
+  "failures": [],
+  "generated_utc": "2026-05-27T16:55:37Z",
+  "non_claims": [
+    "not uncontrolled or network-enabled external-payload execution",
+    "not a CCF-A acceptance guarantee",
+    "not payload-equivalence evidence",
+    "not malware-family classifier accuracy"
+  ],
+  "repo_root": "D:/Code/research/rv-maltrace",
+  "run_ids": {
+    "mirai_reference": "35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524",
+    "primary_35t": "35t-smallcap-r512-full-synthetic-matrix-20260521",
+    "surrogate": "35t-surrogate-darthra-p0a-r512-abba-r5-20260524"
+  },
+  "schema": "rvmt.35t.paper_claim_evidence_table.v1",
+  "scope": "Artix-7 35T / LiteX / VexRiscv",
+  "snapshots": {
+    "baseline": {
+      "artifact_count": 4,
+      "claim_level": "35T real-malware-derived same-set baseline comparison",
+      "hash_errors": [],
+      "label": "baseline",
+      "path": "docs/07-evaluation-evidence/evidence/35t-real-malware-derived-baseline-comparison-20260524",
+      "present": true,
+      "schema": "rvmt.35t.real_malware_derived_baseline_comparison_snapshot.v1",
+      "status": "PASS"
+    },
+    "lineage": {
+      "artifact_count": 4,
+      "claim_level": "35T real-malware-derived behavior lineage",
+      "hash_errors": [],
+      "label": "lineage",
+      "path": "docs/07-evaluation-evidence/evidence/35t-real-malware-derived-lineage-20260524",
+      "present": true,
+      "schema": "rvmt.35t.real_malware_derived_lineage_snapshot.v1",
+      "status": "PASS"
+    },
+    "mirai_reference": {
+      "artifact_count": 12,
+      "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+      "hash_errors": [],
+      "label": "mirai_reference",
+      "path": "docs/07-evaluation-evidence/evidence/35t-mirai-reference-nonnetwork-p0a-r512-abba-r5-v3-20260524",
+      "present": true,
+      "schema": "rvmt.35t.extension_evidence_snapshot.v1",
+      "status": "PASS"
+    },
+    "primary": {
+      "artifact_count": 114,
+      "claim_level": "35T hardware-trace-assisted synthetic malware-like behavior audit prototype",
+      "hash_errors": [],
+      "label": "primary",
+      "path": "docs/07-evaluation-evidence/evidence/35t-smallcap-r512-full-synthetic-matrix-20260521",
+      "present": true,
+      "schema": "rvmt.35t.evidence_snapshot.v1",
+      "status": null
+    },
+    "surrogate": {
+      "artifact_count": 8,
+      "claim_level": "35T hardware-trace-assisted real-malware-derived behavior validation",
+      "hash_errors": [],
+      "label": "surrogate",
+      "path": "docs/07-evaluation-evidence/evidence/35t-surrogate-darthra-p0a-r512-abba-r5-20260524",
+      "present": true,
+      "schema": "rvmt.35t.real_malware_surrogate_evidence_snapshot.v1",
+      "status": "PASS"
+    },
+    "surrogate_boot": {
+      "artifact_count": 4,
+      "claim_level": null,
+      "hash_errors": [],
+      "label": "surrogate_boot",
+      "path": "docs/07-evaluation-evidence/evidence/35t-surrogate-boot-provenance-20260524",
+      "present": true,
+      "schema": "rvmt.35t.surrogate_boot_provenance_snapshot.v1",
+      "status": "PASS"
+    }
+  },
+  "status": "PAPER_CLAIM_EVIDENCE_TABLE_PASS_WITH_SURROGATE_BOOT_DEFERRED"
+}

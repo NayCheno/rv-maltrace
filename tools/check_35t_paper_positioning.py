@@ -11,10 +11,10 @@ from typing import Any
 
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
 DEFAULT_ASSESSMENT = Path("D:/Download/rv_maltrace_35t_assessment.md")
-DEFAULT_EVIDENCE_ROOT = Path("docs/results/evidence") / RUN_ID
-DEFAULT_PAPER_EVIDENCE_DOC = Path("docs/results/rv_maltrace_35t_paper_evidence.md")
-DEFAULT_CLOSURE_DOC = Path("docs/results/rv_maltrace_35t_application_closure.md")
-DEFAULT_EVALUATION_PLAN = Path("docs/research/evaluation_plan.md")
+DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / RUN_ID
+DEFAULT_PAPER_EVIDENCE_DOC = Path("docs/08-publication/rv_maltrace_35t_paper_evidence.md")
+DEFAULT_CLOSURE_DOC = Path("docs/08-publication/rv_maltrace_35t_application_closure.md")
+DEFAULT_EVALUATION_PLAN = Path("docs/07-evaluation-evidence/evaluation_plan.md")
 SCHEMA = "rvmt.35t.paper_positioning.v1"
 STATUS = "BOUNDED_FEASIBILITY_POSITIONING_READY"
 EXPECTED_CLAIM_LEVEL = "35T hardware-trace-assisted synthetic malware-like behavior audit prototype"

@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import argparse
 import re
@@ -7,8 +7,8 @@ import tempfile
 from pathlib import Path
 
 
-DEFAULT_CRITERIA = Path("docs/board/baseline_pass_criteria.md")
-DEFAULT_BOARD_DOC = Path("docs/board/board_bringup.md")
+DEFAULT_CRITERIA = Path("docs/03-platform-architecture/genesys2/baseline_pass_criteria.md")
+DEFAULT_BOARD_DOC = Path("docs/03-platform-architecture/genesys2/board_bringup.md")
 DEFAULT_BITSTREAM = Path("build/vivado/genesys2-cv64a6_imafdc_sv39/work-fpga/ariane_xilinx.bit")
 
 CRITERIA = {
@@ -129,7 +129,7 @@ def check_board_doc(root: Path, board_doc: Path) -> list[str]:
         return [f"missing board doc: {path}"]
     text = path.read_text(encoding="utf-8")
     errors: list[str] = []
-    if "docs/board/baseline_pass_criteria.md" not in text:
+    if "docs/03-platform-architecture/genesys2/baseline_pass_criteria.md" not in text:
         errors.append(f"{path}: missing baseline pass criteria link")
     rows = parse_table_rows(text)
     for name in FORBIDDEN_HARDWARE_PASS:
@@ -174,7 +174,7 @@ def write_fixture(root: Path) -> None:
         encoding="utf-8",
     )
     (docs / "board_bringup.md").write_text(
-        "See docs/board/baseline_pass_criteria.md\n\n| Gate | Status | Evidence |\n| --- | --- | --- |\n| Clock/reset sanity | TODO (BOARD) | notes |\n",
+        "See docs/03-platform-architecture/genesys2/baseline_pass_criteria.md\n\n| Gate | Status | Evidence |\n| --- | --- | --- |\n| Clock/reset sanity | TODO (BOARD) | notes |\n",
         encoding="utf-8",
     )
 
