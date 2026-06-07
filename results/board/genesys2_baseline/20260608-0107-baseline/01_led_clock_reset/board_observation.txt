@@ -1,0 +1,14 @@
+Run ID: 20260608-0107-baseline
+Timestamp: 2026-06-08 02:40 Asia/Shanghai
+
+Board state after programming:
+- Genesys 2 remained visible on on-board Digilent USB-JTAG as xc7k325t_0.
+- Vivado reported "End of startup status: HIGH" during programming.
+- Vivado `program_hw_devices` completed successfully for xc7k325t_0.
+- `refresh_hw_device` completed after programming; the hardware target remained available.
+- The loaded PROGRAM.FILE was `build/vivado/genesys2-cv64a6_imafdc_sv39/work-fpga/ariane_xilinx.bit`.
+
+Clock/reset observation:
+- No Vivado programming, startup, or JTAG refresh error was observed after reset/startup.
+- The design reached the post-configuration startup state required for the next UART capture phase.
+- No separate ILA or photo/video clock probe was captured in this phase.
