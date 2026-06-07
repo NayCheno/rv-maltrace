@@ -1,0 +1,17 @@
+[PASS] Vivado baseline simulation summary: results/vivado_sim/summary.json overall PASS, 20 expected tests PASS
+[PASS] bitstream: build/vivado/genesys2-cv64a6_imafdc_sv39/work-fpga/ariane_xilinx.bit (11443738 bytes)
+[PASS] flash image: build/vivado/genesys2-cv64a6_imafdc_sv39/work-fpga/ariane_xilinx.mcs (32188150 bytes)
+[PASS] post-route checkpoint: build/vivado/genesys2-cv64a6_imafdc_sv39/work-fpga/ariane_xilinx.dcp (31680117 bytes)
+[PASS] GUI project: build/vivado/genesys2-cv64a6_imafdc_sv39/project/ariane.xpr (121358 bytes)
+[PASS] utilization report: build/vivado/genesys2-cv64a6_imafdc_sv39/reports/ariane.utilization.rpt (147616 bytes)
+[PASS] timing report: build/vivado/genesys2-cv64a6_imafdc_sv39/reports/ariane.timing.rpt (271120 bytes)
+[PASS] route status report: build/vivado/genesys2-cv64a6_imafdc_sv39/work-fpga/ariane_xilinx_route_status.rpt (651 bytes)
+[PASS] Baseline routed timing: Slack (MET) 0.177 ns in build/vivado/genesys2-cv64a6_imafdc_sv39/reports/ariane.timing.rpt
+[WARN] Baseline check_timing constraints: build/vivado/genesys2-cv64a6_imafdc_sv39/reports/ariane.check_timing.rpt parsed; known open constraint warnings: no_clock=126, no_input_delay=21, no_output_delay=23, partial_input_delay=3, unconstrained_internal_endpoints=33
+[PASS] Baseline route status: 130611/130611 routable nets fully routed, 0 routing errors
+[PASS] Genesys 2 reset/clock/UART constraints: rtl/cva6/corev_apu/fpga/constraints/genesys-2.xdc active PACKAGE_PIN/IOSTANDARD constraints cover cpu_resetn, prog_clko, tx, rx
+[PASS] Genesys 2 DDR/clock build path: rtl/cva6/corev_apu/fpga/scripts/run.tcl active commands match add_files: constraints/genesys-2.xdc; read_ip: xlnx_mig_7_ddr3; read_ip: xlnx_clk_gen; read_ip: xlnx_dpti_clk
+[PASS] Genesys 2 UART source path: rtl/cva6/corev_apu/fpga/scripts/add_sources.tcl active commands match read_vhdl: apb_uart.vhd, uart_receiver.vhd, uart_transmitter.vhd
+[PASS] Genesys 2 board files: vendor/vivado-boards/new/board_files/genesys2/H has board.xml, mig.prj, part0_pins.xml, preset.xml
+[PASS] DDR/clock generated IP artifacts: build/vivado/genesys2-cv64a6_imafdc_sv39/work-fpga has xlnx_mig_7_ddr3.xci, xlnx_clk_gen.xci, xlnx_dpti_clk.xci
+[PASS] Genesys 2 baseline preflight evidence is present; review WARN rows before board use

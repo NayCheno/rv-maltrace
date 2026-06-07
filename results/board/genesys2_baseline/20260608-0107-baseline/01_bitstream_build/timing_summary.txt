@@ -1,0 +1,40 @@
+# source=build/vivado/genesys2-cv64a6_imafdc_sv39/reports/ariane.timing.rpt
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+| Tool Version : Vivado v.2025.2 (win64) Build 6299465 Fri Nov 14 19:35:11 GMT 2025
+| Date         : Mon Jun  8 02:34:26 2026
+| Design       : ariane_xilinx
+| Device       : 7k325t-ffg900
+| Design State : Routed
+Slack (MET) :             0.177ns  (required time - arrival time)
+Slack (MET) :             0.183ns  (required time - arrival time)
+Slack (MET) :             0.191ns  (required time - arrival time)
+Slack (MET) :             0.196ns  (required time - arrival time)
+Slack (MET) :             0.203ns  (required time - arrival time)
+Slack (MET) :             0.349ns  (required time - arrival time)
+Slack (MET) :             0.362ns  (required time - arrival time)
+Slack (MET) :             0.362ns  (required time - arrival time)
+Slack (MET) :             0.363ns  (required time - arrival time)
+Slack (MET) :             0.369ns  (required time - arrival time)
+Slack (MET) :             0.376ns  (required time - arrival time)
+Slack (MET) :             0.397ns  (required time - arrival time)
+Slack (MET) :             0.505ns  (required time - arrival time)
+Slack (MET) :             0.505ns  (required time - arrival time)
+Slack (MET) :             0.929ns  (required time - arrival time)
+Slack (MET) :             0.983ns  (required time - arrival time)
+Slack (MET) :             0.989ns  (required time - arrival time)
+Slack (MET) :             0.996ns  (required time - arrival time)
+Slack (MET) :             1.002ns  (required time - arrival time)
+Slack (MET) :             1.140ns  (required time - arrival time)
+Slack (MET) :             1.763ns  (required time - arrival time)
+Slack (MET) :             1.800ns  (required time - arrival time)
+Slack (MET) :             2.004ns  (required time - arrival time)
+Slack (MET) :             2.199ns  (required time - arrival time)
+Slack (MET) :             2.497ns  (required time - arrival time)
+Slack (MET) :             2.801ns  (required time - arrival time)
+Slack (MET) :             2.871ns  (required time - arrival time)
+Slack (MET) :             2.986ns  (required time - arrival time)
+Slack (MET) :             3.098ns  (required time - arrival time)
+Slack (MET) :             3.262ns  (required time - arrival time)
+Slack (MET) :             3.310ns  (required time - arrival time)
+Slack (MET) :             3.689ns  (required time - arrival time)
+Slack (MET) :             4.045ns  (required time - arrival time)
