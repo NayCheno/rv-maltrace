@@ -261,7 +261,11 @@ def decode_csv(path: Path, *, unprefixed_radix: str) -> list[dict[str, Any]]:
         if reader.fieldnames is None:
             raise ValueError(f"{path}: missing CSV header")
         mode, columns = find_columns(reader.fieldnames)
-        rows = list(reader)
+        rows = [
+            row
+            for row in reader
+            if not any(str(value).strip().lower().startswith("radix") for value in row.values())
+        ]
         if mode == "packed":
             return decode_rows_packed(rows, columns, unprefixed_radix)
         return decode_rows(rows, columns, unprefixed_radix)

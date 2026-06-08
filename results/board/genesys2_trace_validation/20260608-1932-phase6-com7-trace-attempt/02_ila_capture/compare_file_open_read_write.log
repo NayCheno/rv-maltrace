@@ -1,0 +1,7 @@
+[FAIL] forbidden RETIRE: got 114
+[FAIL] required event missing: SYSCALL_ENTRY
+[FAIL] required event missing: SYSCALL_RET
+[FAIL] syscall openat (0x38): expected at least 2 entry event(s), got 0
+[FAIL] syscall write (0x40): expected at least 2 entry event(s), got 0
+[FAIL] syscall close (0x39): expected at least 2 entry event(s), got 0
+[FAIL] syscall read (0x3f): expected at least 1 entry event(s), got 0
