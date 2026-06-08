@@ -54,6 +54,11 @@ def compare(events: list[dict[str, Any]], expected: dict[str, Any]) -> tuple[boo
     messages: list[str] = []
     ok = True
     counts = Counter(str(event.get("evt", "")) for event in events)
+    syscall_entries = Counter(
+        normalize(event.get("a7"))
+        for event in events
+        if str(event.get("evt", "")) == "SYSCALL_ENTRY" and event.get("a7") is not None
+    )
 
     if "total_events" in expected:
         actual = len(events)
@@ -89,11 +94,38 @@ def compare(events: list[dict[str, Any]], expected: dict[str, Any]) -> tuple[boo
             messages.append(f"[PASS] forbidden {evt}: absent")
 
     for required in expected.get("required_events", []):
-        if any(event_matches(event, required) for event in events):
+        if isinstance(required, str):
+            if counts.get(required, 0):
+                messages.append(f"[PASS] required event present: {required}")
+            else:
+                ok = False
+                messages.append(f"[FAIL] required event missing: {required}")
+        elif any(event_matches(event, required) for event in events):
             messages.append(f"[PASS] required event matched: {required}")
         else:
             ok = False
             messages.append(f"[FAIL] required event missing: {required}")
+
+    required_syscalls = expected.get("required_syscalls", [])
+    if required_syscalls:
+        wanted = Counter()
+        names: dict[Any, str] = {}
+        for item in required_syscalls:
+            if not isinstance(item, dict) or "number" not in item:
+                ok = False
+                messages.append(f"[FAIL] invalid required syscall entry: {item}")
+                continue
+            number = normalize(hex(int(item["number"])))
+            wanted[number] += 1
+            names[number] = str(item.get("name", number))
+        for number, minimum in wanted.items():
+            actual = syscall_entries.get(number, 0)
+            name = names.get(number, str(number))
+            if actual < minimum:
+                ok = False
+                messages.append(f"[FAIL] syscall {name} ({number}): expected at least {minimum} entry event(s), got {actual}")
+            else:
+                messages.append(f"[PASS] syscall {name} ({number}): entry count {actual} >= {minimum}")
 
     if not events:
         ok = False

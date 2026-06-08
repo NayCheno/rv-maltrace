@@ -1,0 +1,7 @@
+# Command:
+#   git -C rtl/cva6 diff -- corev_apu/fpga/constraints/genesys-2.xdc
+#
+# Result:
+#   No diff. The trace-enabled build keeps the Phase 2 PMOD JC UART pinout:
+#   UART TX AC26 LVCMOS33 DRIVE 8 SLEW SLOW
+#   UART RX AJ27 LVCMOS33 PULLUP TRUE

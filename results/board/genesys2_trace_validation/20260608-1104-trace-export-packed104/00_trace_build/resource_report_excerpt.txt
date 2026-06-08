@@ -1,0 +1,18 @@
+Command:
+  uv run python tools/generate_resource_report.py
+
+Result:
+  [PASS] wrote resource report: docs\07-evaluation-evidence\reports\resource_report.md
+
+Trace-enabled FPGA delta from docs\07-evaluation-evidence\reports\resource_report.md:
+
+Metric              Baseline  Trace-enabled  Delta
+LUT                 84928     171151         +86223 (+101.52%)
+FF                  56491     65112          +8621 (+15.26%)
+BRAM18 equiv        108       114            +6 (+5.56%)
+DSP                 27        27             +0 (+0.00%)
+Slack (ns)          0.177     0.031          -0.146
+
+Trace reports:
+  build\vivado\genesys2-cv64a6_imafdc_sv39-trace\reports\ariane.utilization.rpt
+  build\vivado\genesys2-cv64a6_imafdc_sv39-trace\reports\ariane.timing.rpt

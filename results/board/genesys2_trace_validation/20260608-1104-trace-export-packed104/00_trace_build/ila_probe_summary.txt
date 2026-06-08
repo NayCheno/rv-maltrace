@@ -1,0 +1,31 @@
+Trace export path:
+  JTAG-visible Xilinx ILA debug core with 2 probes and 1024 samples.
+
+Vivado IP configuration:
+  C_NUM_OF_PROBES = 2
+  C_PROBE0_WIDTH = 1
+  C_PROBE1_WIDTH = 104
+  C_DATA_DEPTH = 1024
+  C_INPUT_PIPE_STAGES = 1
+
+Probe mapping:
+  probe0[0]       rvmt_trace_fire
+  probe1[3:0]     evt
+  probe1[35:4]    cycle[31:0]
+  probe1[67:36]   pc[31:0]
+  probe1[99:68]   primary[31:0]
+  probe1[103:100] reserved
+
+Primary field by event:
+  BRANCH/JUMP     target[31:0]
+  SYSCALL_ENTRY   a7[31:0]
+  SYSCALL_RET     syscall_id[31:0]
+  TRAP            cause[31:0]
+  CSR             csr[11:0], zero-extended
+  SATP            satp[31:0]
+  PRIV            old_priv[1:0], zero-extended
+  DROP/MARKER     value[31:0]
+
+Decoder:
+  tools\decode_genesys2_ila_trace.py --self-test PASS
+  The decoder accepts the packed ILA CSV probe0/probe1 format and emits JSONL for board trace comparison.
