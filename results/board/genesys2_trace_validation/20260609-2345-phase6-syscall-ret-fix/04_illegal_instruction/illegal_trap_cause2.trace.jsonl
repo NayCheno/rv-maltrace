@@ -1,0 +1,11 @@
+{"cause": "0x0000000000000002", "cycle": 1488987538, "evt": "TRAP", "evt_code": 6, "ila_row_index": 0, "packed_primary": "0x00000002", "pc": "0x8025aef8", "record_index": 0}
+{"cycle": 1488987545, "evt": "PRIV", "evt_code": 9, "ila_row_index": 7, "old_priv": "S", "packed_primary": "0x00000001", "pc": "0x800003c8", "record_index": 1}
+{"cycle": 1488988292, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 754, "packed_primary": "0x80006fea", "pc": "0x80006fe8", "record_index": 2, "target": "0x80006fea"}
+{"cycle": 1488988319, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 781, "packed_primary": "0x80006ff8", "pc": "0x80006ff4", "record_index": 3, "target": "0x80006ff8"}
+{"cycle": 1488988320, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 782, "packed_primary": "0x80006ffe", "pc": "0x80006ffa", "record_index": 4, "target": "0x80006ffe"}
+{"cycle": 1488988433, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 895, "packed_primary": "0x80002fb4", "pc": "0x80002fb2", "record_index": 5, "target": "0x80002fb4"}
+{"cycle": 1488988441, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 903, "packed_primary": "0x80002fbe", "pc": "0x80002fbc", "record_index": 6, "target": "0x80002fbe"}
+{"cycle": 1488988445, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 907, "packed_primary": "0x80002fc2", "pc": "0x80002fc0", "record_index": 7, "target": "0x80002fc2"}
+{"cycle": 1488988515, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 977, "packed_primary": "0x800124f8", "pc": "0x800124f4", "record_index": 8, "target": "0x800124f8"}
+{"cycle": 1488988536, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 998, "packed_primary": "0x80012364", "pc": "0x80012360", "record_index": 9, "target": "0x80012364"}
+{"cycle": 1488988545, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 1007, "packed_primary": "0x8001237c", "pc": "0x8001237a", "record_index": 10, "target": "0x8001237c"}

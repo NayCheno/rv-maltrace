@@ -1,0 +1,12 @@
+{"cycle": 2338938160, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 47, "packed_primary": "0x80270e2e", "pc": "0x80270e2a", "record_index": 0, "target": "0x80270e2e"}
+{"cycle": 2338938386, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 273, "packed_primary": "0x802738ac", "pc": "0x802738a8", "record_index": 1, "target": "0x802738ac"}
+{"cycle": 2338938482, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 369, "packed_primary": "0x8010dfe6", "pc": "0x8010dfe2", "record_index": 2, "target": "0x8010dfe6"}
+{"cycle": 2338938562, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 449, "packed_primary": "0x8010dfec", "pc": "0x8010dfea", "record_index": 3, "target": "0x8010dfec"}
+{"cycle": 2338938606, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 493, "packed_primary": "0x8027384a", "pc": "0x80273848", "record_index": 4, "target": "0x8027384a"}
+{"cycle": 2338938804, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 691, "packed_primary": "0x803ccc78", "pc": "0x803ccc74", "record_index": 5, "target": "0x803ccc78"}
+{"cycle": 2338938810, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 697, "packed_primary": "0x803ccc88", "pc": "0x803ccc84", "record_index": 6, "target": "0x803ccc88"}
+{"cycle": 2338938812, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 699, "packed_primary": "0x803ccc8e", "pc": "0x803ccc8c", "record_index": 7, "target": "0x803ccc8e"}
+{"cycle": 2338938825, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 712, "packed_primary": "0x803ccca0", "pc": "0x803ccc9e", "record_index": 8, "target": "0x803ccca0"}
+{"cycle": 2338938856, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 743, "packed_primary": "0x80010310", "pc": "0x8001030c", "record_index": 9, "target": "0x80010310"}
+{"cycle": 2338938959, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 846, "packed_primary": "0x803d31ce", "pc": "0x803d31cc", "record_index": 10, "target": "0x803d31ce"}
+{"cycle": 2338939136, "evt": "SYSCALL_RET", "evt_code": 5, "ila_row_index": 1023, "packed_primary": "0x00018338", "pc": "0x803d3226", "record_index": 11, "syscall_id": "0x0000000000018338"}

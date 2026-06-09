@@ -1,0 +1,9 @@
+RVMT_SERIAL_DIRECT_COMMAND_CAPTURE port=COM7 baud=115200 start=2026-06-10T00:36:05+0800
+
+RVMT_SEND 'sleep 22; /tmp/rvmt_phase6/file_open_read_write; echo RVMT_EXIT:$?'
+sleep 22; /tmp/rvmt_phase6/file_open_read_write; echo RVMT_EXIT:$?
+rv-maltrace file validation
+RVMT_EXIT:0
+# 
+# 
+RVMT_SERIAL_DIRECT_COMMAND_CAPTURE_DONE

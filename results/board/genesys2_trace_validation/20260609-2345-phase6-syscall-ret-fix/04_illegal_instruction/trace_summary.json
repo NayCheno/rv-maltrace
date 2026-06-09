@@ -1,0 +1,91 @@
+{
+  "binary": "build/board/genesys2_cva6_phase6_linux_user_minimal/illegal_instruction.riscv64",
+  "board": "Digilent Genesys2",
+  "captures": [
+    {
+      "capture_condition": "AND",
+      "capture_log": "results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix/04_illegal_instruction/illegal_trap_cause2_capture.log",
+      "capture_mode": "ALWAYS",
+      "csv": "results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix/04_illegal_instruction/illegal_trap_cause2.csv",
+      "event_counts": {
+        "BRANCH": 9,
+        "PRIV": 1,
+        "TRAP": 1
+      },
+      "events": 11,
+      "id": "illegal_trap_cause2",
+      "program_log": "results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix/04_illegal_instruction/illegal_trap_cause2_program.log",
+      "trace": "results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix/04_illegal_instruction/illegal_trap_cause2.trace.jsonl",
+      "trigger": "TRAP_cause_0x2",
+      "trigger_compare": "eq104'hX00000002XXXXXXXXXXXXXXXX6",
+      "validity": "trap_cause2"
+    },
+    {
+      "capture_condition": "AND",
+      "capture_log": "results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix/04_illegal_instruction/illegal_write_entry_capture.log",
+      "capture_mode": "ALWAYS",
+      "csv": "results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix/04_illegal_instruction/illegal_write_entry.csv",
+      "event_counts": {
+        "BRANCH": 8,
+        "PRIV": 1,
+        "SYSCALL_ENTRY": 1
+      },
+      "events": 10,
+      "id": "illegal_write_entry",
+      "program_log": "results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix/04_illegal_instruction/illegal_write_entry_program.log",
+      "trace": "results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix/04_illegal_instruction/illegal_write_entry.trace.jsonl",
+      "trigger": "SYSCALL_ENTRY_a7_0x40",
+      "trigger_compare": "eq104'hX00000040XXXXXXXXXXXXXXXX4",
+      "validity": "write_entry_before_sigill"
+    }
+  ],
+  "compare_pass": true,
+  "cpu": "CVA6",
+  "event_counts": {
+    "BRANCH": 17,
+    "PRIV": 2,
+    "SYSCALL_ENTRY": 1,
+    "TRAP": 1
+  },
+  "events": 21,
+  "expected": "board/trace_validation/expected/illegal_instruction.expected.json",
+  "limitations": [
+    "The board runtime emitted TRAP cause=2, but the program log shows unhandled SIGILL and RVMT_EXIT:132 rather than caught SIGILL exit 0.",
+    "TRAP PC is kernel/supervisor handling context in the packed trace; user illegal PC is visible in UART kernel report, not directly in the decoded TRAP event."
+  ],
+  "paired_entry_return_capture_ids": [],
+  "paired_entry_return_in_single_capture": false,
+  "requirement_checks_pass": true,
+  "requirements": {
+    "forbidden_events": {
+      "RETIRE": {
+        "actual_count": 0,
+        "pass": true,
+        "required_absent": true
+      }
+    },
+    "required_events": {
+      "TRAP": {
+        "actual_count": 1,
+        "pass": true,
+        "required": true
+      }
+    },
+    "required_syscalls": {
+      "0x0000000000000040": {
+        "actual_entry_count": 1,
+        "minimum": 1,
+        "pass": true
+      }
+    }
+  },
+  "run_id": "20260609-2345-phase6-syscall-ret-fix",
+  "runtime_path": "/tmp/rvmt_phase6/illegal_instruction",
+  "sample_id": "illegal_instruction",
+  "schema": "rvmt.genesys2.board_trace_summary.v1",
+  "source": "board/trace_validation/programs/illegal_instruction.c",
+  "status": "PARTIAL_TRAP_CAPTURE_PROGRAM_EXIT_132",
+  "syscall_entry_counts": {
+    "0x0000000000000040": 1
+  }
+}

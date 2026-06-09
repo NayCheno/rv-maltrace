@@ -1,0 +1,4 @@
+[PASS] forbidden RETIRE: absent
+[PASS] required event present: SYSCALL_ENTRY
+[PASS] required event present: SYSCALL_RET
+[PASS] syscall write (0x40): entry count 1 >= 1

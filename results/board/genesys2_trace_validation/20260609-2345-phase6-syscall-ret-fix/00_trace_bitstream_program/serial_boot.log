@@ -1,0 +1,176 @@
+RVMT_SERIAL_CAPTURE port=COM7 baud=115200 framing=8N1 duration=150.0 start=2026-06-09T23:28:37+0800
+Hello World!
+Hit any key to enter update mode .......... booting!
+init SPI
+status: 0x0000000000000025
+status: 0x0000000000000025
+SPI initialized!
+initializing SD... 
+SD command cmd0 	response : 01
+SD command cmd55 	response : 01
+SD command cmd41 	response : 01
+SD command cmd55 	response : 01
+SD command cmd41 	response : 01
+SD command cmd55 	response : 01
+SD command cmd41 	response : 00
+sd initialized!
+gpt partition table header:
+	signature:	5452415020494645
+	revision:	00010000
+	size:		0000005C
+	crc_header:	FC596DFA
+	reserved:	00000000
+	current lba:	0000000000000001
+	backup lda:	00000000000113FF
+	partition entries lba:   	0000000000000002
+	number partition entries:	00000080
+	size partition entries:  	00000080
+gpt partition entry 00
+	partition type guid:	8915A0AAD38C105F8785832FFBC41D64
+	partition guid:     	C09B09E805284C47AE6A9B8642F67B14
+	first lba:	0000000000000022
+	last lba:	00000000000013D7
+	attributes:	0000000000000000
+	name:	4F00700065006E0053004200490020007700690074006800200075002D0062006F006F00740020006100730020007000610079006C006F0061006400000000000000000000000000
+gpt partition entry 01
+	partition type guid:	AF3DC60F838472478E793D69D8477DE4
+	partition guid:     	7D8A6AC579754440944F957B1859D38D
+	first lba:	00000000000013D8
+	last lba:	00000000000113D7
+	attributes:	0000000000000000
+	name:	460049005400200069006D00610067006500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+gpt partition entry 02
+	partition type guid:	00000000000000000000000000000000
+	partition guid:     	00000000000000000000000000000000
+	first lba:	0000000000000000
+	last lba:	0000000000000000
+	attributes:	0000000000000000
+	name:	000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+gpt partition entry 03
+	partition type guid:	00000000000000000000000000000000
+	partition guid:     	00000000000000000000000000000000
+	first lba:	0000000000000000
+	last lba:	0000000000000000
+	attributes:	0000000000000000
+	name:	000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+copying boot image ..... done!
+
+OpenSBI v1.7
+   ____                    _____ ____ _____
+  / __ \                  / ____|  _ \_   _|
+ | |  | |_ __   ___ _ __ | (___ | |_) || |
+ | |  | | '_ \ / _ \ '_ \ \___ \|  _ < | |
+ | |__| | |_) |  __/ | | |____) | |_) || |_
+  \____/| .__/ \___|_| |_|_____/|____/_____|
+        | |
+        |_|
+
+Platform Name               : eth,ariane-bare
+Platform Features           : medeleg
+Platform HART Count         : 1
+Platform IPI Device         : aclint-mswi
+Platform Timer Device       : aclint-mtimer @ 25000000Hz
+Platform Console Device     : uart8250
+Platform HSM Device         : ---
+Platform PMU Device         : ---
+Platform Reboot Device      : ---
+Platform Shutdown Device    : ---
+Platform Suspend Device     : ---
+Platform CPPC Device        : ---
+Firmware Base               : 0x80000000
+Firmware Size               : 317 KB
+Firmware RW Offset          : 0x40000
+Firmware RW Size            : 61 KB
+Firmware Heap Offset        : 0x46000
+Firmware Heap Size          : 37 KB (total), 2 KB (reserved), 10 KB (used), 24 KB (free)
+Firmware Scratch Size       : 4096 B (total), 392 B (used), 3704 B (free)
+Runtime SBI Version         : 3.0
+Standard SBI Extensions     : time,rfnc,ipi,base,hsm,pmu,dbcn,fwft,legacy,sse
+Experimental SBI Extensions : none
+
+Domain0 Name                : root
+Domain0 Boot HART           : 0
+Domain0 HARTs               : 0*
+Domain0 Region00            : 0x0000000010000000-0x0000000010000fff M: (I,R,W) S/U: (R,W)
+Domain0 Region01            : 0x0000000080040000-0x000000008004ffff M: (R,W) S/U: ()
+Domain0 Region02            : 0x0000000002080000-0x00000000020bffff M: (I,R,W) S/U: ()
+Domain0 Region03            : 0x0000000080000000-0x000000008003ffff M: (R,X) S/U: ()
+Domain0 Region04            : 0x0000000002000000-0x000000000207ffff M: (I,R,W) S/U: ()
+Domain0 Region05            : 0x000000000c000000-0x000000000fffffff M: (I,R,W) S/U: (R,W)
+Domain0 Region06            : 0x0000000000000000-0xffffffffffffffff M: () S/U: (R,W,X)
+Domain0 Next Address        : 0x0000000080200000
+Domain0 Next Arg1           : 0x0000000082200000
+Domain0 Next Mode           : S-mode
+Domain0 SysReset            : yes
+Domain0 SysSuspend          : yes
+
+Boot HART ID                : 0
+Boot HART Domain            : root
+Boot HART Priv Version      : v1.12
+Boot HART Base ISA          : rv64imafdcb
+Boot HART ISA Extensions    : zihpm
+Boot HART PMP Count         : 8
+Boot HART PMP Granularity   : 3 bits
+Boot HART PMP Address Bits  : 54
+Boot HART MHPM Info         : 6 (0x000001f8)
+Boot HART Debug Triggers    : 0 triggers
+Boot HART MIDELEG           : 0x0000000000000222
+Boot HART MEDELEG           : 0x000000000000b109
+
+
+U-Boot 2026.01 (Jun 09 2026 - 06:00:50 +0000)
+
+CPU:   eth, cva6
+DRAM:  1 GiB
+Core:  17 devices, 12 uclasses, devicetree: separate
+MMC:   xps-spi@20000000:mmc@0: 0
+Loading Environment from nowhere... OK
+In:    uart@10000000
+Out:   uart@10000000
+Err:   uart@10000000
+Net:   LOWRISC-ETH: 30000000, phyaddr 0
+eth0: lowrisc-eth@30000000
+Hit any key to stop autoboot:  5 Hit any key to stop autoboot: 4[KHit any key to stop autoboot: 3[KHit any key to stop autoboot: 2[KHit any key to stop autoboot: 1[KHit any key to stop autoboot: 0[K
+Device: xps-spi@20000000:mmc@0
+Manufacturer ID: 6f
+OEM: 303
+Name: SDABC 
+Bus Speed: 12500000
+Mode: MMC legacy
+Rd Block Len: 512
+SD version 2.0
+High Capacity: Yes
+Capacity: 29.1 GiB
+Bus Width: 1-bit
+13042864 bytes read in 57618 ms (220.7 KiB/s)
+## Loading kernel (any) from FIT Image at 90000000 ...
+   Using 'standard' configuration
+   Trying 'kernel-1' kernel subimage
+     Description:  Linux Kernel
+     Type:         Kernel Image
+     Compression:  gzip compressed
+     Data Start:   0x900000bc
+     Data Size:    3205549 Bytes = 3.1 MiB
+     Architecture: RISC-V
+     OS:           Linux
+     Load Address: 0x80200000
+     Entry Point:  0x80200000
+     Hash algo:    sha256
+     Hash value:   b7221c3ab01e3142868408d34604b986a49297c757cee1381438521beb16ca3a
+   Verifying Hash Integrity ... sha256+ OK
+## Loading ramdisk (any) from FIT Image at 90000000 ...
+   Using 'standard' configuration
+   Trying 'ramdisk-1' ramdisk subimage
+     Description:  Initial ramdisk
+     Type:         RAMDisk Image
+     Compression:  uncompressed
+     Data Start:   0x90310948
+     Data Size:    9828567 Bytes = 9.4 MiB
+     Architecture: RISC-V
+     OS:           Linux
+     Load Address: unavailable
+     Entry Point:  unavailable
+     Hash algo:    sha256
+     Hash value:   3057dbbf9c392b72217aa2b38683bd5c4c556427695aa319cd4d569ae2d27b3b
+   Verifying Hash Integrity ... sha256
+RVMT_SERIAL_CAPTURE_DONE elapsed=150.089

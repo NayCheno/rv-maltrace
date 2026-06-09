@@ -1,0 +1,22 @@
+RVMT_SERIAL_COMMAND_CAPTURE port=COM7 baud=115200 login_root=True start=2026-06-09T23:32:04+0800
+
+RVMT_SEND ''
+
+Welcome to Buildroot
+buildroot login: 
+Welcome to Buildroot
+buildroot login: 
+RVMT_SEND 'root'
+root
+# 
+RVMT_SEND 'id'
+id
+uid=0(root) gid=0(root) groups=0(root),10(wheel)
+# 
+# 
+RVMT_SEND 'uname -a'
+uname -a
+Linux buildroot 6.19.6 #1 Tue Jun  9 06:02:04 UTC 2026 riscv64 GNU/Linux
+# 
+# 
+RVMT_SERIAL_COMMAND_CAPTURE_DONE
