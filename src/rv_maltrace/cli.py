@@ -40,12 +40,16 @@ TASK_ALIASES = {
     "bitstream": "bitstream:build",
     "bitstream:build": "bitstream:build",
     "bitstream:build-trace": "bitstream:build-trace",
+    "bitstream:build-trace-marker": "bitstream:build-trace-marker",
     "bitstream:trace": "bitstream:build-trace",
+    "bitstream:trace-marker": "bitstream:build-trace-marker",
     "bitstream:collect": "bitstream:collect",
     "fpga": "bitstream:build",
     "fpga:build": "bitstream:build",
     "fpga:build-trace": "bitstream:build-trace",
+    "fpga:build-trace-marker": "bitstream:build-trace-marker",
     "fpga:trace": "bitstream:build-trace",
+    "fpga:trace-marker": "bitstream:build-trace-marker",
     "vivado": "vivado:check",
     "vivado:check": "vivado:check",
     "vivado:project": "vivado:project",
@@ -160,6 +164,7 @@ DISPLAY_TASKS = [
     "board:artix7:trace-jsonl-compare",
     "bitstream:build",
     "bitstream:build-trace",
+    "bitstream:build-trace-marker",
     "bitstream:collect",
     "sim:trace-unit",
     "sim:cva6-smoke",
@@ -452,6 +457,11 @@ def vivado_artifact_dir(root: Path, config: dict) -> Path:
 def trace_vivado_artifact_dir(root: Path, config: dict) -> Path:
     base = vivado_artifact_dir(root, config)
     return base.with_name(f"{base.name}-trace")
+
+
+def trace_marker_vivado_artifact_dir(root: Path, config: dict) -> Path:
+    base = vivado_artifact_dir(root, config)
+    return base.with_name(f"{base.name}-trace-marker")
 
 
 def vivado_project_dir(root: Path, config: dict) -> Path:
@@ -2654,7 +2664,15 @@ def task_vivado_project(root: Path, config: dict, env: dict[str, str], dry_run: 
     print(f"Expected imported source-like files: {expected_sources}")
 
 
-def task_bitstream_build(root: Path, config: dict, env: dict[str, str], dry_run: bool, *, trace_enabled: bool = False) -> None:
+def task_bitstream_build(
+    root: Path,
+    config: dict,
+    env: dict[str, str],
+    dry_run: bool,
+    *,
+    trace_enabled: bool = False,
+    trace_marker_scope: bool = False,
+) -> None:
     subst_drive = vivado_subst_drive(config)
     subst_before = current_subst_mappings() if subst_drive and not dry_run else {}
     work_root = vivado_work_root(root, config, dry_run=dry_run)
@@ -2669,8 +2687,15 @@ def task_bitstream_build(root: Path, config: dict, env: dict[str, str], dry_run:
             )
 
         fpga_dir = cva6_dir / "corev_apu" / "fpga"
-        artifact_dir = trace_vivado_artifact_dir(work_root, config) if trace_enabled else vivado_artifact_dir(work_root, config)
-        real_artifact_dir = trace_vivado_artifact_dir(root, config) if trace_enabled else vivado_artifact_dir(root, config)
+        if trace_marker_scope:
+            artifact_dir = trace_marker_vivado_artifact_dir(work_root, config)
+            real_artifact_dir = trace_marker_vivado_artifact_dir(root, config)
+        elif trace_enabled:
+            artifact_dir = trace_vivado_artifact_dir(work_root, config)
+            real_artifact_dir = trace_vivado_artifact_dir(root, config)
+        else:
+            artifact_dir = vivado_artifact_dir(work_root, config)
+            real_artifact_dir = vivado_artifact_dir(root, config)
         vivado_work_dir = artifact_dir / "work-fpga"
         vivado_report_dir = artifact_dir / "reports"
         work_dir_arg = makefile_relative_path(vivado_work_dir, fpga_dir)
@@ -2705,7 +2730,10 @@ def task_bitstream_build(root: Path, config: dict, env: dict[str, str], dry_run:
             env["RVMT_VIVADO_REPORT_DIR"] = as_posix_path(vivado_report_dir)
             env["RVMT_VIVADO_PATCH_DIR"] = as_posix_path(artifact_dir / ".tmp")
             if trace_enabled:
-                env["RVMT_VIVADO_VERILOG_DEFINES"] = "RV_MALTRACE_FPGA_TRACE"
+                defines = ["RV_MALTRACE_FPGA_TRACE"]
+                if trace_marker_scope:
+                    defines.append("RV_MALTRACE_FPGA_TRACE_MARKER_SCOPE")
+                env["RVMT_VIVADO_VERILOG_DEFINES"] = ",".join(defines)
         board = str(config.get("board", "genesys2"))
         target = str(config.get("target", "cv64a6_imafdc_sv39"))
         riscv = str(config.get("riscv_placeholder", "/tmp/riscv-placeholder"))
@@ -3207,6 +3235,8 @@ def show_config(root: Path, config: dict) -> None:
     print(f"vivado_board_repos  = {[str(path) for path in vivado_board_repo_paths(root, config)]}")
     print(f"build_dir           = {configured_path(root, str(config.get('build_dir', 'build')))}")
     print(f"vivado_artifacts    = {vivado_artifact_dir(root, config)}")
+    print(f"trace_artifacts     = {trace_vivado_artifact_dir(root, config)}")
+    print(f"trace_marker_artifacts = {trace_marker_vivado_artifact_dir(root, config)}")
     print(f"vivado_project      = {vivado_project_xpr(root, config)}")
     print(f"make                = {config.get('make', 'make')}")
     print(f"make_path_prepend   = {config.get('make_path_prepend', [])}")
@@ -3316,7 +3346,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         nargs="*",
         help=(
             "Tasks to run. Supports docker:build, toolchain:build, bootrom:build, "
-            "vivado:check, bitstream:build, bitstream:build-trace, sim:trace-unit, sim:cva6-smoke, "
+            "vivado:check, bitstream:build, bitstream:build-trace, bitstream:build-trace-marker, sim:trace-unit, sim:cva6-smoke, "
             "sim:cva6-full-soc, sim:cva6-full-soc-tohost, sim:cva6-full-soc-rv64gc, sim:cva6-run, baremetal:build, "
             "board:artix7:jtag-scan, board:artix7:litex-build, exp:35t, run:35t, explain:35t, config:show, completion:powershell. Slash groups such as "
             "tool/bootrom are expanded."
@@ -3502,6 +3532,8 @@ def main(argv: list[str] | None = None) -> int:
                 task_bitstream_build(root, config, env, args.dry_run)
             elif task == "bitstream:build-trace":
                 task_bitstream_build(root, config, env, args.dry_run, trace_enabled=True)
+            elif task == "bitstream:build-trace-marker":
+                task_bitstream_build(root, config, env, args.dry_run, trace_enabled=True, trace_marker_scope=True)
             elif task == "bitstream:collect":
                 task_bitstream_collect(root, config, args.dry_run)
             elif task == "sim:trace-unit":

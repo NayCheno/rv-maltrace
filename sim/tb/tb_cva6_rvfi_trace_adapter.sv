@@ -173,6 +173,45 @@ module tb_cva6_rvfi_trace_adapter
     @(posedge clk);
 
     clear_inputs();
+    rvfi_valid[0] = 1'b1;
+    rvfi_insn[0] = 32'h3ff0_0893;  // addi a7, zero, 1023
+    rvfi_mode[0] = TRACE_PRIV_U;
+    rvfi_pc[0] = 64'h0000_0000_8000_0060;
+    rvfi_rd[0] = 5'd17;
+    rvfi_rd_wdata[0] = 64'd1023;
+    @(posedge clk);
+
+    clear_inputs();
+    rvfi_valid[0] = 1'b1;
+    rvfi_insn[0] = 32'h0a50_0513;  // addi a0, zero, marker payload in test metadata
+    rvfi_mode[0] = TRACE_PRIV_U;
+    rvfi_pc[0] = 64'h0000_0000_8000_0064;
+    rvfi_rd[0] = 5'd10;
+    rvfi_rd_wdata[0] = 64'h0000_0000_b000_00a5;
+    rvfi_valid[1] = 1'b1;
+    rvfi_trap[1] = 1'b1;
+    rvfi_insn[1] = 32'h0000_0073;  // marker ecall begin
+    rvfi_cause[1] = 64'd8;
+    rvfi_mode[1] = TRACE_PRIV_U;
+    rvfi_pc[1] = 64'h0000_0000_8000_0068;
+    @(posedge clk);
+
+    clear_inputs();
+    rvfi_valid[0] = 1'b1;
+    rvfi_insn[0] = 32'h0a50_0513;  // addi a0, zero, marker payload in test metadata
+    rvfi_mode[0] = TRACE_PRIV_U;
+    rvfi_pc[0] = 64'h0000_0000_8000_006c;
+    rvfi_rd[0] = 5'd10;
+    rvfi_rd_wdata[0] = 64'h0000_0000_e000_00a5;
+    rvfi_valid[1] = 1'b1;
+    rvfi_trap[1] = 1'b1;
+    rvfi_insn[1] = 32'h0000_0073;  // marker ecall end
+    rvfi_cause[1] = 64'd8;
+    rvfi_mode[1] = TRACE_PRIV_U;
+    rvfi_pc[1] = 64'h0000_0000_8000_0070;
+    @(posedge clk);
+
+    clear_inputs();
     repeat (40) @(posedge clk);
     $finish;
   end

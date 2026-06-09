@@ -7,7 +7,8 @@ module cva6_rvfi_trace_adapter
     parameter int VLEN = 64,
     parameter int EVENT_QUEUE_DEPTH = 16,
     parameter int PIPELINE_INPUTS = 1,
-    parameter bit RELAX_SRET_TO_USER_CHECK = 1'b0
+    parameter bit RELAX_SRET_TO_USER_CHECK = 1'b0,
+    parameter logic [63:0] MARKER_SYSCALL_NR = 64'd1023
 ) (
     input  logic                                clk_i,
     input  logic                                rst_ni,
@@ -50,8 +51,11 @@ module cva6_rvfi_trace_adapter
   localparam logic [31:0] INSTR_ECALL  = 32'h0000_0073;
   localparam logic [31:0] INSTR_SRET   = 32'h1020_0073;
   localparam logic [63:0] CAUSE_U_ECALL = 64'd8;
+  localparam logic [63:0] MARKER_TAG_MASK = 64'h0000_0000_f000_0000;
+  localparam logic [63:0] MARKER_BEGIN_TAG = 64'h0000_0000_b000_0000;
+  localparam logic [63:0] MARKER_END_TAG = 64'h0000_0000_e000_0000;
 
-  localparam int MAX_CANDIDATES = COMMIT_PORTS * 6 + 1;
+  localparam int MAX_CANDIDATES = COMMIT_PORTS * 7 + 1;
   localparam int QUEUE_COUNT_WIDTH = $clog2(EVENT_QUEUE_DEPTH + 1);
 
   logic [7:0][63:0] args_q;
@@ -323,6 +327,8 @@ module cva6_rvfi_trace_adapter
       logic [63:0] jump_target;
       logic        syscall_entry_evt;
       logic        syscall_ret_evt;
+      logic        marker_evt;
+      logic [63:0] marker_tag;
 
       event_valid = rvfi_valid_s[port] || rvfi_trap_s[port];
       instr       = insn_to_32(rvfi_insn_s[port]);
@@ -344,6 +350,10 @@ module cva6_rvfi_trace_adapter
                            instr == INSTR_ECALL &&
                            rvfi_mode_s[port] == TRACE_PRIV_U &&
                            xlen_to_64(rvfi_cause_s[port]) == CAUSE_U_ECALL;
+      marker_tag = args_at_port[port][0] & MARKER_TAG_MASK;
+      marker_evt = syscall_entry_evt && trace_enable_marker_i &&
+                   args_at_port[port][7] == MARKER_SYSCALL_NR &&
+                   (marker_tag == MARKER_BEGIN_TAG || marker_tag == MARKER_END_TAG);
       // The FPGA RVFI export path does not currently provide explicit
       // sret-to-user metadata. When opted in, treat an S-mode SRET with an
       // outstanding user syscall as the return edge.
@@ -357,6 +367,14 @@ module cva6_rvfi_trace_adapter
         packet.evt   = EVT_TRAP;
         packet.cause = xlen_to_64(rvfi_cause_s[port]);
         packet.tval  = xlen_to_64(rvfi_tval_s[port]);
+        candidates[candidate_count] = packet;
+        candidate_count++;
+      end
+
+      if (marker_evt) begin
+        packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
+        packet.evt = EVT_MARKER;
+        packet.value = args_at_port[port][0];
         candidates[candidate_count] = packet;
         candidate_count++;
       end

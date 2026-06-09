@@ -2,6 +2,11 @@
 // It mirrors experiments/linux_behavior/malware_like/programs/illegal_trap.c
 // without libc so it can be transferred over the board UART as a tiny ELF.
 
+#define RVMT_MARKER_SYSCALL_NR 1023L
+#define RVMT_MARKER_PAYLOAD 0x00000a11UL
+#define RVMT_MARKER_BEGIN (0xb0000000UL | RVMT_MARKER_PAYLOAD)
+#define RVMT_MARKER_END (0xe0000000UL | RVMT_MARKER_PAYLOAD)
+
 struct rvmt_kernel_sigaction {
   void (*handler)(int);
   unsigned long flags;
@@ -19,10 +24,15 @@ static inline long rvmt_syscall4(long n, long a0, long a1, long a2, long a3) {
   return x10;
 }
 
+static inline void rvmt_trace_marker(unsigned long value) {
+  (void)rvmt_syscall4(RVMT_MARKER_SYSCALL_NR, (long)value, 0, 0, 0);
+}
+
 static void sigill_handler(int signum) {
   (void)signum;
   static const char message[] = "synthetic SIGILL\n";
   rvmt_syscall4(64, 1, (long)message, sizeof(message) - 1, 0);
+  rvmt_trace_marker(RVMT_MARKER_END);
   rvmt_syscall4(93, 0, 0, 0, 0);
   __builtin_unreachable();
 }
@@ -38,6 +48,7 @@ void _start(void) {
   for (volatile unsigned long warmup = 0; warmup < 80000000UL; ++warmup) {
   }
 
+  rvmt_trace_marker(RVMT_MARKER_BEGIN);
   rvmt_syscall4(134, 4, (long)&action, 0, 8);
   asm volatile(".word 0xffffffff");
   rvmt_syscall4(93, 1, 0, 0, 0);

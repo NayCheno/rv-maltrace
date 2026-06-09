@@ -2,12 +2,13 @@
   "mode": "rvfi_adapter",
   "test": "rvfi_adapter",
   "exact_counts": {
-    "RETIRE": 6,
+    "RETIRE": 9,
     "BRANCH": 1,
     "JUMP": 1,
-    "SYSCALL_ENTRY": 1,
+    "SYSCALL_ENTRY": 3,
     "SYSCALL_RET": 1,
-    "TRAP": 2
+    "TRAP": 4,
+    "MARKER": 2
   },
   "forbidden_events": ["DROP"],
   "required_events": [
@@ -48,6 +49,14 @@
       "evt": "JUMP",
       "pc": "0x0000000080000030",
       "target": "0x0000000080000034"
+    },
+    {
+      "evt": "MARKER",
+      "value": "0x00000000b00000a5"
+    },
+    {
+      "evt": "MARKER",
+      "value": "0x00000000e00000a5"
     }
   ]
 }

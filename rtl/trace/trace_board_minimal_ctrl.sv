@@ -26,7 +26,11 @@ module trace_board_minimal_ctrl #(
   assign trace_enable_syscall_o = 1'b1;
   assign trace_enable_trap_o = 1'b1;
   assign trace_enable_context_o = 1'b1;
+`ifdef RV_MALTRACE_FPGA_TRACE_MARKER_SCOPE
+  assign trace_enable_marker_o = 1'b1;
+`else
   assign trace_enable_marker_o = 1'b0;
+`endif
   assign trace_enable_drop_o = 1'b1;
 
   assign trace_pc_filter_enable_o = PC_FILTER_ENABLE;

@@ -126,7 +126,7 @@ module tb_trace_sink
             priv_name(packet.new_priv)
         );
       end
-      EVT_DROP: begin
+      EVT_DROP, EVT_MARKER: begin
         $fwrite(trace_fd, ",\"value\":\"0x%016h\"", packet.value);
       end
       default: begin

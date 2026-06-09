@@ -20,6 +20,7 @@ uv run rvmt baremetal:build
 uv run rvmt demo:behavior --sample anti_debug_like --backend fixture
 uv run rvmt demo:groundtruth --sample anti_debug_like
 uv run rvmt bitstream:build
+uv run rvmt bitstream:build-trace-marker
 uv run rvmt vivado:project
 uv run python tools/check_board_baseline.py
 uv run python tools/check_vivado_authorization.py
@@ -154,6 +155,7 @@ vivado:check      Check whether Vivado has the configured FPGA part and board fi
 vivado:project    Generate build/vivado/<board>-<target>/project/ariane.xpr for GUI browsing.
 bitstream:build   Run CVA6 make fpga with Windows Vivado.
 bitstream:build-trace Run a trace-enabled FPGA build into build/vivado/<board>-<target>-trace.
+bitstream:build-trace-marker Run a trace-enabled FPGA build with marker-scope events into build/vivado/<board>-<target>-trace-marker.
 bitstream:collect Copy existing CVA6 FPGA outputs into build/vivado/<board>-<target>.
 sim:trace-unit    Run the trace_top unit regression in Vivado xsim and compare JSONL output.
 sim:cva6-smoke    Compile/elaborate the direct CVA6 xsim testbench and run the trace/no-trace matrix.
@@ -178,6 +180,7 @@ tool -> toolchain:build
 bootrom -> bootrom:build
 bitstream/fpga -> bitstream:build
 bitstream:trace/fpga:trace -> bitstream:build-trace
+bitstream:trace-marker/fpga:trace-marker -> bitstream:build-trace-marker
 vivado:xpr -> vivado:project
 sim/sim:unit/sim:trace -> sim:trace-unit
 sim:cva6/sim:cva6-xsim -> sim:cva6-smoke
