@@ -31,6 +31,7 @@ uv run python tools/check_board_trace_programs.py
 uv run python tools/check_linux_behavior_principles.py
 uv run python tools/check_linux_benign_dataset.py
 uv run python tools/check_linux_malware_like_dataset.py
+uv run python tools/check_genesys2_safe_surrogate.py
 uv run python tools/recover_behavior.py --self-test
 uv run python tools/annotate_trace_disasm.py --self-test
 uv run python tools/check_linux_behavior_recovery.py
@@ -531,6 +532,19 @@ It does not include real malware.
 ```powershell
 uv run python tools/check_linux_malware_like_dataset.py
 uv run python tools/check_linux_malware_like_dataset.py --self-test
+```
+
+## Genesys2 Safe Surrogate Evidence
+
+Genesys2/CVA6 safe surrogate evidence is gated under
+`results/board/genesys2_cva6_safe_surrogate/<run-id>/`. The checker verifies
+that every listed sample remains synthetic/surrogate only, carries the required
+hardware trace, local code analysis, behavior mapping, and integrated validation
+artifacts, and keeps real malware and 35T out of current Genesys2/CVA6 claims.
+
+```powershell
+uv run python tools/check_genesys2_safe_surrogate.py
+uv run python tools/check_genesys2_safe_surrogate.py --self-test
 ```
 
 ## Linux Behavior Recovery Targets
