@@ -6,7 +6,8 @@ module cva6_rvfi_trace_adapter
     parameter int ILEN = 32,
     parameter int VLEN = 64,
     parameter int EVENT_QUEUE_DEPTH = 16,
-    parameter int PIPELINE_INPUTS = 1
+    parameter int PIPELINE_INPUTS = 1,
+    parameter bit RELAX_SRET_TO_USER_CHECK = 1'b0
 ) (
     input  logic                                clk_i,
     input  logic                                rst_ni,
@@ -343,9 +344,12 @@ module cva6_rvfi_trace_adapter
                            instr == INSTR_ECALL &&
                            rvfi_mode_s[port] == TRACE_PRIV_U &&
                            xlen_to_64(rvfi_cause_s[port]) == CAUSE_U_ECALL;
+      // The FPGA RVFI export path does not currently provide explicit
+      // sret-to-user metadata. When opted in, treat an S-mode SRET with an
+      // outstanding user syscall as the return edge.
       syscall_ret_evt = event_valid && !rvfi_trap_s[port] && instr == INSTR_SRET &&
                           rvfi_mode_s[port] == TRACE_PRIV_S &&
-                          rvfi_sret_to_user_s[port] &&
+                          (rvfi_sret_to_user_s[port] || RELAX_SRET_TO_USER_CHECK) &&
                           syscall_outstanding_view;
 
       if (event_valid && rvfi_trap_s[port] && trace_enable_trap_i) begin

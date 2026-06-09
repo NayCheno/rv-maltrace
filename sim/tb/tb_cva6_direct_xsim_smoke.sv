@@ -173,7 +173,8 @@ module tb_cva6_direct_xsim_smoke #(
       .COMMIT_PORTS(CVA6Cfg.NrCommitPorts),
       .XLEN(CVA6Cfg.XLEN),
       .ILEN(config_pkg::ILEN),
-      .VLEN(CVA6Cfg.VLEN)
+      .VLEN(CVA6Cfg.VLEN),
+      .RELAX_SRET_TO_USER_CHECK(1'b1)
     ) i_trace_adapter (
       .clk_i(clk_i),
       .rst_ni(rst_ni),

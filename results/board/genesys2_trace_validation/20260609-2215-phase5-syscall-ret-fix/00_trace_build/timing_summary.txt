@@ -1,0 +1,19 @@
+Genesys2 CVA6 trace build timing summary
+
+Auto-route implementation result:
+  Design timing summary: WNS 0.177 ns, TNS 0.000 ns, WHS 0.038 ns, THS 0.000 ns
+  Constraint status: All user specified timing constraints are met.
+
+Route status:
+  # of routable nets............. : 236233
+  # of fully routed nets......... : 236233
+  # of routing errors............ : 0
+
+Reference routed reports:
+  build/vivado/genesys2-cv64a6_imafdc_sv39-trace/work-fpga/ariane_xilinx_timing_summary_routed.rpt
+  build/vivado/genesys2-cv64a6_imafdc_sv39-trace/work-fpga/ariane_xilinx_route_status.rpt
+
+Final artifacts:
+  ariane_xilinx.bit  size=11443738  sha256=2DC2256B70852DE4480015AE75C822A6ADFDAA436EDA41D73D3CA13408D437F2
+  ariane_xilinx.mcs  size=32188150  sha256=4BDBC4E459868C889FC7FB67805963E88018660AECB289D5BC13B5F63F1AF366
+  ariane_xilinx.ltx  size=21717     sha256=45BEBB04132E785B8CC1695D8692E0289B29C8C3F8A0F9DE0702871CA18EECD9

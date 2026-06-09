@@ -33,7 +33,8 @@ module tb_cva6_rvfi_trace_adapter
       .XLEN(64),
       .ILEN(32),
       .VLEN(64),
-      .EVENT_QUEUE_DEPTH(16)
+      .EVENT_QUEUE_DEPTH(16),
+      .RELAX_SRET_TO_USER_CHECK(1'b1)
   ) dut (
       .clk_i(clk),
       .rst_ni(rst_n),
@@ -168,7 +169,7 @@ module tb_cva6_rvfi_trace_adapter
     rvfi_mode[1] = TRACE_PRIV_S;
     rvfi_pc[1] = 64'h0000_0000_8000_0054;
     rvfi_pc_wdata[1] = 64'h0000_0000_8000_0008;
-    rvfi_sret_to_user[1] = 1'b1;
+    rvfi_sret_to_user[1] = 1'b0;
     @(posedge clk);
 
     clear_inputs();
