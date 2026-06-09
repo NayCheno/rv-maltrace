@@ -32,6 +32,7 @@ uv run python tools/check_linux_behavior_principles.py
 uv run python tools/check_linux_benign_dataset.py
 uv run python tools/check_linux_malware_like_dataset.py
 uv run python tools/check_genesys2_safe_surrogate.py
+uv run python tools/capture_genesys2_runtime_process_map.py --self-test
 uv run python tools/recover_behavior.py --self-test
 uv run python tools/annotate_trace_disasm.py --self-test
 uv run python tools/check_linux_behavior_recovery.py
@@ -546,6 +547,19 @@ artifacts, and keeps real malware and 35T out of current Genesys2/CVA6 claims.
 uv run python tools/check_genesys2_safe_surrogate.py
 uv run python tools/check_genesys2_safe_surrogate.py --self-test
 ```
+
+To capture `/proc/<pid>/maps` ownership evidence for a Genesys2/CVA6 board run,
+emit a shell command and send it over the board UART with
+`tools/serial_direct_command_capture.py`, then parse the UART log:
+
+```powershell
+uv run python tools/capture_genesys2_runtime_process_map.py --emit-command-b64 --sample-id illegal_trap --runtime-path /tmp/rvmt_p2/illegal_trap --warmup
+uv run python tools/capture_genesys2_runtime_process_map.py --parse-log results/board/genesys2_cva6_safe_surrogate/<run-id>/<sample>/runtime_process_map_capture.log --out results/board/genesys2_cva6_safe_surrogate/<run-id>/<sample>/runtime_process_map.json
+```
+
+The resulting `rvmt.runtime_process_map.v1` artifact is necessary but not
+sufficient for strong process attribution. Strong attribution still requires a
+valid hardware marker scope in the decoded trace.
 
 ## Linux Behavior Recovery Targets
 
