@@ -1,0 +1,49 @@
+{
+  "attribution_confidence_counts": {
+    "runtime_process_map_missing": 41
+  },
+  "attribution_model": "marker_scope_static_code_map_runtime_process_map",
+  "binary_role": "linux_user_minimal",
+  "callsite_kind_counts": {
+    "unknown": 41
+  },
+  "code_map": "results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix/03_fork_exec/runtime_minimal_code_analysis/code_map.json",
+  "elf": "build/board/genesys2_cva6_phase6_linux_user_minimal/fork_exec.riscv64",
+  "elf_type": "EXEC",
+  "events": 41,
+  "load_base_assumption": "fixed_vaddr_exec",
+  "marker_scope": {
+    "begin_index": null,
+    "end_index": null,
+    "markers": [],
+    "status": "MISSING"
+  },
+  "pc_owner_counts": {
+    "unknown": 41
+  },
+  "process_attributed_code_site_events": 0,
+  "process_attribution": "not_proven",
+  "process_owner_counts": {
+    "unknown": 41
+  },
+  "runtime_path": "/tmp/rvmt_phase6/fork_exec",
+  "runtime_process_attribution_proven": false,
+  "runtime_process_map_schema": null,
+  "runtime_process_map_status": "MISSING",
+  "sample_id": "fork_exec",
+  "schema": "rvmt.trace_code_join.summary.v1",
+  "source_attribution": {
+    "code_map_function_level": "unavailable",
+    "code_map_source_line_level": "unavailable",
+    "events_with_function": 0,
+    "events_with_source_line": 0,
+    "function_level_available": false,
+    "limitations": [
+      "Function-level attribution is symbol/range based.",
+      "Source-line attribution remains unavailable unless code_map source_locations are populated."
+    ],
+    "source_line_available": false
+  },
+  "target_attributed_events": 0,
+  "trace": "results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix/03_fork_exec/trace.jsonl"
+}

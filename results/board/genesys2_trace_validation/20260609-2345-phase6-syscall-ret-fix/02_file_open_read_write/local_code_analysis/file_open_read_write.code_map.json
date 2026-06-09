@@ -1,0 +1,893 @@
+{
+  "attribution_limitations": [
+    "PC-in-ELF is static code-range evidence, not complete process attribution.",
+    "Runtime load-base, PIE/ASLR, and exact board runtime ELF must be accounted for before strong process ownership claims.",
+    "Target/process ownership still requires marker scope, PID/SATP/ASID, or runtime load-map evidence."
+  ],
+  "binary_role": "linux_user",
+  "elf": "build/board/genesys2_cva6_phase6_linux_user/file_open_read_write.riscv64",
+  "elf_header": {
+    "class": "ELF64",
+    "entry": "0x0000000000010590",
+    "machine": 243,
+    "type": "EXEC"
+  },
+  "elf_type": "EXEC",
+  "function_ranges": [],
+  "load_base_assumption": "fixed_vaddr_exec",
+  "load_ranges": [
+    {
+      "end": "0x000000000007dc9b",
+      "file_offset": "0x0",
+      "permissions": "RX",
+      "segment": "text",
+      "start": "0x0000000000010000"
+    },
+    {
+      "end": "0x0000000000088ca8",
+      "file_offset": "0x6e380",
+      "permissions": "RW",
+      "segment": "data",
+      "start": "0x000000000007e380"
+    }
+  ],
+  "notes": [
+    "This is local ELF/code attribution metadata for synthetic behavior audit triage.",
+    "It does not prove process ownership without target-scoped trace or OS context evidence.",
+    "For board traces, use a code map generated from the exact board runtime ELF when available.",
+    "ELF type EXEC; load-base assumption: fixed_vaddr_exec."
+  ],
+  "runtime_path": "/tmp/rvmt_phase6/file_open_read_write",
+  "sample_id": "file_open_read_write",
+  "schema": "rvmt.code_map.v1",
+  "sections": [
+    {
+      "end": "0x00000000000101ec",
+      "flags": "0x2",
+      "name": ".note.gnu.build-id",
+      "size": 36,
+      "start": "0x00000000000101c8",
+      "type": 7
+    },
+    {
+      "end": "0x000000000001020c",
+      "flags": "0x2",
+      "name": ".note.ABI-tag",
+      "size": 32,
+      "start": "0x00000000000101ec",
+      "type": 7
+    },
+    {
+      "end": "0x0000000000010258",
+      "flags": "0x2",
+      "name": ".rela.dyn",
+      "size": 72,
+      "start": "0x0000000000010210",
+      "type": 4
+    },
+    {
+      "end": "0x0000000000052d72",
+      "flags": "0x6",
+      "name": ".text",
+      "size": 273178,
+      "start": "0x0000000000010258",
+      "type": 1
+    },
+    {
+      "end": "0x000000000006de2c",
+      "flags": "0x2",
+      "name": ".rodata",
+      "size": 110764,
+      "start": "0x0000000000052d80",
+      "type": 1
+    },
+    {
+      "end": "0x000000000007dbd8",
+      "flags": "0x2",
+      "name": ".eh_frame",
+      "size": 64936,
+      "start": "0x000000000006de30",
+      "type": 1
+    },
+    {
+      "end": "0x000000000007dc9b",
+      "flags": "0x2",
+      "name": ".gcc_except_table",
+      "size": 195,
+      "start": "0x000000000007dbd8",
+      "type": 1
+    },
+    {
+      "end": "0x000000000007e398",
+      "flags": "0x403",
+      "name": ".tdata",
+      "size": 24,
+      "start": "0x000000000007e380",
+      "type": 1
+    },
+    {
+      "end": "0x000000000007e3d8",
+      "flags": "0x403",
+      "name": ".tbss",
+      "size": 64,
+      "start": "0x000000000007e398",
+      "type": 8
+    },
+    {
+      "end": "0x000000000007e3a0",
+      "flags": "0x3",
+      "name": ".preinit_array",
+      "size": 8,
+      "start": "0x000000000007e398",
+      "type": 16
+    },
+    {
+      "end": "0x000000000007e3a8",
+      "flags": "0x3",
+      "name": ".init_array",
+      "size": 8,
+      "start": "0x000000000007e3a0",
+      "type": 14
+    },
+    {
+      "end": "0x000000000007e3b8",
+      "flags": "0x3",
+      "name": ".fini_array",
+      "size": 16,
+      "start": "0x000000000007e3a8",
+      "type": 15
+    },
+    {
+      "end": "0x0000000000081bb0",
+      "flags": "0x3",
+      "name": ".data.rel.ro",
+      "size": 14328,
+      "start": "0x000000000007e3b8",
+      "type": 1
+    },
+    {
+      "end": "0x0000000000081ff0",
+      "flags": "0x3",
+      "name": ".got",
+      "size": 1088,
+      "start": "0x0000000000081bb0",
+      "type": 1
+    },
+    {
+      "end": "0x0000000000082000",
+      "flags": "0x3",
+      "name": ".got.plt",
+      "size": 16,
+      "start": "0x0000000000081ff0",
+      "type": 1
+    },
+    {
+      "end": "0x0000000000083894",
+      "flags": "0x3",
+      "name": ".data",
+      "size": 6292,
+      "start": "0x0000000000082000",
+      "type": 1
+    },
+    {
+      "end": "0x00000000000838a0",
+      "flags": "0x3",
+      "name": ".sdata",
+      "size": 8,
+      "start": "0x0000000000083898",
+      "type": 1
+    },
+    {
+      "end": "0x0000000000088ca8",
+      "flags": "0x3",
+      "name": ".bss",
+      "size": 21512,
+      "start": "0x00000000000838a0",
+      "type": 8
+    }
+  ],
+  "sha256": "f026803147981a79cf248971363e8c58c1acfeb3affb9eb1d4ead10d6b49779e",
+  "source": "board\\trace_validation\\programs\\file_open_read_write.c",
+  "source_attribution": {
+    "function_count": 0,
+    "function_level": "unavailable",
+    "function_level_basis": "no function symbols found",
+    "limitations": [
+      "Function-level attribution from symbols is not source-line attribution.",
+      "Source-line attribution requires retained DWARF/debug-line metadata or an addr2line-compatible side channel."
+    ],
+    "source_line_basis": "DWARF/source-line decoding is not present in rvmt.code_map.v1",
+    "source_line_level": "unavailable"
+  },
+  "source_locations": [],
+  "symbols": [],
+  "syscall_sites": [
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000102d6",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000010748",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000010752",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000010c02",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000010c0e",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000111be",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000001128a",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000112de",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000001131e",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000001133a",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000011456",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000012076",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000016cea",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000016d42",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000016d68",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000016d9c",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000016dfc",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000016e24",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000016e92",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000016eb8",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000016f56",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000016f88",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000016fb4",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000016fe8",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000173fa",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000175e4",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000001760a",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000017648",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000017660",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000001770e",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000001775a",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000017786",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000017822",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000017850",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000018692",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000186d2",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000018d06",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000018d0e",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000018d28",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000228c6",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000022ae8",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000022c32",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000002313e",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000002329e",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000232ee",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000256f2",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000025758",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000025770",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000025788",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000257a0",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000257b8",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000257d6",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000025856",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000258ac",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000025902",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000025934",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000025992",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000259c4",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000025a18",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000025a4a",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000025a8a",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000002a7bc",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000002af70",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000002b172",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000002c6c4",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000002c742",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000038f20",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000003fbea",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000003fc6c",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000003fcae",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000003fd08",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000003fd5a",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000040028",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000040064",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000040098",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000400b0",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000400c4",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000401aa",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000040256",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000402e6",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000040478",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000040614",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000040658",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000406d0",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000040744",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000409a0",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000409c6",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000040a60",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000416f0",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000004174c",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000041e0a",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000041e6a",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000041f06",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000041f38",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000041f86",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000042366",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000046e2e",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000004c164",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    }
+  ],
+  "trap_sites": []
+}

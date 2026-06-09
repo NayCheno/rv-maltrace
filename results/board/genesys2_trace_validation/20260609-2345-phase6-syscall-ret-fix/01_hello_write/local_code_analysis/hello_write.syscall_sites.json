@@ -1,0 +1,688 @@
+[
+  {
+    "asm": "ecall",
+    "pc": "0x00000000000102d6",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000010670",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000001067a",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000010b2a",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000010b36",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x00000000000110e6",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x00000000000111b2",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000011206",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000011246",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000011262",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000001137e",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000011f9e",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000016c12",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000016c6a",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000016c90",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000016cc4",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000016d24",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000016d4c",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000016dba",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000016de0",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000016e7e",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000016eb0",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000016edc",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000016f10",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000017322",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000001750c",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000017532",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000017570",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000017588",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000017636",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000017682",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x00000000000176ae",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000001774a",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000017778",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x00000000000185ba",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x00000000000185fa",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000018c2e",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000018c36",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000018c50",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x00000000000227ee",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000022a10",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000022b5a",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000023066",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x00000000000231c6",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000023216",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000002561a",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000025680",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000025698",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x00000000000256b0",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x00000000000256c8",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x00000000000256e0",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x00000000000256fe",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000002577e",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x00000000000257d4",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000002582a",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000002585c",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x00000000000258ba",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x00000000000258ec",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000025940",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000025972",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x00000000000259b2",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000002a6e4",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000002ae98",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000002b09a",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000002c5ec",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000002c66a",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000038e48",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000003fb12",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000003fb94",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000003fbd6",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000003fc30",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000003fc82",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000003ff50",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000003ff8c",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000003ffc0",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000003ffd8",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000003ffec",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x00000000000400d2",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000004017e",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000004020e",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x00000000000403a0",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000004053c",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000040580",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x00000000000405f8",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000004066c",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x00000000000408c8",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x00000000000408ee",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000040988",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000041618",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000041674",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000041d32",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000041d92",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000041e2e",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000041e60",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000041eae",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000004228e",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000046d56",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000004c08c",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  }
+]

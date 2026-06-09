@@ -1,0 +1,143 @@
+{
+  "attribution_limitations": [
+    "PC-in-ELF is static code-range evidence, not complete process attribution.",
+    "Runtime load-base, PIE/ASLR, and exact board runtime ELF must be accounted for before strong process ownership claims.",
+    "Target/process ownership still requires marker scope, PID/SATP/ASID, or runtime load-map evidence."
+  ],
+  "binary_role": "linux_user_minimal",
+  "elf": "build/board/genesys2_cva6_phase6_linux_user_minimal/file_open_read_write.riscv64",
+  "elf_header": {
+    "class": "ELF64",
+    "entry": "0x00000000000100fc",
+    "machine": 243,
+    "type": "EXEC"
+  },
+  "elf_type": "EXEC",
+  "function_ranges": [],
+  "load_base_assumption": "fixed_vaddr_exec",
+  "load_ranges": [
+    {
+      "end": "0x0000000000010258",
+      "file_offset": "0x0",
+      "permissions": "RX",
+      "segment": "text",
+      "start": "0x0000000000010000"
+    }
+  ],
+  "notes": [
+    "This is local ELF/code attribution metadata for synthetic behavior audit triage.",
+    "It does not prove process ownership without target-scoped trace or OS context evidence.",
+    "For board traces, use a code map generated from the exact board runtime ELF when available.",
+    "ELF type EXEC; load-base assumption: fixed_vaddr_exec."
+  ],
+  "runtime_path": "/tmp/rvmt_phase6/file_open_read_write",
+  "sample_id": "file_open_read_write",
+  "schema": "rvmt.code_map.v1",
+  "sections": [
+    {
+      "end": "0x00000000000101ca",
+      "flags": "0x6",
+      "name": ".text",
+      "size": 226,
+      "start": "0x00000000000100e8",
+      "type": 1
+    },
+    {
+      "end": "0x0000000000010215",
+      "flags": "0x2",
+      "name": ".rodata",
+      "size": 69,
+      "start": "0x00000000000101d0",
+      "type": 1
+    },
+    {
+      "end": "0x0000000000010258",
+      "flags": "0x2",
+      "name": ".eh_frame",
+      "size": 64,
+      "start": "0x0000000000010218",
+      "type": 1
+    }
+  ],
+  "sha256": "96e09b728c19a4dee8c6d379bed2372f7593ff660bc93ac30f6655ab7fc19b9e",
+  "source": "board\\trace_validation\\programs\\file_open_read_write.c",
+  "source_attribution": {
+    "function_count": 0,
+    "function_level": "unavailable",
+    "function_level_basis": "no function symbols found",
+    "limitations": [
+      "Function-level attribution from symbols is not source-line attribution.",
+      "Source-line attribution requires retained DWARF/debug-line metadata or an addr2line-compatible side channel."
+    ],
+    "source_line_basis": "DWARF/source-line decoding is not present in rvmt.code_map.v1",
+    "source_line_level": "unavailable"
+  },
+  "source_locations": [],
+  "symbols": [],
+  "syscall_sites": [
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000100f6",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000010120",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000001013a",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000001014a",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000010168",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000001017c",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000001018c",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000001019a",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000101ba",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    }
+  ],
+  "trap_sites": []
+}

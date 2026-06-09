@@ -1,0 +1,126 @@
+{
+  "board": "Digilent Genesys2",
+  "cpu": "CVA6",
+  "global_limitations": [
+    "Current board trace captures were produced from minimal runtime ELFs on /tmp/rvmt_phase6, while P1 requested full ELF code maps under build/board/genesys2_cva6_phase6_linux_user.",
+    "The minimal runtime maps provide exact-runtime support for low-address syscall PCs where present.",
+    "No runtime process map, PID/SATP/ASID, or marker-scope evidence is present, so process ownership is not proven.",
+    "Behavior recovery is derived trace semantics and is not malware detection evidence."
+  ],
+  "run_id": "20260609-2345-phase6-syscall-ret-fix",
+  "samples": [
+    {
+      "actual_runtime_minimal_code_map": "results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix/01_hello_write/runtime_minimal_code_analysis/code_map.json",
+      "actual_runtime_minimal_elf": "build/board/genesys2_cva6_phase6_linux_user_minimal/hello_write.riscv64",
+      "behavior_report": "results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix/01_hello_write/behavior/recovery_report.md",
+      "events": 25,
+      "full_target_attributed_events": 1,
+      "function_level_available": false,
+      "marker_scope_status": "MISSING",
+      "minimal_callsite_kind_counts": {
+        "syscall_site": 1,
+        "unknown": 24
+      },
+      "minimal_target_attributed_events": 1,
+      "notes": [
+        "The requested full ELF code map was generated from build/board/genesys2_cva6_phase6_linux_user.",
+        "The board trace package records the minimal runtime ELF path used on /tmp/rvmt_phase6.",
+        "The runtime_minimal_code_analysis directory is exact-runtime supporting evidence for low-address syscall PCs.",
+        "Process ownership is not proven because no runtime process map or marker scope is present."
+      ],
+      "process_attribution": "not_proven",
+      "requested_full_elf": "build/board/genesys2_cva6_phase6_linux_user/hello_write.riscv64",
+      "requested_full_elf_code_map": "results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix/01_hello_write/local_code_analysis/code_map.json",
+      "runtime_process_map_status": "MISSING",
+      "sample_id": "hello_write",
+      "source_line_available": false,
+      "status": "LOCAL_CODE_MAP_GENERATED_PROCESS_NOT_PROVEN",
+      "trace": "results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix/01_hello_write/trace.jsonl"
+    },
+    {
+      "actual_runtime_minimal_code_map": "results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix/02_file_open_read_write/runtime_minimal_code_analysis/code_map.json",
+      "actual_runtime_minimal_elf": "build/board/genesys2_cva6_phase6_linux_user_minimal/file_open_read_write.riscv64",
+      "behavior_report": "results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix/02_file_open_read_write/behavior/recovery_report.md",
+      "events": 88,
+      "full_target_attributed_events": 2,
+      "function_level_available": false,
+      "marker_scope_status": "MISSING",
+      "minimal_callsite_kind_counts": {
+        "syscall_site": 2,
+        "unknown": 86
+      },
+      "minimal_target_attributed_events": 2,
+      "notes": [
+        "The requested full ELF code map was generated from build/board/genesys2_cva6_phase6_linux_user.",
+        "The board trace package records the minimal runtime ELF path used on /tmp/rvmt_phase6.",
+        "The runtime_minimal_code_analysis directory is exact-runtime supporting evidence for low-address syscall PCs.",
+        "Process ownership is not proven because no runtime process map or marker scope is present."
+      ],
+      "process_attribution": "not_proven",
+      "requested_full_elf": "build/board/genesys2_cva6_phase6_linux_user/file_open_read_write.riscv64",
+      "requested_full_elf_code_map": "results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix/02_file_open_read_write/local_code_analysis/code_map.json",
+      "runtime_process_map_status": "MISSING",
+      "sample_id": "file_open_read_write",
+      "source_line_available": false,
+      "status": "LOCAL_CODE_MAP_GENERATED_PROCESS_NOT_PROVEN",
+      "trace": "results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix/02_file_open_read_write/trace.jsonl"
+    },
+    {
+      "actual_runtime_minimal_code_map": "results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix/03_fork_exec/runtime_minimal_code_analysis/code_map.json",
+      "actual_runtime_minimal_elf": "build/board/genesys2_cva6_phase6_linux_user_minimal/fork_exec.riscv64",
+      "behavior_report": "results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix/03_fork_exec/behavior/recovery_report.md",
+      "events": 41,
+      "full_target_attributed_events": 0,
+      "function_level_available": false,
+      "marker_scope_status": "MISSING",
+      "minimal_callsite_kind_counts": {
+        "unknown": 41
+      },
+      "minimal_target_attributed_events": 0,
+      "notes": [
+        "The requested full ELF code map was generated from build/board/genesys2_cva6_phase6_linux_user.",
+        "The board trace package records the minimal runtime ELF path used on /tmp/rvmt_phase6.",
+        "The runtime_minimal_code_analysis directory is exact-runtime supporting evidence for low-address syscall PCs.",
+        "Process ownership is not proven because no runtime process map or marker scope is present."
+      ],
+      "process_attribution": "not_proven",
+      "requested_full_elf": "build/board/genesys2_cva6_phase6_linux_user/fork_exec.riscv64",
+      "requested_full_elf_code_map": "results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix/03_fork_exec/local_code_analysis/code_map.json",
+      "runtime_process_map_status": "MISSING",
+      "sample_id": "fork_exec",
+      "source_line_available": false,
+      "status": "LOCAL_CODE_MAP_GENERATED_PROCESS_NOT_PROVEN",
+      "trace": "results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix/03_fork_exec/trace.jsonl"
+    },
+    {
+      "actual_runtime_minimal_code_map": "results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix/04_illegal_instruction/runtime_minimal_code_analysis/code_map.json",
+      "actual_runtime_minimal_elf": "build/board/genesys2_cva6_phase6_linux_user_minimal/illegal_instruction.riscv64",
+      "behavior_report": "results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix/04_illegal_instruction/behavior/recovery_report.md",
+      "events": 21,
+      "full_target_attributed_events": 1,
+      "function_level_available": false,
+      "marker_scope_status": "MISSING",
+      "minimal_callsite_kind_counts": {
+        "syscall_site": 1,
+        "unknown": 20
+      },
+      "minimal_target_attributed_events": 1,
+      "notes": [
+        "The requested full ELF code map was generated from build/board/genesys2_cva6_phase6_linux_user.",
+        "The board trace package records the minimal runtime ELF path used on /tmp/rvmt_phase6.",
+        "The runtime_minimal_code_analysis directory is exact-runtime supporting evidence for low-address syscall PCs.",
+        "Process ownership is not proven because no runtime process map or marker scope is present."
+      ],
+      "process_attribution": "not_proven",
+      "requested_full_elf": "build/board/genesys2_cva6_phase6_linux_user/illegal_instruction.riscv64",
+      "requested_full_elf_code_map": "results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix/04_illegal_instruction/local_code_analysis/code_map.json",
+      "runtime_process_map_status": "MISSING",
+      "sample_id": "illegal_instruction",
+      "source_line_available": false,
+      "status": "LOCAL_CODE_MAP_GENERATED_PROCESS_NOT_PROVEN",
+      "trace": "results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix/04_illegal_instruction/trace.jsonl"
+    }
+  ],
+  "schema": "rvmt.genesys2.local_code_analysis_summary.v1",
+  "status": "LOCAL_CODE_ANALYSIS_GENERATED_PROCESS_NOT_PROVEN"
+}

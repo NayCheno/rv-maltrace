@@ -1,0 +1,902 @@
+{
+  "attribution_limitations": [
+    "PC-in-ELF is static code-range evidence, not complete process attribution.",
+    "Runtime load-base, PIE/ASLR, and exact board runtime ELF must be accounted for before strong process ownership claims.",
+    "Target/process ownership still requires marker scope, PID/SATP/ASID, or runtime load-map evidence."
+  ],
+  "binary_role": "linux_user",
+  "elf": "build/board/genesys2_cva6_phase6_linux_user/illegal_instruction.riscv64",
+  "elf_header": {
+    "class": "ELF64",
+    "entry": "0x00000000000104e0",
+    "machine": 243,
+    "type": "EXEC"
+  },
+  "elf_type": "EXEC",
+  "function_ranges": [],
+  "load_base_assumption": "fixed_vaddr_exec",
+  "load_ranges": [
+    {
+      "end": "0x000000000007dc03",
+      "file_offset": "0x0",
+      "permissions": "RX",
+      "segment": "text",
+      "start": "0x0000000000010000"
+    },
+    {
+      "end": "0x0000000000088ca8",
+      "file_offset": "0x6e380",
+      "permissions": "RW",
+      "segment": "data",
+      "start": "0x000000000007e380"
+    }
+  ],
+  "notes": [
+    "This is local ELF/code attribution metadata for synthetic behavior audit triage.",
+    "It does not prove process ownership without target-scoped trace or OS context evidence.",
+    "For board traces, use a code map generated from the exact board runtime ELF when available.",
+    "ELF type EXEC; load-base assumption: fixed_vaddr_exec."
+  ],
+  "runtime_path": "/tmp/rvmt_phase6/illegal_instruction",
+  "sample_id": "illegal_instruction",
+  "schema": "rvmt.code_map.v1",
+  "sections": [
+    {
+      "end": "0x00000000000101ec",
+      "flags": "0x2",
+      "name": ".note.gnu.build-id",
+      "size": 36,
+      "start": "0x00000000000101c8",
+      "type": 7
+    },
+    {
+      "end": "0x000000000001020c",
+      "flags": "0x2",
+      "name": ".note.ABI-tag",
+      "size": 32,
+      "start": "0x00000000000101ec",
+      "type": 7
+    },
+    {
+      "end": "0x0000000000010258",
+      "flags": "0x2",
+      "name": ".rela.dyn",
+      "size": 72,
+      "start": "0x0000000000010210",
+      "type": 4
+    },
+    {
+      "end": "0x0000000000052d02",
+      "flags": "0x6",
+      "name": ".text",
+      "size": 273066,
+      "start": "0x0000000000010258",
+      "type": 1
+    },
+    {
+      "end": "0x000000000006dd7c",
+      "flags": "0x2",
+      "name": ".rodata",
+      "size": 110700,
+      "start": "0x0000000000052d10",
+      "type": 1
+    },
+    {
+      "end": "0x000000000007db40",
+      "flags": "0x2",
+      "name": ".eh_frame",
+      "size": 64960,
+      "start": "0x000000000006dd80",
+      "type": 1
+    },
+    {
+      "end": "0x000000000007dc03",
+      "flags": "0x2",
+      "name": ".gcc_except_table",
+      "size": 195,
+      "start": "0x000000000007db40",
+      "type": 1
+    },
+    {
+      "end": "0x000000000007e398",
+      "flags": "0x403",
+      "name": ".tdata",
+      "size": 24,
+      "start": "0x000000000007e380",
+      "type": 1
+    },
+    {
+      "end": "0x000000000007e3d8",
+      "flags": "0x403",
+      "name": ".tbss",
+      "size": 64,
+      "start": "0x000000000007e398",
+      "type": 8
+    },
+    {
+      "end": "0x000000000007e3a0",
+      "flags": "0x3",
+      "name": ".preinit_array",
+      "size": 8,
+      "start": "0x000000000007e398",
+      "type": 16
+    },
+    {
+      "end": "0x000000000007e3a8",
+      "flags": "0x3",
+      "name": ".init_array",
+      "size": 8,
+      "start": "0x000000000007e3a0",
+      "type": 14
+    },
+    {
+      "end": "0x000000000007e3b8",
+      "flags": "0x3",
+      "name": ".fini_array",
+      "size": 16,
+      "start": "0x000000000007e3a8",
+      "type": 15
+    },
+    {
+      "end": "0x0000000000081bb0",
+      "flags": "0x3",
+      "name": ".data.rel.ro",
+      "size": 14328,
+      "start": "0x000000000007e3b8",
+      "type": 1
+    },
+    {
+      "end": "0x0000000000081ff0",
+      "flags": "0x3",
+      "name": ".got",
+      "size": 1088,
+      "start": "0x0000000000081bb0",
+      "type": 1
+    },
+    {
+      "end": "0x0000000000082000",
+      "flags": "0x3",
+      "name": ".got.plt",
+      "size": 16,
+      "start": "0x0000000000081ff0",
+      "type": 1
+    },
+    {
+      "end": "0x0000000000083894",
+      "flags": "0x3",
+      "name": ".data",
+      "size": 6292,
+      "start": "0x0000000000082000",
+      "type": 1
+    },
+    {
+      "end": "0x00000000000838a0",
+      "flags": "0x3",
+      "name": ".sdata",
+      "size": 8,
+      "start": "0x0000000000083898",
+      "type": 1
+    },
+    {
+      "end": "0x0000000000088ca8",
+      "flags": "0x3",
+      "name": ".bss",
+      "size": 21512,
+      "start": "0x00000000000838a0",
+      "type": 8
+    }
+  ],
+  "sha256": "3fc89f0e777d60065d0ba4fa7059e10e5676b84b5341b8bf39a511ed065717ed",
+  "source": "board\\trace_validation\\programs\\illegal_instruction.c",
+  "source_attribution": {
+    "function_count": 0,
+    "function_level": "unavailable",
+    "function_level_basis": "no function symbols found",
+    "limitations": [
+      "Function-level attribution from symbols is not source-line attribution.",
+      "Source-line attribution requires retained DWARF/debug-line metadata or an addr2line-compatible side channel."
+    ],
+    "source_line_basis": "DWARF/source-line decoding is not present in rvmt.code_map.v1",
+    "source_line_level": "unavailable"
+  },
+  "source_locations": [],
+  "symbols": [],
+  "syscall_sites": [
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000102d6",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000106b6",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000106c0",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000010b70",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000010b7c",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000010cfe",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000011258",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000011324",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000011378",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000113b8",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000113d4",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000114f0",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000012110",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000016d84",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000016ddc",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000016e02",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000016e36",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000016e96",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000016ebe",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000016f2c",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000016f52",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000016ff0",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000017022",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000001704e",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000017082",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000017494",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000001767c",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000176a2",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000176e0",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000176f8",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000177a6",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000177f2",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000001781e",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000178ba",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000178e8",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000001872a",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000001876a",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000018d9e",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000018da6",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000018dc0",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000002295e",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000022b80",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000022cca",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000231d6",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000023336",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000023386",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000002578a",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000257f0",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000025808",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000025820",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000025838",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000025850",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000002586e",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000258ee",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000025944",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000002599a",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000259cc",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000025a2a",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000025a5c",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000025ab0",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000025ae2",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000025b22",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000002a854",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000002b008",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000002b20a",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000002c75c",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000002c7da",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000003fb7a",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000003fbfc",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000003fc3e",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000003fc98",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000003fcea",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000003ffb8",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000003fff4",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000040028",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000040040",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000040054",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000004013a",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000401e6",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000040276",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000040408",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000405a4",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000405e8",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000040660",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000406d4",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000040930",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000040956",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000409f0",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000041680",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000416dc",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000041d9a",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000041dfa",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000041e96",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000041ec8",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000041f16",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000422f6",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000046dbe",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000004c0f4",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    }
+  ],
+  "trap_sites": [
+    {
+      "asm": ".word 0xffffffff",
+      "kind": "illegal_instruction",
+      "pc": "0x00000000000104c4",
+      "section": ".text",
+      "symbol": null,
+      "symbol_offset": null
+    }
+  ]
+}

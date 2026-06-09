@@ -1,0 +1,10 @@
+[
+  {
+    "asm": ".word 0xffffffff",
+    "kind": "illegal_instruction",
+    "pc": "0x0000000000010102",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  }
+]

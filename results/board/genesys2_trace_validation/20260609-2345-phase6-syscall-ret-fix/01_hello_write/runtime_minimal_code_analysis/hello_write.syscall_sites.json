@@ -1,0 +1,16 @@
+[
+  {
+    "asm": "ecall",
+    "pc": "0x00000000000100fe",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000010110",
+    "section": ".text",
+    "symbol": null,
+    "symbol_offset": null
+  }
+]
