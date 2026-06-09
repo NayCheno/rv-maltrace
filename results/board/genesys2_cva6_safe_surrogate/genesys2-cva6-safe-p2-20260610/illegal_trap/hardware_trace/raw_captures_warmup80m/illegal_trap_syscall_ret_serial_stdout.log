@@ -1,0 +1,16 @@
+
+RVMT_SEND 'echo RVMT_P2_ILLEGAL_RET_START; /tmp/rvmt_p2/illegal_trap; echo RVMT_P2_ILLEGAL_RET_DONE'
+echo RVMT_P2_ILLEGAL_RET_START; /tmp/rvmt_p2/illegal_trap; echo RVMT_P2_ILLEGA
+
+
+L_RET_DONE
+
+RVMT_P2_ILLEGAL_RET_START
+
+synthetic SIGILL
+
+RVMT_P2_ILLEGAL_RET_DONE
+
+#
+
+#

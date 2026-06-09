@@ -1,0 +1,31 @@
+{
+  "allowed_claims": [
+    "Genesys2/CVA6 hardware trace captured a safe synthetic illegal-trap surrogate write syscall boundary.",
+    "Genesys2/CVA6 hardware trace captured an illegal-instruction trap cause=2 during the surrogate run.",
+    "Local code analysis maps the captured write syscall PC to the target ELF text/code map.",
+    "Synthetic surrogate behavior mapping for illegal_instruction_trap is demonstrated with documented limitations."
+  ],
+  "board": "Digilent Genesys2",
+  "cpu": "CVA6",
+  "non_claims": [
+    "No real malware validation is demonstrated.",
+    "No real malware detection quality or efficacy is claimed.",
+    "No real malware payload, source, or binary is present in the repository.",
+    "No single continuous entry/trap/return hardware trace window is claimed.",
+    "No strong runtime process attribution is claimed without PID/SATP/ASID/marker evidence."
+  ],
+  "run_id": "genesys2-cva6-safe-p2-20260610",
+  "samples": [
+    {
+      "hardware_trace": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/hardware_trace/trace_summary.json",
+      "integrated_validation": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/integrated_validation.json",
+      "local_code_analysis": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/local_code_analysis/source_attribution_summary.json",
+      "malware_analysis": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/malware_analysis/behavior_mapping.json",
+      "real_malware": false,
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "illegal_trap",
+      "status": "PASS_SAFE_SURROGATE_EVIDENCE_CHAIN_WITH_LIMITATIONS"
+    }
+  ],
+  "schema": "rvmt.genesys2.safe_surrogate.run_summary.v1"
+}

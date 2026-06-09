@@ -1,0 +1,100 @@
+{
+  "analyzed_binary": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/00_build_syscall_only/illegal_trap_syscall_only.riscv64",
+  "analyzed_source": "board/genesys2_cva6_safe_surrogate/illegal_trap_syscall_only.c",
+  "binary_sha256": "1e47d72dd8a27c697321d285560cf2abefa3fb17ab919734b098e7a2fc6e77f5",
+  "capability_flags": {
+    "destructive": false,
+    "network_activity_expected": false,
+    "network_required": false,
+    "persistence": false,
+    "privilege_escalation": false,
+    "process_mutation": false,
+    "real_payload": false
+  },
+  "compiler": "riscv64-linux-gnu-gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "elf": {
+    "class": "ELF64",
+    "entry": "0x000000000001010a",
+    "machine": 243,
+    "readelf_path": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/00_build_syscall_only/readelf.txt",
+    "static_non_pie_syscall_only": true,
+    "type": "EXEC"
+  },
+  "intended_behavior": [
+    "install SIGILL handler with rt_sigaction syscall",
+    "execute an intentionally illegal instruction",
+    "handler writes synthetic SIGILL to stdout via write syscall",
+    "handler exits cleanly via exit syscall"
+  ],
+  "policy": {
+    "claim_boundary": "safe surrogate behavior only, not real malware detection",
+    "no_real_malware_payload_source_or_binary": true,
+    "real_malware_gate": "not_applicable_safe_synthetic_sample"
+  },
+  "provenance": "repository-authored safe syscall-only reimplementation",
+  "real_malware": false,
+  "reference_source": "experiments/linux_behavior/malware_like/programs/illegal_trap.c",
+  "sample_class": "malware_like_synthetic",
+  "sample_id": "illegal_trap",
+  "schema": "rvmt.safe_surrogate.static_analysis.v1",
+  "source_sha256": "0bf78c0edad985ce75dd3821085806ec8521974c2b7c92f3b738003b0a3ce51c",
+  "static_sites": {
+    "expected_direct_syscalls": [
+      {
+        "name": "rt_sigaction",
+        "nr": 134,
+        "role": "install SIGILL handler"
+      },
+      {
+        "name": "write",
+        "nr": 64,
+        "role": "handler-visible synthetic output"
+      },
+      {
+        "name": "exit",
+        "nr": 93,
+        "role": "clean process termination"
+      }
+    ],
+    "syscall_sites": [
+      {
+        "asm": "ecall",
+        "pc": "0x00000000000100f8",
+        "section": ".text",
+        "symbol": "$xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0",
+        "symbol_offset": "0x10"
+      },
+      {
+        "asm": "ecall",
+        "pc": "0x0000000000010106",
+        "section": ".text",
+        "symbol": "$xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0",
+        "symbol_offset": "0x1e"
+      },
+      {
+        "asm": "ecall",
+        "pc": "0x0000000000010142",
+        "section": ".text",
+        "symbol": "_start",
+        "symbol_offset": "0x38"
+      },
+      {
+        "asm": "ecall",
+        "pc": "0x0000000000010154",
+        "section": ".text",
+        "symbol": "_start",
+        "symbol_offset": "0x4a"
+      }
+    ],
+    "trap_sites": [
+      {
+        "asm": ".word 0xffffffff",
+        "kind": "illegal_instruction",
+        "pc": "0x0000000000010146",
+        "section": ".text",
+        "symbol": "_start",
+        "symbol_offset": "0x3c"
+      }
+    ]
+  }
+}

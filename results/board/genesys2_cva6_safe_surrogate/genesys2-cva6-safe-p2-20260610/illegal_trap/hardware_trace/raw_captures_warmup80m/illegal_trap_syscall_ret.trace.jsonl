@@ -1,0 +1,12 @@
+{"cycle": 3523397116, "evt": "SYSCALL_RET", "evt_code": 5, "ila_row_index": 0, "packed_primary": "0x00025684", "pc": "0x803d3226", "record_index": 0, "syscall_id": "0x0000000000025684"}
+{"cycle": 3523397149, "evt": "PRIV", "evt_code": 9, "ila_row_index": 33, "old_priv": "S", "packed_primary": "0x00000001", "pc": "0xa052afdc", "record_index": 1}
+{"cycle": 3523397177, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 61, "packed_primary": "0xa052afe2", "pc": "0xa052afde", "record_index": 2, "target": "0xa052afe2"}
+{"cycle": 3523397216, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 100, "packed_primary": "0xd28e4656", "pc": "0xd28e4646", "record_index": 3, "target": "0xd28e4656"}
+{"cycle": 3523397675, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 559, "packed_primary": "0xa04f0790", "pc": "0xa04f078e", "record_index": 4, "target": "0xa04f0790"}
+{"cycle": 3523397784, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 668, "packed_primary": "0xa04f07b4", "pc": "0xa04f07b0", "record_index": 5, "target": "0xa04f07b4"}
+{"cycle": 3523397879, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 763, "packed_primary": "0xa04f086e", "pc": "0xa04f07e0", "record_index": 6, "target": "0xa04f086e"}
+{"cycle": 3523397941, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 825, "packed_primary": "0xa04f0876", "pc": "0xa04f0874", "record_index": 7, "target": "0xa04f0876"}
+{"cycle": 3523397943, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 827, "packed_primary": "0xa04f0902", "pc": "0xa04f087a", "record_index": 8, "target": "0xa04f0902"}
+{"cycle": 3523398001, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 885, "packed_primary": "0xa04f090a", "pc": "0xa04f0906", "record_index": 9, "target": "0xa04f090a"}
+{"cycle": 3523398029, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 913, "packed_primary": "0xa04f0912", "pc": "0xa04f090e", "record_index": 10, "target": "0xa04f0912"}
+{"cycle": 3523398061, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 945, "packed_primary": "0xa04f093e", "pc": "0xa04f0916", "record_index": 11, "target": "0xa04f093e"}

@@ -1,0 +1,161 @@
+{
+  "binary": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/00_build_syscall_only/illegal_trap_syscall_only.riscv64",
+  "binary_sha256": "1e47d72dd8a27c697321d285560cf2abefa3fb17ab919734b098e7a2fc6e77f5",
+  "board": "Digilent Genesys2",
+  "captures": [
+    {
+      "capture_err": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/hardware_trace/raw_captures_warmup80m/illegal_trap_write_entry_capture.err",
+      "capture_log": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/hardware_trace/raw_captures_warmup80m/illegal_trap_write_entry_capture.log",
+      "csv": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/hardware_trace/raw_captures_warmup80m/illegal_trap_write_entry.csv",
+      "event_counts": {
+        "BRANCH": 9,
+        "PRIV": 1,
+        "SYSCALL_ENTRY": 1
+      },
+      "events": 11,
+      "first_interesting_event": {
+        "a7": "0x0000000000000040",
+        "capture_id": "illegal_trap_write_entry",
+        "capture_trigger": "SYSCALL_ENTRY_a7_0x40",
+        "capture_validity": "target_sigill_handler_write_entry",
+        "cycle": 1236359658,
+        "evt": "SYSCALL_ENTRY",
+        "evt_code": 4,
+        "global_record_index": 0,
+        "ila_row_index": 0,
+        "packed_primary": "0x00000040",
+        "pc": "0x000100f8",
+        "record_index": 0,
+        "syscall_id": "0x0000000000000000"
+      },
+      "id": "illegal_trap_write_entry",
+      "program_log": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/hardware_trace/raw_captures_warmup80m/illegal_trap_write_entry_program.log",
+      "trace": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/hardware_trace/raw_captures_warmup80m/illegal_trap_write_entry.trace.jsonl",
+      "trigger": "SYSCALL_ENTRY_a7_0x40",
+      "trigger_compare": "eq104'hX00000040XXXXXXXXXXXXXXXX4",
+      "validity": "target_sigill_handler_write_entry"
+    },
+    {
+      "capture_err": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/hardware_trace/raw_captures_warmup80m/illegal_trap_trap_cause2_capture.err",
+      "capture_log": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/hardware_trace/raw_captures_warmup80m/illegal_trap_trap_cause2_capture.log",
+      "csv": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/hardware_trace/raw_captures_warmup80m/illegal_trap_trap_cause2.csv",
+      "event_counts": {
+        "BRANCH": 11,
+        "PRIV": 1,
+        "TRAP": 1
+      },
+      "events": 13,
+      "first_interesting_event": {
+        "capture_id": "illegal_trap_trap_cause2",
+        "capture_trigger": "TRAP_cause_0x2",
+        "capture_validity": "illegal_instruction_trap_cause_observed_kernel_context",
+        "cause": "0x0000000000000002",
+        "cycle": 2536293432,
+        "evt": "TRAP",
+        "evt_code": 6,
+        "global_record_index": 11,
+        "ila_row_index": 0,
+        "packed_primary": "0x00000002",
+        "pc": "0x8025aef8",
+        "record_index": 0
+      },
+      "id": "illegal_trap_trap_cause2",
+      "program_log": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/hardware_trace/raw_captures_warmup80m/illegal_trap_trap_cause2_program.log",
+      "trace": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/hardware_trace/raw_captures_warmup80m/illegal_trap_trap_cause2.trace.jsonl",
+      "trigger": "TRAP_cause_0x2",
+      "trigger_compare": "eq104'hX00000002XXXXXXXXXXXXXXXX6",
+      "validity": "illegal_instruction_trap_cause_observed_kernel_context"
+    },
+    {
+      "capture_err": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/hardware_trace/raw_captures_warmup80m/illegal_trap_syscall_ret_capture.err",
+      "capture_log": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/hardware_trace/raw_captures_warmup80m/illegal_trap_syscall_ret_capture.log",
+      "csv": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/hardware_trace/raw_captures_warmup80m/illegal_trap_syscall_ret.csv",
+      "event_counts": {
+        "BRANCH": 10,
+        "PRIV": 1,
+        "SYSCALL_RET": 1
+      },
+      "events": 12,
+      "first_interesting_event": {
+        "capture_id": "illegal_trap_syscall_ret",
+        "capture_trigger": "SYSCALL_RET_any",
+        "capture_validity": "return_event_unattributed_window_probe",
+        "cycle": 3523397116,
+        "evt": "SYSCALL_RET",
+        "evt_code": 5,
+        "global_record_index": 24,
+        "ila_row_index": 0,
+        "packed_primary": "0x00025684",
+        "pc": "0x803d3226",
+        "record_index": 0,
+        "syscall_id": "0x0000000000025684"
+      },
+      "id": "illegal_trap_syscall_ret",
+      "program_log": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/hardware_trace/raw_captures_warmup80m/illegal_trap_syscall_ret_program.log",
+      "trace": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/hardware_trace/raw_captures_warmup80m/illegal_trap_syscall_ret.trace.jsonl",
+      "trigger": "SYSCALL_RET_any",
+      "trigger_compare": "eq104'hXXXXXXXXXXXXXXXXXXXXXXXXX5",
+      "validity": "return_event_unattributed_window_probe"
+    }
+  ],
+  "cpu": "CVA6",
+  "event_counts": {
+    "BRANCH": 30,
+    "PRIV": 3,
+    "SYSCALL_ENTRY": 1,
+    "SYSCALL_RET": 1,
+    "TRAP": 1
+  },
+  "events": 36,
+  "expected_behavior": [
+    "illegal_instruction_trap"
+  ],
+  "expected_syscalls": [
+    "write"
+  ],
+  "limitations": [
+    "Trace evidence is assembled from multiple ILA trigger windows, not one continuous invocation.",
+    "The TRAP cause=0x2 event is observed in supervisor/kernel context; the current adapter does not expose the user faulting PC for this event.",
+    "The SYSCALL_RET probe is retained as an unattributed return-window check and is not claimed as the write(64) return.",
+    "No real malware payload, source, or binary is included or executed."
+  ],
+  "real_malware": false,
+  "reference_manifest": "experiments/linux_behavior/malware_like/manifest.json",
+  "reference_source": "experiments/linux_behavior/malware_like/programs/illegal_trap.c",
+  "requirements": {
+    "illegal_instruction_trap_cause": {
+      "evidence": "TRAP cause=0x2 captured in a trap-triggered ILA window",
+      "pass": true
+    },
+    "real_malware_exclusion": {
+      "evidence": "repository-authored synthetic/surrogate only; real_malware=false",
+      "pass": true
+    },
+    "target_runtime_output": {
+      "evidence": "program.log contains synthetic SIGILL and returns to the Buildroot shell",
+      "pass": true
+    },
+    "target_write_syscall_entry": {
+      "evidence": "SYSCALL_ENTRY a7=0x40 at PC 0x000100f8 inside sigill_handler",
+      "pass": true
+    }
+  },
+  "run_id": "genesys2-cva6-safe-p2-20260610",
+  "runtime_path": "/tmp/rvmt_p2/illegal_trap",
+  "sample_class": "malware_like_synthetic",
+  "sample_id": "illegal_trap",
+  "schema": "rvmt.genesys2.safe_surrogate.hardware_trace_summary.v1",
+  "source": "board/genesys2_cva6_safe_surrogate/illegal_trap_syscall_only.c",
+  "source_sha256": "0bf78c0edad985ce75dd3821085806ec8521974c2b7c92f3b738003b0a3ce51c",
+  "status": "PASS_SYNTHETIC_MALWARE_LIKE_ILLEGAL_TRAP_MULTI_CAPTURE",
+  "syscall_entry_counts": {
+    "0x0000000000000040": 1
+  },
+  "transport": {
+    "jtag": "Genesys2 onboard JTAG",
+    "uart": "COM7 115200 8N1"
+  },
+  "trap_cause_counts": {
+    "0x0000000000000002": 1
+  }
+}
