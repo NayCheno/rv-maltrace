@@ -3,7 +3,8 @@
     "Genesys2/CVA6 hardware trace captured a safe synthetic illegal-trap surrogate write syscall boundary.",
     "Genesys2/CVA6 hardware trace captured an illegal-instruction trap cause=2 during the surrogate run.",
     "Local code analysis maps the captured write syscall PC to the target ELF text/code map.",
-    "Synthetic surrogate behavior mapping for illegal_instruction_trap is demonstrated with documented limitations."
+    "Synthetic surrogate behavior mapping for illegal_instruction_trap is demonstrated with documented limitations.",
+    "Genesys2/CVA6 runtime process map captures the safe surrogate target child mapping for /tmp/rvmt_p2/illegal_trap."
   ],
   "board": "Digilent Genesys2",
   "cpu": "CVA6",
@@ -22,6 +23,7 @@
       "local_code_analysis": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/local_code_analysis/source_attribution_summary.json",
       "malware_analysis": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/malware_analysis/behavior_mapping.json",
       "real_malware": false,
+      "runtime_process_attribution": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/runtime_process_attribution/summary.json",
       "sample_class": "malware_like_synthetic",
       "sample_id": "illegal_trap",
       "status": "PASS_SAFE_SURROGATE_EVIDENCE_CHAIN_WITH_LIMITATIONS"

@@ -1,0 +1,9 @@
+RVMT_SERIAL_DIRECT_COMMAND_CAPTURE port=COM7 baud=115200 start=2026-06-10T06:42:19+0800
+
+RVMT_SEND 'echo RVMT_RUNTIME_MAP_READY; ls -l /tmp/rvmt_p2/illegal_trap'
+echo RVMT_RUNTIME_MAP_READY; ls -l /tmp/rvmt_p2/illegal_trap
+RVMT_RUNTIME_MAP_READY
+-rwxr-xr-x    1 root     root          1912 Jan  1 00:19 [1;32m/tmp/rvmt_p2/illegal_trap[m
+#
+#
+RVMT_SERIAL_DIRECT_COMMAND_CAPTURE_DONE

@@ -3,12 +3,15 @@
     "Genesys2/CVA6 hardware trace captured a safe synthetic illegal-trap surrogate write syscall boundary.",
     "Genesys2/CVA6 hardware trace captured an illegal-instruction trap cause=2 during the surrogate run.",
     "Local code analysis maps the captured write syscall PC to the target ELF text/code map.",
-    "Synthetic surrogate behavior mapping for illegal_instruction_trap is demonstrated with documented limitations."
+    "Synthetic surrogate behavior mapping for illegal_instruction_trap is demonstrated with documented limitations.",
+    "Genesys2/CVA6 runtime process map captures the safe surrogate target child mapping for /tmp/rvmt_p2/illegal_trap."
   ],
   "checks": {
     "automated_audit_weak_expected_match": true,
     "board_execution_log_contains_synthetic_sigill": true,
+    "runtime_process_map_captured": true,
     "static_policy_safe": true,
+    "strong_runtime_process_attribution_not_claimed": true,
     "target_code_site_attributed": true,
     "trap_cause2_captured": true,
     "write_syscall_entry_captured": true
@@ -19,13 +22,16 @@
     "behavior_recovery": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/behavior/recovery_report.md",
     "hardware_trace": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/hardware_trace/trace_summary.json",
     "local_code_analysis": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/local_code_analysis/source_attribution_summary.json",
+    "runtime_process_attribution": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/runtime_process_attribution/summary.json",
+    "runtime_process_map": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/runtime_process_map.json",
     "static_analysis": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/local_code_analysis/static_analysis.json"
   },
   "limitations": [
     "Behavior evidence is synthetic/surrogate analysis, not real malware detection.",
     "Trace is multi-window; single continuous invocation is not demonstrated.",
     "Runtime process ownership is not proven because marker scope and runtime process map are missing.",
-    "Trap PC is kernel/supervisor context, not a target user faulting PC attribution."
+    "Trap PC is kernel/supervisor context, not a target user faulting PC attribution.",
+    "Runtime process map is now available, but strong process attribution still requires hardware MARKER scope."
   ],
   "non_claims": [
     "No real malware validation is demonstrated.",

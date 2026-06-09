@@ -1,0 +1,42 @@
+{
+  "attribution_confidence_counts": {
+    "not_marker_scoped": 36
+  },
+  "audit": {
+    "all_expected_matched": false,
+    "missing_expected_behavior": [
+      "illegal_instruction_trap"
+    ],
+    "path": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/runtime_process_attribution/audit/behavior_audit.json",
+    "weak_matched_expected_behavior": [
+      "illegal_instruction_trap"
+    ]
+  },
+  "claim_boundary": [
+    "Runtime process map now captures target_child /tmp/rvmt_p2/illegal_trap maps on Genesys2/CVA6.",
+    "Strong process attribution is still not proven because hardware MARKER scope is missing from the decoded trace.",
+    "This remains safe synthetic/surrogate evidence, not real malware validation or detection evidence."
+  ],
+  "marker_scope_status": "MISSING",
+  "process_owner_counts": {
+    "unknown": 36
+  },
+  "real_malware": false,
+  "run_id": "genesys2-cva6-safe-p2-20260610",
+  "runtime_process_attribution_proven": false,
+  "runtime_process_map": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/runtime_process_map.json",
+  "runtime_process_map_schema": "rvmt.runtime_process_map.v1",
+  "runtime_process_map_status": "PASS",
+  "sample_class": "malware_like_synthetic",
+  "sample_id": "illegal_trap",
+  "schema": "rvmt.genesys2.runtime_process_attribution_summary.v1",
+  "status": "RUNTIME_PROCESS_MAP_PASS_MARKER_SCOPE_MISSING",
+  "target_child": {
+    "comm": "illegal_trap",
+    "exe": "/tmp/rvmt_p2/illegal_trap",
+    "map_count": 4,
+    "pid": 3379,
+    "tgid": 3379
+  },
+  "trace_code_join_with_runtime_map": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/runtime_process_attribution/source_attribution.runtime_map_summary.json"
+}
