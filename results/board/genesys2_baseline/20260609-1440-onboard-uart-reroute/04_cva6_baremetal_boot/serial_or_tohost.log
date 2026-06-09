@@ -1,0 +1,112 @@
+RVMT_SERIAL_OPEN port=COM7 baud=115200 8N1
+   Loading Ramdisk to bddf3000, end be7528d7 ... OK
+   Loading Device Tree to 00000000bddee000, end 00000000bddf2d24 ... OK
+Working FDT set to bddee000
+
+Starting kernel ...
+
+[    0.000000] Linux version 6.19.6 (root@buildkitsandbox) (riscv64-buildroot-linux-gnu-gcc.br_real (Buildroot 2026.02) 14.3.0, GNU ld (GNU Binutils) 2.44) #1 Tue Jun  9 06:02:04 UTC 2026
+[    0.000000] Machine model: eth,cva6-bare
+[    0.000000] SBI specification v3.0 detected
+[    0.000000] SBI implementation ID=0x1 Version=0x10007
+[    0.000000] SBI TIME extension detected
+[    0.000000] SBI IPI extension detected
+[    0.000000] SBI RFENCE extension detected
+[    0.000000] SBI DBCN extension detected
+[    0.000000] SBI FWFT extension detected
+[    0.000000] earlycon: ns16550 at MMIO32 0x0000000010000000 (options '115200')
+[    0.000000] printk: legacy bootconsole [ns16550] enabled
+[    0.000000] efi: UEFI not found.
+[    0.000000] OF: reserved mem: 0x0000000080000000..0x000000008003ffff (256 KiB) nomap non-reusable mmode_resv1@80000000
+[    0.000000] OF: reserved mem: 0x0000000080040000..0x000000008004ffff (64 KiB) nomap non-reusable mmode_resv0@80040000
+[    0.000000] Zone ranges:
+[    0.000000]   DMA32    [mem 0x0000000080000000-0x00000000bfffffff]
+[    0.000000]   Normal   empty
+[    0.000000] Movable zone start for each node
+[    0.000000] Early memory node ranges
+[    0.000000]   node   0: [mem 0x0000000080000000-0x000000008004ffff]
+[    0.000000]   node   0: [mem 0x0000000080050000-0x00000000bfffffff]
+[    0.000000] Initmem setup node 0 [mem 0x0000000080000000-0x00000000bfffffff]
+[    0.000000] riscv: base ISA extensions acdfim
+[    0.000000] riscv: ELF capabilities acdfim
+[    0.000000] Ticket spinlock: enabled
+[    0.000000] Kernel command line: earlycon console=ttyS0,115200n8
+[    0.000000] printk: log buffer data + meta data: 131072 + 458752 = 589824 bytes
+[    0.000000] Dentry cache hash table entries: 131072 (order: 8, 1048576 bytes, linear)
+[    0.000000] Inode-cache hash table entries: 65536 (order: 7, 524288 bytes, linear)
+[    0.000000] Built 1 zonelists, mobility grouping on.  Total pages: 262144
+[    0.000000] mem auto-init: stack:all(zero), heap alloc:off, heap free:off
+[    0.000000] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=1, Nodes=1
+[    0.000000] NR_IRQS: 64, nr_irqs: 64, preallocated irqs: 0
+[    0.000000] riscv-intc: 64 local interrupts mapped
+[    0.000000] clocksource: riscv_clocksource: mask: 0xffffffffffffffff max_cycles: 0x5c40939b5, max_idle_ns: 440795202646 ns
+[    0.000106] sched_clock: 64 bits at 25MHz, resolution 40ns, wraps every 4398046511100ns
+[    0.012805] Console: colour dummy device 80x25
+[    0.018850] Calibrating delay loop (skipped), value calculated using timer frequency.. 50.00 BogoMIPS (lpj=250000)
+[    0.030993] pid_max: default: 32768 minimum: 301
+[    0.044701] Mount-cache hash table entries: 2048 (order: 2, 16384 bytes, linear)
+[    0.054148] Mountpoint-cache hash table entries: 2048 (order: 2, 16384 bytes, linear)
+[    0.136921] riscv: ELF compat mode unsupported
+[    0.138563] ASID allocator using 16 bits (65536 entries)
+[    0.158426] EFI services will not be available.
+[    0.167587] Memory: 1003744K/1048576K available (3908K kernel code, 4706K rwdata, 2048K rodata, 2147K init, 271K bss, 42248K reserved, 0K cma-reserved)
+[    0.195266] devtmpfs: initialized
+[    0.259780] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 19112604462750000 ns
+[    0.271760] posixtimers hash table entries: 512 (order: 0, 4096 bytes, linear)
+[    0.280745] futex hash table entries: 256 (8192 bytes on 1 NUMA nodes, total 8 KiB, linear).
+[    0.295680] DMI not present or invalid.
+[    0.335339] NET: Registered PF_NETLINK/PF_ROUTE protocol family
+[    0.347875] DMA: preallocated 128 KiB GFP_KERNEL|GFP_DMA32 pool for atomic allocations
+[    0.369330] SBI misaligned access exception delegation ok
+[    0.528729] pps_core: LinuxPPS API ver. 1 registered
+[    0.534352] pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+[    0.545754] PTP clock support registered
+[    0.589658] clocksource: Switched to clocksource riscv_clocksource
+[    1.107909] NET: Registered PF_INET protocol family
+[    1.126592] IP idents hash table entries: 16384 (order: 5, 131072 bytes, linear)
+[    1.196682] tcp_listen_portaddr_hash hash table entries: 512 (order: 0, 4096 bytes, linear)
+[    1.206928] Table-perturb hash table entries: 65536 (order: 6, 262144 bytes, linear)
+[    1.216235] TCP established hash table entries: 8192 (order: 4, 65536 bytes, linear)
+[    1.227959] TCP bind hash table entries: 8192 (order: 5, 131072 bytes, linear)
+[    1.242173] TCP: Hash tables configured (established 8192 bind 8192)
+[    1.256419] UDP hash table entries: 512 (order: 3, 32768 bytes, linear)
+[    1.265821] UDP-Lite hash table entries: 512 (order: 3, 32768 bytes, linear)
+[    1.281310] NET: Registered PF_UNIX/PF_LOCAL protocol family
+[    1.322574] Unpacking initramfs...
+[    1.506656] workingset: timestamp_bits=62 max_order=18 bucket_order=0
+[    1.521343] io scheduler mq-deadline registered
+[    1.526660] io scheduler kyber registered
+[    1.571445] riscv-plic: interrupt-controller@c000000: mapped 31 interrupts with 1 handlers for 2 contexts.
+[    7.447845] Serial: 8250/16550 driver, 4 ports, IRQ sharing disabled
+[    7.634981] printk: legacy console [ttyS0] disabled
+[    7.687715] 10000000.uart: ttyS0 at MMIO 0x10000000 (irq = 1, base_baud = 3125000) is a TI16750
+[    7.698975] printk: legacy console [ttyS0] enabled
+[    7.698975] printk: legacy console [ttyS0] enabled
+[    7.710690] printk: legacy bootconsole [ns16550] disabled
+[    7.710690] printk: legacy bootconsole [ns16550] disabled
+[    7.834371] xilinx_spi 20000000.xps-spi: at [mem 0x20000000-0x20000fff], irq=2
+[    7.930714] lowrisc-digilent-ethernet: Lowrisc ethernet platform (30000000-30007FFF) mapped to ffffffc6000f8000
+[    7.944546] lowrisc-eth 30000000.lowrisc-eth: MAC Address: 00:18:3e:02:e3:7f
+[    7.970456] lowrisc-eth 30000000.lowrisc-eth: Lowrisc Ether100MHz registered
+[    8.013469] NET: Registered PF_INET6 protocol family
+[    8.166342] Segment Routing with IPv6
+[    8.174924] In-situ OAM (IOAM) with IPv6
+[    8.182702] sit: IPv6, IPv4 and MPLS over IPv4 tunneling driver
+[    8.213204] NET: Registered PF_PACKET protocol family
+[    8.966794] clk: Disabling unused clocks
+Hello World!
+Hit any key to enter update mode .GER=0x78
+ updating!
+receiving boot image
+size: 00000083
+receiving ................
+RVMT_HOST_SENT_PAYLOAD_BYTES=131
+. done!
+
+RVMT_BAREMETAL_PASS phase=4 board=genesys2 target=cva6 uart=onboard_com7
+
+RVMT_BAREMETAL_PASS phase=4 board=genesys2 target=cva6 uart=onboard_com7
+
+RVMT_BAREMETAL_PASS phase=4 board=genesys2 target=cva6 uart=onboard_com7
+
+RVMT_UART_MARKER_FOUND=RVMT_BAREMETAL_PASS
