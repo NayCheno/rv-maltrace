@@ -1,0 +1,2 @@
+No photo or video captured for this phase.
+Acceptance is based on Vivado programming and refresh evidence in program.log.
