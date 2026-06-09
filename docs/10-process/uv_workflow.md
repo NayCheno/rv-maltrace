@@ -551,6 +551,15 @@ uv run python tools/check_genesys2_safe_surrogate.py
 uv run python tools/check_genesys2_safe_surrogate.py --self-test
 ```
 
+Build the marker-scope trace bitstream before claiming marker-scoped board
+evidence, then program the Genesys2 via on-board JTAG and the local
+`hw_server`:
+
+```powershell
+uv run rvmt bitstream:build-trace-marker
+D:\Application\vivado\2025.2\Vivado\bin\vivado.bat -mode batch -source tools\program_genesys2_bitstream.tcl -tclargs build\vivado\genesys2-cv64a6_imafdc_sv39-trace-marker\work-fpga\ariane_xilinx.bit build\vivado\genesys2-cv64a6_imafdc_sv39-trace-marker\work-fpga\ariane_xilinx.ltx localhost:3121
+```
+
 To capture `/proc/<pid>/maps` ownership evidence for a Genesys2/CVA6 board run,
 emit a shell command and send it over the board UART with
 `tools/serial_direct_command_capture.py`, then parse the UART log:
