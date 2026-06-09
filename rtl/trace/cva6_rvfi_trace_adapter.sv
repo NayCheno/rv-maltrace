@@ -30,6 +30,14 @@ module cva6_rvfi_trace_adapter
     input  logic [11:0]                         csr_addr_i,
     input  logic [XLEN-1:0]                     csr_wdata_i,
     input  logic [XLEN-1:0]                     satp_i,
+    input  logic                                trace_enable_retire_i,
+    input  logic                                trace_enable_branch_i,
+    input  logic                                trace_enable_jump_i,
+    input  logic                                trace_enable_syscall_i,
+    input  logic                                trace_enable_trap_i,
+    input  logic                                trace_enable_context_i,
+    input  logic                                trace_enable_marker_i,
+    input  logic                                trace_enable_drop_i,
 
     output logic                                trace_valid_o,
     output trace_packet_t                       trace_packet_o
@@ -340,7 +348,7 @@ module cva6_rvfi_trace_adapter
                           rvfi_sret_to_user_s[port] &&
                           syscall_outstanding_view;
 
-      if (event_valid && rvfi_trap_s[port]) begin
+      if (event_valid && rvfi_trap_s[port] && trace_enable_trap_i) begin
         packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
         packet.evt   = EVT_TRAP;
         packet.cause = xlen_to_64(rvfi_cause_s[port]);
@@ -350,19 +358,21 @@ module cva6_rvfi_trace_adapter
       end
 
       if (syscall_entry_evt) begin
-        packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
-        packet.evt = EVT_SYSCALL_ENTRY;
-        packet.syscall_id = next_syscall_id_view;
-        packet.a0  = args_at_port[port][0];
-        packet.a1  = args_at_port[port][1];
-        packet.a2  = args_at_port[port][2];
-        packet.a3  = args_at_port[port][3];
-        packet.a4  = args_at_port[port][4];
-        packet.a5  = args_at_port[port][5];
-        packet.a6  = args_at_port[port][6];
-        packet.a7  = args_at_port[port][7];
-        candidates[candidate_count] = packet;
-        candidate_count++;
+        if (trace_enable_syscall_i) begin
+          packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
+          packet.evt = EVT_SYSCALL_ENTRY;
+          packet.syscall_id = next_syscall_id_view;
+          packet.a0  = args_at_port[port][0];
+          packet.a1  = args_at_port[port][1];
+          packet.a2  = args_at_port[port][2];
+          packet.a3  = args_at_port[port][3];
+          packet.a4  = args_at_port[port][4];
+          packet.a5  = args_at_port[port][5];
+          packet.a6  = args_at_port[port][6];
+          packet.a7  = args_at_port[port][7];
+          candidates[candidate_count] = packet;
+          candidate_count++;
+        end
         syscall_outstanding_view = 1'b1;
         active_syscall_id_view = next_syscall_id_view;
         syscall_entry_cycle_view = sample_cycle;
@@ -370,18 +380,21 @@ module cva6_rvfi_trace_adapter
       end
 
       if (syscall_ret_evt) begin
-        packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
-        packet.evt = EVT_SYSCALL_RET;
-        packet.target = vlen_to_64(rvfi_pc_wdata_s[port]);
-        packet.syscall_id = active_syscall_id_view;
-        packet.duration = sample_cycle - syscall_entry_cycle_view;
-        packet.a0 = args_at_port[port][0];
-        candidates[candidate_count] = packet;
-        candidate_count++;
+        if (trace_enable_syscall_i) begin
+          packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
+          packet.evt = EVT_SYSCALL_RET;
+          packet.target = vlen_to_64(rvfi_pc_wdata_s[port]);
+          packet.syscall_id = active_syscall_id_view;
+          packet.duration = sample_cycle - syscall_entry_cycle_view;
+          packet.a0 = args_at_port[port][0];
+          candidates[candidate_count] = packet;
+          candidate_count++;
+        end
         syscall_outstanding_view = 1'b0;
       end
 
-      if (event_valid && port == 0 && csr_valid_s && trace_is_watched_csr(csr_addr_s)) begin
+      if (event_valid && port == 0 && csr_valid_s && trace_is_watched_csr(csr_addr_s) &&
+          trace_enable_context_i) begin
         packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
         packet.evt   = csr_addr_s == TRACE_CSR_SATP ? EVT_SATP : EVT_CSR;
         packet.csr   = csr_addr_s;
@@ -392,33 +405,39 @@ module cva6_rvfi_trace_adapter
       end
 
       if (event_valid && rvfi_mode_s[port] != priv_view) begin
-        packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
-        packet.evt      = EVT_PRIV;
-        packet.old_priv = priv_view;
-        packet.new_priv = rvfi_mode_s[port];
-        packet.value    = {62'd0, rvfi_mode_s[port]};
-        candidates[candidate_count] = packet;
-        candidate_count++;
+        if (trace_enable_context_i) begin
+          packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
+          packet.evt      = EVT_PRIV;
+          packet.old_priv = priv_view;
+          packet.new_priv = rvfi_mode_s[port];
+          packet.value    = {62'd0, rvfi_mode_s[port]};
+          candidates[candidate_count] = packet;
+          candidate_count++;
+        end
         priv_view = rvfi_mode_s[port];
       end
 
       if (event_valid && !rvfi_trap_s[port] && branch_evt) begin
-        packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
-        packet.evt    = EVT_BRANCH;
-        packet.taken  = branch_taken;
-        packet.target = branch_taken ? branch_target : fallthrough_pc;
-        candidates[candidate_count] = packet;
-        candidate_count++;
+        if (trace_enable_branch_i) begin
+          packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
+          packet.evt    = EVT_BRANCH;
+          packet.taken  = branch_taken;
+          packet.target = branch_taken ? branch_target : fallthrough_pc;
+          candidates[candidate_count] = packet;
+          candidate_count++;
+        end
       end else if (event_valid && !rvfi_trap_s[port] && jump_evt) begin
-        packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
-        packet.evt    = EVT_JUMP;
-        packet.taken  = 1'b1;
-        packet.target = jump_target;
-        candidates[candidate_count] = packet;
-        candidate_count++;
+        if (trace_enable_jump_i) begin
+          packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
+          packet.evt    = EVT_JUMP;
+          packet.taken  = 1'b1;
+          packet.target = jump_target;
+          candidates[candidate_count] = packet;
+          candidate_count++;
+        end
       end
 
-      if (event_valid && rvfi_valid_s[port] && !rvfi_trap_s[port]) begin
+      if (event_valid && rvfi_valid_s[port] && !rvfi_trap_s[port] && trace_enable_retire_i) begin
         packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
         packet.evt = EVT_RETIRE;
         candidates[candidate_count] = packet;
@@ -473,8 +492,8 @@ module cva6_rvfi_trace_adapter
 
   always_comb begin
     drop_packet = trace_null_packet();
-    drop_packet.valid = drop_count_q != 64'd0;
-    drop_packet.evt   = drop_count_q != 64'd0 ? EVT_DROP : EVT_NONE;
+    drop_packet.valid = drop_count_q != 64'd0 && trace_enable_drop_i;
+    drop_packet.evt   = drop_packet.valid ? EVT_DROP : EVT_NONE;
     drop_packet.cycle = cycle_q;
     drop_packet.value = drop_count_q;
 
@@ -483,7 +502,7 @@ module cva6_rvfi_trace_adapter
     drop_output    = 1'b0;
     direct_candidate_output = 1'b0;
 
-    if (drop_count_q != 64'd0 && !drop_defer_q) begin
+    if (drop_packet.valid && !drop_defer_q) begin
       trace_valid_o  = 1'b1;
       trace_packet_o = drop_packet;
       drop_output    = 1'b1;

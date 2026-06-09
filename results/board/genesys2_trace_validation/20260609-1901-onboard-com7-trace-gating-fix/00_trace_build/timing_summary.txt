@@ -1,0 +1,26 @@
+Genesys2 CVA6 trace build timing summary
+
+Initial implementation result from auto route:
+  overall summary: WNS -0.055 ns, TNS -0.055 ns, 1 failing endpoint (see command.log / routed summary before recovery)
+
+Recovery route-only result from ariane_xilinx_physopt.dcp:
+  RVMT_RECOVERY_WNS=0.079
+  RVMT_RECOVERY_RESULT=PASS
+  Setup :            0  Failing Endpoints,  Worst Slack       27.692ns,  Total Violation        0.000ns
+  Hold  :            0  Failing Endpoints,  Worst Slack        0.079ns,  Total Violation        0.000ns
+  PW    :            0  Failing Endpoints,  Worst Slack       15.732ns,  Total Violation        0.000ns
+
+Final routed report excerpts:
+  Slack (MET) :             0.079ns  (required time - arrival time)
+  Path Group:             oserdes_clkdiv_3
+  Requirement:            2.500ns  (oserdes_clkdiv_3 rise@2.500ns - oserdes_clk_3 rise@0.000ns)
+  Data Path Delay:        2.362ns  (logic 0.466ns (19.731%)  route 1.896ns (80.269%))
+
+Route status:
+  # of routable nets..................... :      242468 :
+  # of fully routed nets............. :      242468 :
+  # of nets with routing errors.......... :           0 :
+
+Final artifacts:
+  ariane_xilinx.bit  size=11443738  sha256=95F057E418EEB7403D093D0A4D560878EF6AB0BD06119A882725F324714D5D74
+  ariane_xilinx.mcs  size=32188150  sha256=CF7AED29243597D512E324181A70591CB776314315344011E4C09F9194D8DFD1

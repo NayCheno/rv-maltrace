@@ -1,0 +1,8 @@
+=== check_board_trace_minimal ===
+[PASS] Phase 5.2 board trace policy keeps first hardware trace minimal
+
+=== check_trace_export_decision ===
+[PASS] trace export decision selects BRAM/JTAG for first board run
+
+=== check_timing_principles ===
+[PASS] trace timing principles: pipelined sideband capture, no backpressure ports

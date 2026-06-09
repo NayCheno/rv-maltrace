@@ -55,6 +55,14 @@ module tb_cva6_rvfi_trace_adapter
       .csr_addr_i(csr_addr),
       .csr_wdata_i(csr_wdata),
       .satp_i(satp),
+      .trace_enable_retire_i(1'b1),
+      .trace_enable_branch_i(1'b1),
+      .trace_enable_jump_i(1'b1),
+      .trace_enable_syscall_i(1'b1),
+      .trace_enable_trap_i(1'b1),
+      .trace_enable_context_i(1'b1),
+      .trace_enable_marker_i(1'b1),
+      .trace_enable_drop_i(1'b1),
       .trace_valid_o(trace_valid),
       .trace_packet_o(trace_packet)
   );

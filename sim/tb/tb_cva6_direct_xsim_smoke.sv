@@ -195,6 +195,14 @@ module tb_cva6_direct_xsim_smoke #(
       .csr_addr_i(12'h180),
       .csr_wdata_i(rvfi_csr.satp.wdata),
       .satp_i(rvfi_csr.satp.wdata),
+      .trace_enable_retire_i(1'b1),
+      .trace_enable_branch_i(1'b1),
+      .trace_enable_jump_i(1'b1),
+      .trace_enable_syscall_i(1'b1),
+      .trace_enable_trap_i(1'b1),
+      .trace_enable_context_i(1'b1),
+      .trace_enable_marker_i(1'b1),
+      .trace_enable_drop_i(1'b1),
       .trace_valid_o(rvmt_trace_valid),
       .trace_packet_o(rvmt_trace_packet)
     );
