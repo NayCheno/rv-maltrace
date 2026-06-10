@@ -1,6 +1,30 @@
 # uv Workflow
 
-Use `uv` as the single entry for local build tasks:
+Use `uv` as the single entry for local build tasks.
+
+## Current Genesys2/CVA6 Gate
+
+The current hardware route is Digilent Genesys2 + CVA6. Use this aggregate gate
+for the active repository checks:
+
+```powershell
+uv run python tools/check_genesys2_current.py
+```
+
+It intentionally excludes legacy 35T checks. Use the hygiene audit to quantify
+tracked legacy evidence and generated clutter before deleting or archiving files:
+
+```powershell
+uv run python tools/audit_repo_hygiene.py
+```
+
+The command catalog below includes current tasks and historical tooling. Do not
+treat the full list as the current Genesys2/CVA6 completion gate; 35T entries are
+legacy references only.
+
+## Command Catalog
+
+Representative commands:
 
 ```powershell
 uv run rvmt config:show
@@ -29,6 +53,8 @@ uv run python tools/check_baseline_pass_criteria.py
 uv run python tools/check_trace_export_decision.py
 uv run python tools/check_board_trace_minimal.py
 uv run python tools/check_board_trace_programs.py
+uv run python tools/check_genesys2_current.py
+uv run python tools/audit_repo_hygiene.py
 uv run python tools/check_linux_behavior_principles.py
 uv run python tools/check_linux_benign_dataset.py
 uv run python tools/check_linux_malware_like_dataset.py
