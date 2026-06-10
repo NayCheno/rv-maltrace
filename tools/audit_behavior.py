@@ -480,12 +480,12 @@ def match_rule(
             (not matched)
             and (sample_id == "file_scan" or str(sample_id or "").startswith("many_file_scan"))
             and counts.get("openat", 0) >= 1
-            and counts.get("getdents64", 0) >= 2
+            and counts.get("getdents64", 0) >= 1
         )
         if weak_matched:
             weak_behavior.append("many_file_scan_shape")
             weak_reasons.append(
-                "openat plus repeated getdents64 is visible in the target run, but close is not recovered strongly from this p0c trace"
+                "openat plus getdents64 is visible in the target run, but repeated directory traversal and close are not recovered strongly from this p0c trace"
             )
             evidence_strength = "weak"
 
@@ -493,12 +493,12 @@ def match_rule(
         weak_matched = (
             (not matched)
             and (sample_id == "self_copy_sim" or str(sample_id or "").startswith("self_copy_simulation"))
-            and has_self_copy_shape(names, counts)
+            and all(counts.get(name, 0) >= 1 for name in ("openat", "read", "write", "close"))
         )
         if weak_matched:
             weak_behavior.append("self_copy_shape_without_path_tags")
             weak_reasons.append(
-                "openat/openat/read/write/close copy shape is visible, but self_path and executable_output path tags are not trace-proven"
+                "openat/read/write/close copy classes are visible, but second open, self_path, and executable_output path tags are not trace-proven"
             )
             evidence_strength = "weak"
 
@@ -860,6 +860,9 @@ def self_test() -> int:
         if weak_result["all_expected_matched"]:
             print("[FAIL] self-test allowed weak single getdents64 file scan", file=sys.stderr)
             return 1
+        if "many_file_scan" not in weak_result.get("weak_matched_expected_behavior", []):
+            print("[FAIL] self-test missed weak single getdents64 file scan evidence", file=sys.stderr)
+            return 1
         unrelated_failure_semantic = {
             "schema": "rvmt.behavior.semantic.v1",
             "source": "unrelated-failure",
@@ -1116,6 +1119,27 @@ def self_test() -> int:
         )
         if "second_close_not_fully_recovered:p0c_self_copy_core_shape" not in one_close_match.get("evidence_limitations", []):
             print("[FAIL] self-test missed self-copy close-count limitation", file=sys.stderr)
+            return 1
+        self_copy_window_classes = {
+            "schema": "rvmt.behavior.semantic.v1",
+            "source": "self-copy-window-classes",
+            "syscall_sequence": [
+                {"name": "openat", "return_value": "0x3"},
+                {"name": "read", "return_value": "0x20"},
+                {"name": "write", "return_value": "0x20"},
+                {"name": "close", "return_value": "0x0"},
+            ],
+            "trap_context_transitions": [],
+        }
+        self_copy_window_result = audit(
+            self_copy_window_classes,
+            graph,
+            real_rules,
+            {"samples": [{"id": "self_copy_sim", "expected_behavior": ["self_copy_simulation"]}]},
+            "self_copy_sim",
+        )
+        if "self_copy_simulation" not in self_copy_window_result.get("weak_matched_expected_behavior", []):
+            print("[FAIL] self-test missed self-copy one-window syscall class weak evidence", file=sys.stderr)
             return 1
         plain_copy_result = audit(
             self_copy_process_attributed,
