@@ -1,0 +1,19 @@
+{
+  "destructive": false,
+  "expected_behavior": [
+    "abnormal_syscall_sequence"
+  ],
+  "expected_syscalls": [
+    "close",
+    "openat",
+    "read",
+    "write"
+  ],
+  "network_required": false,
+  "provenance": "repository_source",
+  "real_malware": false,
+  "reference_source": "experiments/linux_behavior/malware_like/programs/abnormal_syscall_sequence.c",
+  "sample_class": "malware_like_synthetic",
+  "sample_id": "abnormal_syscall_sequence",
+  "schema": "rvmt.safe_surrogate.sample_metadata.v1"
+}

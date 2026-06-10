@@ -2,9 +2,12 @@
   "allowed_claims": [
     "Genesys2/CVA6 hardware trace captured a safe synthetic illegal-trap surrogate write syscall boundary.",
     "Genesys2/CVA6 hardware trace captured an illegal-instruction trap cause=2 during the surrogate run.",
+    "Genesys2/CVA6 hardware trace captured safe synthetic surrogate syscall/trap evidence.",
+    "Genesys2/CVA6 runtime process map captures the safe surrogate target child mapping for /tmp/rvmt_p2/illegal_trap.",
+    "Local code analysis maps captured safe surrogate trace events to repository-authored target ELF code where PC evidence permits.",
     "Local code analysis maps the captured write syscall PC to the target ELF text/code map.",
     "Synthetic surrogate behavior mapping for illegal_instruction_trap is demonstrated with documented limitations.",
-    "Genesys2/CVA6 runtime process map captures the safe surrogate target child mapping for /tmp/rvmt_p2/illegal_trap."
+    "Synthetic surrogate behavior mapping is demonstrated with documented limitations."
   ],
   "board": "Digilent Genesys2",
   "cpu": "CVA6",
@@ -17,6 +20,16 @@
   ],
   "run_id": "genesys2-cva6-safe-p2-20260610",
   "samples": [
+    {
+      "hardware_trace": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/hardware_trace/trace_summary.json",
+      "integrated_validation": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/integrated_validation.json",
+      "local_code_analysis": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/local_code_analysis/source_attribution_summary.json",
+      "malware_analysis": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/malware_analysis/behavior_mapping.json",
+      "real_malware": false,
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "abnormal_syscall_sequence",
+      "status": "PASS_SAFE_SURROGATE_WEAK_EVIDENCE_CHAIN_WITH_LIMITATIONS"
+    },
     {
       "hardware_trace": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/hardware_trace/trace_summary.json",
       "integrated_validation": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/integrated_validation.json",

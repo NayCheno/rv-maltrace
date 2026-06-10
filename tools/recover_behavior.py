@@ -351,7 +351,7 @@ def add_pending(
     syscall_id = syscall_id_int(event)
     if syscall_id is None:
         pending_without_id.append(syscall)
-    else:
+    elif syscall_id != 0:
         pending_by_id[syscall_id] = syscall
 
 
@@ -413,7 +413,7 @@ def recover_syscalls(
                 number, number_source = inferred
             args = event_args(event)
             syscall_id = parse_int(event.get("syscall_id"))
-            if syscall_id is not None and syscall_id in pending_by_id:
+            if syscall_id is not None and syscall_id != 0 and syscall_id in pending_by_id:
                 pending_by_id[syscall_id].setdefault("entry_observations", []).append(
                     make_entry_observation(event, index, "SYSCALL_ENTRY", str(evt), code_map, code_index, runtime_index, scope)
                 )
@@ -786,9 +786,9 @@ def write_outputs(trace_path: Path, out_dir: Path, code_map_path: Path | None = 
 def self_test() -> int:
     trace = "\n".join(
         [
-            '{"cycle":1,"evt":"SYSCALL_ENTRY","pc":"0x1000","priv":"U","syscall_id":"0x0","a7":"0x40","a0":"0x1"}',
-            '{"cycle":2,"evt":"SYSCALL_RET","pc":"0x1008","priv":"S","target":"0x1004","syscall_id":"0x0","duration":1,"a0":"0x5"}',
-            '{"cycle":3,"evt":"SYSCALL_RET","pc":"0x100c","priv":"S","target":"0x1008","syscall_id":"0x1","duration":2,"a0":"0x5","a1":"0x2000","a2":"0x5","a7":"0x40"}',
+            '{"cycle":1,"evt":"SYSCALL_ENTRY","pc":"0x1000","priv":"U","syscall_id":"0x1","a7":"0x40","a0":"0x1"}',
+            '{"cycle":2,"evt":"SYSCALL_RET","pc":"0x1008","priv":"S","target":"0x1004","syscall_id":"0x1","duration":1,"a0":"0x5"}',
+            '{"cycle":3,"evt":"SYSCALL_RET","pc":"0x100c","priv":"S","target":"0x1008","syscall_id":"0x2","duration":2,"a0":"0x5","a1":"0x2000","a2":"0x5","a7":"0x40"}',
             '{"cycle":4,"evt":"BRANCH","pc":"0x1004","taken":true,"target":"0x1010","priv":"U"}',
             '{"cycle":5,"evt":"TRAP","pc":"0x1010","priv":"U","cause":"0x2","tval":"0xffffffff"}',
             '{"cycle":6,"evt":"PRIV","pc":"0x1010","old_priv":"U","new_priv":"S"}',
@@ -840,6 +840,22 @@ def self_test() -> int:
             return 1
         if not graph["nodes"] or not graph["edges"]:
             print("[FAIL] self-test missed behavior graph recovery", file=sys.stderr)
+            return 1
+        zero_id_multi_window_trace = root / "zero_id_multi_window_trace.jsonl"
+        zero_id_multi_window_out = root / "zero_id_multi_window_out"
+        zero_id_multi_window_trace.write_text(
+            '{"cycle":10,"evt":"SYSCALL_ENTRY","pc":"0x1000","syscall_id":"0x0","a7":"0x39"}\n'
+            '{"cycle":20,"evt":"SYSCALL_ENTRY","pc":"0x2000","syscall_id":"0x0","a7":"0x38"}\n'
+            '{"cycle":30,"evt":"SYSCALL_ENTRY","pc":"0x3000","syscall_id":"0x0","a7":"0x3f"}\n'
+            '{"cycle":40,"evt":"SYSCALL_ENTRY","pc":"0x4000","syscall_id":"0x0","a7":"0x40"}\n'
+            '{"cycle":50,"evt":"SYSCALL_RET","pc":"0x5000","syscall_id":"0x123","a7":"0x0"}\n',
+            encoding="utf-8",
+        )
+        write_outputs(zero_id_multi_window_trace, zero_id_multi_window_out)
+        zero_id_semantic = json.loads((zero_id_multi_window_out / "semantic_events.json").read_text(encoding="utf-8"))
+        zero_id_names = [row.get("name") for row in zero_id_semantic["syscall_sequence"]]
+        if zero_id_names[:4] != ["close", "openat", "read", "write"]:
+            print("[FAIL] self-test collapsed independent zero-id multi-window syscall entries", file=sys.stderr)
             return 1
         trap_trace = root / "trap_trace.jsonl"
         trap_out = root / "trap_out"

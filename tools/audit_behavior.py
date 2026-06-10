@@ -502,13 +502,13 @@ def match_rule(
         weak_matched = (
             not matched
             and (sample_id == "abnormal_syscall_sequence" or str(sample_id or "").startswith("abnormal_syscall_sequence"))
-            and counts.get("close", 0) >= 2
+            and counts.get("close", 0) >= 1
             and all(counts.get(name, 0) >= 1 for name in ("openat", "read", "write"))
         )
         if weak_matched:
-            weak_behavior.append("abnormal_failed_syscall_shape")
+            weak_behavior.append("abnormal_syscall_entry_shape_partial")
             weak_reasons.append(
-                "close/openat/read/write abnormal syscall shape is visible, but failed return evidence is not complete enough for a strong match"
+                "close/openat/read/write entry classes are visible, but repeated close and failed return evidence are not complete enough for a strong match"
             )
             evidence_strength = "weak"
 

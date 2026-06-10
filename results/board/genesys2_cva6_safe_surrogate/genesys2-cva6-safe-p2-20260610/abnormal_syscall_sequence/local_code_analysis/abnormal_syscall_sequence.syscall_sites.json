@@ -1,0 +1,51 @@
+[
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000010114",
+    "section": ".text",
+    "symbol": "$xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0",
+    "symbol_offset": "0x2c"
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000001011c",
+    "section": ".text",
+    "symbol": "$xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0",
+    "symbol_offset": "0x34"
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000010124",
+    "section": ".text",
+    "symbol": "$xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0",
+    "symbol_offset": "0x3c"
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000010136",
+    "section": ".text",
+    "symbol": "$xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0",
+    "symbol_offset": "0x4e"
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000010144",
+    "section": ".text",
+    "symbol": "$xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0",
+    "symbol_offset": "0x5c"
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000010156",
+    "section": ".text",
+    "symbol": "$xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0",
+    "symbol_offset": "0x6e"
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000010164",
+    "section": ".text",
+    "symbol": "$xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0",
+    "symbol_offset": "0x7c"
+  }
+]

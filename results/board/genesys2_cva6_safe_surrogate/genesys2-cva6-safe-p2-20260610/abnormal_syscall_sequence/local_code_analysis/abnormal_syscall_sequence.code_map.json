@@ -1,0 +1,231 @@
+{
+  "attribution_limitations": [
+    "PC-in-ELF is static code-range evidence, not complete process attribution.",
+    "Runtime load-base, PIE/ASLR, and exact board runtime ELF must be accounted for before strong process ownership claims.",
+    "Target/process ownership still requires marker scope, PID/SATP/ASID, or runtime load-map evidence."
+  ],
+  "binary_role": "linux_user_malware_like_synthetic_syscall_only",
+  "elf": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/00_build_syscall_only/abnormal_syscall_sequence_syscall_only.riscv64",
+  "elf_header": {
+    "class": "ELF64",
+    "entry": "0x00000000000100e8",
+    "machine": 243,
+    "type": "EXEC"
+  },
+  "elf_type": "EXEC",
+  "function_ranges": [
+    {
+      "confidence": "symbol_table",
+      "end": "0x0000000000010168",
+      "function": "_start",
+      "size": 128,
+      "start": "0x00000000000100e8"
+    }
+  ],
+  "load_base_assumption": "fixed_vaddr_exec",
+  "load_ranges": [
+    {
+      "end": "0x0000000000011002",
+      "file_offset": "0x0",
+      "permissions": "RX",
+      "segment": "text",
+      "start": "0x0000000000010000"
+    }
+  ],
+  "notes": [
+    "This is local ELF/code attribution metadata for synthetic behavior audit triage.",
+    "It does not prove process ownership without target-scoped trace or OS context evidence.",
+    "For board traces, use a code map generated from the exact board runtime ELF when available.",
+    "ELF type EXEC; load-base assumption: fixed_vaddr_exec."
+  ],
+  "runtime_path": "/tmp/rvmt_p2/abnormal_syscall_sequence",
+  "sample_id": "abnormal_syscall_sequence",
+  "schema": "rvmt.code_map.v1",
+  "sections": [
+    {
+      "end": "0x0000000000010168",
+      "flags": "0x6",
+      "name": ".text",
+      "size": 128,
+      "start": "0x00000000000100e8",
+      "type": 1
+    },
+    {
+      "end": "0x0000000000010182",
+      "flags": "0x2",
+      "name": ".rodata",
+      "size": 26,
+      "start": "0x0000000000010168",
+      "type": 1
+    },
+    {
+      "end": "0x00000000000101b0",
+      "flags": "0x2",
+      "name": ".eh_frame",
+      "size": 40,
+      "start": "0x0000000000010188",
+      "type": 1
+    },
+    {
+      "end": "0x0000000000011002",
+      "flags": "0x2",
+      "name": ".sdata",
+      "size": 2,
+      "start": "0x0000000000011000",
+      "type": 1
+    }
+  ],
+  "sha256": "7d61514bd77e38b784ccbe706fce5f05353a74a85fdb94d9fcc8af1d5797c551",
+  "source": "experiments/linux_behavior/malware_like/programs/abnormal_syscall_sequence.c",
+  "source_attribution": {
+    "function_count": 1,
+    "function_level": "available",
+    "function_level_basis": "ELF symbol table",
+    "limitations": [
+      "Function-level attribution from symbols is not source-line attribution.",
+      "Source-line attribution requires retained DWARF/debug-line metadata or an addr2line-compatible side channel."
+    ],
+    "source_line_basis": "DWARF/source-line decoding is not present in rvmt.code_map.v1",
+    "source_line_level": "unavailable"
+  },
+  "source_locations": [],
+  "symbols": [
+    {
+      "end": "0x0000000000010168",
+      "name": "$xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0",
+      "size": 0,
+      "size_inferred": true,
+      "start": "0x00000000000100e8",
+      "type": 0
+    },
+    {
+      "end": "0x0000000000010168",
+      "name": "_start",
+      "size": 128,
+      "start": "0x00000000000100e8",
+      "type": 2
+    },
+    {
+      "end": "0x0000000000010182",
+      "name": "missing_path.1",
+      "size": 26,
+      "start": "0x0000000000010168",
+      "type": 1
+    },
+    {
+      "end": "0x0000000000011002",
+      "name": "__DATA_BEGIN__",
+      "size": 0,
+      "size_inferred": true,
+      "start": "0x0000000000011000",
+      "type": 0
+    },
+    {
+      "end": "0x0000000000011002",
+      "name": "__SDATA_BEGIN__",
+      "size": 0,
+      "size_inferred": true,
+      "start": "0x0000000000011000",
+      "type": 0
+    },
+    {
+      "end": "0x0000000000011002",
+      "name": "byte.0",
+      "size": 2,
+      "start": "0x0000000000011000",
+      "type": 1
+    },
+    {
+      "end": "0x0000000000011008",
+      "name": "__bss_start",
+      "size": 0,
+      "size_inferred": true,
+      "start": "0x0000000000011002",
+      "type": 0
+    },
+    {
+      "end": "0x0000000000011008",
+      "name": "_edata",
+      "size": 0,
+      "size_inferred": true,
+      "start": "0x0000000000011002",
+      "type": 0
+    },
+    {
+      "end": "0x0000000000011800",
+      "name": "__BSS_END__",
+      "size": 0,
+      "size_inferred": true,
+      "start": "0x0000000000011008",
+      "type": 0
+    },
+    {
+      "end": "0x0000000000011800",
+      "name": "_end",
+      "size": 0,
+      "size_inferred": true,
+      "start": "0x0000000000011008",
+      "type": 0
+    },
+    {
+      "end": "0x0000000000011804",
+      "name": "__global_pointer$",
+      "size": 0,
+      "size_inferred": true,
+      "start": "0x0000000000011800",
+      "type": 0
+    }
+  ],
+  "syscall_sites": [
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000010114",
+      "section": ".text",
+      "symbol": "$xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0",
+      "symbol_offset": "0x2c"
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000001011c",
+      "section": ".text",
+      "symbol": "$xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0",
+      "symbol_offset": "0x34"
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000010124",
+      "section": ".text",
+      "symbol": "$xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0",
+      "symbol_offset": "0x3c"
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000010136",
+      "section": ".text",
+      "symbol": "$xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0",
+      "symbol_offset": "0x4e"
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000010144",
+      "section": ".text",
+      "symbol": "$xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0",
+      "symbol_offset": "0x5c"
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000010156",
+      "section": ".text",
+      "symbol": "$xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0",
+      "symbol_offset": "0x6e"
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000010164",
+      "section": ".text",
+      "symbol": "$xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0",
+      "symbol_offset": "0x7c"
+    }
+  ],
+  "trap_sites": []
+}
