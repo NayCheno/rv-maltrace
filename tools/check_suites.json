@@ -44,6 +44,12 @@
           "label": "Genesys2/CVA6 safe surrogate evidence boundary",
           "command": ["{python}", "tools/check_genesys2_safe_surrogate.py", "--root", "{root}"],
           "tags": ["genesys2", "cva6", "safe-surrogate", "claim-boundary"]
+        },
+        {
+          "id": "safe-surrogate-manifest-coverage",
+          "label": "Genesys2/CVA6 safe surrogate full manifest coverage",
+          "command": ["{python}", "tools/check_genesys2_safe_surrogate_coverage.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "safe-surrogate", "manifest-coverage", "claim-boundary"]
         }
       ]
     },
@@ -184,6 +190,12 @@
           "id": "safe-surrogate-self-test",
           "label": "safe surrogate evidence checker self-test",
           "command": ["{python}", "tools/check_genesys2_safe_surrogate.py", "--self-test"],
+          "tags": ["genesys2", "safe-surrogate", "self-test"]
+        },
+        {
+          "id": "safe-surrogate-coverage-self-test",
+          "label": "safe surrogate manifest coverage checker self-test",
+          "command": ["{python}", "tools/check_genesys2_safe_surrogate_coverage.py", "--self-test"],
           "tags": ["genesys2", "safe-surrogate", "self-test"]
         },
         {

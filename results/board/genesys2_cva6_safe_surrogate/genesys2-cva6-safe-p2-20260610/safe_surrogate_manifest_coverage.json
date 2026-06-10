@@ -1,0 +1,175 @@
+{
+  "allowed_claims": [
+    "Genesys2/CVA6 safe synthetic/surrogate evidence chains are complete only for samples marked PASS in this report."
+  ],
+  "board": "Digilent Genesys2",
+  "complete_samples": 2,
+  "cpu": "CVA6",
+  "manifest": "experiments/linux_behavior/malware_like/manifest.json",
+  "missing_samples": [
+    "anti_debug_like",
+    "batch_open_read_write",
+    "dynamic_executable_memory",
+    "file_scan",
+    "process_chain",
+    "self_copy_sim"
+  ],
+  "non_claims": [
+    "No real malware validation is demonstrated.",
+    "No real malware detection quality or efficacy is claimed.",
+    "No real malware payload, source, or binary is present in the repository.",
+    "Samples marked NOT_RUN or INCOMPLETE are not current hardware evidence."
+  ],
+  "real_malware": false,
+  "run_id": "genesys2-cva6-safe-p2-20260610",
+  "run_root": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610",
+  "run_summary": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/safe_surrogate_summary.json",
+  "sample_class": "malware_like_synthetic",
+  "samples": [
+    {
+      "errors": [],
+      "missing_artifacts": [],
+      "present_in_run_summary": true,
+      "real_malware": false,
+      "sample_class": "malware_like_synthetic",
+      "sample_dir": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence",
+      "sample_id": "abnormal_syscall_sequence",
+      "source": "experiments/linux_behavior/malware_like/programs/abnormal_syscall_sequence.c",
+      "status": "PASS_SAFE_SURROGATE_EVIDENCE_CHAIN"
+    },
+    {
+      "errors": [],
+      "missing_artifacts": [
+        "sample_metadata.json",
+        "hardware_trace/trace.jsonl",
+        "hardware_trace/trace_summary.json",
+        "local_code_analysis/code_map.json",
+        "local_code_analysis/static_analysis.json",
+        "local_code_analysis/source_attribution.json",
+        "local_code_analysis/source_attribution_summary.json",
+        "integrated_validation.json",
+        "malware_analysis/behavior_mapping.json or malware_analysis/behavior_report.md"
+      ],
+      "present_in_run_summary": false,
+      "real_malware": false,
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "anti_debug_like",
+      "source": "experiments/linux_behavior/malware_like/programs/anti_debug_like.c",
+      "status": "NOT_RUN"
+    },
+    {
+      "errors": [],
+      "missing_artifacts": [
+        "sample_metadata.json",
+        "hardware_trace/trace.jsonl",
+        "hardware_trace/trace_summary.json",
+        "local_code_analysis/code_map.json",
+        "local_code_analysis/static_analysis.json",
+        "local_code_analysis/source_attribution.json",
+        "local_code_analysis/source_attribution_summary.json",
+        "integrated_validation.json",
+        "malware_analysis/behavior_mapping.json or malware_analysis/behavior_report.md"
+      ],
+      "present_in_run_summary": false,
+      "real_malware": false,
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "batch_open_read_write",
+      "source": "experiments/linux_behavior/malware_like/programs/batch_open_read_write.c",
+      "status": "NOT_RUN"
+    },
+    {
+      "errors": [],
+      "missing_artifacts": [
+        "sample_metadata.json",
+        "hardware_trace/trace.jsonl",
+        "hardware_trace/trace_summary.json",
+        "local_code_analysis/code_map.json",
+        "local_code_analysis/static_analysis.json",
+        "local_code_analysis/source_attribution.json",
+        "local_code_analysis/source_attribution_summary.json",
+        "integrated_validation.json",
+        "malware_analysis/behavior_mapping.json or malware_analysis/behavior_report.md"
+      ],
+      "present_in_run_summary": false,
+      "real_malware": false,
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "dynamic_executable_memory",
+      "source": "experiments/linux_behavior/malware_like/programs/dynamic_executable_memory.c",
+      "status": "NOT_RUN"
+    },
+    {
+      "errors": [],
+      "missing_artifacts": [
+        "sample_metadata.json",
+        "hardware_trace/trace.jsonl",
+        "hardware_trace/trace_summary.json",
+        "local_code_analysis/code_map.json",
+        "local_code_analysis/static_analysis.json",
+        "local_code_analysis/source_attribution.json",
+        "local_code_analysis/source_attribution_summary.json",
+        "integrated_validation.json",
+        "malware_analysis/behavior_mapping.json or malware_analysis/behavior_report.md"
+      ],
+      "present_in_run_summary": false,
+      "real_malware": false,
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "file_scan",
+      "source": "experiments/linux_behavior/malware_like/programs/file_scan.c",
+      "status": "NOT_RUN"
+    },
+    {
+      "errors": [],
+      "missing_artifacts": [],
+      "present_in_run_summary": true,
+      "real_malware": false,
+      "sample_class": "malware_like_synthetic",
+      "sample_dir": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap",
+      "sample_id": "illegal_trap",
+      "source": "experiments/linux_behavior/malware_like/programs/illegal_trap.c",
+      "status": "PASS_SAFE_SURROGATE_EVIDENCE_CHAIN"
+    },
+    {
+      "errors": [],
+      "missing_artifacts": [
+        "sample_metadata.json",
+        "hardware_trace/trace.jsonl",
+        "hardware_trace/trace_summary.json",
+        "local_code_analysis/code_map.json",
+        "local_code_analysis/static_analysis.json",
+        "local_code_analysis/source_attribution.json",
+        "local_code_analysis/source_attribution_summary.json",
+        "integrated_validation.json",
+        "malware_analysis/behavior_mapping.json or malware_analysis/behavior_report.md"
+      ],
+      "present_in_run_summary": false,
+      "real_malware": false,
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "process_chain",
+      "source": "experiments/linux_behavior/malware_like/programs/process_chain.c",
+      "status": "NOT_RUN"
+    },
+    {
+      "errors": [],
+      "missing_artifacts": [
+        "sample_metadata.json",
+        "hardware_trace/trace.jsonl",
+        "hardware_trace/trace_summary.json",
+        "local_code_analysis/code_map.json",
+        "local_code_analysis/static_analysis.json",
+        "local_code_analysis/source_attribution.json",
+        "local_code_analysis/source_attribution_summary.json",
+        "integrated_validation.json",
+        "malware_analysis/behavior_mapping.json or malware_analysis/behavior_report.md"
+      ],
+      "present_in_run_summary": false,
+      "real_malware": false,
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "self_copy_sim",
+      "source": "experiments/linux_behavior/malware_like/programs/self_copy_sim.c",
+      "status": "NOT_RUN"
+    }
+  ],
+  "schema": "rvmt.genesys2.safe_surrogate.manifest_coverage.v1",
+  "status": "INCOMPLETE",
+  "total_samples": 8
+}
