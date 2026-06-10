@@ -10,8 +10,26 @@ for the active repository checks:
 ```powershell
 uv run python tools/run_check_suite.py --list-suites
 uv run python tools/run_check_suite.py --suite genesys2-current
+uv run python tools/run_check_suite.py --suite genesys2-artifacts
 uv run python tools/check_genesys2_current.py
 ```
+
+This is the fast default loop. It checks existing evidence, local policy, and
+artifact inventory; it does not run Vivado synthesis, implementation, or
+bitstream generation.
+
+Run Vivado bitstream builds only as explicit long tasks:
+
+```powershell
+uv run python tools/run_check_suite.py --suite genesys2-trace-bitstream-long --dry-run
+uv run python tools/run_check_suite.py --suite genesys2-trace-bitstream-long --include-long
+uv run python tools/run_check_suite.py --suite genesys2-baseline-bitstream-long --include-long
+```
+
+Without `--include-long`, the suite runner refuses to execute long Vivado
+builds. Use `tools/check_genesys2_bitstream_artifacts.py --strict` first to
+decide whether an existing trace or baseline bitstream can be reused. Artifact
+checks are allowed to fail fast; they do not start a rebuild.
 
 It intentionally excludes legacy 35T checks. Use the hygiene audit to quantify
 tracked legacy evidence and generated clutter before deleting or archiving files:
@@ -59,6 +77,8 @@ uv run python tools/check_board_trace_minimal.py
 uv run python tools/check_board_trace_programs.py
 uv run python tools/run_check_suite.py --list-suites
 uv run python tools/run_check_suite.py --suite genesys2-current
+uv run python tools/run_check_suite.py --suite genesys2-artifacts
+uv run python tools/run_check_suite.py --suite genesys2-trace-bitstream-long --dry-run
 uv run python tools/check_genesys2_current.py
 uv run python tools/audit_repo_hygiene.py
 uv run python tools/check_linux_behavior_principles.py
@@ -122,6 +142,10 @@ Slash groups are expanded, so this runs the long build sequence:
 ```powershell
 uv run rvmt docker/toolchain/bootrom/bitstream
 ```
+
+Do not use slash groups as the normal Genesys2 validation loop. Any group that
+includes `bitstream` can spend hours in Vivado and should be treated as a long
+build operation, not a quick evidence check.
 
 The Windows executable itself is `rvmt`. Task names can contain colons because they are arguments, not Windows executable filenames.
 

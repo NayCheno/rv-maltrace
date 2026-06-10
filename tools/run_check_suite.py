@@ -4,6 +4,7 @@ import argparse
 import json
 import subprocess
 import sys
+import time
 from pathlib import Path
 from typing import Any
 
@@ -69,6 +70,29 @@ def display_command(command: list[str], root: Path) -> str:
     return " ".join(expanded)
 
 
+def format_duration(seconds: float) -> str:
+    if seconds < 60:
+        return f"{seconds:.2f}s"
+    minutes, remainder = divmod(seconds, 60)
+    if minutes < 60:
+        return f"{int(minutes)}m {remainder:.1f}s"
+    hours, minutes = divmod(minutes, 60)
+    return f"{int(hours)}h {int(minutes)}m {remainder:.0f}s"
+
+
+def runtime_note(item: dict[str, Any]) -> str:
+    parts: list[str] = []
+    if item.get("long"):
+        parts.append("long")
+    expected_seconds = item.get("expected_seconds")
+    expected_minutes = item.get("expected_minutes")
+    if isinstance(expected_seconds, (int, float)):
+        parts.append(f"expected ~{format_duration(float(expected_seconds))}")
+    elif isinstance(expected_minutes, (int, float)):
+        parts.append(f"expected ~{format_duration(float(expected_minutes) * 60)}")
+    return ", ".join(parts)
+
+
 def iter_checks(suite: dict[str, Any]) -> list[dict[str, Any]]:
     checks = suite.get("checks")
     if not isinstance(checks, list) or not checks:
@@ -83,38 +107,56 @@ def list_suites(manifest: dict[str, Any]) -> None:
     for suite in suites_by_id(manifest).values():
         legacy = " legacy" if suite.get("legacy") else ""
         current = " current" if suite.get("current") else ""
+        long = " long" if suite.get("long") else ""
         tier = suite.get("tier", "uncategorized")
-        print(f"{suite['id']}: {suite.get('title', '')} [{tier}{current}{legacy}]")
+        note = runtime_note(suite)
+        suffix = f" ({note})" if note else ""
+        print(f"{suite['id']}: {suite.get('title', '')} [{tier}{current}{legacy}{long}]{suffix}")
 
 
 def list_checks(suite: dict[str, Any], root: Path) -> None:
     for check in iter_checks(suite):
         command = command_tokens(check)
         print(f"{check.get('id')}: {check.get('label', '')}")
+        note = runtime_note(check)
+        if note:
+            print(f"  runtime: {note}")
         print(f"  {display_command(command, root)}")
 
 
 def run_suite(suite: dict[str, Any], root: Path, dry_run: bool) -> int:
     checks = iter_checks(suite)
     failed: list[str] = []
+    total_started = time.perf_counter()
     for index, check in enumerate(checks, start=1):
         check_id = str(check.get("id", f"check-{index}"))
         label = str(check.get("label", check_id))
         command = command_tokens(check)
         print(f"[RUN {index}/{len(checks)}] {check_id}: {label}", flush=True)
+        note = runtime_note(check)
+        if note:
+            print(f"  runtime: {note}", flush=True)
         print(f"  {display_command(command, root)}", flush=True)
         if dry_run:
             continue
+        started = time.perf_counter()
         result = subprocess.run(expand_command(command, root), cwd=root)
+        elapsed = time.perf_counter() - started
         if result.returncode != 0:
-            print(f"[FAIL] {check_id}: exit {result.returncode}", file=sys.stderr)
+            print(f"[FAIL] {check_id}: exit {result.returncode} after {format_duration(elapsed)}", file=sys.stderr)
             failed.append(check_id)
         else:
-            print(f"[PASS] {check_id}")
+            print(f"[PASS] {check_id} ({format_duration(elapsed)})")
     if failed:
-        print(f"[FAIL] suite {suite['id']} failed: {', '.join(failed)}", file=sys.stderr)
+        elapsed = time.perf_counter() - total_started
+        print(f"[FAIL] suite {suite['id']} failed after {format_duration(elapsed)}: {', '.join(failed)}", file=sys.stderr)
         return 1
-    print(f"[PASS] suite {suite['id']}" if not dry_run else f"[PASS] suite {suite['id']} dry-run")
+    elapsed = time.perf_counter() - total_started
+    print(
+        f"[PASS] suite {suite['id']} ({format_duration(elapsed)})"
+        if not dry_run
+        else f"[PASS] suite {suite['id']} dry-run"
+    )
     return 0
 
 
@@ -138,6 +180,8 @@ def validate_manifest(root: Path, manifest: dict[str, Any]) -> list[str]:
         errors.append("missing repo-hygiene suite")
 
     for suite_id, suite in suites.items():
+        if suite.get("long") and suite_id == "genesys2-current":
+            errors.append("genesys2-current must remain a fast non-long suite")
         seen_checks: set[str] = set()
         try:
             checks = iter_checks(suite)
@@ -205,6 +249,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--list-checks", action="store_true", help="List checks in --suite without running them.")
     parser.add_argument("--dry-run", action="store_true", help="Print commands without running them.")
     parser.add_argument("--include-legacy", action="store_true", help="Allow running suites marked as legacy.")
+    parser.add_argument("--include-long", action="store_true", help="Allow running suites marked as long.")
     parser.add_argument("--self-test", action="store_true", help="Validate the suite manifest.")
     args = parser.parse_args(argv)
 
@@ -232,6 +277,9 @@ def main(argv: list[str] | None = None) -> int:
         return 2
     if suite.get("legacy") and not args.include_legacy:
         print(f"run_check_suite: error: suite {args.suite!r} is legacy; pass --include-legacy to run it", file=sys.stderr)
+        return 2
+    if suite.get("long") and not args.include_long and not args.dry_run:
+        print(f"run_check_suite: error: suite {args.suite!r} is long; pass --include-long to run it", file=sys.stderr)
         return 2
     if args.list_checks:
         list_checks(suite, root)

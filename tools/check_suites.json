@@ -64,6 +64,61 @@
       ]
     },
     {
+      "id": "genesys2-artifacts",
+      "title": "Genesys2/CVA6 bitstream artifact inventory",
+      "description": "Fast inventory of existing baseline and trace Vivado deliverables. This suite does not run Vivado.",
+      "current": true,
+      "legacy": false,
+      "tier": "fast-artifact-inventory",
+      "expected_seconds": 2,
+      "checks": [
+        {
+          "id": "bitstream-artifact-inventory",
+          "label": "baseline and trace bitstream artifact inventory",
+          "command": ["{python}", "tools/check_genesys2_bitstream_artifacts.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "vivado", "artifacts", "fast"]
+        }
+      ]
+    },
+    {
+      "id": "genesys2-trace-bitstream-long",
+      "title": "Explicit Genesys2/CVA6 trace bitstream rebuild",
+      "description": "Long Vivado trace-enabled implementation. Use only when trace RTL or bitstream artifacts actually need regeneration.",
+      "current": true,
+      "legacy": false,
+      "long": true,
+      "tier": "long-vivado",
+      "expected_minutes": 120,
+      "checks": [
+        {
+          "id": "trace-bitstream-build",
+          "label": "trace-enabled Genesys2/CVA6 Vivado bitstream build",
+          "command": ["uv", "run", "rvmt", "bitstream:build-trace"],
+          "expected_minutes": 120,
+          "tags": ["genesys2", "cva6", "vivado", "bitstream", "trace", "long"]
+        }
+      ]
+    },
+    {
+      "id": "genesys2-baseline-bitstream-long",
+      "title": "Explicit Genesys2/CVA6 baseline bitstream rebuild",
+      "description": "Long Vivado baseline implementation. Use only when the baseline FPGA image must be regenerated.",
+      "current": true,
+      "legacy": false,
+      "long": true,
+      "tier": "long-vivado",
+      "expected_minutes": 120,
+      "checks": [
+        {
+          "id": "baseline-bitstream-build",
+          "label": "baseline Genesys2/CVA6 Vivado bitstream build",
+          "command": ["uv", "run", "rvmt", "bitstream:build"],
+          "expected_minutes": 120,
+          "tags": ["genesys2", "cva6", "vivado", "bitstream", "baseline", "long"]
+        }
+      ]
+    },
+    {
       "id": "genesys2-self-test",
       "title": "Fast self-tests for current Genesys2/CVA6 gates",
       "description": "Fixture-based self-tests for the current Genesys2/CVA6 checker scripts.",
@@ -100,6 +155,12 @@
           "label": "check suite manifest self-test",
           "command": ["{python}", "tools/run_check_suite.py", "--self-test"],
           "tags": ["suite", "self-test"]
+        },
+        {
+          "id": "bitstream-artifact-self-test",
+          "label": "bitstream artifact inventory self-test",
+          "command": ["{python}", "tools/check_genesys2_bitstream_artifacts.py", "--self-test"],
+          "tags": ["genesys2", "vivado", "artifacts", "self-test"]
         }
       ]
     },
