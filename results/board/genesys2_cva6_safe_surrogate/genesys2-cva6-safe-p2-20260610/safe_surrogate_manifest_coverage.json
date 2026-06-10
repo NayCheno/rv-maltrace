@@ -3,12 +3,10 @@
     "Genesys2/CVA6 safe synthetic/surrogate evidence chains are complete only for samples marked PASS in this report."
   ],
   "board": "Digilent Genesys2",
-  "complete_samples": 7,
+  "complete_samples": 8,
   "cpu": "CVA6",
   "manifest": "experiments/linux_behavior/malware_like/manifest.json",
-  "missing_samples": [
-    "self_copy_sim"
-  ],
+  "missing_samples": [],
   "non_claims": [
     "No real malware validation is demonstrated.",
     "No real malware detection quality or efficacy is claimed.",
@@ -100,26 +98,17 @@
     },
     {
       "errors": [],
-      "missing_artifacts": [
-        "sample_metadata.json",
-        "hardware_trace/trace.jsonl",
-        "hardware_trace/trace_summary.json",
-        "local_code_analysis/code_map.json",
-        "local_code_analysis/static_analysis.json",
-        "local_code_analysis/source_attribution.json",
-        "local_code_analysis/source_attribution_summary.json",
-        "integrated_validation.json",
-        "malware_analysis/behavior_mapping.json or malware_analysis/behavior_report.md"
-      ],
-      "present_in_run_summary": false,
+      "missing_artifacts": [],
+      "present_in_run_summary": true,
       "real_malware": false,
       "sample_class": "malware_like_synthetic",
+      "sample_dir": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim",
       "sample_id": "self_copy_sim",
       "source": "experiments/linux_behavior/malware_like/programs/self_copy_sim.c",
-      "status": "NOT_RUN"
+      "status": "PASS_SAFE_SURROGATE_EVIDENCE_CHAIN"
     }
   ],
   "schema": "rvmt.genesys2.safe_surrogate.manifest_coverage.v1",
-  "status": "INCOMPLETE",
+  "status": "PASS",
   "total_samples": 8
 }

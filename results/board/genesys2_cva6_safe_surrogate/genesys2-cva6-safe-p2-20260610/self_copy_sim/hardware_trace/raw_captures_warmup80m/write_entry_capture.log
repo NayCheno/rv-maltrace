@@ -1,0 +1,162 @@
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE
+command=D:\Application\vivado\2025.2\Vivado\bin\vivado.bat -mode batch -source tools\capture_genesys2_ila_event.tcl -tclargs 4 40 results\board\genesys2_cva6_safe_surrogate\genesys2-cva6-safe-p2-20260610\self_copy_sim\03_hardware_trace\raw_captures_warmup80m\write_entry.csv 120 0 1 build\vivado\genesys2-cv64a6_imafdc_sv39-trace\work-fpga\ariane_xilinx.ltx localhost:3121
+csv=results\board\genesys2_cva6_safe_surrogate\genesys2-cva6-safe-p2-20260610\self_copy_sim\03_hardware_trace\raw_captures_warmup80m\write_entry.csv
+start=2026-06-10T15:51:30+0800
+
+****** Vivado v2025.2 (64-bit)
+  **** SW Build 6299465 on Fri Nov 14 19:35:11 GMT 2025
+  **** IP Build 6300035 on Fri Nov 14 10:48:45 MST 2025
+  **** SharedData Build 6298862 on Thu Nov 13 04:50:51 MST 2025
+  **** Start of session at: Wed Jun 10 15:51:31 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source {tools\capture_genesys2_ila_event.tcl}
+# if {$argc < 3} {
+#   puts "usage: capture_genesys2_ila_event.tcl <evt_hex> <primary_hex_or_X> <csv_file> ?timeout_seconds? ?trigger_position? ?event_only_capture? ?ltx_file? ?hw_server_url?"
+#   exit 64
+# }
+# set evt_hex [string tolower [lindex $argv 0]]
+# set primary_arg [string tolower [lindex $argv 1]]
+# set csv_file [lindex $argv 2]
+# set timeout_seconds 120
+# if {$argc >= 4} {
+#   set timeout_seconds [lindex $argv 3]
+# }
+# set trigger_position 0
+# if {$argc >= 5} {
+#   set trigger_position [lindex $argv 4]
+# }
+# set event_only_capture 0
+# if {$argc >= 6} {
+#   set event_only_capture [lindex $argv 5]
+# }
+# set ltx_file [file normalize {build/vivado/genesys2-cv64a6_imafdc_sv39-trace/work-fpga/ariane_xilinx.ltx}]
+# if {$argc >= 7} {
+#   set ltx_file [file normalize [lindex $argv 6]]
+# }
+# set hw_server_url {localhost:3121}
+# if {$argc >= 8} {
+#   set hw_server_url [lindex $argv 7]
+# }
+# if {$primary_arg eq "x"} {
+#   set compare "eq104'hXXXXXXXXXXXXXXXXXXXXXXXXX${evt_hex}"
+# } else {
+#   scan $primary_arg "%x" primary_value
+#   set primary_hex [format "%08x" $primary_value]
+#   set compare "eq104'hX${primary_hex}XXXXXXXXXXXXXXXX${evt_hex}"
+# }
+# puts "RVMT_LTX_FILE=$ltx_file"
+RVMT_LTX_FILE=D:/Code/research/rv-maltrace/build/vivado/genesys2-cv64a6_imafdc_sv39-trace/work-fpga/ariane_xilinx.ltx
+# puts "RVMT_CSV_FILE=$csv_file"
+RVMT_CSV_FILE=results\board\genesys2_cva6_safe_surrogate\genesys2-cva6-safe-p2-20260610\self_copy_sim\03_hardware_trace\raw_captures_warmup80m\write_entry.csv
+# puts "RVMT_TRIGGER_EVT_HEX=$evt_hex"
+RVMT_TRIGGER_EVT_HEX=4
+# puts "RVMT_TRIGGER_PRIMARY=$primary_arg"
+RVMT_TRIGGER_PRIMARY=40
+# puts "RVMT_TRIGGER_COMPARE=$compare"
+RVMT_TRIGGER_COMPARE=eq104'hX00000040XXXXXXXXXXXXXXXX4
+# puts "RVMT_TIMEOUT_SECONDS=$timeout_seconds"
+RVMT_TIMEOUT_SECONDS=120
+# puts "RVMT_TRIGGER_POSITION=$trigger_position"
+RVMT_TRIGGER_POSITION=0
+# puts "RVMT_EVENT_ONLY_CAPTURE=$event_only_capture"
+RVMT_EVENT_ONLY_CAPTURE=1
+# open_hw_manager
+open_hw_manager: Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 538.992 ; gain = 225.156
+# connect_hw_server -url $hw_server_url
+INFO: [Labtools 27-2285] Connecting to hw_server url TCP:localhost:3121
+INFO: [Labtools 27-3415] Connecting to cs_server url TCP:localhost:0
+INFO: [Labtools 27-3417] Launching cs_server...
+INFO: [Labtools 27-2221] Launch Output:
+
+
+******** Xilinx cs_server v2025.2.0
+  ****** Build date   : Nov 14 2025-07:16:52
+    **** Build number : 2025.2.1763075812
+      ** Copyright 2017-2022 Xilinx, Inc. All Rights Reserved.
+      ** Copyright 2022-2026 Advanced Micro Devices, Inc. All Rights Reserved.
+
+
+
+# set targets [get_hw_targets *]
+# puts "RVMT_HW_TARGETS=$targets"
+RVMT_HW_TARGETS=localhost:3121/xilinx_tcf/Digilent/200300B81858B
+# if {[llength $targets] == 0} { puts "RVMT_NO_HW_TARGETS"; exit 3 }
+# open_hw_target [lindex $targets 0]
+INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/200300B81858B
+# set devs [get_hw_devices xc7k325t_0]
+# puts "RVMT_HW_DEVICES=$devs"
+RVMT_HW_DEVICES=xc7k325t_0
+# if {[llength $devs] == 0} { puts "RVMT_NO_XC7K325T"; exit 4 }
+# set dev [lindex $devs 0]
+# current_hw_device $dev
+# set_property BSCAN_SWITCH_USER_MASK 1 $dev
+# set_property PROBES.FILE $ltx_file $dev
+# catch {set_property FULL_PROBES.FILE $ltx_file $dev}
+# refresh_hw_device $dev
+INFO: [Labtools 27-2302] Device xc7k325t (JTAG device index = 0) is programmed with a design that has 1 ILA core(s).
+# set ilas [get_hw_ilas *]
+# puts "RVMT_HW_ILAS=$ilas"
+RVMT_HW_ILAS=hw_ila_1
+# if {[llength $ilas] == 0} { puts "RVMT_NO_HW_ILA"; exit 2 }
+# set ila [lindex $ilas 0]
+# set fire_probe [get_hw_probes rvmt_trace_fire]
+# set payload_probe [get_hw_probes rvmt_trace_probe_payload]
+# set_property CONTROL.WINDOW_COUNT 1 $ila
+# set_property CONTROL.TRIGGER_POSITION $trigger_position $ila
+# set_property TRIGGER_COMPARE_VALUE eq1'b1 $fire_probe
+# set_property TRIGGER_COMPARE_VALUE $compare $payload_probe
+# if {$event_only_capture} {
+#   set cap_rc [catch {
+#     set_property CONTROL.CAPTURE_MODE BASIC $ila
+#     set_property CONTROL.CAPTURE_CONDITION AND $ila
+#     set_property CAPTURE_COMPARE_VALUE eq1'b1 $fire_probe
+#   } cap_err]
+#   puts "RVMT_EVENT_ONLY_CAPTURE_RC=$cap_rc"
+#   puts "RVMT_EVENT_ONLY_CAPTURE_ERR=$cap_err"
+# }
+RVMT_EVENT_ONLY_CAPTURE_RC=1
+RVMT_EVENT_ONLY_CAPTURE_ERR=ERROR: [Labtoolstcl 44-156] hw_ila property 'CONTROL.CAPTURE_MODE' is read-only.
+
+# puts "RVMT_TRIGGER_PAYLOAD_COMPARE=[get_property TRIGGER_COMPARE_VALUE $payload_probe]"
+RVMT_TRIGGER_PAYLOAD_COMPARE=eq104'hX00000040XXXXXXXXXXXXXXXX4
+# puts "RVMT_CAPTURE_MODE=[get_property CONTROL.CAPTURE_MODE $ila]"
+RVMT_CAPTURE_MODE=ALWAYS
+# puts "RVMT_CAPTURE_CONDITION=[get_property CONTROL.CAPTURE_CONDITION $ila]"
+RVMT_CAPTURE_CONDITION=AND
+# puts "RVMT_FIRE_CAPTURE_COMPARE=[get_property CAPTURE_COMPARE_VALUE $fire_probe]"
+RVMT_FIRE_CAPTURE_COMPARE=eq1'bX
+# run_hw_ila $ila
+INFO: [Labtools 27-1964] The ILA core 'hw_ila_1' trigger was armed at 2026-Jun-10 15:51:45
+# puts "RVMT_ILA_ARMED"
+RVMT_ILA_ARMED
+# flush stdout
+# set wait_rc [catch {wait_on_hw_ila -timeout $timeout_seconds $ila} wait_err]
+# puts "RVMT_WAIT_RC=$wait_rc"
+RVMT_WAIT_RC=0
+# puts "RVMT_WAIT_ERR=$wait_err"
+RVMT_WAIT_ERR=
+# if {$wait_rc != 0} {
+#   stop_hw_ila $ila
+#   puts "RVMT_TRIGGER_TIMEOUT"
+#   exit 7
+# }
+INFO: [Labtools 27-1966] The ILA core 'hw_ila_1' triggered at 2026-Jun-10 15:51:46
+# set data_rc [catch {set data [upload_hw_ila_data $ila]} data_err]
+# puts "RVMT_UPLOAD_RC=$data_rc"
+RVMT_UPLOAD_RC=0
+# puts "RVMT_UPLOAD_ERR=$data_err"
+RVMT_UPLOAD_ERR=hw_ila_data_1
+# if {$data_rc != 0} { exit 5 }
+# set write_rc [catch {write_hw_ila_data -force -csv_file $csv_file $data} write_err]
+# puts "RVMT_WRITE_RC=$write_rc"
+RVMT_WRITE_RC=0
+# puts "RVMT_WRITE_ERR=$write_err"
+RVMT_WRITE_ERR=D:/Code/research/rv-maltrace/results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/03_hardware_trace/raw_captures_warmup80m/write_entry.csv
+# if {$write_rc != 0} { exit 6 }
+# puts "RVMT_ILA_CAPTURE_DONE"
+RVMT_ILA_CAPTURE_DONE
+# exit 0
+INFO: [Common 17-206] Exiting Vivado at Wed Jun 10 15:51:46 2026...
+RVMT_CAPTURE_PROCESS_RETURNCODE=0
