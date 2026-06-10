@@ -158,6 +158,10 @@ def main() -> int:
     parser.add_argument("--expected", type=Path, required=True)
     parser.add_argument("--status", default="PARTIAL")
     parser.add_argument("--limitation", action="append", default=[])
+    parser.add_argument("--ila-data-depth", type=int, default=1024)
+    parser.add_argument("--ila-capture-mode", default="ALWAYS")
+    parser.add_argument("--ila-storage-qualification", default="disabled")
+    parser.add_argument("--ila-advanced-trigger", default="FALSE")
     parser.add_argument("--capture", action="append", default=[], help="Comma-separated key=value spec.")
     args = parser.parse_args()
 
@@ -226,6 +230,12 @@ def main() -> int:
         "run_id": args.run_id,
         "board": "Digilent Genesys2",
         "cpu": "CVA6",
+        "ila": {
+            "data_depth": args.ila_data_depth,
+            "capture_mode": args.ila_capture_mode,
+            "storage_qualification": args.ila_storage_qualification,
+            "advanced_trigger": args.ila_advanced_trigger,
+        },
         "runtime_path": args.runtime_path,
         "binary": args.binary,
         "source": args.source,
@@ -254,9 +264,10 @@ def main() -> int:
             "jtag": "Genesys2 onboard JTAG via Vivado hw_server",
             "uart": "Genesys2 onboard UART COM7 115200 8N1",
             "ila": {
-                "data_depth": 1024,
-                "capture_mode": "ALWAYS",
-                "storage_qualification": "not enabled in current xlnx_ila bitstream",
+                "data_depth": args.ila_data_depth,
+                "capture_mode": args.ila_capture_mode,
+                "storage_qualification": args.ila_storage_qualification,
+                "advanced_trigger": args.ila_advanced_trigger,
             },
             "captures": captures,
             "limitations": args.limitation,

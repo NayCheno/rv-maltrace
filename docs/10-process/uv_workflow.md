@@ -500,6 +500,26 @@ uv run python tools/check_board_trace_programs.py
 uv run python tools/check_board_trace_programs.py --self-test
 ```
 
+The 2026-06-09 Genesys2/CVA6 trace validation run proves that the current ILA
+can capture syscall entries and syscall returns, but it has not yet captured a
+target syscall entry and its matching return in one window. For the next paired
+syscall capture attempt, rebuild the trace bitstream with a larger ILA window
+or storage qualification enabled; the `xlnx_ila` generator accepts these
+environment variables:
+
+```powershell
+$env:RVMT_ILA_DATA_DEPTH = "4096"
+$env:RVMT_ILA_STORAGE_QUAL = "1"
+$env:RVMT_ILA_ADV_TRIGGER = "TRUE"
+uv run rvmt bitstream:build-trace
+```
+
+Record the generated `RVMT_ILA_*` lines from the Vivado/IP build log and pass
+the matching values into `tools/package_genesys2_trace_evidence.py` with
+`--ila-data-depth`, `--ila-storage-qualification`, and
+`--ila-advanced-trigger`. Do not claim paired syscall evidence until a decoded
+single capture contains both the target `SYSCALL_ENTRY` and `SYSCALL_RET`.
+
 ## Linux Behavior Experiment Principles
 
 Phase 6.1 is tracked in `docs/04-runtime-linux/linux_behavior_experiment_principles.md` and
