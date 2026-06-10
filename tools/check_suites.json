@@ -34,6 +34,12 @@
           "tags": ["genesys2", "cva6", "trace", "evidence"]
         },
         {
+          "id": "board-local-code-analysis",
+          "label": "Genesys2/CVA6 board local code analysis evidence",
+          "command": ["{python}", "tools/check_board_local_code_analysis.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "trace", "local-code-analysis", "evidence"]
+        },
+        {
           "id": "safe-surrogate-evidence",
           "label": "Genesys2/CVA6 safe surrogate evidence boundary",
           "command": ["{python}", "tools/check_genesys2_safe_surrogate.py", "--root", "{root}"],
@@ -72,6 +78,12 @@
           "label": "Genesys2/CVA6 board trace validation evidence",
           "command": ["{python}", "tools/check_board_trace_evidence.py", "--root", "{root}"],
           "tags": ["genesys2", "cva6", "trace", "evidence"]
+        },
+        {
+          "id": "board-local-code-analysis",
+          "label": "Genesys2/CVA6 board local code analysis evidence",
+          "command": ["{python}", "tools/check_board_local_code_analysis.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "trace", "local-code-analysis", "evidence"]
         }
       ]
     },
@@ -161,6 +173,12 @@
           "label": "trace validation evidence checker self-test",
           "command": ["{python}", "tools/check_board_trace_evidence.py", "--self-test"],
           "tags": ["genesys2", "trace", "evidence", "self-test"]
+        },
+        {
+          "id": "board-local-code-analysis-self-test",
+          "label": "local code analysis checker self-test",
+          "command": ["{python}", "tools/check_board_local_code_analysis.py", "--self-test"],
+          "tags": ["genesys2", "local-code-analysis", "self-test"]
         },
         {
           "id": "safe-surrogate-self-test",
