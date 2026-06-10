@@ -1,3 +1,0 @@
-[FAIL] forbidden RETIRE: got 114
-[FAIL] required event missing: TRAP
-[FAIL] syscall write (0x40): expected at least 1 entry event(s), got 0

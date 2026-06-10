@@ -1,5 +1,0 @@
-No photo or video artifact was captured for this phase.
-
-The Phase 3 board-visible evidence is the Vivado hardware-manager transcript in
-`program.log`, including startup status HIGH, `program_hw_devices` completion,
-and a successful post-program `refresh_hw_device`.

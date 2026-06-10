@@ -1,9 +1,0 @@
-﻿RVMT_SERIAL_OPEN port=COM6 baud=115200 8N1
-�H*��any key to enter update mode .......... booting!
-init SPI
-status: 0x0000000000000025
-status: 0x0000000000000025
-SPI initialized!
-initializing SD...
-
-RVMT_UART_MARKER_MISSING sent_trigger=False sent_payload=False payload_bytes=126

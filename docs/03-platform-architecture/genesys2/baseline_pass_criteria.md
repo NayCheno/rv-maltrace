@@ -15,7 +15,8 @@ evidence exists under `results/board/genesys2_baseline/<run-id>/`.
 | No trace modification yet | PASS | Baseline artifacts come from the existing CVA6 FPGA build and no trace-enabled board export path is enabled in the Phase 4 runbook | `docs/03-platform-architecture/genesys2/baseline_bringup_runbook.md` |
 
 Baseline board bring-up is not complete until the three physical-board rows
-above have physical evidence. For run `20260608-0107-baseline`, those rows now
-have PASS evidence under `results/board/genesys2_baseline/20260608-0107-baseline/`.
+above have physical evidence. For run `20260609-1440-onboard-uart-reroute`,
+those rows now have PASS evidence under
+`results/board/genesys2_baseline/20260609-1440-onboard-uart-reroute/`.
 Linux boot remains optional for the MVP and does not block Phase 4.4 unless the
 project explicitly chooses to make it part of the baseline acceptance run.

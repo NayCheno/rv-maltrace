@@ -1,7 +1,0 @@
-[FAIL] forbidden RETIRE: got 114
-[FAIL] required event missing: SYSCALL_ENTRY
-[FAIL] required event missing: SYSCALL_RET
-[FAIL] required event missing: PRIV
-[FAIL] syscall clone (0xdc): expected at least 1 entry event(s), got 0
-[FAIL] syscall execve (0xdd): expected at least 1 entry event(s), got 0
-[FAIL] syscall wait4 (0x104): expected at least 1 entry event(s), got 0

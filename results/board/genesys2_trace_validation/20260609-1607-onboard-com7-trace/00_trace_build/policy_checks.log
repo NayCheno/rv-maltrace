@@ -1,8 +1,0 @@
-Command: uv run python tools/check_board_trace_minimal.py
-[PASS] Phase 5.2 board trace policy keeps first hardware trace minimal
-
-Command: uv run python tools/check_trace_export_decision.py
-[PASS] trace export decision selects BRAM/JTAG for first board run
-
-Command: uv run python tools/check_timing_principles.py
-[PASS] trace timing principles: pipelined sideband capture, no backpressure ports

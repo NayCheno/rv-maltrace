@@ -1,4 +1,0 @@
-[FAIL] forbidden RETIRE: got 114
-[FAIL] required event missing: SYSCALL_ENTRY
-[FAIL] required event missing: SYSCALL_RET
-[FAIL] syscall write (0x40): expected at least 1 entry event(s), got 0

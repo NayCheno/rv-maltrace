@@ -1,8 +1,0 @@
-# command=uv run rvmt vivado:check
-# start=2026-06-08 01:54:00 +08:00
-# cwd=D:\Code\research\rv-maltrace
-+ D:\Application\vivado\2025.2\Vivado\bin\vivado.bat -mode batch -nojournal -nolog -notrace -source C:\Users\Nya\AppData\Local\Temp\tmp9ekiqsls.tcl
-Vivado part OK: xc7k325tffg900-2
-Vivado board part OK: digilentinc.com:genesys2:part0:1.1
-# exit_code=0
-# end=2026-06-08 01:54:07 +08:00
