@@ -45,25 +45,44 @@ def check_file(root: Path, path: Path, label: str, *, missing_level: str = "FAIL
     return Check(label, "PASS", f"{display(full_path, root)} ({size} bytes)")
 
 
-def parse_timing_status(path: Path) -> tuple[str, float]:
+def parse_design_state(text: str) -> str | None:
+    match = re.search(r"Design State\s*:\s*([^\r\n|]+)", text)
+    return match.group(1).strip() if match else None
+
+
+def parse_timing_status(path: Path) -> tuple[str, float, str | None]:
     text = path.read_text(encoding="utf-8", errors="replace")
     match = re.search(r"Slack\s+\(([^)]+)\)\s*:\s*([-+]?[0-9]+(?:\.[0-9]+)?)ns", text)
     if not match:
         raise ValueError("no Slack (...) timing line found")
-    return match.group(1), float(match.group(2))
+    return match.group(1), float(match.group(2)), parse_design_state(text)
 
 
-def check_timing(root: Path, path: Path, label: str, *, missing_level: str = "FAIL") -> Check:
+def check_timing(
+    root: Path,
+    path: Path,
+    label: str,
+    *,
+    missing_level: str = "FAIL",
+    expected_design_state: str | None = None,
+) -> Check:
     full_path = resolve(root, path)
     if not full_path.exists():
         return Check(label, missing_level, f"missing {display(full_path, root)}")
     try:
-        status, slack_ns = parse_timing_status(full_path)
+        status, slack_ns, design_state = parse_timing_status(full_path)
     except ValueError as exc:
         return Check(label, "FAIL", f"{display(full_path, root)}: {exc}")
+    if expected_design_state is not None and design_state != expected_design_state:
+        return Check(
+            label,
+            "FAIL",
+            f"Design State {design_state or 'UNKNOWN'} in {display(full_path, root)}; expected {expected_design_state}",
+        )
     if status != "MET" or slack_ns < 0:
         return Check(label, "FAIL", f"Slack ({status}) {slack_ns:.3f} ns in {display(full_path, root)}")
-    return Check(label, "PASS", f"Slack (MET) {slack_ns:.3f} ns in {display(full_path, root)}")
+    state = f", Design State {design_state}" if design_state else ""
+    return Check(label, "PASS", f"Slack (MET) {slack_ns:.3f} ns{state} in {display(full_path, root)}")
 
 
 def collect_checks(root: Path, baseline_dir: Path, trace_dir: Path) -> list[Check]:
@@ -73,12 +92,22 @@ def collect_checks(root: Path, baseline_dir: Path, trace_dir: Path) -> list[Chec
         check_file(root, baseline / "work-fpga/ariane_xilinx.bit", "Baseline bitstream"),
         check_file(root, baseline / "work-fpga/ariane_xilinx.mcs", "Baseline flash image"),
         check_file(root, baseline / "work-fpga/ariane_xilinx.dcp", "Baseline routed checkpoint"),
-        check_timing(root, baseline / "reports/ariane.timing.rpt", "Baseline routed timing"),
+        check_timing(
+            root,
+            baseline / "reports/ariane.timing.rpt",
+            "Baseline routed timing",
+            expected_design_state="Routed",
+        ),
         check_file(root, baseline / "reports/ariane.utilization.rpt", "Baseline utilization report"),
         check_file(root, trace / "work-fpga/ariane_xilinx.bit", "Trace bitstream reuse artifact", missing_level="WARN"),
         check_file(root, trace / "work-fpga/ariane_xilinx.ltx", "Trace ILA probes"),
         check_file(root, trace / "work-fpga/ariane_xilinx_routed.dcp", "Trace routed checkpoint"),
-        check_timing(root, trace / "reports/ariane.timing.rpt", "Trace routed timing"),
+        check_timing(
+            root,
+            trace / "work-fpga/ariane_xilinx_timing_summary_routed.rpt",
+            "Trace routed timing",
+            expected_design_state="Routed",
+        ),
         check_file(root, trace / "reports/ariane.utilization.rpt", "Trace utilization report"),
         check_file(root, trace / "work-fpga/ariane_xilinx_route_status.rpt", "Trace route status report"),
     ]
@@ -116,8 +145,14 @@ def self_test() -> int:
             trace / "work-fpga/ariane_xilinx_route_status.rpt",
         ):
             path.write_text("x\n", encoding="utf-8")
-        (baseline / "reports/ariane.timing.rpt").write_text("Slack (MET) : 0.177ns\n", encoding="utf-8")
-        (trace / "reports/ariane.timing.rpt").write_text("Slack (MET) : 0.100ns\n", encoding="utf-8")
+        (baseline / "reports/ariane.timing.rpt").write_text(
+            "| Design State : Routed\nSlack (MET) : 0.177ns\n",
+            encoding="utf-8",
+        )
+        (trace / "work-fpga/ariane_xilinx_timing_summary_routed.rpt").write_text(
+            "| Design State : Routed\nSlack (MET) : 0.100ns\n",
+            encoding="utf-8",
+        )
 
         checks = collect_checks(root, DEFAULT_BASELINE_DIR, DEFAULT_TRACE_DIR)
         if exit_code(checks, strict=False) != 0:
