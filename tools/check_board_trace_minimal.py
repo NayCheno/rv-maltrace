@@ -335,6 +335,8 @@ def write_fixture(root: Path) -> None:
     (root / "rtl" / "trace").mkdir(parents=True)
     (root / "sim" / "vivado").mkdir(parents=True)
     (root / "docs").mkdir(parents=True)
+    (root / DEFAULT_DOC).parent.mkdir(parents=True, exist_ok=True)
+    (root / DEFAULT_BOARD_DOC).parent.mkdir(parents=True, exist_ok=True)
     (root / DEFAULT_PROFILE).write_text(
         """module trace_board_minimal_ctrl #(
     parameter logic        PC_FILTER_ENABLE = 1'b0,

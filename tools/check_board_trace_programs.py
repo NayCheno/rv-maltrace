@@ -243,6 +243,8 @@ def write_fixture(root: Path) -> None:
         "docs",
     ):
         (root / path).mkdir(parents=True)
+    (root / DEFAULT_DOC).parent.mkdir(parents=True, exist_ok=True)
+    (root / DEFAULT_BOARD_DOC).parent.mkdir(parents=True, exist_ok=True)
     programs = []
     for program_id, spec in EXPECTED_PROGRAMS.items():
         source = root / spec["source"]

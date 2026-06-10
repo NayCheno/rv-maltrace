@@ -8,6 +8,8 @@ The current hardware route is Digilent Genesys2 + CVA6. Use this aggregate gate
 for the active repository checks:
 
 ```powershell
+uv run python tools/run_check_suite.py --list-suites
+uv run python tools/run_check_suite.py --suite genesys2-current
 uv run python tools/check_genesys2_current.py
 ```
 
@@ -17,6 +19,8 @@ tracked legacy evidence and generated clutter before deleting or archiving files
 ```powershell
 uv run python tools/audit_repo_hygiene.py
 ```
+
+See `docs/10-process/check_suites.md` for the organized suite list.
 
 The command catalog below includes current tasks and historical tooling. Do not
 treat the full list as the current Genesys2/CVA6 completion gate; 35T entries are
@@ -53,6 +57,8 @@ uv run python tools/check_baseline_pass_criteria.py
 uv run python tools/check_trace_export_decision.py
 uv run python tools/check_board_trace_minimal.py
 uv run python tools/check_board_trace_programs.py
+uv run python tools/run_check_suite.py --list-suites
+uv run python tools/run_check_suite.py --suite genesys2-current
 uv run python tools/check_genesys2_current.py
 uv run python tools/audit_repo_hygiene.py
 uv run python tools/check_linux_behavior_principles.py

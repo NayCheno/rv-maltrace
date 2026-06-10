@@ -1,0 +1,181 @@
+{
+  "schema": "rvmt.check_suites.v1",
+  "suites": [
+    {
+      "id": "genesys2-current",
+      "title": "Current Digilent Genesys2 + CVA6 gate",
+      "description": "Active repository gate for the current hardware route. This suite intentionally excludes legacy 35T checks.",
+      "current": true,
+      "legacy": false,
+      "tier": "current-gate",
+      "checks": [
+        {
+          "id": "board-baseline",
+          "label": "Genesys2/CVA6 board baseline evidence",
+          "command": ["{python}", "tools/check_board_baseline.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "board", "baseline"]
+        },
+        {
+          "id": "board-trace-minimal",
+          "label": "Genesys2/CVA6 minimal trace policy",
+          "command": ["{python}", "tools/check_board_trace_minimal.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "trace", "policy"]
+        },
+        {
+          "id": "board-trace-programs",
+          "label": "Genesys2/CVA6 board trace validation program plan",
+          "command": ["{python}", "tools/check_board_trace_programs.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "trace", "programs"]
+        },
+        {
+          "id": "safe-surrogate-evidence",
+          "label": "Genesys2/CVA6 safe surrogate evidence boundary",
+          "command": ["{python}", "tools/check_genesys2_safe_surrogate.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "safe-surrogate", "claim-boundary"]
+        }
+      ]
+    },
+    {
+      "id": "genesys2-board",
+      "title": "Genesys2/CVA6 board-only gate",
+      "description": "Board baseline and trace validation planning checks without the safe surrogate evidence chain.",
+      "current": true,
+      "legacy": false,
+      "tier": "current-gate",
+      "checks": [
+        {
+          "id": "board-baseline",
+          "label": "Genesys2/CVA6 board baseline evidence",
+          "command": ["{python}", "tools/check_board_baseline.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "board", "baseline"]
+        },
+        {
+          "id": "board-trace-minimal",
+          "label": "Genesys2/CVA6 minimal trace policy",
+          "command": ["{python}", "tools/check_board_trace_minimal.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "trace", "policy"]
+        },
+        {
+          "id": "board-trace-programs",
+          "label": "Genesys2/CVA6 board trace validation program plan",
+          "command": ["{python}", "tools/check_board_trace_programs.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "trace", "programs"]
+        }
+      ]
+    },
+    {
+      "id": "genesys2-self-test",
+      "title": "Fast self-tests for current Genesys2/CVA6 gates",
+      "description": "Fixture-based self-tests for the current Genesys2/CVA6 checker scripts.",
+      "current": true,
+      "legacy": false,
+      "tier": "fast-self-test",
+      "checks": [
+        {
+          "id": "board-baseline-self-test",
+          "label": "board baseline checker self-test",
+          "command": ["{python}", "tools/check_board_baseline.py", "--self-test"],
+          "tags": ["genesys2", "self-test"]
+        },
+        {
+          "id": "board-trace-minimal-self-test",
+          "label": "minimal trace checker self-test",
+          "command": ["{python}", "tools/check_board_trace_minimal.py", "--self-test"],
+          "tags": ["genesys2", "trace", "self-test"]
+        },
+        {
+          "id": "board-trace-programs-self-test",
+          "label": "trace validation program checker self-test",
+          "command": ["{python}", "tools/check_board_trace_programs.py", "--self-test"],
+          "tags": ["genesys2", "trace", "self-test"]
+        },
+        {
+          "id": "safe-surrogate-self-test",
+          "label": "safe surrogate evidence checker self-test",
+          "command": ["{python}", "tools/check_genesys2_safe_surrogate.py", "--self-test"],
+          "tags": ["genesys2", "safe-surrogate", "self-test"]
+        },
+        {
+          "id": "suite-manifest-self-test",
+          "label": "check suite manifest self-test",
+          "command": ["{python}", "tools/run_check_suite.py", "--self-test"],
+          "tags": ["suite", "self-test"]
+        }
+      ]
+    },
+    {
+      "id": "linux-behavior-local",
+      "title": "Local Linux behavior and code-analysis checks",
+      "description": "Repository-local behavior recovery, dataset, and audit checks that do not require board access.",
+      "current": true,
+      "legacy": false,
+      "tier": "local-analysis",
+      "checks": [
+        {
+          "id": "linux-behavior-principles",
+          "label": "Linux behavior recovery principles",
+          "command": ["{python}", "tools/check_linux_behavior_principles.py"],
+          "tags": ["linux", "behavior"]
+        },
+        {
+          "id": "linux-benign-dataset",
+          "label": "Linux benign dataset policy",
+          "command": ["{python}", "tools/check_linux_benign_dataset.py"],
+          "tags": ["linux", "dataset"]
+        },
+        {
+          "id": "linux-malware-like-dataset",
+          "label": "Linux safe malware-like dataset policy",
+          "command": ["{python}", "tools/check_linux_malware_like_dataset.py"],
+          "tags": ["linux", "dataset", "safe-surrogate"]
+        },
+        {
+          "id": "behavior-recovery-self-test",
+          "label": "behavior recovery tool self-test",
+          "command": ["{python}", "tools/recover_behavior.py", "--self-test"],
+          "tags": ["behavior", "self-test"]
+        },
+        {
+          "id": "linux-behavior-recovery",
+          "label": "Linux behavior recovery gate",
+          "command": ["{python}", "tools/check_linux_behavior_recovery.py"],
+          "tags": ["linux", "behavior"]
+        },
+        {
+          "id": "behavior-audit-self-test",
+          "label": "behavior audit tool self-test",
+          "command": ["{python}", "tools/audit_behavior.py", "--self-test"],
+          "tags": ["behavior", "self-test"]
+        },
+        {
+          "id": "linux-behavior-audit",
+          "label": "Linux behavior audit gate",
+          "command": ["{python}", "tools/check_linux_behavior_audit.py"],
+          "tags": ["linux", "behavior"]
+        }
+      ]
+    },
+    {
+      "id": "repo-hygiene",
+      "title": "Repository hygiene checks",
+      "description": "Checks that keep generated evidence and legacy material visible without deleting anything.",
+      "current": true,
+      "legacy": false,
+      "tier": "hygiene",
+      "checks": [
+        {
+          "id": "repo-hygiene-audit",
+          "label": "repository hygiene inventory",
+          "command": ["{python}", "tools/audit_repo_hygiene.py", "--json"],
+          "tags": ["repo", "hygiene"]
+        },
+        {
+          "id": "repo-hygiene-self-test",
+          "label": "repository hygiene audit self-test",
+          "command": ["{python}", "tools/audit_repo_hygiene.py", "--self-test"],
+          "tags": ["repo", "hygiene", "self-test"]
+        }
+      ]
+    }
+  ]
+}
