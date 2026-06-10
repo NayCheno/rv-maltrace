@@ -1,6 +1,6 @@
 {
   "allowed_claims": [
-    "Genesys2/CVA6 hardware trace captured declared safe synthetic/surrogate syscall entry classes for dynamic_executable_memory.",
+    "Genesys2/CVA6 hardware trace captured declared safe synthetic/surrogate syscall entry classes for batch_open_read_write.",
     "Local code analysis maps at least one captured syscall PC to the target ELF text/code map.",
     "Synthetic surrogate behavior mapping is demonstrated for declared expected behavior with documented limitations."
   ],
@@ -13,17 +13,17 @@
     "target_code_site_attributed": true
   },
   "evidence": {
-    "behavior_audit": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/malware_analysis/audit/behavior_audit.json",
-    "behavior_mapping": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/malware_analysis/behavior_mapping.json",
-    "hardware_trace": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/hardware_trace/trace_summary.json",
-    "local_code_analysis": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/local_code_analysis/source_attribution_summary.json",
-    "static_analysis": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/local_code_analysis/static_analysis.json"
+    "behavior_audit": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/malware_analysis/audit/behavior_audit.json",
+    "behavior_mapping": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/malware_analysis/behavior_mapping.json",
+    "hardware_trace": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/hardware_trace/trace_summary.json",
+    "local_code_analysis": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/local_code_analysis/source_attribution_summary.json",
+    "static_analysis": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/local_code_analysis/static_analysis.json"
   },
   "limitations": [
     "Behavior evidence is synthetic/surrogate analysis, not real malware detection.",
     "Trace is multi-window; single continuous invocation is not demonstrated.",
     "Runtime process ownership is not proven because marker scope and runtime process map are missing.",
-    "Behavior claim is limited to declared safe surrogate behavior: dynamic_executable_memory.",
+    "Behavior claim is limited to declared safe surrogate behavior: batch_file_read_write.",
     "Weak audit evidence does not prove full process ownership, fd/path flow, or all argument semantics."
   ],
   "non_claims": [
@@ -45,7 +45,7 @@
   },
   "run_id": "genesys2-cva6-safe-p2-20260610",
   "sample_class": "malware_like_synthetic",
-  "sample_id": "dynamic_executable_memory",
+  "sample_id": "batch_open_read_write",
   "schema": "rvmt.safe_surrogate.integrated_validation.v1",
   "status": "PASS_SAFE_SURROGATE_WEAK_EVIDENCE_CHAIN_WITH_LIMITATIONS"
 }

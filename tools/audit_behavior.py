@@ -463,11 +463,15 @@ def match_rule(
         evidence_strength = "strong" if matched else ("weak" if weak_matched else "none")
 
     if rule_id == "batch_file_read_write":
-        weak_matched = (not matched) and sample_id == "batch_open_read_write" and counts.get("write", 0) >= 2
+        weak_matched = (
+            not matched
+            and sample_id == "batch_open_read_write"
+            and all(counts.get(name, 0) >= 1 for name in ("openat", "read", "write", "close"))
+        )
         if weak_matched:
             weak_behavior.append("batch_file_read_write_shape")
             weak_reasons.append(
-                "batch write shape is visible, but open/read/close fd-flow or path semantics are not recoverable from this p0c trace"
+                "open/read/write/close syscall classes are visible, but repeated counts, fd-flow, and path semantics are not recoverable from this p0c trace"
             )
             evidence_strength = "weak"
 
@@ -909,7 +913,9 @@ def self_test() -> int:
                 "schema": "rvmt.behavior.semantic.v1",
                 "source": "batch-weak",
                 "syscall_sequence": [
-                    {"name": "write", "return_value": "0x1"},
+                    {"name": "openat", "return_value": "0x3"},
+                    {"name": "read", "return_value": "0x1"},
+                    {"name": "close", "return_value": "0x0"},
                     {"name": "write", "return_value": "0x1"},
                 ],
                 "trap_context_transitions": [],
@@ -921,6 +927,24 @@ def self_test() -> int:
         )
         if "batch_file_read_write_shape" not in batch_weak_result.get("weak_expected_behavior", []):
             print("[FAIL] self-test missed batch weak behavior shape tag", file=sys.stderr)
+            return 1
+        batch_write_only_result = audit(
+            {
+                "schema": "rvmt.behavior.semantic.v1",
+                "source": "batch-write-only",
+                "syscall_sequence": [
+                    {"name": "write", "return_value": "0x1"},
+                    {"name": "write", "return_value": "0x1"},
+                ],
+                "trap_context_transitions": [],
+            },
+            graph,
+            real_rules,
+            {"samples": [{"id": "batch_open_read_write", "expected_behavior": ["batch_file_read_write"]}]},
+            "batch_open_read_write",
+        )
+        if "batch_file_read_write_shape" in batch_write_only_result.get("weak_expected_behavior", []):
+            print("[FAIL] self-test allowed write-only batch weak behavior shape tag", file=sys.stderr)
             return 1
         return_only_abnormal = audit(
             {

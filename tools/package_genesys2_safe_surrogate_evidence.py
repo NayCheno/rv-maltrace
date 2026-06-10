@@ -420,6 +420,16 @@ def write_behavior_mapping(sample_dir: Path, sample_id: str, source: str) -> Non
     audit_match = select_audit_match(audit, sample_id) or {}
     target_events = [event for event in source_attr if event.get("pc_owner") == "target_sample"][:5]
     weak_expected = audit.get("weak_matched_expected_behavior", [])
+    expected_behavior = [str(item) for item in hardware.get("expected_behavior", []) if isinstance(item, str)]
+    expected_syscalls = [str(item) for item in hardware.get("expected_syscalls", []) if isinstance(item, str)]
+    expected_behavior_text = ", ".join(expected_behavior) if expected_behavior else "none declared"
+    expected_syscall_text = ", ".join(expected_syscalls) if expected_syscalls else "none declared"
+    if audit.get("all_expected_matched") is True:
+        audit_interpretation = "automated audit strongly matched the declared expected behavior"
+    elif weak_expected:
+        audit_interpretation = "automated audit weak-matched the declared expected behavior with documented limitations"
+    else:
+        audit_interpretation = "automated audit did not match the declared expected behavior; integrated validation must remain blocked"
     manual_chain = [
         {
             "claim": "safe sample executed on Genesys2/CVA6 Buildroot and returned normally",
@@ -427,8 +437,8 @@ def write_behavior_mapping(sample_dir: Path, sample_id: str, source: str) -> Non
             "pass": True,
         },
         {
-            "claim": "expected abnormal syscall entry classes were captured in hardware trace",
-            "evidence": "SYSCALL_ENTRY events are present for close/openat/read/write in multi-window ILA captures",
+            "claim": "declared safe surrogate syscall entry classes were captured in hardware trace",
+            "evidence": f"expected syscall classes: {expected_syscall_text}; see hardware_trace/trace_summary.json requirements",
             "pass": True,
         },
         {
@@ -438,8 +448,8 @@ def write_behavior_mapping(sample_dir: Path, sample_id: str, source: str) -> Non
             "pass": source_summary.get("target_attributed_events", 0) >= 1,
         },
         {
-            "claim": "full abnormal failed-return behavior is not claimed",
-            "evidence": "audit remains weak because repeated close and failed return evidence are incomplete",
+            "claim": "full strong behavior semantics are not overclaimed",
+            "evidence": audit_interpretation,
             "pass": True,
         },
     ]
@@ -450,8 +460,8 @@ def write_behavior_mapping(sample_dir: Path, sample_id: str, source: str) -> Non
         "real_malware": False,
         "reference_manifest": "experiments/linux_behavior/malware_like/manifest.json",
         "reference_source": source,
-        "expected_behavior": hardware.get("expected_behavior", []),
-        "expected_syscalls": hardware.get("expected_syscalls", []),
+        "expected_behavior": expected_behavior,
+        "expected_syscalls": expected_syscalls,
         "mapping_status": "PASS_SAFE_SURROGATE_WEAK_AUDIT_PARTIAL_MANUAL_CHAIN",
         "automated_audit": {
             "path": repo_rel(audit_path, Path.cwd()),
@@ -459,7 +469,7 @@ def write_behavior_mapping(sample_dir: Path, sample_id: str, source: str) -> Non
             "weak_matched_expected_behavior": weak_expected,
             "weak_expected_behavior": audit.get("weak_expected_behavior", []),
             "missing_expected_behavior": audit.get("missing_expected_behavior", []),
-            "interpretation": "weak evidence only; repeated close and failed return evidence are not complete enough for a strong abnormal_syscall_sequence match",
+            "interpretation": audit_interpretation,
             "rule_evidence_strength": audit_match.get("evidence_strength"),
             "weak_reasons": audit_match.get("weak_reasons", []),
         },
@@ -468,7 +478,8 @@ def write_behavior_mapping(sample_dir: Path, sample_id: str, source: str) -> Non
             "Behavior evidence is synthetic/surrogate analysis, not real malware detection.",
             "Trace is multi-window; single continuous invocation is not demonstrated.",
             "Runtime process ownership is not proven because marker scope and runtime process map are missing.",
-            "Repeated close and failed syscall return evidence are incomplete, so this is weak/partial abnormal_syscall_sequence evidence.",
+            f"Behavior claim is limited to declared safe surrogate behavior: {expected_behavior_text}.",
+            "Weak audit evidence does not prove full process ownership, fd/path flow, or all argument semantics.",
         ],
     }
     write_json(sample_dir / "malware_analysis/behavior_mapping.json", mapping)
@@ -535,9 +546,9 @@ def write_integrated_validation(sample_dir: Path, sample_id: str) -> None:
                 "behavior_mapping": repo_rel(sample_dir / "malware_analysis/behavior_mapping.json", Path.cwd()),
             },
             "allowed_claims": [
-                "Genesys2/CVA6 hardware trace captured safe synthetic abnormal syscall entry classes.",
+                f"Genesys2/CVA6 hardware trace captured declared safe synthetic/surrogate syscall entry classes for {sample_id}.",
                 "Local code analysis maps at least one captured syscall PC to the target ELF text/code map.",
-                "Synthetic surrogate behavior mapping for partial abnormal_syscall_sequence evidence is demonstrated with documented limitations.",
+                "Synthetic surrogate behavior mapping is demonstrated for declared expected behavior with documented limitations.",
             ],
             "non_claims": NON_CLAIMS,
             "limitations": behavior.get("limitations", []),

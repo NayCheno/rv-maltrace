@@ -1,0 +1,74 @@
+===== openat_entry (SYSCALL_ENTRY_a7_0x38) =====
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART port=COM7 baud=115200 start=2026-06-10T15:28:43+0800
+
+RVMT_SEND 'printf \'RVMT_P2_RUN_START sample=batch_open_read_write capture=openat_entry\\n\'; /tmp/rvmt_p2/batch_open_read_write; rc=$?; printf \'RVMT_P2_RUN_DONE sample=batch_open_read_write capture=openat_entry rc=%s\\n\' "$rc"'
+printf 'RVMT_P2_RUN_START sample=batch_open_read_write capture=openat_entry\n'
+
+; /tmp/rvmt_p2/batch_open_read_write; rc=$?; printf 'RVMT_P2_RUN_DONE sample=bat
+
+ch_open_read_write capture=openat_entry rc=%s\n' "$rc"
+RVMT_P2_RUN_START sample=batch_open_read_write capture=openat_entry
+RVMT_P2_RUN_DONE sample=batch_open_read_write capture=openat_entry rc=0
+#
+#
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART_DONE
+
+===== read_entry (SYSCALL_ENTRY_a7_0x3f) =====
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART port=COM7 baud=115200 start=2026-06-10T15:29:07+0800
+
+RVMT_SEND 'printf \'RVMT_P2_RUN_START sample=batch_open_read_write capture=read_entry\\n\'; /tmp/rvmt_p2/batch_open_read_write; rc=$?; printf \'RVMT_P2_RUN_DONE sample=batch_open_read_write capture=read_entry rc=%s\\n\' "$rc"'
+printf 'RVMT_P2_RUN_START sample=batch_open_read_write capture=read_entry\n';
+
+/tmp/rvmt_p2/batch_open_read_write; rc=$?; printf 'RVMT_P2_RUN_DONE sample=batch
+
+_open_read_write capture=read_entry rc=%s\n' "$rc"
+RVMT_P2_RUN_START sample=batch_open_read_write capture=read_entry
+RVMT_P2_RUN_DONE sample=batch_open_read_write capture=read_entry rc=0
+#
+#
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART_DONE
+
+===== close_entry (SYSCALL_ENTRY_a7_0x39) =====
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART port=COM7 baud=115200 start=2026-06-10T15:29:30+0800
+
+RVMT_SEND 'printf \'RVMT_P2_RUN_START sample=batch_open_read_write capture=close_entry\\n\'; /tmp/rvmt_p2/batch_open_read_write; rc=$?; printf \'RVMT_P2_RUN_DONE sample=batch_open_read_write capture=close_entry rc=%s\\n\' "$rc"'
+printf 'RVMT_P2_RUN_START sample=batch_open_read_write capture=close_entry\n';
+
+ /tmp/rvmt_p2/batch_open_read_write; rc=$?; printf 'RVMT_P2_RUN_DONE sample=batc
+
+h_open_read_write capture=close_entry rc=%s\n' "$rc"
+RVMT_P2_RUN_START sample=batch_open_read_write capture=close_entry
+RVMT_P2_RUN_DONE sample=batch_open_read_write capture=close_entry rc=0
+#
+#
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART_DONE
+
+===== write_entry (SYSCALL_ENTRY_a7_0x40) =====
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART port=COM7 baud=115200 start=2026-06-10T15:29:52+0800
+
+RVMT_SEND 'printf \'RVMT_P2_RUN_START sample=batch_open_read_write capture=write_entry\\n\'; /tmp/rvmt_p2/batch_open_read_write; rc=$?; printf \'RVMT_P2_RUN_DONE sample=batch_open_read_write capture=write_entry rc=%s\\n\' "$rc"'
+printf 'RVMT_P2_RUN_START sample=batch_open_read_write capture=write_entry\n';
+
+ /tmp/rvmt_p2/batch_open_read_write; rc=$?; printf 'RVMT_P2_RUN_DONE sample=batc
+
+h_open_read_write capture=write_entry rc=%s\n' "$rc"
+RVMT_P2_RUN_START sample=batch_open_read_write capture=write_entry
+RVMT_P2_RUN_DONE sample=batch_open_read_write capture=write_entry rc=0
+#
+#
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART_DONE
+
+===== ret_any (SYSCALL_RET_any) =====
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART port=COM7 baud=115200 start=2026-06-10T15:30:13+0800
+
+RVMT_SEND 'printf \'RVMT_P2_RUN_START sample=batch_open_read_write capture=ret_any\\n\'; /tmp/rvmt_p2/batch_open_read_write; rc=$?; printf \'RVMT_P2_RUN_DONE sample=batch_open_read_write capture=ret_any rc=%s\\n\' "$rc"'
+printf 'RVMT_P2_RUN_START sample=batch_open_read_write capture=ret_any\n'; /tm
+
+p/rvmt_p2/batch_open_read_write; rc=$?; printf 'RVMT_P2_RUN_DONE sample=batch_op
+
+en_read_write capture=ret_any rc=%s\n' "$rc"
+RVMT_P2_RUN_START sample=batch_open_read_write capture=ret_any
+RVMT_P2_RUN_DONE sample=batch_open_read_write capture=ret_any rc=0
+#
+#
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART_DONE
