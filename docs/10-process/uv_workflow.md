@@ -625,7 +625,18 @@ artifacts, and keeps real malware and 35T out of current Genesys2/CVA6 claims.
 ```powershell
 uv run python tools/check_genesys2_safe_surrogate.py
 uv run python tools/check_genesys2_safe_surrogate.py --self-test
+uv run python tools/check_genesys2_safe_surrogate_coverage.py
+uv run python tools/check_genesys2_safe_surrogate_coverage.py --allow-incomplete --json-out results/board/genesys2_cva6_safe_surrogate/<run-id>/safe_surrogate_manifest_coverage.json
+uv run python tools/prepare_genesys2_safe_surrogate_capture.py --out results/board/genesys2_cva6_safe_surrogate/<run-id>/safe_surrogate_capture_plan.json
+uv run python tools/run_genesys2_ila_command_capture.py --self-test
+uv run python tools/prepare_genesys2_safe_surrogate_capture.py --self-test
 ```
+
+`safe_surrogate_capture_plan.json` is a planning/preparation artifact only. It
+does not close P2 coverage and must not be cited as hardware evidence. Each
+planned sample still requires a real Genesys2/CVA6 ILA capture, decode,
+trace/code join, behavior audit, and integrated validation before the strict
+coverage gate can pass.
 
 Build the marker-scope trace bitstream before claiming marker-scoped board
 evidence, then program the Genesys2 via on-board JTAG and the local
