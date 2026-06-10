@@ -3,13 +3,12 @@
     "Genesys2/CVA6 safe synthetic/surrogate evidence chains are complete only for samples marked PASS in this report."
   ],
   "board": "Digilent Genesys2",
-  "complete_samples": 2,
+  "complete_samples": 3,
   "cpu": "CVA6",
   "manifest": "experiments/linux_behavior/malware_like/manifest.json",
   "missing_samples": [
     "anti_debug_like",
     "batch_open_read_write",
-    "dynamic_executable_memory",
     "file_scan",
     "process_chain",
     "self_copy_sim"
@@ -79,23 +78,14 @@
     },
     {
       "errors": [],
-      "missing_artifacts": [
-        "sample_metadata.json",
-        "hardware_trace/trace.jsonl",
-        "hardware_trace/trace_summary.json",
-        "local_code_analysis/code_map.json",
-        "local_code_analysis/static_analysis.json",
-        "local_code_analysis/source_attribution.json",
-        "local_code_analysis/source_attribution_summary.json",
-        "integrated_validation.json",
-        "malware_analysis/behavior_mapping.json or malware_analysis/behavior_report.md"
-      ],
-      "present_in_run_summary": false,
+      "missing_artifacts": [],
+      "present_in_run_summary": true,
       "real_malware": false,
       "sample_class": "malware_like_synthetic",
+      "sample_dir": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory",
       "sample_id": "dynamic_executable_memory",
       "source": "experiments/linux_behavior/malware_like/programs/dynamic_executable_memory.c",
-      "status": "NOT_RUN"
+      "status": "PASS_SAFE_SURROGATE_EVIDENCE_CHAIN"
     },
     {
       "errors": [],
