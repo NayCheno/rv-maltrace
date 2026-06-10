@@ -1,0 +1,51 @@
+[
+  {
+    "asm": "ecall",
+    "pc": "0x000000000001011c",
+    "section": ".text",
+    "symbol": "_start",
+    "symbol_offset": "0x1c"
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000010138",
+    "section": ".text",
+    "symbol": "_start",
+    "symbol_offset": "0x38"
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000010144",
+    "section": ".text",
+    "symbol": "_start",
+    "symbol_offset": "0x44"
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000010164",
+    "section": ".text",
+    "symbol": "_start",
+    "symbol_offset": "0x64"
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000010180",
+    "section": ".text",
+    "symbol": "_start",
+    "symbol_offset": "0x80"
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000001018c",
+    "section": ".text",
+    "symbol": "_start",
+    "symbol_offset": "0x8c"
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000010198",
+    "section": ".text",
+    "symbol": "_start",
+    "symbol_offset": "0x98"
+  }
+]

@@ -1,0 +1,72 @@
+{
+  "analyzed_binary": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/00_build_syscall_only/process_chain.riscv64",
+  "analyzed_source": "experiments/linux_behavior/malware_like/programs/process_chain.c",
+  "binary_sha256": "2c0a3f733f1f6cfcb87562ff240e62dd77b9fb1a3552a69d87ea4da19d6dba9f",
+  "capability_flags": {
+    "destructive": false,
+    "network_activity_expected": false,
+    "network_required": false,
+    "persistence": false,
+    "privilege_escalation": false,
+    "process_mutation": false,
+    "real_payload": false
+  },
+  "compiler": null,
+  "elf": {
+    "class": "ELF64",
+    "entry": "0x0000000000010100",
+    "machine": 243,
+    "readelf_path": null,
+    "static_non_pie_syscall_only": true,
+    "type": "EXEC"
+  },
+  "intended_behavior": [
+    "issue repository-declared safe syscall boundaries: clone, execve, waitid",
+    "exercise repository-declared synthetic behavior shapes: process_creation_chain",
+    "return normally without network activity, persistence, privilege escalation, or destructive mutation"
+  ],
+  "policy": {
+    "claim_boundary": "safe surrogate behavior only, not real malware detection",
+    "no_real_malware_payload_source_or_binary": true,
+    "real_malware_gate": "not_applicable_safe_synthetic_sample"
+  },
+  "provenance": "repository-authored safe syscall-only surrogate",
+  "real_malware": false,
+  "sample_class": "malware_like_synthetic",
+  "sample_id": "process_chain",
+  "schema": "rvmt.safe_surrogate.static_analysis.v1",
+  "source_sha256": "e172ee83af66245e2ce083439da6d40e8250cea2e10b14c93710d4b620fe57cf",
+  "static_sites": {
+    "syscall_sites": [
+      {
+        "asm": "ecall",
+        "pc": "0x0000000000010118",
+        "section": ".text",
+        "symbol": "_start",
+        "symbol_offset": "0x18"
+      },
+      {
+        "asm": "ecall",
+        "pc": "0x0000000000010134",
+        "section": ".text",
+        "symbol": "_start",
+        "symbol_offset": "0x34"
+      },
+      {
+        "asm": "ecall",
+        "pc": "0x0000000000010154",
+        "section": ".text",
+        "symbol": "_start",
+        "symbol_offset": "0x54"
+      },
+      {
+        "asm": "ecall",
+        "pc": "0x0000000000010160",
+        "section": ".text",
+        "symbol": "_start",
+        "symbol_offset": "0x60"
+      }
+    ],
+    "trap_sites": []
+  }
+}

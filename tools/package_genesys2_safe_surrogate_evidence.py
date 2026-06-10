@@ -354,7 +354,7 @@ def write_metadata(sample_dir: Path, sample_id: str, row: dict[str, Any]) -> Non
     )
 
 
-def write_static_analysis(root: Path, sample_dir: Path, sample_id: str, source: str, binary: str) -> None:
+def write_static_analysis(root: Path, sample_dir: Path, sample_id: str, source: str, binary: str, row: dict[str, Any]) -> None:
     code_map = load_json(ensure_code_map_alias(sample_dir, sample_id))
     build_dir = Path(binary).parent
     compiler_path = root / build_dir / "compiler.txt"
@@ -363,6 +363,8 @@ def write_static_analysis(root: Path, sample_dir: Path, sample_id: str, source: 
         "syscall_sites": code_map.get("syscall_sites", []),
         "trap_sites": code_map.get("trap_sites", []),
     }
+    expected_syscalls = [str(item) for item in row.get("expected_syscalls", []) if isinstance(item, str)]
+    expected_behavior = [str(item) for item in row.get("expected_behavior", []) if isinstance(item, str)]
     write_json(
         sample_dir / "local_code_analysis/static_analysis.json",
         {
@@ -385,7 +387,10 @@ def write_static_analysis(root: Path, sample_dir: Path, sample_id: str, source: 
                 "static_non_pie_syscall_only": code_map.get("elf_header", {}).get("type") == "EXEC",
             },
             "intended_behavior": [
-                "issue invalid descriptor close/openat/read/write syscall boundaries using safe inputs",
+                "issue repository-declared safe syscall boundaries: "
+                + (", ".join(expected_syscalls) if expected_syscalls else "none declared"),
+                "exercise repository-declared synthetic behavior shapes: "
+                + (", ".join(expected_behavior) if expected_behavior else "none declared"),
                 "return normally without network activity, persistence, privilege escalation, or destructive mutation",
             ],
             "capability_flags": {flag: False for flag in DANGEROUS_STATIC_FLAGS},
@@ -607,7 +612,7 @@ def main(argv: list[str] | None = None) -> int:
             manifest_sample_row=row,
             captures=args.capture,
         )
-    write_static_analysis(root, sample_dir, args.sample_id, args.source, args.binary)
+    write_static_analysis(root, sample_dir, args.sample_id, args.source, args.binary, row)
     if (sample_dir / "local_code_analysis/source_attribution_summary.json").exists() and (
         sample_dir / "malware_analysis/audit/behavior_audit.json"
     ).exists():

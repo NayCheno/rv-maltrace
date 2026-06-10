@@ -322,7 +322,7 @@ def capture_plan(sample_dir: Path, sample_id: str, row: dict[str, Any], runtime_
 
 def build_sample_plan(root: Path, run_root: Path, sample_id: str, row: dict[str, Any], compiler: str, readelf: str) -> dict[str, Any]:
     sample_dir = run_root / sample_id
-    build_dir = sample_dir / "00_build"
+    build_dir = sample_dir / "00_build_syscall_only"
     binary = build_dir / f"{sample_id}.riscv64"
     source = str(row["source"])
     runtime_path = f"{DEFAULT_RUNTIME_ROOT}/{sample_id}"
@@ -336,6 +336,17 @@ def build_sample_plan(root: Path, run_root: Path, sample_id: str, row: dict[str,
         source,
     ]
     readelf_command = [readelf, "-h", display(binary, root)]
+    deterministic_build_command = [
+        "uv",
+        "run",
+        "python",
+        "tools/build_genesys2_safe_syscall_elf.py",
+        "--sample-id",
+        sample_id,
+        "--out-root",
+        display(run_root, root),
+        "--code-map",
+    ]
     code_map_command = [
         "uv",
         "run",
@@ -382,10 +393,11 @@ def build_sample_plan(root: Path, run_root: Path, sample_id: str, row: dict[str,
         "expected_syscalls": row.get("expected_syscalls", []),
         "expected_behavior": row.get("expected_behavior", []),
         "commands": {
-            "build_binary": build_command,
-            "record_compiler": [compiler, "--version"],
-            "record_readelf": readelf_command,
-            "build_code_map": code_map_command,
+            "build_syscall_only_binary": deterministic_build_command,
+            "build_c_source_binary_if_toolchain_available": build_command,
+            "record_compiler_if_available": [compiler, "--version"],
+            "record_readelf_if_available": readelf_command,
+            "build_code_map_if_external_binary_used": code_map_command,
             "transfer_to_board_com7": transfer_command,
             "capture_windows": [capture["command"] for capture in captures],
             "package_hardware_and_static": command_package(
@@ -421,6 +433,7 @@ def build_sample_plan(root: Path, run_root: Path, sample_id: str, row: dict[str,
         ],
         "limitations": [
             "This plan is not hardware evidence.",
+            "The deterministic build command creates syscall-shape safe surrogate ELFs; it does not compile or execute real malware.",
             "Each capture command must be run against the current Digilent Genesys2/CVA6 board over onboard JTAG and COM7 UART.",
             "The strict coverage gate must remain incomplete until decoded hardware traces and integrated validation are generated.",
         ],
@@ -437,6 +450,8 @@ def build_plan(root: Path, manifest_path: Path, coverage_path: Path | None, run_
         complete = complete_samples_from_coverage(coverage)
         coverage_rel = display(resolve(root, coverage_path), root)
     toolchain = {
+        "deterministic_syscall_builder": "tools/build_genesys2_safe_syscall_elf.py",
+        "deterministic_syscall_builder_available": (root / "tools/build_genesys2_safe_syscall_elf.py").is_file(),
         "compiler": compiler,
         "compiler_available_on_path": shutil.which(compiler) is not None,
         "readelf": readelf,

@@ -1,0 +1,18 @@
+{
+  "destructive": false,
+  "expected_behavior": [
+    "many_file_scan"
+  ],
+  "expected_syscalls": [
+    "openat",
+    "getdents64",
+    "close"
+  ],
+  "network_required": false,
+  "provenance": "repository_source",
+  "real_malware": false,
+  "reference_source": "experiments/linux_behavior/malware_like/programs/file_scan.c",
+  "sample_class": "malware_like_synthetic",
+  "sample_id": "file_scan",
+  "schema": "rvmt.safe_surrogate.sample_metadata.v1"
+}

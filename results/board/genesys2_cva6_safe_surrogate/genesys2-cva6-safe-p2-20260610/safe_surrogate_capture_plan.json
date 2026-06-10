@@ -28,7 +28,7 @@
   "run_root": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610",
   "samples": [
     {
-      "binary": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/00_build/anti_debug_like.riscv64",
+      "binary": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/00_build_syscall_only/anti_debug_like.riscv64",
       "captures": [
         {
           "capture_err": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/03_hardware_trace/raw_captures_warmup80m/clock_gettime_entry_capture.err.log",
@@ -279,21 +279,21 @@
           "--out-dir",
           "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/malware_analysis/audit"
         ],
-        "build_binary": [
+        "build_c_source_binary_if_toolchain_available": [
           "riscv64-linux-gnu-gcc",
           "-O2",
           "-static",
           "-o",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/00_build/anti_debug_like.riscv64",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/00_build_syscall_only/anti_debug_like.riscv64",
           "experiments/linux_behavior/malware_like/programs/anti_debug_like.c"
         ],
-        "build_code_map": [
+        "build_code_map_if_external_binary_used": [
           "uv",
           "run",
           "python",
           "tools/build_code_map.py",
           "--elf",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/00_build/anti_debug_like.riscv64",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/00_build_syscall_only/anti_debug_like.riscv64",
           "--sample-id",
           "anti_debug_like",
           "--source",
@@ -304,6 +304,17 @@
           "/tmp/rvmt_p2/anti_debug_like",
           "--out-dir",
           "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/local_code_analysis"
+        ],
+        "build_syscall_only_binary": [
+          "uv",
+          "run",
+          "python",
+          "tools/build_genesys2_safe_syscall_elf.py",
+          "--sample-id",
+          "anti_debug_like",
+          "--out-root",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610",
+          "--code-map"
         ],
         "capture_windows": [
           [
@@ -458,7 +469,7 @@
           "--runtime-path",
           "/tmp/rvmt_p2/anti_debug_like",
           "--binary",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/00_build/anti_debug_like.riscv64",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/00_build_syscall_only/anti_debug_like.riscv64",
           "--update-run-summary"
         ],
         "join_trace_code_map": [
@@ -489,7 +500,7 @@
           "--runtime-path",
           "/tmp/rvmt_p2/anti_debug_like",
           "--binary",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/00_build/anti_debug_like.riscv64",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/00_build_syscall_only/anti_debug_like.riscv64",
           "--capture",
           "id=clock_gettime_entry,csv=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/03_hardware_trace/raw_captures_warmup80m/clock_gettime_entry.csv,trace=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/03_hardware_trace/raw_captures_warmup80m/clock_gettime_entry.trace.jsonl,program=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/03_hardware_trace/raw_captures_warmup80m/clock_gettime_entry_program.log,log=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/03_hardware_trace/raw_captures_warmup80m/clock_gettime_entry_capture.log,trigger=SYSCALL_ENTRY_a7_0x71,validity=anti_debug_like_clock_gettime_entry_window",
           "--capture",
@@ -504,14 +515,14 @@
           "id=ret_any,csv=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/03_hardware_trace/raw_captures_warmup80m/ret_any.csv,trace=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/03_hardware_trace/raw_captures_warmup80m/ret_any.trace.jsonl,program=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/03_hardware_trace/raw_captures_warmup80m/ret_any_program.log,log=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/03_hardware_trace/raw_captures_warmup80m/ret_any_capture.log,trigger=SYSCALL_RET_any,validity=return_event_unattributed_window_probe",
           "--update-run-summary"
         ],
-        "record_compiler": [
+        "record_compiler_if_available": [
           "riscv64-linux-gnu-gcc",
           "--version"
         ],
-        "record_readelf": [
+        "record_readelf_if_available": [
           "riscv64-linux-gnu-readelf",
           "-h",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/00_build/anti_debug_like.riscv64"
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/00_build_syscall_only/anti_debug_like.riscv64"
         ],
         "recover_behavior": [
           "uv",
@@ -535,7 +546,7 @@
           "--baud",
           "115200",
           "--source",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/00_build/anti_debug_like.riscv64",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/00_build_syscall_only/anti_debug_like.riscv64",
           "--target",
           "/tmp/rvmt_p2/anti_debug_like",
           "--log",
@@ -554,6 +565,7 @@
       ],
       "limitations": [
         "This plan is not hardware evidence.",
+        "The deterministic build command creates syscall-shape safe surrogate ELFs; it does not compile or execute real malware.",
         "Each capture command must be run against the current Digilent Genesys2/CVA6 board over onboard JTAG and COM7 UART.",
         "The strict coverage gate must remain incomplete until decoded hardware traces and integrated validation are generated."
       ],
@@ -575,7 +587,7 @@
       "status": "PLANNED_NOT_EVIDENCE"
     },
     {
-      "binary": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/00_build/batch_open_read_write.riscv64",
+      "binary": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/00_build_syscall_only/batch_open_read_write.riscv64",
       "captures": [
         {
           "capture_err": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/03_hardware_trace/raw_captures_warmup80m/openat_entry_capture.err.log",
@@ -787,21 +799,21 @@
           "--out-dir",
           "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/malware_analysis/audit"
         ],
-        "build_binary": [
+        "build_c_source_binary_if_toolchain_available": [
           "riscv64-linux-gnu-gcc",
           "-O2",
           "-static",
           "-o",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/00_build/batch_open_read_write.riscv64",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/00_build_syscall_only/batch_open_read_write.riscv64",
           "experiments/linux_behavior/malware_like/programs/batch_open_read_write.c"
         ],
-        "build_code_map": [
+        "build_code_map_if_external_binary_used": [
           "uv",
           "run",
           "python",
           "tools/build_code_map.py",
           "--elf",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/00_build/batch_open_read_write.riscv64",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/00_build_syscall_only/batch_open_read_write.riscv64",
           "--sample-id",
           "batch_open_read_write",
           "--source",
@@ -812,6 +824,17 @@
           "/tmp/rvmt_p2/batch_open_read_write",
           "--out-dir",
           "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/local_code_analysis"
+        ],
+        "build_syscall_only_binary": [
+          "uv",
+          "run",
+          "python",
+          "tools/build_genesys2_safe_syscall_elf.py",
+          "--sample-id",
+          "batch_open_read_write",
+          "--out-root",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610",
+          "--code-map"
         ],
         "capture_windows": [
           [
@@ -943,7 +966,7 @@
           "--runtime-path",
           "/tmp/rvmt_p2/batch_open_read_write",
           "--binary",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/00_build/batch_open_read_write.riscv64",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/00_build_syscall_only/batch_open_read_write.riscv64",
           "--update-run-summary"
         ],
         "join_trace_code_map": [
@@ -974,7 +997,7 @@
           "--runtime-path",
           "/tmp/rvmt_p2/batch_open_read_write",
           "--binary",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/00_build/batch_open_read_write.riscv64",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/00_build_syscall_only/batch_open_read_write.riscv64",
           "--capture",
           "id=openat_entry,csv=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/03_hardware_trace/raw_captures_warmup80m/openat_entry.csv,trace=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/03_hardware_trace/raw_captures_warmup80m/openat_entry.trace.jsonl,program=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/03_hardware_trace/raw_captures_warmup80m/openat_entry_program.log,log=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/03_hardware_trace/raw_captures_warmup80m/openat_entry_capture.log,trigger=SYSCALL_ENTRY_a7_0x38,validity=batch_open_read_write_openat_entry_window",
           "--capture",
@@ -987,14 +1010,14 @@
           "id=ret_any,csv=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/03_hardware_trace/raw_captures_warmup80m/ret_any.csv,trace=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/03_hardware_trace/raw_captures_warmup80m/ret_any.trace.jsonl,program=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/03_hardware_trace/raw_captures_warmup80m/ret_any_program.log,log=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/03_hardware_trace/raw_captures_warmup80m/ret_any_capture.log,trigger=SYSCALL_RET_any,validity=return_event_unattributed_window_probe",
           "--update-run-summary"
         ],
-        "record_compiler": [
+        "record_compiler_if_available": [
           "riscv64-linux-gnu-gcc",
           "--version"
         ],
-        "record_readelf": [
+        "record_readelf_if_available": [
           "riscv64-linux-gnu-readelf",
           "-h",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/00_build/batch_open_read_write.riscv64"
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/00_build_syscall_only/batch_open_read_write.riscv64"
         ],
         "recover_behavior": [
           "uv",
@@ -1018,7 +1041,7 @@
           "--baud",
           "115200",
           "--source",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/00_build/batch_open_read_write.riscv64",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/00_build_syscall_only/batch_open_read_write.riscv64",
           "--target",
           "/tmp/rvmt_p2/batch_open_read_write",
           "--log",
@@ -1038,6 +1061,7 @@
       ],
       "limitations": [
         "This plan is not hardware evidence.",
+        "The deterministic build command creates syscall-shape safe surrogate ELFs; it does not compile or execute real malware.",
         "Each capture command must be run against the current Digilent Genesys2/CVA6 board over onboard JTAG and COM7 UART.",
         "The strict coverage gate must remain incomplete until decoded hardware traces and integrated validation are generated."
       ],
@@ -1059,7 +1083,7 @@
       "status": "PLANNED_NOT_EVIDENCE"
     },
     {
-      "binary": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/00_build/dynamic_executable_memory.riscv64",
+      "binary": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/00_build_syscall_only/dynamic_executable_memory.riscv64",
       "captures": [
         {
           "capture_err": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/03_hardware_trace/raw_captures_warmup80m/mmap_entry_capture.err.log",
@@ -1232,21 +1256,21 @@
           "--out-dir",
           "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/malware_analysis/audit"
         ],
-        "build_binary": [
+        "build_c_source_binary_if_toolchain_available": [
           "riscv64-linux-gnu-gcc",
           "-O2",
           "-static",
           "-o",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/00_build/dynamic_executable_memory.riscv64",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/00_build_syscall_only/dynamic_executable_memory.riscv64",
           "experiments/linux_behavior/malware_like/programs/dynamic_executable_memory.c"
         ],
-        "build_code_map": [
+        "build_code_map_if_external_binary_used": [
           "uv",
           "run",
           "python",
           "tools/build_code_map.py",
           "--elf",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/00_build/dynamic_executable_memory.riscv64",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/00_build_syscall_only/dynamic_executable_memory.riscv64",
           "--sample-id",
           "dynamic_executable_memory",
           "--source",
@@ -1257,6 +1281,17 @@
           "/tmp/rvmt_p2/dynamic_executable_memory",
           "--out-dir",
           "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/local_code_analysis"
+        ],
+        "build_syscall_only_binary": [
+          "uv",
+          "run",
+          "python",
+          "tools/build_genesys2_safe_syscall_elf.py",
+          "--sample-id",
+          "dynamic_executable_memory",
+          "--out-root",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610",
+          "--code-map"
         ],
         "capture_windows": [
           [
@@ -1365,7 +1400,7 @@
           "--runtime-path",
           "/tmp/rvmt_p2/dynamic_executable_memory",
           "--binary",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/00_build/dynamic_executable_memory.riscv64",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/00_build_syscall_only/dynamic_executable_memory.riscv64",
           "--update-run-summary"
         ],
         "join_trace_code_map": [
@@ -1396,7 +1431,7 @@
           "--runtime-path",
           "/tmp/rvmt_p2/dynamic_executable_memory",
           "--binary",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/00_build/dynamic_executable_memory.riscv64",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/00_build_syscall_only/dynamic_executable_memory.riscv64",
           "--capture",
           "id=mmap_entry,csv=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/03_hardware_trace/raw_captures_warmup80m/mmap_entry.csv,trace=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/03_hardware_trace/raw_captures_warmup80m/mmap_entry.trace.jsonl,program=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/03_hardware_trace/raw_captures_warmup80m/mmap_entry_program.log,log=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/03_hardware_trace/raw_captures_warmup80m/mmap_entry_capture.log,trigger=SYSCALL_ENTRY_a7_0xde,validity=dynamic_executable_memory_mmap_entry_window",
           "--capture",
@@ -1407,14 +1442,14 @@
           "id=ret_any,csv=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/03_hardware_trace/raw_captures_warmup80m/ret_any.csv,trace=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/03_hardware_trace/raw_captures_warmup80m/ret_any.trace.jsonl,program=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/03_hardware_trace/raw_captures_warmup80m/ret_any_program.log,log=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/03_hardware_trace/raw_captures_warmup80m/ret_any_capture.log,trigger=SYSCALL_RET_any,validity=return_event_unattributed_window_probe",
           "--update-run-summary"
         ],
-        "record_compiler": [
+        "record_compiler_if_available": [
           "riscv64-linux-gnu-gcc",
           "--version"
         ],
-        "record_readelf": [
+        "record_readelf_if_available": [
           "riscv64-linux-gnu-readelf",
           "-h",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/00_build/dynamic_executable_memory.riscv64"
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/00_build_syscall_only/dynamic_executable_memory.riscv64"
         ],
         "recover_behavior": [
           "uv",
@@ -1438,7 +1473,7 @@
           "--baud",
           "115200",
           "--source",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/00_build/dynamic_executable_memory.riscv64",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/00_build_syscall_only/dynamic_executable_memory.riscv64",
           "--target",
           "/tmp/rvmt_p2/dynamic_executable_memory",
           "--log",
@@ -1455,6 +1490,7 @@
       ],
       "limitations": [
         "This plan is not hardware evidence.",
+        "The deterministic build command creates syscall-shape safe surrogate ELFs; it does not compile or execute real malware.",
         "Each capture command must be run against the current Digilent Genesys2/CVA6 board over onboard JTAG and COM7 UART.",
         "The strict coverage gate must remain incomplete until decoded hardware traces and integrated validation are generated."
       ],
@@ -1476,7 +1512,7 @@
       "status": "PLANNED_NOT_EVIDENCE"
     },
     {
-      "binary": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/00_build/file_scan.riscv64",
+      "binary": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/00_build_syscall_only/file_scan.riscv64",
       "captures": [
         {
           "capture_err": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/03_hardware_trace/raw_captures_warmup80m/openat_entry_capture.err.log",
@@ -1649,21 +1685,21 @@
           "--out-dir",
           "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/malware_analysis/audit"
         ],
-        "build_binary": [
+        "build_c_source_binary_if_toolchain_available": [
           "riscv64-linux-gnu-gcc",
           "-O2",
           "-static",
           "-o",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/00_build/file_scan.riscv64",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/00_build_syscall_only/file_scan.riscv64",
           "experiments/linux_behavior/malware_like/programs/file_scan.c"
         ],
-        "build_code_map": [
+        "build_code_map_if_external_binary_used": [
           "uv",
           "run",
           "python",
           "tools/build_code_map.py",
           "--elf",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/00_build/file_scan.riscv64",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/00_build_syscall_only/file_scan.riscv64",
           "--sample-id",
           "file_scan",
           "--source",
@@ -1674,6 +1710,17 @@
           "/tmp/rvmt_p2/file_scan",
           "--out-dir",
           "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/local_code_analysis"
+        ],
+        "build_syscall_only_binary": [
+          "uv",
+          "run",
+          "python",
+          "tools/build_genesys2_safe_syscall_elf.py",
+          "--sample-id",
+          "file_scan",
+          "--out-root",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610",
+          "--code-map"
         ],
         "capture_windows": [
           [
@@ -1782,7 +1829,7 @@
           "--runtime-path",
           "/tmp/rvmt_p2/file_scan",
           "--binary",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/00_build/file_scan.riscv64",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/00_build_syscall_only/file_scan.riscv64",
           "--update-run-summary"
         ],
         "join_trace_code_map": [
@@ -1813,7 +1860,7 @@
           "--runtime-path",
           "/tmp/rvmt_p2/file_scan",
           "--binary",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/00_build/file_scan.riscv64",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/00_build_syscall_only/file_scan.riscv64",
           "--capture",
           "id=openat_entry,csv=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/03_hardware_trace/raw_captures_warmup80m/openat_entry.csv,trace=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/03_hardware_trace/raw_captures_warmup80m/openat_entry.trace.jsonl,program=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/03_hardware_trace/raw_captures_warmup80m/openat_entry_program.log,log=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/03_hardware_trace/raw_captures_warmup80m/openat_entry_capture.log,trigger=SYSCALL_ENTRY_a7_0x38,validity=file_scan_openat_entry_window",
           "--capture",
@@ -1824,14 +1871,14 @@
           "id=ret_any,csv=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/03_hardware_trace/raw_captures_warmup80m/ret_any.csv,trace=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/03_hardware_trace/raw_captures_warmup80m/ret_any.trace.jsonl,program=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/03_hardware_trace/raw_captures_warmup80m/ret_any_program.log,log=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/03_hardware_trace/raw_captures_warmup80m/ret_any_capture.log,trigger=SYSCALL_RET_any,validity=return_event_unattributed_window_probe",
           "--update-run-summary"
         ],
-        "record_compiler": [
+        "record_compiler_if_available": [
           "riscv64-linux-gnu-gcc",
           "--version"
         ],
-        "record_readelf": [
+        "record_readelf_if_available": [
           "riscv64-linux-gnu-readelf",
           "-h",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/00_build/file_scan.riscv64"
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/00_build_syscall_only/file_scan.riscv64"
         ],
         "recover_behavior": [
           "uv",
@@ -1855,7 +1902,7 @@
           "--baud",
           "115200",
           "--source",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/00_build/file_scan.riscv64",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/00_build_syscall_only/file_scan.riscv64",
           "--target",
           "/tmp/rvmt_p2/file_scan",
           "--log",
@@ -1872,6 +1919,7 @@
       ],
       "limitations": [
         "This plan is not hardware evidence.",
+        "The deterministic build command creates syscall-shape safe surrogate ELFs; it does not compile or execute real malware.",
         "Each capture command must be run against the current Digilent Genesys2/CVA6 board over onboard JTAG and COM7 UART.",
         "The strict coverage gate must remain incomplete until decoded hardware traces and integrated validation are generated."
       ],
@@ -1893,7 +1941,7 @@
       "status": "PLANNED_NOT_EVIDENCE"
     },
     {
-      "binary": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/00_build/process_chain.riscv64",
+      "binary": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/00_build_syscall_only/process_chain.riscv64",
       "captures": [
         {
           "capture_err": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/03_hardware_trace/raw_captures_warmup80m/clone_entry_capture.err.log",
@@ -2066,21 +2114,21 @@
           "--out-dir",
           "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/malware_analysis/audit"
         ],
-        "build_binary": [
+        "build_c_source_binary_if_toolchain_available": [
           "riscv64-linux-gnu-gcc",
           "-O2",
           "-static",
           "-o",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/00_build/process_chain.riscv64",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/00_build_syscall_only/process_chain.riscv64",
           "experiments/linux_behavior/malware_like/programs/process_chain.c"
         ],
-        "build_code_map": [
+        "build_code_map_if_external_binary_used": [
           "uv",
           "run",
           "python",
           "tools/build_code_map.py",
           "--elf",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/00_build/process_chain.riscv64",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/00_build_syscall_only/process_chain.riscv64",
           "--sample-id",
           "process_chain",
           "--source",
@@ -2091,6 +2139,17 @@
           "/tmp/rvmt_p2/process_chain",
           "--out-dir",
           "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/local_code_analysis"
+        ],
+        "build_syscall_only_binary": [
+          "uv",
+          "run",
+          "python",
+          "tools/build_genesys2_safe_syscall_elf.py",
+          "--sample-id",
+          "process_chain",
+          "--out-root",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610",
+          "--code-map"
         ],
         "capture_windows": [
           [
@@ -2199,7 +2258,7 @@
           "--runtime-path",
           "/tmp/rvmt_p2/process_chain",
           "--binary",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/00_build/process_chain.riscv64",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/00_build_syscall_only/process_chain.riscv64",
           "--update-run-summary"
         ],
         "join_trace_code_map": [
@@ -2230,7 +2289,7 @@
           "--runtime-path",
           "/tmp/rvmt_p2/process_chain",
           "--binary",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/00_build/process_chain.riscv64",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/00_build_syscall_only/process_chain.riscv64",
           "--capture",
           "id=clone_entry,csv=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/03_hardware_trace/raw_captures_warmup80m/clone_entry.csv,trace=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/03_hardware_trace/raw_captures_warmup80m/clone_entry.trace.jsonl,program=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/03_hardware_trace/raw_captures_warmup80m/clone_entry_program.log,log=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/03_hardware_trace/raw_captures_warmup80m/clone_entry_capture.log,trigger=SYSCALL_ENTRY_a7_0xdc,validity=process_chain_clone_entry_window",
           "--capture",
@@ -2241,14 +2300,14 @@
           "id=ret_any,csv=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/03_hardware_trace/raw_captures_warmup80m/ret_any.csv,trace=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/03_hardware_trace/raw_captures_warmup80m/ret_any.trace.jsonl,program=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/03_hardware_trace/raw_captures_warmup80m/ret_any_program.log,log=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/03_hardware_trace/raw_captures_warmup80m/ret_any_capture.log,trigger=SYSCALL_RET_any,validity=return_event_unattributed_window_probe",
           "--update-run-summary"
         ],
-        "record_compiler": [
+        "record_compiler_if_available": [
           "riscv64-linux-gnu-gcc",
           "--version"
         ],
-        "record_readelf": [
+        "record_readelf_if_available": [
           "riscv64-linux-gnu-readelf",
           "-h",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/00_build/process_chain.riscv64"
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/00_build_syscall_only/process_chain.riscv64"
         ],
         "recover_behavior": [
           "uv",
@@ -2272,7 +2331,7 @@
           "--baud",
           "115200",
           "--source",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/00_build/process_chain.riscv64",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/00_build_syscall_only/process_chain.riscv64",
           "--target",
           "/tmp/rvmt_p2/process_chain",
           "--log",
@@ -2289,6 +2348,7 @@
       ],
       "limitations": [
         "This plan is not hardware evidence.",
+        "The deterministic build command creates syscall-shape safe surrogate ELFs; it does not compile or execute real malware.",
         "Each capture command must be run against the current Digilent Genesys2/CVA6 board over onboard JTAG and COM7 UART.",
         "The strict coverage gate must remain incomplete until decoded hardware traces and integrated validation are generated."
       ],
@@ -2310,7 +2370,7 @@
       "status": "PLANNED_NOT_EVIDENCE"
     },
     {
-      "binary": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/00_build/self_copy_sim.riscv64",
+      "binary": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/00_build_syscall_only/self_copy_sim.riscv64",
       "captures": [
         {
           "capture_err": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/03_hardware_trace/raw_captures_warmup80m/openat_entry_capture.err.log",
@@ -2522,21 +2582,21 @@
           "--out-dir",
           "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/malware_analysis/audit"
         ],
-        "build_binary": [
+        "build_c_source_binary_if_toolchain_available": [
           "riscv64-linux-gnu-gcc",
           "-O2",
           "-static",
           "-o",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/00_build/self_copy_sim.riscv64",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/00_build_syscall_only/self_copy_sim.riscv64",
           "experiments/linux_behavior/malware_like/programs/self_copy_sim.c"
         ],
-        "build_code_map": [
+        "build_code_map_if_external_binary_used": [
           "uv",
           "run",
           "python",
           "tools/build_code_map.py",
           "--elf",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/00_build/self_copy_sim.riscv64",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/00_build_syscall_only/self_copy_sim.riscv64",
           "--sample-id",
           "self_copy_sim",
           "--source",
@@ -2547,6 +2607,17 @@
           "/tmp/rvmt_p2/self_copy_sim",
           "--out-dir",
           "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/local_code_analysis"
+        ],
+        "build_syscall_only_binary": [
+          "uv",
+          "run",
+          "python",
+          "tools/build_genesys2_safe_syscall_elf.py",
+          "--sample-id",
+          "self_copy_sim",
+          "--out-root",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610",
+          "--code-map"
         ],
         "capture_windows": [
           [
@@ -2678,7 +2749,7 @@
           "--runtime-path",
           "/tmp/rvmt_p2/self_copy_sim",
           "--binary",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/00_build/self_copy_sim.riscv64",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/00_build_syscall_only/self_copy_sim.riscv64",
           "--update-run-summary"
         ],
         "join_trace_code_map": [
@@ -2709,7 +2780,7 @@
           "--runtime-path",
           "/tmp/rvmt_p2/self_copy_sim",
           "--binary",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/00_build/self_copy_sim.riscv64",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/00_build_syscall_only/self_copy_sim.riscv64",
           "--capture",
           "id=openat_entry,csv=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/03_hardware_trace/raw_captures_warmup80m/openat_entry.csv,trace=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/03_hardware_trace/raw_captures_warmup80m/openat_entry.trace.jsonl,program=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/03_hardware_trace/raw_captures_warmup80m/openat_entry_program.log,log=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/03_hardware_trace/raw_captures_warmup80m/openat_entry_capture.log,trigger=SYSCALL_ENTRY_a7_0x38,validity=self_copy_sim_openat_entry_window",
           "--capture",
@@ -2722,14 +2793,14 @@
           "id=ret_any,csv=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/03_hardware_trace/raw_captures_warmup80m/ret_any.csv,trace=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/03_hardware_trace/raw_captures_warmup80m/ret_any.trace.jsonl,program=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/03_hardware_trace/raw_captures_warmup80m/ret_any_program.log,log=results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/03_hardware_trace/raw_captures_warmup80m/ret_any_capture.log,trigger=SYSCALL_RET_any,validity=return_event_unattributed_window_probe",
           "--update-run-summary"
         ],
-        "record_compiler": [
+        "record_compiler_if_available": [
           "riscv64-linux-gnu-gcc",
           "--version"
         ],
-        "record_readelf": [
+        "record_readelf_if_available": [
           "riscv64-linux-gnu-readelf",
           "-h",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/00_build/self_copy_sim.riscv64"
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/00_build_syscall_only/self_copy_sim.riscv64"
         ],
         "recover_behavior": [
           "uv",
@@ -2753,7 +2824,7 @@
           "--baud",
           "115200",
           "--source",
-          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/00_build/self_copy_sim.riscv64",
+          "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/00_build_syscall_only/self_copy_sim.riscv64",
           "--target",
           "/tmp/rvmt_p2/self_copy_sim",
           "--log",
@@ -2772,6 +2843,7 @@
       ],
       "limitations": [
         "This plan is not hardware evidence.",
+        "The deterministic build command creates syscall-shape safe surrogate ELFs; it does not compile or execute real malware.",
         "Each capture command must be run against the current Digilent Genesys2/CVA6 board over onboard JTAG and COM7 UART.",
         "The strict coverage gate must remain incomplete until decoded hardware traces and integrated validation are generated."
       ],
@@ -2798,6 +2870,8 @@
   "toolchain": {
     "compiler": "riscv64-linux-gnu-gcc",
     "compiler_available_on_path": false,
+    "deterministic_syscall_builder": "tools/build_genesys2_safe_syscall_elf.py",
+    "deterministic_syscall_builder_available": true,
     "readelf": "riscv64-linux-gnu-readelf",
     "readelf_available_on_path": false
   }

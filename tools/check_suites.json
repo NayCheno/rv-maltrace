@@ -205,6 +205,12 @@
           "tags": ["genesys2", "safe-surrogate", "capture", "self-test"]
         },
         {
+          "id": "safe-surrogate-syscall-elf-self-test",
+          "label": "safe surrogate syscall-only ELF builder self-test",
+          "command": ["{python}", "tools/build_genesys2_safe_syscall_elf.py", "--self-test"],
+          "tags": ["genesys2", "safe-surrogate", "build", "self-test"]
+        },
+        {
           "id": "safe-surrogate-capture-plan-self-test",
           "label": "safe surrogate capture plan helper self-test",
           "command": ["{python}", "tools/prepare_genesys2_safe_surrogate_capture.py", "--self-test"],

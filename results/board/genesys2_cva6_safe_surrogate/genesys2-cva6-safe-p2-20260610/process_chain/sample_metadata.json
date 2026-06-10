@@ -1,0 +1,18 @@
+{
+  "destructive": false,
+  "expected_behavior": [
+    "process_creation_chain"
+  ],
+  "expected_syscalls": [
+    "clone",
+    "execve",
+    "waitid"
+  ],
+  "network_required": false,
+  "provenance": "repository_source",
+  "real_malware": false,
+  "reference_source": "experiments/linux_behavior/malware_like/programs/process_chain.c",
+  "sample_class": "malware_like_synthetic",
+  "sample_id": "process_chain",
+  "schema": "rvmt.safe_surrogate.sample_metadata.v1"
+}
