@@ -1,0 +1,59 @@
+===== clone_entry (SYSCALL_ENTRY_a7_0xdc) =====
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART port=COM7 baud=115200 start=2026-06-10T15:44:25+0800
+
+RVMT_SEND 'printf \'RVMT_P2_RUN_START sample=process_chain capture=clone_entry\\n\'; /tmp/rvmt_p2/process_chain; rc=$?; printf \'RVMT_P2_RUN_DONE sample=process_chain capture=clone_entry rc=%s\\n\' "$rc"'
+printf 'RVMT_P2_RUN_START sample=process_chain capture=clone_entry\n'; /tmp/rv
+
+mt_p2/process_chain; rc=$?; printf 'RVMT_P2_RUN_DONE sample=process_chain captur
+
+e=clone_entry rc=%s\n' "$rc"
+RVMT_P2_RUN_START sample=process_chain capture=clone_entry
+RVMT_P2_RUN_DONE sample=process_chain capture=clone_entry rc=0
+#
+#
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART_DONE
+
+===== execve_entry (SYSCALL_ENTRY_a7_0xdd) =====
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART port=COM7 baud=115200 start=2026-06-10T15:44:49+0800
+
+RVMT_SEND 'printf \'RVMT_P2_RUN_START sample=process_chain capture=execve_entry\\n\'; /tmp/rvmt_p2/process_chain; rc=$?; printf \'RVMT_P2_RUN_DONE sample=process_chain capture=execve_entry rc=%s\\n\' "$rc"'
+printf 'RVMT_P2_RUN_START sample=process_chain capture=execve_entry\n'; /tmp/r
+
+vmt_p2/process_chain; rc=$?; printf 'RVMT_P2_RUN_DONE sample=process_chain captu
+
+re=execve_entry rc=%s\n' "$rc"
+RVMT_P2_RUN_START sample=process_chain capture=execve_entry
+RVMT_P2_RUN_DONE sample=process_chain capture=execve_entry rc=0
+#
+#
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART_DONE
+
+===== waitid_entry (SYSCALL_ENTRY_a7_0x5f) =====
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART port=COM7 baud=115200 start=2026-06-10T15:45:12+0800
+
+RVMT_SEND 'printf \'RVMT_P2_RUN_START sample=process_chain capture=waitid_entry\\n\'; /tmp/rvmt_p2/process_chain; rc=$?; printf \'RVMT_P2_RUN_DONE sample=process_chain capture=waitid_entry rc=%s\\n\' "$rc"'
+printf 'RVMT_P2_RUN_START sample=process_chain capture=waitid_entry\n'; /tmp/r
+
+vmt_p2/process_chain; rc=$?; printf 'RVMT_P2_RUN_DONE sample=process_chain captu
+
+re=waitid_entry rc=%s\n' "$rc"
+RVMT_P2_RUN_START sample=process_chain capture=waitid_entry
+RVMT_P2_RUN_DONE sample=process_chain capture=waitid_entry rc=0
+#
+#
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART_DONE
+
+===== ret_any (SYSCALL_RET_any) =====
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART port=COM7 baud=115200 start=2026-06-10T15:45:37+0800
+
+RVMT_SEND 'printf \'RVMT_P2_RUN_START sample=process_chain capture=ret_any\\n\'; /tmp/rvmt_p2/process_chain; rc=$?; printf \'RVMT_P2_RUN_DONE sample=process_chain capture=ret_any rc=%s\\n\' "$rc"'
+printf 'RVMT_P2_RUN_START sample=process_chain capture=ret_any\n'; /tmp/rvmt_p
+
+2/process_chain; rc=$?; printf 'RVMT_P2_RUN_DONE sample=process_chain capture=re
+
+t_any rc=%s\n' "$rc"
+RVMT_P2_RUN_START sample=process_chain capture=ret_any
+RVMT_P2_RUN_DONE sample=process_chain capture=ret_any rc=0
+#
+#
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART_DONE
