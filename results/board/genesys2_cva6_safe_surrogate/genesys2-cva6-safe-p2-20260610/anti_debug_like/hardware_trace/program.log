@@ -1,0 +1,89 @@
+===== clock_gettime_entry (SYSCALL_ENTRY_a7_0x71) =====
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART port=COM7 baud=115200 start=2026-06-10T15:37:36+0800
+
+RVMT_SEND 'printf \'RVMT_P2_RUN_START sample=anti_debug_like capture=clock_gettime_entry\\n\'; /tmp/rvmt_p2/anti_debug_like; rc=$?; printf \'RVMT_P2_RUN_DONE sample=anti_debug_like capture=clock_gettime_entry rc=%s\\n\' "$rc"'
+printf 'RVMT_P2_RUN_START sample=anti_debug_like capture=clock_gettime_entry\n
+
+'; /tmp/rvmt_p2/anti_debug_like; rc=$?; printf 'RVMT_P2_RUN_DONE sample=anti_deb
+
+ug_like capture=clock_gettime_entry rc=%s\n' "$rc"
+RVMT_P2_RUN_START sample=anti_debug_like capture=clock_gettime_entry
+RVMT_P2_RUN_DONE sample=anti_debug_like capture=clock_gettime_entry rc=0
+#
+#
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART_DONE
+
+===== ptrace_entry (SYSCALL_ENTRY_a7_0x75) =====
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART port=COM7 baud=115200 start=2026-06-10T15:38:01+0800
+
+RVMT_SEND 'printf \'RVMT_P2_RUN_START sample=anti_debug_like capture=ptrace_entry\\n\'; /tmp/rvmt_p2/anti_debug_like; rc=$?; printf \'RVMT_P2_RUN_DONE sample=anti_debug_like capture=ptrace_entry rc=%s\\n\' "$rc"'
+printf 'RVMT_P2_RUN_START sample=anti_debug_like capture=ptrace_entry\n'; /tmp
+
+/rvmt_p2/anti_debug_like; rc=$?; printf 'RVMT_P2_RUN_DONE sample=anti_debug_like
+
+ capture=ptrace_entry rc=%s\n' "$rc"
+RVMT_P2_RUN_START sample=anti_debug_like capture=ptrace_entry
+RVMT_P2_RUN_DONE sample=anti_debug_like capture=ptrace_entry rc=0
+#
+#
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART_DONE
+
+===== openat_entry (SYSCALL_ENTRY_a7_0x38) =====
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART port=COM7 baud=115200 start=2026-06-10T15:38:25+0800
+
+RVMT_SEND 'printf \'RVMT_P2_RUN_START sample=anti_debug_like capture=openat_entry\\n\'; /tmp/rvmt_p2/anti_debug_like; rc=$?; printf \'RVMT_P2_RUN_DONE sample=anti_debug_like capture=openat_entry rc=%s\\n\' "$rc"'
+printf 'RVMT_P2_RUN_START sample=anti_debug_like capture=openat_entry\n'; /tmp
+
+/rvmt_p2/anti_debug_like; rc=$?; printf 'RVMT_P2_RUN_DONE sample=anti_debug_like
+
+ capture=openat_entry rc=%s\n' "$rc"
+RVMT_P2_RUN_START sample=anti_debug_like capture=openat_entry
+RVMT_P2_RUN_DONE sample=anti_debug_like capture=openat_entry rc=0
+#
+#
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART_DONE
+
+===== read_entry (SYSCALL_ENTRY_a7_0x3f) =====
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART port=COM7 baud=115200 start=2026-06-10T15:38:48+0800
+
+RVMT_SEND 'printf \'RVMT_P2_RUN_START sample=anti_debug_like capture=read_entry\\n\'; /tmp/rvmt_p2/anti_debug_like; rc=$?; printf \'RVMT_P2_RUN_DONE sample=anti_debug_like capture=read_entry rc=%s\\n\' "$rc"'
+printf 'RVMT_P2_RUN_START sample=anti_debug_like capture=read_entry\n'; /tmp/r
+
+vmt_p2/anti_debug_like; rc=$?; printf 'RVMT_P2_RUN_DONE sample=anti_debug_like c
+
+apture=read_entry rc=%s\n' "$rc"
+RVMT_P2_RUN_START sample=anti_debug_like capture=read_entry
+RVMT_P2_RUN_DONE sample=anti_debug_like capture=read_entry rc=0
+#
+#
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART_DONE
+
+===== close_entry (SYSCALL_ENTRY_a7_0x39) =====
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART port=COM7 baud=115200 start=2026-06-10T15:39:12+0800
+
+RVMT_SEND 'printf \'RVMT_P2_RUN_START sample=anti_debug_like capture=close_entry\\n\'; /tmp/rvmt_p2/anti_debug_like; rc=$?; printf \'RVMT_P2_RUN_DONE sample=anti_debug_like capture=close_entry rc=%s\\n\' "$rc"'
+printf 'RVMT_P2_RUN_START sample=anti_debug_like capture=close_entry\n'; /tmp/
+
+rvmt_p2/anti_debug_like; rc=$?; printf 'RVMT_P2_RUN_DONE sample=anti_debug_like
+
+capture=close_entry rc=%s\n' "$rc"
+RVMT_P2_RUN_START sample=anti_debug_like capture=close_entry
+RVMT_P2_RUN_DONE sample=anti_debug_like capture=close_entry rc=0
+#
+#
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART_DONE
+
+===== ret_any (SYSCALL_RET_any) =====
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART port=COM7 baud=115200 start=2026-06-10T15:39:36+0800
+
+RVMT_SEND 'printf \'RVMT_P2_RUN_START sample=anti_debug_like capture=ret_any\\n\'; /tmp/rvmt_p2/anti_debug_like; rc=$?; printf \'RVMT_P2_RUN_DONE sample=anti_debug_like capture=ret_any rc=%s\\n\' "$rc"'
+printf 'RVMT_P2_RUN_START sample=anti_debug_like capture=ret_any\n'; /tmp/rvmt
+
+_p2/anti_debug_like; rc=$?; printf 'RVMT_P2_RUN_DONE sample=anti_debug_like capt
+
+ure=ret_any rc=%s\n' "$rc"
+RVMT_P2_RUN_START sample=anti_debug_like capture=ret_any
+RVMT_P2_RUN_DONE sample=anti_debug_like capture=ret_any rc=0
+#
+#
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART_DONE
