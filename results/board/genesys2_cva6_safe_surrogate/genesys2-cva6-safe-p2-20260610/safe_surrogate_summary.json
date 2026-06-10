@@ -61,6 +61,16 @@
       "status": "PASS_SAFE_SURROGATE_WEAK_EVIDENCE_CHAIN_WITH_LIMITATIONS"
     },
     {
+      "hardware_trace": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/hardware_trace/trace_summary.json",
+      "integrated_validation": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/integrated_validation.json",
+      "local_code_analysis": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/local_code_analysis/source_attribution_summary.json",
+      "malware_analysis": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/malware_analysis/behavior_mapping.json",
+      "real_malware": false,
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "file_scan",
+      "status": "PASS_SAFE_SURROGATE_WEAK_EVIDENCE_CHAIN_WITH_LIMITATIONS"
+    },
+    {
       "hardware_trace": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/hardware_trace/trace_summary.json",
       "integrated_validation": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/integrated_validation.json",
       "local_code_analysis": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/local_code_analysis/source_attribution_summary.json",

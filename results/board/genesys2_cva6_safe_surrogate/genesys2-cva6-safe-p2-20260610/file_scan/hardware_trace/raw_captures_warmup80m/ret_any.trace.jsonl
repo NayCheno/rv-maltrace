@@ -1,0 +1,13 @@
+{"cycle": 2875018739, "evt": "SYSCALL_RET", "evt_code": 5, "ila_row_index": 0, "packed_primary": "0x001084fa", "pc": "0x803d3226", "record_index": 0, "syscall_id": "0x00000000001084fa"}
+{"cycle": 2875018824, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 85, "packed_primary": "0x801f4672", "pc": "0x801f466e", "record_index": 1, "target": "0x801f4672"}
+{"cycle": 2875018833, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 94, "packed_primary": "0x801f4680", "pc": "0x801f467a", "record_index": 2, "target": "0x801f4680"}
+{"cycle": 2875018888, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 149, "packed_primary": "0x801f469a", "pc": "0x801f4680", "record_index": 3, "target": "0x801f469a"}
+{"cycle": 2875019004, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 265, "packed_primary": "0x803cb9dc", "pc": "0x803cb91e", "record_index": 4, "target": "0x803cb9dc"}
+{"cycle": 2875019026, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 287, "packed_primary": "0x803cb9de", "pc": "0x803cb9dc", "record_index": 5, "target": "0x803cb9de"}
+{"cycle": 2875019059, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 320, "packed_primary": "0x803cb9fc", "pc": "0x803cb9ea", "record_index": 6, "target": "0x803cb9fc"}
+{"cycle": 2875019127, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 388, "packed_primary": "0x803cba0c", "pc": "0x803cba08", "record_index": 7, "target": "0x803cba0c"}
+{"cycle": 2875019131, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 392, "packed_primary": "0x801f46bc", "pc": "0x801f46b8", "record_index": 8, "target": "0x801f46bc"}
+{"cycle": 2875019264, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 525, "packed_primary": "0x801f46e0", "pc": "0x801f46dc", "record_index": 9, "target": "0x801f46e0"}
+{"cycle": 2875019291, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 552, "packed_primary": "0x801f470a", "pc": "0x801f46f6", "record_index": 10, "target": "0x801f470a"}
+{"cycle": 2875019563, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 824, "packed_primary": "0x801f582c", "pc": "0x801f5828", "record_index": 11, "target": "0x801f582c"}
+{"cycle": 2875019564, "evt": "BRANCH", "evt_code": 2, "ila_row_index": 825, "packed_primary": "0x801f5a28", "pc": "0x801f582c", "record_index": 12, "target": "0x801f5a28"}
