@@ -1,42 +1,378 @@
 {
-  "attribution_confidence_counts": {
-    "not_marker_scoped": 36
-  },
-  "audit": {
-    "all_expected_matched": false,
-    "missing_expected_behavior": [
-      "illegal_instruction_trap"
-    ],
-    "path": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/runtime_process_attribution/audit/behavior_audit.json",
-    "weak_matched_expected_behavior": [
-      "illegal_instruction_trap"
-    ]
-  },
+  "behavior_recovery": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/strong_marker_20260611/behavior_recovery_runtime_rtl_dedup",
+  "bitstream_program_log": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/command_logs/program_trace_marker_rtl_dedup_20260611-113229.log",
+  "board_runtime_sha256": "9a673ef14ede972fbac09f0b3ba432633f9ee04dce283d2b2dc79ff3ea37cc5e",
+  "capture_log": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/strong_marker_20260611/illegal_trap_generated_marker_begin_rtl_dedup_capture.log",
   "claim_boundary": [
-    "Runtime process map now captures target_child /tmp/rvmt_p2/illegal_trap maps on Genesys2/CVA6.",
-    "Strong process attribution is still not proven because hardware MARKER scope is missing from the decoded trace.",
-    "This remains safe synthetic/surrogate evidence, not real malware validation or detection evidence."
+    "Marker-scoped runtime process/code-site attribution is proven for the safe illegal_trap surrogate window only.",
+    "This is safe synthetic/surrogate evidence, not real malware validation or detection efficacy evidence.",
+    "Older P0 traces remain multi-window/weak unless separately marker-scoped and runtime-mapped.",
+    "The packed marker capture does not provide SATP/ASID attribution; process ownership is established here by marker scope plus UART procfs runtime map plus fixed EXEC code map.",
+    "The programmed RTL-dedup marker-scope bitstream suppresses duplicate ordinary SYSCALL_ENTRY rows for marker syscalls; marker syscalls are represented by MARKER events."
   ],
-  "marker_scope_status": "MISSING",
-  "process_owner_counts": {
-    "unknown": 36
+  "event_counts": {
+    "MARKER": 2,
+    "PRIV": 5345,
+    "SYSCALL_ENTRY": 23,
+    "SYSCALL_RET": 23,
+    "TRAP": 2799
   },
+  "generated_elf": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/strong_marker_20260611/generated_marker_elf/illegal_trap/00_build_syscall_only/illegal_trap.riscv64",
+  "generated_elf_sha256": "9a673ef14ede972fbac09f0b3ba432633f9ee04dce283d2b2dc79ff3ea37cc5e",
+  "ila_inspect_log": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/command_logs/inspect_trace_marker_rtl_dedup_ila_20260611-113302.log",
+  "key_target_events": [
+    {
+      "a7": null,
+      "attribution_confidence": "not_marker_scoped",
+      "callsite_kind": "syscall_site",
+      "cause": null,
+      "event_index": 16,
+      "evt": "MARKER",
+      "pc": "0x00010128",
+      "process_owner": "unknown",
+      "runtime_map_match": null,
+      "value": "0x00000000b0000a11"
+    },
+    {
+      "a7": null,
+      "attribution_confidence": "marker_scoped_runtime_map_code_site",
+      "callsite_kind": "syscall_site",
+      "cause": "0x0000000000000008",
+      "event_index": 19,
+      "evt": "TRAP",
+      "pc": "0x00010144",
+      "process_owner": "target_child",
+      "runtime_map_match": {
+        "end": "0x0000000000012000",
+        "path": "/tmp/rvmt_p2/illegal_trap",
+        "perms": "r-xp",
+        "role": "target_child",
+        "start": "0x0000000000010000"
+      },
+      "value": null
+    },
+    {
+      "a7": "0x0000000000000086",
+      "attribution_confidence": "marker_scoped_runtime_map_code_site",
+      "callsite_kind": "syscall_site",
+      "cause": null,
+      "event_index": 20,
+      "evt": "SYSCALL_ENTRY",
+      "pc": "0x00010144",
+      "process_owner": "target_child",
+      "runtime_map_match": {
+        "end": "0x0000000000012000",
+        "path": "/tmp/rvmt_p2/illegal_trap",
+        "perms": "r-xp",
+        "role": "target_child",
+        "start": "0x0000000000010000"
+      },
+      "value": null
+    },
+    {
+      "a7": null,
+      "attribution_confidence": "marker_scoped_runtime_map_code_site",
+      "callsite_kind": "illegal_instruction_site",
+      "cause": "0x0000000000000002",
+      "event_index": 52,
+      "evt": "TRAP",
+      "pc": "0x00010148",
+      "process_owner": "target_child",
+      "runtime_map_match": {
+        "end": "0x0000000000012000",
+        "path": "/tmp/rvmt_p2/illegal_trap",
+        "perms": "r-xp",
+        "role": "target_child",
+        "start": "0x0000000000010000"
+      },
+      "value": null
+    },
+    {
+      "a7": null,
+      "attribution_confidence": "marker_scoped_runtime_map_code_site",
+      "callsite_kind": "illegal_instruction_site",
+      "cause": null,
+      "event_index": 53,
+      "evt": "PRIV",
+      "pc": "0x00010148",
+      "process_owner": "target_child",
+      "runtime_map_match": {
+        "end": "0x0000000000012000",
+        "path": "/tmp/rvmt_p2/illegal_trap",
+        "perms": "r-xp",
+        "role": "target_child",
+        "start": "0x0000000000010000"
+      },
+      "value": null
+    },
+    {
+      "a7": null,
+      "attribution_confidence": "marker_scoped_runtime_map_code_site",
+      "callsite_kind": "syscall_site",
+      "cause": "0x0000000000000008",
+      "event_index": 58,
+      "evt": "TRAP",
+      "pc": "0x0001016c",
+      "process_owner": "target_child",
+      "runtime_map_match": {
+        "end": "0x0000000000012000",
+        "path": "/tmp/rvmt_p2/illegal_trap",
+        "perms": "r-xp",
+        "role": "target_child",
+        "start": "0x0000000000010000"
+      },
+      "value": null
+    },
+    {
+      "a7": "0x0000000000000040",
+      "attribution_confidence": "marker_scoped_runtime_map_code_site",
+      "callsite_kind": "syscall_site",
+      "cause": null,
+      "event_index": 59,
+      "evt": "SYSCALL_ENTRY",
+      "pc": "0x0001016c",
+      "process_owner": "target_child",
+      "runtime_map_match": {
+        "end": "0x0000000000012000",
+        "path": "/tmp/rvmt_p2/illegal_trap",
+        "perms": "r-xp",
+        "role": "target_child",
+        "start": "0x0000000000010000"
+      },
+      "value": null
+    },
+    {
+      "a7": null,
+      "attribution_confidence": "marker_scoped_runtime_map_code_site",
+      "callsite_kind": "syscall_site",
+      "cause": "0x0000000000000008",
+      "event_index": 115,
+      "evt": "TRAP",
+      "pc": "0x00010188",
+      "process_owner": "target_child",
+      "runtime_map_match": {
+        "end": "0x0000000000012000",
+        "path": "/tmp/rvmt_p2/illegal_trap",
+        "perms": "r-xp",
+        "role": "target_child",
+        "start": "0x0000000000010000"
+      },
+      "value": null
+    },
+    {
+      "a7": null,
+      "attribution_confidence": "not_marker_scoped",
+      "callsite_kind": "syscall_site",
+      "cause": null,
+      "event_index": 116,
+      "evt": "MARKER",
+      "pc": "0x00010188",
+      "process_owner": "unknown",
+      "runtime_map_match": null,
+      "value": "0x00000000e0000a11"
+    },
+    {
+      "a7": null,
+      "attribution_confidence": "not_marker_scoped",
+      "callsite_kind": "syscall_site",
+      "cause": "0x0000000000000008",
+      "event_index": 119,
+      "evt": "TRAP",
+      "pc": "0x00010194",
+      "process_owner": "unknown",
+      "runtime_map_match": null,
+      "value": null
+    },
+    {
+      "a7": "0x000000000000005d",
+      "attribution_confidence": "not_marker_scoped",
+      "callsite_kind": "syscall_site",
+      "cause": null,
+      "event_index": 120,
+      "evt": "SYSCALL_ENTRY",
+      "pc": "0x00010194",
+      "process_owner": "unknown",
+      "runtime_map_match": null,
+      "value": null
+    }
+  ],
+  "marker_scope": {
+    "begin_index": 16,
+    "end_index": 116,
+    "markers": [
+      {
+        "event_index": 16,
+        "kind": "begin",
+        "value": "0x00000000b0000a11"
+      },
+      {
+        "event_index": 116,
+        "kind": "end",
+        "value": "0x00000000e0000a11"
+      }
+    ],
+    "status": "PASS"
+  },
+  "marker_scope_status": "PASS",
+  "process_attributed_code_site_events": 7,
+  "process_attribution": "proven",
+  "program_log": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/strong_marker_20260611/illegal_trap_generated_marker_begin_rtl_dedup_program.log",
   "real_malware": false,
+  "requirements": {
+    "board_runtime_hash_matches_generated_elf": {
+      "evidence": "9a673ef14ede972fbac09f0b3ba432633f9ee04dce283d2b2dc79ff3ea37cc5e",
+      "pass": true
+    },
+    "event_only_capture_applied": {
+      "evidence": "capture log records CONTROL.CAPTURE_MODE=BASIC, CAPTURE_CONDITION=AND, and CAPTURE_COMPARE_VALUE eq1'b1",
+      "pass": true
+    },
+    "handler_write_syscall_observed": {
+      "evidence": "SYSCALL_ENTRY write a7=0x40 at target handler site PC 0x0001016c",
+      "pass": true
+    },
+    "illegal_instruction_trap_observed": {
+      "evidence": "TRAP cause=2 at target code-map illegal instruction site PC 0x00010148",
+      "pass": true
+    },
+    "marker_scope_pair": {
+      "evidence": {
+        "begin_index": 16,
+        "end_index": 116,
+        "markers": [
+          {
+            "event_index": 16,
+            "kind": "begin",
+            "value": "0x00000000b0000a11"
+          },
+          {
+            "event_index": 116,
+            "kind": "end",
+            "value": "0x00000000e0000a11"
+          }
+        ],
+        "status": "PASS"
+      },
+      "pass": true
+    },
+    "marker_syscall_dedup_verified": {
+      "evidence": "No ordinary SYSCALL_ENTRY rows with a7=0x3ff in rtl_dedup marker capture; begin/end are MARKER events.",
+      "pass": true
+    },
+    "runtime_process_map_pass": {
+      "evidence": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/strong_marker_20260611/runtime_process_map_target_first_rtl_dedup.json",
+      "pass": true
+    },
+    "safe_synthetic_only": {
+      "evidence": "sample_class=malware_like_synthetic and real_malware=false",
+      "pass": true
+    },
+    "target_child_maps_runtime_elf": {
+      "evidence": [
+        {
+          "dev": "00:10",
+          "end": "0x0000000000012000",
+          "inode": 6,
+          "offset": "0x0",
+          "path": "/tmp/rvmt_p2/illegal_trap",
+          "perms": "r-xp",
+          "start": "0x0000000000010000"
+        },
+        {
+          "dev": "00:10",
+          "end": "0x0000000000013000",
+          "inode": 6,
+          "offset": "0x2000",
+          "path": "/tmp/rvmt_p2/illegal_trap",
+          "perms": "rw-p",
+          "start": "0x0000000000012000"
+        }
+      ],
+      "pass": true
+    },
+    "target_code_sites_observed": {
+      "evidence": [
+        "0x00010128",
+        "0x00010144",
+        "0x00010148",
+        "0x0001016c",
+        "0x00010188"
+      ],
+      "pass": true
+    }
+  },
   "run_id": "genesys2-cva6-safe-p2-20260610",
-  "runtime_process_attribution_proven": false,
-  "runtime_process_map": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/runtime_process_map.json",
+  "runtime_path": "/tmp/rvmt_p2/illegal_trap",
+  "runtime_process_attribution_proven": true,
+  "runtime_process_map": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/strong_marker_20260611/runtime_process_map_target_first_rtl_dedup.json",
   "runtime_process_map_schema": "rvmt.runtime_process_map.v1",
   "runtime_process_map_status": "PASS",
   "sample_class": "malware_like_synthetic",
   "sample_id": "illegal_trap",
   "schema": "rvmt.genesys2.runtime_process_attribution_summary.v1",
-  "status": "RUNTIME_PROCESS_MAP_PASS_MARKER_SCOPE_MISSING",
+  "status": "MARKER_SCOPE_RUNTIME_PROCESS_ATTRIBUTION_PASS",
+  "target_attributed_events": 17,
   "target_child": {
     "comm": "illegal_trap",
     "exe": "/tmp/rvmt_p2/illegal_trap",
-    "map_count": 4,
-    "pid": 3379,
-    "tgid": 3379
+    "maps": [
+      {
+        "dev": "00:10",
+        "end": "0x0000000000012000",
+        "inode": 6,
+        "offset": "0x0",
+        "path": "/tmp/rvmt_p2/illegal_trap",
+        "perms": "r-xp",
+        "start": "0x0000000000010000"
+      },
+      {
+        "dev": "00:10",
+        "end": "0x0000000000013000",
+        "inode": 6,
+        "offset": "0x2000",
+        "path": "/tmp/rvmt_p2/illegal_trap",
+        "perms": "rw-p",
+        "start": "0x0000000000012000"
+      },
+      {
+        "dev": "00:00",
+        "end": "0x0000003f90195000",
+        "inode": 0,
+        "offset": "0x0",
+        "path": "[vvar]",
+        "perms": "r--p",
+        "start": "0x0000003f90191000"
+      },
+      {
+        "dev": "00:00",
+        "end": "0x0000003f90197000",
+        "inode": 0,
+        "offset": "0x0",
+        "path": "[vdso]",
+        "perms": "r-xp",
+        "start": "0x0000003f90195000"
+      },
+      {
+        "dev": "00:00",
+        "end": "0x0000003fd0d42000",
+        "inode": 0,
+        "offset": "0x0",
+        "path": "[stack]",
+        "perms": "rw-p",
+        "start": "0x0000003fd0d21000"
+      }
+    ],
+    "pid": 155,
+    "provenance": {
+      "source": "genesys2_uart_runtime_process_map"
+    },
+    "role": "target_child",
+    "status": "PASS",
+    "tgid": 155
   },
-  "trace_code_join_with_runtime_map": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/runtime_process_attribution/source_attribution.runtime_map_summary.json"
+  "trace": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/strong_marker_20260611/illegal_trap_generated_marker_begin_rtl_dedup.trace.jsonl",
+  "trace_code_join": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/strong_marker_20260611/trace_code_map/illegal_trap_generated_marker_begin_rtl_dedup.runtime_code_map.jsonl",
+  "trace_code_join_summary": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/strong_marker_20260611/trace_code_map/trace_code_map_runtime_summary_rtl_dedup.json",
+  "trace_marker_build_log": "build/vivado/trace_marker_build_logs/trace-marker-rtl-marker-dedup-20260611-104721.out.log",
+  "transfer_log": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/strong_marker_20260611/serial_base64_transfer_generated_marker_elf_after_rtl_dedup.log"
 }

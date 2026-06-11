@@ -1,4 +1,4 @@
-# Genesys2/CVA6 Evidence Chain Status (2026-06-10)
+# Genesys2/CVA6 Evidence Chain Status (2026-06-10, updated 2026-06-11)
 
 This report summarizes the current Digilent Genesys2 + CVA6 evidence chain.
 Artix-7 35T material is excluded from the current conclusion and is treated
@@ -13,7 +13,7 @@ Current board path:
 - CPU/SoC: CVA6 Linux/Buildroot image.
 - JTAG: Genesys2 onboard JTAG through Vivado `hw_server`.
 - UART: Genesys2 onboard UART `COM7`, `115200 8N1`.
-- Trace bitstream: `build/vivado/genesys2-cv64a6_imafdc_sv39-trace/work-fpga/ariane_xilinx.bit`.
+- Trace bitstream: `build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.bit`.
 
 Evidence roots:
 
@@ -25,7 +25,7 @@ Evidence roots:
 
 The artifact gate was repaired before this report: `genesys2-artifacts` now
 accepts the trace routed timing summary only when the design state is routed,
-and the current trace `.bit` exists.
+and the current marker-scope trace `.bit` exists.
 
 Fast gates rerun for this report:
 
@@ -126,18 +126,125 @@ Quality findings:
   after serial echo/backlog caused heredoc congestion. These attempts are
   excluded from PASS claims.
 
+## Trace Closure Readiness Optimizations
+
+Repository-side optimizations and a fresh marker-scope routed build are in
+place. Routed timing closure and programmed-board ILA readback are now
+demonstrated. A post-closure `illegal_trap` marker-scope capture now also
+demonstrates marker-scoped runtime process/code-site attribution for the safe
+surrogate window.
+
+- Timing path: `cva6_rvfi_trace_adapter` now emits queued packets only, counts
+  decoded events for overflow accounting, and appends accepted packets directly
+  into the trace queue. This avoids the synthesized candidate and pending-next
+  packet arrays that inflated the trace marker build while preserving same-cycle
+  multi-event visibility in trace-unit simulation.
+- ILA window: the `xlnx_ila` generator now defaults to `RVMT_ILA_DATA_DEPTH=8192`,
+  `RVMT_ILA_INPUT_PIPE_STAGES=2`, `RVMT_ILA_STORAGE_QUAL=1`, and
+  `RVMT_ILA_ADV_TRIGGER=TRUE`.
+- Capture guard: event-only ILA capture now fails if the programmed core cannot
+  apply BASIC/storage-qualified capture, preventing old `ALWAYS` captures from
+  being mistaken for same-window evidence.
+- Runtime attribution hooks: the Genesys2 ILA decoder now emits SATP mode,
+  ASID, and PPN fields for wide captures, and explicitly marks packed 32-bit
+  SATP primary captures as insufficient for ASID attribution. Marker-scope
+  trace build support remains available through `bitstream:build-trace-marker`.
+
+The fresh marker-scope trace-enabled Vivado build completed successfully:
+
+- Bitstream:
+  `build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.bit`
+- Flash image:
+  `build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.mcs`
+- LTX:
+  `build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.ltx`
+- ILA XCI:
+  `build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/xlnx_ila.xci`
+  records `C_DATA_DEPTH=8192`, `C_INPUT_PIPE_STAGES=2`,
+  `C_EN_STRG_QUAL=1`, and `C_ADV_TRIGGER=TRUE`.
+- Routed timing:
+  `build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/reports/ariane.timing.rpt`
+  reports `Slack (MET) = 0.177ns`.
+- Route status:
+  `build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx_route_status.rpt`
+  reports 163278/163278 routable nets fully routed and 0 routing errors.
+- Build log:
+  `build/vivado/trace_marker_build_logs/trace-marker-rtl-marker-dedup-20260611-104721.out.log`.
+
+The marker bitstream was programmed on 2026-06-11 and then read back through
+Vivado Hardware Manager:
+
+- Program log:
+  `results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/command_logs/program_trace_marker_rtl_dedup_20260611-113229.log`.
+- Inspect log:
+  `results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/command_logs/inspect_trace_marker_rtl_dedup_ila_20260611-113302.log`.
+- Readback confirms one ILA core, `CONTROL.DATA_DEPTH=8192`,
+  `STATIC.MAX_DATA_DEPTH=8192`,
+  `STATIC.IS_BASIC_CAPTURE_MODE_SUPPORTED=1`, and
+  `STATIC.IS_ADVANCED_TRIGGER_MODE_SUPPORTED=1`.
+
+Post-closure marker-scope board capture artifacts:
+
+- Trace:
+  `results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/strong_marker_20260611/illegal_trap_generated_marker_begin_rtl_dedup.trace.jsonl`
+- Trace/code-map/runtime summary:
+  `results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/strong_marker_20260611/trace_code_map/trace_code_map_runtime_summary_rtl_dedup.json`
+- Runtime process map:
+  `results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/strong_marker_20260611/runtime_process_map_target_first_rtl_dedup.json`
+- Evidence summary:
+  `results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/runtime_process_attribution/summary.json`
+
+The decoded trace has `marker_scope.status=PASS` with begin marker
+`0xb0000a11` at event 16 and end marker `0xe0000a11` at event 116. Within that
+marker window, the runtime/code-map join reports
+`runtime_process_attribution_proven=true`, `process_attribution=proven`, and 7
+`marker_scoped_runtime_map_code_site` events. Key target events include
+`rt_sigaction` at PC `0x10144`, illegal-instruction trap cause 2 at PC
+`0x10148`, handler `write` syscall `a7=0x40` at PC `0x1016c`, and marker end
+at PC `0x10188`. The target child runtime map binds `/tmp/rvmt_p2/illegal_trap`
+to RX range `0x10000-0x12000`, matching the fixed EXEC code map.
+The RTL-dedup capture has no ordinary `SYSCALL_ENTRY` rows for marker syscall
+`a7=0x3ff`; the begin/end marker syscalls are represented as `MARKER` events.
+
+This is not a SATP/ASID-backed claim: the marker capture uses the packed ILA
+payload format, so process ownership here is established by marker scope plus
+UART procfs runtime map plus fixed EXEC code map.
+
+## Trace-Enabled Resource And Timing Boundary
+
+Resource and timing evidence is recorded in
+`docs/07-evaluation-evidence/reports/resource_report.md`.
+
+Current routed report status:
+
+- Baseline Genesys2/CVA6 build:
+  `build/vivado/genesys2-cv64a6_imafdc_sv39/reports/ariane.timing.rpt`
+  reports `Slack (MET) = 0.177ns`.
+- Marker-scope trace-enabled Genesys2/CVA6 build:
+  `build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/reports/ariane.timing.rpt`
+  reports `Slack (MET) = 0.177ns`.
+
+The older trace-enabled `-trace` routed report with `Slack (VIOLATED) =
+-0.427ns` is superseded for closure discussion by the marker-scope build above,
+but it remains a historical boundary artifact and must not be cited as current
+trace-marker timing evidence.
+
 ## Weak-Evidence Limitations
 
 - Hardware traces are multi-window for several samples. They show required
   event classes and syscall numbers, but not complete continuous executions.
 - `hello_write` write entry and syscall return are both present, but not in one
   ILA window.
-- Runtime process ownership is generally not proven because PID/SATP/ASID or a
-  validated runtime process map is missing for the P0 traces.
+- Runtime process ownership is generally not proven because marker-scoped
+  SATP/ASID-backed runtime mapping is missing for the P0 traces.
 - Source-line and function-level attribution are unavailable in the P0 local
   code analysis summaries.
 - Safe surrogate behavior mappings are repository-authored synthetic/surrogate
   analyses only.
+- Marker-scoped runtime process/code-site attribution is now demonstrated for
+  the safe `illegal_trap` surrogate only. Older P0 traces remain multi-window
+  and weak unless separately marker-scoped and runtime-mapped.
+- No SATP/ASID-backed attribution is claimed for the packed marker capture.
 - Real malware payloads, sources, and binaries are not present in the repository
   and were not evaluated in this step.
 
@@ -156,6 +263,18 @@ Quality findings:
 - The 2026-06-10 trace-quality probe independently confirms the current
   Genesys2/CVA6 trace bitstream and ILA flow can still capture `SYSCALL_ENTRY`
   and `SYSCALL_RET` on board.
+- The marker-scope trace-enabled Genesys2/CVA6 build is routed with
+  `Slack (MET) = 0.177ns` and has bitstream, flash image, LTX, ILA XCI, and
+  routed DCP artifacts present under
+  `build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/`.
+- The 2026-06-11 programmed Genesys2 readback confirms the marker-scope ILA is
+  present with 8192 data depth and BASIC/advanced trigger support.
+- Marker-scoped runtime process/code-site attribution is now demonstrated for
+  the safe `illegal_trap` surrogate on Genesys2/CVA6, with marker begin/end,
+  runtime `/proc/$pid/maps`, and fixed EXEC code-map evidence in one decoded
+  marker window.
+- The 2026-06-11 RTL-dedup marker capture verifies marker syscalls are no
+  longer duplicated as ordinary `SYSCALL_ENTRY a7=0x3ff` events.
 
 ## Non-Claims
 
@@ -163,6 +282,8 @@ Quality findings:
 - No real malware detection quality, coverage, or efficacy is claimed.
 - No synthetic or surrogate sample is claimed to be real malware.
 - No real malware payload/source/binary is included or required by this report.
-- No single continuous entry/trap/return hardware trace window is claimed.
-- No strong per-process runtime attribution is claimed for the P0 traces without
-  PID/SATP/ASID/marker-backed evidence.
+- No broad per-process runtime attribution is claimed for the older P0 traces
+  without marker-scoped runtime mapping.
+- No SATP/ASID-backed attribution is claimed for the packed marker capture.
+- Timing closure alone is not claimed as runtime attribution, detection quality,
+  or end-to-end evidence-chain closure.

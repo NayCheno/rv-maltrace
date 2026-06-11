@@ -21,7 +21,11 @@ module trace_board_minimal_ctrl #(
 );
 
   assign trace_enable_retire_o = 1'b0;
+`ifdef RV_MALTRACE_FPGA_TRACE_MARKER_SCOPE
+  assign trace_enable_branch_o = 1'b0;
+`else
   assign trace_enable_branch_o = 1'b1;
+`endif
   assign trace_enable_jump_o = 1'b0;
   assign trace_enable_syscall_o = 1'b1;
   assign trace_enable_trap_o = 1'b1;

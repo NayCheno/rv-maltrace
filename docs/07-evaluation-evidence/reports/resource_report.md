@@ -19,9 +19,9 @@ Trace-specific queue/drop rows are taken from current trace RTL parameters and t
 
 ## Timing
 
-| Path group | Slack (ns) | Requirement (ns) | Target Fmax (MHz) | Approx. achieved Fmax (MHz) | Data path delay (ns) | Logic levels |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| mem_refclk | 0.177 | 1.250 | 800.0 | 932.0 | 1.183 | 0 |
+| Path group | Slack status | Slack (ns) | Requirement (ns) | Target Fmax (MHz) | Approx. achieved Fmax (MHz) | Data path delay (ns) | Logic levels |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| mem_refclk | MET | 0.177 | 1.250 | 800.0 | 932.0 | 1.183 | 0 |
 
 Critical path:
 
@@ -36,6 +36,7 @@ Critical path:
 | `rtl/trace/trace_top.sv` PIPELINE_INPUTS | 1 |
 | `rtl/trace/cva6_rvfi_trace_adapter.sv` EVENT_QUEUE_DEPTH | 16 |
 | `rtl/trace/cva6_rvfi_trace_adapter.sv` PIPELINE_INPUTS | 1 |
+| `rtl/trace/cva6_rvfi_trace_adapter.sv` INTERNAL_EVENT_QUEUE_DEPTH | 17 |
 | Simulation overall | PASS |
 | Max DROP test | backpressure |
 | Max DROP records | 7 |
@@ -49,14 +50,15 @@ Drop rows:
 
 ## Trace-Enabled FPGA Delta
 
-- Trace utilization: `build/vivado/genesys2-cv64a6_imafdc_sv39-trace/reports/ariane.utilization.rpt`
-- Trace timing: `build/vivado/genesys2-cv64a6_imafdc_sv39-trace/reports/ariane.timing.rpt`
+- Trace utilization: `build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/reports/ariane.utilization.rpt`
+- Trace timing: `build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/reports/ariane.timing.rpt`
 
 | Metric | Baseline | Trace-enabled | Delta |
 | --- | ---: | ---: | ---: |
-| LUT | 84923 | 171405 | +86482 (+101.84%) |
-| FF | 56491 | 65194 | +8703 (+15.41%) |
+| LUT | 84923 | 106428 | +21505 (+25.32%) |
+| FF | 56491 | 65634 | +9143 (+16.18%) |
 | BRAM18 equiv | 108 | 114 | +6 (+5.56%) |
 | DSP | 27 | 27 | +0 (+0.00%) |
+| Timing status | MET | MET | n/a |
 | Slack (ns) | 0.177 | 0.177 | 0.000 |
 | Approx. achieved Fmax (MHz) | 932.0 | 932.0 | 0.0 |

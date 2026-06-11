@@ -32,6 +32,13 @@ PRIV_NAMES = {
     3: "M",
 }
 
+SATP_MODE_NAMES = {
+    0: "Bare",
+    8: "Sv39",
+    9: "Sv48",
+    10: "Sv57",
+}
+
 WIDE_PROBES = {
     "fire": ("probe0", "rvmt_trace_fire"),
     "evt": ("probe1", "rvmt_trace_probe_evt"),
@@ -137,6 +144,14 @@ def priv_name(value: int) -> str:
     return PRIV_NAMES.get(value & 0x3, f"UNKNOWN_{value & 0x3}")
 
 
+def annotate_satp(event: dict[str, Any], satp: int) -> None:
+    event["satp"] = hex_width(satp, 64)
+    event["satp_mode"] = (satp >> 60) & 0xF
+    event["satp_mode_name"] = SATP_MODE_NAMES.get(event["satp_mode"], f"MODE_{event['satp_mode']}")
+    event["satp_asid"] = hex_width((satp >> 44) & 0xFFFF, 16)
+    event["satp_ppn"] = hex_width(satp & ((1 << 44) - 1), 44)
+
+
 def row_value(row: dict[str, str], columns: dict[str, str], field: str, radix: str) -> int:
     return parse_int(row.get(columns[field], ""), unprefixed_radix=radix)
 
@@ -162,6 +177,7 @@ def decode_rows(rows: list[dict[str, str]], columns: dict[str, str], radix: str)
             "instr": hex_width(row_value(row, columns, "instr", radix), 32),
             "priv": priv_name(row_value(row, columns, "priv", radix)),
         }
+        annotate_satp(event, row_value(row, columns, "satp", radix))
 
         target = row_value(row, columns, "target", radix)
         if target or evt in {"BRANCH", "JUMP", "SYSCALL_RET"}:
@@ -188,7 +204,6 @@ def decode_rows(rows: list[dict[str, str]], columns: dict[str, str], radix: str)
 
         if evt in {"CSR", "SATP"}:
             event["csr"] = hex_width(row_value(row, columns, "csr", radix), 12)
-            event["satp"] = hex_width(row_value(row, columns, "satp", radix), 64)
 
         if evt == "PRIV":
             event["old_priv"] = priv_name(priv_transition >> 2)
@@ -244,6 +259,8 @@ def decode_rows_packed(rows: list[dict[str, str]], columns: dict[str, str], radi
         if evt == "SATP":
             event["satp"] = hex_width(primary, 64)
             event["value"] = event["satp"]
+            event["satp_primary_width_bits"] = 32
+            event["satp_asid_source"] = "unavailable_packed_32bit_primary"
 
         if evt == "PRIV":
             event["old_priv"] = priv_name(primary & 0x3)
@@ -279,7 +296,7 @@ def write_jsonl(events: list[dict[str, Any]], path: Path) -> None:
 def run_self_test() -> int:
     headers = [f"probe{i}" for i in range(20)]
     rows = [
-        ["1", "4", "10", "0000000080001000", "00000073", "0", "0", "0", "1", "0", "0", "0", "0", "0", "1", "2000", "12", "40", "0", "0"],
+        ["1", "4", "10", "0000000080001000", "00000073", "0", "0", "0", "1", "8001200000012345", "0", "0", "0", "0", "1", "2000", "12", "40", "0", "0"],
         ["1", "5", "18", "0000000080001004", "10200073", "0000000080001008", "0", "1", "5", "0", "0", "11", "0", "0", "11", "0", "0", "40", "0", "8"],
         ["1", "6", "20", "0000000080002000", "ffffffff", "0", "0", "0", "0", "0", "0", "0", "2", "ffffffff", "0", "0", "0", "0", "0", "0"],
         ["0", "0", "21", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"],
@@ -300,6 +317,9 @@ def run_self_test() -> int:
     if loaded[0].get("evt") != "SYSCALL_ENTRY" or loaded[0].get("a7") != "0x0000000000000040":
         print("[FAIL] syscall entry decode mismatch", file=sys.stderr)
         return 1
+    if loaded[0].get("satp_asid") != "0x0012" or loaded[0].get("satp_mode_name") != "Sv39":
+        print("[FAIL] SATP ASID decode mismatch", file=sys.stderr)
+        return 1
     if loaded[1].get("evt") != "SYSCALL_RET" or loaded[1].get("duration") != 8:
         print("[FAIL] syscall return decode mismatch", file=sys.stderr)
         return 1
@@ -310,6 +330,7 @@ def run_self_test() -> int:
         (4 | (10 << 4) | (0x80001000 << 36) | (64 << 68)),
         (5 | (18 << 4) | (0x80001004 << 36) | (0 << 68)),
         (6 | (20 << 4) | (0x80002000 << 36) | (2 << 68)),
+        (8 | (24 << 4) | (0x80002004 << 36) | (0x12345678 << 68)),
     ]
     with tempfile.TemporaryDirectory() as tmp:
         csv_path = Path(tmp) / "packed_ila.csv"
@@ -318,8 +339,8 @@ def run_self_test() -> int:
             writer.writerow(["probe0", "probe1"])
             writer.writerows([["1", f"{payload:x}"] for payload in packed_payloads])
         packed = decode_csv(csv_path, unprefixed_radix="hex")
-    if len(packed) != 3:
-        print("[FAIL] expected 3 packed decoded events", file=sys.stderr)
+    if len(packed) != 4:
+        print("[FAIL] expected 4 packed decoded events", file=sys.stderr)
         return 1
     if packed[0].get("evt") != "SYSCALL_ENTRY" or packed[0].get("a7") != "0x0000000000000040":
         print("[FAIL] packed syscall entry decode mismatch", file=sys.stderr)
@@ -329,6 +350,13 @@ def run_self_test() -> int:
         return 1
     if packed[2].get("evt") != "TRAP" or packed[2].get("cause") != "0x0000000000000002":
         print("[FAIL] packed trap decode mismatch", file=sys.stderr)
+        return 1
+    if (
+        packed[3].get("evt") != "SATP"
+        or packed[3].get("satp") != "0x0000000012345678"
+        or packed[3].get("satp_asid_source") != "unavailable_packed_32bit_primary"
+    ):
+        print("[FAIL] packed SATP boundary decode mismatch", file=sys.stderr)
         return 1
     print("[PASS] Genesys2 ILA trace decoder self-test")
     return 0

@@ -558,23 +558,28 @@ uv run python tools/check_board_trace_programs.py --self-test
 
 The 2026-06-09 Genesys2/CVA6 trace validation run proves that the current ILA
 can capture syscall entries and syscall returns, but it has not yet captured a
-target syscall entry and its matching return in one window. For the next paired
-syscall capture attempt, rebuild the trace bitstream with a larger ILA window
-or storage qualification enabled; the `xlnx_ila` generator accepts these
-environment variables:
+target syscall entry and its matching return in one window. The `xlnx_ila`
+generator now defaults to a deeper, qualified capture configuration for the
+next paired syscall capture attempt:
 
 ```powershell
-$env:RVMT_ILA_DATA_DEPTH = "4096"
+$env:RVMT_ILA_DATA_DEPTH = "8192"
+$env:RVMT_ILA_INPUT_PIPE_STAGES = "2"
 $env:RVMT_ILA_STORAGE_QUAL = "1"
 $env:RVMT_ILA_ADV_TRIGGER = "TRUE"
-uv run rvmt bitstream:build-trace
+uv run rvmt bitstream:build-trace-marker
 ```
 
 Record the generated `RVMT_ILA_*` lines from the Vivado/IP build log and pass
 the matching values into `tools/package_genesys2_trace_evidence.py` with
 `--ila-data-depth`, `--ila-storage-qualification`, and
-`--ila-advanced-trigger`. Do not claim paired syscall evidence until a decoded
-single capture contains both the target `SYSCALL_ENTRY` and `SYSCALL_RET`.
+`--ila-advanced-trigger`. For paired syscall captures, invoke
+`tools/run_genesys2_ila_command_capture.py` with `--event-only-capture`; the
+underlying Tcl now fails if the programmed ILA cannot apply event-only storage.
+Do not claim paired syscall evidence until a decoded single capture contains
+both the target `SYSCALL_ENTRY` and `SYSCALL_RET`, and do not claim strong
+runtime process attribution until marker-scoped trace plus SATP/ASID-backed
+runtime mapping has been captured.
 
 ## Linux Behavior Experiment Principles
 

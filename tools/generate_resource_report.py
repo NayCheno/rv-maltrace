@@ -114,6 +114,17 @@ def parse_trace_params(paths: tuple[Path, ...] = TRACE_PARAM_FILES) -> dict[str,
             match = re.search(rf"parameter\s+int\s+{name}\s*=\s*([0-9]+)", text)
             if match:
                 entry[name] = int(match.group(1))
+        for name in ("INTERNAL_EVENT_QUEUE_DEPTH",):
+            match = re.search(rf"localparam\s+int\s+{name}\s*=\s*([^;]+);", text)
+            if not match:
+                continue
+            expr = match.group(1).strip()
+            if expr.isdigit():
+                entry[name] = int(expr)
+                continue
+            add_match = re.fullmatch(r"EVENT_QUEUE_DEPTH\s*\+\s*([0-9]+)", expr)
+            if add_match and "EVENT_QUEUE_DEPTH" in entry:
+                entry[name] = entry["EVENT_QUEUE_DEPTH"] + int(add_match.group(1))
         params[path.as_posix()] = entry
     return params
 
@@ -218,10 +229,10 @@ def build_report(
         "",
         "## Timing",
         "",
-        "| Path group | Slack (ns) | Requirement (ns) | Target Fmax (MHz) | Approx. achieved Fmax (MHz) | Data path delay (ns) | Logic levels |",
-        "| --- | ---: | ---: | ---: | ---: | ---: | ---: |",
+        "| Path group | Slack status | Slack (ns) | Requirement (ns) | Target Fmax (MHz) | Approx. achieved Fmax (MHz) | Data path delay (ns) | Logic levels |",
+        "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |",
         (
-            f"| {timing.get('path_group', 'n/a')} | {fmt_float(timing['slack_ns'])} | "
+            f"| {timing.get('path_group', 'n/a')} | {timing.get('slack_status', 'n/a')} | {fmt_float(timing['slack_ns'])} | "
             f"{fmt_float(timing['requirement_ns'])} | {fmt_float(timing['target_fmax_mhz'], 1)} | "
             f"{fmt_float(timing['achieved_fmax_mhz'], 1)} | {fmt_float(timing['data_path_delay_ns'])} | "
             f"{timing.get('logic_levels', 'n/a')} |"
@@ -242,6 +253,8 @@ def build_report(
             lines.append(f"| `{path}` EVENT_QUEUE_DEPTH | {params['EVENT_QUEUE_DEPTH']} |")
         if "PIPELINE_INPUTS" in params:
             lines.append(f"| `{path}` PIPELINE_INPUTS | {params['PIPELINE_INPUTS']} |")
+        if "INTERNAL_EVENT_QUEUE_DEPTH" in params:
+            lines.append(f"| `{path}` INTERNAL_EVENT_QUEUE_DEPTH | {params['INTERNAL_EVENT_QUEUE_DEPTH']} |")
     lines.extend(
         [
             f"| Simulation overall | {drops.get('overall', 'n/a')} |",
@@ -269,6 +282,13 @@ def build_report(
     )
     if trace_util and trace_timing:
         trace_bram18_equiv = trace_util["ramb36"] * 2 + trace_util["ramb18"]
+        trace_timing_closed = trace_timing.get("slack_status") == "MET" and float(trace_timing.get("slack_ns") or 0.0) >= 0.0
+        trace_fmax = fmt_float(trace_timing["achieved_fmax_mhz"], 1) if trace_timing_closed else "not timing-closed"
+        fmax_delta = (
+            fmt_float((trace_timing["achieved_fmax_mhz"] or 0.0) - (timing["achieved_fmax_mhz"] or 0.0), 1)
+            if trace_timing_closed
+            else "n/a"
+        )
         lines.extend(
             [
                 f"- Trace utilization: `{trace_util_report.as_posix()}`",
@@ -280,10 +300,20 @@ def build_report(
                 f"| FF | {util['ffs']} | {trace_util['ffs']} | {delta_value(trace_util['ffs'], util['ffs'])} |",
                 f"| BRAM18 equiv | {bram18_equiv} | {trace_bram18_equiv} | {delta_value(trace_bram18_equiv, bram18_equiv)} |",
                 f"| DSP | {util['dsp']} | {trace_util['dsp']} | {delta_value(trace_util['dsp'], util['dsp'])} |",
+                f"| Timing status | {timing.get('slack_status', 'n/a')} | {trace_timing.get('slack_status', 'n/a')} | n/a |",
                 f"| Slack (ns) | {fmt_float(timing['slack_ns'])} | {fmt_float(trace_timing['slack_ns'])} | {fmt_float(trace_timing['slack_ns'] - timing['slack_ns'])} |",
-                f"| Approx. achieved Fmax (MHz) | {fmt_float(timing['achieved_fmax_mhz'], 1)} | {fmt_float(trace_timing['achieved_fmax_mhz'], 1)} | {fmt_float((trace_timing['achieved_fmax_mhz'] or 0.0) - (timing['achieved_fmax_mhz'] or 0.0), 1)} |",
+                f"| Approx. achieved Fmax (MHz) | {fmt_float(timing['achieved_fmax_mhz'], 1)} | {trace_fmax} | {fmax_delta} |",
             ]
         )
+        if not trace_timing_closed:
+            lines.extend(
+                [
+                    "",
+                    "Trace-enabled timing boundary: the current trace-enabled implementation report is not timing-closed. "
+                    "This resource delta records routed utilization and observed timing status only; it must not be cited as "
+                    "a trace-enabled Fmax, timing-closure, or performance-improvement result until a routed trace build reports `Slack (MET)`.",
+                ]
+            )
     else:
         lines.extend(
             [
@@ -330,7 +360,12 @@ Slack (MET) :             0.500ns  (required time - arrival time)
             encoding="utf-8",
         )
         trace_top.write_text("module trace_top #(parameter int EVENT_QUEUE_DEPTH = 8, parameter int PIPELINE_INPUTS = 1) (); endmodule\n", encoding="utf-8")
-        adapter.write_text("module cva6_rvfi_trace_adapter #(parameter int EVENT_QUEUE_DEPTH = 16, parameter int PIPELINE_INPUTS = 1) (); endmodule\n", encoding="utf-8")
+        adapter.write_text(
+            "module cva6_rvfi_trace_adapter #(parameter int EVENT_QUEUE_DEPTH = 16, parameter int PIPELINE_INPUTS = 1) ();\n"
+            "  localparam int INTERNAL_EVENT_QUEUE_DEPTH = EVENT_QUEUE_DEPTH + 1;\n"
+            "endmodule\n",
+            encoding="utf-8",
+        )
         trace.write_text('{"evt":"DROP","value":"0x3"}\n{"evt":"DROP","value":"0x2"}\n', encoding="utf-8")
         summary.write_text(
             json.dumps(
@@ -378,6 +413,12 @@ Slack (MET) :             0.500ns  (required time - arrival time)
             return 1
         if "| LUT | 10 | 12 | +2 (+20.00%) |" not in report:
             print("[FAIL] resource report self-test missed trace-enabled delta", file=sys.stderr)
+            return 1
+        if "| Timing status | MET | MET | n/a |" not in report:
+            print("[FAIL] resource report self-test missed timing status row", file=sys.stderr)
+            return 1
+        if "INTERNAL_EVENT_QUEUE_DEPTH | 17" not in report:
+            print("[FAIL] resource report self-test missed internal trace queue depth", file=sys.stderr)
             return 1
 
         repo_relative_trace = root / "results" / "vivado_sim" / "windows_path" / "trace.jsonl"

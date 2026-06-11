@@ -18,7 +18,7 @@ NON_CLAIMS = [
     "No real malware detection quality or efficacy is claimed.",
     "No real malware payload, source, or binary is present in the repository.",
     "No single continuous entry/trap/return hardware trace window is claimed.",
-    "No strong runtime process attribution is claimed without PID/SATP/ASID/marker evidence.",
+    "No strong runtime process attribution is claimed without marker-scoped SATP/ASID-backed runtime mapping.",
 ]
 DANGEROUS_STATIC_FLAGS = (
     "destructive",
@@ -128,6 +128,47 @@ def syscall_entry_counts(events: list[dict[str, Any]]) -> dict[str, int]:
         if event.get("evt") == "SYSCALL_ENTRY" and event.get("a7") is not None
     )
     return dict(sorted(counts.items()))
+
+
+def paired_syscall_windows(events: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    grouped: dict[str, list[dict[str, Any]]] = {}
+    for event in events:
+        capture_id = str(event.get("capture_id") or "unknown")
+        grouped.setdefault(capture_id, []).append(event)
+
+    windows: list[dict[str, Any]] = []
+    for capture_id, rows in sorted(grouped.items()):
+        entries = [row for row in rows if row.get("evt") == "SYSCALL_ENTRY"]
+        returns = [row for row in rows if row.get("evt") == "SYSCALL_RET"]
+        if not entries or not returns:
+            continue
+        entry_ids = {str(row.get("syscall_id")) for row in entries if row.get("syscall_id") is not None}
+        return_ids = {str(row.get("syscall_id")) for row in returns if row.get("syscall_id") is not None}
+        matched_ids = sorted((entry_ids & return_ids) - {"0x0000000000000000", "0", "None"})
+        windows.append(
+            {
+                "capture_id": capture_id,
+                "trigger": rows[0].get("capture_trigger"),
+                "entry_count": len(entries),
+                "return_count": len(returns),
+                "entry_a7": sorted({str(row.get("a7")) for row in entries if row.get("a7") is not None}),
+                "matched_syscall_ids": matched_ids,
+                "same_capture_window": True,
+            }
+        )
+    return windows
+
+
+def satp_context_summary(events: list[dict[str, Any]]) -> dict[str, Any]:
+    asids = sorted({str(event.get("satp_asid")) for event in events if event.get("satp_asid") is not None})
+    return {
+        "events_with_satp": sum(1 for event in events if event.get("satp") is not None),
+        "events_with_satp_asid": sum(1 for event in events if event.get("satp_asid") is not None),
+        "satp_asids": asids,
+        "marker_events": sum(1 for event in events if event.get("evt") == "MARKER"),
+        "marker_scope_status": "PRESENT" if any(event.get("evt") == "MARKER" for event in events) else "MISSING",
+        "runtime_process_attribution_proven": False,
+    }
 
 
 def syscall_hex(number: int) -> str:
@@ -248,6 +289,26 @@ def package_hardware(
             "pass": True,
             "evidence": "at least one SYSCALL_RET event was captured in a separate return-triggered ILA window",
         }
+    paired_windows = paired_syscall_windows(merged)
+    if paired_windows:
+        requirements["same_window_syscall_entry_return_probe"] = {
+            "pass": True,
+            "evidence": f"{len(paired_windows)} capture window(s) include both SYSCALL_ENTRY and SYSCALL_RET",
+        }
+    satp_context = satp_context_summary(merged)
+    limitations = [
+        "The repeated close loop is only partially captured by the retained close-triggered ILA window.",
+        "The return probe is retained as an unattributed return-window check and is not claimed as a failed syscall return.",
+        "No strong runtime process ownership is claimed without marker-scoped SATP/ASID-backed runtime mapping.",
+        "No real malware payload, source, or binary is included or executed.",
+    ]
+    if paired_windows:
+        limitations.insert(
+            0,
+            "At least one paired syscall entry/return window is present, but full sample evidence may still combine multiple ILA trigger windows.",
+        )
+    else:
+        limitations.insert(0, "Trace evidence is assembled from multiple ILA trigger windows, not one continuous invocation.")
 
     summary = {
         "schema": "rvmt.genesys2.safe_surrogate.hardware_trace_summary.v1",
@@ -269,15 +330,11 @@ def package_hardware(
         "events": len(merged),
         "event_counts": event_counts(merged),
         "syscall_entry_counts": syscall_counts,
+        "paired_syscall_windows": paired_windows,
+        "satp_context": satp_context,
         "captures": capture_rows,
         "requirements": requirements,
-        "limitations": [
-            "Trace evidence is assembled from multiple ILA trigger windows, not one continuous invocation.",
-            "The repeated close loop is only partially captured by the retained close-triggered ILA window.",
-            "The return probe is retained as an unattributed return-window check and is not claimed as a failed syscall return.",
-            "No strong runtime process ownership is claimed without marker/PID/SATP/ASID evidence.",
-            "No real malware payload, source, or binary is included or executed.",
-        ],
+        "limitations": limitations,
         "status": "PASS_SAFE_SURROGATE_PARTIAL_ABNORMAL_SYSCALL_ENTRY_TRACE",
         "transport": {"jtag": "Genesys2 onboard JTAG", "uart": "COM7 115200 8N1"},
     }
@@ -477,7 +534,7 @@ def write_behavior_mapping(sample_dir: Path, sample_id: str, source: str) -> Non
         "limitations": [
             "Behavior evidence is synthetic/surrogate analysis, not real malware detection.",
             "Trace is multi-window; single continuous invocation is not demonstrated.",
-            "Runtime process ownership is not proven because marker scope and runtime process map are missing.",
+            "Runtime process ownership is not proven unless marker-scoped SATP/ASID-backed runtime mapping is present.",
             f"Behavior claim is limited to declared safe surrogate behavior: {expected_behavior_text}.",
             "Weak audit evidence does not prove full process ownership, fd/path flow, or all argument semantics.",
         ],

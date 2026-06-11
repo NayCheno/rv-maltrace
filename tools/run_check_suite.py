@@ -16,6 +16,8 @@ REQUIRED_GENESYS2_CURRENT_SCRIPTS = {
     "tools/check_board_trace_programs.py",
     "tools/check_board_trace_evidence.py",
     "tools/check_board_local_code_analysis.py",
+    "tools/check_genesys2_cva_evidence_boundary.py",
+    "tools/check_genesys2_cva_closure_readiness.py",
     "tools/check_genesys2_safe_surrogate.py",
     "tools/check_genesys2_safe_surrogate_coverage.py",
 }

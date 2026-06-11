@@ -13,7 +13,7 @@ from typing import TextIO
 
 DEFAULT_VIVADO = Path(r"D:\Application\vivado\2025.2\Vivado\bin\vivado.bat")
 DEFAULT_TCL = Path("tools/capture_genesys2_ila_event.tcl")
-DEFAULT_LTX = Path("build/vivado/genesys2-cv64a6_imafdc_sv39-trace/work-fpga/ariane_xilinx.ltx")
+DEFAULT_LTX = Path("build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.ltx")
 DEFAULT_HW_SERVER = "localhost:3121"
 
 

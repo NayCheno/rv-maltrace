@@ -18,7 +18,7 @@ set event_only_capture 0
 if {$argc >= 6} {
   set event_only_capture [lindex $argv 5]
 }
-set ltx_file [file normalize {build/vivado/genesys2-cv64a6_imafdc_sv39-trace/work-fpga/ariane_xilinx.ltx}]
+set ltx_file [file normalize {build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.ltx}]
 if {$argc >= 7} {
   set ltx_file [file normalize [lindex $argv 6]]
 }
@@ -78,12 +78,28 @@ if {$event_only_capture} {
   } cap_err]
   puts "RVMT_EVENT_ONLY_CAPTURE_RC=$cap_rc"
   puts "RVMT_EVENT_ONLY_CAPTURE_ERR=$cap_err"
+  if {$cap_rc != 0} {
+    puts "RVMT_EVENT_ONLY_CAPTURE_UNSUPPORTED"
+    exit 8
+  }
 }
 
 puts "RVMT_TRIGGER_PAYLOAD_COMPARE=[get_property TRIGGER_COMPARE_VALUE $payload_probe]"
 puts "RVMT_CAPTURE_MODE=[get_property CONTROL.CAPTURE_MODE $ila]"
 puts "RVMT_CAPTURE_CONDITION=[get_property CONTROL.CAPTURE_CONDITION $ila]"
 puts "RVMT_FIRE_CAPTURE_COMPARE=[get_property CAPTURE_COMPARE_VALUE $fire_probe]"
+if {$event_only_capture} {
+  set capture_mode [string toupper [get_property CONTROL.CAPTURE_MODE $ila]]
+  set fire_capture_compare [get_property CAPTURE_COMPARE_VALUE $fire_probe]
+  if {$capture_mode eq "ALWAYS"} {
+    puts "RVMT_EVENT_ONLY_CAPTURE_NOT_APPLIED"
+    exit 8
+  }
+  if {$fire_capture_compare ne "eq1'b1"} {
+    puts "RVMT_EVENT_ONLY_CAPTURE_COMPARE_NOT_APPLIED"
+    exit 8
+  }
+}
 run_hw_ila $ila
 puts "RVMT_ILA_ARMED"
 flush stdout

@@ -15,6 +15,7 @@ DEFAULT_RUN_ROOT = Path("results/board/genesys2_cva6_safe_surrogate/genesys2-cva
 DEFAULT_COVERAGE = DEFAULT_RUN_ROOT / "safe_surrogate_manifest_coverage.json"
 DEFAULT_OUT = DEFAULT_RUN_ROOT / "safe_surrogate_capture_plan.json"
 DEFAULT_RUNTIME_ROOT = "/tmp/rvmt_p2"
+TRACE_MARKER_LTX = Path("build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.ltx")
 SAFE_SAMPLE_CLASS = "malware_like_synthetic"
 BOARD = "Digilent Genesys2"
 CPU = "CVA6"
@@ -247,6 +248,9 @@ def capture_plan(sample_dir: Path, sample_id: str, row: dict[str, Any], runtime_
                 "program_log": display(program_log, root),
                 "program_command": command,
                 "program_command_b64": shell_command_b64(command),
+                "ltx": display(root / TRACE_MARKER_LTX, root),
+                "event_only_capture": True,
+                "marker_scope_required": True,
                 "command": [
                     "uv",
                     "run",
@@ -267,6 +271,8 @@ def capture_plan(sample_dir: Path, sample_id: str, row: dict[str, Any], runtime_
                     "--program-command-b64",
                     shell_command_b64(command),
                     "--event-only-capture",
+                    "--ltx",
+                    display(root / TRACE_MARKER_LTX, root),
                     "--decode-out",
                     display(trace, root),
                 ],
@@ -293,6 +299,9 @@ def capture_plan(sample_dir: Path, sample_id: str, row: dict[str, Any], runtime_
             "program_log": display(program_log, root),
             "program_command": command,
             "program_command_b64": shell_command_b64(command),
+            "ltx": display(root / TRACE_MARKER_LTX, root),
+            "event_only_capture": True,
+            "marker_scope_required": True,
             "command": [
                 "uv",
                 "run",
@@ -312,6 +321,9 @@ def capture_plan(sample_dir: Path, sample_id: str, row: dict[str, Any], runtime_
                 display(program_log, root),
                 "--program-command-b64",
                 shell_command_b64(command),
+                "--event-only-capture",
+                "--ltx",
+                display(root / TRACE_MARKER_LTX, root),
                 "--decode-out",
                 display(trace, root),
             ],
@@ -553,6 +565,14 @@ def self_test() -> int:
         if [capture["id"] for capture in captures] != ["openat_entry", "read_entry", "close_entry", "ret_any"]:
             print("[FAIL] self-test generated wrong capture windows", file=sys.stderr)
             return 1
+        for capture in captures:
+            command = capture.get("command", [])
+            if capture.get("event_only_capture") is not True or "--event-only-capture" not in command:
+                print("[FAIL] self-test missed event-only capture requirement", file=sys.stderr)
+                return 1
+            if capture.get("marker_scope_required") is not True or "--ltx" not in command or "trace-marker" not in " ".join(command):
+                print("[FAIL] self-test missed marker-scope LTX requirement", file=sys.stderr)
+                return 1
         if "package_hardware_and_static" not in beta["commands"]:
             print("[FAIL] self-test missed package command", file=sys.stderr)
             return 1

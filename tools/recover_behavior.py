@@ -349,9 +349,9 @@ def add_pending(
     event: dict[str, Any],
 ) -> None:
     syscall_id = syscall_id_int(event)
-    if syscall_id is None:
+    if syscall_id is None or syscall_id == 0:
         pending_without_id.append(syscall)
-    elif syscall_id != 0:
+    else:
         pending_by_id[syscall_id] = syscall
 
 

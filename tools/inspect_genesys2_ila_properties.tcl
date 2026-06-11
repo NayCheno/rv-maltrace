@@ -1,4 +1,4 @@
-set ltx_file [file normalize {build/vivado/genesys2-cv64a6_imafdc_sv39-trace/work-fpga/ariane_xilinx.ltx}]
+set ltx_file [file normalize {build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.ltx}]
 set hw_server_url {localhost:3121}
 if {$argc >= 1} {
   set ltx_file [file normalize [lindex $argv 0]]

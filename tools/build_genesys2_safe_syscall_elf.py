@@ -15,11 +15,15 @@ ROOT = Path(__file__).resolve().parents[1]
 BASE_VADDR = 0x10000
 TEXT_OFFSET = 0x100
 DATA_OFFSET = 0x2000
-DATA_SIZE = 512
+DATA_SIZE = 1024
 RUNTIME_ROOT = "/tmp/rvmt_p2"
 SAFE_SAMPLE_CLASS = "malware_like_synthetic"
 DEFAULT_MANIFEST = Path("experiments/linux_behavior/malware_like/manifest.json")
 DEFAULT_RUN_ROOT = Path("results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610")
+RVMT_MARKER_PAYLOAD = 0x00000A11
+RVMT_MARKER_BEGIN = 0xB0000000 | RVMT_MARKER_PAYLOAD
+RVMT_MARKER_END = 0xE0000000 | RVMT_MARKER_PAYLOAD
+ILLEGAL_TRAP_WARMUP_ITERATIONS = 80_000_000
 
 REG = {
     "zero": 0,
@@ -56,7 +60,17 @@ SYSCALL_NUMBERS = {
     "getdents64": 61,
     "ptrace": 117,
     "clock_gettime": 113,
+    "rt_sigaction": 134,
     "exit": 93,
+    "rvmt_marker": 1023,
+    "getpid": 172,
+    "getppid": 173,
+    "readlinkat": 78,
+    "prctl": 167,
+    "socket": 198,
+    "bind": 200,
+    "listen": 201,
+    "connect": 203,
 }
 
 
@@ -101,12 +115,34 @@ def encode_i(imm: int, rs1: int, funct3: int, rd: int, opcode: int) -> bytes:
     return u32((imm12 << 20) | (rs1 << 15) | (funct3 << 12) | (rd << 7) | opcode)
 
 
+def encode_b(imm: int, rs1: int, rs2: int, funct3: int, opcode: int) -> bytes:
+    if imm % 2:
+        raise ValueError(f"B-type immediate must be 2-byte aligned: {imm}")
+    if not -4096 <= imm <= 4094:
+        raise ValueError(f"B-type immediate out of range: {imm}")
+    imm13 = imm & 0x1FFF
+    return u32(
+        ((imm13 >> 12) & 0x1) << 31
+        | ((imm13 >> 5) & 0x3F) << 25
+        | (rs2 << 20)
+        | (rs1 << 15)
+        | (funct3 << 12)
+        | ((imm13 >> 1) & 0xF) << 8
+        | ((imm13 >> 11) & 0x1) << 7
+        | opcode
+    )
+
+
 def encode_u(imm20: int, rd: int, opcode: int) -> bytes:
     return u32(((imm20 & 0xFFFFF) << 12) | (rd << 7) | opcode)
 
 
 def inst_addi(rd: str, rs1: str, imm: int) -> bytes:
     return encode_i(imm, REG[rs1], 0, REG[rd], 0x13)
+
+
+def inst_bne(rs1: str, rs2: str, imm: int) -> bytes:
+    return encode_b(imm, REG[rs1], REG[rs2], 1, 0x63)
 
 
 def inst_lui(rd: str, imm20: int) -> bytes:
@@ -123,6 +159,10 @@ def inst_ecall() -> bytes:
 
 def inst_ebreak() -> bytes:
     return u32(0x00100073)
+
+
+def inst_illegal() -> bytes:
+    return u32(0xFFFFFFFF)
 
 
 def li(rd: str, value: int) -> list[bytes]:
@@ -164,6 +204,9 @@ class ProgramBuilder:
     def emit_mv(self, rd: str, rs: str) -> None:
         self.emit(inst_addi(rd, rs, 0))
 
+    def emit_bne(self, rs1: str, rs2: str, target_pc: int) -> None:
+        self.emit(inst_bne(rs1, rs2, target_pc - self.pc))
+
     def syscall(self, name: str, args: list[tuple[str, int | str]]) -> None:
         for reg, value in args:
             if isinstance(value, str):
@@ -180,6 +223,9 @@ class ProgramBuilder:
         self.syscall("exit", [("a0", 0)])
         self.emit(inst_ebreak())
 
+    def marker(self, value: int) -> None:
+        self.syscall("rvmt_marker", [("a0", value), ("a1", 0), ("a2", 0), ("a3", 0)])
+
 
 def add_rodata(strings: dict[str, bytes]) -> tuple[bytes, dict[str, int]]:
     blob = bytearray()
@@ -189,10 +235,7 @@ def add_rodata(strings: dict[str, bytes]) -> tuple[bytes, dict[str, int]]:
             blob.append(0)
         offsets[name] = len(blob)
         blob.extend(value)
-        if not value.endswith(b"\x00"):
-            blob.append(0)
     return bytes(blob), offsets
-
 
 def rodata_for_sample(sample_id: str) -> dict[str, bytes]:
     values: dict[str, bytes] = {
@@ -205,6 +248,20 @@ def rodata_for_sample(sample_id: str) -> dict[str, bytes]:
         "self_path": f"{RUNTIME_ROOT}/{sample_id}\x00".encode("ascii"),
         "copy_path": b"/tmp/rvmt_self_copy_sim.bin\x00",
     }
+    if sample_id == "illegal_trap":
+        values["sigill_msg"] = b"synthetic SIGILL\n"
+    if sample_id in ("mirai_comprehensive", "mirai_prctl_probe"):
+        values["prctl_name"] = b"rvmt-mirai\x00"
+    if sample_id == "mirai_comprehensive":
+        values.update({
+            "proc_self_status": b"/proc/self/status\x00",
+            "proc_pid_max": b"/proc/sys/kernel/pid_max\x00",
+            "proc_1_exe": b"/proc/1/exe\x00",
+            "proc_1_status": b"/proc/1/status\x00",
+            "safe_watchdog": b"/tmp/rvmt_safe_dev_watchdog\x00",
+            "safe_misc_watchdog": b"/tmp/rvmt_safe_dev_misc_watchdog\x00",
+            "real_watchdog": b"/dev/watchdog\x00",
+        })
     return values
 
 
@@ -212,6 +269,9 @@ def labels_for_rodata(rodata_offsets: dict[str, int], rodata_vaddr: int) -> dict
     labels = {name: rodata_vaddr + offset for name, offset in rodata_offsets.items()}
     labels["buffer"] = BASE_VADDR + DATA_OFFSET
     labels["argv_true"] = BASE_VADDR + DATA_OFFSET + 0x100
+    labels["bind_addr"] = BASE_VADDR + DATA_OFFSET + 0x200
+    labels["connect_addr"] = BASE_VADDR + DATA_OFFSET + 0x210
+    labels["sigaction"] = BASE_VADDR + DATA_OFFSET + 0x300
     return labels
 
 
@@ -257,9 +317,84 @@ def generate_text(sample_id: str, text_vaddr: int, labels: dict[str, int]) -> by
         b.emit_mv("s0", "a0")
         b.syscall("read", [("a0", "s0"), ("a1", "buffer"), ("a2", 128)])
         b.syscall("close", [("a0", "s0")])
+    elif sample_id == "illegal_trap":
+        b.emit_li("t0", ILLEGAL_TRAP_WARMUP_ITERATIONS)
+        loop_pc = b.pc
+        b.emit(inst_addi("t0", "t0", -1))
+        b.emit_bne("t0", "zero", loop_pc)
+        b.marker(RVMT_MARKER_BEGIN)
+        b.syscall("rt_sigaction", [("a0", 4), ("a1", "sigaction"), ("a2", 0), ("a3", 8)])
+        b.emit(inst_illegal())
+        b.syscall("exit", [("a0", 1)])
+
+        handler_pc = b.pc
+        expected_handler = labels.get("sigill_handler")
+        if expected_handler is not None and handler_pc != expected_handler:
+            raise ValueError(f"sigill handler label mismatch: expected 0x{expected_handler:x}, got 0x{handler_pc:x}")
+        labels["sigill_handler"] = handler_pc
+        b.syscall("write", [("a0", 1), ("a1", "sigill_msg"), ("a2", len("synthetic SIGILL\n"))])
+        b.marker(RVMT_MARKER_END)
+        b.exit_zero()
+    elif sample_id == "mirai_comprehensive":
+        # Behavior 1: Encoded table — /proc/self/status read
+        b.syscall("openat", [("a0", -100), ("a1", "proc_self_status"), ("a2", 0x80000), ("a3", 0)])
+        b.emit_mv("s0", "a0")
+        b.syscall("read", [("a0", "s0"), ("a1", "buffer"), ("a2", 256)])
+        b.syscall("close", [("a0", "s0")])
+        # Behavior 1b: /proc/sys/kernel/pid_max read
+        b.syscall("openat", [("a0", -100), ("a1", "proc_pid_max"), ("a2", 0x80000), ("a3", 0)])
+        b.emit_mv("s0", "a0")
+        b.syscall("read", [("a0", "s0"), ("a1", "buffer"), ("a2", 64)])
+        b.syscall("close", [("a0", "s0")])
+        # Behavior 2: Process enumeration — getpid, getppid
+        b.syscall("getpid", [])
+        b.syscall("getppid", [])
+        # readlinkat /proc/1/exe
+        b.syscall("readlinkat", [("a0", -100), ("a1", "proc_1_exe"), ("a2", "buffer"), ("a3", 255)])
+        # open /proc/1/status
+        b.syscall("openat", [("a0", -100), ("a1", "proc_1_status"), ("a2", 0x80000), ("a3", 0)])
+        b.emit_mv("s0", "a0")
+        b.syscall("read", [("a0", "s0"), ("a1", "buffer"), ("a2", 128)])
+        b.syscall("close", [("a0", "s0")])
+        # Behavior 3: Watchdog probe — 3 failed opens
+        b.syscall("openat", [("a0", -100), ("a1", "safe_watchdog"), ("a2", 0x80000), ("a3", 0)])
+        b.syscall("openat", [("a0", -100), ("a1", "safe_misc_watchdog"), ("a2", 0x80000), ("a3", 0)])
+        b.syscall("openat", [("a0", -100), ("a1", "real_watchdog"), ("a2", 0x80000), ("a3", 0)])
+        # Read pid_max again as sanity check
+        b.syscall("openat", [("a0", -100), ("a1", "proc_pid_max"), ("a2", 0x80000), ("a3", 0)])
+        b.emit_mv("s0", "a0")
+        b.syscall("read", [("a0", "s0"), ("a1", "buffer"), ("a2", 64)])
+        b.syscall("close", [("a0", "s0")])
+        # Behavior 4: prctl PR_SET_NAME
+        b.syscall("prctl", [("a0", 15), ("a1", "prctl_name"), ("a2", 0), ("a3", 0), ("a4", 0)])
+        # Behavior 5: Singleton bind — socket + bind(loopback:48101) + listen + close
+        b.syscall("socket", [("a0", 2), ("a1", 0x80001), ("a2", 0)])
+        b.emit_mv("s0", "a0")
+        b.syscall("bind", [("a0", "s0"), ("a1", "bind_addr"), ("a2", 16)])
+        b.syscall("listen", [("a0", "s0"), ("a1", 1)])
+        b.syscall("close", [("a0", "s0")])
+        # Behavior 6: Loopback C2 — socket + connect (fails) + close
+        b.syscall("socket", [("a0", 2), ("a1", 0x80001), ("a2", 0)])
+        b.emit_mv("s0", "a0")
+        b.syscall("connect", [("a0", "s0"), ("a1", "connect_addr"), ("a2", 16)])
+        b.syscall("close", [("a0", "s0")])
+    elif sample_id == "mirai_prctl_probe":
+        b.syscall("prctl", [("a0", 15), ("a1", "prctl_name"), ("a2", 0), ("a3", 0), ("a4", 0)])
+    elif sample_id == "mirai_socket_probe":
+        b.syscall("socket", [("a0", 2), ("a1", 0x80001), ("a2", 0)])
+        b.emit_mv("s0", "a0")
+        b.syscall("bind", [("a0", "s0"), ("a1", "bind_addr"), ("a2", 16)])
+        b.syscall("listen", [("a0", "s0"), ("a1", 1)])
+        b.syscall("close", [("a0", "s0")])
+    elif sample_id == "mirai_connect_probe":
+        b.syscall("socket", [("a0", 2), ("a1", 0x80001), ("a2", 0)])
+        b.emit_mv("s0", "a0")
+        b.syscall("connect", [("a0", "s0"), ("a1", "connect_addr"), ("a2", 16)])
+        b.syscall("close", [("a0", "s0")])
     else:
         raise ValueError(f"unsupported sample for deterministic syscall-only builder: {sample_id}")
-    b.exit_zero()
+    if sample_id != "illegal_trap":
+        b.exit_zero()
     return bytes(b.code)
 
 
@@ -326,18 +461,35 @@ def build_elf(sample_id: str) -> tuple[bytes, dict[str, Any]]:
     text_size = len(text)
     data = bytearray(DATA_SIZE)
     # argv_true contains a pointer to /bin/true followed by a NULL pointer.
-    struct.pack_into("<QQ", data, 0x100, labels["bin_true"], 0)
+    struct.pack_into("<QQ", data, 0x100, labels.get("bin_true", 0), 0)
 
-    strtab, str_offsets = c_string_table(["_start", "buffer", "argv_true"])
+    # For mirai_comprehensive: pack sockaddr_in structs for bind/connect
+    if sample_id == "mirai_comprehensive":
+        # sockaddr_in: u16 family=2, u16 port=htons(48101), u32 addr=htonl(127.0.0.1), u8 pad[8]
+        struct.pack_into("<HH", data, 0x200, 2, 0xE5BB)  # AF_INET, htons(48101)
+        struct.pack_into("<I", data, 0x204, 0x0100007F)  # htonl(127.0.0.1)
+        struct.pack_into("<HH", data, 0x210, 2, 0xE5BB)  # AF_INET, htons(48101)
+        struct.pack_into("<I", data, 0x214, 0x0100007F)  # htonl(127.0.0.1)
+    if sample_id == "illegal_trap":
+        struct.pack_into("<QQQQ", data, 0x300, labels["sigill_handler"], 0, 0, 0)
+
+    strtab_names = ["_start", "buffer", "argv_true"]
+    if sample_id == "mirai_comprehensive":
+        strtab_names.extend(["bind_addr", "connect_addr"])
+    strtab, str_offsets = c_string_table(strtab_names)
     shstrtab, shstr_offsets = c_string_table([".text", ".rodata", ".data", ".symtab", ".strtab", ".shstrtab"])
-    symtab = b"".join(
-        [
-            b"\x00" * 24,
-            symbol(str_offsets["_start"], 0x12, 1, text_vaddr, text_size),
-            symbol(str_offsets["buffer"], 0x11, 3, BASE_VADDR + DATA_OFFSET, DATA_SIZE),
-            symbol(str_offsets["argv_true"], 0x11, 3, BASE_VADDR + DATA_OFFSET + 0x100, 16),
-        ]
-    )
+    symtab_parts = [
+        b"\x00" * 24,
+        symbol(str_offsets["_start"], 0x12, 1, text_vaddr, text_size),
+        symbol(str_offsets["buffer"], 0x11, 3, BASE_VADDR + DATA_OFFSET, DATA_SIZE),
+        symbol(str_offsets["argv_true"], 0x11, 3, BASE_VADDR + DATA_OFFSET + 0x100, 16),
+    ]
+    if sample_id == "mirai_comprehensive":
+        symtab_parts.extend([
+            symbol(str_offsets["bind_addr"], 0x11, 3, BASE_VADDR + DATA_OFFSET + 0x200, 16),
+            symbol(str_offsets["connect_addr"], 0x11, 3, BASE_VADDR + DATA_OFFSET + 0x210, 16),
+        ])
+    symtab = b"".join(symtab_parts)
 
     content = bytearray()
     content.extend(b"\x00" * TEXT_OFFSET)
@@ -388,6 +540,12 @@ def build_elf(sample_id: str) -> tuple[bytes, dict[str, Any]]:
         "text_size": text_size,
         "data_size": DATA_SIZE,
         "syscall_sequence": syscall_sequence_for(sample_id),
+        "marker_scope": {
+            "enabled": sample_id == "illegal_trap",
+            "syscall_nr": SYSCALL_NUMBERS["rvmt_marker"],
+            "begin_value_low32": f"0x{RVMT_MARKER_BEGIN:08x}",
+            "end_value_low32": f"0x{RVMT_MARKER_END:08x}",
+        },
         "source_relation": "syscall-shape surrogate generated from repository manifest; not compiled from real malware",
         "non_claims": [
             "No real malware validation is demonstrated.",
@@ -411,6 +569,30 @@ def syscall_sequence_for(sample_id: str) -> list[str]:
         return ["mmap", "mprotect", "munmap", "exit"]
     if sample_id == "anti_debug_like":
         return ["clock_gettime", "ptrace", "openat", "read", "close", "exit"]
+    if sample_id == "illegal_trap":
+        return ["rvmt_marker", "rt_sigaction", "write", "rvmt_marker", "exit"]
+    if sample_id == "mirai_comprehensive":
+        return [
+            "openat", "read", "close",
+            "openat", "read", "close",
+            "getpid", "getppid",
+            "readlinkat",
+            "openat", "read", "close",
+            "openat",
+            "openat",
+            "openat",
+            "openat", "read", "close",
+            "prctl",
+            "socket", "bind", "listen", "close",
+            "socket", "connect", "close",
+            "exit",
+        ]
+    if sample_id == "mirai_prctl_probe":
+        return ["prctl", "exit"]
+    if sample_id == "mirai_socket_probe":
+        return ["socket", "bind", "listen", "close", "exit"]
+    if sample_id == "mirai_connect_probe":
+        return ["socket", "connect", "close", "exit"]
     raise ValueError(f"unsupported sample: {sample_id}")
 
 
@@ -468,6 +650,7 @@ def self_test() -> int:
         source_dir = root / "experiments/linux_behavior/malware_like/programs"
         source_dir.mkdir(parents=True)
         (source_dir / "file_scan.c").write_text("int main(void) { return 0; }\n", encoding="utf-8")
+        (source_dir / "illegal_trap.c").write_text("int main(void) { return 0; }\n", encoding="utf-8")
         manifest = {
             "samples": [
                 {
@@ -477,6 +660,14 @@ def self_test() -> int:
                     "source": "experiments/linux_behavior/malware_like/programs/file_scan.c",
                     "expected_syscalls": ["openat", "getdents64", "close"],
                     "expected_behavior": ["many_file_scan"],
+                },
+                {
+                    "id": "illegal_trap",
+                    "class": SAFE_SAMPLE_CLASS,
+                    "real_malware": False,
+                    "source": "experiments/linux_behavior/malware_like/programs/illegal_trap.c",
+                    "expected_syscalls": ["write"],
+                    "expected_behavior": ["illegal_instruction_trap"],
                 }
             ]
         }
@@ -492,6 +683,28 @@ def self_test() -> int:
         manifest_out = load_json(root / "out/build_manifest.json")
         if manifest_out.get("real_malware") is not False or "No real malware detection" not in " ".join(manifest_out.get("non_claims", [])):
             print("[FAIL] self-test missed claim boundary metadata", file=sys.stderr)
+            return 1
+        illegal_binary = build_one(root, manifest, "illegal_trap", root / "illegal_out", root / "illegal_code")
+        illegal_manifest = load_json(root / "illegal_out/build_manifest.json")
+        if illegal_manifest.get("syscall_sequence") != ["rvmt_marker", "rt_sigaction", "write", "rvmt_marker", "exit"]:
+            print("[FAIL] illegal_trap self-test missed marker-aware syscall sequence", file=sys.stderr)
+            return 1
+        marker_scope = illegal_manifest.get("marker_scope", {})
+        if marker_scope.get("enabled") is not True or marker_scope.get("syscall_nr") != 1023:
+            print("[FAIL] illegal_trap self-test missed marker metadata", file=sys.stderr)
+            return 1
+        illegal_code_map = load_json(root / "illegal_code/code_map.json")
+        illegal_syscall_count = len(illegal_code_map.get("syscall_sites", []))
+        illegal_trap_count = len(illegal_code_map.get("trap_sites", []))
+        if illegal_syscall_count != 6 or illegal_trap_count != 1:
+            print(
+                f"[FAIL] illegal_trap self-test expected 6 syscall sites and 1 trap site, "
+                f"got {illegal_syscall_count} and {illegal_trap_count}",
+                file=sys.stderr,
+            )
+            return 1
+        if illegal_binary.read_bytes()[:4] != b"\x7fELF":
+            print("[FAIL] illegal_trap self-test did not produce an ELF", file=sys.stderr)
             return 1
     print("[PASS] Genesys2 safe syscall ELF builder self-test")
     return 0

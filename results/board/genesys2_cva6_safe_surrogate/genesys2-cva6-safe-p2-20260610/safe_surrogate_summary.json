@@ -6,6 +6,8 @@
     "Genesys2/CVA6 runtime process map captures the safe surrogate target child mapping for /tmp/rvmt_p2/illegal_trap.",
     "Local code analysis maps captured safe surrogate trace events to repository-authored target ELF code where PC evidence permits.",
     "Local code analysis maps the captured write syscall PC to the target ELF text/code map.",
+    "Marker-scoped runtime process/code-site attribution is demonstrated for the safe illegal_trap surrogate on Genesys2/CVA6.",
+    "Marker-scope RTL-dedup capture verifies marker syscalls are represented as MARKER events without duplicate ordinary SYSCALL_ENTRY a7=0x3ff rows.",
     "Synthetic surrogate behavior mapping for illegal_instruction_trap is demonstrated with documented limitations.",
     "Synthetic surrogate behavior mapping is demonstrated with documented limitations."
   ],
@@ -79,7 +81,7 @@
       "runtime_process_attribution": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/runtime_process_attribution/summary.json",
       "sample_class": "malware_like_synthetic",
       "sample_id": "illegal_trap",
-      "status": "PASS_SAFE_SURROGATE_EVIDENCE_CHAIN_WITH_LIMITATIONS"
+      "status": "PASS_SAFE_SURROGATE_MARKER_SCOPED_EVIDENCE_CHAIN_WITH_LIMITATIONS"
     },
     {
       "hardware_trace": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/hardware_trace/trace_summary.json",

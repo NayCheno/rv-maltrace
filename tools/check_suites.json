@@ -50,6 +50,18 @@
           "label": "Genesys2/CVA6 safe surrogate full manifest coverage",
           "command": ["{python}", "tools/check_genesys2_safe_surrogate_coverage.py", "--root", "{root}"],
           "tags": ["genesys2", "cva6", "safe-surrogate", "manifest-coverage", "claim-boundary"]
+        },
+        {
+          "id": "cva-evidence-boundary",
+          "label": "Genesys2/CVA6 current evidence boundary consistency",
+          "command": ["{python}", "tools/check_genesys2_cva_evidence_boundary.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "claim-boundary", "resource-report"]
+        },
+        {
+          "id": "cva-closure-readiness",
+          "label": "Genesys2/CVA6 trace closure readiness",
+          "command": ["{python}", "tools/check_genesys2_cva_closure_readiness.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "trace", "timing", "marker-scope", "readiness"]
         }
       ]
     },
@@ -215,6 +227,12 @@
           "label": "safe surrogate capture plan helper self-test",
           "command": ["{python}", "tools/prepare_genesys2_safe_surrogate_capture.py", "--self-test"],
           "tags": ["genesys2", "safe-surrogate", "capture", "self-test"]
+        },
+        {
+          "id": "cva-closure-readiness-self-test",
+          "label": "CVA trace closure readiness checker self-test",
+          "command": ["{python}", "tools/check_genesys2_cva_closure_readiness.py", "--self-test"],
+          "tags": ["genesys2", "cva6", "readiness", "self-test"]
         },
         {
           "id": "suite-manifest-self-test",

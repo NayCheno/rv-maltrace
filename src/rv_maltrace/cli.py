@@ -25,6 +25,15 @@ BOARD_DEFAULTS = {
     "nexys_video": ("xc7a200tsbg484-1", "digilentinc.com:nexys_video:part0:1.1"),
 }
 
+XLNX_ILA_XCI = Path("corev_apu/fpga/xilinx/xlnx_ila/xlnx_ila.srcs/sources_1/ip/xlnx_ila/xlnx_ila.xci")
+XLNX_ILA_EXPECTED = {
+    "C_DATA_DEPTH": "8192",
+    "C_INPUT_PIPE_STAGES": "2",
+    "C_EN_STRG_QUAL": "1",
+    "C_ADV_TRIGGER": "TRUE",
+}
+TRACE_MARKER_BUILD_MANIFEST = Path("work-fpga/rvmt_trace_marker_build_manifest.json")
+
 TASK_ALIASES = {
     "help": "help",
     "docker": "docker:build",
@@ -369,6 +378,94 @@ def xilinx_settings(config: dict) -> tuple[str, str]:
             "Set xilinx_part and xilinx_board in [tool.rv-maltrace]."
         )
     return part, board_part
+
+
+def xci_config_value(text: str, key: str) -> str | None:
+    match = re.search(rf'"{re.escape(key)}"\s*:\s*\[\s*\{{\s*"value"\s*:\s*"([^"]+)"', text)
+    return match.group(1) if match else None
+
+
+def check_xlnx_ila_xci(cva6_dir: Path, xci: Path | None = None) -> None:
+    xci = xci or (cva6_dir / XLNX_ILA_XCI)
+    if not xci.is_file():
+        raise TaskError(f"Missing ILA XCI after refresh: {xci}")
+    text = xci.read_text(encoding="utf-8", errors="replace")
+    mismatches: list[str] = []
+    for key, expected in XLNX_ILA_EXPECTED.items():
+        actual = xci_config_value(text, key)
+        if actual is None or actual.upper() != expected.upper():
+            mismatches.append(f"{key}={actual or 'MISSING'} expected {expected}")
+    if mismatches:
+        joined = "; ".join(mismatches)
+        raise TaskError(f"ILA XCI is not configured for marker-scope evidence capture: {joined}")
+
+
+def sync_xlnx_ila_artifact_xci(cva6_dir: Path, vivado_work_dir: Path, *, dry_run: bool) -> None:
+    source = cva6_dir / XLNX_ILA_XCI
+    target = vivado_work_dir / "xlnx_ila.xci"
+    if dry_run:
+        print(f"+ copy {quote_for_display(str(source))} {quote_for_display(str(target))}")
+        return
+    check_xlnx_ila_xci(cva6_dir, source)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(source, target)
+    check_xlnx_ila_xci(cva6_dir, target)
+
+
+def refresh_xlnx_ila_ip(
+    cva6_dir: Path,
+    env: dict[str, str],
+    vivado: str,
+    xpart: str,
+    xboard: str,
+    dry_run: bool,
+) -> None:
+    ila_dir = cva6_dir / "corev_apu" / "fpga" / "xilinx" / "xlnx_ila"
+    script = ila_dir / "tcl" / "run.tcl"
+    if not dry_run and not script.is_file():
+        raise TaskError(f"Missing ILA generator script: {script}")
+    refresh_env = prepend_env_path(env, Path(vivado).parent)
+    refresh_env = refresh_env.copy()
+    refresh_env["XILINX_PART"] = xpart
+    refresh_env["XILINX_BOARD"] = xboard
+    run(
+        [vivado, "-mode", "batch", "-nojournal", "-nolog", "-notrace", "-source", "tcl/run.tcl"],
+        cwd=ila_dir,
+        env=refresh_env,
+        dry_run=dry_run,
+    )
+    if not dry_run:
+        check_xlnx_ila_xci(cva6_dir)
+
+
+def write_trace_marker_build_manifest(
+    artifact_dir: Path,
+    *,
+    board: str,
+    target: str,
+    xpart: str,
+    xboard: str,
+    verilog_defines: list[str],
+) -> None:
+    manifest = {
+        "schema": "rvmt.trace_marker_build_manifest.v1",
+        "board": board,
+        "target": target,
+        "xilinx_part": xpart,
+        "xilinx_board": xboard,
+        "trace_enabled": "RV_MALTRACE_FPGA_TRACE" in verilog_defines,
+        "trace_marker_scope": "RV_MALTRACE_FPGA_TRACE_MARKER_SCOPE" in verilog_defines,
+        "verilog_defines": verilog_defines,
+        "ila_expected": XLNX_ILA_EXPECTED,
+        "marker_scope_policy": {
+            "enable_marker": True,
+            "enable_branch": False,
+            "reason": "keep event-limited ILA windows focused on marker/syscall/trap evidence",
+        },
+    }
+    path = artifact_dir / TRACE_MARKER_BUILD_MANIFEST
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
 
 
 def vivado_board_repo_paths(root: Path, config: dict) -> list[Path]:
@@ -2702,6 +2799,15 @@ def task_bitstream_build(
 
         vivado_config = str(config.get("vivado", "vivado"))
         make = resolve_make(root, config)
+        board = str(config.get("board", "genesys2"))
+        target = str(config.get("target", "cv64a6_imafdc_sv39"))
+        riscv = str(config.get("riscv_placeholder", "/tmp/riscv-placeholder"))
+        xpart, xboard = xilinx_settings(config)
+        verilog_defines: list[str] = []
+        if trace_enabled:
+            verilog_defines.append("RV_MALTRACE_FPGA_TRACE")
+            if trace_marker_scope:
+                verilog_defines.append("RV_MALTRACE_FPGA_TRACE_MARKER_SCOPE")
         if not dry_run:
             artifact_dir.mkdir(parents=True, exist_ok=True)
             if not trace_enabled:
@@ -2729,15 +2835,14 @@ def task_bitstream_build(
             env["RVMT_VIVADO_WORK_DIR"] = as_posix_path(vivado_work_dir)
             env["RVMT_VIVADO_REPORT_DIR"] = as_posix_path(vivado_report_dir)
             env["RVMT_VIVADO_PATCH_DIR"] = as_posix_path(artifact_dir / ".tmp")
+            if verilog_defines:
+                env["RVMT_VIVADO_VERILOG_DEFINES"] = ",".join(verilog_defines)
             if trace_enabled:
-                defines = ["RV_MALTRACE_FPGA_TRACE"]
-                if trace_marker_scope:
-                    defines.append("RV_MALTRACE_FPGA_TRACE_MARKER_SCOPE")
-                env["RVMT_VIVADO_VERILOG_DEFINES"] = ",".join(defines)
-        board = str(config.get("board", "genesys2"))
-        target = str(config.get("target", "cv64a6_imafdc_sv39"))
-        riscv = str(config.get("riscv_placeholder", "/tmp/riscv-placeholder"))
-        xpart, xboard = xilinx_settings(config)
+                refresh_xlnx_ila_ip(cva6_dir, env, real_vivado, xpart, xboard, dry_run=False)
+                sync_xlnx_ila_artifact_xci(cva6_dir, vivado_work_dir, dry_run=False)
+        elif trace_enabled:
+            refresh_xlnx_ila_ip(cva6_dir, env, vivado_config, xpart, xboard, dry_run=True)
+            sync_xlnx_ila_artifact_xci(cva6_dir, vivado_work_dir, dry_run=True)
 
         run(
             [
@@ -2751,6 +2856,7 @@ def task_bitstream_build(
                 f"VIVADO={as_posix_path(vivado)}",
                 f"work-dir={work_dir_arg}",
                 *(["RV_MALTRACE_FPGA_TRACE=1"] if trace_enabled else []),
+                *([f"RVMT_VIVADO_VERILOG_DEFINES={','.join(verilog_defines)}"] if verilog_defines else []),
                 "fpga",
             ],
             cwd=cva6_dir,
@@ -2766,6 +2872,15 @@ def task_bitstream_build(
                 print_vivado_artifact_summary(real_artifact_dir)
             else:
                 print_vivado_artifact_summary(artifact_dir)
+            if trace_marker_scope:
+                write_trace_marker_build_manifest(
+                    artifact_dir,
+                    board=board,
+                    target=target,
+                    xpart=xpart,
+                    xboard=xboard,
+                    verilog_defines=verilog_defines,
+                )
     finally:
         if release_drive:
             release_subst_mapping(release_drive, root)
