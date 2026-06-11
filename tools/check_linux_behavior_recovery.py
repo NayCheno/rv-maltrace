@@ -307,7 +307,8 @@ def run_checks(root: Path, spec: Path, doc: Path, tool: Path, golden: Path, uv_d
 
 def write_fixture(root: Path) -> None:
     (root / "experiments/linux_behavior").mkdir(parents=True)
-    (root / "docs").mkdir(parents=True)
+    (root / DEFAULT_DOC).parent.mkdir(parents=True)
+    (root / DEFAULT_UV_DOC).parent.mkdir(parents=True, exist_ok=True)
     (root / "sim/golden").mkdir(parents=True)
     (root / "tools").mkdir(parents=True)
     targets = []

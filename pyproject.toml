@@ -28,7 +28,7 @@ docker_service = "cva6-toolchain"
 
 # Change this to your installed Vivado batch executable if it is not in PATH.
 # Example: "C:/Xilinx/Vivado/2024.2/bin/vivado.bat"
-vivado = "E:/vivado/2025.2/Vivado/bin/vivado.bat"
+vivado = "D:/Application/vivado/2025.2/Vivado/bin/vivado.bat"
 vivado_board_repo_paths = ["vendor/vivado-boards/new/board_files"]
 vivado_subst_drive = "R:"
 make = "make.exe"

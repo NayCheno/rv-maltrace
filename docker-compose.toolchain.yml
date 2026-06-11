@@ -29,6 +29,16 @@ services:
       - .:/workspace/rv-maltrace
     command: bash
 
+  mirai-safety:
+    build:
+      context: .
+      dockerfile: docker/mirai-safety/Dockerfile
+    image: rv-maltrace/mirai-safety:ubuntu24.04
+    working_dir: /workspace/rv-maltrace
+    volumes:
+      - .:/workspace/rv-maltrace
+    command: bash
+
   litex-build:
     build:
       context: .
@@ -42,6 +52,17 @@ services:
       PYTHONPATH: /opt/pythondata-software-picolibc:/workspace/rv-maltrace/vendor/litex/migen:/workspace/rv-maltrace/vendor/litex/litex:/workspace/rv-maltrace/vendor/litex/litex-boards:/workspace/rv-maltrace/vendor/litex/litedram:/workspace/rv-maltrace/vendor/litex/pythondata-cpu-vexriscv_smp
       LITEX_ENV_CC_TRIPLE: riscv64-unknown-elf
     command: bash
+
+  external-mirai-build:
+    build:
+      context: .
+      dockerfile: docker/external-mirai-build/Dockerfile
+    image: rv-maltrace/external-mirai-build:ubuntu24.04
+    working_dir: /workspace
+    volumes:
+      - .:/workspace/rv-maltrace:ro
+      - ./build/external-mirai:/tmp/build/release
+    command: bash /tmp/build/build-external-mirai.sh
 
 volumes:
   cva6_toolchain_src:

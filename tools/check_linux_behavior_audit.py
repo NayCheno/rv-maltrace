@@ -36,8 +36,11 @@ RULE_KEYS = {
     "ordered_syscalls",
     "requires_failed_syscall",
     "failure_syscalls",
+    "allowed_samples",
     "arg_bit_requirements",
     "expected_traps",
+    "forbidden_syscalls",
+    "required_evidence_tags",
     "evidence",
 }
 EXPECTED_RULES: dict[str, dict[str, Any]] = {
@@ -49,14 +52,15 @@ EXPECTED_RULES: dict[str, dict[str, Any]] = {
     "batch_file_read_write": {
         "family": "collection_staging",
         "expected_syscalls": ["openat", "read", "write", "close"],
-        "min_counts": {"openat": 2, "close": 2},
+        "min_counts": {"openat": 4, "read": 2, "write": 2, "close": 4},
         "ordered_syscalls": ["openat", "read", "close", "openat", "write", "close"],
     },
     "self_copy_simulation": {
         "family": "dropper_like",
         "expected_syscalls": ["openat", "read", "write", "close"],
         "min_counts": {"openat": 2, "close": 2},
-        "ordered_syscalls": ["openat", "read", "openat", "write", "close"],
+        "ordered_syscalls": ["openat", "openat", "read", "write", "close"],
+        "required_evidence_tags": ["self_path", "executable_output"],
     },
     "abnormal_syscall_sequence": {
         "family": "abnormal_sequence",
@@ -83,7 +87,7 @@ EXPECTED_RULES: dict[str, dict[str, Any]] = {
     },
     "anti_analysis_indicator": {
         "family": "anti_analysis",
-        "any_syscalls": ["ptrace", "clock_gettime"],
+        "expected_syscalls": ["ptrace"],
     },
 }
 REQUIRED_DOC_TEXT = (
@@ -177,8 +181,9 @@ def check_spec(path: Path) -> list[str]:
         errors.append(f"{path}: non_goals must block real malware, detection-quality, and classifier claims")
 
     rules = rules_by_id(spec)
-    if set(rules) != set(EXPECTED_RULES):
-        errors.append(f"{path}: rule ids differ from expected set: {sorted(rules)}")
+    missing_expected = set(EXPECTED_RULES) - set(rules)
+    if missing_expected:
+        errors.append(f"{path}: missing expected base rules: {sorted(missing_expected)}")
     for rule_id, expected in EXPECTED_RULES.items():
         rule = rules.get(rule_id, {})
         extra_rule_keys = set(rule) - RULE_KEYS
@@ -187,6 +192,15 @@ def check_spec(path: Path) -> list[str]:
         for field, value in expected.items():
             if rule.get(field) != value:
                 errors.append(f"{path}: {rule_id}.{field} must be {value!r}")
+        if not isinstance(rule.get("evidence"), str) or not rule.get("evidence"):
+            errors.append(f"{path}: {rule_id}.evidence must explain the audit evidence")
+    for rule_id in sorted(set(rules) - set(EXPECTED_RULES)):
+        rule = rules[rule_id]
+        extra_rule_keys = set(rule) - RULE_KEYS
+        if extra_rule_keys:
+            errors.append(f"{path}: {rule_id} has unexpected keys: {sorted(extra_rule_keys)}")
+        if not isinstance(rule.get("family"), str) or not rule.get("family"):
+            errors.append(f"{path}: {rule_id}.family must be present")
         if not isinstance(rule.get("evidence"), str) or not rule.get("evidence"):
             errors.append(f"{path}: {rule_id}.evidence must explain the audit evidence")
     return errors
@@ -313,7 +327,8 @@ def run_checks(root: Path, spec: Path, doc: Path, tool: Path, manifest: Path, po
 
 def write_fixture(root: Path) -> None:
     (root / "experiments/linux_behavior/malware_like").mkdir(parents=True)
-    (root / "docs").mkdir(parents=True)
+    (root / DEFAULT_DOC).parent.mkdir(parents=True)
+    (root / DEFAULT_UV_DOC).parent.mkdir(parents=True, exist_ok=True)
     (root / "tools").mkdir(parents=True)
     rules = []
     for rule_id, expected in EXPECTED_RULES.items():
@@ -331,6 +346,7 @@ def write_fixture(root: Path) -> None:
             "failure_syscalls",
             "arg_bit_requirements",
             "expected_traps",
+            "required_evidence_tags",
         ):
             if field in expected:
                 rule[field] = expected[field]
@@ -460,7 +476,7 @@ def self_test() -> int:
         spec = load_json(root / DEFAULT_SPEC)
         spec["rules"] = spec["rules"][:-1]
         (root / DEFAULT_SPEC).write_text(json.dumps(spec), encoding="utf-8")
-        if not expect_error(root, "rule ids differ"):
+        if not expect_error(root, "missing expected base rules"):
             print("[FAIL] self-test missed missing audit rule", file=sys.stderr)
             return 1
 

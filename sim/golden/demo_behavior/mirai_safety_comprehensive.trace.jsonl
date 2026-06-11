@@ -1,0 +1,48 @@
+{"event": "SYSCALL_ENTRY", "syscall": "write", "pc": "0x80000100", "priv": "U", "a0": 1, "a7": 64}
+{"event": "SYSCALL_RET", "syscall": "write", "pc": "0x80000104", "priv": "U", "a0": 33, "a7": 64}
+{"event": "SYSCALL_ENTRY", "syscall": "openat", "pc": "0x80000108", "priv": "U", "a0": -100, "a1": "0x80001000", "a2": 524288, "a7": 56}
+{"event": "SYSCALL_RET", "syscall": "openat", "pc": "0x8000010c", "priv": "U", "a0": 3, "a7": 56}
+{"event": "SYSCALL_ENTRY", "syscall": "read", "pc": "0x80000110", "priv": "U", "a0": 3, "a7": 63}
+{"event": "SYSCALL_RET", "syscall": "read", "pc": "0x80000114", "priv": "U", "a0": 256, "a7": 63}
+{"event": "SYSCALL_ENTRY", "syscall": "close", "pc": "0x80000118", "priv": "U", "a0": 3, "a7": 57}
+{"event": "SYSCALL_RET", "syscall": "close", "pc": "0x8000011c", "priv": "U", "a0": 0, "a7": 57}
+{"event": "SYSCALL_ENTRY", "syscall": "openat", "pc": "0x80000120", "priv": "U", "a0": -100, "a7": 56}
+{"event": "SYSCALL_RET", "syscall": "openat", "pc": "0x80000124", "priv": "U", "a0": 3, "a7": 56}
+{"event": "SYSCALL_ENTRY", "syscall": "read", "pc": "0x80000128", "priv": "U", "a0": 3, "a7": 63}
+{"event": "SYSCALL_RET", "syscall": "read", "pc": "0x8000012c", "priv": "U", "a0": 6, "a7": 63}
+{"event": "SYSCALL_ENTRY", "syscall": "close", "pc": "0x80000130", "priv": "U", "a0": 3, "a7": 57}
+{"event": "SYSCALL_RET", "syscall": "close", "pc": "0x80000134", "priv": "U", "a0": 0, "a7": 57}
+{"event": "SYSCALL_ENTRY", "syscall": "getpid", "pc": "0x80000138", "priv": "U", "a7": 172}
+{"event": "SYSCALL_RET", "syscall": "getpid", "pc": "0x8000013c", "priv": "U", "a0": 7, "a7": 172}
+{"event": "SYSCALL_ENTRY", "syscall": "getppid", "pc": "0x80000140", "priv": "U", "a7": 173}
+{"event": "SYSCALL_RET", "syscall": "getppid", "pc": "0x80000144", "priv": "U", "a0": 1, "a7": 173}
+{"event": "SYSCALL_ENTRY", "syscall": "readlinkat", "pc": "0x80000148", "priv": "U", "a0": -100, "a7": 78}
+{"event": "SYSCALL_RET", "syscall": "readlinkat", "pc": "0x8000014c", "priv": "U", "a0": 13, "a7": 78}
+{"event": "SYSCALL_ENTRY", "syscall": "openat", "pc": "0x80000150", "priv": "U", "a0": -100, "a7": 56}
+{"event": "SYSCALL_RET", "syscall": "openat", "pc": "0x80000154", "priv": "U", "a0": 3, "a7": 56}
+{"event": "SYSCALL_ENTRY", "syscall": "read", "pc": "0x80000158", "priv": "U", "a0": 3, "a7": 63}
+{"event": "SYSCALL_RET", "syscall": "read", "pc": "0x8000015c", "priv": "U", "a0": 128, "a7": 63}
+{"event": "SYSCALL_ENTRY", "syscall": "close", "pc": "0x80000160", "priv": "U", "a0": 3, "a7": 57}
+{"event": "SYSCALL_RET", "syscall": "close", "pc": "0x80000164", "priv": "U", "a0": 0, "a7": 57}
+{"event": "SYSCALL_ENTRY", "syscall": "openat", "pc": "0x80000168", "priv": "U", "a0": -100, "a7": 56}
+{"event": "SYSCALL_RET", "syscall": "openat", "pc": "0x8000016c", "priv": "U", "a0": -2, "a7": 56}
+{"event": "SYSCALL_ENTRY", "syscall": "openat", "pc": "0x80000170", "priv": "U", "a0": -100, "a7": 56}
+{"event": "SYSCALL_RET", "syscall": "openat", "pc": "0x80000174", "priv": "U", "a0": -2, "a7": 56}
+{"event": "SYSCALL_ENTRY", "syscall": "prctl", "pc": "0x80000178", "priv": "U", "a0": 15, "a7": 167}
+{"event": "SYSCALL_RET", "syscall": "prctl", "pc": "0x8000017c", "priv": "U", "a0": 0, "a7": 167}
+{"event": "SYSCALL_ENTRY", "syscall": "socket", "pc": "0x80000180", "priv": "U", "a0": 2, "a1": 524289, "a7": 198}
+{"event": "SYSCALL_RET", "syscall": "socket", "pc": "0x80000184", "priv": "U", "a0": 3, "a7": 198}
+{"event": "SYSCALL_ENTRY", "syscall": "bind", "pc": "0x80000188", "priv": "U", "a0": 3, "a7": 200}
+{"event": "SYSCALL_RET", "syscall": "bind", "pc": "0x8000018c", "priv": "U", "a0": 0, "a7": 200}
+{"event": "SYSCALL_ENTRY", "syscall": "listen", "pc": "0x80000190", "priv": "U", "a0": 3, "a1": 1, "a7": 201}
+{"event": "SYSCALL_RET", "syscall": "listen", "pc": "0x80000194", "priv": "U", "a0": 0, "a7": 201}
+{"event": "SYSCALL_ENTRY", "syscall": "close", "pc": "0x80000198", "priv": "U", "a0": 3, "a7": 57}
+{"event": "SYSCALL_RET", "syscall": "close", "pc": "0x8000019c", "priv": "U", "a0": 0, "a7": 57}
+{"event": "SYSCALL_ENTRY", "syscall": "socket", "pc": "0x800001a0", "priv": "U", "a0": 2, "a1": 524289, "a7": 198}
+{"event": "SYSCALL_RET", "syscall": "socket", "pc": "0x800001a4", "priv": "U", "a0": 3, "a7": 198}
+{"event": "SYSCALL_ENTRY", "syscall": "connect", "pc": "0x800001a8", "priv": "U", "a0": 3, "a7": 203}
+{"event": "SYSCALL_RET", "syscall": "connect", "pc": "0x800001ac", "priv": "U", "a0": -111, "a7": 203}
+{"event": "SYSCALL_ENTRY", "syscall": "close", "pc": "0x800001b0", "priv": "U", "a0": 3, "a7": 57}
+{"event": "SYSCALL_RET", "syscall": "close", "pc": "0x800001b4", "priv": "U", "a0": 0, "a7": 57}
+{"event": "SYSCALL_ENTRY", "syscall": "write", "pc": "0x800001b8", "priv": "U", "a0": 1, "a7": 64}
+{"event": "SYSCALL_RET", "syscall": "write", "pc": "0x800001bc", "priv": "U", "a0": 31, "a7": 64}
