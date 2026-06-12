@@ -9,6 +9,12 @@ from typing import Any, Callable
 
 
 P0_SAMPLES = ["hello_write", "file_open_read_write", "fork_exec", "illegal_instruction"]
+P0_BRAM_MARKERS = {
+    "hello_write": ("0xb0000a01", "0xe0000a01"),
+    "file_open_read_write": ("0xb0000a02", "0xe0000a02"),
+    "fork_exec": ("0xb0000a03", "0xe0000a03"),
+    "illegal_instruction": ("0xb0000a04", "0xe0000a04"),
+}
 SAFE_SURROGATE_SAMPLES = [
     "file_scan",
     "batch_open_read_write",
@@ -246,6 +252,102 @@ def check_safe_surrogate_bram_trace(data: dict[str, Any], root: Path) -> list[st
     return errors
 
 
+def check_genesys2_p0_bram_trace(data: dict[str, Any], root: Path) -> list[str]:
+    errors: list[str] = []
+    require_schema_status(errors, data, "rvmt.genesys2.p0_bram_trace.v1")
+    require(errors, data.get("evidence_scope") == "p0_safe_synthetic_marker_windows", "evidence_scope mismatch")
+    require(errors, data.get("trace_sink_mode") == "bram_ring", "trace_sink_mode must be bram_ring")
+    require(errors, "begin-marker" in str(data.get("continuity_scope", "")).lower(), "continuity_scope must mention begin-marker clearing")
+    require(errors, bool(data.get("bitstream_sha256")), "bitstream_sha256 required")
+    require(errors, bool(data.get("ltx_sha256")), "ltx_sha256 required")
+    for key in ("bitstream", "ltx"):
+        value = data.get(key)
+        require(errors, bool(value), f"{key} path required")
+        if value:
+            require(errors, repo_path(root, Path(str(value))).is_file(), f"{key} file missing: {value}")
+    for key in ("bitstream_sha256", "ltx_sha256"):
+        digest = str(data.get(key) or "")
+        require(errors, len(digest) == 64 and all(ch in "0123456789abcdef" for ch in digest), f"{key} invalid")
+    non_claims = " ".join(str(item).lower() for item in as_list(data.get("non_claims")))
+    require(errors, "not real malware" in non_claims, "non_claims must state P0 samples are not real malware")
+    require(errors, "pointer" in non_claims and "not" in non_claims, "non_claims must avoid pointer-string overclaim")
+    require(errors, "streaming" in non_claims or "throughput" in non_claims, "non_claims must avoid production streaming overclaim")
+    require(errors, num(data.get("sample_count")) == len(P0_SAMPLES), "sample_count must match P0 set")
+    minimum_repetitions = max(int(num(data.get("minimum_repetitions_per_sample"), 1)), 1)
+    robustness = data.get("statistical_robustness", {}) if isinstance(data.get("statistical_robustness"), dict) else {}
+    if minimum_repetitions >= 10:
+        require(errors, robustness.get("claimed") is True, "statistical_robustness.claimed must be true for >=10 repetition summaries")
+        require(errors, num(robustness.get("minimum_observed_repetitions")) >= minimum_repetitions, "minimum observed repetitions below goal")
+        require(errors, robustness.get("all_repetitions_parse_success") is True, "all repetitions must parse successfully")
+        require(errors, num(robustness.get("max_unaccounted_drop")) == 0, "statistical robustness max_unaccounted_drop must be 0")
+        require(errors, num(robustness.get("max_wrap_count")) == 0, "statistical robustness max_wrap_count must be 0")
+    rows = sample_rows(data)
+    require_sample_set(errors, rows, P0_SAMPLES)
+    for sample_id in P0_SAMPLES:
+        row = rows.get(sample_id, {})
+        repetitions = as_list(row.get("repetitions")) or [row]
+        begin_marker, end_marker = P0_BRAM_MARKERS[sample_id]
+        require(errors, num(row.get("repetition_count", len(repetitions))) >= minimum_repetitions, f"{sample_id}: repetition_count below goal")
+        require(errors, num(row.get("pass_repetition_count", 0)) == num(row.get("repetition_count", len(repetitions))), f"{sample_id}: all repetitions must pass")
+        require(errors, row.get("trace_sink_mode") == "bram_ring", f"{sample_id}: trace_sink_mode must be bram_ring")
+        require(errors, row.get("parse_success") is True, f"{sample_id}: parse_success must be true")
+        require(errors, num(row.get("observed_syscall_entries")) >= num(row.get("expected_syscall_entries")), f"{sample_id}: observed syscall entries must cover build manifest")
+        require(errors, num(row.get("strict_pairable_syscall_entries")) >= num(row.get("expected_pairable_syscall_entries")), f"{sample_id}: pairable syscall entry/ret coverage incomplete")
+        require(errors, num(row.get("unaccounted_drop")) == 0, f"{sample_id}: unaccounted_drop must be 0")
+        require(errors, as_list(row.get("sequence_gaps")) == [], f"{sample_id}: sequence_gaps must be empty")
+        for rep_index, rep in enumerate(repetitions, start=1):
+            if not isinstance(rep, dict):
+                errors.append(f"{sample_id}: repetition {rep_index} must be an object")
+                continue
+            rep_label = str(rep.get("repetition") or f"rep_{rep_index:02d}")
+            require(errors, rep.get("trace_sink_mode") == "bram_ring", f"{sample_id}/{rep_label}: trace_sink_mode must be bram_ring")
+            require(errors, rep.get("parse_success") is True, f"{sample_id}/{rep_label}: parse_success must be true")
+            require(errors, num(rep.get("observed_syscall_entries")) >= num(rep.get("expected_syscall_entries")), f"{sample_id}/{rep_label}: observed syscall entries must cover build manifest")
+            require(errors, num(rep.get("strict_pairable_syscall_entries")) >= num(rep.get("expected_pairable_syscall_entries")), f"{sample_id}/{rep_label}: pairable syscall entry/ret coverage incomplete")
+            require(errors, num(rep.get("unaccounted_drop")) == 0, f"{sample_id}/{rep_label}: unaccounted_drop must be 0")
+            require(errors, as_list(rep.get("sequence_gaps")) == [], f"{sample_id}/{rep_label}: sequence_gaps must be empty")
+            rep_marker = rep.get("marker_window", {}) if isinstance(rep.get("marker_window"), dict) else {}
+            require(errors, rep_marker.get("begin_marker") == begin_marker, f"{sample_id}/{rep_label}: begin_marker mismatch")
+            require(errors, rep_marker.get("end_marker") == end_marker, f"{sample_id}/{rep_label}: end_marker mismatch")
+            require(errors, num(rep_marker.get("begin_count")) == 1, f"{sample_id}/{rep_label}: expected exactly one begin marker")
+            require(errors, num(rep_marker.get("end_count")) == 1, f"{sample_id}/{rep_label}: expected exactly one end marker")
+            require(errors, num(rep_marker.get("begin_sequence")) == 0, f"{sample_id}/{rep_label}: begin marker must reset BRAM sequence to 0")
+            require(errors, num(rep_marker.get("end_sequence")) > num(rep_marker.get("begin_sequence")), f"{sample_id}/{rep_label}: end marker must follow begin marker")
+            rep_bram = rep.get("bram_ring", {}) if isinstance(rep.get("bram_ring"), dict) else {}
+            require(errors, num(rep_bram.get("event_count")) > 0, f"{sample_id}/{rep_label}: bram event_count must be positive")
+            require(errors, num(rep_bram.get("captured_count")) == num(rep_bram.get("event_count")), f"{sample_id}/{rep_label}: captured_count must equal event_count")
+            require(errors, num(rep_bram.get("dropped_count")) == 0, f"{sample_id}/{rep_label}: dropped_count must be 0")
+            require(errors, num(rep_bram.get("wrap_count")) == 0, f"{sample_id}/{rep_label}: wrap_count must be 0")
+            require(errors, rep_bram.get("full") is False, f"{sample_id}/{rep_label}: BRAM ring must not be full")
+            artifacts = rep.get("artifacts", {}) if isinstance(rep.get("artifacts"), dict) else {}
+            for key in ("bram_summary", "bram_records", "build_manifest", "binary", "uart_log", "capture_log", "capture_err_log"):
+                value = artifacts.get(key)
+                require(errors, bool(value), f"{sample_id}/{rep_label}: artifact {key} missing")
+                if value:
+                    require(errors, repo_path(root, Path(str(value))).is_file(), f"{sample_id}/{rep_label}: artifact file missing: {value}")
+        failed_attempts = as_list(row.get("failed_attempts"))
+        require(errors, num(row.get("failed_attempt_count", len(failed_attempts))) == len(failed_attempts), f"{sample_id}: failed_attempt_count mismatch")
+        for failed_index, failed in enumerate(failed_attempts, start=1):
+            if not isinstance(failed, dict):
+                errors.append(f"{sample_id}: failed attempt {failed_index} must be an object")
+                continue
+            failed_label = str(failed.get("repetition") or f"failed_{failed_index:02d}")
+            require(errors, failed.get("parse_success") is False, f"{sample_id}/{failed_label}: failed attempt must not be parse_success")
+            failed_artifacts = failed.get("artifacts", {}) if isinstance(failed.get("artifacts"), dict) else {}
+            for key in ("bram_summary", "bram_records", "uart_log", "capture_log", "capture_err_log"):
+                value = failed_artifacts.get(key)
+                require(errors, bool(value), f"{sample_id}/{failed_label}: failed artifact {key} missing")
+                if value:
+                    require(errors, repo_path(root, Path(str(value))).is_file(), f"{sample_id}/{failed_label}: failed artifact file missing: {value}")
+        marker = row.get("marker_window", {}) if isinstance(row.get("marker_window"), dict) else {}
+        require(errors, marker.get("begin_marker") == begin_marker, f"{sample_id}: begin_marker mismatch")
+        require(errors, marker.get("end_marker") == end_marker, f"{sample_id}: end_marker mismatch")
+        artifacts = row.get("artifacts", {}) if isinstance(row.get("artifacts"), dict) else {}
+        digest = str(artifacts.get("binary_sha256") or "")
+        require(errors, len(digest) == 64 and all(ch in "0123456789abcdef" for ch in digest), f"{sample_id}: binary_sha256 invalid")
+    return errors
+
+
 def check_trace_drop_accounting(data: dict[str, Any], root: Path) -> list[str]:
     errors: list[str] = []
     require_schema_status(errors, data, "rvmt.trace_drop_accounting.v1")
@@ -266,6 +368,18 @@ def check_trace_drop_accounting(data: dict[str, Any], root: Path) -> list[str]:
         if num(row.get("drop_events")) > 0:
             require(errors, bool(row.get("impact_analysis")), f"{sample_id}: DROP events require impact_analysis")
             require(errors, bool(row.get("drop_locations")), f"{sample_id}: DROP events require drop_locations")
+        for failed_index, failed in enumerate(as_list(row.get("failed_attempts")), start=1):
+            if not isinstance(failed, dict):
+                errors.append(f"{sample_id}: failed attempt {failed_index} must be an object")
+                continue
+            label = str(failed.get("repetition_id") or failed.get("repetition") or failed_index)
+            require(errors, failed.get("status") == "FAIL", f"{sample_id}/{label}: failed attempt must have status FAIL")
+            require(
+                errors,
+                num(failed.get("unaccounted_drop")) > 0 or num(failed.get("bram_wrap_count")) > 0,
+                f"{sample_id}/{label}: failed attempt must record DROP or wrap impact",
+            )
+            require(errors, bool(failed.get("impact_analysis")), f"{sample_id}/{label}: failed attempt impact_analysis required")
     return errors
 
 
@@ -300,12 +414,23 @@ def check_pointer_snapshot_guardrails(data: dict[str, Any], root: Path) -> list[
     non_claims = " ".join(str(item).lower() for item in as_list(data.get("non_claims")))
     if data.get("snapshot_mode") == "disabled":
         require(errors, "semantic reconstruction" in non_claims and "not" in non_claims, "disabled snapshot mode must include a semantic-reconstruction non-claim")
+    if data.get("snapshot_mode") == "bounded_prefix":
+        require(errors, data.get("hardware_user_pointer_snapshot") is True, "bounded-prefix mode must include hardware user-pointer snapshots")
+        require(errors, data.get("hardware_derived_pointer_strings") is False, "hardware_derived_pointer_strings must be false")
+        require(errors, data.get("hardware_pointer_strings_claimed") is False, "hardware_pointer_strings_claimed must be false")
+        require(errors, data.get("companion_derived_strings_as_hardware") is False, "companion-derived strings must not be claimed as hardware strings")
+        require(errors, "companion" in non_claims and "hardware" in non_claims, "bounded-prefix non_claims must separate companion and hardware strings")
+        coverage = data.get("hardware_snapshot_syscall_coverage", {}) if isinstance(data.get("hardware_snapshot_syscall_coverage"), dict) else {}
+        for syscall_name in ["openat", "execve", "write"]:
+            require(errors, coverage.get(syscall_name) is True, f"hardware ARG_MEM coverage missing for {syscall_name}")
     policy = data.get("policy", {}) if isinstance(data.get("policy"), dict) else {}
     require(errors, policy.get("full_memory_dump") is False, "full_memory_dump must be false")
     require(errors, policy.get("captures_kernel_memory") is False, "captures_kernel_memory must be false")
     require(errors, policy.get("network_default") in {"disabled", "isolated"}, "network_default must be disabled or isolated")
     require(errors, 0 < num(policy.get("max_bytes_per_pointer")) <= 4096, "max_bytes_per_pointer must be 1..4096")
     require(errors, has_all(policy.get("allowed_syscalls"), PRIORITY_SYSCALLS), "allowed_syscalls must cover priority syscalls")
+    if data.get("snapshot_mode") == "bounded_prefix":
+        require(errors, has_all(policy.get("hardware_snapshot_syscalls"), ["openat", "execve", "write"]), "hardware_snapshot_syscalls must cover openat/execve/write")
     require(errors, bool(policy.get("redaction_policy")), "redaction_policy required")
     require(errors, bool(policy.get("bounds_checking")), "bounds_checking required")
     rows = sample_rows(data)
@@ -313,6 +438,14 @@ def check_pointer_snapshot_guardrails(data: dict[str, Any], root: Path) -> list[
     for sample_id, row in rows.items():
         require(errors, row.get("guardrails_pass") is True, f"{sample_id}: guardrails_pass must be true")
         require(errors, num(row.get("snapshot_bytes")) <= num(policy.get("max_bytes_per_pointer")) * max(num(row.get("snapshot_count")), 1), f"{sample_id}: snapshot byte budget exceeded")
+        require(errors, row.get("raw_payload_release") in {"none", "local_only_or_sanitized_summary"}, f"{sample_id}: raw payload release policy is too broad")
+        require(errors, row.get("hardware_derived_pointer_strings") is False, f"{sample_id}: hardware_derived_pointer_strings must be false")
+        require(errors, row.get("hardware_pointer_strings_claimed") is False, f"{sample_id}: hardware_pointer_strings_claimed must be false")
+        require(errors, row.get("companion_derived_strings_as_hardware") is False, f"{sample_id}: companion-derived strings must not be claimed as hardware strings")
+        if num(row.get("snapshot_count")) > 0:
+            require(errors, row.get("snapshot_mode") == "bounded_prefix", f"{sample_id}: snapshot rows must use bounded_prefix mode")
+            require(errors, row.get("hardware_user_pointer_snapshot") is True, f"{sample_id}: hardware snapshot flag missing")
+            require(errors, num(row.get("kernel_address_snapshot_count")) == 0, f"{sample_id}: kernel pointer snapshot present")
     return errors
 
 
@@ -477,6 +610,17 @@ def good_sample(sample_id: str) -> dict[str, Any]:
         "guardrails_pass": True,
         "snapshot_count": 1,
         "snapshot_bytes": 32,
+        "snapshot_mode": "bounded_prefix",
+        "snapshot_sources": ["hardware_bram_ring_compact"],
+        "snapshot_syscalls": ["openat"],
+        "hardware_snapshot_syscalls": ["openat"],
+        "hardware_snapshot_syscall_coverage": {"openat": True, "execve": False, "write": False},
+        "hardware_user_pointer_snapshot": True,
+        "hardware_derived_pointer_strings": False,
+        "hardware_pointer_strings_claimed": False,
+        "companion_derived_strings_as_hardware": False,
+        "kernel_address_snapshot_count": 0,
+        "raw_payload_release": "local_only_or_sanitized_summary",
         "fd_graph_complete": True,
         "unresolved_fd_count": 0,
         "graph_schema": "rvmt.fd_path.graph.v1",
@@ -631,6 +775,159 @@ def fixture_safe_surrogate_bram_trace(path: Path) -> None:
     )
 
 
+def fixture_genesys2_p0_bram_trace(path: Path) -> None:
+    base = path.parent / "fixture-p0-bram"
+    bitstream = base / "ariane_xilinx.bit"
+    ltx = base / "ariane_xilinx.ltx"
+    bitstream.parent.mkdir(parents=True, exist_ok=True)
+    bitstream.write_bytes(b"fixture-bitstream")
+    ltx.write_text("fixture ltx\n", encoding="utf-8", newline="\n")
+    samples: list[dict[str, Any]] = []
+    for sample_id in P0_SAMPLES:
+        begin_marker, end_marker = P0_BRAM_MARKERS[sample_id]
+        reps: list[dict[str, Any]] = []
+        build_dir = base / sample_id / "build"
+        build_dir.mkdir(parents=True, exist_ok=True)
+        build_manifest = build_dir / "build_manifest.json"
+        binary = build_dir / f"{sample_id}.riscv64"
+        write_json(build_manifest, {"sample_id": sample_id, "syscall_sequence": ["rvmt_marker", "write", "rvmt_marker", "exit"]})
+        binary.write_bytes(b"\x7fELFfixture")
+        for rep_index in range(1, 11):
+            rep_name = f"rep_{rep_index:02d}"
+            rep_dir = base / sample_id / rep_name
+            rep_dir.mkdir(parents=True, exist_ok=True)
+            bram_summary = rep_dir / "bram_summary.json"
+            bram_records = rep_dir / "bram_records.jsonl"
+            uart_log = rep_dir / "uart.log"
+            capture_log = rep_dir / "capture.log"
+            capture_err_log = rep_dir / "capture.err.log"
+            records = [
+                {"evt": "MARKER", "packed_primary": begin_marker, "sequence_number": 0, "cycle": 1},
+                {"evt": "SYSCALL_ENTRY", "packed_primary": "0x00000040", "packed_aux": "0x00000001", "sequence_number": 1, "cycle": 2},
+                {"evt": "SYSCALL_RET", "packed_primary": "0x00000001", "sequence_number": 2, "cycle": 3},
+                {"evt": "MARKER", "packed_primary": end_marker, "sequence_number": 3, "cycle": 4},
+                {"evt": "SYSCALL_ENTRY", "packed_primary": "0x0000005d", "packed_aux": "0x00000002", "sequence_number": 4, "cycle": 5},
+            ]
+            bram_records.write_text("".join(json.dumps(row) + "\n" for row in records), encoding="utf-8", newline="\n")
+            write_json(
+                bram_summary,
+                {
+                    "schema": "rvmt.genesys2.bram_ring_dump.v1",
+                    "status": "PASS",
+                    "event_counts": {"MARKER": 2, "SYSCALL_ENTRY": 2, "SYSCALL_RET": 1},
+                    "bram_ring": {
+                        "event_count": 5,
+                        "captured_count": 5,
+                        "dropped_count": 0,
+                        "wrap_count": 0,
+                        "full": False,
+                        "start_timestamp": 1,
+                        "end_timestamp": 5,
+                    },
+                },
+            )
+            uart_log.write_text("fixture uart\n", encoding="utf-8", newline="\n")
+            capture_log.write_text("fixture capture\n", encoding="utf-8", newline="\n")
+            capture_err_log.write_text("", encoding="utf-8", newline="\n")
+            reps.append(
+                {
+                    "sample_id": sample_id,
+                    "repetition": rep_name,
+                    "sample_class": "p0_safe_synthetic",
+                    "trace_sink_mode": "bram_ring",
+                    "continuity_scope": "begin-marker-cleared BRAM ring through capture readout",
+                    "parse_success": True,
+                    "expected_syscall_entries": 2,
+                    "observed_syscall_entries": 2,
+                    "expected_pairable_syscall_entries": 1,
+                    "strict_pairable_syscall_entries": 1,
+                    "strict_syscall_id_pairs": [{"entry_sequence": 1, "return_sequence": 2, "syscall_id": "0x00000001", "number": 64}],
+                    "sequence_gaps": [],
+                    "unaccounted_drop": 0,
+                    "marker_window": {
+                        "begin_marker": begin_marker,
+                        "end_marker": end_marker,
+                        "begin_count": 1,
+                        "end_count": 1,
+                        "begin_sequence": 0,
+                        "end_sequence": 3,
+                    },
+                    "bram_ring": {
+                        "event_count": 5,
+                        "captured_count": 5,
+                        "dropped_count": 0,
+                        "wrap_count": 0,
+                        "full": False,
+                        "start_timestamp": 1,
+                        "end_timestamp": 5,
+                    },
+                    "artifacts": {
+                        "bram_summary": bram_summary.as_posix(),
+                        "bram_records": bram_records.as_posix(),
+                        "build_manifest": build_manifest.as_posix(),
+                        "binary": binary.as_posix(),
+                        "binary_sha256": "0" * 64,
+                        "uart_log": uart_log.as_posix(),
+                        "capture_log": capture_log.as_posix(),
+                        "capture_err_log": capture_err_log.as_posix(),
+                    },
+                }
+            )
+        representative = dict(reps[0])
+        representative.update(
+            {
+                "repetition_count": len(reps),
+                "pass_repetition_count": len(reps),
+                "minimum_repetitions": 10,
+                "repetitions": reps,
+                "statistics": {
+                    "repetition_count": len(reps),
+                    "pass_repetition_count": len(reps),
+                    "max_unaccounted_drop": 0,
+                    "max_wrap_count": 0,
+                    "min_pairable_syscall_entries": 1,
+                },
+            }
+        )
+        samples.append(representative)
+    write_json(
+        path,
+        {
+            "schema": "rvmt.genesys2.p0_bram_trace.v1",
+            "status": "PASS",
+            "evidence_scope": "p0_safe_synthetic_marker_windows",
+            "continuity_scope": "begin-marker-cleared BRAM ring through capture readout",
+            "trace_sink_mode": "bram_ring",
+            "board": "Digilent Genesys2",
+            "cpu": "CVA6 rv64gc sv39",
+            "run_root": base.as_posix(),
+            "bitstream": bitstream.as_posix(),
+            "bitstream_sha256": "a" * 64,
+            "ltx": ltx.as_posix(),
+            "ltx_sha256": "b" * 64,
+            "sample_count": len(P0_SAMPLES),
+            "expected_samples": P0_SAMPLES,
+            "minimum_repetitions_per_sample": 10,
+            "total_repetitions": 40,
+            "statistical_robustness": {
+                "claimed": True,
+                "minimum_observed_repetitions": 10,
+                "sample_repetition_goal": 10,
+                "total_repetitions": 40,
+                "all_repetitions_parse_success": True,
+                "max_unaccounted_drop": 0,
+                "max_wrap_count": 0,
+            },
+            "non_claims": [
+                "These are repository-authored safe synthetic P0 workloads, not real malware payloads.",
+                "This BRAM repetition summary does not claim full hardware pointer-string reconstruction.",
+                "This evidence is not a production streaming throughput claim.",
+            ],
+            "samples": samples,
+        },
+    )
+
+
 def fixture_summary(path: Path, schema: str) -> None:
     if schema == "rvmt.trace_drop_accounting.v1":
         write_json(
@@ -779,6 +1076,12 @@ CHECKERS: dict[str, tuple[str, str, Callable[[dict[str, Any], Path], list[str]],
         "rvmt.genesys2.safe_surrogate_bram_trace.v1",
         check_safe_surrogate_bram_trace,
         fixture_safe_surrogate_bram_trace,
+    ),
+    "genesys2_p0_bram_trace": (
+        "p0_bram_trace_summary.json",
+        "rvmt.genesys2.p0_bram_trace.v1",
+        check_genesys2_p0_bram_trace,
+        fixture_genesys2_p0_bram_trace,
     ),
     "trace_drop_accounting": (
         "drop_accounting_summary.json",

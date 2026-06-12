@@ -1,0 +1,38 @@
+{
+  "bram_ring": {
+    "captured_count": 119,
+    "dropped_count": 0,
+    "end_timestamp": 1011521995,
+    "event_count": 119,
+    "full": false,
+    "next_sequence": 119,
+    "oldest_index": 0,
+    "sequence_number": 118,
+    "start_timestamp": 1011322256,
+    "wrap_count": 0,
+    "write_index": 119
+  },
+  "csv": "results/board/genesys2_trace_validation/20260612-p0-bram-repetitions/illegal_instruction/rep_09/capture.csv",
+  "decoded_rows": 8192,
+  "end_timestamp": 1011521995,
+  "event_counts": {
+    "ARG_MEM": 17,
+    "MARKER": 2,
+    "PRIV": 62,
+    "SYSCALL_ENTRY": 3,
+    "SYSCALL_RET": 2,
+    "TRAP": 33
+  },
+  "payload_width": 484,
+  "ring_depth": 1024,
+  "sample_id": "illegal_instruction",
+  "schema": "rvmt.genesys2.bram_ring_dump.v1",
+  "sequence_first": 0,
+  "sequence_last": 118,
+  "start_timestamp": 1011322256,
+  "status": "PASS",
+  "trigger_marker_seen": true,
+  "trigger_primary": "e0000a04",
+  "unique_record_count": 119,
+  "valid_record_rows": 948
+}

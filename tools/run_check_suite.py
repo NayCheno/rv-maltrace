@@ -23,6 +23,7 @@ REQUIRED_GENESYS2_CURRENT_SCRIPTS = {
     "tools/check_genesys2_bram_trace_sink_readiness.py",
     "tools/check_genesys2_bram_trace_sink.py",
     "tools/check_genesys2_safe_surrogate_bram_trace.py",
+    "tools/check_genesys2_p0_bram_trace.py",
     "tools/check_trace_drop_accounting.py",
     "tools/check_pointer_snapshot_guardrails.py",
     "tools/check_syscall_semantic_reconstruction.py",

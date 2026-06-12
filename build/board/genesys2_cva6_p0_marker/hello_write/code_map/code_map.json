@@ -1,0 +1,153 @@
+{
+  "attribution_limitations": [
+    "PC-in-ELF is static code-range evidence, not complete process attribution.",
+    "Runtime load-base, PIE/ASLR, and exact board runtime ELF must be accounted for before strong process ownership claims.",
+    "Target/process ownership still requires marker scope, PID/SATP/ASID, or runtime load-map evidence."
+  ],
+  "binary_role": "linux_user_p0_marker_syscall_only",
+  "elf": "build/board/genesys2_cva6_p0_marker/hello_write/hello_write.riscv64",
+  "elf_header": {
+    "class": "ELF64",
+    "entry": "0x0000000000010100",
+    "machine": 243,
+    "type": "EXEC"
+  },
+  "elf_type": "EXEC",
+  "function_ranges": [
+    {
+      "confidence": "symbol_table",
+      "end": "0x0000000000010170",
+      "function": "_start",
+      "size": 112,
+      "start": "0x0000000000010100"
+    }
+  ],
+  "load_base_assumption": "fixed_vaddr_exec",
+  "load_ranges": [
+    {
+      "end": "0x0000000000012000",
+      "file_offset": "0x0",
+      "permissions": "RX",
+      "segment": "text",
+      "start": "0x0000000000010000"
+    },
+    {
+      "end": "0x0000000000013000",
+      "file_offset": "0x2000",
+      "permissions": "RW",
+      "segment": "data",
+      "start": "0x0000000000012000"
+    }
+  ],
+  "notes": [
+    "This is local ELF/code attribution metadata for synthetic behavior audit triage.",
+    "It does not prove process ownership without target-scoped trace or OS context evidence.",
+    "For board traces, use a code map generated from the exact board runtime ELF when available.",
+    "ELF type EXEC; load-base assumption: fixed_vaddr_exec.",
+    "Generated marker-scoped P0 syscall-only ELF; safe synthetic workload."
+  ],
+  "runtime_path": "/tmp/rvmt_p0/hello_write",
+  "sample_id": "hello_write",
+  "schema": "rvmt.code_map.v1",
+  "sections": [
+    {
+      "end": "0x0000000000010170",
+      "flags": "0x6",
+      "name": ".text",
+      "size": 112,
+      "start": "0x0000000000010100",
+      "type": 1
+    },
+    {
+      "end": "0x00000000000101e9",
+      "flags": "0x2",
+      "name": ".rodata",
+      "size": 121,
+      "start": "0x0000000000010170",
+      "type": 1
+    },
+    {
+      "end": "0x0000000000013000",
+      "flags": "0x3",
+      "name": ".data",
+      "size": 4096,
+      "start": "0x0000000000012000",
+      "type": 1
+    }
+  ],
+  "sha256": "bbce854f41d23cdb32543b757041d301c459ca5613d7fcc3d7bb0801de7b1a5e",
+  "source": "board/trace_validation/programs/hello_write.c",
+  "source_attribution": {
+    "function_count": 1,
+    "function_level": "available",
+    "function_level_basis": "ELF symbol table",
+    "limitations": [
+      "Function-level attribution from symbols is not source-line attribution.",
+      "Source-line attribution requires retained DWARF/debug-line metadata or an addr2line-compatible side channel."
+    ],
+    "source_line_basis": "DWARF/source-line decoding is not present in rvmt.code_map.v1",
+    "source_line_level": "unavailable"
+  },
+  "source_locations": [],
+  "symbols": [
+    {
+      "end": "0x0000000000010170",
+      "name": "_start",
+      "size": 112,
+      "start": "0x0000000000010100",
+      "type": 2
+    },
+    {
+      "end": "0x0000000000012080",
+      "name": "buffer",
+      "size": 128,
+      "start": "0x0000000000012000",
+      "type": 1
+    },
+    {
+      "end": "0x0000000000012084",
+      "name": "status_word",
+      "size": 4,
+      "start": "0x0000000000012080",
+      "type": 1
+    },
+    {
+      "end": "0x0000000000012110",
+      "name": "argv_true",
+      "size": 16,
+      "start": "0x0000000000012100",
+      "type": 1
+    }
+  ],
+  "syscall_sites": [
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000010128",
+      "section": ".text",
+      "symbol": "_start",
+      "symbol_offset": "0x28"
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000010140",
+      "section": ".text",
+      "symbol": "_start",
+      "symbol_offset": "0x40"
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x000000000001015c",
+      "section": ".text",
+      "symbol": "_start",
+      "symbol_offset": "0x5c"
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000010168",
+      "section": ".text",
+      "symbol": "_start",
+      "symbol_offset": "0x68"
+    }
+  ],
+  "trap_sites": []
+}

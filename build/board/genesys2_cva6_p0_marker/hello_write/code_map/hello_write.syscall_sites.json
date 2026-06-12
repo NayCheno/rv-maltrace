@@ -1,0 +1,30 @@
+[
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000010128",
+    "section": ".text",
+    "symbol": "_start",
+    "symbol_offset": "0x28"
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000010140",
+    "section": ".text",
+    "symbol": "_start",
+    "symbol_offset": "0x40"
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000001015c",
+    "section": ".text",
+    "symbol": "_start",
+    "symbol_offset": "0x5c"
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000010168",
+    "section": ".text",
+    "symbol": "_start",
+    "symbol_offset": "0x68"
+  }
+]

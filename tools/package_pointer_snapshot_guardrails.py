@@ -31,7 +31,7 @@ PRIORITY_SYSCALLS = [
     "getdents64",
 ]
 HARDWARE_SNAPSHOT_SYSCALLS = ["openat", "execve", "write"]
-SYSCALL_ID_NAMES = {
+SYSCALL_NR_NAMES = {
     56: "openat",
     64: "write",
     221: "execve",
@@ -113,14 +113,14 @@ def snapshot_bytes(event: dict[str, Any]) -> int:
 
 
 def event_syscall_name(event: dict[str, Any]) -> str | None:
-    for key in ("syscall_name", "syscall"):
+    for key in ("associated_syscall_name", "syscall_name", "syscall"):
         value = event.get(key)
         if isinstance(value, str) and value:
             return value
-    syscall_id = parse_int(event.get("syscall_id"))
-    if syscall_id is None:
+    syscall_nr = parse_int(event.get("associated_syscall_nr")) or parse_int(event.get("syscall_nr")) or parse_int(event.get("syscall_id"))
+    if syscall_nr is None:
         return None
-    return SYSCALL_ID_NAMES.get(syscall_id)
+    return SYSCALL_NR_NAMES.get(syscall_nr)
 
 
 def is_user_pointer_addr(event: dict[str, Any]) -> bool:
@@ -128,6 +128,43 @@ def is_user_pointer_addr(event: dict[str, Any]) -> bool:
     if mem_addr is None:
         return True
     return 0 <= mem_addr < USER_POINTER_MAX
+
+
+def enrich_arg_mem_syscall_context(events: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    enriched: list[dict[str, Any]] = []
+    active: dict[int, tuple[int | None, str | None]] = {}
+    latest: tuple[int | None, int | None, str | None] = (None, None, None)
+    for event in events:
+        row = dict(event)
+        evt = str(row.get("evt") or "").upper()
+        if evt == "SYSCALL_ENTRY":
+            syscall_id = parse_int(row.get("packed_aux") or row.get("syscall_id"))
+            syscall_nr = parse_int(row.get("packed_primary") or row.get("syscall_nr") or row.get("a7"))
+            syscall_name = SYSCALL_NR_NAMES.get(syscall_nr) if syscall_nr is not None else None
+            if syscall_id is not None:
+                active[syscall_id] = (syscall_nr, syscall_name)
+            latest = (syscall_id, syscall_nr, syscall_name)
+        elif is_arg_mem_event(row):
+            syscall_id, syscall_nr, syscall_name = latest
+            if syscall_id is not None:
+                row.setdefault("associated_syscall_id", f"0x{syscall_id:08x}")
+            if syscall_nr is not None:
+                row.setdefault("associated_syscall_nr", syscall_nr)
+            if syscall_name is not None:
+                row.setdefault("associated_syscall_name", syscall_name)
+        elif evt == "SYSCALL_RET":
+            syscall_id = parse_int(row.get("packed_primary") or row.get("syscall_id"))
+            if syscall_id is not None:
+                active.pop(syscall_id, None)
+                if latest[0] == syscall_id:
+                    if active:
+                        last_id = next(reversed(active))
+                        syscall_nr, syscall_name = active[last_id]
+                        latest = (last_id, syscall_nr, syscall_name)
+                    else:
+                        latest = (None, None, None)
+        enriched.append(row)
+    return enriched
 
 
 def summarize_sample_events(
@@ -147,6 +184,13 @@ def summarize_sample_events(
     kernel_address_count = sum(1 for event in snapshots if not is_user_pointer_addr(event))
     sources = sorted({str(event.get("snapshot_source") or "unknown") for event in snapshots})
     syscall_names = sorted({name for event in snapshots if (name := event_syscall_name(event))})
+    hardware_syscall_names = sorted(
+        {
+            name
+            for event in snapshots
+            if str(event.get("snapshot_source") or "").startswith("hardware_") and (name := event_syscall_name(event))
+        }
+    )
     row: dict[str, Any] = {
         "sample_id": sample_id,
         "sample_class": sample_class,
@@ -158,7 +202,14 @@ def summarize_sample_events(
         "snapshot_bytes": total_bytes,
         "snapshot_sources": sources,
         "snapshot_syscalls": syscall_names,
+        "hardware_snapshot_syscalls": hardware_syscall_names,
+        "hardware_snapshot_syscall_coverage": {
+            name: name in hardware_syscall_names for name in HARDWARE_SNAPSHOT_SYSCALLS
+        },
         "hardware_user_pointer_snapshot": any(source.startswith("hardware_") for source in sources),
+        "hardware_derived_pointer_strings": False,
+        "hardware_pointer_strings_claimed": False,
+        "companion_derived_strings_as_hardware": False,
         "kernel_address_snapshot_count": kernel_address_count,
         "max_bytes_per_pointer": max_bytes_per_pointer,
         "raw_payload_release": "none" if not snapshots else "local_only_or_sanitized_summary",
@@ -181,7 +232,7 @@ def package_sample(sample_id: str, trace_path: Path, *, sample_class: str, max_b
             max_bytes_per_pointer=max_bytes_per_pointer,
             missing_trace=True,
         )
-    events = load_jsonl(trace_path)
+    events = enrich_arg_mem_syscall_context(load_jsonl(trace_path))
     return summarize_sample_events(
         sample_id,
         sample_class=sample_class,
@@ -214,7 +265,7 @@ def package_bram_sample(sample_id: str, safe_bram_run_root: Path, *, max_bytes_p
     events: list[dict[str, Any]] = []
     repetitions: list[dict[str, Any]] = []
     for path in paths:
-        rep_events = load_jsonl(path)
+        rep_events = enrich_arg_mem_syscall_context(load_jsonl(path))
         events.extend(rep_events)
         snapshots = [event for event in rep_events if is_arg_mem_event(event)]
         repetitions.append(
@@ -224,6 +275,14 @@ def package_bram_sample(sample_id: str, safe_bram_run_root: Path, *, max_bytes_p
                 "snapshot_count": len(snapshots),
                 "snapshot_bytes": sum(snapshot_bytes(event) for event in snapshots),
                 "snapshot_sources": sorted({str(event.get("snapshot_source") or "unknown") for event in snapshots}),
+                "snapshot_syscalls": sorted({name for event in snapshots if (name := event_syscall_name(event))}),
+                "hardware_snapshot_syscalls": sorted(
+                    {
+                        name
+                        for event in snapshots
+                        if str(event.get("snapshot_source") or "").startswith("hardware_") and (name := event_syscall_name(event))
+                    }
+                ),
             }
         )
     return summarize_sample_events(
@@ -261,6 +320,14 @@ def package_summary(
             if source
         }
     )
+    hardware_snapshot_syscalls = sorted(
+        {
+            str(name)
+            for row in samples
+            for name in row.get("hardware_snapshot_syscalls", [])
+            if name
+        }
+    )
     status = "PASS" if all(row.get("guardrails_pass") is True for row in samples) else "FAIL"
     return {
         "schema": "rvmt.pointer_snapshot_guardrails.v1",
@@ -269,7 +336,14 @@ def package_summary(
         "snapshot_count": snapshot_count,
         "snapshot_bytes": sum(int(row.get("snapshot_bytes", 0)) for row in samples),
         "snapshot_sources": snapshot_sources,
+        "hardware_snapshot_syscalls": hardware_snapshot_syscalls,
+        "hardware_snapshot_syscall_coverage": {
+            name: name in hardware_snapshot_syscalls for name in HARDWARE_SNAPSHOT_SYSCALLS
+        },
         "hardware_user_pointer_snapshot": any(source.startswith("hardware_") for source in snapshot_sources),
+        "hardware_derived_pointer_strings": False,
+        "hardware_pointer_strings_claimed": False,
+        "companion_derived_strings_as_hardware": False,
         "board": "Digilent Genesys2",
         "cpu": "CVA6 rv64gc sv39",
         "p0_run_root": repo_rel(p0_run_root),
@@ -297,6 +371,7 @@ def package_summary(
         "non_claims": [
             "This guardrail artifact verifies bounds, address class, and artifact-release policy; semantic reconstruction accuracy is reported by the semantic reconstruction summary.",
             "BRAM/ILA compact ARG_MEM payloads expose only bounded 32-bit address/data prefixes in the current board evidence format.",
+            "Trusted companion strings are not reported as hardware-derived pointer strings.",
             "This artifact does not claim fd/path graph, source-line attribution, process ownership, or baseline metric completion.",
         ],
         "samples": samples,

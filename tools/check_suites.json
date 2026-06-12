@@ -94,6 +94,12 @@
           "tags": ["genesys2", "cva6", "safe-surrogate", "trace", "bram-ring", "board", "evidence"]
         },
         {
+          "id": "p0-bram-trace",
+          "label": "Genesys2/CVA6 P0 BRAM marker-window repetition evidence",
+          "command": ["{python}", "tools/check_genesys2_p0_bram_trace.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "p0", "trace", "bram-ring", "board", "evidence"]
+        },
+        {
           "id": "trace-drop-accounting",
           "label": "Genesys2/CVA6 captured-window trace drop accounting",
           "command": ["{python}", "tools/check_trace_drop_accounting.py", "--root", "{root}"],
@@ -258,6 +264,17 @@
             "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit"
           ],
           "tags": ["genesys2", "cva6", "p0", "trace", "board", "continuous"]
+        },
+        {
+          "id": "p0-bram-trace",
+          "label": "P0 BRAM marker-window repetitions with strict syscall-id pairing",
+          "command": [
+            "{python}",
+            "tools/check_genesys2_p0_bram_trace.py",
+            "--root",
+            "{root}"
+          ],
+          "tags": ["genesys2", "cva6", "p0", "trace", "board", "bram-ring"]
         }
       ]
     },
@@ -386,6 +403,18 @@
           "tags": ["genesys2", "safe-surrogate", "bram-ring", "self-test"]
         },
         {
+          "id": "p0-bram-packager-self-test",
+          "label": "P0 BRAM trace packager self-test",
+          "command": ["{python}", "tools/package_genesys2_p0_bram_trace.py", "--self-test"],
+          "tags": ["genesys2", "p0", "bram-ring", "self-test"]
+        },
+        {
+          "id": "p0-bram-checker-self-test",
+          "label": "P0 BRAM trace checker self-test",
+          "command": ["{python}", "tools/check_genesys2_p0_bram_trace.py", "--self-test"],
+          "tags": ["genesys2", "p0", "bram-ring", "self-test"]
+        },
+        {
           "id": "trace-drop-accounting-packager-self-test",
           "label": "trace drop accounting packager self-test",
           "command": ["{python}", "tools/package_trace_drop_accounting_summary.py", "--self-test"],
@@ -466,6 +495,12 @@
           "label": "safe surrogate BRAM trace checker self-test",
           "command": ["{python}", "tools/check_genesys2_safe_surrogate_bram_trace.py", "--self-test"],
           "tags": ["genesys2", "safe-surrogate", "trace-sink", "self-test"]
+        },
+        {
+          "id": "p0-bram-trace-self-test",
+          "label": "P0 BRAM trace checker self-test",
+          "command": ["{python}", "tools/check_genesys2_p0_bram_trace.py", "--self-test"],
+          "tags": ["genesys2", "p0", "trace-sink", "self-test"]
         },
         {
           "id": "trace-drop-accounting-self-test",

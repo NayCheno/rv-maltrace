@@ -1,0 +1,34 @@
+{
+  "binary": "build/board/genesys2_cva6_p0_marker/illegal_instruction/illegal_instruction.riscv64",
+  "binary_role": "linux_user_p0_marker_syscall_only",
+  "binary_sha256": "1832df627bf9ab512aef20928780738d8533034e9445867a660960b2843634bb",
+  "builder": "tools/build_genesys2_p0_marker_elf.py",
+  "data_size": 4096,
+  "entry": "0x0000000000010100",
+  "marker_scope": {
+    "begin_value_low32": "0xb0000a04",
+    "enabled": true,
+    "end_value_low32": "0xe0000a04",
+    "payload_low28": "0x0000a04",
+    "syscall_nr": 1023
+  },
+  "non_claims": [
+    "This is a repository-authored safe synthetic P0 workload, not real malware.",
+    "This binary alone is not board evidence until paired with Genesys2/CVA6 trace artifacts.",
+    "No malware detection quality or real malware validation is claimed."
+  ],
+  "real_malware": false,
+  "runtime_path": "/tmp/rvmt_p0/illegal_instruction",
+  "sample_class": "p0_safe_synthetic",
+  "sample_id": "illegal_instruction",
+  "schema": "rvmt.genesys2.p0_marker_elf_build.v1",
+  "syscall_sequence": [
+    "rvmt_marker",
+    "rt_sigaction",
+    "write",
+    "rvmt_marker",
+    "exit"
+  ],
+  "text_size": 160,
+  "warmup_iterations_before_marker": 80000000
+}

@@ -1,18 +1,23 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 import tempfile
 from pathlib import Path
 
 
 DEFAULT_MATRIX = Path("docs/07-evaluation-evidence/reports/ccfa_readiness_matrix.md")
+DEFAULT_NEXT_PLAN = Path("docs/07-evaluation-evidence/reports/ccfa_next_closure_plan.md")
 DEFAULT_REPORTS = [
     DEFAULT_MATRIX,
+    DEFAULT_NEXT_PLAN,
     Path("docs/07-evaluation-evidence/reports/genesys2_cva6_evidence_chain_20260610.md"),
     Path("docs/07-evaluation-evidence/reports/genesys2_cva6_evidence_chain_20260611.md"),
     Path("docs/07-evaluation-evidence/reports/ccfa_remaining_blockers_20260611.md"),
 ]
+REQUIRED_FIELD_REPORTS = [DEFAULT_MATRIX, DEFAULT_NEXT_PLAN]
+SUMMARY_REFERENCE_REPORTS = [DEFAULT_MATRIX, DEFAULT_NEXT_PLAN]
 
 REQUIRED_GATES = [
     "simulation claim",
@@ -80,6 +85,11 @@ OVERCLAIM_RULES = [
         ("simulation evidence", "physical board evidence"),
         SAFE_NEGATORS,
     ),
+    (
+        "companion strings written as hardware pointer strings",
+        ("companion", "hardware-derived pointer strings"),
+        SAFE_NEGATORS,
+    ),
 ]
 
 
@@ -132,6 +142,54 @@ def check_matrix(root: Path, matrix_arg: Path) -> list[str]:
     return errors
 
 
+def load_json_if_present(path: Path) -> dict | None:
+    if not path.is_file():
+        return None
+    value = json.loads(path.read_text(encoding="utf-8"))
+    return value if isinstance(value, dict) else None
+
+
+def check_required_fields(root: Path, report_args: list[Path]) -> list[str]:
+    errors: list[str] = []
+    for report_arg in report_args:
+        path = resolve(root, report_arg)
+        if not path.is_file():
+            errors.append(f"missing report: {display(path, root)}")
+            continue
+        lowered = path.read_text(encoding="utf-8", errors="replace").lower()
+        for field in REQUIRED_REPORT_FIELDS:
+            if field.lower() not in lowered:
+                errors.append(f"{display(path, root)}: missing required report field {field!r}")
+    return errors
+
+
+def check_summary_references(root: Path, report_args: list[Path]) -> list[str]:
+    errors: list[str] = []
+    summaries = [
+        root / "results/evaluation/genesys2-cva6/current/p0_bram_trace_summary.json",
+        root / "results/evaluation/genesys2-cva6/current/safe_surrogate_bram_trace_summary.json",
+    ]
+    expected_tokens: list[str] = []
+    for summary_path in summaries:
+        data = load_json_if_present(summary_path)
+        if data is None:
+            continue
+        for key in ("run_root", "bitstream_sha256", "ltx_sha256"):
+            value = data.get(key)
+            if isinstance(value, str) and value:
+                expected_tokens.append(value.lower())
+    for report_arg in report_args:
+        path = resolve(root, report_arg)
+        if not path.is_file():
+            errors.append(f"missing report: {display(path, root)}")
+            continue
+        lowered = path.read_text(encoding="utf-8", errors="replace").lower()
+        for token in expected_tokens:
+            if token not in lowered:
+                errors.append(f"{display(path, root)}: missing current summary token {token}")
+    return errors
+
+
 def check_overclaim_text(root: Path, report_args: list[Path]) -> list[str]:
     errors: list[str] = []
     for report_arg in report_args:
@@ -148,6 +206,8 @@ def check_overclaim_text(root: Path, report_args: list[Path]) -> list[str]:
 
 def run_checks(root: Path, matrix: Path, reports: list[Path]) -> list[str]:
     errors = check_matrix(root, matrix)
+    errors.extend(check_required_fields(root, [path for path in REQUIRED_FIELD_REPORTS if resolve(root, path).is_file()]))
+    errors.extend(check_summary_references(root, [path for path in SUMMARY_REFERENCE_REPORTS if resolve(root, path).is_file()]))
     errors.extend(check_overclaim_text(root, reports))
     return errors
 

@@ -11,6 +11,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_P0_RUN_ROOT = Path("results/board/genesys2_trace_validation/20260611-p0-continuous-136bit")
+DEFAULT_P0_BRAM_RUN_ROOT = Path("results/board/genesys2_trace_validation/20260612-p0-bram-repetitions")
 DEFAULT_SAFE_RUN_ROOT = Path("results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610")
 DEFAULT_SAFE_BRAM_RUN_ROOT = Path("results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait")
 DEFAULT_OUT = Path("results/evaluation/genesys2-cva6/current/drop_accounting_summary.json")
@@ -58,6 +59,13 @@ def load_jsonl(path: Path) -> list[dict[str, Any]]:
                 raise ValueError(f"{path}:{line_no}: expected JSON object")
             rows.append(value)
     return rows
+
+
+def load_json(path: Path) -> dict[str, Any]:
+    value = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(value, dict):
+        raise ValueError(f"{path}: expected JSON object")
+    return value
 
 
 def parse_int(value: Any) -> int | None:
@@ -187,13 +195,13 @@ def package_events(
     return row
 
 
-def package_bram_sample(sample_id: str, safe_bram_run_root: Path) -> dict[str, Any]:
-    paths = bram_repetition_paths(safe_bram_run_root, sample_id)
+def package_bram_sample(sample_id: str, bram_run_root: Path, *, sample_class: str) -> dict[str, Any]:
+    paths = bram_repetition_paths(bram_run_root, sample_id)
     if not paths:
         return {
             "sample_id": sample_id,
-            "sample_class": "malware_like_synthetic_syscall_only",
-            "trace": repo_rel(safe_bram_run_root / sample_id / "rep_01" / "bram_records.jsonl"),
+            "sample_class": sample_class,
+            "trace": repo_rel(bram_run_root / sample_id / "rep_01" / "bram_records.jsonl"),
             "status": "FAIL",
             "total_events": 0,
             "drop_events": 0,
@@ -202,6 +210,7 @@ def package_bram_sample(sample_id: str, safe_bram_run_root: Path) -> dict[str, A
         }
 
     repetitions: list[dict[str, Any]] = []
+    failed_attempts: list[dict[str, Any]] = []
     counts: Counter[str] = Counter()
     drop_locations: list[dict[str, Any]] = []
     for path in paths:
@@ -210,17 +219,45 @@ def package_bram_sample(sample_id: str, safe_bram_run_root: Path) -> dict[str, A
             sample_id,
             path,
             events,
-            sample_class="malware_like_synthetic_syscall_only",
+            sample_class=sample_class,
             continuity_scope="begin_marker_cleared_bram_window",
         )
         rep["repetition_id"] = path.parent.name
-        repetitions.append(rep)
-        counts.update(rep.get("event_counts", {}))
+        summary_path = path.parent / "bram_summary.json"
+        if summary_path.is_file():
+            summary = load_json(summary_path)
+            bram = summary.get("bram_ring", {}) if isinstance(summary.get("bram_ring"), dict) else {}
+            bram_drop = int(bram.get("dropped_count", 0) or 0)
+            bram_wrap = int(bram.get("wrap_count", 0) or 0)
+            rep["bram_summary"] = repo_rel(summary_path)
+            rep["bram_dropped_count"] = bram_drop
+            rep["bram_wrap_count"] = bram_wrap
+            if bram_drop or bram_wrap:
+                rep["status"] = "FAIL"
+                rep["drop_events"] = max(int(rep.get("drop_events", 0) or 0), 1 if bram_drop else 0)
+                rep["drop_total"] = max(int(rep.get("drop_total", 0) or 0), bram_drop)
+                rep["unaccounted_drop"] = max(int(rep.get("unaccounted_drop", 0) or 0), bram_drop)
+                rep["impact_analysis"] = "BRAM summary reports dropped or wrapped records; this attempt is retained as a failed attempt and is not counted as accepted no-drop evidence."
+                rep["drop_locations"] = rep.get("drop_locations") or [
+                    {
+                        "record_index": None,
+                        "cycle": bram.get("start_timestamp"),
+                        "amount": bram_drop,
+                        "wrap_count": bram_wrap,
+                        "trace": repo_rel(path),
+                        "bram_summary": repo_rel(summary_path),
+                    }
+                ]
+        target = repetitions if rep.get("status") == "PASS" and int(rep.get("unaccounted_drop", 0) or 0) == 0 else failed_attempts
+        target.append(rep)
+        if target is repetitions:
+            counts.update(rep.get("event_counts", {}))
         for location in rep.get("drop_locations", []) or []:
             if isinstance(location, dict):
                 merged = dict(location)
                 merged["repetition_id"] = rep["repetition_id"]
-                drop_locations.append(merged)
+                if target is repetitions:
+                    drop_locations.append(merged)
 
     total_events = sum(int(rep.get("total_events", 0) or 0) for rep in repetitions)
     drop_events = sum(int(rep.get("drop_events", 0) or 0) for rep in repetitions)
@@ -228,7 +265,7 @@ def package_bram_sample(sample_id: str, safe_bram_run_root: Path) -> dict[str, A
     unaccounted_drop = sum(int(rep.get("unaccounted_drop", 0) or 0) for rep in repetitions)
     row: dict[str, Any] = {
         "sample_id": sample_id,
-        "sample_class": "malware_like_synthetic_syscall_only",
+        "sample_class": sample_class,
         "trace": repetitions[0].get("trace"),
         "traces": [rep.get("trace") for rep in repetitions],
         "status": "PASS" if repetitions and all(rep.get("status") == "PASS" for rep in repetitions) else "FAIL",
@@ -241,7 +278,10 @@ def package_bram_sample(sample_id: str, safe_bram_run_root: Path) -> dict[str, A
         "marker_window_present": all(bool(rep.get("marker_window_present")) for rep in repetitions),
         "continuity_scope": "begin_marker_cleared_bram_window_repetitions",
         "repetition_count": len(repetitions),
+        "attempt_count": len(paths),
+        "failed_attempt_count": len(failed_attempts),
         "repetitions": repetitions,
+        "failed_attempts": failed_attempts,
         "drop_total_distribution": [int(rep.get("drop_total", 0) or 0) for rep in repetitions],
         "capture_windows_distribution": [int(rep.get("capture_windows", 0) or 0) for rep in repetitions],
     }
@@ -251,14 +291,23 @@ def package_bram_sample(sample_id: str, safe_bram_run_root: Path) -> dict[str, A
     return row
 
 
-def package_summary(p0_run_root: Path, safe_run_root: Path, safe_bram_run_root: Path | None = None) -> dict[str, Any]:
+def package_summary(
+    p0_run_root: Path,
+    safe_run_root: Path,
+    safe_bram_run_root: Path | None = None,
+    p0_bram_run_root: Path | None = None,
+) -> dict[str, Any]:
     samples: list[dict[str, Any]] = []
     for sample_id, relpath in P0_TRACE_PATHS.items():
-        samples.append(package_sample(sample_id, p0_run_root / relpath, sample_class="p0_safe_synthetic"))
+        bram_paths = bram_repetition_paths(p0_bram_run_root, sample_id) if p0_bram_run_root is not None else []
+        if bram_paths:
+            samples.append(package_bram_sample(sample_id, p0_bram_run_root, sample_class="p0_safe_synthetic"))
+        else:
+            samples.append(package_sample(sample_id, p0_run_root / relpath, sample_class="p0_safe_synthetic"))
     for sample_id, relpath in SAFE_TRACE_PATHS.items():
         bram_paths = bram_repetition_paths(safe_bram_run_root, sample_id) if safe_bram_run_root is not None else []
         if bram_paths:
-            samples.append(package_bram_sample(sample_id, safe_bram_run_root))
+            samples.append(package_bram_sample(sample_id, safe_bram_run_root, sample_class="malware_like_synthetic_syscall_only"))
         else:
             samples.append(package_sample(sample_id, safe_run_root / relpath, sample_class="malware_like_synthetic"))
 
@@ -271,6 +320,7 @@ def package_summary(p0_run_root: Path, safe_run_root: Path, safe_bram_run_root: 
         "board": "Digilent Genesys2",
         "cpu": "CVA6 rv64gc sv39",
         "p0_run_root": repo_rel(p0_run_root),
+        "p0_bram_run_root": repo_rel(p0_bram_run_root) if p0_bram_run_root is not None else None,
         "safe_surrogate_run_root": repo_rel(safe_run_root),
         "safe_surrogate_bram_run_root": repo_rel(safe_bram_run_root) if safe_bram_run_root is not None else None,
         "allowed_claims": [
@@ -311,6 +361,7 @@ def run_self_test() -> int:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Package Genesys2/CVA6 trace DROP accounting from current P0 and safe-surrogate traces.")
     parser.add_argument("--p0-run-root", type=Path, default=DEFAULT_P0_RUN_ROOT)
+    parser.add_argument("--p0-bram-run-root", type=Path, default=DEFAULT_P0_BRAM_RUN_ROOT)
     parser.add_argument("--safe-run-root", type=Path, default=DEFAULT_SAFE_RUN_ROOT)
     parser.add_argument("--safe-bram-run-root", type=Path, default=DEFAULT_SAFE_BRAM_RUN_ROOT)
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
@@ -320,7 +371,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.self_test:
         return run_self_test()
     try:
-        summary = package_summary(args.p0_run_root, args.safe_run_root, args.safe_bram_run_root)
+        summary = package_summary(args.p0_run_root, args.safe_run_root, args.safe_bram_run_root, args.p0_bram_run_root)
         write_json(args.out, summary)
     except Exception as exc:
         print(f"package_trace_drop_accounting_summary: error: {exc}", file=sys.stderr)

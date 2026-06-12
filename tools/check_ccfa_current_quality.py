@@ -15,6 +15,7 @@ DEFAULT_CURRENT_ROOT = Path("results/evaluation/genesys2-cva6/current")
 SUMMARY_SCHEMAS = {
     "trace_sink_summary.json": "rvmt.genesys2.bram_trace_sink.v1",
     "safe_surrogate_bram_trace_summary.json": "rvmt.genesys2.safe_surrogate_bram_trace.v1",
+    "p0_bram_trace_summary.json": "rvmt.genesys2.p0_bram_trace.v1",
     "drop_accounting_summary.json": "rvmt.trace_drop_accounting.v1",
     "pointer_snapshot_guardrails.json": "rvmt.pointer_snapshot_guardrails.v1",
     "production_runtime_benchmark.json": "rvmt.genesys2.production_runtime_benchmark.v1",
@@ -240,12 +241,17 @@ def check_process_maps(errors: list[str], root: Path, process_summary: dict[str,
         require(errors, str(row.get("sample_id")) == str(data.get("sample_id")), f"{sample_id}: runtime process map sample_id mismatch")
 
 
-def check_bram_and_drop_roots(errors: list[str], root: Path, safe_bram: dict[str, Any], drop: dict[str, Any]) -> None:
+def check_bram_and_drop_roots(errors: list[str], root: Path, safe_bram: dict[str, Any], p0_bram: dict[str, Any], drop: dict[str, Any]) -> None:
     run_root = str(safe_bram.get("run_root") or "")
     require(errors, "20260611-safe-surrogate-bram-ring-busywait" in run_root, "safe BRAM summary must use busywait recapture run root")
     require_file(errors, root, safe_bram.get("bitstream"), "safe_bram.bitstream")
     require_file(errors, root, safe_bram.get("ltx"), "safe_bram.ltx")
     require(errors, str(drop.get("safe_surrogate_bram_run_root") or "") == run_root, "drop accounting safe BRAM run root must match safe BRAM summary")
+    p0_run_root = str(p0_bram.get("run_root") or "")
+    require(errors, "20260612-p0-bram-repetitions" in p0_run_root, "P0 BRAM summary must use 20260612 repetition run root")
+    require_file(errors, root, p0_bram.get("bitstream"), "p0_bram.bitstream")
+    require_file(errors, root, p0_bram.get("ltx"), "p0_bram.ltx")
+    require(errors, str(drop.get("p0_bram_run_root") or "") == p0_run_root, "drop accounting P0 BRAM run root must match P0 BRAM summary")
 
 
 def check_runtime_benchmark(errors: list[str], root: Path, runtime: dict[str, Any]) -> None:
@@ -320,7 +326,13 @@ def check_current_quality(root: Path, current_root: Path) -> list[str]:
     check_fd_graph(errors, summaries["fd_path_graph_summary.json"])
     check_source_sidecar(errors, root, current_root, summaries["source_line_attribution_summary.json"])
     check_process_maps(errors, root, summaries["process_elf_ownership_summary.json"])
-    check_bram_and_drop_roots(errors, root, summaries["safe_surrogate_bram_trace_summary.json"], summaries["drop_accounting_summary.json"])
+    check_bram_and_drop_roots(
+        errors,
+        root,
+        summaries["safe_surrogate_bram_trace_summary.json"],
+        summaries["p0_bram_trace_summary.json"],
+        summaries["drop_accounting_summary.json"],
+    )
     check_runtime_benchmark(errors, root, summaries["production_runtime_benchmark.json"])
     check_baseline_alignment_transcripts(errors, root, summaries["baseline_alignment_summary.json"])
     return errors
@@ -498,10 +510,21 @@ def write_fixture(root: Path) -> Path:
         },
     )
     write_json(
+        current / "p0_bram_trace_summary.json",
+        {
+            "schema": SUMMARY_SCHEMAS["p0_bram_trace_summary.json"],
+            "status": "PASS",
+            "run_root": "results/board/genesys2_trace_validation/20260612-p0-bram-repetitions",
+            "bitstream": bit.relative_to(root).as_posix(),
+            "ltx": ltx.relative_to(root).as_posix(),
+        },
+    )
+    write_json(
         current / "drop_accounting_summary.json",
         {
             "schema": SUMMARY_SCHEMAS["drop_accounting_summary.json"],
             "status": "PASS",
+            "p0_bram_run_root": "results/board/genesys2_trace_validation/20260612-p0-bram-repetitions",
             "safe_surrogate_bram_run_root": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait",
             "samples": [{"sample_id": sample_id, "unaccounted_drop": 0, "total_events": 1} for sample_id in ALL_CCFA_SAMPLES],
         },
