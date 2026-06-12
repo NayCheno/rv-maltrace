@@ -1,0 +1,37 @@
+{
+  "bram_ring": {
+    "captured_count": 41,
+    "dropped_count": 0,
+    "end_timestamp": 613481798,
+    "event_count": 41,
+    "full": false,
+    "next_sequence": 41,
+    "oldest_index": 0,
+    "sequence_number": 40,
+    "start_timestamp": 613297064,
+    "wrap_count": 0,
+    "write_index": 41
+  },
+  "csv": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/self_copy_sim/bram_ring/rep_01/capture.csv",
+  "decoded_rows": 8192,
+  "end_timestamp": 613481798,
+  "event_counts": {
+    "MARKER": 2,
+    "PRIV": 17,
+    "SYSCALL_ENTRY": 7,
+    "SYSCALL_RET": 6,
+    "TRAP": 9
+  },
+  "payload_width": 484,
+  "ring_depth": 1024,
+  "sample_id": "self_copy_sim",
+  "schema": "rvmt.genesys2.bram_ring_dump.v1",
+  "sequence_first": 0,
+  "sequence_last": 40,
+  "start_timestamp": 613297064,
+  "status": "PASS",
+  "trigger_marker_seen": true,
+  "trigger_primary": "e0000a11",
+  "unique_record_count": 41,
+  "valid_record_rows": 324
+}

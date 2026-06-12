@@ -1,0 +1,35 @@
+RVMT_SERIAL_DIRECT_COMMAND_CAPTURE port=COM7 baud=115200 start=2026-06-12T03:28:48+0800
+
+RVMT_SEND "printf 'RVMT_POINTER_BOOT_POLL\\n'"
+13042864 bytes read in 57607 ms (220.7 KiB/s)
+## Loading kernel (any) from FIT Image at 90000000 ...
+   Using 'standard' configuration
+   Trying 'kernel-1' kernel subimage
+     Description:  Linux Kernel
+     Type:         Kernel Image
+     Compression:  gzip compressed
+     Data Start:   0x900000bc
+     Data Size:    3205549 Bytes = 3.1 MiB
+     Architecture: RISC-V
+     OS:           Linux
+     Load Address: 0x80200000
+     Entry Point:  0x80200000
+     Hash algo:    sha256
+     Hash value:   b7221c3ab01e3142868408d34604b986a49297c757cee1381438521beb16ca3a
+   Verifying Hash Integrity ... sha256+ OK
+## Loading ramdisk (any) from FIT Image at 90000000 ...
+   Using 'standard' configuration
+   Trying 'ramdisk-1' ramdisk subimage
+     Description:  Initial ramdisk
+     Type:         RAMDisk Image
+     Compression:  uncompressed
+     Data Start:   0x90310948
+     Data Size:    9828567 Bytes = 9.4 MiB
+     Architecture: RISC-V
+     OS:           Linux
+     Load Address: unavailable
+     Entry Point:  unavailable
+     Hash algo:    sha256
+     Hash value:   3057dbbf9c392b72217aa2b38683bd5c4c556427695aa319cd4d569ae2d27b3b
+   Verifying Hash Integrity ... sha256
+RVMT_SERIAL_DIRECT_COMMAND_CAPTURE_DONE

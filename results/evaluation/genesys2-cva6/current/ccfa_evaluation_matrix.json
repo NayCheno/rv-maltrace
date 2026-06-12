@@ -1,0 +1,147 @@
+{
+  "ablations": [
+    "event_only",
+    "pointer_snapshot",
+    "kernel_helper_companion"
+  ],
+  "baselines": [
+    "rv_maltrace_event_only",
+    "rv_maltrace_pointer_snapshot",
+    "rv_maltrace_kernel_helper",
+    "strace",
+    "qemu_strace",
+    "software_instrumentation"
+  ],
+  "limitations": [
+    "Safe surrogate malware-like behavior audit is not real malware validation.",
+    "Hardware pointer snapshot evidence is bounded-prefix compact ARG_MEM; companion alignment remains the full semantic string source where needed.",
+    "ILA remains a debug path; BRAM ring is the current board trace-sink evidence.",
+    "Production runtime slowdown is measured in production_runtime_benchmark.json."
+  ],
+  "resource_timing_summary": "results/evaluation/genesys2-cva6/current/resource_timing_summary.json",
+  "samples": [
+    {
+      "baseline_logs": "results/evaluation/genesys2-cva6/current/samples/hello_write/baseline_logs.json",
+      "behavior_graph": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/01_hello_write/behavior_graph.json",
+      "continuous_trace": true,
+      "metric_summary": "results/evaluation/genesys2-cva6/current/samples/hello_write/metric_summary.json",
+      "sample_id": "hello_write",
+      "semantic_events": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/01_hello_write/semantic_events.json",
+      "trace": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/01_hello_write/trace.jsonl",
+      "unaccounted_drop": 0
+    },
+    {
+      "baseline_logs": "results/evaluation/genesys2-cva6/current/samples/file_open_read_write/baseline_logs.json",
+      "behavior_graph": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/02_file_open_read_write/behavior_graph.json",
+      "continuous_trace": true,
+      "metric_summary": "results/evaluation/genesys2-cva6/current/samples/file_open_read_write/metric_summary.json",
+      "sample_id": "file_open_read_write",
+      "semantic_events": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/02_file_open_read_write/semantic_events.json",
+      "trace": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/02_file_open_read_write/trace.jsonl",
+      "unaccounted_drop": 0
+    },
+    {
+      "baseline_logs": "results/evaluation/genesys2-cva6/current/samples/fork_exec/baseline_logs.json",
+      "behavior_graph": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/03_fork_exec/behavior_graph.json",
+      "continuous_trace": true,
+      "metric_summary": "results/evaluation/genesys2-cva6/current/samples/fork_exec/metric_summary.json",
+      "sample_id": "fork_exec",
+      "semantic_events": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/03_fork_exec/semantic_events.json",
+      "trace": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/03_fork_exec/trace.jsonl",
+      "unaccounted_drop": 0
+    },
+    {
+      "baseline_logs": "results/evaluation/genesys2-cva6/current/samples/illegal_instruction/baseline_logs.json",
+      "behavior_graph": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/04_illegal_instruction/behavior_graph.json",
+      "continuous_trace": true,
+      "metric_summary": "results/evaluation/genesys2-cva6/current/samples/illegal_instruction/metric_summary.json",
+      "sample_id": "illegal_instruction",
+      "semantic_events": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/04_illegal_instruction/semantic_events.json",
+      "trace": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/04_illegal_instruction/trace.jsonl",
+      "unaccounted_drop": 0
+    },
+    {
+      "baseline_logs": "results/evaluation/genesys2-cva6/current/samples/file_scan/baseline_logs.json",
+      "behavior_graph": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/behavior/behavior_graph.json",
+      "continuous_trace": true,
+      "metric_summary": "results/evaluation/genesys2-cva6/current/samples/file_scan/metric_summary.json",
+      "sample_id": "file_scan",
+      "semantic_events": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/behavior/semantic_events.json",
+      "trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_01/bram_records.jsonl",
+      "unaccounted_drop": 0
+    },
+    {
+      "baseline_logs": "results/evaluation/genesys2-cva6/current/samples/batch_open_read_write/baseline_logs.json",
+      "behavior_graph": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/behavior/behavior_graph.json",
+      "continuous_trace": true,
+      "metric_summary": "results/evaluation/genesys2-cva6/current/samples/batch_open_read_write/metric_summary.json",
+      "sample_id": "batch_open_read_write",
+      "semantic_events": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/behavior/semantic_events.json",
+      "trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_01/bram_records.jsonl",
+      "unaccounted_drop": 0
+    },
+    {
+      "baseline_logs": "results/evaluation/genesys2-cva6/current/samples/self_copy_sim/baseline_logs.json",
+      "behavior_graph": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/behavior/behavior_graph.json",
+      "continuous_trace": true,
+      "metric_summary": "results/evaluation/genesys2-cva6/current/samples/self_copy_sim/metric_summary.json",
+      "sample_id": "self_copy_sim",
+      "semantic_events": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/behavior/semantic_events.json",
+      "trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_01/bram_records.jsonl",
+      "unaccounted_drop": 0
+    },
+    {
+      "baseline_logs": "results/evaluation/genesys2-cva6/current/samples/abnormal_syscall_sequence/baseline_logs.json",
+      "behavior_graph": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/behavior/behavior_graph.json",
+      "continuous_trace": true,
+      "metric_summary": "results/evaluation/genesys2-cva6/current/samples/abnormal_syscall_sequence/metric_summary.json",
+      "sample_id": "abnormal_syscall_sequence",
+      "semantic_events": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/behavior/semantic_events.json",
+      "trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_01/bram_records.jsonl",
+      "unaccounted_drop": 0
+    },
+    {
+      "baseline_logs": "results/evaluation/genesys2-cva6/current/samples/illegal_trap/baseline_logs.json",
+      "behavior_graph": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/behavior/behavior_graph.json",
+      "continuous_trace": true,
+      "metric_summary": "results/evaluation/genesys2-cva6/current/samples/illegal_trap/metric_summary.json",
+      "sample_id": "illegal_trap",
+      "semantic_events": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/behavior/semantic_events.json",
+      "trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_01/bram_records.jsonl",
+      "unaccounted_drop": 0
+    },
+    {
+      "baseline_logs": "results/evaluation/genesys2-cva6/current/samples/process_chain/baseline_logs.json",
+      "behavior_graph": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/behavior/behavior_graph.json",
+      "continuous_trace": true,
+      "metric_summary": "results/evaluation/genesys2-cva6/current/samples/process_chain/metric_summary.json",
+      "sample_id": "process_chain",
+      "semantic_events": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/behavior/semantic_events.json",
+      "trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_01/bram_records.jsonl",
+      "unaccounted_drop": 0
+    },
+    {
+      "baseline_logs": "results/evaluation/genesys2-cva6/current/samples/dynamic_executable_memory/baseline_logs.json",
+      "behavior_graph": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/behavior/behavior_graph.json",
+      "continuous_trace": true,
+      "metric_summary": "results/evaluation/genesys2-cva6/current/samples/dynamic_executable_memory/metric_summary.json",
+      "sample_id": "dynamic_executable_memory",
+      "semantic_events": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/behavior/semantic_events.json",
+      "trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_01/bram_records.jsonl",
+      "unaccounted_drop": 0
+    },
+    {
+      "baseline_logs": "results/evaluation/genesys2-cva6/current/samples/anti_debug_like/baseline_logs.json",
+      "behavior_graph": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/behavior/behavior_graph.json",
+      "continuous_trace": true,
+      "metric_summary": "results/evaluation/genesys2-cva6/current/samples/anti_debug_like/metric_summary.json",
+      "sample_id": "anti_debug_like",
+      "semantic_events": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/behavior/semantic_events.json",
+      "trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_01/bram_records.jsonl",
+      "unaccounted_drop": 0
+    }
+  ],
+  "schema": "rvmt.ccfa_evaluation_matrix.v1",
+  "status": "PASS",
+  "workload_manifest": "results/evaluation/genesys2-cva6/current/workload_manifest.json"
+}

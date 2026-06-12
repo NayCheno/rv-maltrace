@@ -1,0 +1,35 @@
+{
+  "edges": [
+    {
+      "fd": 1,
+      "line": "write(1,0x10170,20) = 20",
+      "op": "write",
+      "path": "<stdout>"
+    }
+  ],
+  "row": {
+    "execve_filename_accuracy": 1.0,
+    "fd_graph_complete": true,
+    "fd_policy": "negative or intentionally failing fds are modeled as expected abnormal behavior, not unresolved path ownership",
+    "graph": {
+      "edges": [
+        {
+          "fd": 1,
+          "line": "write(1,0x10170,20) = 20",
+          "op": "write",
+          "path": "<stdout>"
+        }
+      ],
+      "nodes": [],
+      "unresolved_fd_count_observed_in_raw_parse": 0
+    },
+    "graph_schema": "rvmt.fd_path.graph.v1",
+    "has_execve": false,
+    "has_openat": false,
+    "openat_pathname_accuracy": 1.0,
+    "sample_id": "hello_write",
+    "unresolved_fd_count": 0
+  },
+  "sample_id": "hello_write",
+  "schema": "rvmt.fd_path.graph.v1"
+}

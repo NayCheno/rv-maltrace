@@ -1,0 +1,324 @@
+{
+  "allowed_claims": [
+    "Current Genesys2/CVA6 traces satisfy bounded-prefix pointer snapshot guardrails for captured ARG_MEM records: no full memory dump, no kernel memory capture, and no default raw pointer payload release."
+  ],
+  "board": "Digilent Genesys2",
+  "cpu": "CVA6 rv64gc sv39",
+  "hardware_user_pointer_snapshot": true,
+  "non_claims": [
+    "This guardrail artifact verifies bounds, address class, and artifact-release policy; semantic reconstruction accuracy is reported by the semantic reconstruction summary.",
+    "BRAM/ILA compact ARG_MEM payloads expose only bounded 32-bit address/data prefixes in the current board evidence format.",
+    "This artifact does not claim fd/path graph, source-line attribution, process ownership, or baseline metric completion."
+  ],
+  "p0_run_root": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit",
+  "policy": {
+    "allowed_syscalls": [
+      "openat",
+      "read",
+      "write",
+      "close",
+      "execve",
+      "clone",
+      "wait4",
+      "waitid",
+      "mmap",
+      "mprotect",
+      "ptrace",
+      "clock_gettime",
+      "getdents64"
+    ],
+    "bounds_checking": "bounded-prefix mode clips to configured byte limits, rejects kernel-range addresses, and records DROP instead of backpressuring the core",
+    "captures_kernel_memory": false,
+    "full_memory_dump": false,
+    "hardware_snapshot_syscalls": [
+      "openat",
+      "execve",
+      "write"
+    ],
+    "max_bytes_per_pointer": 256,
+    "network_default": "disabled",
+    "redaction_policy": "raw pointer payloads are either absent or retained only in local BRAM/ILA artifacts; published summaries expose bounded byte counts and sanitized metadata"
+  },
+  "safe_surrogate_bram_run_root": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram",
+  "safe_surrogate_run_root": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610",
+  "samples": [
+    {
+      "guardrails_pass": true,
+      "hardware_user_pointer_snapshot": false,
+      "kernel_address_snapshot_count": 0,
+      "max_bytes_per_pointer": 256,
+      "missing_trace": false,
+      "raw_payload_release": "none",
+      "sample_class": "p0_safe_synthetic",
+      "sample_id": "hello_write",
+      "snapshot_bytes": 0,
+      "snapshot_count": 0,
+      "snapshot_mode": "disabled",
+      "snapshot_sources": [],
+      "snapshot_syscalls": [],
+      "trace": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/01_hello_write/trace.jsonl",
+      "traces": [
+        "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/01_hello_write/trace.jsonl"
+      ]
+    },
+    {
+      "guardrails_pass": true,
+      "hardware_user_pointer_snapshot": false,
+      "kernel_address_snapshot_count": 0,
+      "max_bytes_per_pointer": 256,
+      "missing_trace": false,
+      "raw_payload_release": "none",
+      "sample_class": "p0_safe_synthetic",
+      "sample_id": "file_open_read_write",
+      "snapshot_bytes": 0,
+      "snapshot_count": 0,
+      "snapshot_mode": "disabled",
+      "snapshot_sources": [],
+      "snapshot_syscalls": [],
+      "trace": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/02_file_open_read_write/trace.jsonl",
+      "traces": [
+        "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/02_file_open_read_write/trace.jsonl"
+      ]
+    },
+    {
+      "guardrails_pass": true,
+      "hardware_user_pointer_snapshot": false,
+      "kernel_address_snapshot_count": 0,
+      "max_bytes_per_pointer": 256,
+      "missing_trace": false,
+      "raw_payload_release": "none",
+      "sample_class": "p0_safe_synthetic",
+      "sample_id": "fork_exec",
+      "snapshot_bytes": 0,
+      "snapshot_count": 0,
+      "snapshot_mode": "disabled",
+      "snapshot_sources": [],
+      "snapshot_syscalls": [],
+      "trace": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/03_fork_exec/trace.jsonl",
+      "traces": [
+        "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/03_fork_exec/trace.jsonl"
+      ]
+    },
+    {
+      "guardrails_pass": true,
+      "hardware_user_pointer_snapshot": false,
+      "kernel_address_snapshot_count": 0,
+      "max_bytes_per_pointer": 256,
+      "missing_trace": false,
+      "raw_payload_release": "none",
+      "sample_class": "p0_safe_synthetic",
+      "sample_id": "illegal_instruction",
+      "snapshot_bytes": 0,
+      "snapshot_count": 0,
+      "snapshot_mode": "disabled",
+      "snapshot_sources": [],
+      "snapshot_syscalls": [],
+      "trace": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/04_illegal_instruction/trace.jsonl",
+      "traces": [
+        "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/04_illegal_instruction/trace.jsonl"
+      ]
+    },
+    {
+      "guardrails_pass": true,
+      "hardware_user_pointer_snapshot": true,
+      "kernel_address_snapshot_count": 0,
+      "max_bytes_per_pointer": 256,
+      "missing_trace": false,
+      "raw_payload_release": "local_only_or_sanitized_summary",
+      "repetition_count": 1,
+      "repetitions": [
+        {
+          "rep": "rep_01",
+          "snapshot_bytes": 32,
+          "snapshot_count": 8,
+          "snapshot_sources": [
+            "hardware_bram_ring_compact"
+          ],
+          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/file_scan/rep_01/bram_records.jsonl"
+        }
+      ],
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "file_scan",
+      "snapshot_bytes": 32,
+      "snapshot_count": 8,
+      "snapshot_mode": "bounded_prefix",
+      "snapshot_sources": [
+        "hardware_bram_ring_compact"
+      ],
+      "snapshot_syscalls": [],
+      "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/file_scan/rep_01/bram_records.jsonl",
+      "traces": [
+        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/file_scan/rep_01/bram_records.jsonl"
+      ]
+    },
+    {
+      "guardrails_pass": true,
+      "hardware_user_pointer_snapshot": true,
+      "kernel_address_snapshot_count": 0,
+      "max_bytes_per_pointer": 256,
+      "missing_trace": false,
+      "raw_payload_release": "local_only_or_sanitized_summary",
+      "repetition_count": 1,
+      "repetitions": [
+        {
+          "rep": "rep_01",
+          "snapshot_bytes": 156,
+          "snapshot_count": 39,
+          "snapshot_sources": [
+            "hardware_bram_ring_compact"
+          ],
+          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/batch_open_read_write/rep_01/bram_records.jsonl"
+        }
+      ],
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "batch_open_read_write",
+      "snapshot_bytes": 156,
+      "snapshot_count": 39,
+      "snapshot_mode": "bounded_prefix",
+      "snapshot_sources": [
+        "hardware_bram_ring_compact"
+      ],
+      "snapshot_syscalls": [],
+      "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/batch_open_read_write/rep_01/bram_records.jsonl",
+      "traces": [
+        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/batch_open_read_write/rep_01/bram_records.jsonl"
+      ]
+    },
+    {
+      "guardrails_pass": true,
+      "hardware_user_pointer_snapshot": false,
+      "kernel_address_snapshot_count": 0,
+      "max_bytes_per_pointer": 256,
+      "missing_trace": false,
+      "raw_payload_release": "none",
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "self_copy_sim",
+      "snapshot_bytes": 0,
+      "snapshot_count": 0,
+      "snapshot_mode": "disabled",
+      "snapshot_sources": [],
+      "snapshot_syscalls": [],
+      "trace": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/hardware_trace/trace.jsonl",
+      "traces": [
+        "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/hardware_trace/trace.jsonl"
+      ]
+    },
+    {
+      "guardrails_pass": true,
+      "hardware_user_pointer_snapshot": false,
+      "kernel_address_snapshot_count": 0,
+      "max_bytes_per_pointer": 256,
+      "missing_trace": false,
+      "raw_payload_release": "none",
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "abnormal_syscall_sequence",
+      "snapshot_bytes": 0,
+      "snapshot_count": 0,
+      "snapshot_mode": "disabled",
+      "snapshot_sources": [],
+      "snapshot_syscalls": [],
+      "trace": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/hardware_trace/trace.jsonl",
+      "traces": [
+        "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/hardware_trace/trace.jsonl"
+      ]
+    },
+    {
+      "guardrails_pass": true,
+      "hardware_user_pointer_snapshot": false,
+      "kernel_address_snapshot_count": 0,
+      "max_bytes_per_pointer": 256,
+      "missing_trace": false,
+      "raw_payload_release": "none",
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "illegal_trap",
+      "snapshot_bytes": 0,
+      "snapshot_count": 0,
+      "snapshot_mode": "disabled",
+      "snapshot_sources": [],
+      "snapshot_syscalls": [],
+      "trace": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/hardware_trace/trace.jsonl",
+      "traces": [
+        "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/hardware_trace/trace.jsonl"
+      ]
+    },
+    {
+      "guardrails_pass": true,
+      "hardware_user_pointer_snapshot": true,
+      "kernel_address_snapshot_count": 0,
+      "max_bytes_per_pointer": 256,
+      "missing_trace": false,
+      "raw_payload_release": "local_only_or_sanitized_summary",
+      "repetition_count": 1,
+      "repetitions": [
+        {
+          "rep": "rep_01",
+          "snapshot_bytes": 16,
+          "snapshot_count": 4,
+          "snapshot_sources": [
+            "hardware_bram_ring_compact"
+          ],
+          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/process_chain/rep_01/bram_records.jsonl"
+        }
+      ],
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "process_chain",
+      "snapshot_bytes": 16,
+      "snapshot_count": 4,
+      "snapshot_mode": "bounded_prefix",
+      "snapshot_sources": [
+        "hardware_bram_ring_compact"
+      ],
+      "snapshot_syscalls": [],
+      "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/process_chain/rep_01/bram_records.jsonl",
+      "traces": [
+        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/process_chain/rep_01/bram_records.jsonl"
+      ]
+    },
+    {
+      "guardrails_pass": true,
+      "hardware_user_pointer_snapshot": false,
+      "kernel_address_snapshot_count": 0,
+      "max_bytes_per_pointer": 256,
+      "missing_trace": false,
+      "raw_payload_release": "none",
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "dynamic_executable_memory",
+      "snapshot_bytes": 0,
+      "snapshot_count": 0,
+      "snapshot_mode": "disabled",
+      "snapshot_sources": [],
+      "snapshot_syscalls": [],
+      "trace": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/hardware_trace/trace.jsonl",
+      "traces": [
+        "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/hardware_trace/trace.jsonl"
+      ]
+    },
+    {
+      "guardrails_pass": true,
+      "hardware_user_pointer_snapshot": false,
+      "kernel_address_snapshot_count": 0,
+      "max_bytes_per_pointer": 256,
+      "missing_trace": false,
+      "raw_payload_release": "none",
+      "sample_class": "malware_like_synthetic",
+      "sample_id": "anti_debug_like",
+      "snapshot_bytes": 0,
+      "snapshot_count": 0,
+      "snapshot_mode": "disabled",
+      "snapshot_sources": [],
+      "snapshot_syscalls": [],
+      "trace": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/hardware_trace/trace.jsonl",
+      "traces": [
+        "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/hardware_trace/trace.jsonl"
+      ]
+    }
+  ],
+  "schema": "rvmt.pointer_snapshot_guardrails.v1",
+  "snapshot_bytes": 204,
+  "snapshot_count": 51,
+  "snapshot_mode": "bounded_prefix",
+  "snapshot_sources": [
+    "hardware_bram_ring_compact"
+  ],
+  "status": "PASS"
+}

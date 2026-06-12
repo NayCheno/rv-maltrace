@@ -1,30 +1,44 @@
 [
   {
     "asm": "ecall",
-    "pc": "0x00000000000100f8",
-    "section": ".text",
-    "symbol": "$xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0",
-    "symbol_offset": "0x10"
-  },
-  {
-    "asm": "ecall",
-    "pc": "0x0000000000010106",
-    "section": ".text",
-    "symbol": "$xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0",
-    "symbol_offset": "0x1e"
-  },
-  {
-    "asm": "ecall",
-    "pc": "0x0000000000010142",
+    "pc": "0x0000000000010128",
     "section": ".text",
     "symbol": "_start",
-    "symbol_offset": "0x38"
+    "symbol_offset": "0x28"
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000010144",
+    "section": ".text",
+    "symbol": "_start",
+    "symbol_offset": "0x44"
   },
   {
     "asm": "ecall",
     "pc": "0x0000000000010154",
     "section": ".text",
     "symbol": "_start",
-    "symbol_offset": "0x4a"
+    "symbol_offset": "0x54"
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x000000000001016c",
+    "section": ".text",
+    "symbol": "_start",
+    "symbol_offset": "0x6c"
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000010188",
+    "section": ".text",
+    "symbol": "_start",
+    "symbol_offset": "0x88"
+  },
+  {
+    "asm": "ecall",
+    "pc": "0x0000000000010194",
+    "section": ".text",
+    "symbol": "_start",
+    "symbol_offset": "0x94"
   }
 ]

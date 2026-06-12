@@ -8,7 +8,11 @@ module cva6_rvfi_trace_adapter
     parameter int EVENT_QUEUE_DEPTH = 16,
     parameter int PIPELINE_INPUTS = 1,
     parameter bit RELAX_SRET_TO_USER_CHECK = 1'b0,
-    parameter logic [63:0] MARKER_SYSCALL_NR = 64'd1023
+    parameter logic [63:0] MARKER_SYSCALL_NR = 64'd1023,
+    parameter bit ENABLE_USER_POINTER_SNAPSHOT = 1'b0,
+    parameter int MAX_POINTER_SNAPSHOT_BYTES = 64,
+    parameter int MAX_POINTER_WATCH_CYCLES = 512,
+    parameter logic [63:0] USER_POINTER_MAX = 64'h0000_4000_0000_0000
 ) (
     input  logic                                clk_i,
     input  logic                                rst_ni,
@@ -27,6 +31,10 @@ module cva6_rvfi_trace_adapter
     input  logic [COMMIT_PORTS-1:0][XLEN-1:0]   rvfi_rs2_rdata_i,
     input  logic [COMMIT_PORTS-1:0][4:0]        rvfi_rd_addr_i,
     input  logic [COMMIT_PORTS-1:0][XLEN-1:0]   rvfi_rd_wdata_i,
+    input  trace_mem_mode_e                      trace_mem_mode_i,
+    input  logic [COMMIT_PORTS-1:0][VLEN-1:0]   rvfi_mem_addr_i,
+    input  logic [COMMIT_PORTS-1:0][XLEN-1:0]   rvfi_mem_rdata_i,
+    input  logic [COMMIT_PORTS-1:0][(XLEN/8)-1:0] rvfi_mem_rmask_i,
 
     input  logic                                csr_valid_i,
     input  logic [11:0]                         csr_addr_i,
@@ -56,10 +64,28 @@ module cva6_rvfi_trace_adapter
   localparam logic [63:0] MARKER_END_TAG = 64'h0000_0000_e000_0000;
   localparam int INTERNAL_EVENT_QUEUE_DEPTH = EVENT_QUEUE_DEPTH + 1;
   localparam int QUEUE_COUNT_WIDTH = $clog2(INTERNAL_EVENT_QUEUE_DEPTH + 1);
+  localparam int MEM_LANES = XLEN / 8;
+  localparam logic [63:0] MAX_POINTER_SNAPSHOT_BYTES_64 = MAX_POINTER_SNAPSHOT_BYTES;
+  localparam logic [63:0] MAX_POINTER_WATCH_CYCLES_64 = MAX_POINTER_WATCH_CYCLES;
+  localparam logic [63:0] SYS_OPENAT = 64'd56;
+  localparam logic [63:0] SYS_WRITE  = 64'd64;
+  localparam logic [63:0] SYS_EXECVE = 64'd221;
 
   logic [7:0][63:0] args_q;
   logic [7:0][63:0] args_n;
   logic [COMMIT_PORTS-1:0][7:0][63:0] args_at_port;
+  logic pointer_watch_active_q;
+  logic pointer_watch_active_n;
+  logic [63:0] pointer_watch_base_q;
+  logic [63:0] pointer_watch_base_n;
+  logic [63:0] pointer_watch_limit_q;
+  logic [63:0] pointer_watch_limit_n;
+  logic [63:0] pointer_watch_syscall_id_q;
+  logic [63:0] pointer_watch_syscall_id_n;
+  logic [2:0] pointer_watch_arg_index_q;
+  logic [2:0] pointer_watch_arg_index_n;
+  logic [63:0] pointer_watch_age_q;
+  logic [63:0] pointer_watch_age_n;
   logic [1:0] priv_shadow_q;
   logic syscall_outstanding_q;
   logic syscall_outstanding_n;
@@ -103,10 +129,17 @@ module cva6_rvfi_trace_adapter
   logic [COMMIT_PORTS-1:0][XLEN-1:0]   rvfi_rs2_rdata_s;
   logic [COMMIT_PORTS-1:0][4:0]        rvfi_rd_addr_s;
   logic [COMMIT_PORTS-1:0][XLEN-1:0]   rvfi_rd_wdata_s;
+  trace_mem_mode_e                      trace_mem_mode_s;
+  logic [COMMIT_PORTS-1:0][VLEN-1:0]   rvfi_mem_addr_s;
+  logic [COMMIT_PORTS-1:0][XLEN-1:0]   rvfi_mem_rdata_s;
+  logic [COMMIT_PORTS-1:0][MEM_LANES-1:0] rvfi_mem_rmask_s;
   logic                                csr_valid_s;
   logic [11:0]                         csr_addr_s;
   logic [XLEN-1:0]                     csr_wdata_s;
   logic [XLEN-1:0]                     satp_s;
+  logic [COMMIT_PORTS-1:0]             pointer_capture_valid;
+  logic [COMMIT_PORTS-1:0]             pointer_capture_last;
+  trace_packet_t                       pointer_capture_packet [COMMIT_PORTS];
 
   generate
     if (PIPELINE_INPUTS != 0) begin : g_input_pipeline
@@ -127,6 +160,10 @@ module cva6_rvfi_trace_adapter
           rvfi_rs2_rdata_s <= '0;
           rvfi_rd_addr_s <= '0;
           rvfi_rd_wdata_s <= '0;
+          trace_mem_mode_s <= TRACE_MEM_MODE_NONE;
+          rvfi_mem_addr_s <= '0;
+          rvfi_mem_rdata_s <= '0;
+          rvfi_mem_rmask_s <= '0;
           csr_valid_s <= 1'b0;
           csr_addr_s <= 12'd0;
           csr_wdata_s <= '0;
@@ -147,6 +184,10 @@ module cva6_rvfi_trace_adapter
           rvfi_rs2_rdata_s <= rvfi_rs2_rdata_i;
           rvfi_rd_addr_s <= rvfi_rd_addr_i;
           rvfi_rd_wdata_s <= rvfi_rd_wdata_i;
+          trace_mem_mode_s <= trace_mem_mode_i;
+          rvfi_mem_addr_s <= rvfi_mem_addr_i;
+          rvfi_mem_rdata_s <= rvfi_mem_rdata_i;
+          rvfi_mem_rmask_s <= rvfi_mem_rmask_i;
           csr_valid_s <= csr_valid_i;
           csr_addr_s <= csr_addr_i;
           csr_wdata_s <= csr_wdata_i;
@@ -169,6 +210,10 @@ module cva6_rvfi_trace_adapter
       assign rvfi_rs2_rdata_s = rvfi_rs2_rdata_i;
       assign rvfi_rd_addr_s = rvfi_rd_addr_i;
       assign rvfi_rd_wdata_s = rvfi_rd_wdata_i;
+      assign trace_mem_mode_s = trace_mem_mode_i;
+      assign rvfi_mem_addr_s = rvfi_mem_addr_i;
+      assign rvfi_mem_rdata_s = rvfi_mem_rdata_i;
+      assign rvfi_mem_rmask_s = rvfi_mem_rmask_i;
       assign csr_valid_s = csr_valid_i;
       assign csr_addr_s = csr_addr_i;
       assign csr_wdata_s = csr_wdata_i;
@@ -284,6 +329,59 @@ module cva6_rvfi_trace_adapter
     base_packet.satp  = satp;
   endfunction
 
+  function automatic logic [63:0] bounded_pointer_len(input logic [63:0] requested_len);
+    if (requested_len == 64'd0 || requested_len > MAX_POINTER_SNAPSHOT_BYTES_64) begin
+      bounded_pointer_len = MAX_POINTER_SNAPSHOT_BYTES_64;
+    end else begin
+      bounded_pointer_len = requested_len;
+    end
+  endfunction
+
+  function automatic logic user_pointer_range_ok(input logic [63:0] base, input logic [63:0] length);
+    logic [63:0] limit;
+    begin
+      limit = base + length;
+      user_pointer_range_ok = ENABLE_USER_POINTER_SNAPSHOT &&
+                              trace_mem_mode_s != TRACE_MEM_MODE_NONE &&
+                              base != 64'd0 &&
+                              length != 64'd0 &&
+                              limit > base &&
+                              base < USER_POINTER_MAX &&
+                              limit <= USER_POINTER_MAX;
+    end
+  endfunction
+
+  function automatic logic [2:0] rmask_capture_size(input logic [MEM_LANES-1:0] mask);
+    logic [2:0] count;
+    begin
+      count = 3'd0;
+      for (int unsigned i = 0; i < MEM_LANES; i++) begin
+        if (mask[i] && count < 3'd4) begin
+          count = count + 3'd1;
+        end
+      end
+      rmask_capture_size = count;
+    end
+  endfunction
+
+  function automatic logic [63:0] mask_data_to_size(input logic [63:0] data, input logic [2:0] size);
+    mask_data_to_size = 64'd0;
+    for (int unsigned i = 0; i < 8; i++) begin
+      if (i < size) begin
+        mask_data_to_size[i*8+:8] = data[i*8+:8];
+      end
+    end
+  endfunction
+
+  function automatic logic data_has_zero_byte(input logic [63:0] data, input logic [2:0] size);
+    data_has_zero_byte = 1'b0;
+    for (int unsigned i = 0; i < 8; i++) begin
+      if (i < size && data[i*8+:8] == 8'd0) begin
+        data_has_zero_byte = 1'b1;
+      end
+    end
+  endfunction
+
   task automatic offer_candidate(
       input trace_packet_t packet,
       input logic [QUEUE_COUNT_WIDTH-1:0] base_count,
@@ -312,12 +410,65 @@ module cva6_rvfi_trace_adapter
   end
 
   always_comb begin
+    for (int unsigned port = 0; port < COMMIT_PORTS; port++) begin
+      logic [63:0] mem_addr64;
+      logic [63:0] mem_data64;
+      logic [63:0] remaining;
+      logic [2:0]  capture_size;
+
+      mem_addr64 = vlen_to_64(rvfi_mem_addr_s[port]);
+      mem_data64 = xlen_to_64(rvfi_mem_rdata_s[port]);
+      remaining = pointer_watch_limit_q - mem_addr64;
+      capture_size = rmask_capture_size(rvfi_mem_rmask_s[port]);
+      if (capture_size != 3'd0 && remaining < {61'd0, capture_size}) begin
+        capture_size = remaining[2:0];
+      end
+
+      pointer_capture_valid[port] = ENABLE_USER_POINTER_SNAPSHOT &&
+                                    trace_mem_mode_s != TRACE_MEM_MODE_NONE &&
+                                    pointer_watch_active_q &&
+                                    rvfi_valid_s[port] &&
+                                    !rvfi_trap_s[port] &&
+                                    rvfi_mode_s[port] == TRACE_PRIV_S &&
+                                    rvfi_mem_rmask_s[port] != '0 &&
+                                    capture_size != 3'd0 &&
+                                    mem_addr64 >= pointer_watch_base_q &&
+                                    mem_addr64 < pointer_watch_limit_q;
+      pointer_capture_last[port] = pointer_capture_valid[port] &&
+                                   (data_has_zero_byte(mask_data_to_size(mem_data64, capture_size), capture_size) ||
+                                    (mem_addr64 + {61'd0, capture_size}) >= pointer_watch_limit_q);
+      pointer_capture_packet[port] = base_packet(
+          sample_cycle,
+          vlen_to_64(rvfi_pc_rdata_s[port]),
+          insn_to_32(rvfi_insn_s[port]),
+          rvfi_mode_s[port],
+          xlen_to_64(satp_s)
+      );
+      pointer_capture_packet[port].evt = pointer_capture_valid[port] ? EVT_ARG_MEM : EVT_NONE;
+      pointer_capture_packet[port].valid = pointer_capture_valid[port];
+      pointer_capture_packet[port].syscall_id = pointer_watch_syscall_id_q;
+      pointer_capture_packet[port].arg_index = pointer_watch_arg_index_q;
+      pointer_capture_packet[port].mem_addr = mem_addr64;
+      pointer_capture_packet[port].mem_data = trace_mem_mode_s == TRACE_MEM_MODE_RANGE ?
+                                              mask_data_to_size(mem_data64, capture_size) : 64'd0;
+      pointer_capture_packet[port].mem_size = capture_size;
+      pointer_capture_packet[port].mem_last = pointer_capture_last[port];
+    end
+  end
+
+  always_comb begin
     trace_packet_t packet;
     logic [1:0] priv_view;
     logic syscall_outstanding_view;
     logic [63:0] next_syscall_id_view;
     logic [63:0] active_syscall_id_view;
     logic [63:0] syscall_entry_cycle_view;
+    logic pointer_watch_active_view;
+    logic [63:0] pointer_watch_base_view;
+    logic [63:0] pointer_watch_limit_view;
+    logic [63:0] pointer_watch_syscall_id_view;
+    logic [2:0] pointer_watch_arg_index_view;
+    logic [63:0] pointer_watch_age_view;
 
     candidate_count = 0;
     priv_view = priv_shadow_q;
@@ -325,6 +476,17 @@ module cva6_rvfi_trace_adapter
     next_syscall_id_view = next_syscall_id_q;
     active_syscall_id_view = active_syscall_id_q;
     syscall_entry_cycle_view = syscall_entry_cycle_q;
+    pointer_watch_active_view = pointer_watch_active_q;
+    pointer_watch_base_view = pointer_watch_base_q;
+    pointer_watch_limit_view = pointer_watch_limit_q;
+    pointer_watch_syscall_id_view = pointer_watch_syscall_id_q;
+    pointer_watch_arg_index_view = pointer_watch_arg_index_q;
+    pointer_watch_age_view = pointer_watch_active_q ? pointer_watch_age_q + 64'd1 : 64'd0;
+    if (pointer_watch_active_q && MAX_POINTER_WATCH_CYCLES_64 != 64'd0 &&
+        pointer_watch_age_q >= MAX_POINTER_WATCH_CYCLES_64) begin
+      pointer_watch_active_view = 1'b0;
+      pointer_watch_age_view = 64'd0;
+    end
 
     for (int unsigned port = 0; port < COMMIT_PORTS; port++) begin
       logic        event_valid;
@@ -342,6 +504,10 @@ module cva6_rvfi_trace_adapter
       logic        syscall_ret_evt;
       logic        marker_evt;
       logic [63:0] marker_tag;
+      logic        pointer_entry_supported;
+      logic [63:0] pointer_entry_base;
+      logic [63:0] pointer_entry_len;
+      logic [2:0]  pointer_entry_arg_index;
 
       event_valid = rvfi_valid_s[port] || rvfi_trap_s[port];
       instr       = insn_to_32(rvfi_insn_s[port]);
@@ -374,6 +540,30 @@ module cva6_rvfi_trace_adapter
                           rvfi_mode_s[port] == TRACE_PRIV_S &&
                           (rvfi_sret_to_user_s[port] || RELAX_SRET_TO_USER_CHECK) &&
                           syscall_outstanding_view;
+      pointer_entry_supported = 1'b0;
+      pointer_entry_base = 64'd0;
+      pointer_entry_len = MAX_POINTER_SNAPSHOT_BYTES_64;
+      pointer_entry_arg_index = 3'd0;
+      unique case (args_at_port[port][7])
+        SYS_OPENAT: begin
+          pointer_entry_supported = args_at_port[port][1] != 64'd0;
+          pointer_entry_base = args_at_port[port][1];
+          pointer_entry_arg_index = 3'd1;
+        end
+        SYS_WRITE: begin
+          pointer_entry_supported = args_at_port[port][1] != 64'd0;
+          pointer_entry_base = args_at_port[port][1];
+          pointer_entry_len = bounded_pointer_len(args_at_port[port][2]);
+          pointer_entry_arg_index = 3'd1;
+        end
+        SYS_EXECVE: begin
+          pointer_entry_supported = args_at_port[port][0] != 64'd0;
+          pointer_entry_base = args_at_port[port][0];
+          pointer_entry_arg_index = 3'd0;
+        end
+        default: begin
+        end
+      endcase
 
       if (event_valid && rvfi_trap_s[port] && trace_enable_trap_i) begin
         packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
@@ -408,6 +598,14 @@ module cva6_rvfi_trace_adapter
         syscall_outstanding_view = 1'b1;
         active_syscall_id_view = next_syscall_id_view;
         syscall_entry_cycle_view = sample_cycle;
+        if (pointer_entry_supported && user_pointer_range_ok(pointer_entry_base, pointer_entry_len)) begin
+          pointer_watch_active_view = 1'b1;
+          pointer_watch_base_view = pointer_entry_base;
+          pointer_watch_limit_view = pointer_entry_base + pointer_entry_len;
+          pointer_watch_syscall_id_view = next_syscall_id_view;
+          pointer_watch_arg_index_view = pointer_entry_arg_index;
+          pointer_watch_age_view = 64'd0;
+        end
         next_syscall_id_view = next_syscall_id_view + 64'd1;
       end
 
@@ -422,6 +620,16 @@ module cva6_rvfi_trace_adapter
           candidate_count++;
         end
         syscall_outstanding_view = 1'b0;
+        pointer_watch_active_view = 1'b0;
+        pointer_watch_age_view = 64'd0;
+      end
+
+      if (pointer_capture_valid[port] && trace_enable_syscall_i) begin
+        candidate_count++;
+        pointer_watch_age_view = 64'd0;
+        if (pointer_capture_last[port]) begin
+          pointer_watch_active_view = 1'b0;
+        end
       end
 
       if (event_valid && port == 0 && csr_valid_s && trace_is_watched_csr(csr_addr_s) &&
@@ -475,6 +683,12 @@ module cva6_rvfi_trace_adapter
     next_syscall_id_n = next_syscall_id_view;
     active_syscall_id_n = active_syscall_id_view;
     syscall_entry_cycle_n = syscall_entry_cycle_view;
+    pointer_watch_active_n = pointer_watch_active_view;
+    pointer_watch_base_n = pointer_watch_base_view;
+    pointer_watch_limit_n = pointer_watch_limit_view;
+    pointer_watch_syscall_id_n = pointer_watch_syscall_id_view;
+    pointer_watch_arg_index_n = pointer_watch_arg_index_view;
+    pointer_watch_age_n = pointer_watch_age_view;
   end
 
   always_comb begin
@@ -526,6 +740,12 @@ module cva6_rvfi_trace_adapter
       next_syscall_id_q <= 64'd0;
       active_syscall_id_q <= 64'd0;
       syscall_entry_cycle_q <= 64'd0;
+      pointer_watch_active_q <= 1'b0;
+      pointer_watch_base_q <= 64'd0;
+      pointer_watch_limit_q <= 64'd0;
+      pointer_watch_syscall_id_q <= 64'd0;
+      pointer_watch_arg_index_q <= 3'd0;
+      pointer_watch_age_q <= 64'd0;
       args_q <= '0;
       pending_count_q <= '0;
       for (int unsigned i = 0; i < INTERNAL_EVENT_QUEUE_DEPTH; i++) begin
@@ -554,6 +774,12 @@ module cva6_rvfi_trace_adapter
       next_syscall_id_q <= next_syscall_id_n;
       active_syscall_id_q <= active_syscall_id_n;
       syscall_entry_cycle_q <= syscall_entry_cycle_n;
+      pointer_watch_active_q <= pointer_watch_active_n;
+      pointer_watch_base_q <= pointer_watch_base_n;
+      pointer_watch_limit_q <= pointer_watch_limit_n;
+      pointer_watch_syscall_id_q <= pointer_watch_syscall_id_n;
+      pointer_watch_arg_index_q <= pointer_watch_arg_index_n;
+      pointer_watch_age_q <= pointer_watch_age_n;
 
       if (drop_output) begin
         drop_count_q <= dropped_this_cycle;
@@ -667,6 +893,10 @@ module cva6_rvfi_trace_adapter
             offer_candidate(packet, pending_count_after_pop, append_count);
           end
           syscall_outstanding_view = 1'b0;
+        end
+
+        if (pointer_capture_valid[port] && trace_enable_syscall_i) begin
+          offer_candidate(pointer_capture_packet[port], pending_count_after_pop, append_count);
         end
 
         if (event_valid && port == 0 && csr_valid_s && trace_is_watched_csr(csr_addr_s) &&

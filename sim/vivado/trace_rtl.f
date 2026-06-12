@@ -8,6 +8,7 @@ rtl/trace/trap_tap.sv
 rtl/trace/context_tap.sv
 rtl/trace/trace_filter.sv
 rtl/trace/trace_board_minimal_ctrl.sv
+rtl/trace/trace_bram_ring.sv
 rtl/trace/trace_top.sv
 rtl/trace/trace_board_minimal_top.sv
 rtl/trace/cva6_rvfi_trace_adapter.sv

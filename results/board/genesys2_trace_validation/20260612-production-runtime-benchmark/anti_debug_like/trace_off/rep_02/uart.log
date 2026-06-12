@@ -1,0 +1,7 @@
+RVMT_GENESYS2_RUNTIME_BENCH_UART port=COM7 baud=115200 sample=anti_debug_like mode=trace_off rep=rep_02 start=2026-06-12T02:39:26+0800
+
+RVMT_SEND_RUNTIME_BENCH sample=anti_debug_like mode=trace_off rep=rep_02
+> > > > > > # # # # # # RVMT_RUNTIME_BENCH_START sample=anti_debug_like mode=trace_off rep=rep_02 ns=15055000000000
+# # # # RVMT_RUNTIME_BENCH_DONE sample=anti_debug_like mode=trace_off rep=rep_02 rc=0 ns=15063000000000
+# # # 
+RVMT_GENESYS2_RUNTIME_BENCH_UART_DONE

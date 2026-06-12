@@ -1,0 +1,36 @@
+{
+  "aslr_load_bias_accounted": true,
+  "cases": {
+    "dynamic_loader": {
+      "evidence": "results/demo/ccfa-p0-20260611/*/01_ground_truth/host_control.strace.log",
+      "pass": true
+    },
+    "fork_exec_child": {
+      "evidence": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/03_fork_exec/runtime_process_map.json",
+      "pass": true
+    },
+    "no_pie_binary": {
+      "evidence": "results/evaluation/genesys2-cva6/current/source_line_sidecar.json",
+      "pass": true
+    },
+    "pie_binary": {
+      "evidence": "results/demo/ccfa-p0-20260611/*/01_ground_truth/host_control.strace.log",
+      "pass": true,
+      "scope": "host/control dynamic loader baseline; board syscall-only ELFs are EXEC/no-PIE"
+    },
+    "shared_libraries": {
+      "evidence": "results/demo/ccfa-p0-20260611/*/01_ground_truth/host_control.strace.log",
+      "pass": true
+    },
+    "static_binary": {
+      "evidence": "results/evaluation/genesys2-cva6/current/workload_manifest.json",
+      "pass": true
+    }
+  },
+  "dynamic_library_events_not_target_binary": true,
+  "non_claims": [
+    "Current board syscall-only ELFs are static EXEC/no-PIE; PIE/shared-library coverage is host/control baseline scoped."
+  ],
+  "schema": "rvmt.dynamic_mapping_attribution.v1",
+  "status": "PASS"
+}

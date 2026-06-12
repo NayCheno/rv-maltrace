@@ -1,0 +1,43 @@
+{
+  "edges": [
+    {
+      "line": "mprotect(0x000000000007e000,16384,PROT_READ) = 0",
+      "op": "mprotect"
+    },
+    {
+      "fd": 1,
+      "line": "write(1,0x52d18,17) = 17",
+      "op": "write",
+      "path": "<stdout>"
+    }
+  ],
+  "row": {
+    "execve_filename_accuracy": 1.0,
+    "fd_graph_complete": true,
+    "fd_policy": "negative or intentionally failing fds are modeled as expected abnormal behavior, not unresolved path ownership",
+    "graph": {
+      "edges": [
+        {
+          "line": "mprotect(0x000000000007e000,16384,PROT_READ) = 0",
+          "op": "mprotect"
+        },
+        {
+          "fd": 1,
+          "line": "write(1,0x52d18,17) = 17",
+          "op": "write",
+          "path": "<stdout>"
+        }
+      ],
+      "nodes": [],
+      "unresolved_fd_count_observed_in_raw_parse": 0
+    },
+    "graph_schema": "rvmt.fd_path.graph.v1",
+    "has_execve": false,
+    "has_openat": false,
+    "openat_pathname_accuracy": 1.0,
+    "sample_id": "illegal_trap",
+    "unresolved_fd_count": 0
+  },
+  "sample_id": "illegal_trap",
+  "schema": "rvmt.fd_path.graph.v1"
+}

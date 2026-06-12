@@ -1,0 +1,472 @@
+{
+  "expected_key_events": 50,
+  "mapped_key_events": 50,
+  "non_claims": [
+    "Current Genesys2 board trace code maps remain function-level for generated syscall-only ELFs.",
+    "This sidecar is not DWARF extracted from the board ELF; it binds generated syscall sites to repository source-equivalent lines."
+  ],
+  "rate": 1.0,
+  "samples": [
+    {
+      "events": [
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 7,
+          "ordinal": 1,
+          "source": "board/trace_validation/programs/hello_write.c",
+          "syscall": "write"
+        }
+      ],
+      "expected_key_events": 1,
+      "mapped_key_events": 1,
+      "sample_id": "hello_write",
+      "source": "board/trace_validation/programs/hello_write.c",
+      "source_line_rate": 1.0
+    },
+    {
+      "events": [
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 11,
+          "ordinal": 1,
+          "source": "board/trace_validation/programs/file_open_read_write.c",
+          "syscall": "openat"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 15,
+          "ordinal": 2,
+          "source": "board/trace_validation/programs/file_open_read_write.c",
+          "syscall": "write"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 16,
+          "ordinal": 3,
+          "source": "board/trace_validation/programs/file_open_read_write.c",
+          "syscall": "close"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 11,
+          "ordinal": 4,
+          "source": "board/trace_validation/programs/file_open_read_write.c",
+          "syscall": "openat"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 25,
+          "ordinal": 5,
+          "source": "board/trace_validation/programs/file_open_read_write.c",
+          "syscall": "read"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 15,
+          "ordinal": 6,
+          "source": "board/trace_validation/programs/file_open_read_write.c",
+          "syscall": "write"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 16,
+          "ordinal": 7,
+          "source": "board/trace_validation/programs/file_open_read_write.c",
+          "syscall": "close"
+        }
+      ],
+      "expected_key_events": 7,
+      "mapped_key_events": 7,
+      "sample_id": "file_open_read_write",
+      "source": "board/trace_validation/programs/file_open_read_write.c",
+      "source_line_rate": 1.0
+    },
+    {
+      "events": [
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 12,
+          "ordinal": 1,
+          "source": "board/trace_validation/programs/fork_exec.c",
+          "syscall": "clone"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 15,
+          "ordinal": 2,
+          "source": "board/trace_validation/programs/fork_exec.c",
+          "syscall": "execve"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 23,
+          "ordinal": 3,
+          "source": "board/trace_validation/programs/fork_exec.c",
+          "syscall": "wait4"
+        }
+      ],
+      "expected_key_events": 3,
+      "mapped_key_events": 3,
+      "sample_id": "fork_exec",
+      "source": "board/trace_validation/programs/fork_exec.c",
+      "source_line_rate": 1.0
+    },
+    {
+      "events": [
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 17,
+          "ordinal": 1,
+          "source": "board/trace_validation/programs/illegal_instruction.c",
+          "syscall": "rt_sigaction"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 8,
+          "ordinal": 2,
+          "source": "board/trace_validation/programs/illegal_instruction.c",
+          "syscall": "write"
+        }
+      ],
+      "expected_key_events": 2,
+      "mapped_key_events": 2,
+      "sample_id": "illegal_instruction",
+      "source": "board/trace_validation/programs/illegal_instruction.c",
+      "source_line_rate": 1.0
+    },
+    {
+      "events": [
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 13,
+          "ordinal": 1,
+          "source": "experiments/linux_behavior/malware_like/programs/file_scan.c",
+          "syscall": "openat"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 18,
+          "ordinal": 2,
+          "source": "experiments/linux_behavior/malware_like/programs/file_scan.c",
+          "syscall": "getdents64"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 18,
+          "ordinal": 3,
+          "source": "experiments/linux_behavior/malware_like/programs/file_scan.c",
+          "syscall": "getdents64"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 18,
+          "ordinal": 4,
+          "source": "experiments/linux_behavior/malware_like/programs/file_scan.c",
+          "syscall": "getdents64"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 18,
+          "ordinal": 5,
+          "source": "experiments/linux_behavior/malware_like/programs/file_scan.c",
+          "syscall": "getdents64"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 23,
+          "ordinal": 6,
+          "source": "experiments/linux_behavior/malware_like/programs/file_scan.c",
+          "syscall": "close"
+        }
+      ],
+      "expected_key_events": 6,
+      "mapped_key_events": 6,
+      "sample_id": "file_scan",
+      "source": "experiments/linux_behavior/malware_like/programs/file_scan.c",
+      "source_line_rate": 1.0
+    },
+    {
+      "events": [
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 14,
+          "ordinal": 1,
+          "source": "experiments/linux_behavior/malware_like/programs/batch_open_read_write.c",
+          "syscall": "openat"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 18,
+          "ordinal": 2,
+          "source": "experiments/linux_behavior/malware_like/programs/batch_open_read_write.c",
+          "syscall": "read"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 19,
+          "ordinal": 3,
+          "source": "experiments/linux_behavior/malware_like/programs/batch_open_read_write.c",
+          "syscall": "close"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 14,
+          "ordinal": 4,
+          "source": "experiments/linux_behavior/malware_like/programs/batch_open_read_write.c",
+          "syscall": "openat"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 28,
+          "ordinal": 5,
+          "source": "experiments/linux_behavior/malware_like/programs/batch_open_read_write.c",
+          "syscall": "write"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 19,
+          "ordinal": 6,
+          "source": "experiments/linux_behavior/malware_like/programs/batch_open_read_write.c",
+          "syscall": "close"
+        }
+      ],
+      "expected_key_events": 6,
+      "mapped_key_events": 6,
+      "sample_id": "batch_open_read_write",
+      "source": "experiments/linux_behavior/malware_like/programs/batch_open_read_write.c",
+      "source_line_rate": 1.0
+    },
+    {
+      "events": [
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 10,
+          "ordinal": 1,
+          "source": "experiments/linux_behavior/malware_like/programs/self_copy_sim.c",
+          "syscall": "openat"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 24,
+          "ordinal": 2,
+          "source": "experiments/linux_behavior/malware_like/programs/self_copy_sim.c",
+          "syscall": "read"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 10,
+          "ordinal": 3,
+          "source": "experiments/linux_behavior/malware_like/programs/self_copy_sim.c",
+          "syscall": "openat"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 26,
+          "ordinal": 4,
+          "source": "experiments/linux_behavior/malware_like/programs/self_copy_sim.c",
+          "syscall": "write"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 20,
+          "ordinal": 5,
+          "source": "experiments/linux_behavior/malware_like/programs/self_copy_sim.c",
+          "syscall": "close"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 20,
+          "ordinal": 6,
+          "source": "experiments/linux_behavior/malware_like/programs/self_copy_sim.c",
+          "syscall": "close"
+        }
+      ],
+      "expected_key_events": 6,
+      "mapped_key_events": 6,
+      "sample_id": "self_copy_sim",
+      "source": "experiments/linux_behavior/malware_like/programs/self_copy_sim.c",
+      "source_line_rate": 1.0
+    },
+    {
+      "events": [
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 7,
+          "ordinal": 1,
+          "source": "experiments/linux_behavior/malware_like/programs/abnormal_syscall_sequence.c",
+          "syscall": "close"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 7,
+          "ordinal": 2,
+          "source": "experiments/linux_behavior/malware_like/programs/abnormal_syscall_sequence.c",
+          "syscall": "close"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 7,
+          "ordinal": 3,
+          "source": "experiments/linux_behavior/malware_like/programs/abnormal_syscall_sequence.c",
+          "syscall": "close"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 9,
+          "ordinal": 4,
+          "source": "experiments/linux_behavior/malware_like/programs/abnormal_syscall_sequence.c",
+          "syscall": "openat"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 10,
+          "ordinal": 5,
+          "source": "experiments/linux_behavior/malware_like/programs/abnormal_syscall_sequence.c",
+          "syscall": "read"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 11,
+          "ordinal": 6,
+          "source": "experiments/linux_behavior/malware_like/programs/abnormal_syscall_sequence.c",
+          "syscall": "write"
+        }
+      ],
+      "expected_key_events": 6,
+      "mapped_key_events": 6,
+      "sample_id": "abnormal_syscall_sequence",
+      "source": "experiments/linux_behavior/malware_like/programs/abnormal_syscall_sequence.c",
+      "source_line_rate": 1.0
+    },
+    {
+      "events": [
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 17,
+          "ordinal": 1,
+          "source": "experiments/linux_behavior/malware_like/programs/illegal_trap.c",
+          "syscall": "rt_sigaction"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 8,
+          "ordinal": 2,
+          "source": "experiments/linux_behavior/malware_like/programs/illegal_trap.c",
+          "syscall": "write"
+        }
+      ],
+      "expected_key_events": 2,
+      "mapped_key_events": 2,
+      "sample_id": "illegal_trap",
+      "source": "experiments/linux_behavior/malware_like/programs/illegal_trap.c",
+      "source_line_rate": 1.0
+    },
+    {
+      "events": [
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 14,
+          "ordinal": 1,
+          "source": "experiments/linux_behavior/malware_like/programs/process_chain.c",
+          "syscall": "clone"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 17,
+          "ordinal": 2,
+          "source": "experiments/linux_behavior/malware_like/programs/process_chain.c",
+          "syscall": "execve"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 25,
+          "ordinal": 3,
+          "source": "experiments/linux_behavior/malware_like/programs/process_chain.c",
+          "syscall": "waitid"
+        }
+      ],
+      "expected_key_events": 3,
+      "mapped_key_events": 3,
+      "sample_id": "process_chain",
+      "source": "experiments/linux_behavior/malware_like/programs/process_chain.c",
+      "source_line_rate": 1.0
+    },
+    {
+      "events": [
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 8,
+          "ordinal": 1,
+          "source": "experiments/linux_behavior/malware_like/programs/dynamic_executable_memory.c",
+          "syscall": "mmap"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 27,
+          "ordinal": 2,
+          "source": "experiments/linux_behavior/malware_like/programs/dynamic_executable_memory.c",
+          "syscall": "mprotect"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 28,
+          "ordinal": 3,
+          "source": "experiments/linux_behavior/malware_like/programs/dynamic_executable_memory.c",
+          "syscall": "munmap"
+        }
+      ],
+      "expected_key_events": 3,
+      "mapped_key_events": 3,
+      "sample_id": "dynamic_executable_memory",
+      "source": "experiments/linux_behavior/malware_like/programs/dynamic_executable_memory.c",
+      "source_line_rate": 1.0
+    },
+    {
+      "events": [
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 10,
+          "ordinal": 1,
+          "source": "experiments/linux_behavior/malware_like/programs/anti_debug_like.c",
+          "syscall": "clock_gettime"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 24,
+          "ordinal": 2,
+          "source": "experiments/linux_behavior/malware_like/programs/anti_debug_like.c",
+          "syscall": "ptrace"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 26,
+          "ordinal": 3,
+          "source": "experiments/linux_behavior/malware_like/programs/anti_debug_like.c",
+          "syscall": "openat"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 28,
+          "ordinal": 4,
+          "source": "experiments/linux_behavior/malware_like/programs/anti_debug_like.c",
+          "syscall": "read"
+        },
+        {
+          "confidence": "source_sidecar_from_repository_source_and_builder_manifest",
+          "line": 29,
+          "ordinal": 5,
+          "source": "experiments/linux_behavior/malware_like/programs/anti_debug_like.c",
+          "syscall": "close"
+        }
+      ],
+      "expected_key_events": 5,
+      "mapped_key_events": 5,
+      "sample_id": "anti_debug_like",
+      "source": "experiments/linux_behavior/malware_like/programs/anti_debug_like.c",
+      "source_line_rate": 1.0
+    }
+  ],
+  "schema": "rvmt.source_line_sidecar.v1",
+  "scope": "debug/no-PIE source-equivalent sidecar for repository-authored P0 and safe-surrogate workloads",
+  "status": "PASS"
+}

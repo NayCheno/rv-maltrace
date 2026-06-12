@@ -1,0 +1,407 @@
+{
+  "bitstream": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.bit",
+  "bitstream_sha256": "5ab54e577456532936a117fe89c3e5800758e5e42819d8618db42622ce9447cc",
+  "board": "Digilent Genesys2",
+  "cpu": "CVA6 rv64gc sv39",
+  "ltx": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.ltx",
+  "ltx_sha256": "0a647dbd67f4921dc4a449f269b94caf9fa407627e840ab386d168775981467c",
+  "run_root": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board",
+  "samples": [
+    {
+      "repetitions": [
+        {
+          "bram_ring": {
+            "captured_count": 67,
+            "dropped_count": 0,
+            "end_timestamp": 356170300,
+            "event_count": 67,
+            "sequence_number": 66,
+            "start_timestamp": 355981507,
+            "wrap_count": 0
+          },
+          "csv": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/01_hello_write/rep_01/capture.csv",
+          "expected_event_recall": 1.0,
+          "missing_expected_items": [],
+          "parse_success": true,
+          "records": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/01_hello_write/rep_01/bram_records.jsonl",
+          "rep": 1,
+          "trace_sink_mode": "bram_ring",
+          "unaccounted_drop": 0
+        },
+        {
+          "bram_ring": {
+            "captured_count": 67,
+            "dropped_count": 0,
+            "end_timestamp": 55674439,
+            "event_count": 67,
+            "sequence_number": 66,
+            "start_timestamp": 55541428,
+            "wrap_count": 0
+          },
+          "csv": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/01_hello_write/rep_02/capture.csv",
+          "expected_event_recall": 1.0,
+          "missing_expected_items": [],
+          "parse_success": true,
+          "records": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/01_hello_write/rep_02/bram_records.jsonl",
+          "rep": 2,
+          "trace_sink_mode": "bram_ring",
+          "unaccounted_drop": 0
+        },
+        {
+          "bram_ring": {
+            "captured_count": 67,
+            "dropped_count": 0,
+            "end_timestamp": 1140552194,
+            "event_count": 67,
+            "sequence_number": 66,
+            "start_timestamp": 1140420672,
+            "wrap_count": 0
+          },
+          "csv": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/01_hello_write/rep_03/capture.csv",
+          "expected_event_recall": 1.0,
+          "missing_expected_items": [],
+          "parse_success": true,
+          "records": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/01_hello_write/rep_03/bram_records.jsonl",
+          "rep": 3,
+          "trace_sink_mode": "bram_ring",
+          "unaccounted_drop": 0
+        },
+        {
+          "bram_ring": {
+            "captured_count": 95,
+            "dropped_count": 0,
+            "end_timestamp": 2214409743,
+            "event_count": 95,
+            "sequence_number": 94,
+            "start_timestamp": 2214237792,
+            "wrap_count": 0
+          },
+          "csv": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/01_hello_write/rep_04/capture.csv",
+          "expected_event_recall": 1.0,
+          "missing_expected_items": [],
+          "parse_success": true,
+          "records": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/01_hello_write/rep_04/bram_records.jsonl",
+          "rep": 4,
+          "trace_sink_mode": "bram_ring",
+          "unaccounted_drop": 0
+        },
+        {
+          "bram_ring": {
+            "captured_count": 92,
+            "dropped_count": 0,
+            "end_timestamp": 3286429087,
+            "event_count": 92,
+            "sequence_number": 91,
+            "start_timestamp": 3286271515,
+            "wrap_count": 0
+          },
+          "csv": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/01_hello_write/rep_05/capture.csv",
+          "expected_event_recall": 1.0,
+          "missing_expected_items": [],
+          "parse_success": true,
+          "records": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/01_hello_write/rep_05/bram_records.jsonl",
+          "rep": 5,
+          "trace_sink_mode": "bram_ring",
+          "unaccounted_drop": 0
+        },
+        {
+          "bram_ring": {
+            "captured_count": 67,
+            "dropped_count": 0,
+            "end_timestamp": 60165017,
+            "event_count": 67,
+            "sequence_number": 66,
+            "start_timestamp": 60000451,
+            "wrap_count": 0
+          },
+          "csv": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/01_hello_write/rep_06/capture.csv",
+          "expected_event_recall": 1.0,
+          "missing_expected_items": [],
+          "parse_success": true,
+          "records": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/01_hello_write/rep_06/bram_records.jsonl",
+          "rep": 6,
+          "trace_sink_mode": "bram_ring",
+          "unaccounted_drop": 0
+        },
+        {
+          "bram_ring": {
+            "captured_count": 67,
+            "dropped_count": 0,
+            "end_timestamp": 1117590440,
+            "event_count": 67,
+            "sequence_number": 66,
+            "start_timestamp": 1117417196,
+            "wrap_count": 0
+          },
+          "csv": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/01_hello_write/rep_07/capture.csv",
+          "expected_event_recall": 1.0,
+          "missing_expected_items": [],
+          "parse_success": true,
+          "records": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/01_hello_write/rep_07/bram_records.jsonl",
+          "rep": 7,
+          "trace_sink_mode": "bram_ring",
+          "unaccounted_drop": 0
+        },
+        {
+          "bram_ring": {
+            "captured_count": 67,
+            "dropped_count": 0,
+            "end_timestamp": 2181334432,
+            "event_count": 67,
+            "sequence_number": 66,
+            "start_timestamp": 2181161403,
+            "wrap_count": 0
+          },
+          "csv": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/01_hello_write/rep_08/capture.csv",
+          "expected_event_recall": 1.0,
+          "missing_expected_items": [],
+          "parse_success": true,
+          "records": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/01_hello_write/rep_08/bram_records.jsonl",
+          "rep": 8,
+          "trace_sink_mode": "bram_ring",
+          "unaccounted_drop": 0
+        },
+        {
+          "bram_ring": {
+            "captured_count": 67,
+            "dropped_count": 0,
+            "end_timestamp": 3221704330,
+            "event_count": 67,
+            "sequence_number": 66,
+            "start_timestamp": 3221517692,
+            "wrap_count": 0
+          },
+          "csv": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/01_hello_write/rep_09/capture.csv",
+          "expected_event_recall": 1.0,
+          "missing_expected_items": [],
+          "parse_success": true,
+          "records": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/01_hello_write/rep_09/bram_records.jsonl",
+          "rep": 9,
+          "trace_sink_mode": "bram_ring",
+          "unaccounted_drop": 0
+        },
+        {
+          "bram_ring": {
+            "captured_count": 67,
+            "dropped_count": 0,
+            "end_timestamp": 4265152287,
+            "event_count": 67,
+            "sequence_number": 66,
+            "start_timestamp": 4265019529,
+            "wrap_count": 0
+          },
+          "csv": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/01_hello_write/rep_10/capture.csv",
+          "expected_event_recall": 1.0,
+          "missing_expected_items": [],
+          "parse_success": true,
+          "records": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/01_hello_write/rep_10/bram_records.jsonl",
+          "rep": 10,
+          "trace_sink_mode": "bram_ring",
+          "unaccounted_drop": 0
+        }
+      ],
+      "sample_id": "hello_write"
+    },
+    {
+      "repetitions": [
+        {
+          "bram_ring": {
+            "captured_count": 78,
+            "dropped_count": 0,
+            "end_timestamp": 1036760252,
+            "event_count": 78,
+            "sequence_number": 77,
+            "start_timestamp": 1036548767,
+            "wrap_count": 0
+          },
+          "csv": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/04_illegal_instruction/rep_01/capture.csv",
+          "expected_event_recall": 1.0,
+          "missing_expected_items": [],
+          "parse_success": true,
+          "records": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/04_illegal_instruction/rep_01/bram_records.jsonl",
+          "rep": 1,
+          "trace_sink_mode": "bram_ring",
+          "unaccounted_drop": 0
+        },
+        {
+          "bram_ring": {
+            "captured_count": 136,
+            "dropped_count": 0,
+            "end_timestamp": 2093928655,
+            "event_count": 136,
+            "sequence_number": 135,
+            "start_timestamp": 2093203475,
+            "wrap_count": 0
+          },
+          "csv": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/04_illegal_instruction/rep_02/capture.csv",
+          "expected_event_recall": 1.0,
+          "missing_expected_items": [],
+          "parse_success": true,
+          "records": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/04_illegal_instruction/rep_02/bram_records.jsonl",
+          "rep": 2,
+          "trace_sink_mode": "bram_ring",
+          "unaccounted_drop": 0
+        },
+        {
+          "bram_ring": {
+            "captured_count": 102,
+            "dropped_count": 0,
+            "end_timestamp": 3151965871,
+            "event_count": 102,
+            "sequence_number": 101,
+            "start_timestamp": 3151730807,
+            "wrap_count": 0
+          },
+          "csv": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/04_illegal_instruction/rep_03/capture.csv",
+          "expected_event_recall": 1.0,
+          "missing_expected_items": [],
+          "parse_success": true,
+          "records": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/04_illegal_instruction/rep_03/bram_records.jsonl",
+          "rep": 3,
+          "trace_sink_mode": "bram_ring",
+          "unaccounted_drop": 0
+        },
+        {
+          "bram_ring": {
+            "captured_count": 77,
+            "dropped_count": 0,
+            "end_timestamp": 4217788351,
+            "event_count": 77,
+            "sequence_number": 76,
+            "start_timestamp": 4217572351,
+            "wrap_count": 0
+          },
+          "csv": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/04_illegal_instruction/rep_04/capture.csv",
+          "expected_event_recall": 1.0,
+          "missing_expected_items": [],
+          "parse_success": true,
+          "records": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/04_illegal_instruction/rep_04/bram_records.jsonl",
+          "rep": 4,
+          "trace_sink_mode": "bram_ring",
+          "unaccounted_drop": 0
+        },
+        {
+          "bram_ring": {
+            "captured_count": 102,
+            "dropped_count": 0,
+            "end_timestamp": 973981060,
+            "event_count": 102,
+            "sequence_number": 101,
+            "start_timestamp": 973778029,
+            "wrap_count": 0
+          },
+          "csv": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/04_illegal_instruction/rep_05/capture.csv",
+          "expected_event_recall": 1.0,
+          "missing_expected_items": [],
+          "parse_success": true,
+          "records": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/04_illegal_instruction/rep_05/bram_records.jsonl",
+          "rep": 5,
+          "trace_sink_mode": "bram_ring",
+          "unaccounted_drop": 0
+        },
+        {
+          "bram_ring": {
+            "captured_count": 80,
+            "dropped_count": 0,
+            "end_timestamp": 2030411731,
+            "event_count": 80,
+            "sequence_number": 79,
+            "start_timestamp": 2030155145,
+            "wrap_count": 0
+          },
+          "csv": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/04_illegal_instruction/rep_06/capture.csv",
+          "expected_event_recall": 1.0,
+          "missing_expected_items": [],
+          "parse_success": true,
+          "records": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/04_illegal_instruction/rep_06/bram_records.jsonl",
+          "rep": 6,
+          "trace_sink_mode": "bram_ring",
+          "unaccounted_drop": 0
+        },
+        {
+          "bram_ring": {
+            "captured_count": 103,
+            "dropped_count": 0,
+            "end_timestamp": 3091451339,
+            "event_count": 103,
+            "sequence_number": 102,
+            "start_timestamp": 3091194573,
+            "wrap_count": 0
+          },
+          "csv": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/04_illegal_instruction/rep_07/capture.csv",
+          "expected_event_recall": 1.0,
+          "missing_expected_items": [],
+          "parse_success": true,
+          "records": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/04_illegal_instruction/rep_07/bram_records.jsonl",
+          "rep": 7,
+          "trace_sink_mode": "bram_ring",
+          "unaccounted_drop": 0
+        },
+        {
+          "bram_ring": {
+            "captured_count": 78,
+            "dropped_count": 0,
+            "end_timestamp": 4134899051,
+            "event_count": 78,
+            "sequence_number": 77,
+            "start_timestamp": 4134684471,
+            "wrap_count": 0
+          },
+          "csv": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/04_illegal_instruction/rep_08/capture.csv",
+          "expected_event_recall": 1.0,
+          "missing_expected_items": [],
+          "parse_success": true,
+          "records": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/04_illegal_instruction/rep_08/bram_records.jsonl",
+          "rep": 8,
+          "trace_sink_mode": "bram_ring",
+          "unaccounted_drop": 0
+        },
+        {
+          "bram_ring": {
+            "captured_count": 77,
+            "dropped_count": 0,
+            "end_timestamp": 896380494,
+            "event_count": 77,
+            "sequence_number": 76,
+            "start_timestamp": 896212356,
+            "wrap_count": 0
+          },
+          "csv": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/04_illegal_instruction/rep_09/capture.csv",
+          "expected_event_recall": 1.0,
+          "missing_expected_items": [],
+          "parse_success": true,
+          "records": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/04_illegal_instruction/rep_09/bram_records.jsonl",
+          "rep": 9,
+          "trace_sink_mode": "bram_ring",
+          "unaccounted_drop": 0
+        },
+        {
+          "bram_ring": {
+            "captured_count": 80,
+            "dropped_count": 0,
+            "end_timestamp": 1942821763,
+            "event_count": 80,
+            "sequence_number": 79,
+            "start_timestamp": 1942647757,
+            "wrap_count": 0
+          },
+          "csv": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/04_illegal_instruction/rep_10/capture.csv",
+          "expected_event_recall": 1.0,
+          "missing_expected_items": [],
+          "parse_success": true,
+          "records": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board/04_illegal_instruction/rep_10/bram_records.jsonl",
+          "rep": 10,
+          "trace_sink_mode": "bram_ring",
+          "unaccounted_drop": 0
+        }
+      ],
+      "sample_id": "illegal_instruction"
+    }
+  ],
+  "schema": "rvmt.genesys2.bram_trace_sink.v1",
+  "status": "PASS",
+  "trace_sink_modes": [
+    "ila_debug",
+    "bram_ring"
+  ]
+}

@@ -1,0 +1,228 @@
+{
+  "evidence": {
+    "behavior_graph": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/behavior/behavior_graph.json",
+    "code_map": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/local_code_analysis/code_map.json",
+    "integrated_validation": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/integrated_validation.json",
+    "runtime_process_map": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map/abnormal_syscall_sequence/runtime_process_map.json",
+    "semantic_events": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/behavior/semantic_events.json",
+    "source_attribution": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/local_code_analysis/source_attribution_summary.json",
+    "trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_01/bram_records.jsonl"
+  },
+  "host_strace": {
+    "execve_paths": [
+      "results/demo/ccfa-safe-20260611/abnormal_syscall_sequence/00_build/abnormal_syscall_sequence.host"
+    ],
+    "fd_edges": [
+      {
+        "line": "execve(\"results/demo/ccfa-safe-20260611/abnormal_syscall_sequence/00_build/abnormal_syscall_sequence.host\", [\"results/demo/ccfa-safe-20260611/\"...], 0x7ffd56827af8 /* 9 vars */) = 0",
+        "op": "execve",
+        "path": "results/demo/ccfa-safe-20260611/abnormal_syscall_sequence/00_build/abnormal_syscall_sequence.host"
+      },
+      {
+        "line": "mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x78f16aa4c000",
+        "op": "mmap"
+      },
+      {
+        "fd": 3,
+        "line": "openat(AT_FDCWD, \"/etc/ld.so.cache\", O_RDONLY|O_CLOEXEC) = 3",
+        "op": "openat",
+        "path": "/etc/ld.so.cache"
+      },
+      {
+        "line": "mmap(NULL, 12899, PROT_READ, MAP_PRIVATE, 3, 0) = 0x78f16aa48000",
+        "op": "mmap"
+      },
+      {
+        "fd": 3,
+        "line": "close(3)                          = 0",
+        "op": "close",
+        "path": "/etc/ld.so.cache"
+      },
+      {
+        "fd": 3,
+        "line": "openat(AT_FDCWD, \"/lib/x86_64-linux-gnu/libc.so.6\", O_RDONLY|O_CLOEXEC) = 3",
+        "op": "openat",
+        "path": "/lib/x86_64-linux-gnu/libc.so.6"
+      },
+      {
+        "fd": 3,
+        "line": "read(3, \"\\177ELF\\2\\1\\1\\3\\0\\0\\0\\0\\0\\0\\0\\0\\3\\0>\\0\\1\\0\\0\\0\\220\\243\\2\\0\\0\\0\\0\\0\"..., 832) = 832",
+        "op": "read",
+        "path": "/lib/x86_64-linux-gnu/libc.so.6"
+      },
+      {
+        "line": "mmap(NULL, 2170256, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x78f16a836000",
+        "op": "mmap"
+      },
+      {
+        "line": "mmap(0x78f16a85e000, 1605632, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x78f16a85e000",
+        "op": "mmap"
+      },
+      {
+        "line": "mmap(0x78f16a9e6000, 323584, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b0000) = 0x78f16a9e6000",
+        "op": "mmap"
+      },
+      {
+        "line": "mmap(0x78f16aa35000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1fe000) = 0x78f16aa35000",
+        "op": "mmap"
+      },
+      {
+        "line": "mmap(0x78f16aa3b000, 52624, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x78f16aa3b000",
+        "op": "mmap"
+      },
+      {
+        "fd": 3,
+        "line": "close(3)                          = 0",
+        "op": "close",
+        "path": "/lib/x86_64-linux-gnu/libc.so.6"
+      },
+      {
+        "line": "mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x78f16a833000",
+        "op": "mmap"
+      },
+      {
+        "line": "mprotect(0x78f16aa35000, 16384, PROT_READ) = 0",
+        "op": "mprotect"
+      },
+      {
+        "line": "mprotect(0x5f8a91b54000, 4096, PROT_READ) = 0",
+        "op": "mprotect"
+      },
+      {
+        "line": "mprotect(0x78f16aa84000, 8192, PROT_READ) = 0",
+        "op": "mprotect"
+      },
+      {
+        "line": "munmap(0x78f16aa48000, 12899)     = 0",
+        "op": "munmap"
+      },
+      {
+        "fd": 200,
+        "line": "close(200)                        = -1 EBADF (Bad file descriptor)",
+        "op": "close",
+        "path": "<unresolved-fd:200>"
+      },
+      {
+        "fd": 201,
+        "line": "close(201)                        = -1 EBADF (Bad file descriptor)",
+        "op": "close",
+        "path": "<unresolved-fd:201>"
+      },
+      {
+        "fd": 202,
+        "line": "close(202)                        = -1 EBADF (Bad file descriptor)",
+        "op": "close",
+        "path": "<unresolved-fd:202>"
+      },
+      {
+        "fd": -1,
+        "line": "read(-1, NULL, 16)                = -1 EBADF (Bad file descriptor)",
+        "op": "read",
+        "path": null
+      },
+      {
+        "fd": -1,
+        "line": "write(-1, \"x\", 1)                 = -1 EBADF (Bad file descriptor)",
+        "op": "write",
+        "path": null
+      }
+    ],
+    "line_count": 37,
+    "openat_paths": [
+      "/etc/ld.so.cache",
+      "/lib/x86_64-linux-gnu/libc.so.6",
+      "/path/that/does/not/exist"
+    ],
+    "path": "results/demo/ccfa-safe-20260611/abnormal_syscall_sequence/01_ground_truth/host.strace.log",
+    "present": true,
+    "signals": [],
+    "syscalls": {
+      "access": 1,
+      "arch_prctl": 1,
+      "brk": 1,
+      "close": 5,
+      "execve": 1,
+      "exit_group": 1,
+      "fstat": 2,
+      "mmap": 8,
+      "mprotect": 3,
+      "munmap": 1,
+      "openat": 3,
+      "pread64": 2,
+      "prlimit64": 1,
+      "read": 2,
+      "rseq": 1,
+      "set_robust_list": 1,
+      "set_tid_address": 1,
+      "write": 1
+    },
+    "unresolved_fd_count": 3,
+    "write_prefixes": [
+      "x"
+    ]
+  },
+  "qemu_strace": {
+    "execve_paths": [],
+    "fd_edges": [
+      {
+        "line": "mprotect(0x000000000007e000,16384,PROT_READ) = 0",
+        "op": "mprotect"
+      },
+      {
+        "fd": 200,
+        "line": "close(200) = -1 errno=9 (Bad file descriptor)",
+        "op": "close",
+        "path": "<unresolved-fd:200>"
+      },
+      {
+        "fd": 201,
+        "line": "close(201) = -1 errno=9 (Bad file descriptor)",
+        "op": "close",
+        "path": "<unresolved-fd:201>"
+      },
+      {
+        "fd": 202,
+        "line": "close(202) = -1 errno=9 (Bad file descriptor)",
+        "op": "close",
+        "path": "<unresolved-fd:202>"
+      },
+      {
+        "fd": -1,
+        "line": "read(-1,0,16) = -1 errno=14 (Bad address)",
+        "op": "read",
+        "path": null
+      },
+      {
+        "fd": -1,
+        "line": "write(-1,0x52d18,1) = -1 errno=9 (Bad file descriptor)",
+        "op": "write",
+        "path": null
+      }
+    ],
+    "line_count": 18,
+    "openat_paths": [
+      "/path/that/does/not/exist"
+    ],
+    "path": "results/demo/ccfa-safe-20260611/abnormal_syscall_sequence/01_ground_truth/qemu-riscv64.strace.log",
+    "present": true,
+    "signals": [],
+    "syscalls": {
+      "brk": 5,
+      "close": 3,
+      "exit_group": 1,
+      "getrandom": 1,
+      "mprotect": 1,
+      "openat": 1,
+      "prlimit64": 1,
+      "read": 1,
+      "readlinkat": 1,
+      "set_robust_list": 1,
+      "set_tid_address": 1,
+      "write": 1
+    },
+    "unresolved_fd_count": 3,
+    "write_prefixes": []
+  },
+  "sample_id": "abnormal_syscall_sequence",
+  "schema": "rvmt.sample_baseline_logs.v1"
+}

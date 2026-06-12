@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import binascii
 import datetime as dt
+import hashlib
 import json
 import os
 import re
@@ -27,12 +28,27 @@ BOARD_DEFAULTS = {
 
 XLNX_ILA_XCI = Path("corev_apu/fpga/xilinx/xlnx_ila/xlnx_ila.srcs/sources_1/ip/xlnx_ila/xlnx_ila.xci")
 XLNX_ILA_EXPECTED = {
+    "C_NUM_OF_PROBES": "3",
+    "C_PROBE1_WIDTH": "136",
+    "C_PROBE2_WIDTH": "484",
     "C_DATA_DEPTH": "8192",
     "C_INPUT_PIPE_STAGES": "2",
     "C_EN_STRG_QUAL": "1",
     "C_ADV_TRIGGER": "TRUE",
 }
 TRACE_MARKER_BUILD_MANIFEST = Path("work-fpga/rvmt_trace_marker_build_manifest.json")
+TRACE_MARKER_SOURCE_HASH_FILES = {
+    "rtl/cva6/corev_apu/fpga/src/ariane_xilinx.sv": ("cva6", "corev_apu/fpga/src/ariane_xilinx.sv"),
+    "rtl/cva6/corev_apu/fpga/xilinx/xlnx_ila/tcl/run.tcl": ("cva6", "corev_apu/fpga/xilinx/xlnx_ila/tcl/run.tcl"),
+    "rtl/trace/trace_pkg.sv": ("repo", "rtl/trace/trace_pkg.sv"),
+    "rtl/trace/trace_bram_ring.sv": ("repo", "rtl/trace/trace_bram_ring.sv"),
+    "rtl/trace/cva6_rvfi_trace_adapter.sv": ("repo", "rtl/trace/cva6_rvfi_trace_adapter.sv"),
+    "tools/capture_genesys2_ila_event.tcl": ("repo", "tools/capture_genesys2_ila_event.tcl"),
+    "tools/decode_genesys2_ila_trace.py": ("repo", "tools/decode_genesys2_ila_trace.py"),
+    "tools/decode_genesys2_bram_ring_dump.py": ("repo", "tools/decode_genesys2_bram_ring_dump.py"),
+    "tools/package_genesys2_bram_trace_sink_summary.py": ("repo", "tools/package_genesys2_bram_trace_sink_summary.py"),
+    "tools/run_genesys2_ila_command_capture.py": ("repo", "tools/run_genesys2_ila_command_capture.py"),
+}
 
 TASK_ALIASES = {
     "help": "help",
@@ -412,6 +428,24 @@ def sync_xlnx_ila_artifact_xci(cva6_dir: Path, vivado_work_dir: Path, *, dry_run
     check_xlnx_ila_xci(cva6_dir, target)
 
 
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def trace_marker_source_hashes(source_root: Path, cva6_dir: Path) -> dict[str, str]:
+    hashes: dict[str, str] = {}
+    for manifest_path, (base, source_path) in TRACE_MARKER_SOURCE_HASH_FILES.items():
+        full_path = (cva6_dir if base == "cva6" else source_root) / source_path
+        if not full_path.is_file():
+            raise TaskError(f"Missing trace-marker manifest source file: {full_path}")
+        hashes[manifest_path] = sha256_file(full_path)
+    return hashes
+
+
 def refresh_xlnx_ila_ip(
     cva6_dir: Path,
     env: dict[str, str],
@@ -441,6 +475,8 @@ def refresh_xlnx_ila_ip(
 def write_trace_marker_build_manifest(
     artifact_dir: Path,
     *,
+    source_root: Path,
+    cva6_dir: Path,
     board: str,
     target: str,
     xpart: str,
@@ -461,6 +497,10 @@ def write_trace_marker_build_manifest(
             "enable_marker": True,
             "enable_branch": False,
             "reason": "keep event-limited ILA windows focused on marker/syscall/trap evidence",
+        },
+        "source_hashes": {
+            "hash_algorithm": "sha256",
+            "files": trace_marker_source_hashes(source_root, cva6_dir),
         },
     }
     path = artifact_dir / TRACE_MARKER_BUILD_MANIFEST
@@ -780,6 +820,14 @@ normalize_msys_paths() {{
       cat "$file"
     }} > "$tmp_file"
     mv "$tmp_file" "$file"
+  fi
+
+  if [[ "${{RV_MALTRACE_FPGA_TRACE:-0}}" == "1" || "${{RVMT_VIVADO_VERILOG_DEFINES:-}}" == *"RV_MALTRACE_FPGA_TRACE"* ]]; then
+    if grep -q "R:/rtl/trace/trace_board_minimal_ctrl.sv" "$file" && ! grep -q "R:/rtl/trace/trace_bram_ring.sv" "$file"; then
+      tmp_file="${{file}}.rvmt"
+      sed "s#R:/rtl/trace/trace_board_minimal_ctrl\\.sv[[:space:]]*#R:/rtl/trace/trace_board_minimal_ctrl.sv R:/rtl/trace/trace_bram_ring.sv #g" "$file" > "$tmp_file"
+      mv "$tmp_file" "$file"
+    fi
   fi
 
   chmod u+w "$file" 2>/dev/null || true
@@ -2875,6 +2923,8 @@ def task_bitstream_build(
             if trace_marker_scope:
                 write_trace_marker_build_manifest(
                     artifact_dir,
+                    source_root=work_root,
+                    cva6_dir=cva6_dir,
                     board=board,
                     target=target,
                     xpart=xpart,

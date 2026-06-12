@@ -16,9 +16,9 @@
   "function_ranges": [
     {
       "confidence": "symbol_table",
-      "end": "0x0000000000010164",
+      "end": "0x00000000000101ac",
       "function": "_start",
-      "size": 100,
+      "size": 172,
       "start": "0x0000000000010100"
     }
   ],
@@ -32,7 +32,7 @@
       "start": "0x0000000000010000"
     },
     {
-      "end": "0x0000000000012200",
+      "end": "0x0000000000012400",
       "file_offset": "0x2000",
       "permissions": "RW",
       "segment": "data",
@@ -51,31 +51,31 @@
   "schema": "rvmt.code_map.v1",
   "sections": [
     {
-      "end": "0x0000000000010164",
+      "end": "0x00000000000101ac",
       "flags": "0x6",
       "name": ".text",
-      "size": 100,
+      "size": 172,
       "start": "0x0000000000010100",
       "type": 1
     },
     {
-      "end": "0x000000000001028c",
+      "end": "0x00000000000102d4",
       "flags": "0x2",
       "name": ".rodata",
       "size": 292,
-      "start": "0x0000000000010168",
+      "start": "0x00000000000101b0",
       "type": 1
     },
     {
-      "end": "0x0000000000012200",
+      "end": "0x0000000000012400",
       "flags": "0x3",
       "name": ".data",
-      "size": 512,
+      "size": 1024,
       "start": "0x0000000000012000",
       "type": 1
     }
   ],
-  "sha256": "45a6daf7ac666cd502c224109af1b1daa3c971971b3ba40ebfbb018dc3f1ba0d",
+  "sha256": "eb18463b8b256166bab285aff75711d77266df6d67cceb9a0d55f5577a146c36",
   "source": "experiments/linux_behavior/malware_like/programs/dynamic_executable_memory.c",
   "source_attribution": {
     "function_count": 1,
@@ -91,16 +91,16 @@
   "source_locations": [],
   "symbols": [
     {
-      "end": "0x0000000000010164",
+      "end": "0x00000000000101ac",
       "name": "_start",
-      "size": 100,
+      "size": 172,
       "start": "0x0000000000010100",
       "type": 2
     },
     {
-      "end": "0x0000000000012200",
+      "end": "0x0000000000012400",
       "name": "buffer",
-      "size": 512,
+      "size": 1024,
       "start": "0x0000000000012000",
       "type": 1
     },
@@ -115,31 +115,45 @@
   "syscall_sites": [
     {
       "asm": "ecall",
-      "pc": "0x0000000000010120",
+      "pc": "0x0000000000010128",
       "section": ".text",
       "symbol": "_start",
-      "symbol_offset": "0x20"
+      "symbol_offset": "0x28"
     },
     {
       "asm": "ecall",
-      "pc": "0x000000000001013c",
+      "pc": "0x000000000001014c",
       "section": ".text",
       "symbol": "_start",
-      "symbol_offset": "0x3c"
+      "symbol_offset": "0x4c"
     },
     {
       "asm": "ecall",
-      "pc": "0x0000000000010150",
+      "pc": "0x0000000000010168",
       "section": ".text",
       "symbol": "_start",
-      "symbol_offset": "0x50"
+      "symbol_offset": "0x68"
     },
     {
       "asm": "ecall",
-      "pc": "0x000000000001015c",
+      "pc": "0x000000000001017c",
       "section": ".text",
       "symbol": "_start",
-      "symbol_offset": "0x5c"
+      "symbol_offset": "0x7c"
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x0000000000010198",
+      "section": ".text",
+      "symbol": "_start",
+      "symbol_offset": "0x98"
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000101a4",
+      "section": ".text",
+      "symbol": "_start",
+      "symbol_offset": "0xa4"
     }
   ],
   "trap_sites": []

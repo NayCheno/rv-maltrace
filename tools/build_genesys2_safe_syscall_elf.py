@@ -24,6 +24,7 @@ RVMT_MARKER_PAYLOAD = 0x00000A11
 RVMT_MARKER_BEGIN = 0xB0000000 | RVMT_MARKER_PAYLOAD
 RVMT_MARKER_END = 0xE0000000 | RVMT_MARKER_PAYLOAD
 ILLEGAL_TRAP_WARMUP_ITERATIONS = 80_000_000
+RUNTIME_MAP_WARMUP_ITERATIONS = 80_000_000
 
 REG = {
     "zero": 0,
@@ -207,6 +208,14 @@ class ProgramBuilder:
     def emit_bne(self, rs1: str, rs2: str, target_pc: int) -> None:
         self.emit(inst_bne(rs1, rs2, target_pc - self.pc))
 
+    def busy_wait(self, iterations: int) -> None:
+        if iterations <= 0:
+            return
+        self.emit_li("t0", iterations)
+        loop_pc = self.pc
+        self.emit(inst_addi("t0", "t0", -1))
+        self.emit_bne("t0", "zero", loop_pc)
+
     def syscall(self, name: str, args: list[tuple[str, int | str]]) -> None:
         for reg, value in args:
             if isinstance(value, str):
@@ -277,6 +286,9 @@ def labels_for_rodata(rodata_offsets: dict[str, int], rodata_vaddr: int) -> dict
 
 def generate_text(sample_id: str, text_vaddr: int, labels: dict[str, int]) -> bytes:
     b = ProgramBuilder(text_vaddr, labels)
+    if sample_id != "illegal_trap":
+        b.busy_wait(RUNTIME_MAP_WARMUP_ITERATIONS)
+        b.marker(RVMT_MARKER_BEGIN)
     if sample_id == "file_scan":
         b.syscall("openat", [("a0", -100), ("a1", "scan_root"), ("a2", 0x90000), ("a3", 0)])
         b.emit_mv("s0", "a0")
@@ -301,6 +313,13 @@ def generate_text(sample_id: str, text_vaddr: int, labels: dict[str, int]) -> by
         b.syscall("write", [("a0", "s1"), ("a1", "msg"), ("a2", len(f"rvmt_p2:{sample_id}\n"))])
         b.syscall("close", [("a0", "s0")])
         b.syscall("close", [("a0", "s1")])
+    elif sample_id == "abnormal_syscall_sequence":
+        b.syscall("close", [("a0", 200)])
+        b.syscall("close", [("a0", 201)])
+        b.syscall("close", [("a0", 202)])
+        b.syscall("openat", [("a0", -100), ("a1", "missing"), ("a2", 0x80000), ("a3", 0)])
+        b.syscall("read", [("a0", -1), ("a1", "buffer"), ("a2", 16)])
+        b.syscall("write", [("a0", -1), ("a1", "msg"), ("a2", 1)])
     elif sample_id == "process_chain":
         b.syscall("clone", [("a0", 17), ("a1", 0), ("a2", 0), ("a3", 0), ("a4", 0)])
         b.syscall("execve", [("a0", "missing"), ("a1", "argv_true"), ("a2", 0)])
@@ -318,10 +337,7 @@ def generate_text(sample_id: str, text_vaddr: int, labels: dict[str, int]) -> by
         b.syscall("read", [("a0", "s0"), ("a1", "buffer"), ("a2", 128)])
         b.syscall("close", [("a0", "s0")])
     elif sample_id == "illegal_trap":
-        b.emit_li("t0", ILLEGAL_TRAP_WARMUP_ITERATIONS)
-        loop_pc = b.pc
-        b.emit(inst_addi("t0", "t0", -1))
-        b.emit_bne("t0", "zero", loop_pc)
+        b.busy_wait(ILLEGAL_TRAP_WARMUP_ITERATIONS)
         b.marker(RVMT_MARKER_BEGIN)
         b.syscall("rt_sigaction", [("a0", 4), ("a1", "sigaction"), ("a2", 0), ("a3", 8)])
         b.emit(inst_illegal())
@@ -394,6 +410,7 @@ def generate_text(sample_id: str, text_vaddr: int, labels: dict[str, int]) -> by
     else:
         raise ValueError(f"unsupported sample for deterministic syscall-only builder: {sample_id}")
     if sample_id != "illegal_trap":
+        b.marker(RVMT_MARKER_END)
         b.exit_zero()
     return bytes(b.code)
 
@@ -539,9 +556,10 @@ def build_elf(sample_id: str) -> tuple[bytes, dict[str, Any]]:
         "entry": f"0x{text_vaddr:016x}",
         "text_size": text_size,
         "data_size": DATA_SIZE,
+        "runtime_map_warmup_iterations": RUNTIME_MAP_WARMUP_ITERATIONS,
         "syscall_sequence": syscall_sequence_for(sample_id),
         "marker_scope": {
-            "enabled": sample_id == "illegal_trap",
+            "enabled": True,
             "syscall_nr": SYSCALL_NUMBERS["rvmt_marker"],
             "begin_value_low32": f"0x{RVMT_MARKER_BEGIN:08x}",
             "end_value_low32": f"0x{RVMT_MARKER_END:08x}",
@@ -558,17 +576,19 @@ def build_elf(sample_id: str) -> tuple[bytes, dict[str, Any]]:
 
 def syscall_sequence_for(sample_id: str) -> list[str]:
     if sample_id == "file_scan":
-        return ["openat", "getdents64", "getdents64", "getdents64", "getdents64", "close", "exit"]
+        return ["rvmt_marker", "openat", "getdents64", "getdents64", "getdents64", "getdents64", "close", "rvmt_marker", "exit"]
     if sample_id == "batch_open_read_write":
-        return ["openat", "read", "close", "openat", "write", "close", "exit"]
+        return ["rvmt_marker", "openat", "read", "close", "openat", "write", "close", "rvmt_marker", "exit"]
     if sample_id == "self_copy_sim":
-        return ["openat", "read", "openat", "write", "close", "close", "exit"]
+        return ["rvmt_marker", "openat", "read", "openat", "write", "close", "close", "rvmt_marker", "exit"]
+    if sample_id == "abnormal_syscall_sequence":
+        return ["rvmt_marker", "close", "close", "close", "openat", "read", "write", "rvmt_marker", "exit"]
     if sample_id == "process_chain":
-        return ["clone", "execve", "waitid", "exit"]
+        return ["rvmt_marker", "clone", "execve", "waitid", "rvmt_marker", "exit"]
     if sample_id == "dynamic_executable_memory":
-        return ["mmap", "mprotect", "munmap", "exit"]
+        return ["rvmt_marker", "mmap", "mprotect", "munmap", "rvmt_marker", "exit"]
     if sample_id == "anti_debug_like":
-        return ["clock_gettime", "ptrace", "openat", "read", "close", "exit"]
+        return ["rvmt_marker", "clock_gettime", "ptrace", "openat", "read", "close", "rvmt_marker", "exit"]
     if sample_id == "illegal_trap":
         return ["rvmt_marker", "rt_sigaction", "write", "rvmt_marker", "exit"]
     if sample_id == "mirai_comprehensive":
@@ -668,6 +688,14 @@ def self_test() -> int:
                     "source": "experiments/linux_behavior/malware_like/programs/illegal_trap.c",
                     "expected_syscalls": ["write"],
                     "expected_behavior": ["illegal_instruction_trap"],
+                },
+                {
+                    "id": "abnormal_syscall_sequence",
+                    "class": SAFE_SAMPLE_CLASS,
+                    "real_malware": False,
+                    "source": "experiments/linux_behavior/malware_like/programs/file_scan.c",
+                    "expected_syscalls": ["close", "openat", "read", "write"],
+                    "expected_behavior": ["abnormal_syscall_sequence"],
                 }
             ]
         }
@@ -677,8 +705,8 @@ def self_test() -> int:
             return 1
         code_map = load_json(root / "code/code_map.json")
         syscall_count = len(code_map.get("syscall_sites", []))
-        if syscall_count != 7:
-            print(f"[FAIL] self-test expected 7 syscall sites, got {syscall_count}", file=sys.stderr)
+        if syscall_count != 9:
+            print(f"[FAIL] self-test expected 9 syscall sites, got {syscall_count}", file=sys.stderr)
             return 1
         manifest_out = load_json(root / "out/build_manifest.json")
         if manifest_out.get("real_malware") is not False or "No real malware detection" not in " ".join(manifest_out.get("non_claims", [])):
@@ -705,6 +733,21 @@ def self_test() -> int:
             return 1
         if illegal_binary.read_bytes()[:4] != b"\x7fELF":
             print("[FAIL] illegal_trap self-test did not produce an ELF", file=sys.stderr)
+            return 1
+        abnormal_binary = build_one(root, manifest, "abnormal_syscall_sequence", root / "abnormal_out", root / "abnormal_code")
+        abnormal_manifest = load_json(root / "abnormal_out/build_manifest.json")
+        if abnormal_manifest.get("syscall_sequence") != [
+            "rvmt_marker", "close", "close", "close", "openat", "read", "write", "rvmt_marker", "exit"
+        ]:
+            print("[FAIL] abnormal syscall self-test missed syscall sequence", file=sys.stderr)
+            return 1
+        abnormal_code_map = load_json(root / "abnormal_code/code_map.json")
+        abnormal_syscall_count = len(abnormal_code_map.get("syscall_sites", []))
+        if abnormal_syscall_count != 9:
+            print(f"[FAIL] abnormal syscall self-test expected 9 syscall sites, got {abnormal_syscall_count}", file=sys.stderr)
+            return 1
+        if abnormal_binary.read_bytes()[:4] != b"\x7fELF":
+            print("[FAIL] abnormal syscall self-test did not produce an ELF", file=sys.stderr)
             return 1
     print("[PASS] Genesys2 safe syscall ELF builder self-test")
     return 0

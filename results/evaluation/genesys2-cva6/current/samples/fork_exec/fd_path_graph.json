@@ -1,0 +1,51 @@
+{
+  "edges": [
+    {
+      "line": "clone(0x11,child_stack=0x0000000000000000,parent_tidptr=0x0000000000000000,tls=0x0000000000000000,child_tidptr=0x0000000000000000) = 18 =",
+      "op": "clone"
+    },
+    {
+      "line": "wait4(18,0x12080,0,(nil))18",
+      "op": "wait4"
+    },
+    {
+      "line": "execve(\"/bin/true\",{\"/bin/true\",NULL}) = 18",
+      "op": "execve",
+      "path": "/bin/true"
+    }
+  ],
+  "row": {
+    "execve_filename_accuracy": 1.0,
+    "fd_graph_complete": true,
+    "fd_policy": "negative or intentionally failing fds are modeled as expected abnormal behavior, not unresolved path ownership",
+    "graph": {
+      "edges": [
+        {
+          "line": "clone(0x11,child_stack=0x0000000000000000,parent_tidptr=0x0000000000000000,tls=0x0000000000000000,child_tidptr=0x0000000000000000) = 18 =",
+          "op": "clone"
+        },
+        {
+          "line": "wait4(18,0x12080,0,(nil))18",
+          "op": "wait4"
+        },
+        {
+          "line": "execve(\"/bin/true\",{\"/bin/true\",NULL}) = 18",
+          "op": "execve",
+          "path": "/bin/true"
+        }
+      ],
+      "nodes": [
+        "/bin/true"
+      ],
+      "unresolved_fd_count_observed_in_raw_parse": 0
+    },
+    "graph_schema": "rvmt.fd_path.graph.v1",
+    "has_execve": true,
+    "has_openat": false,
+    "openat_pathname_accuracy": 1.0,
+    "sample_id": "fork_exec",
+    "unresolved_fd_count": 0
+  },
+  "sample_id": "fork_exec",
+  "schema": "rvmt.fd_path.graph.v1"
+}

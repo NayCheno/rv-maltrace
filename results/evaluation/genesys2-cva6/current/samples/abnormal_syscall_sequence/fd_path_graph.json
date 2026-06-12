@@ -1,0 +1,93 @@
+{
+  "edges": [
+    {
+      "line": "mprotect(0x000000000007e000,16384,PROT_READ) = 0",
+      "op": "mprotect"
+    },
+    {
+      "fd": 200,
+      "line": "close(200) = -1 errno=9 (Bad file descriptor)",
+      "op": "close",
+      "path": "<unresolved-fd:200>"
+    },
+    {
+      "fd": 201,
+      "line": "close(201) = -1 errno=9 (Bad file descriptor)",
+      "op": "close",
+      "path": "<unresolved-fd:201>"
+    },
+    {
+      "fd": 202,
+      "line": "close(202) = -1 errno=9 (Bad file descriptor)",
+      "op": "close",
+      "path": "<unresolved-fd:202>"
+    },
+    {
+      "fd": -1,
+      "line": "read(-1,0,16) = -1 errno=14 (Bad address)",
+      "op": "read",
+      "path": null
+    },
+    {
+      "fd": -1,
+      "line": "write(-1,0x52d18,1) = -1 errno=9 (Bad file descriptor)",
+      "op": "write",
+      "path": null
+    }
+  ],
+  "row": {
+    "execve_filename_accuracy": 1.0,
+    "fd_graph_complete": true,
+    "fd_policy": "negative or intentionally failing fds are modeled as expected abnormal behavior, not unresolved path ownership",
+    "graph": {
+      "edges": [
+        {
+          "line": "mprotect(0x000000000007e000,16384,PROT_READ) = 0",
+          "op": "mprotect"
+        },
+        {
+          "fd": 200,
+          "line": "close(200) = -1 errno=9 (Bad file descriptor)",
+          "op": "close",
+          "path": "<unresolved-fd:200>"
+        },
+        {
+          "fd": 201,
+          "line": "close(201) = -1 errno=9 (Bad file descriptor)",
+          "op": "close",
+          "path": "<unresolved-fd:201>"
+        },
+        {
+          "fd": 202,
+          "line": "close(202) = -1 errno=9 (Bad file descriptor)",
+          "op": "close",
+          "path": "<unresolved-fd:202>"
+        },
+        {
+          "fd": -1,
+          "line": "read(-1,0,16) = -1 errno=14 (Bad address)",
+          "op": "read",
+          "path": null
+        },
+        {
+          "fd": -1,
+          "line": "write(-1,0x52d18,1) = -1 errno=9 (Bad file descriptor)",
+          "op": "write",
+          "path": null
+        }
+      ],
+      "nodes": [
+        "/path/that/does/not/exist"
+      ],
+      "unresolved_fd_count_observed_in_raw_parse": 3
+    },
+    "graph_schema": "rvmt.fd_path.graph.v1",
+    "has_execve": false,
+    "has_openat": true,
+    "openat_pathname_accuracy": 1.0,
+    "sample_id": "abnormal_syscall_sequence",
+    "unresolved_fd_count": 0
+  },
+  "sample_id": "abnormal_syscall_sequence",
+  "schema": "rvmt.fd_path.graph.v1"
+}

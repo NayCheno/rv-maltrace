@@ -1,0 +1,530 @@
+{
+  "hardware_user_pointer_snapshot": true,
+  "non_claims": [
+    "No hardware full-string pointer semantic reconstruction is claimed; hardware ARG_MEM/user-pointer evidence is bounded-prefix compact metadata only.",
+    "Real malware validation is not claimed; safe-surrogate malware-like behavior audit is claimed."
+  ],
+  "pointer_snapshot_guardrails": "results/evaluation/genesys2-cva6/current/pointer_snapshot_guardrails.json",
+  "pointer_snapshot_route": "Path A bounded hardware ARG_MEM prefix snapshots plus Path B trusted companion alignment",
+  "samples": [
+    {
+      "anti_analysis_behavior_node": false,
+      "argument_reconstruction_accuracy": 1.0,
+      "execve_filename_accuracy": 1.0,
+      "execve_path_source": null,
+      "execve_paths": [],
+      "expected_syscall_recall": 1.0,
+      "expected_syscalls": [
+        "write"
+      ],
+      "ground_truth_alignment": {
+        "host_or_control_strace": "results/demo/ccfa-p0-20260611/hello_write/01_ground_truth/host_control.strace.log",
+        "qemu_guest_strace": "results/demo/ccfa-p0-20260611/hello_write/01_ground_truth/qemu-riscv64.strace.log",
+        "qemu_strace": true,
+        "strace": true
+      },
+      "has_execve": false,
+      "has_openat": false,
+      "has_write": true,
+      "mmap_mprotect_behavior_node": false,
+      "non_claims": [
+        "Hardware ARG_MEM records expose bounded compact address/data prefixes only; full pointer strings remain companion-aligned when bytes are absent from the compact payload.",
+        "Host/control string fallback is used only when qemu-riscv64 strace reports pointer addresses without dereferenced bytes."
+      ],
+      "openat_path_source": null,
+      "openat_pathname_accuracy": 1.0,
+      "openat_paths": [],
+      "pointer_snapshot_route": "Path A bounded hardware ARG_MEM prefix snapshots plus Path B trusted companion alignment",
+      "primary_semantic_source": "qemu_guest_strace",
+      "sample_id": "hello_write",
+      "semantic_source": "trusted_qemu_guest_strace_companion",
+      "syscall_precision": 1.0,
+      "trace_source": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/01_hello_write/trace.jsonl",
+      "write_buffer_prefix_recovered": true,
+      "write_buffer_prefix_source": "host_or_control_strace",
+      "write_buffer_prefixes": [
+        "rv-maltrace hello\n"
+      ]
+    },
+    {
+      "anti_analysis_behavior_node": false,
+      "argument_reconstruction_accuracy": 1.0,
+      "execve_filename_accuracy": 1.0,
+      "execve_path_source": null,
+      "execve_paths": [],
+      "expected_syscall_recall": 1.0,
+      "expected_syscalls": [
+        "openat",
+        "write",
+        "close",
+        "openat",
+        "read",
+        "write",
+        "close"
+      ],
+      "ground_truth_alignment": {
+        "host_or_control_strace": "results/demo/ccfa-p0-20260611/file_open_read_write/01_ground_truth/host_control.strace.log",
+        "qemu_guest_strace": "results/demo/ccfa-p0-20260611/file_open_read_write/01_ground_truth/qemu-riscv64.strace.log",
+        "qemu_strace": true,
+        "strace": true
+      },
+      "has_execve": false,
+      "has_openat": true,
+      "has_write": true,
+      "mmap_mprotect_behavior_node": false,
+      "non_claims": [
+        "Hardware ARG_MEM records expose bounded compact address/data prefixes only; full pointer strings remain companion-aligned when bytes are absent from the compact payload.",
+        "Host/control string fallback is used only when qemu-riscv64 strace reports pointer addresses without dereferenced bytes."
+      ],
+      "openat_path_source": "qemu_guest_strace",
+      "openat_pathname_accuracy": 1.0,
+      "openat_paths": [
+        "/tmp/rvmt_p0_file_open_read_write.txt"
+      ],
+      "pointer_snapshot_route": "Path A bounded hardware ARG_MEM prefix snapshots plus Path B trusted companion alignment",
+      "primary_semantic_source": "qemu_guest_strace",
+      "sample_id": "file_open_read_write",
+      "semantic_source": "trusted_qemu_guest_strace_companion",
+      "syscall_precision": 1.0,
+      "trace_source": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/02_file_open_read_write/trace.jsonl",
+      "write_buffer_prefix_recovered": true,
+      "write_buffer_prefix_source": "host_or_control_strace",
+      "write_buffer_prefixes": [
+        "rv-maltrace file validation\n"
+      ]
+    },
+    {
+      "anti_analysis_behavior_node": false,
+      "argument_reconstruction_accuracy": 1.0,
+      "execve_filename_accuracy": 1.0,
+      "execve_path_source": "qemu_guest_strace",
+      "execve_paths": [
+        "/bin/true"
+      ],
+      "expected_syscall_recall": 1.0,
+      "expected_syscalls": [
+        "clone",
+        "execve",
+        "wait4"
+      ],
+      "ground_truth_alignment": {
+        "host_or_control_strace": "results/demo/ccfa-p0-20260611/fork_exec/01_ground_truth/host_control.strace.log",
+        "qemu_guest_strace": "results/demo/ccfa-p0-20260611/fork_exec/01_ground_truth/qemu-riscv64.strace.log",
+        "qemu_strace": true,
+        "strace": true
+      },
+      "has_execve": true,
+      "has_openat": false,
+      "has_write": false,
+      "mmap_mprotect_behavior_node": false,
+      "non_claims": [
+        "Hardware ARG_MEM records expose bounded compact address/data prefixes only; full pointer strings remain companion-aligned when bytes are absent from the compact payload.",
+        "Host/control string fallback is used only when qemu-riscv64 strace reports pointer addresses without dereferenced bytes."
+      ],
+      "openat_path_source": null,
+      "openat_pathname_accuracy": 1.0,
+      "openat_paths": [],
+      "pointer_snapshot_route": "Path A bounded hardware ARG_MEM prefix snapshots plus Path B trusted companion alignment",
+      "primary_semantic_source": "qemu_guest_strace",
+      "sample_id": "fork_exec",
+      "semantic_source": "trusted_qemu_guest_strace_companion",
+      "syscall_precision": 1.0,
+      "trace_source": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/03_fork_exec/trace.jsonl",
+      "write_buffer_prefix_recovered": true,
+      "write_buffer_prefix_source": null,
+      "write_buffer_prefixes": []
+    },
+    {
+      "anti_analysis_behavior_node": false,
+      "argument_reconstruction_accuracy": 1.0,
+      "execve_filename_accuracy": 1.0,
+      "execve_path_source": null,
+      "execve_paths": [],
+      "expected_syscall_recall": 1.0,
+      "expected_syscalls": [
+        "rt_sigaction",
+        "write"
+      ],
+      "ground_truth_alignment": {
+        "host_or_control_strace": "results/demo/ccfa-p0-20260611/illegal_instruction/01_ground_truth/host_control.strace.log",
+        "qemu_guest_strace": "results/demo/ccfa-p0-20260611/illegal_instruction/01_ground_truth/qemu-riscv64.strace.log",
+        "qemu_strace": true,
+        "strace": true
+      },
+      "has_execve": false,
+      "has_openat": false,
+      "has_write": true,
+      "mmap_mprotect_behavior_node": false,
+      "non_claims": [
+        "Hardware ARG_MEM records expose bounded compact address/data prefixes only; full pointer strings remain companion-aligned when bytes are absent from the compact payload.",
+        "Host/control string fallback is used only when qemu-riscv64 strace reports pointer addresses without dereferenced bytes."
+      ],
+      "openat_path_source": null,
+      "openat_pathname_accuracy": 1.0,
+      "openat_paths": [],
+      "pointer_snapshot_route": "Path A bounded hardware ARG_MEM prefix snapshots plus Path B trusted companion alignment",
+      "primary_semantic_source": "qemu_guest_strace",
+      "sample_id": "illegal_instruction",
+      "semantic_source": "trusted_qemu_guest_strace_companion",
+      "syscall_precision": 1.0,
+      "trace_source": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/04_illegal_instruction/trace.jsonl",
+      "write_buffer_prefix_recovered": true,
+      "write_buffer_prefix_source": "host_or_control_strace",
+      "write_buffer_prefixes": [
+        "caught SIGILL\n"
+      ]
+    },
+    {
+      "anti_analysis_behavior_node": false,
+      "argument_reconstruction_accuracy": 1.0,
+      "execve_filename_accuracy": 1.0,
+      "execve_path_source": null,
+      "execve_paths": [],
+      "expected_syscall_recall": 1.0,
+      "expected_syscalls": [
+        "openat",
+        "getdents64",
+        "getdents64",
+        "getdents64",
+        "getdents64",
+        "close"
+      ],
+      "ground_truth_alignment": {
+        "host_or_control_strace": "results/demo/ccfa-safe-20260611/file_scan/01_ground_truth/host.strace.log",
+        "qemu_guest_strace": "results/demo/ccfa-safe-20260611/file_scan/01_ground_truth/qemu-riscv64.strace.log",
+        "qemu_strace": true,
+        "strace": true
+      },
+      "has_execve": false,
+      "has_openat": true,
+      "has_write": false,
+      "mmap_mprotect_behavior_node": false,
+      "non_claims": [
+        "Hardware ARG_MEM records expose bounded compact address/data prefixes only; full pointer strings remain companion-aligned when bytes are absent from the compact payload.",
+        "Host/control string fallback is used only when qemu-riscv64 strace reports pointer addresses without dereferenced bytes."
+      ],
+      "openat_path_source": "qemu_guest_strace",
+      "openat_pathname_accuracy": 1.0,
+      "openat_paths": [
+        "experiments/linux_behavior/malware_like/fixtures/scan_root"
+      ],
+      "pointer_snapshot_route": "Path A bounded hardware ARG_MEM prefix snapshots plus Path B trusted companion alignment",
+      "primary_semantic_source": "qemu_guest_strace",
+      "sample_id": "file_scan",
+      "semantic_source": "trusted_qemu_guest_strace_companion",
+      "syscall_precision": 1.0,
+      "trace_source": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_01/bram_records.jsonl",
+      "write_buffer_prefix_recovered": true,
+      "write_buffer_prefix_source": null,
+      "write_buffer_prefixes": []
+    },
+    {
+      "anti_analysis_behavior_node": false,
+      "argument_reconstruction_accuracy": 1.0,
+      "execve_filename_accuracy": 1.0,
+      "execve_path_source": null,
+      "execve_paths": [],
+      "expected_syscall_recall": 1.0,
+      "expected_syscalls": [
+        "openat",
+        "read",
+        "close",
+        "openat",
+        "write",
+        "close"
+      ],
+      "ground_truth_alignment": {
+        "host_or_control_strace": "results/demo/ccfa-safe-20260611/batch_open_read_write/01_ground_truth/host.strace.log",
+        "qemu_guest_strace": "results/demo/ccfa-safe-20260611/batch_open_read_write/01_ground_truth/qemu-riscv64.strace.log",
+        "qemu_strace": true,
+        "strace": true
+      },
+      "has_execve": false,
+      "has_openat": true,
+      "has_write": true,
+      "mmap_mprotect_behavior_node": false,
+      "non_claims": [
+        "Hardware ARG_MEM records expose bounded compact address/data prefixes only; full pointer strings remain companion-aligned when bytes are absent from the compact payload.",
+        "Host/control string fallback is used only when qemu-riscv64 strace reports pointer addresses without dereferenced bytes."
+      ],
+      "openat_path_source": "qemu_guest_strace",
+      "openat_pathname_accuracy": 1.0,
+      "openat_paths": [
+        "/tmp/rvmt_batch_output.txt",
+        "experiments/linux_behavior/malware_like/fixtures/batch_input_0.txt",
+        "experiments/linux_behavior/malware_like/fixtures/batch_input_1.txt"
+      ],
+      "pointer_snapshot_route": "Path A bounded hardware ARG_MEM prefix snapshots plus Path B trusted companion alignment",
+      "primary_semantic_source": "qemu_guest_strace",
+      "sample_id": "batch_open_read_write",
+      "semantic_source": "trusted_qemu_guest_strace_companion",
+      "syscall_precision": 1.0,
+      "trace_source": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_01/bram_records.jsonl",
+      "write_buffer_prefix_recovered": true,
+      "write_buffer_prefix_source": "host_or_control_strace",
+      "write_buffer_prefixes": [
+        "batch input zero\n",
+        "batch input one\n"
+      ]
+    },
+    {
+      "anti_analysis_behavior_node": false,
+      "argument_reconstruction_accuracy": 1.0,
+      "execve_filename_accuracy": 1.0,
+      "execve_path_source": null,
+      "execve_paths": [],
+      "expected_syscall_recall": 1.0,
+      "expected_syscalls": [
+        "openat",
+        "read",
+        "openat",
+        "write",
+        "close",
+        "close"
+      ],
+      "ground_truth_alignment": {
+        "host_or_control_strace": "results/demo/ccfa-safe-20260611/self_copy_sim/01_ground_truth/host.strace.log",
+        "qemu_guest_strace": "results/demo/ccfa-safe-20260611/self_copy_sim/01_ground_truth/qemu-riscv64.strace.log",
+        "qemu_strace": true,
+        "strace": true
+      },
+      "has_execve": false,
+      "has_openat": true,
+      "has_write": true,
+      "mmap_mprotect_behavior_node": false,
+      "non_claims": [
+        "Hardware ARG_MEM records expose bounded compact address/data prefixes only; full pointer strings remain companion-aligned when bytes are absent from the compact payload.",
+        "Host/control string fallback is used only when qemu-riscv64 strace reports pointer addresses without dereferenced bytes."
+      ],
+      "openat_path_source": "qemu_guest_strace",
+      "openat_pathname_accuracy": 1.0,
+      "openat_paths": [
+        "/tmp/rvmt_self_copy_sim.bin",
+        "results/demo/ccfa-safe-20260611/self_copy_sim/00_build/self_copy_sim.riscv64"
+      ],
+      "pointer_snapshot_route": "Path A bounded hardware ARG_MEM prefix snapshots plus Path B trusted companion alignment",
+      "primary_semantic_source": "qemu_guest_strace",
+      "sample_id": "self_copy_sim",
+      "semantic_source": "trusted_qemu_guest_strace_companion",
+      "syscall_precision": 1.0,
+      "trace_source": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_01/bram_records.jsonl",
+      "write_buffer_prefix_recovered": true,
+      "write_buffer_prefix_source": "host_or_control_strace",
+      "write_buffer_prefixes": [
+        "\u007fELF\u0002\u0001\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0003\u0000>\u0000\u0001\u0000\u0000\u0000\u00f0\u0011\u0000\u0000\u0000\u0000\u0000\u0000"
+      ]
+    },
+    {
+      "anti_analysis_behavior_node": false,
+      "argument_reconstruction_accuracy": 1.0,
+      "execve_filename_accuracy": 1.0,
+      "execve_path_source": null,
+      "execve_paths": [],
+      "expected_syscall_recall": 1.0,
+      "expected_syscalls": [
+        "close",
+        "close",
+        "close",
+        "openat",
+        "read",
+        "write"
+      ],
+      "ground_truth_alignment": {
+        "host_or_control_strace": "results/demo/ccfa-safe-20260611/abnormal_syscall_sequence/01_ground_truth/host.strace.log",
+        "qemu_guest_strace": "results/demo/ccfa-safe-20260611/abnormal_syscall_sequence/01_ground_truth/qemu-riscv64.strace.log",
+        "qemu_strace": true,
+        "strace": true
+      },
+      "has_execve": false,
+      "has_openat": true,
+      "has_write": true,
+      "mmap_mprotect_behavior_node": false,
+      "non_claims": [
+        "Hardware ARG_MEM records expose bounded compact address/data prefixes only; full pointer strings remain companion-aligned when bytes are absent from the compact payload.",
+        "Host/control string fallback is used only when qemu-riscv64 strace reports pointer addresses without dereferenced bytes."
+      ],
+      "openat_path_source": "qemu_guest_strace",
+      "openat_pathname_accuracy": 1.0,
+      "openat_paths": [
+        "/path/that/does/not/exist"
+      ],
+      "pointer_snapshot_route": "Path A bounded hardware ARG_MEM prefix snapshots plus Path B trusted companion alignment",
+      "primary_semantic_source": "qemu_guest_strace",
+      "sample_id": "abnormal_syscall_sequence",
+      "semantic_source": "trusted_qemu_guest_strace_companion",
+      "syscall_precision": 1.0,
+      "trace_source": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_01/bram_records.jsonl",
+      "write_buffer_prefix_recovered": true,
+      "write_buffer_prefix_source": "host_or_control_strace",
+      "write_buffer_prefixes": [
+        "x"
+      ]
+    },
+    {
+      "anti_analysis_behavior_node": false,
+      "argument_reconstruction_accuracy": 1.0,
+      "execve_filename_accuracy": 1.0,
+      "execve_path_source": null,
+      "execve_paths": [],
+      "expected_syscall_recall": 1.0,
+      "expected_syscalls": [
+        "rt_sigaction",
+        "write"
+      ],
+      "ground_truth_alignment": {
+        "host_or_control_strace": "results/demo/ccfa-safe-20260611/illegal_trap/01_ground_truth/host.strace.log",
+        "qemu_guest_strace": "results/demo/ccfa-safe-20260611/illegal_trap/01_ground_truth/qemu-riscv64.strace.log",
+        "qemu_strace": true,
+        "strace": true
+      },
+      "has_execve": false,
+      "has_openat": false,
+      "has_write": true,
+      "mmap_mprotect_behavior_node": false,
+      "non_claims": [
+        "Hardware ARG_MEM records expose bounded compact address/data prefixes only; full pointer strings remain companion-aligned when bytes are absent from the compact payload.",
+        "Host/control string fallback is used only when qemu-riscv64 strace reports pointer addresses without dereferenced bytes."
+      ],
+      "openat_path_source": null,
+      "openat_pathname_accuracy": 1.0,
+      "openat_paths": [],
+      "pointer_snapshot_route": "Path A bounded hardware ARG_MEM prefix snapshots plus Path B trusted companion alignment",
+      "primary_semantic_source": "qemu_guest_strace",
+      "sample_id": "illegal_trap",
+      "semantic_source": "trusted_qemu_guest_strace_companion",
+      "syscall_precision": 1.0,
+      "trace_source": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_01/bram_records.jsonl",
+      "write_buffer_prefix_recovered": true,
+      "write_buffer_prefix_source": "host_or_control_strace",
+      "write_buffer_prefixes": [
+        "synthetic SIGILL\n"
+      ]
+    },
+    {
+      "anti_analysis_behavior_node": false,
+      "argument_reconstruction_accuracy": 1.0,
+      "execve_filename_accuracy": 1.0,
+      "execve_path_source": "qemu_guest_strace",
+      "execve_paths": [
+        "/bin/true"
+      ],
+      "expected_syscall_recall": 1.0,
+      "expected_syscalls": [
+        "clone",
+        "execve",
+        "waitid"
+      ],
+      "ground_truth_alignment": {
+        "host_or_control_strace": "results/demo/ccfa-safe-20260611/process_chain/01_ground_truth/host.strace.log",
+        "qemu_guest_strace": "results/demo/ccfa-safe-20260611/process_chain/01_ground_truth/qemu-riscv64.strace.log",
+        "qemu_strace": true,
+        "strace": true
+      },
+      "has_execve": true,
+      "has_openat": false,
+      "has_write": false,
+      "mmap_mprotect_behavior_node": false,
+      "non_claims": [
+        "Hardware ARG_MEM records expose bounded compact address/data prefixes only; full pointer strings remain companion-aligned when bytes are absent from the compact payload.",
+        "Host/control string fallback is used only when qemu-riscv64 strace reports pointer addresses without dereferenced bytes."
+      ],
+      "openat_path_source": null,
+      "openat_pathname_accuracy": 1.0,
+      "openat_paths": [],
+      "pointer_snapshot_route": "Path A bounded hardware ARG_MEM prefix snapshots plus Path B trusted companion alignment",
+      "primary_semantic_source": "qemu_guest_strace",
+      "sample_id": "process_chain",
+      "semantic_source": "trusted_qemu_guest_strace_companion",
+      "syscall_precision": 1.0,
+      "trace_source": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_01/bram_records.jsonl",
+      "write_buffer_prefix_recovered": true,
+      "write_buffer_prefix_source": null,
+      "write_buffer_prefixes": []
+    },
+    {
+      "anti_analysis_behavior_node": false,
+      "argument_reconstruction_accuracy": 1.0,
+      "execve_filename_accuracy": 1.0,
+      "execve_path_source": null,
+      "execve_paths": [],
+      "expected_syscall_recall": 1.0,
+      "expected_syscalls": [
+        "mmap",
+        "mprotect",
+        "munmap"
+      ],
+      "ground_truth_alignment": {
+        "host_or_control_strace": "results/demo/ccfa-safe-20260611/dynamic_executable_memory/01_ground_truth/host.strace.log",
+        "qemu_guest_strace": "results/demo/ccfa-safe-20260611/dynamic_executable_memory/01_ground_truth/qemu-riscv64.strace.log",
+        "qemu_strace": true,
+        "strace": true
+      },
+      "has_execve": false,
+      "has_openat": false,
+      "has_write": false,
+      "mmap_mprotect_behavior_node": true,
+      "non_claims": [
+        "Hardware ARG_MEM records expose bounded compact address/data prefixes only; full pointer strings remain companion-aligned when bytes are absent from the compact payload.",
+        "Host/control string fallback is used only when qemu-riscv64 strace reports pointer addresses without dereferenced bytes."
+      ],
+      "openat_path_source": null,
+      "openat_pathname_accuracy": 1.0,
+      "openat_paths": [],
+      "pointer_snapshot_route": "Path A bounded hardware ARG_MEM prefix snapshots plus Path B trusted companion alignment",
+      "primary_semantic_source": "qemu_guest_strace",
+      "sample_id": "dynamic_executable_memory",
+      "semantic_source": "trusted_qemu_guest_strace_companion",
+      "syscall_precision": 1.0,
+      "trace_source": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_01/bram_records.jsonl",
+      "write_buffer_prefix_recovered": true,
+      "write_buffer_prefix_source": null,
+      "write_buffer_prefixes": []
+    },
+    {
+      "anti_analysis_behavior_node": true,
+      "argument_reconstruction_accuracy": 1.0,
+      "execve_filename_accuracy": 1.0,
+      "execve_path_source": null,
+      "execve_paths": [],
+      "expected_syscall_recall": 1.0,
+      "expected_syscalls": [
+        "clock_gettime",
+        "ptrace",
+        "openat",
+        "read",
+        "close"
+      ],
+      "ground_truth_alignment": {
+        "host_or_control_strace": "results/demo/ccfa-safe-20260611/anti_debug_like/01_ground_truth/host.strace.log",
+        "qemu_guest_strace": "results/demo/ccfa-safe-20260611/anti_debug_like/01_ground_truth/qemu-riscv64.strace.log",
+        "qemu_strace": true,
+        "strace": true
+      },
+      "has_execve": false,
+      "has_openat": true,
+      "has_write": false,
+      "mmap_mprotect_behavior_node": false,
+      "non_claims": [
+        "Hardware ARG_MEM records expose bounded compact address/data prefixes only; full pointer strings remain companion-aligned when bytes are absent from the compact payload.",
+        "Host/control string fallback is used only when qemu-riscv64 strace reports pointer addresses without dereferenced bytes."
+      ],
+      "openat_path_source": "qemu_guest_strace",
+      "openat_pathname_accuracy": 1.0,
+      "openat_paths": [
+        "/proc/self/status"
+      ],
+      "pointer_snapshot_route": "Path A bounded hardware ARG_MEM prefix snapshots plus Path B trusted companion alignment",
+      "primary_semantic_source": "qemu_guest_strace",
+      "sample_id": "anti_debug_like",
+      "semantic_source": "trusted_qemu_guest_strace_companion",
+      "syscall_precision": 1.0,
+      "trace_source": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_01/bram_records.jsonl",
+      "write_buffer_prefix_recovered": true,
+      "write_buffer_prefix_source": null,
+      "write_buffer_prefixes": []
+    }
+  ],
+  "schema": "rvmt.syscall_semantic_reconstruction.v1",
+  "semantic_source": "trusted_qemu_guest_strace_companion_aligned_with_genesys2_trace",
+  "status": "PASS"
+}

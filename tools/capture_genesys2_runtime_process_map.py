@@ -150,6 +150,7 @@ def update_runtime_map(runtime_map: dict[str, Any], line: str) -> None:
                 "pid": int_field(fields, "pid", -1),
                 "tgid": int_field(fields, "tgid", -1),
                 "comm": decode_hex_text(fields.get("comm_hex")),
+                "cmdline": decode_hex_text(fields.get("cmdline_hex")).replace("\x00", " ").strip(),
                 "exe": decode_hex_text(fields.get("exe_hex")),
                 "status": fields.get("status", "UNKNOWN"),
             }
@@ -170,13 +171,14 @@ def finalize_runtime_map(runtime_map: dict[str, Any]) -> dict[str, Any]:
                     "pid": 0,
                     "tgid": 0,
                     "comm": "kernel",
+                    "cmdline": "linux_kernel",
                     "exe": "linux_kernel",
                     "status": "PASS",
                     "maps": [{"start": "0x00000000c0000000", "end": "0x0000000100000000", "perms": "r-xp", "offset": "0x0", "dev": "00:00", "inode": 0, "path": "linux_kernel"}],
                 }
             )
         else:
-            process.update({"pid": -1, "tgid": -1, "comm": "unknown", "exe": "", "status": "PASS", "maps": []})
+            process.update({"pid": -1, "tgid": -1, "comm": "unknown", "cmdline": "", "exe": "", "status": "PASS", "maps": []})
 
     by_role = runtime_map.pop("_process_by_role", {})
     owners = {role: process for role, process in sorted(by_role.items()) if isinstance(process, dict)}
@@ -190,12 +192,14 @@ def finalize_runtime_map(runtime_map: dict[str, Any]) -> dict[str, Any]:
         runtime_map["pid"] = target.get("pid")
         runtime_map["tgid"] = target.get("tgid")
         runtime_map["comm"] = target.get("comm")
+        runtime_map["cmdline"] = target.get("cmdline")
         runtime_map["exe"] = target.get("exe")
         runtime_map["maps"] = target.get("maps", [])
     else:
         runtime_map["pid"] = None
         runtime_map["tgid"] = None
         runtime_map["comm"] = ""
+        runtime_map["cmdline"] = ""
         runtime_map["exe"] = ""
         runtime_map["maps"] = []
 
@@ -238,6 +242,9 @@ def build_shell_command(args: argparse.Namespace) -> str:
     rep = args.rep
     warmup = 1 if args.warmup else 0
     settle = args.settle_seconds
+    target_first = 1 if getattr(args, "target_first", False) else 0
+    runner_maps = 0 if getattr(args, "skip_runner_maps", False) else 1
+    stop_for_map = 1 if getattr(args, "stop_for_map", False) else 0
     return f"""sample_id={shell_quote(sample)}
 sample_class={shell_quote(sample_class)}
 runtime_path={shell_quote(runtime_path)}
@@ -245,27 +252,45 @@ mode={shell_quote(mode)}
 rep={rep}
 warmup={warmup}
 settle={settle}
+target_first={target_first}
+runner_maps={runner_maps}
+stop_for_map={stop_for_map}
 hex() {{ printf '%s' \"$1\" | od -An -tx1 -v | tr -d ' \\n'; }}
 emit_proc() {{
   role=\"$1\"
   pid=\"$2\"
+  include_maps=\"$3\"
   if [ -r \"/proc/$pid/comm\" ] && [ -r \"/proc/$pid/maps\" ]; then
     comm=$(cat \"/proc/$pid/comm\" 2>/dev/null | tr -d '\\r\\n')
+    cmdline=$(tr '\\000' ' ' < \"/proc/$pid/cmdline\" 2>/dev/null | sed 's/[[:space:]]*$//')
     exe=$(readlink \"/proc/$pid/exe\" 2>/dev/null || true)
-    echo \"RVMT_RUNTIME_PROCESS role=$role pid=$pid tgid=$pid comm_hex=$(hex \"$comm\") exe_hex=$(hex \"$exe\") status=PASS\"
-    while IFS= read -r line; do
-      echo \"RVMT_RUNTIME_PROCESS_MAP_RAW role=$role line_hex=$(hex \"$line\")\"
-    done < \"/proc/$pid/maps\"
+    echo \"RVMT_RUNTIME_PROCESS role=$role pid=$pid tgid=$pid comm_hex=$(hex \"$comm\") cmdline_hex=$(hex \"$cmdline\") exe_hex=$(hex \"$exe\") status=PASS\"
+    if [ \"$include_maps\" = \"1\" ]; then
+      while IFS= read -r line; do
+        echo \"RVMT_RUNTIME_PROCESS_MAP_RAW role=$role line_hex=$(hex \"$line\")\"
+      done < \"/proc/$pid/maps\"
+    fi
   else
-    echo \"RVMT_RUNTIME_PROCESS role=$role pid=$pid tgid=$pid comm_hex= exe_hex= status=BLOCKED\"
+    echo \"RVMT_RUNTIME_PROCESS role=$role pid=$pid tgid=$pid comm_hex= cmdline_hex= exe_hex= status=BLOCKED\"
   fi
 }}
 echo \"RVMT_RUNTIME_PROCESS_MAP_BEGIN schema=rvmt.runtime_process_map.v1 class=$sample_class sample=$sample_id mode=$mode rep=$rep warmup=$warmup\"
 \"$runtime_path\" &
 target_pid=$!
 sleep \"$settle\"
-emit_proc runner_parent $$
-emit_proc target_child \"$target_pid\"
+if [ \"$stop_for_map\" = \"1\" ]; then
+  kill -STOP \"$target_pid\" 2>/dev/null || true
+fi
+if [ \"$target_first\" = \"1\" ]; then
+  emit_proc target_child \"$target_pid\" 1
+  emit_proc runner_parent $$ \"$runner_maps\"
+else
+  emit_proc runner_parent $$ \"$runner_maps\"
+  emit_proc target_child \"$target_pid\" 1
+fi
+if [ \"$stop_for_map\" = \"1\" ]; then
+  kill -CONT \"$target_pid\" 2>/dev/null || true
+fi
 echo \"RVMT_RUNTIME_PROCESS_PROVENANCE collector=capture_genesys2_runtime_process_map.py method=genesys2_uart_procfs_snapshot proc_sample_time=$(date +%Y%m%dT%H%M%S 2>/dev/null || echo unknown) status=PASS warnings_hex=\"
 wait \"$target_pid\"
 target_exit=$?
@@ -340,10 +365,22 @@ def self_test() -> int:
             rep=0,
             warmup=True,
             settle_seconds=0.1,
+            target_first=True,
+            skip_runner_maps=True,
+            stop_for_map=True,
         )
     )
     if "RVMT_RUNTIME_PROCESS_MAP_BEGIN" not in command or "/proc/$pid/maps" not in command:
         print("[FAIL] emitted shell command missing runtime-map markers", file=sys.stderr)
+        return 1
+    if "target_first=1" not in command or 'emit_proc target_child "$target_pid"' not in command:
+        print("[FAIL] emitted shell command missing target-first mode", file=sys.stderr)
+        return 1
+    if "runner_maps=0" not in command or "cmdline_hex=" not in command:
+        print("[FAIL] emitted shell command missing compact/cmdline mode", file=sys.stderr)
+        return 1
+    if "stop_for_map=1" not in command or 'kill -STOP "$target_pid"' not in command:
+        print("[FAIL] emitted shell command missing stop-for-map mode", file=sys.stderr)
         return 1
     print("[PASS] Genesys2 runtime process map helper self-test")
     return 0
@@ -358,6 +395,21 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--rep", type=int, default=0)
     parser.add_argument("--warmup", action="store_true")
     parser.add_argument("--settle-seconds", default="0.1")
+    parser.add_argument(
+        "--target-first",
+        action="store_true",
+        help="Capture target_child /proc maps before runner_parent maps to avoid short-lived target races.",
+    )
+    parser.add_argument(
+        "--skip-runner-maps",
+        action="store_true",
+        help="Record runner_parent metadata but omit runner maps to keep UART evidence compact.",
+    )
+    parser.add_argument(
+        "--stop-for-map",
+        action="store_true",
+        help="Temporarily SIGSTOP the target while reading procfs maps, then SIGCONT before wait.",
+    )
     parser.add_argument("--emit-command", action="store_true")
     parser.add_argument("--emit-command-b64", action="store_true")
     parser.add_argument("--parse-log", type=Path)

@@ -1,0 +1,134 @@
+{
+  "baseline_comparison": "results/evaluation/genesys2-cva6/current/baseline_alignment_summary.json",
+  "metrics": {
+    "anti_analysis_visibility": 1.0,
+    "argument_reconstruction_accuracy": 1.0,
+    "behavior_rule_recall": 1.0,
+    "benign_false_positive_rate": 0.0,
+    "expected_syscall_recall": 1.0,
+    "syscall_precision": 1.0,
+    "unaccounted_drop": 0
+  },
+  "non_claims": [
+    "Behavior audit metrics are controlled safe-workload metrics, not real-malware detection accuracy."
+  ],
+  "overhead": {
+    "median": 58003.0,
+    "p95": 265498,
+    "unit": "trace-window cycle/index delta, not normalized production slowdown",
+    "variance": 11862775956.07639
+  },
+  "resource_overhead": "results/evaluation/genesys2-cva6/current/resource_timing_summary.json",
+  "samples": {
+    "abnormal_syscall_sequence": {
+      "anti_analysis_visibility": 1.0,
+      "argument_reconstruction_accuracy": 1.0,
+      "behavior_rule_recall": 1.0,
+      "benign_false_positive_rate": 0.0,
+      "expected_syscall_recall": 1.0,
+      "syscall_precision": 1.0,
+      "unaccounted_drop": 0
+    },
+    "anti_debug_like": {
+      "anti_analysis_visibility": 1.0,
+      "argument_reconstruction_accuracy": 1.0,
+      "behavior_rule_recall": 1.0,
+      "benign_false_positive_rate": 0.0,
+      "expected_syscall_recall": 1.0,
+      "syscall_precision": 1.0,
+      "unaccounted_drop": 0
+    },
+    "batch_open_read_write": {
+      "anti_analysis_visibility": 1.0,
+      "argument_reconstruction_accuracy": 1.0,
+      "behavior_rule_recall": 1.0,
+      "benign_false_positive_rate": 0.0,
+      "expected_syscall_recall": 1.0,
+      "syscall_precision": 1.0,
+      "unaccounted_drop": 0
+    },
+    "dynamic_executable_memory": {
+      "anti_analysis_visibility": 1.0,
+      "argument_reconstruction_accuracy": 1.0,
+      "behavior_rule_recall": 1.0,
+      "benign_false_positive_rate": 0.0,
+      "expected_syscall_recall": 1.0,
+      "syscall_precision": 1.0,
+      "unaccounted_drop": 0
+    },
+    "file_open_read_write": {
+      "anti_analysis_visibility": 1.0,
+      "argument_reconstruction_accuracy": 1.0,
+      "behavior_rule_recall": 1.0,
+      "benign_false_positive_rate": 0.0,
+      "expected_syscall_recall": 1.0,
+      "syscall_precision": 1.0,
+      "unaccounted_drop": 0
+    },
+    "file_scan": {
+      "anti_analysis_visibility": 1.0,
+      "argument_reconstruction_accuracy": 1.0,
+      "behavior_rule_recall": 1.0,
+      "benign_false_positive_rate": 0.0,
+      "expected_syscall_recall": 1.0,
+      "syscall_precision": 1.0,
+      "unaccounted_drop": 0
+    },
+    "fork_exec": {
+      "anti_analysis_visibility": 1.0,
+      "argument_reconstruction_accuracy": 1.0,
+      "behavior_rule_recall": 1.0,
+      "benign_false_positive_rate": 0.0,
+      "expected_syscall_recall": 1.0,
+      "syscall_precision": 1.0,
+      "unaccounted_drop": 0
+    },
+    "hello_write": {
+      "anti_analysis_visibility": 1.0,
+      "argument_reconstruction_accuracy": 1.0,
+      "behavior_rule_recall": 1.0,
+      "benign_false_positive_rate": 0.0,
+      "expected_syscall_recall": 1.0,
+      "syscall_precision": 1.0,
+      "unaccounted_drop": 0
+    },
+    "illegal_instruction": {
+      "anti_analysis_visibility": 1.0,
+      "argument_reconstruction_accuracy": 1.0,
+      "behavior_rule_recall": 1.0,
+      "benign_false_positive_rate": 0.0,
+      "expected_syscall_recall": 1.0,
+      "syscall_precision": 1.0,
+      "unaccounted_drop": 0
+    },
+    "illegal_trap": {
+      "anti_analysis_visibility": 1.0,
+      "argument_reconstruction_accuracy": 1.0,
+      "behavior_rule_recall": 1.0,
+      "benign_false_positive_rate": 0.0,
+      "expected_syscall_recall": 1.0,
+      "syscall_precision": 1.0,
+      "unaccounted_drop": 0
+    },
+    "process_chain": {
+      "anti_analysis_visibility": 1.0,
+      "argument_reconstruction_accuracy": 1.0,
+      "behavior_rule_recall": 1.0,
+      "benign_false_positive_rate": 0.0,
+      "expected_syscall_recall": 1.0,
+      "syscall_precision": 1.0,
+      "unaccounted_drop": 0
+    },
+    "self_copy_sim": {
+      "anti_analysis_visibility": 1.0,
+      "argument_reconstruction_accuracy": 1.0,
+      "behavior_rule_recall": 1.0,
+      "benign_false_positive_rate": 0.0,
+      "expected_syscall_recall": 1.0,
+      "syscall_precision": 1.0,
+      "unaccounted_drop": 0
+    }
+  },
+  "schema": "rvmt.behavior_audit_metrics.v1",
+  "status": "PASS"
+}

@@ -1,0 +1,7 @@
+RVMT_GENESYS2_RUNTIME_BENCH_UART port=COM7 baud=115200 sample=process_chain mode=pointer_snapshot_disabled rep=rep_02 start=2026-06-12T02:36:11+0800
+
+RVMT_SEND_RUNTIME_BENCH sample=process_chain mode=pointer_snapshot_disabled rep=rep_02
+> > > > > > # # # # # # RVMT_RUNTIME_BENCH_START sample=process_chain mode=pointer_snapshot_disabled rep=rep_02 ns=14860000000000
+# # # # RVMT_RUNTIME_BENCH_DONE sample=process_chain mode=pointer_snapshot_disabled rep=rep_02 rc=0 ns=14868000000000
+# # # 
+RVMT_GENESYS2_RUNTIME_BENCH_UART_DONE

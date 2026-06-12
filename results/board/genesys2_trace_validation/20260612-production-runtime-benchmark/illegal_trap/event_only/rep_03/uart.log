@@ -1,0 +1,7 @@
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART port=COM7 baud=115200 start=2026-06-12T02:32:08+0800
+
+RVMT_SEND 'now_ns() {\n  ns=$(date +%s%N 2>/dev/null || true)\n  case "$ns" in\n    ""|*N*) s=$(date +%s 2>/dev/null || echo 0); printf \'%s000000000\\n\' "$s" ;;\n    *) printf \'%s\\n\' "$ns" ;;\n  esac\n}\nsample_id=\'illegal_trap\'\nmode=\'event_only\'\nrep=\'rep_03\'\nruntime_path=\'/tmp/rvmt_p2/illegal_trap\'\nstart_ns=$(now_ns)\nprintf \'RVMT_RUNTIME_BENCH_START sample=%s mode=%s rep=%s ns=%s\\n\' "$sample_id" "$mode" "$rep" "$start_ns"\n"$runtime_path" >/tmp/rvmt_runtime_bench_stdout 2>/tmp/rvmt_runtime_bench_stderr\nrc=$?\ndone_ns=$(now_ns)\nprintf \'RVMT_RUNTIME_BENCH_DONE sample=%s mode=%s rep=%s rc=%s ns=%s\\n\' "$sample_id" "$mode" "$rep" "$rc" "$done_ns"\n'
+> > > > > > # # # # # # RVMT_RUNTIME_BENCH_START sample=illegal_trap mode=event_only rep=rep_03 ns=14617000000000
+# # # # RVMT_RUNTIME_BENCH_DONE sample=illegal_trap mode=event_only rep=rep_03 rc=0 ns=14625000000000
+# # # 
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART_DONE

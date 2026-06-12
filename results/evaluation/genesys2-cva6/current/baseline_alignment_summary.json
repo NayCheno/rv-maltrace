@@ -1,0 +1,46 @@
+{
+  "anti_analysis_baseline_comparison": true,
+  "baselines": {
+    "qemu_strace": {
+      "alignment_pass": true,
+      "command_transcript": "results/demo/ccfa-*/**/qemu-riscv64.strace.log",
+      "present": true
+    },
+    "rv_maltrace_event_only": {
+      "alignment_pass": true,
+      "command_transcript": "results/evaluation/genesys2-cva6/current/safe_surrogate_bram_trace_summary.json",
+      "present": true,
+      "scope": "Genesys2 BRAM/ILA event stream with syscall-number trace"
+    },
+    "rv_maltrace_kernel_helper": {
+      "alignment_pass": true,
+      "command_transcript": "results/evaluation/genesys2-cva6/current/semantic_reconstruction_summary.json",
+      "present": true,
+      "scope": "trusted qemu/strace companion route for pointer strings and fd/path semantics"
+    },
+    "rv_maltrace_pointer_snapshot": {
+      "alignment_pass": true,
+      "command_transcript": "results/evaluation/genesys2-cva6/current/pointer_snapshot_guardrails.json",
+      "present": true,
+      "scope": "guardrailed bounded-prefix hardware ARG_MEM route plus companion semantics"
+    },
+    "software_instrumentation": {
+      "alignment_pass": true,
+      "command_transcript": "results/evaluation/genesys2-cva6/current/source_line_sidecar.json",
+      "present": true,
+      "scope": "repository source-equivalent source-line sidecar and behavior graph artifacts"
+    },
+    "strace": {
+      "alignment_pass": true,
+      "command_transcript": "results/demo/ccfa-safe-20260611/*/01_ground_truth/host.strace.log; results/demo/ccfa-p0-20260611/*/01_ground_truth/host_control.strace.log",
+      "present": true
+    }
+  },
+  "non_claims": [
+    "Pointer snapshot baseline is bounded-prefix hardware ARG_MEM evidence plus companion semantics; it is not a full memory dump.",
+    "Real malware payload execution is outside the main evaluation matrix."
+  ],
+  "overhead_baseline_comparison": true,
+  "schema": "rvmt.baseline_alignment.v1",
+  "status": "PASS"
+}

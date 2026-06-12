@@ -1,0 +1,6 @@
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART port=COM7 baud=115200 start=2026-06-12T04:37:09+0800
+
+RVMT_SEND 'printf \'RVMT_POINTER_BRAM_START sample=file_scan rep=rep_01\\n\'; /tmp/rvmt_p2/file_scan; rc=$?; printf \'RVMT_POINTER_BRAM_DONE sample=file_scan rep=rep_01 rc=%s\\n\' "$rc"'
+printf 'RVMT_POINTER_BRAM_START sample=file_scan rep=rep_01\n'; /tmp/rvmt_p2/f
+ile_scan; rc=$?; printf 'RVMT_POINTER_BRAM_DONE sample=file_scan rep=rep_01
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART_DONE

@@ -1,0 +1,549 @@
+{
+  "graph_source": "trusted qemu/strace companion plus board runtime process maps",
+  "non_claims": [
+    "FD/path graph strings are companion-derived where compact hardware ARG_MEM does not expose full strings."
+  ],
+  "samples": [
+    {
+      "execve_filename_accuracy": 1.0,
+      "fd_graph_complete": true,
+      "fd_policy": "negative or intentionally failing fds are modeled as expected abnormal behavior, not unresolved path ownership",
+      "graph": {
+        "edges": [
+          {
+            "fd": 1,
+            "line": "write(1,0x10170,20) = 20",
+            "op": "write",
+            "path": "<stdout>"
+          }
+        ],
+        "nodes": [],
+        "unresolved_fd_count_observed_in_raw_parse": 0
+      },
+      "graph_schema": "rvmt.fd_path.graph.v1",
+      "has_execve": false,
+      "has_openat": false,
+      "openat_pathname_accuracy": 1.0,
+      "sample_id": "hello_write",
+      "unresolved_fd_count": 0
+    },
+    {
+      "execve_filename_accuracy": 1.0,
+      "fd_graph_complete": true,
+      "fd_policy": "negative or intentionally failing fds are modeled as expected abnormal behavior, not unresolved path ownership",
+      "graph": {
+        "edges": [
+          {
+            "fd": 3,
+            "line": "openat(AT_FDCWD,\"/tmp/rvmt_p0_file_open_read_write.txt\",O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC,0644) = 3",
+            "op": "openat",
+            "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+          },
+          {
+            "fd": 3,
+            "line": "write(3,0x10248,24) = 24",
+            "op": "write",
+            "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+          },
+          {
+            "fd": 3,
+            "line": "close(3) = 0",
+            "op": "close",
+            "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+          },
+          {
+            "fd": 3,
+            "line": "openat(AT_FDCWD,\"/tmp/rvmt_p0_file_open_read_write.txt\",O_RDONLY|O_CLOEXEC) = 3",
+            "op": "openat",
+            "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+          },
+          {
+            "fd": 3,
+            "line": "read(3,0x12000,128) = 24",
+            "op": "read",
+            "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+          },
+          {
+            "fd": 1,
+            "line": "write(1,0x12000,24) = 24",
+            "op": "write",
+            "path": "<stdout>"
+          }
+        ],
+        "nodes": [
+          "/tmp/rvmt_p0_file_open_read_write.txt"
+        ],
+        "unresolved_fd_count_observed_in_raw_parse": 0
+      },
+      "graph_schema": "rvmt.fd_path.graph.v1",
+      "has_execve": false,
+      "has_openat": true,
+      "openat_pathname_accuracy": 1.0,
+      "sample_id": "file_open_read_write",
+      "unresolved_fd_count": 0
+    },
+    {
+      "execve_filename_accuracy": 1.0,
+      "fd_graph_complete": true,
+      "fd_policy": "negative or intentionally failing fds are modeled as expected abnormal behavior, not unresolved path ownership",
+      "graph": {
+        "edges": [
+          {
+            "line": "clone(0x11,child_stack=0x0000000000000000,parent_tidptr=0x0000000000000000,tls=0x0000000000000000,child_tidptr=0x0000000000000000) = 18 =",
+            "op": "clone"
+          },
+          {
+            "line": "wait4(18,0x12080,0,(nil))18",
+            "op": "wait4"
+          },
+          {
+            "line": "execve(\"/bin/true\",{\"/bin/true\",NULL}) = 18",
+            "op": "execve",
+            "path": "/bin/true"
+          }
+        ],
+        "nodes": [
+          "/bin/true"
+        ],
+        "unresolved_fd_count_observed_in_raw_parse": 0
+      },
+      "graph_schema": "rvmt.fd_path.graph.v1",
+      "has_execve": true,
+      "has_openat": false,
+      "openat_pathname_accuracy": 1.0,
+      "sample_id": "fork_exec",
+      "unresolved_fd_count": 0
+    },
+    {
+      "execve_filename_accuracy": 1.0,
+      "fd_graph_complete": true,
+      "fd_policy": "negative or intentionally failing fds are modeled as expected abnormal behavior, not unresolved path ownership",
+      "graph": {
+        "edges": [
+          {
+            "fd": 1,
+            "line": "write(1,0x10210,17) = 17",
+            "op": "write",
+            "path": "<stdout>"
+          }
+        ],
+        "nodes": [],
+        "unresolved_fd_count_observed_in_raw_parse": 0
+      },
+      "graph_schema": "rvmt.fd_path.graph.v1",
+      "has_execve": false,
+      "has_openat": false,
+      "openat_pathname_accuracy": 1.0,
+      "sample_id": "illegal_instruction",
+      "unresolved_fd_count": 0
+    },
+    {
+      "execve_filename_accuracy": 1.0,
+      "fd_graph_complete": true,
+      "fd_policy": "negative or intentionally failing fds are modeled as expected abnormal behavior, not unresolved path ownership",
+      "graph": {
+        "edges": [
+          {
+            "line": "mprotect(0x000000000007e000,16384,PROT_READ) = 0",
+            "op": "mprotect"
+          },
+          {
+            "fd": 3,
+            "line": "openat(AT_FDCWD,\"experiments/linux_behavior/malware_like/fixtures/scan_root\",O_RDONLY|O_DIRECTORY|O_CLOEXEC) = 3",
+            "op": "openat",
+            "path": "experiments/linux_behavior/malware_like/fixtures/scan_root"
+          },
+          {
+            "fd": 3,
+            "line": "getdents64(3,0x2aaaab2ab8e8,512) = 112",
+            "op": "getdents64",
+            "path": "experiments/linux_behavior/malware_like/fixtures/scan_root"
+          },
+          {
+            "fd": 3,
+            "line": "getdents64(3,0x2aaaab2ab8e8,512) = 0",
+            "op": "getdents64",
+            "path": "experiments/linux_behavior/malware_like/fixtures/scan_root"
+          },
+          {
+            "fd": 3,
+            "line": "close(3) = 0",
+            "op": "close",
+            "path": "experiments/linux_behavior/malware_like/fixtures/scan_root"
+          }
+        ],
+        "nodes": [
+          "experiments/linux_behavior/malware_like/fixtures/scan_root"
+        ],
+        "unresolved_fd_count_observed_in_raw_parse": 0
+      },
+      "graph_schema": "rvmt.fd_path.graph.v1",
+      "has_execve": false,
+      "has_openat": true,
+      "openat_pathname_accuracy": 1.0,
+      "sample_id": "file_scan",
+      "unresolved_fd_count": 0
+    },
+    {
+      "execve_filename_accuracy": 1.0,
+      "fd_graph_complete": true,
+      "fd_policy": "negative or intentionally failing fds are modeled as expected abnormal behavior, not unresolved path ownership",
+      "graph": {
+        "edges": [
+          {
+            "line": "mprotect(0x000000000007e000,16384,PROT_READ) = 0",
+            "op": "mprotect"
+          },
+          {
+            "fd": 3,
+            "line": "openat(AT_FDCWD,\"experiments/linux_behavior/malware_like/fixtures/batch_input_0.txt\",O_RDONLY|O_CLOEXEC) = 3",
+            "op": "openat",
+            "path": "experiments/linux_behavior/malware_like/fixtures/batch_input_0.txt"
+          },
+          {
+            "fd": 3,
+            "line": "read(3,0xab2aba18,128) = 17",
+            "op": "read",
+            "path": "experiments/linux_behavior/malware_like/fixtures/batch_input_0.txt"
+          },
+          {
+            "fd": 3,
+            "line": "close(3) = 0",
+            "op": "close",
+            "path": "experiments/linux_behavior/malware_like/fixtures/batch_input_0.txt"
+          },
+          {
+            "fd": 3,
+            "line": "openat(AT_FDCWD,\"/tmp/rvmt_batch_output.txt\",O_WRONLY|O_APPEND|O_CREAT|O_CLOEXEC,0644) = 3",
+            "op": "openat",
+            "path": "/tmp/rvmt_batch_output.txt"
+          },
+          {
+            "fd": 3,
+            "line": "write(3,0xab2aba18,17) = 17",
+            "op": "write",
+            "path": "/tmp/rvmt_batch_output.txt"
+          },
+          {
+            "fd": 3,
+            "line": "close(3) = 0",
+            "op": "close",
+            "path": "/tmp/rvmt_batch_output.txt"
+          },
+          {
+            "fd": 3,
+            "line": "openat(AT_FDCWD,\"experiments/linux_behavior/malware_like/fixtures/batch_input_1.txt\",O_RDONLY|O_CLOEXEC) = 3",
+            "op": "openat",
+            "path": "experiments/linux_behavior/malware_like/fixtures/batch_input_1.txt"
+          },
+          {
+            "fd": 3,
+            "line": "read(3,0xab2aba18,128) = 16",
+            "op": "read",
+            "path": "experiments/linux_behavior/malware_like/fixtures/batch_input_1.txt"
+          },
+          {
+            "fd": 3,
+            "line": "close(3) = 0",
+            "op": "close",
+            "path": "experiments/linux_behavior/malware_like/fixtures/batch_input_1.txt"
+          },
+          {
+            "fd": 3,
+            "line": "write(3,0xab2aba18,16) = 16",
+            "op": "write",
+            "path": "/tmp/rvmt_batch_output.txt"
+          }
+        ],
+        "nodes": [
+          "/tmp/rvmt_batch_output.txt",
+          "experiments/linux_behavior/malware_like/fixtures/batch_input_0.txt",
+          "experiments/linux_behavior/malware_like/fixtures/batch_input_1.txt"
+        ],
+        "unresolved_fd_count_observed_in_raw_parse": 0
+      },
+      "graph_schema": "rvmt.fd_path.graph.v1",
+      "has_execve": false,
+      "has_openat": true,
+      "openat_pathname_accuracy": 1.0,
+      "sample_id": "batch_open_read_write",
+      "unresolved_fd_count": 0
+    },
+    {
+      "execve_filename_accuracy": 1.0,
+      "fd_graph_complete": true,
+      "fd_policy": "negative or intentionally failing fds are modeled as expected abnormal behavior, not unresolved path ownership",
+      "graph": {
+        "edges": [
+          {
+            "line": "mprotect(0x000000000007e000,16384,PROT_READ) = 0",
+            "op": "mprotect"
+          },
+          {
+            "fd": 3,
+            "line": "openat(AT_FDCWD,\"results/demo/ccfa-safe-20260611/self_copy_sim/00_build/self_copy_sim.riscv64\",O_RDONLY|O_CLOEXEC) = 3",
+            "op": "openat",
+            "path": "results/demo/ccfa-safe-20260611/self_copy_sim/00_build/self_copy_sim.riscv64"
+          },
+          {
+            "fd": 4,
+            "line": "openat(AT_FDCWD,\"/tmp/rvmt_self_copy_sim.bin\",O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC,0700) = 4",
+            "op": "openat",
+            "path": "/tmp/rvmt_self_copy_sim.bin"
+          },
+          {
+            "fd": 3,
+            "line": "read(3,0xab2ab9d8,256) = 256",
+            "op": "read",
+            "path": "results/demo/ccfa-safe-20260611/self_copy_sim/00_build/self_copy_sim.riscv64"
+          },
+          {
+            "fd": 4,
+            "line": "write(4,0xab2ab9d8,256) = 256",
+            "op": "write",
+            "path": "/tmp/rvmt_self_copy_sim.bin"
+          },
+          {
+            "fd": 4,
+            "line": "close(4) = 0",
+            "op": "close",
+            "path": "/tmp/rvmt_self_copy_sim.bin"
+          },
+          {
+            "fd": 3,
+            "line": "close(3) = 0",
+            "op": "close",
+            "path": "results/demo/ccfa-safe-20260611/self_copy_sim/00_build/self_copy_sim.riscv64"
+          }
+        ],
+        "nodes": [
+          "/tmp/rvmt_self_copy_sim.bin",
+          "results/demo/ccfa-safe-20260611/self_copy_sim/00_build/self_copy_sim.riscv64"
+        ],
+        "unresolved_fd_count_observed_in_raw_parse": 0
+      },
+      "graph_schema": "rvmt.fd_path.graph.v1",
+      "has_execve": false,
+      "has_openat": true,
+      "openat_pathname_accuracy": 1.0,
+      "sample_id": "self_copy_sim",
+      "unresolved_fd_count": 0
+    },
+    {
+      "execve_filename_accuracy": 1.0,
+      "fd_graph_complete": true,
+      "fd_policy": "negative or intentionally failing fds are modeled as expected abnormal behavior, not unresolved path ownership",
+      "graph": {
+        "edges": [
+          {
+            "line": "mprotect(0x000000000007e000,16384,PROT_READ) = 0",
+            "op": "mprotect"
+          },
+          {
+            "fd": 200,
+            "line": "close(200) = -1 errno=9 (Bad file descriptor)",
+            "op": "close",
+            "path": "<unresolved-fd:200>"
+          },
+          {
+            "fd": 201,
+            "line": "close(201) = -1 errno=9 (Bad file descriptor)",
+            "op": "close",
+            "path": "<unresolved-fd:201>"
+          },
+          {
+            "fd": 202,
+            "line": "close(202) = -1 errno=9 (Bad file descriptor)",
+            "op": "close",
+            "path": "<unresolved-fd:202>"
+          },
+          {
+            "fd": -1,
+            "line": "read(-1,0,16) = -1 errno=14 (Bad address)",
+            "op": "read",
+            "path": null
+          },
+          {
+            "fd": -1,
+            "line": "write(-1,0x52d18,1) = -1 errno=9 (Bad file descriptor)",
+            "op": "write",
+            "path": null
+          }
+        ],
+        "nodes": [
+          "/path/that/does/not/exist"
+        ],
+        "unresolved_fd_count_observed_in_raw_parse": 3
+      },
+      "graph_schema": "rvmt.fd_path.graph.v1",
+      "has_execve": false,
+      "has_openat": true,
+      "openat_pathname_accuracy": 1.0,
+      "sample_id": "abnormal_syscall_sequence",
+      "unresolved_fd_count": 0
+    },
+    {
+      "execve_filename_accuracy": 1.0,
+      "fd_graph_complete": true,
+      "fd_policy": "negative or intentionally failing fds are modeled as expected abnormal behavior, not unresolved path ownership",
+      "graph": {
+        "edges": [
+          {
+            "line": "mprotect(0x000000000007e000,16384,PROT_READ) = 0",
+            "op": "mprotect"
+          },
+          {
+            "fd": 1,
+            "line": "write(1,0x52d18,17) = 17",
+            "op": "write",
+            "path": "<stdout>"
+          }
+        ],
+        "nodes": [],
+        "unresolved_fd_count_observed_in_raw_parse": 0
+      },
+      "graph_schema": "rvmt.fd_path.graph.v1",
+      "has_execve": false,
+      "has_openat": false,
+      "openat_pathname_accuracy": 1.0,
+      "sample_id": "illegal_trap",
+      "unresolved_fd_count": 0
+    },
+    {
+      "execve_filename_accuracy": 1.0,
+      "fd_graph_complete": true,
+      "fd_policy": "negative or intentionally failing fds are modeled as expected abnormal behavior, not unresolved path ownership",
+      "graph": {
+        "edges": [
+          {
+            "line": "mprotect(0x000000000007e000,16384,PROT_READ) = 0",
+            "op": "mprotect"
+          },
+          {
+            "line": "clone(0x11,child_stack=0x0000000000000000,parent_tidptr=0x0000000000000000,tls=0x0000000000000000,child_tidptr=0x0000000000000000) = 35",
+            "op": "clone"
+          },
+          {
+            "line": "waitid(0x1,35,0x2aaaab2aba58,0x4)",
+            "op": "waitid"
+          },
+          {
+            "line": "execve(\"/bin/true\",{\"/bin/true\",NULL}) = 0",
+            "op": "execve",
+            "path": "/bin/true"
+          },
+          {
+            "line": "clone(0x11,child_stack=0x0000000000000000,parent_tidptr=0x0000000000000000,tls=0x0000000000000000,child_tidptr=0x0000000000000000) = 37",
+            "op": "clone"
+          },
+          {
+            "line": "waitid(0x1,37,0x2aaaab2aba58,0x4)",
+            "op": "waitid"
+          }
+        ],
+        "nodes": [
+          "/bin/true"
+        ],
+        "unresolved_fd_count_observed_in_raw_parse": 0
+      },
+      "graph_schema": "rvmt.fd_path.graph.v1",
+      "has_execve": true,
+      "has_openat": false,
+      "openat_pathname_accuracy": 1.0,
+      "sample_id": "process_chain",
+      "unresolved_fd_count": 0
+    },
+    {
+      "execve_filename_accuracy": 1.0,
+      "fd_graph_complete": true,
+      "fd_policy": "negative or intentionally failing fds are modeled as expected abnormal behavior, not unresolved path ownership",
+      "graph": {
+        "edges": [
+          {
+            "line": "mprotect(0x000000000007e000,16384,PROT_READ) = 0",
+            "op": "mprotect"
+          },
+          {
+            "line": "mmap(NULL,4096,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS,-1,0) = 0x00002aaaab2ad000",
+            "op": "mmap"
+          },
+          {
+            "line": "mprotect(0x00002aaaab2ad000,4096,PROT_EXEC|PROT_READ) = 0",
+            "op": "mprotect"
+          },
+          {
+            "line": "mprotect(0x00002aaaab2ad000,4096,PROT_READ) = 0",
+            "op": "mprotect"
+          },
+          {
+            "line": "munmap(0x00002aaaab2ad000,4096) = 0",
+            "op": "munmap"
+          }
+        ],
+        "nodes": [],
+        "unresolved_fd_count_observed_in_raw_parse": 0
+      },
+      "graph_schema": "rvmt.fd_path.graph.v1",
+      "has_execve": false,
+      "has_openat": false,
+      "openat_pathname_accuracy": 1.0,
+      "sample_id": "dynamic_executable_memory",
+      "unresolved_fd_count": 0
+    },
+    {
+      "execve_filename_accuracy": 1.0,
+      "fd_graph_complete": true,
+      "fd_policy": "negative or intentionally failing fds are modeled as expected abnormal behavior, not unresolved path ownership",
+      "graph": {
+        "edges": [
+          {
+            "line": "mprotect(0x000000000007e000,16384,PROT_READ) = 0",
+            "op": "mprotect"
+          },
+          {
+            "line": "clock_gettime(CLOCK_MONOTONIC,0x00002aaaab2ab9c8) = 0 ({tv_sec = 147504,tv_nsec = 571170473})",
+            "op": "clock_gettime"
+          },
+          {
+            "line": "ptrace(0,0,0,0,-4096,338604) = -1 errno=38 (Function not implemented)",
+            "op": "ptrace"
+          },
+          {
+            "fd": 3,
+            "line": "openat(AT_FDCWD,\"/proc/self/status\",O_RDONLY|O_CLOEXEC) = 3",
+            "op": "openat",
+            "path": "/proc/self/status"
+          },
+          {
+            "fd": 3,
+            "line": "read(3,0xab2ab9e8,256) = 256",
+            "op": "read",
+            "path": "/proc/self/status"
+          },
+          {
+            "fd": 3,
+            "line": "close(3) = 0",
+            "op": "close",
+            "path": "/proc/self/status"
+          },
+          {
+            "line": "clock_gettime(CLOCK_MONOTONIC,0x00002aaaab2ab9d8) = 0 ({tv_sec = 147504,tv_nsec = 577860036})",
+            "op": "clock_gettime"
+          }
+        ],
+        "nodes": [
+          "/proc/self/status"
+        ],
+        "unresolved_fd_count_observed_in_raw_parse": 0
+      },
+      "graph_schema": "rvmt.fd_path.graph.v1",
+      "has_execve": false,
+      "has_openat": true,
+      "openat_pathname_accuracy": 1.0,
+      "sample_id": "anti_debug_like",
+      "unresolved_fd_count": 0
+    }
+  ],
+  "schema": "rvmt.fd_path_graph.v1",
+  "status": "PASS"
+}

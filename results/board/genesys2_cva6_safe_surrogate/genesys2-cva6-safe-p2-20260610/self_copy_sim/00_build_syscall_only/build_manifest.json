@@ -1,9 +1,9 @@
 {
   "binary": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/00_build_syscall_only/self_copy_sim.riscv64",
   "binary_role": "linux_user_malware_like_synthetic_syscall_only",
-  "binary_sha256": "461ae72556d09e890ca7d55f63975def2e6fa83a8a0236c1199e251604bcc3f5",
+  "binary_sha256": "d16f3e9e2191e26c247d0ce569dcc6557dfa7e0f08d07d772ba2856914eb33a2",
   "builder": "tools/build_genesys2_safe_syscall_elf.py",
-  "data_size": 512,
+  "data_size": 1024,
   "entry": "0x0000000000010100",
   "expected_behavior": [
     "self_copy_simulation"
@@ -15,6 +15,12 @@
     "write",
     "close"
   ],
+  "marker_scope": {
+    "begin_value_low32": "0xb0000a11",
+    "enabled": true,
+    "end_value_low32": "0xe0000a11",
+    "syscall_nr": 1023
+  },
   "non_claims": [
     "No real malware validation is demonstrated.",
     "No real malware detection quality or efficacy is claimed.",
@@ -24,19 +30,22 @@
   "reference_manifest": "experiments/linux_behavior/malware_like/manifest.json",
   "reference_source": "experiments/linux_behavior/malware_like/programs/self_copy_sim.c",
   "reference_source_sha256": "4145d12972d3c6e0076734a5417fbaf3f3174ed32f4787f8211b489150fc3ef1",
+  "runtime_map_warmup_iterations": 80000000,
   "runtime_path": "/tmp/rvmt_p2/self_copy_sim",
   "sample_class": "malware_like_synthetic",
   "sample_id": "self_copy_sim",
   "schema": "rvmt.genesys2.safe_syscall_elf_build.v1",
   "source_relation": "syscall-shape surrogate generated from repository manifest; not compiled from real malware",
   "syscall_sequence": [
+    "rvmt_marker",
     "openat",
     "read",
     "openat",
     "write",
     "close",
     "close",
+    "rvmt_marker",
     "exit"
   ],
-  "text_size": 160
+  "text_size": 232
 }

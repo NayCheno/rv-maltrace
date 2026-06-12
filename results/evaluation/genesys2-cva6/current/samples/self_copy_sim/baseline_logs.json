@@ -1,0 +1,242 @@
+{
+  "evidence": {
+    "behavior_graph": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/behavior/behavior_graph.json",
+    "code_map": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/local_code_analysis/code_map.json",
+    "integrated_validation": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/integrated_validation.json",
+    "runtime_process_map": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map/self_copy_sim/runtime_process_map.json",
+    "semantic_events": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/behavior/semantic_events.json",
+    "source_attribution": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/local_code_analysis/source_attribution_summary.json",
+    "trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_01/bram_records.jsonl"
+  },
+  "host_strace": {
+    "execve_paths": [
+      "results/demo/ccfa-safe-20260611/self_copy_sim/00_build/self_copy_sim.host"
+    ],
+    "fd_edges": [
+      {
+        "line": "execve(\"results/demo/ccfa-safe-20260611/self_copy_sim/00_build/self_copy_sim.host\", [\"results/demo/ccfa-safe-20260611/\"...], 0x7fffca3e1bb8 /* 9 vars */) = 0",
+        "op": "execve",
+        "path": "results/demo/ccfa-safe-20260611/self_copy_sim/00_build/self_copy_sim.host"
+      },
+      {
+        "line": "mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x73cdd4c16000",
+        "op": "mmap"
+      },
+      {
+        "fd": 3,
+        "line": "openat(AT_FDCWD, \"/etc/ld.so.cache\", O_RDONLY|O_CLOEXEC) = 3",
+        "op": "openat",
+        "path": "/etc/ld.so.cache"
+      },
+      {
+        "line": "mmap(NULL, 12899, PROT_READ, MAP_PRIVATE, 3, 0) = 0x73cdd4c12000",
+        "op": "mmap"
+      },
+      {
+        "fd": 3,
+        "line": "close(3)                          = 0",
+        "op": "close",
+        "path": "/etc/ld.so.cache"
+      },
+      {
+        "fd": 3,
+        "line": "openat(AT_FDCWD, \"/lib/x86_64-linux-gnu/libc.so.6\", O_RDONLY|O_CLOEXEC) = 3",
+        "op": "openat",
+        "path": "/lib/x86_64-linux-gnu/libc.so.6"
+      },
+      {
+        "fd": 3,
+        "line": "read(3, \"\\177ELF\\2\\1\\1\\3\\0\\0\\0\\0\\0\\0\\0\\0\\3\\0>\\0\\1\\0\\0\\0\\220\\243\\2\\0\\0\\0\\0\\0\"..., 832) = 832",
+        "op": "read",
+        "path": "/lib/x86_64-linux-gnu/libc.so.6"
+      },
+      {
+        "line": "mmap(NULL, 2170256, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x73cdd4a00000",
+        "op": "mmap"
+      },
+      {
+        "line": "mmap(0x73cdd4a28000, 1605632, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x73cdd4a28000",
+        "op": "mmap"
+      },
+      {
+        "line": "mmap(0x73cdd4bb0000, 323584, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b0000) = 0x73cdd4bb0000",
+        "op": "mmap"
+      },
+      {
+        "line": "mmap(0x73cdd4bff000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1fe000) = 0x73cdd4bff000",
+        "op": "mmap"
+      },
+      {
+        "line": "mmap(0x73cdd4c05000, 52624, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x73cdd4c05000",
+        "op": "mmap"
+      },
+      {
+        "fd": 3,
+        "line": "close(3)                          = 0",
+        "op": "close",
+        "path": "/lib/x86_64-linux-gnu/libc.so.6"
+      },
+      {
+        "line": "mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x73cdd49fd000",
+        "op": "mmap"
+      },
+      {
+        "line": "mprotect(0x73cdd4bff000, 16384, PROT_READ) = 0",
+        "op": "mprotect"
+      },
+      {
+        "line": "mprotect(0x59b8c8da0000, 4096, PROT_READ) = 0",
+        "op": "mprotect"
+      },
+      {
+        "line": "mprotect(0x73cdd4c4e000, 8192, PROT_READ) = 0",
+        "op": "mprotect"
+      },
+      {
+        "line": "munmap(0x73cdd4c12000, 12899)     = 0",
+        "op": "munmap"
+      },
+      {
+        "fd": 3,
+        "line": "openat(AT_FDCWD, \"results/demo/ccfa-safe-20260611/self_copy_sim/00_build/self_copy_sim.host\", O_RDONLY|O_CLOEXEC) = 3",
+        "op": "openat",
+        "path": "results/demo/ccfa-safe-20260611/self_copy_sim/00_build/self_copy_sim.host"
+      },
+      {
+        "fd": 4,
+        "line": "openat(AT_FDCWD, \"/tmp/rvmt_self_copy_sim.bin\", O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC, 0700) = 4",
+        "op": "openat",
+        "path": "/tmp/rvmt_self_copy_sim.bin"
+      },
+      {
+        "fd": 3,
+        "line": "read(3, \"\\177ELF\\2\\1\\1\\0\\0\\0\\0\\0\\0\\0\\0\\0\\3\\0>\\0\\1\\0\\0\\0\\360\\21\\0\\0\\0\\0\\0\\0\"..., 256) = 256",
+        "op": "read",
+        "path": "results/demo/ccfa-safe-20260611/self_copy_sim/00_build/self_copy_sim.host"
+      },
+      {
+        "fd": 4,
+        "line": "write(4, \"\\177ELF\\2\\1\\1\\0\\0\\0\\0\\0\\0\\0\\0\\0\\3\\0>\\0\\1\\0\\0\\0\\360\\21\\0\\0\\0\\0\\0\\0\"..., 256) = 256",
+        "op": "write",
+        "path": "/tmp/rvmt_self_copy_sim.bin"
+      },
+      {
+        "fd": 4,
+        "line": "close(4)                          = 0",
+        "op": "close",
+        "path": "/tmp/rvmt_self_copy_sim.bin"
+      },
+      {
+        "fd": 3,
+        "line": "close(3)                          = 0",
+        "op": "close",
+        "path": "results/demo/ccfa-safe-20260611/self_copy_sim/00_build/self_copy_sim.host"
+      }
+    ],
+    "line_count": 37,
+    "openat_paths": [
+      "/etc/ld.so.cache",
+      "/lib/x86_64-linux-gnu/libc.so.6",
+      "/tmp/rvmt_self_copy_sim.bin",
+      "results/demo/ccfa-safe-20260611/self_copy_sim/00_build/self_copy_sim.host"
+    ],
+    "path": "results/demo/ccfa-safe-20260611/self_copy_sim/01_ground_truth/host.strace.log",
+    "present": true,
+    "signals": [],
+    "syscalls": {
+      "access": 1,
+      "arch_prctl": 1,
+      "brk": 1,
+      "close": 4,
+      "execve": 1,
+      "exit_group": 1,
+      "fstat": 2,
+      "mmap": 8,
+      "mprotect": 3,
+      "munmap": 1,
+      "openat": 4,
+      "pread64": 2,
+      "prlimit64": 1,
+      "read": 2,
+      "rseq": 1,
+      "set_robust_list": 1,
+      "set_tid_address": 1,
+      "write": 1
+    },
+    "unresolved_fd_count": 0,
+    "write_prefixes": [
+      "\u007fELF\u0002\u0001\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0003\u0000>\u0000\u0001\u0000\u0000\u0000\u00f0\u0011\u0000\u0000\u0000\u0000\u0000\u0000"
+    ]
+  },
+  "qemu_strace": {
+    "execve_paths": [],
+    "fd_edges": [
+      {
+        "line": "mprotect(0x000000000007e000,16384,PROT_READ) = 0",
+        "op": "mprotect"
+      },
+      {
+        "fd": 3,
+        "line": "openat(AT_FDCWD,\"results/demo/ccfa-safe-20260611/self_copy_sim/00_build/self_copy_sim.riscv64\",O_RDONLY|O_CLOEXEC) = 3",
+        "op": "openat",
+        "path": "results/demo/ccfa-safe-20260611/self_copy_sim/00_build/self_copy_sim.riscv64"
+      },
+      {
+        "fd": 4,
+        "line": "openat(AT_FDCWD,\"/tmp/rvmt_self_copy_sim.bin\",O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC,0700) = 4",
+        "op": "openat",
+        "path": "/tmp/rvmt_self_copy_sim.bin"
+      },
+      {
+        "fd": 3,
+        "line": "read(3,0xab2ab9d8,256) = 256",
+        "op": "read",
+        "path": "results/demo/ccfa-safe-20260611/self_copy_sim/00_build/self_copy_sim.riscv64"
+      },
+      {
+        "fd": 4,
+        "line": "write(4,0xab2ab9d8,256) = 256",
+        "op": "write",
+        "path": "/tmp/rvmt_self_copy_sim.bin"
+      },
+      {
+        "fd": 4,
+        "line": "close(4) = 0",
+        "op": "close",
+        "path": "/tmp/rvmt_self_copy_sim.bin"
+      },
+      {
+        "fd": 3,
+        "line": "close(3) = 0",
+        "op": "close",
+        "path": "results/demo/ccfa-safe-20260611/self_copy_sim/00_build/self_copy_sim.riscv64"
+      }
+    ],
+    "line_count": 18,
+    "openat_paths": [
+      "/tmp/rvmt_self_copy_sim.bin",
+      "results/demo/ccfa-safe-20260611/self_copy_sim/00_build/self_copy_sim.riscv64"
+    ],
+    "path": "results/demo/ccfa-safe-20260611/self_copy_sim/01_ground_truth/qemu-riscv64.strace.log",
+    "present": true,
+    "signals": [],
+    "syscalls": {
+      "brk": 5,
+      "close": 2,
+      "exit_group": 1,
+      "getrandom": 1,
+      "mprotect": 1,
+      "openat": 2,
+      "prlimit64": 1,
+      "read": 1,
+      "readlinkat": 1,
+      "set_robust_list": 1,
+      "set_tid_address": 1,
+      "write": 1
+    },
+    "unresolved_fd_count": 0,
+    "write_prefixes": []
+  },
+  "sample_id": "self_copy_sim",
+  "schema": "rvmt.sample_baseline_logs.v1"
+}

@@ -229,6 +229,7 @@ def decode_rows_packed(rows: list[dict[str, str]], columns: dict[str, str], radi
         cycle = (payload >> 4) & 0xFFFFFFFF
         pc = (payload >> 36) & 0xFFFFFFFF
         primary = (payload >> 68) & 0xFFFFFFFF
+        aux = (payload >> 104) & 0xFFFFFFFF
 
         event: dict[str, Any] = {
             "record_index": len(events),
@@ -238,13 +239,14 @@ def decode_rows_packed(rows: list[dict[str, str]], columns: dict[str, str], radi
             "evt_code": evt_code,
             "pc": hex_width(pc, 32),
             "packed_primary": hex_width(primary, 32),
+            "packed_aux": hex_width(aux, 32),
         }
 
         if evt in {"BRANCH", "JUMP"}:
             event["target"] = hex_width(primary, 32)
 
         if evt == "SYSCALL_ENTRY":
-            event["syscall_id"] = hex_width(0, 64)
+            event["syscall_id"] = hex_width(aux, 64)
             event["a7"] = hex_width(primary, 64)
 
         if evt == "SYSCALL_RET":
@@ -264,6 +266,13 @@ def decode_rows_packed(rows: list[dict[str, str]], columns: dict[str, str], radi
 
         if evt == "PRIV":
             event["old_priv"] = priv_name(primary & 0x3)
+
+        if evt == "ARG_MEM":
+            event["mem_addr"] = hex_width(primary, 64)
+            event["mem_data"] = hex_width(aux, 64)
+            event["snapshot_bytes"] = 4
+            event["snapshot_source"] = "hardware_compact_trace"
+            event["payload_width_note"] = "packed ILA records expose 32-bit address/data prefixes for ARG_MEM"
 
         if evt in {"DROP", "MARKER"}:
             event["value"] = hex_width(primary, 64)
@@ -327,10 +336,11 @@ def run_self_test() -> int:
         print("[FAIL] trap decode mismatch", file=sys.stderr)
         return 1
     packed_payloads = [
-        (4 | (10 << 4) | (0x80001000 << 36) | (64 << 68)),
+        (4 | (10 << 4) | (0x80001000 << 36) | (64 << 68) | (7 << 104)),
         (5 | (18 << 4) | (0x80001004 << 36) | (0 << 68)),
         (6 | (20 << 4) | (0x80002000 << 36) | (2 << 68)),
         (8 | (24 << 4) | (0x80002004 << 36) | (0x12345678 << 68)),
+        (10 | (28 << 4) | (0x80002008 << 36) | (0x80003000 << 68) | (0x706d742f << 104)),
     ]
     with tempfile.TemporaryDirectory() as tmp:
         csv_path = Path(tmp) / "packed_ila.csv"
@@ -339,10 +349,14 @@ def run_self_test() -> int:
             writer.writerow(["probe0", "probe1"])
             writer.writerows([["1", f"{payload:x}"] for payload in packed_payloads])
         packed = decode_csv(csv_path, unprefixed_radix="hex")
-    if len(packed) != 4:
-        print("[FAIL] expected 4 packed decoded events", file=sys.stderr)
+    if len(packed) != 5:
+        print("[FAIL] expected 5 packed decoded events", file=sys.stderr)
         return 1
-    if packed[0].get("evt") != "SYSCALL_ENTRY" or packed[0].get("a7") != "0x0000000000000040":
+    if (
+        packed[0].get("evt") != "SYSCALL_ENTRY"
+        or packed[0].get("a7") != "0x0000000000000040"
+        or packed[0].get("syscall_id") != "0x0000000000000007"
+    ):
         print("[FAIL] packed syscall entry decode mismatch", file=sys.stderr)
         return 1
     if packed[1].get("evt") != "SYSCALL_RET" or packed[1].get("syscall_id") != "0x0000000000000000":
@@ -357,6 +371,14 @@ def run_self_test() -> int:
         or packed[3].get("satp_asid_source") != "unavailable_packed_32bit_primary"
     ):
         print("[FAIL] packed SATP boundary decode mismatch", file=sys.stderr)
+        return 1
+    if (
+        packed[4].get("evt") != "ARG_MEM"
+        or packed[4].get("mem_addr") != "0x0000000080003000"
+        or packed[4].get("mem_data") != "0x00000000706d742f"
+        or packed[4].get("snapshot_source") != "hardware_compact_trace"
+    ):
+        print("[FAIL] packed ARG_MEM decode mismatch", file=sys.stderr)
         return 1
     print("[PASS] Genesys2 ILA trace decoder self-test")
     return 0

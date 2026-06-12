@@ -1,0 +1,7 @@
+RVMT_GENESYS2_RUNTIME_BENCH_UART port=COM7 baud=115200 sample=batch_open_read_write mode=trace_off rep=rep_03 start=2026-06-12T02:22:50+0800
+
+RVMT_SEND_RUNTIME_BENCH sample=batch_open_read_write mode=trace_off rep=rep_03
+> > > > > > # # # # # # RVMT_RUNTIME_BENCH_START sample=batch_open_read_write mode=trace_off rep=rep_03 ns=14060000000000
+# # # # RVMT_RUNTIME_BENCH_DONE sample=batch_open_read_write mode=trace_off rep=rep_03 rc=0 ns=14067000000000
+# # # 
+RVMT_GENESYS2_RUNTIME_BENCH_UART_DONE

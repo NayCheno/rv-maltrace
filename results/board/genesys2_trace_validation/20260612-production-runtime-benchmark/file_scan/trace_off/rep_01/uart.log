@@ -1,0 +1,7 @@
+RVMT_GENESYS2_RUNTIME_BENCH_UART port=COM7 baud=115200 sample=file_scan mode=trace_off rep=rep_01 start=2026-06-12T02:19:16+0800
+
+RVMT_SEND_RUNTIME_BENCH sample=file_scan mode=trace_off rep=rep_01
+> > > > > > # # # # # # RVMT_RUNTIME_BENCH_START sample=file_scan mode=trace_off rep=rep_01 ns=13845000000000
+# # # # RVMT_RUNTIME_BENCH_DONE sample=file_scan mode=trace_off rep=rep_01 rc=0 ns=13853000000000
+# # # 
+RVMT_GENESYS2_RUNTIME_BENCH_UART_DONE

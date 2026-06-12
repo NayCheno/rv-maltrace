@@ -1,0 +1,65 @@
+{
+  "hardware_user_pointer_snapshot": true,
+  "ltx": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker-pre-pointer-20260612/work-fpga/ariane_xilinx.ltx",
+  "ltx_sha256": "0a647dbd67f4921dc4a449f269b94caf9fa407627e840ab386d168775981467c",
+  "marker_window_cycle_summary": {
+    "median": 58003.0,
+    "p95": 265498,
+    "unit": "trace-cycle-or-index-delta",
+    "variance": 11862775956.07639
+  },
+  "pointer_snapshot_guardrails": "results/evaluation/genesys2-cva6/current/pointer_snapshot_guardrails.json",
+  "pointer_snapshot_mode": "bounded_prefix",
+  "production_runtime_benchmark": "results/evaluation/genesys2-cva6/current/production_runtime_benchmark.json",
+  "production_runtime_slowdown": {
+    "benchmark": "results/evaluation/genesys2-cva6/current/production_runtime_benchmark.json",
+    "claimed": true,
+    "median_slowdown_vs_trace_off_by_mode": {
+      "bram_ring": 1.0,
+      "event_only": 1.0,
+      "pointer_snapshot_disabled": 1.0
+    },
+    "metric": "wall_clock_ns_from_board_uart_date_markers",
+    "minimum_repetitions_per_mode_sample": 3,
+    "mode_stats": {
+      "bram_ring": {
+        "count": 24,
+        "max_ns": 9000000000,
+        "median_ns": 8000000000.0,
+        "min_ns": 8000000000,
+        "p95_ns": 8849999999.999998,
+        "variance_ns2": 7.63888888888889e+16
+      },
+      "event_only": {
+        "count": 24,
+        "max_ns": 9000000000,
+        "median_ns": 8000000000.0,
+        "min_ns": 8000000000,
+        "p95_ns": 8000000000.0,
+        "variance_ns2": 3.993055555555555e+16
+      },
+      "pointer_snapshot_disabled": {
+        "count": 24,
+        "max_ns": 9000000000,
+        "median_ns": 8000000000.0,
+        "min_ns": 7000000000,
+        "p95_ns": 8849999999.999998,
+        "variance_ns2": 1.232638888888889e+17
+      },
+      "trace_off": {
+        "count": 24,
+        "max_ns": 8000000000,
+        "median_ns": 8000000000.0,
+        "min_ns": 7000000000,
+        "p95_ns": 8000000000.0,
+        "variance_ns2": 3.993055555555555e+16
+      }
+    }
+  },
+  "resource_report": "docs/07-evaluation-evidence/reports/resource_report.md",
+  "runtime_overhead_scope": "production runtime slowdown is measured by board UART START/DONE markers and summarized with median/p95/variance",
+  "schema": "rvmt.resource_timing_summary.v1",
+  "status": "PASS",
+  "trace_bitstream": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker-pre-pointer-20260612/work-fpga/ariane_xilinx.bit",
+  "trace_bitstream_sha256": "5ab54e577456532936a117fe89c3e5800758e5e42819d8618db42622ce9447cc"
+}

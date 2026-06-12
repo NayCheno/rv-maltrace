@@ -53,6 +53,31 @@ proc rvmt_run_xsim_top {test_name top} {
   return [rvmt_run_cmd [list $python tools/compare_trace.py --trace $trace --expected $expected --log [file join $result_dir compare.log]]]
 }
 
+proc rvmt_run_xsim_top_no_compare {test_name top} {
+  set snap ${top}_snap
+  set result_dir [file normalize "results/vivado_sim/${test_name}"]
+  file mkdir $result_dir
+
+  file delete -force xsim.dir
+  file delete -force xvlog.log xelab.log xsim.log
+
+  if {[rvmt_run_cmd [list [rvmt_bin xvlog] -sv -f sim/vivado/trace_rtl.f -f sim/vivado/trace_sim.f]]} {
+    return 1
+  }
+  if {[rvmt_run_cmd [list [rvmt_bin xelab] work.$top -s $snap -debug typical]]} {
+    return 1
+  }
+  if {[rvmt_run_cmd [list [rvmt_bin xsim] $snap -tclbatch sim/vivado/run_all.tcl -testplusarg TEST_NAME=${test_name} -testplusarg RESULT_DIR=${result_dir}]]} {
+    return 1
+  }
+
+  set status_path [file join $result_dir xsim_status.log]
+  set fd [open $status_path w]
+  puts $fd "\[PASS\] $test_name xsim completed without compare_trace"
+  close $fd
+  return 0
+}
+
 proc rvmt_run_xsim {test_name} {
   return [rvmt_run_xsim_top $test_name tb_trace_top_unit]
 }

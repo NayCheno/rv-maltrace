@@ -1,0 +1,68 @@
+{
+  "drop_accounting_summary": "results/evaluation/genesys2-cva6/current/drop_accounting_summary.json",
+  "safe_surrogate_bram_summary": "results/evaluation/genesys2-cva6/current/safe_surrogate_bram_trace_summary.json",
+  "samples": [
+    {
+      "class": "p0_safe_synthetic",
+      "sample_id": "hello_write",
+      "source": "board/trace_validation/programs/hello_write.c"
+    },
+    {
+      "class": "p0_safe_synthetic",
+      "sample_id": "file_open_read_write",
+      "source": "board/trace_validation/programs/file_open_read_write.c"
+    },
+    {
+      "class": "p0_safe_synthetic",
+      "sample_id": "fork_exec",
+      "source": "board/trace_validation/programs/fork_exec.c"
+    },
+    {
+      "class": "p0_safe_synthetic",
+      "sample_id": "illegal_instruction",
+      "source": "board/trace_validation/programs/illegal_instruction.c"
+    },
+    {
+      "class": "malware_like_synthetic_syscall_only",
+      "sample_id": "file_scan",
+      "source": "experiments/linux_behavior/malware_like/programs/file_scan.c"
+    },
+    {
+      "class": "malware_like_synthetic_syscall_only",
+      "sample_id": "batch_open_read_write",
+      "source": "experiments/linux_behavior/malware_like/programs/batch_open_read_write.c"
+    },
+    {
+      "class": "malware_like_synthetic_syscall_only",
+      "sample_id": "self_copy_sim",
+      "source": "experiments/linux_behavior/malware_like/programs/self_copy_sim.c"
+    },
+    {
+      "class": "malware_like_synthetic_syscall_only",
+      "sample_id": "abnormal_syscall_sequence",
+      "source": "experiments/linux_behavior/malware_like/programs/abnormal_syscall_sequence.c"
+    },
+    {
+      "class": "malware_like_synthetic_syscall_only",
+      "sample_id": "illegal_trap",
+      "source": "experiments/linux_behavior/malware_like/programs/illegal_trap.c"
+    },
+    {
+      "class": "malware_like_synthetic_syscall_only",
+      "sample_id": "process_chain",
+      "source": "experiments/linux_behavior/malware_like/programs/process_chain.c"
+    },
+    {
+      "class": "malware_like_synthetic_syscall_only",
+      "sample_id": "dynamic_executable_memory",
+      "source": "experiments/linux_behavior/malware_like/programs/dynamic_executable_memory.c"
+    },
+    {
+      "class": "malware_like_synthetic_syscall_only",
+      "sample_id": "anti_debug_like",
+      "source": "experiments/linux_behavior/malware_like/programs/anti_debug_like.c"
+    }
+  ],
+  "schema": "rvmt.ccfa.workload_manifest.v1",
+  "status": "PASS"
+}

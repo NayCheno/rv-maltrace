@@ -58,10 +58,122 @@
           "tags": ["genesys2", "cva6", "claim-boundary", "resource-report"]
         },
         {
+          "id": "ccfa-claim-boundaries",
+          "label": "CCF-A readiness claim boundary consistency",
+          "command": ["{python}", "tools/check_ccfa_claim_boundaries.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "ccfa", "claim-boundary"]
+        },
+        {
           "id": "cva-closure-readiness",
           "label": "Genesys2/CVA6 trace closure readiness",
           "command": ["{python}", "tools/check_genesys2_cva_closure_readiness.py", "--root", "{root}"],
           "tags": ["genesys2", "cva6", "trace", "timing", "marker-scope", "readiness"]
+        },
+        {
+          "id": "bram-trace-sink-readiness",
+          "label": "Genesys2/CVA6 BRAM trace sink RTL readiness",
+          "command": ["{python}", "tools/check_genesys2_bram_trace_sink_readiness.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "trace", "bram-ring", "readiness"]
+        },
+        {
+          "id": "bram-trace-sink",
+          "label": "Genesys2/CVA6 BRAM trace sink board evidence",
+          "command": ["{python}", "tools/check_genesys2_bram_trace_sink.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "trace", "bram-ring", "board", "evidence"]
+        },
+        {
+          "id": "safe-surrogate-bram-trace",
+          "label": "Genesys2/CVA6 safe surrogate BRAM marker-window evidence",
+          "command": ["{python}", "tools/check_genesys2_safe_surrogate_bram_trace.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "safe-surrogate", "trace", "bram-ring", "board", "evidence"]
+        },
+        {
+          "id": "trace-drop-accounting",
+          "label": "Genesys2/CVA6 captured-window trace drop accounting",
+          "command": ["{python}", "tools/check_trace_drop_accounting.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "trace", "drop", "evidence"]
+        },
+        {
+          "id": "pointer-snapshot-guardrails",
+          "label": "Genesys2/CVA6 pointer snapshot guardrails",
+          "command": ["{python}", "tools/check_pointer_snapshot_guardrails.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "pointer-snapshot", "guardrails", "claim-boundary"]
+        },
+        {
+          "id": "syscall-semantic-reconstruction",
+          "label": "Genesys2/CVA6 syscall semantic reconstruction evidence",
+          "command": ["{python}", "tools/check_syscall_semantic_reconstruction.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "semantic", "syscall", "fd-path"]
+        },
+        {
+          "id": "fd-path-graph",
+          "label": "Genesys2/CVA6 fd/path graph evidence",
+          "command": ["{python}", "tools/check_fd_path_graph.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "semantic", "fd-path"]
+        },
+        {
+          "id": "source-line-attribution",
+          "label": "Genesys2/CVA6 source/function attribution evidence",
+          "command": ["{python}", "tools/check_source_line_attribution.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "source-attribution", "code-attribution"]
+        },
+        {
+          "id": "process-elf-ownership",
+          "label": "Genesys2/CVA6 process/ELF ownership evidence",
+          "command": ["{python}", "tools/check_process_elf_ownership.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "process-attribution", "elf"]
+        },
+        {
+          "id": "dynamic-mapping-attribution",
+          "label": "Genesys2/CVA6 dynamic mapping attribution evidence",
+          "command": ["{python}", "tools/check_dynamic_mapping_attribution.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "dynamic-mapping", "code-attribution"]
+        },
+        {
+          "id": "ccfa-evaluation-matrix",
+          "label": "CCF-A evaluation matrix evidence",
+          "command": ["{python}", "tools/check_ccfa_evaluation_matrix.py", "--root", "{root}"],
+          "tags": ["ccfa", "evaluation", "baseline", "ablation"]
+        },
+        {
+          "id": "baseline-alignment",
+          "label": "CCF-A baseline alignment evidence",
+          "command": ["{python}", "tools/check_baseline_alignment.py", "--root", "{root}"],
+          "tags": ["ccfa", "baseline", "alignment"]
+        },
+        {
+          "id": "behavior-audit-metrics",
+          "label": "CCF-A behavior audit metrics evidence",
+          "command": ["{python}", "tools/check_behavior_audit_metrics.py", "--root", "{root}"],
+          "tags": ["ccfa", "behavior-audit", "metrics"]
+        },
+        {
+          "id": "ccfa-current-quality",
+          "label": "CCF-A non-real-malware current evidence quality",
+          "command": ["{python}", "tools/check_ccfa_current_quality.py", "--root", "{root}"],
+          "tags": ["ccfa", "quality", "artifact-integrity", "claim-boundary"]
+        },
+        {
+          "id": "p0-continuous-trace",
+          "label": "Genesys2/CVA6 P0 continuous trace evidence",
+          "command": [
+            "{python}",
+            "tools/check_genesys2_p0_continuous_trace.py",
+            "--run-root",
+            "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit"
+          ],
+          "tags": ["genesys2", "cva6", "p0", "trace", "board", "continuous"]
+        },
+        {
+          "id": "real-malware-containment",
+          "label": "real-malware containment policy boundary",
+          "command": [
+            "{python}",
+            "tools/check_real_malware_containment.py",
+            "--root",
+            "{root}"
+          ],
+          "tags": ["ccfa", "real-malware", "containment", "claim-boundary"]
         }
       ]
     },
@@ -119,6 +231,27 @@
           "label": "baseline and trace bitstream artifact inventory",
           "command": ["{python}", "tools/check_genesys2_bitstream_artifacts.py", "--root", "{root}"],
           "tags": ["genesys2", "cva6", "vivado", "artifacts", "fast"]
+        }
+      ]
+    },
+    {
+      "id": "genesys2-p0-continuous",
+      "title": "Genesys2/CVA6 P0 continuous trace evidence",
+      "description": "Strict checker for the current four-sample marker-scoped P0 board recapture.",
+      "current": true,
+      "legacy": false,
+      "tier": "current-gate",
+      "checks": [
+        {
+          "id": "p0-continuous-trace",
+          "label": "P0 same-window marker trace with strict syscall-id pairing",
+          "command": [
+            "{python}",
+            "tools/check_genesys2_p0_continuous_trace.py",
+            "--run-root",
+            "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit"
+          ],
+          "tags": ["genesys2", "cva6", "p0", "trace", "board", "continuous"]
         }
       ]
     },
@@ -217,6 +350,48 @@
           "tags": ["genesys2", "safe-surrogate", "capture", "self-test"]
         },
         {
+          "id": "bram-ring-dump-decoder-self-test",
+          "label": "BRAM ring dump decoder self-test",
+          "command": ["{python}", "tools/decode_genesys2_bram_ring_dump.py", "--self-test"],
+          "tags": ["genesys2", "bram-ring", "decode", "self-test"]
+        },
+        {
+          "id": "bram-trace-sink-packager-self-test",
+          "label": "BRAM trace sink packager self-test",
+          "command": ["{python}", "tools/package_genesys2_bram_trace_sink_summary.py", "--self-test"],
+          "tags": ["genesys2", "bram-ring", "trace-sink", "self-test"]
+        },
+        {
+          "id": "bram-trace-sink-checker-self-test",
+          "label": "BRAM trace sink checker self-test",
+          "command": ["{python}", "tools/check_genesys2_bram_trace_sink.py", "--self-test"],
+          "tags": ["genesys2", "bram-ring", "trace-sink", "self-test"]
+        },
+        {
+          "id": "safe-surrogate-bram-packager-self-test",
+          "label": "safe surrogate BRAM trace packager self-test",
+          "command": ["{python}", "tools/package_genesys2_safe_surrogate_bram_trace.py", "--self-test"],
+          "tags": ["genesys2", "safe-surrogate", "bram-ring", "self-test"]
+        },
+        {
+          "id": "safe-surrogate-bram-checker-self-test",
+          "label": "safe surrogate BRAM trace checker self-test",
+          "command": ["{python}", "tools/check_genesys2_safe_surrogate_bram_trace.py", "--self-test"],
+          "tags": ["genesys2", "safe-surrogate", "bram-ring", "self-test"]
+        },
+        {
+          "id": "trace-drop-accounting-packager-self-test",
+          "label": "trace drop accounting packager self-test",
+          "command": ["{python}", "tools/package_trace_drop_accounting_summary.py", "--self-test"],
+          "tags": ["genesys2", "trace", "drop", "self-test"]
+        },
+        {
+          "id": "pointer-snapshot-guardrails-packager-self-test",
+          "label": "pointer snapshot guardrails packager self-test",
+          "command": ["{python}", "tools/package_pointer_snapshot_guardrails.py", "--self-test"],
+          "tags": ["genesys2", "pointer-snapshot", "guardrails", "self-test"]
+        },
+        {
           "id": "safe-surrogate-syscall-elf-self-test",
           "label": "safe surrogate syscall-only ELF builder self-test",
           "command": ["{python}", "tools/build_genesys2_safe_syscall_elf.py", "--self-test"],
@@ -235,6 +410,12 @@
           "tags": ["genesys2", "cva6", "readiness", "self-test"]
         },
         {
+          "id": "ccfa-claim-boundaries-self-test",
+          "label": "CCF-A claim-boundary checker self-test",
+          "command": ["{python}", "tools/check_ccfa_claim_boundaries.py", "--self-test"],
+          "tags": ["ccfa", "claim-boundary", "self-test"]
+        },
+        {
           "id": "suite-manifest-self-test",
           "label": "check suite manifest self-test",
           "command": ["{python}", "tools/run_check_suite.py", "--self-test"],
@@ -245,6 +426,118 @@
           "label": "bitstream artifact inventory self-test",
           "command": ["{python}", "tools/check_genesys2_bitstream_artifacts.py", "--self-test"],
           "tags": ["genesys2", "vivado", "artifacts", "self-test"]
+        }
+      ]
+    },
+    {
+      "id": "ccfa-gate-self-test",
+      "title": "CCF-A gate checker self-tests",
+      "description": "Fixture-based self-tests for strict CCF-A readiness gates. These do not claim current CCF-A readiness.",
+      "current": true,
+      "legacy": false,
+      "tier": "fast-self-test",
+      "checks": [
+        {
+          "id": "ccfa-claim-boundaries-self-test",
+          "label": "CCF-A claim-boundary checker self-test",
+          "command": ["{python}", "tools/check_ccfa_claim_boundaries.py", "--self-test"],
+          "tags": ["ccfa", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "p0-continuous-trace-self-test",
+          "label": "P0 continuous trace checker self-test",
+          "command": ["{python}", "tools/check_genesys2_p0_continuous_trace.py", "--self-test"],
+          "tags": ["genesys2", "p0", "trace", "self-test"]
+        },
+        {
+          "id": "bram-trace-sink-self-test",
+          "label": "BRAM trace sink checker self-test",
+          "command": ["{python}", "tools/check_genesys2_bram_trace_sink.py", "--self-test"],
+          "tags": ["genesys2", "trace-sink", "self-test"]
+        },
+        {
+          "id": "safe-surrogate-bram-trace-self-test",
+          "label": "safe surrogate BRAM trace checker self-test",
+          "command": ["{python}", "tools/check_genesys2_safe_surrogate_bram_trace.py", "--self-test"],
+          "tags": ["genesys2", "safe-surrogate", "trace-sink", "self-test"]
+        },
+        {
+          "id": "trace-drop-accounting-self-test",
+          "label": "trace drop accounting checker self-test",
+          "command": ["{python}", "tools/check_trace_drop_accounting.py", "--self-test"],
+          "tags": ["trace", "drop", "self-test"]
+        },
+        {
+          "id": "syscall-semantic-reconstruction-self-test",
+          "label": "syscall semantic reconstruction checker self-test",
+          "command": ["{python}", "tools/check_syscall_semantic_reconstruction.py", "--self-test"],
+          "tags": ["semantic", "self-test"]
+        },
+        {
+          "id": "pointer-snapshot-guardrails-self-test",
+          "label": "pointer snapshot guardrails checker self-test",
+          "command": ["{python}", "tools/check_pointer_snapshot_guardrails.py", "--self-test"],
+          "tags": ["pointer-snapshot", "self-test"]
+        },
+        {
+          "id": "fd-path-graph-self-test",
+          "label": "fd/path graph checker self-test",
+          "command": ["{python}", "tools/check_fd_path_graph.py", "--self-test"],
+          "tags": ["fd-path", "self-test"]
+        },
+        {
+          "id": "source-line-attribution-self-test",
+          "label": "source-line attribution checker self-test",
+          "command": ["{python}", "tools/check_source_line_attribution.py", "--self-test"],
+          "tags": ["source-attribution", "self-test"]
+        },
+        {
+          "id": "process-elf-ownership-self-test",
+          "label": "process/ELF ownership checker self-test",
+          "command": ["{python}", "tools/check_process_elf_ownership.py", "--self-test"],
+          "tags": ["process-attribution", "self-test"]
+        },
+        {
+          "id": "dynamic-mapping-attribution-self-test",
+          "label": "dynamic mapping attribution checker self-test",
+          "command": ["{python}", "tools/check_dynamic_mapping_attribution.py", "--self-test"],
+          "tags": ["dynamic-mapping", "self-test"]
+        },
+        {
+          "id": "ccfa-evaluation-matrix-self-test",
+          "label": "CCF-A evaluation matrix checker self-test",
+          "command": ["{python}", "tools/check_ccfa_evaluation_matrix.py", "--self-test"],
+          "tags": ["ccfa", "evaluation", "self-test"]
+        },
+        {
+          "id": "baseline-alignment-self-test",
+          "label": "baseline alignment checker self-test",
+          "command": ["{python}", "tools/check_baseline_alignment.py", "--self-test"],
+          "tags": ["baseline", "self-test"]
+        },
+        {
+          "id": "behavior-audit-metrics-self-test",
+          "label": "behavior audit metrics checker self-test",
+          "command": ["{python}", "tools/check_behavior_audit_metrics.py", "--self-test"],
+          "tags": ["behavior-audit", "metrics", "self-test"]
+        },
+        {
+          "id": "ccfa-current-quality-self-test",
+          "label": "current-quality checker self-test",
+          "command": ["{python}", "tools/check_ccfa_current_quality.py", "--self-test"],
+          "tags": ["ccfa", "quality", "self-test"]
+        },
+        {
+          "id": "real-malware-containment-self-test",
+          "label": "real-malware containment checker self-test",
+          "command": ["{python}", "tools/check_real_malware_containment.py", "--self-test"],
+          "tags": ["real-malware", "containment", "self-test"]
+        },
+        {
+          "id": "real-malware-validation-gate-self-test",
+          "label": "real-malware validation gate self-test",
+          "command": ["{python}", "tools/check_real_malware_validation_gate.py", "--self-test"],
+          "tags": ["real-malware", "validation", "gate", "self-test"]
         }
       ]
     },

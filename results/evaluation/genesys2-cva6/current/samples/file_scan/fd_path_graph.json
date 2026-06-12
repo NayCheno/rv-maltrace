@@ -1,0 +1,81 @@
+{
+  "edges": [
+    {
+      "line": "mprotect(0x000000000007e000,16384,PROT_READ) = 0",
+      "op": "mprotect"
+    },
+    {
+      "fd": 3,
+      "line": "openat(AT_FDCWD,\"experiments/linux_behavior/malware_like/fixtures/scan_root\",O_RDONLY|O_DIRECTORY|O_CLOEXEC) = 3",
+      "op": "openat",
+      "path": "experiments/linux_behavior/malware_like/fixtures/scan_root"
+    },
+    {
+      "fd": 3,
+      "line": "getdents64(3,0x2aaaab2ab8e8,512) = 112",
+      "op": "getdents64",
+      "path": "experiments/linux_behavior/malware_like/fixtures/scan_root"
+    },
+    {
+      "fd": 3,
+      "line": "getdents64(3,0x2aaaab2ab8e8,512) = 0",
+      "op": "getdents64",
+      "path": "experiments/linux_behavior/malware_like/fixtures/scan_root"
+    },
+    {
+      "fd": 3,
+      "line": "close(3) = 0",
+      "op": "close",
+      "path": "experiments/linux_behavior/malware_like/fixtures/scan_root"
+    }
+  ],
+  "row": {
+    "execve_filename_accuracy": 1.0,
+    "fd_graph_complete": true,
+    "fd_policy": "negative or intentionally failing fds are modeled as expected abnormal behavior, not unresolved path ownership",
+    "graph": {
+      "edges": [
+        {
+          "line": "mprotect(0x000000000007e000,16384,PROT_READ) = 0",
+          "op": "mprotect"
+        },
+        {
+          "fd": 3,
+          "line": "openat(AT_FDCWD,\"experiments/linux_behavior/malware_like/fixtures/scan_root\",O_RDONLY|O_DIRECTORY|O_CLOEXEC) = 3",
+          "op": "openat",
+          "path": "experiments/linux_behavior/malware_like/fixtures/scan_root"
+        },
+        {
+          "fd": 3,
+          "line": "getdents64(3,0x2aaaab2ab8e8,512) = 112",
+          "op": "getdents64",
+          "path": "experiments/linux_behavior/malware_like/fixtures/scan_root"
+        },
+        {
+          "fd": 3,
+          "line": "getdents64(3,0x2aaaab2ab8e8,512) = 0",
+          "op": "getdents64",
+          "path": "experiments/linux_behavior/malware_like/fixtures/scan_root"
+        },
+        {
+          "fd": 3,
+          "line": "close(3) = 0",
+          "op": "close",
+          "path": "experiments/linux_behavior/malware_like/fixtures/scan_root"
+        }
+      ],
+      "nodes": [
+        "experiments/linux_behavior/malware_like/fixtures/scan_root"
+      ],
+      "unresolved_fd_count_observed_in_raw_parse": 0
+    },
+    "graph_schema": "rvmt.fd_path.graph.v1",
+    "has_execve": false,
+    "has_openat": true,
+    "openat_pathname_accuracy": 1.0,
+    "sample_id": "file_scan",
+    "unresolved_fd_count": 0
+  },
+  "sample_id": "file_scan",
+  "schema": "rvmt.fd_path.graph.v1"
+}

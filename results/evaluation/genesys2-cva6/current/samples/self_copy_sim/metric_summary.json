@@ -1,0 +1,13 @@
+{
+  "metrics": {
+    "anti_analysis_visibility": 1.0,
+    "argument_reconstruction_accuracy": 1.0,
+    "behavior_rule_recall": 1.0,
+    "benign_false_positive_rate": 0.0,
+    "expected_syscall_recall": 1.0,
+    "syscall_precision": 1.0,
+    "unaccounted_drop": 0
+  },
+  "sample_id": "self_copy_sim",
+  "schema": "rvmt.sample_metric_summary.v1"
+}

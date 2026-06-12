@@ -1,0 +1,17 @@
+RVMT_SERIAL_DIRECT_COMMAND_CAPTURE port=COM7 baud=115200 start=2026-06-12T03:28:14+0800
+Hit any key to stop autoboot: 3[KHit any key to stop autoboot: 2[KHit any key to stop autoboot: 1[KHit any key to stop autoboot: 0[K
+Device: xps-spi@20000000:mmc@0
+Manufacturer ID: 6f
+OEM: 303
+Name: SDABC 
+Bus Speed: 12500000
+Mode: MMC legacy
+Rd Block Len: 512
+SD version 2.0
+High Capacity: Yes
+Capacity: 29.1 GiB
+Bus Width: 1-bit
+
+RVMT_SEND "printf 'RVMT_POINTER_RUNTIME_PROBE_START\\n'; ls -l /tmp/rvmt_p2/file_scan /tmp/rvmt_p2/batch_open_read_write /tmp/rvmt_p2/process_chain; printf 'RVMT_POINTER_RUNTIME_PROBE_DONE rc=%s\\n' True"
+
+RVMT_SERIAL_DIRECT_COMMAND_CAPTURE_DONE

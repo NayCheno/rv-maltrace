@@ -1,103 +1,23 @@
 [
   {
-    "end": "0x000000000001010a",
-    "name": "$xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0",
-    "size": 0,
-    "size_inferred": true,
-    "start": "0x00000000000100e8",
-    "type": 0
-  },
-  {
-    "end": "0x000000000001010a",
-    "name": "sigill_handler",
-    "size": 34,
-    "start": "0x00000000000100e8",
-    "type": 2
-  },
-  {
-    "end": "0x0000000000010158",
+    "end": "0x000000000001019c",
     "name": "_start",
-    "size": 78,
-    "start": "0x000000000001010a",
+    "size": 156,
+    "start": "0x0000000000010100",
     "type": 2
   },
   {
-    "end": "0x000000000001014a",
-    "name": "$d",
-    "size": 0,
-    "size_inferred": true,
-    "start": "0x0000000000010146",
-    "type": 0
-  },
-  {
-    "end": "0x0000000000010158",
-    "name": "$x",
-    "size": 0,
-    "size_inferred": true,
-    "start": "0x000000000001014a",
-    "type": 0
-  },
-  {
-    "end": "0x000000000001016a",
-    "name": "message.0",
-    "size": 18,
-    "start": "0x0000000000010158",
+    "end": "0x0000000000012400",
+    "name": "buffer",
+    "size": 1024,
+    "start": "0x0000000000012000",
     "type": 1
   },
   {
-    "end": "0x0000000000011800",
-    "name": "__BSS_END__",
-    "size": 0,
-    "size_inferred": true,
-    "start": "0x0000000000011000",
-    "type": 0
-  },
-  {
-    "end": "0x0000000000011800",
-    "name": "__DATA_BEGIN__",
-    "size": 0,
-    "size_inferred": true,
-    "start": "0x0000000000011000",
-    "type": 0
-  },
-  {
-    "end": "0x0000000000011800",
-    "name": "__SDATA_BEGIN__",
-    "size": 0,
-    "size_inferred": true,
-    "start": "0x0000000000011000",
-    "type": 0
-  },
-  {
-    "end": "0x0000000000011800",
-    "name": "__bss_start",
-    "size": 0,
-    "size_inferred": true,
-    "start": "0x0000000000011000",
-    "type": 0
-  },
-  {
-    "end": "0x0000000000011800",
-    "name": "_edata",
-    "size": 0,
-    "size_inferred": true,
-    "start": "0x0000000000011000",
-    "type": 0
-  },
-  {
-    "end": "0x0000000000011800",
-    "name": "_end",
-    "size": 0,
-    "size_inferred": true,
-    "start": "0x0000000000011000",
-    "type": 0
-  },
-  {
-    "end": "0x0000000000011804",
-    "name": "__global_pointer$",
-    "size": 0,
-    "size_inferred": true,
-    "start": "0x0000000000011800",
-    "type": 0
+    "end": "0x0000000000012110",
+    "name": "argv_true",
+    "size": 16,
+    "start": "0x0000000000012100",
+    "type": 1
   }
 ]

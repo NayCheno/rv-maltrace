@@ -1,0 +1,155 @@
+{
+  "edges": [
+    {
+      "line": "mprotect(0x000000000007e000,16384,PROT_READ) = 0",
+      "op": "mprotect"
+    },
+    {
+      "fd": 3,
+      "line": "openat(AT_FDCWD,\"experiments/linux_behavior/malware_like/fixtures/batch_input_0.txt\",O_RDONLY|O_CLOEXEC) = 3",
+      "op": "openat",
+      "path": "experiments/linux_behavior/malware_like/fixtures/batch_input_0.txt"
+    },
+    {
+      "fd": 3,
+      "line": "read(3,0xab2aba18,128) = 17",
+      "op": "read",
+      "path": "experiments/linux_behavior/malware_like/fixtures/batch_input_0.txt"
+    },
+    {
+      "fd": 3,
+      "line": "close(3) = 0",
+      "op": "close",
+      "path": "experiments/linux_behavior/malware_like/fixtures/batch_input_0.txt"
+    },
+    {
+      "fd": 3,
+      "line": "openat(AT_FDCWD,\"/tmp/rvmt_batch_output.txt\",O_WRONLY|O_APPEND|O_CREAT|O_CLOEXEC,0644) = 3",
+      "op": "openat",
+      "path": "/tmp/rvmt_batch_output.txt"
+    },
+    {
+      "fd": 3,
+      "line": "write(3,0xab2aba18,17) = 17",
+      "op": "write",
+      "path": "/tmp/rvmt_batch_output.txt"
+    },
+    {
+      "fd": 3,
+      "line": "close(3) = 0",
+      "op": "close",
+      "path": "/tmp/rvmt_batch_output.txt"
+    },
+    {
+      "fd": 3,
+      "line": "openat(AT_FDCWD,\"experiments/linux_behavior/malware_like/fixtures/batch_input_1.txt\",O_RDONLY|O_CLOEXEC) = 3",
+      "op": "openat",
+      "path": "experiments/linux_behavior/malware_like/fixtures/batch_input_1.txt"
+    },
+    {
+      "fd": 3,
+      "line": "read(3,0xab2aba18,128) = 16",
+      "op": "read",
+      "path": "experiments/linux_behavior/malware_like/fixtures/batch_input_1.txt"
+    },
+    {
+      "fd": 3,
+      "line": "close(3) = 0",
+      "op": "close",
+      "path": "experiments/linux_behavior/malware_like/fixtures/batch_input_1.txt"
+    },
+    {
+      "fd": 3,
+      "line": "write(3,0xab2aba18,16) = 16",
+      "op": "write",
+      "path": "/tmp/rvmt_batch_output.txt"
+    }
+  ],
+  "row": {
+    "execve_filename_accuracy": 1.0,
+    "fd_graph_complete": true,
+    "fd_policy": "negative or intentionally failing fds are modeled as expected abnormal behavior, not unresolved path ownership",
+    "graph": {
+      "edges": [
+        {
+          "line": "mprotect(0x000000000007e000,16384,PROT_READ) = 0",
+          "op": "mprotect"
+        },
+        {
+          "fd": 3,
+          "line": "openat(AT_FDCWD,\"experiments/linux_behavior/malware_like/fixtures/batch_input_0.txt\",O_RDONLY|O_CLOEXEC) = 3",
+          "op": "openat",
+          "path": "experiments/linux_behavior/malware_like/fixtures/batch_input_0.txt"
+        },
+        {
+          "fd": 3,
+          "line": "read(3,0xab2aba18,128) = 17",
+          "op": "read",
+          "path": "experiments/linux_behavior/malware_like/fixtures/batch_input_0.txt"
+        },
+        {
+          "fd": 3,
+          "line": "close(3) = 0",
+          "op": "close",
+          "path": "experiments/linux_behavior/malware_like/fixtures/batch_input_0.txt"
+        },
+        {
+          "fd": 3,
+          "line": "openat(AT_FDCWD,\"/tmp/rvmt_batch_output.txt\",O_WRONLY|O_APPEND|O_CREAT|O_CLOEXEC,0644) = 3",
+          "op": "openat",
+          "path": "/tmp/rvmt_batch_output.txt"
+        },
+        {
+          "fd": 3,
+          "line": "write(3,0xab2aba18,17) = 17",
+          "op": "write",
+          "path": "/tmp/rvmt_batch_output.txt"
+        },
+        {
+          "fd": 3,
+          "line": "close(3) = 0",
+          "op": "close",
+          "path": "/tmp/rvmt_batch_output.txt"
+        },
+        {
+          "fd": 3,
+          "line": "openat(AT_FDCWD,\"experiments/linux_behavior/malware_like/fixtures/batch_input_1.txt\",O_RDONLY|O_CLOEXEC) = 3",
+          "op": "openat",
+          "path": "experiments/linux_behavior/malware_like/fixtures/batch_input_1.txt"
+        },
+        {
+          "fd": 3,
+          "line": "read(3,0xab2aba18,128) = 16",
+          "op": "read",
+          "path": "experiments/linux_behavior/malware_like/fixtures/batch_input_1.txt"
+        },
+        {
+          "fd": 3,
+          "line": "close(3) = 0",
+          "op": "close",
+          "path": "experiments/linux_behavior/malware_like/fixtures/batch_input_1.txt"
+        },
+        {
+          "fd": 3,
+          "line": "write(3,0xab2aba18,16) = 16",
+          "op": "write",
+          "path": "/tmp/rvmt_batch_output.txt"
+        }
+      ],
+      "nodes": [
+        "/tmp/rvmt_batch_output.txt",
+        "experiments/linux_behavior/malware_like/fixtures/batch_input_0.txt",
+        "experiments/linux_behavior/malware_like/fixtures/batch_input_1.txt"
+      ],
+      "unresolved_fd_count_observed_in_raw_parse": 0
+    },
+    "graph_schema": "rvmt.fd_path.graph.v1",
+    "has_execve": false,
+    "has_openat": true,
+    "openat_pathname_accuracy": 1.0,
+    "sample_id": "batch_open_read_write",
+    "unresolved_fd_count": 0
+  },
+  "sample_id": "batch_open_read_write",
+  "schema": "rvmt.fd_path.graph.v1"
+}

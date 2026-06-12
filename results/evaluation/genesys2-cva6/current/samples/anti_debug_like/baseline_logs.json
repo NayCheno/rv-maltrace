@@ -1,0 +1,228 @@
+{
+  "evidence": {
+    "behavior_graph": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/behavior/behavior_graph.json",
+    "code_map": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/local_code_analysis/code_map.json",
+    "integrated_validation": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/integrated_validation.json",
+    "runtime_process_map": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map/anti_debug_like/runtime_process_map.json",
+    "semantic_events": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/behavior/semantic_events.json",
+    "source_attribution": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/local_code_analysis/source_attribution_summary.json",
+    "trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_01/bram_records.jsonl"
+  },
+  "host_strace": {
+    "execve_paths": [
+      "results/demo/ccfa-safe-20260611/anti_debug_like/00_build/anti_debug_like.host"
+    ],
+    "fd_edges": [
+      {
+        "line": "execve(\"results/demo/ccfa-safe-20260611/anti_debug_like/00_build/anti_debug_like.host\", [\"results/demo/ccfa-safe-20260611/\"...], 0x7ffc9064c2a8 /* 9 vars */) = 0",
+        "op": "execve",
+        "path": "results/demo/ccfa-safe-20260611/anti_debug_like/00_build/anti_debug_like.host"
+      },
+      {
+        "line": "mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x71917a74e000",
+        "op": "mmap"
+      },
+      {
+        "fd": 3,
+        "line": "openat(AT_FDCWD, \"/etc/ld.so.cache\", O_RDONLY|O_CLOEXEC) = 3",
+        "op": "openat",
+        "path": "/etc/ld.so.cache"
+      },
+      {
+        "line": "mmap(NULL, 12899, PROT_READ, MAP_PRIVATE, 3, 0) = 0x71917a74a000",
+        "op": "mmap"
+      },
+      {
+        "fd": 3,
+        "line": "close(3)                          = 0",
+        "op": "close",
+        "path": "/etc/ld.so.cache"
+      },
+      {
+        "fd": 3,
+        "line": "openat(AT_FDCWD, \"/lib/x86_64-linux-gnu/libc.so.6\", O_RDONLY|O_CLOEXEC) = 3",
+        "op": "openat",
+        "path": "/lib/x86_64-linux-gnu/libc.so.6"
+      },
+      {
+        "fd": 3,
+        "line": "read(3, \"\\177ELF\\2\\1\\1\\3\\0\\0\\0\\0\\0\\0\\0\\0\\3\\0>\\0\\1\\0\\0\\0\\220\\243\\2\\0\\0\\0\\0\\0\"..., 832) = 832",
+        "op": "read",
+        "path": "/lib/x86_64-linux-gnu/libc.so.6"
+      },
+      {
+        "line": "mmap(NULL, 2170256, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x71917a538000",
+        "op": "mmap"
+      },
+      {
+        "line": "mmap(0x71917a560000, 1605632, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x71917a560000",
+        "op": "mmap"
+      },
+      {
+        "line": "mmap(0x71917a6e8000, 323584, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b0000) = 0x71917a6e8000",
+        "op": "mmap"
+      },
+      {
+        "line": "mmap(0x71917a737000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1fe000) = 0x71917a737000",
+        "op": "mmap"
+      },
+      {
+        "line": "mmap(0x71917a73d000, 52624, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x71917a73d000",
+        "op": "mmap"
+      },
+      {
+        "fd": 3,
+        "line": "close(3)                          = 0",
+        "op": "close",
+        "path": "/lib/x86_64-linux-gnu/libc.so.6"
+      },
+      {
+        "line": "mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x71917a535000",
+        "op": "mmap"
+      },
+      {
+        "line": "mprotect(0x71917a737000, 16384, PROT_READ) = 0",
+        "op": "mprotect"
+      },
+      {
+        "line": "mprotect(0x64cffdb48000, 4096, PROT_READ) = 0",
+        "op": "mprotect"
+      },
+      {
+        "line": "mprotect(0x71917a786000, 8192, PROT_READ) = 0",
+        "op": "mprotect"
+      },
+      {
+        "line": "munmap(0x71917a74a000, 12899)     = 0",
+        "op": "munmap"
+      },
+      {
+        "line": "clock_gettime(CLOCK_MONOTONIC, {tv_sec=147504, tv_nsec=528398546}) = 0",
+        "op": "clock_gettime"
+      },
+      {
+        "line": "ptrace(PTRACE_TRACEME)            = -1 EPERM (Operation not permitted)",
+        "op": "ptrace"
+      },
+      {
+        "fd": 3,
+        "line": "openat(AT_FDCWD, \"/proc/self/status\", O_RDONLY|O_CLOEXEC) = 3",
+        "op": "openat",
+        "path": "/proc/self/status"
+      },
+      {
+        "fd": 3,
+        "line": "read(3, \"Name:\\tanti_debug_like\\nUmask:\\t002\"..., 256) = 256",
+        "op": "read",
+        "path": "/proc/self/status"
+      },
+      {
+        "fd": 3,
+        "line": "close(3)                          = 0",
+        "op": "close",
+        "path": "/proc/self/status"
+      },
+      {
+        "line": "clock_gettime(CLOCK_MONOTONIC, {tv_sec=147504, tv_nsec=530977132}) = 0",
+        "op": "clock_gettime"
+      }
+    ],
+    "line_count": 37,
+    "openat_paths": [
+      "/etc/ld.so.cache",
+      "/lib/x86_64-linux-gnu/libc.so.6",
+      "/proc/self/status"
+    ],
+    "path": "results/demo/ccfa-safe-20260611/anti_debug_like/01_ground_truth/host.strace.log",
+    "present": true,
+    "signals": [],
+    "syscalls": {
+      "access": 1,
+      "arch_prctl": 1,
+      "brk": 1,
+      "clock_gettime": 2,
+      "close": 3,
+      "execve": 1,
+      "exit_group": 1,
+      "fstat": 2,
+      "mmap": 8,
+      "mprotect": 3,
+      "munmap": 1,
+      "openat": 3,
+      "pread64": 2,
+      "prlimit64": 1,
+      "ptrace": 1,
+      "read": 2,
+      "rseq": 1,
+      "set_robust_list": 1,
+      "set_tid_address": 1
+    },
+    "unresolved_fd_count": 0,
+    "write_prefixes": []
+  },
+  "qemu_strace": {
+    "execve_paths": [],
+    "fd_edges": [
+      {
+        "line": "mprotect(0x000000000007e000,16384,PROT_READ) = 0",
+        "op": "mprotect"
+      },
+      {
+        "line": "clock_gettime(CLOCK_MONOTONIC,0x00002aaaab2ab9c8) = 0 ({tv_sec = 147504,tv_nsec = 571170473})",
+        "op": "clock_gettime"
+      },
+      {
+        "line": "ptrace(0,0,0,0,-4096,338604) = -1 errno=38 (Function not implemented)",
+        "op": "ptrace"
+      },
+      {
+        "fd": 3,
+        "line": "openat(AT_FDCWD,\"/proc/self/status\",O_RDONLY|O_CLOEXEC) = 3",
+        "op": "openat",
+        "path": "/proc/self/status"
+      },
+      {
+        "fd": 3,
+        "line": "read(3,0xab2ab9e8,256) = 256",
+        "op": "read",
+        "path": "/proc/self/status"
+      },
+      {
+        "fd": 3,
+        "line": "close(3) = 0",
+        "op": "close",
+        "path": "/proc/self/status"
+      },
+      {
+        "line": "clock_gettime(CLOCK_MONOTONIC,0x00002aaaab2ab9d8) = 0 ({tv_sec = 147504,tv_nsec = 577860036})",
+        "op": "clock_gettime"
+      }
+    ],
+    "line_count": 18,
+    "openat_paths": [
+      "/proc/self/status"
+    ],
+    "path": "results/demo/ccfa-safe-20260611/anti_debug_like/01_ground_truth/qemu-riscv64.strace.log",
+    "present": true,
+    "signals": [],
+    "syscalls": {
+      "brk": 5,
+      "clock_gettime": 2,
+      "close": 1,
+      "exit_group": 1,
+      "getrandom": 1,
+      "mprotect": 1,
+      "openat": 1,
+      "prlimit64": 1,
+      "ptrace": 1,
+      "read": 1,
+      "readlinkat": 1,
+      "set_robust_list": 1,
+      "set_tid_address": 1
+    },
+    "unresolved_fd_count": 0,
+    "write_prefixes": []
+  },
+  "sample_id": "anti_debug_like",
+  "schema": "rvmt.sample_baseline_logs.v1"
+}

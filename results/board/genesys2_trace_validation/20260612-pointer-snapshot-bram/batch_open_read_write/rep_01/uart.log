@@ -1,0 +1,11 @@
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART port=COM7 baud=115200 start=2026-06-12T04:37:26+0800
+
+RVMT_SEND 'printf \'RVMT_POINTER_BRAM_START sample=batch_open_read_write rep=rep_01\\n\'; /tmp/rvmt_p2/batch_open_read_write; rc=$?; printf \'RVMT_POINTER_BRAM_DONE sample=batch_open_read_write rep=rep_01 rc=%s\\n\' "$rc"'
+printf 'RVMT_POINTER_BRAM_START sample=batch_open_read_write rep=rep_01\n'; /t
+mp/rvmt_p2/batch_open_read_write; rc=$?; printf 'RVMT_POINTER_BRAM_DONE sample=b
+atch_open_read_write rep=rep_01 rc=%s\n' "$rc"
+RVMT_POINTER_BRAM_START sample=batch_open_read_write rep=rep_01
+RVMT_POINTER_BRAM_DONE sample=batch_open_read_write rep=rep_01 rc=0
+# 
+# 
+RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART_DONE

@@ -1,87 +1,23 @@
 [
   {
-    "end": "0x0000000000010168",
-    "name": "$xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0",
-    "size": 0,
-    "size_inferred": true,
-    "start": "0x00000000000100e8",
-    "type": 0
-  },
-  {
-    "end": "0x0000000000010168",
+    "end": "0x00000000000101cc",
     "name": "_start",
-    "size": 128,
-    "start": "0x00000000000100e8",
+    "size": 204,
+    "start": "0x0000000000010100",
     "type": 2
   },
   {
-    "end": "0x0000000000010182",
-    "name": "missing_path.1",
-    "size": 26,
-    "start": "0x0000000000010168",
+    "end": "0x0000000000012400",
+    "name": "buffer",
+    "size": 1024,
+    "start": "0x0000000000012000",
     "type": 1
   },
   {
-    "end": "0x0000000000011002",
-    "name": "__DATA_BEGIN__",
-    "size": 0,
-    "size_inferred": true,
-    "start": "0x0000000000011000",
-    "type": 0
-  },
-  {
-    "end": "0x0000000000011002",
-    "name": "__SDATA_BEGIN__",
-    "size": 0,
-    "size_inferred": true,
-    "start": "0x0000000000011000",
-    "type": 0
-  },
-  {
-    "end": "0x0000000000011002",
-    "name": "byte.0",
-    "size": 2,
-    "start": "0x0000000000011000",
+    "end": "0x0000000000012110",
+    "name": "argv_true",
+    "size": 16,
+    "start": "0x0000000000012100",
     "type": 1
-  },
-  {
-    "end": "0x0000000000011008",
-    "name": "__bss_start",
-    "size": 0,
-    "size_inferred": true,
-    "start": "0x0000000000011002",
-    "type": 0
-  },
-  {
-    "end": "0x0000000000011008",
-    "name": "_edata",
-    "size": 0,
-    "size_inferred": true,
-    "start": "0x0000000000011002",
-    "type": 0
-  },
-  {
-    "end": "0x0000000000011800",
-    "name": "__BSS_END__",
-    "size": 0,
-    "size_inferred": true,
-    "start": "0x0000000000011008",
-    "type": 0
-  },
-  {
-    "end": "0x0000000000011800",
-    "name": "_end",
-    "size": 0,
-    "size_inferred": true,
-    "start": "0x0000000000011008",
-    "type": 0
-  },
-  {
-    "end": "0x0000000000011804",
-    "name": "__global_pointer$",
-    "size": 0,
-    "size_inferred": true,
-    "start": "0x0000000000011800",
-    "type": 0
   }
 ]

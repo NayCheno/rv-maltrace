@@ -1,0 +1,17 @@
+RVMT_SERIAL_DIRECT_COMMAND_CAPTURE port=COM7 baud=115200 start=2026-06-12T03:38:44+0800
+
+RVMT_SEND 'echo RVMT_SHA_CHECK; sha256sum /tmp/rvmt_p2/file_scan /tmp/rvmt_p2/batch_open_read_write /tmp/rvmt_p2/process_chain; ls -l /tmp/rvmt_p2/file_scan /tmp/rvmt_p2/batch_open_read_write /tmp/rvmt_p2/process_chain; echo RVMT_SHA_CHECK_DONE'
+echo RVMT_SHA_CHECK; sha256sum /tmp/rvmt_p2/file_scan /tmp/rvmt_p2/batch_open_
+read_write /tmp/rvmt_p2/process_chain; ls -l /tmp/rvmt_p2/file_scan /tmp/rvmt_p2
+/batch_open_read_write /tmp/rvmt_p2/process_chain; echo RVMT_SHA_CHECK_DONE
+RVMT_SHA_CHECK
+053f6c45c149e52e665a0fac9d9e36d3cac5004f75306a2c05bf8537dc5b875c  /tmp/rvmt_p2/file_scan
+eb99ac8463411b917749373d87daaf0513fcf0620c18b6ac2d716c296cfce8f6  /tmp/rvmt_p2/batch_open_read_write
+95ff6bdb3ecfda9f9510ce0a1fd831ec9ba52f818f7f4868d23553258e6d7eff  /tmp/rvmt_p2/process_chain
+-rwxr-xr-x    1 root     root          9832 Jan  1 00:07 [1;32m/tmp/rvmt_p2/batch_open_read_write[m
+-rwxr-xr-x    1 root     root          9832 Jan  1 00:06 [1;32m/tmp/rvmt_p2/file_scan[m
+-rwxr-xr-x    1 root     root          9832 Jan  1 00:08 [1;32m/tmp/rvmt_p2/process_chain[m
+RVMT_SHA_CHECK_DONE
+# 
+# 
+RVMT_SERIAL_DIRECT_COMMAND_CAPTURE_DONE

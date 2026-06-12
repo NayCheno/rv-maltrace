@@ -72,9 +72,104 @@ package trace_pkg;
     logic [63:0] a7;
   } trace_packet_t;
 
+  typedef struct packed {
+    logic [31:0] seq;
+    logic [31:0] aux;
+    logic [31:0] primary;
+    logic [31:0] pc;
+    logic [31:0] cycle;
+    trace_evt_e  evt;
+  } trace_compact_record_t;
+
   function automatic trace_packet_t trace_null_packet();
     trace_null_packet = '0;
     trace_null_packet.evt = EVT_NONE;
+  endfunction
+
+  function automatic logic [31:0] trace_packet_primary32(input trace_packet_t packet);
+    trace_packet_primary32 = 32'd0;
+    unique case (packet.evt)
+      EVT_RETIRE: begin
+        trace_packet_primary32 = packet.instr;
+      end
+      EVT_BRANCH,
+      EVT_JUMP: begin
+        trace_packet_primary32 = packet.target[31:0];
+      end
+      EVT_SYSCALL_ENTRY: begin
+        trace_packet_primary32 = packet.a7[31:0];
+      end
+      EVT_SYSCALL_RET: begin
+        trace_packet_primary32 = packet.syscall_id[31:0];
+      end
+      EVT_TRAP: begin
+        trace_packet_primary32 = packet.cause[31:0];
+      end
+      EVT_CSR: begin
+        trace_packet_primary32 = {20'd0, packet.csr};
+      end
+      EVT_SATP: begin
+        trace_packet_primary32 = packet.satp[31:0];
+      end
+      EVT_PRIV: begin
+        trace_packet_primary32 = {30'd0, packet.old_priv};
+      end
+      EVT_ARG_MEM: begin
+        trace_packet_primary32 = packet.mem_addr[31:0];
+      end
+      EVT_DROP,
+      EVT_MARKER: begin
+        trace_packet_primary32 = packet.value[31:0];
+      end
+      default: begin
+        trace_packet_primary32 = 32'd0;
+      end
+    endcase
+  endfunction
+
+  function automatic logic [31:0] trace_packet_aux32(input trace_packet_t packet);
+    trace_packet_aux32 = 32'd0;
+    unique case (packet.evt)
+      EVT_BRANCH,
+      EVT_JUMP: begin
+        trace_packet_aux32 = {31'd0, packet.taken};
+      end
+      EVT_SYSCALL_ENTRY: begin
+        trace_packet_aux32 = packet.syscall_id[31:0];
+      end
+      EVT_SYSCALL_RET: begin
+        trace_packet_aux32 = packet.a0[31:0];
+      end
+      EVT_TRAP: begin
+        trace_packet_aux32 = packet.tval[31:0];
+      end
+      EVT_CSR,
+      EVT_SATP: begin
+        trace_packet_aux32 = packet.value[31:0];
+      end
+      EVT_PRIV: begin
+        trace_packet_aux32 = {30'd0, packet.new_priv};
+      end
+      EVT_ARG_MEM: begin
+        trace_packet_aux32 = packet.mem_data[31:0];
+      end
+      default: begin
+        trace_packet_aux32 = 32'd0;
+      end
+    endcase
+  endfunction
+
+  function automatic trace_compact_record_t trace_compact_record(
+      input trace_packet_t packet,
+      input logic [31:0] seq
+  );
+    trace_compact_record = '0;
+    trace_compact_record.seq = seq;
+    trace_compact_record.aux = trace_packet_aux32(packet);
+    trace_compact_record.primary = trace_packet_primary32(packet);
+    trace_compact_record.pc = packet.pc[31:0];
+    trace_compact_record.cycle = packet.cycle[31:0];
+    trace_compact_record.evt = packet.evt;
   endfunction
 
   function automatic logic trace_is_watched_csr(input logic [11:0] csr_i);

@@ -64,6 +64,9 @@ module tb_cva6_direct_xsim_smoke #(
   logic [CVA6Cfg.NrCommitPorts-1:0][CVA6Cfg.XLEN-1:0] rvmt_rvfi_rs2;
   logic [CVA6Cfg.NrCommitPorts-1:0][4:0] rvmt_rvfi_rd;
   logic [CVA6Cfg.NrCommitPorts-1:0][CVA6Cfg.XLEN-1:0] rvmt_rvfi_rd_wdata;
+  logic [CVA6Cfg.NrCommitPorts-1:0][CVA6Cfg.VLEN-1:0] rvmt_rvfi_mem_addr;
+  logic [CVA6Cfg.NrCommitPorts-1:0][CVA6Cfg.XLEN-1:0] rvmt_rvfi_mem_rdata;
+  logic [CVA6Cfg.NrCommitPorts-1:0][(CVA6Cfg.XLEN/8)-1:0] rvmt_rvfi_mem_rmask;
   trace_pkg::trace_packet_t rvmt_trace_packet;
   logic rvmt_trace_valid;
 
@@ -166,6 +169,9 @@ module tb_cva6_direct_xsim_smoke #(
     assign rvmt_rvfi_rs2[port] = rvfi_instr[port].rs2_rdata[CVA6Cfg.XLEN-1:0];
     assign rvmt_rvfi_rd[port] = rvfi_instr[port].rd_addr[4:0];
     assign rvmt_rvfi_rd_wdata[port] = rvfi_instr[port].rd_wdata[CVA6Cfg.XLEN-1:0];
+    assign rvmt_rvfi_mem_addr[port] = rvfi_instr[port].mem_addr[CVA6Cfg.VLEN-1:0];
+    assign rvmt_rvfi_mem_rdata[port] = rvfi_instr[port].mem_rdata[CVA6Cfg.XLEN-1:0];
+    assign rvmt_rvfi_mem_rmask[port] = rvfi_instr[port].mem_rmask[(CVA6Cfg.XLEN/8)-1:0];
   end
 
   if (TRACE_ENABLE) begin : gen_trace
@@ -174,7 +180,10 @@ module tb_cva6_direct_xsim_smoke #(
       .XLEN(CVA6Cfg.XLEN),
       .ILEN(config_pkg::ILEN),
       .VLEN(CVA6Cfg.VLEN),
-      .RELAX_SRET_TO_USER_CHECK(1'b1)
+      .RELAX_SRET_TO_USER_CHECK(1'b1),
+      .ENABLE_USER_POINTER_SNAPSHOT(1'b1),
+      .MAX_POINTER_SNAPSHOT_BYTES(64),
+      .MAX_POINTER_WATCH_CYCLES(262144)
     ) i_trace_adapter (
       .clk_i(clk_i),
       .rst_ni(rst_ni),
@@ -192,6 +201,10 @@ module tb_cva6_direct_xsim_smoke #(
       .rvfi_rs2_rdata_i(rvmt_rvfi_rs2),
       .rvfi_rd_addr_i(rvmt_rvfi_rd),
       .rvfi_rd_wdata_i(rvmt_rvfi_rd_wdata),
+      .trace_mem_mode_i(trace_pkg::TRACE_MEM_MODE_RANGE),
+      .rvfi_mem_addr_i(rvmt_rvfi_mem_addr),
+      .rvfi_mem_rdata_i(rvmt_rvfi_mem_rdata),
+      .rvfi_mem_rmask_i(rvmt_rvfi_mem_rmask),
       .csr_valid_i(|rvfi_csr.satp.wmask),
       .csr_addr_i(12'h180),
       .csr_wdata_i(rvfi_csr.satp.wdata),

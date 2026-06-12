@@ -16,9 +16,9 @@
   "function_ranges": [
     {
       "confidence": "symbol_table",
-      "end": "0x00000000000101a0",
+      "end": "0x00000000000101e8",
       "function": "_start",
-      "size": 160,
+      "size": 232,
       "start": "0x0000000000010100"
     }
   ],
@@ -32,7 +32,7 @@
       "start": "0x0000000000010000"
     },
     {
-      "end": "0x0000000000012200",
+      "end": "0x0000000000012400",
       "file_offset": "0x2000",
       "permissions": "RW",
       "segment": "data",
@@ -51,31 +51,31 @@
   "schema": "rvmt.code_map.v1",
   "sections": [
     {
-      "end": "0x00000000000101a0",
+      "end": "0x00000000000101e8",
       "flags": "0x6",
       "name": ".text",
-      "size": 160,
+      "size": 232,
       "start": "0x0000000000010100",
       "type": 1
     },
     {
-      "end": "0x000000000001029c",
+      "end": "0x00000000000102e4",
       "flags": "0x2",
       "name": ".rodata",
       "size": 252,
-      "start": "0x00000000000101a0",
+      "start": "0x00000000000101e8",
       "type": 1
     },
     {
-      "end": "0x0000000000012200",
+      "end": "0x0000000000012400",
       "flags": "0x3",
       "name": ".data",
-      "size": 512,
+      "size": 1024,
       "start": "0x0000000000012000",
       "type": 1
     }
   ],
-  "sha256": "461ae72556d09e890ca7d55f63975def2e6fa83a8a0236c1199e251604bcc3f5",
+  "sha256": "d16f3e9e2191e26c247d0ce569dcc6557dfa7e0f08d07d772ba2856914eb33a2",
   "source": "experiments/linux_behavior/malware_like/programs/self_copy_sim.c",
   "source_attribution": {
     "function_count": 1,
@@ -91,16 +91,16 @@
   "source_locations": [],
   "symbols": [
     {
-      "end": "0x00000000000101a0",
+      "end": "0x00000000000101e8",
       "name": "_start",
-      "size": 160,
+      "size": 232,
       "start": "0x0000000000010100",
       "type": 2
     },
     {
-      "end": "0x0000000000012200",
+      "end": "0x0000000000012400",
       "name": "buffer",
-      "size": 512,
+      "size": 1024,
       "start": "0x0000000000012000",
       "type": 1
     },
@@ -115,52 +115,66 @@
   "syscall_sites": [
     {
       "asm": "ecall",
-      "pc": "0x000000000001011c",
+      "pc": "0x0000000000010128",
       "section": ".text",
       "symbol": "_start",
-      "symbol_offset": "0x1c"
+      "symbol_offset": "0x28"
     },
     {
       "asm": "ecall",
-      "pc": "0x0000000000010138",
+      "pc": "0x0000000000010148",
       "section": ".text",
       "symbol": "_start",
-      "symbol_offset": "0x38"
+      "symbol_offset": "0x48"
     },
     {
       "asm": "ecall",
-      "pc": "0x0000000000010158",
+      "pc": "0x0000000000010164",
       "section": ".text",
       "symbol": "_start",
-      "symbol_offset": "0x58"
+      "symbol_offset": "0x64"
     },
     {
       "asm": "ecall",
-      "pc": "0x0000000000010174",
+      "pc": "0x0000000000010184",
       "section": ".text",
       "symbol": "_start",
-      "symbol_offset": "0x74"
+      "symbol_offset": "0x84"
     },
     {
       "asm": "ecall",
-      "pc": "0x0000000000010180",
+      "pc": "0x00000000000101a0",
       "section": ".text",
       "symbol": "_start",
-      "symbol_offset": "0x80"
+      "symbol_offset": "0xa0"
     },
     {
       "asm": "ecall",
-      "pc": "0x000000000001018c",
+      "pc": "0x00000000000101ac",
       "section": ".text",
       "symbol": "_start",
-      "symbol_offset": "0x8c"
+      "symbol_offset": "0xac"
     },
     {
       "asm": "ecall",
-      "pc": "0x0000000000010198",
+      "pc": "0x00000000000101b8",
       "section": ".text",
       "symbol": "_start",
-      "symbol_offset": "0x98"
+      "symbol_offset": "0xb8"
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000101d4",
+      "section": ".text",
+      "symbol": "_start",
+      "symbol_offset": "0xd4"
+    },
+    {
+      "asm": "ecall",
+      "pc": "0x00000000000101e0",
+      "section": ".text",
+      "symbol": "_start",
+      "symbol_offset": "0xe0"
     }
   ],
   "trap_sites": []

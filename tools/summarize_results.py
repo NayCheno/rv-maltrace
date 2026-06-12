@@ -56,10 +56,21 @@ def collect(result_dir: Path) -> dict[str, Any]:
         test_dir = result_dir / test_name
         trace_path = test_dir / "trace.jsonl"
         compare_log = test_dir / "compare.log"
+        xsim_status_log = test_dir / "xsim_status.log"
         metadata = expected_metadata.get(test_name, {})
         expected_path = expected_files.get(test_name)
         trace_summary: dict[str, Any] = {"events": 0, "counts": {}}
         status = "MISSING"
+        if test_dir.exists() and expected_path is None and xsim_status_log.exists():
+            status = compare_status(xsim_status_log)
+            tests[test_name] = {
+                "status": status,
+                "trace": "",
+                "compare_log": str(xsim_status_log),
+                "note": metadata.get("summary_note", "xsim top-level test without JSONL trace comparison"),
+                **trace_summary,
+            }
+            continue
         if test_dir.exists():
             status = compare_status(compare_log)
             if (

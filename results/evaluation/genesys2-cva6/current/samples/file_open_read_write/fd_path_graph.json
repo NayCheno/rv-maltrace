@@ -1,0 +1,97 @@
+{
+  "edges": [
+    {
+      "fd": 3,
+      "line": "openat(AT_FDCWD,\"/tmp/rvmt_p0_file_open_read_write.txt\",O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC,0644) = 3",
+      "op": "openat",
+      "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+    },
+    {
+      "fd": 3,
+      "line": "write(3,0x10248,24) = 24",
+      "op": "write",
+      "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+    },
+    {
+      "fd": 3,
+      "line": "close(3) = 0",
+      "op": "close",
+      "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+    },
+    {
+      "fd": 3,
+      "line": "openat(AT_FDCWD,\"/tmp/rvmt_p0_file_open_read_write.txt\",O_RDONLY|O_CLOEXEC) = 3",
+      "op": "openat",
+      "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+    },
+    {
+      "fd": 3,
+      "line": "read(3,0x12000,128) = 24",
+      "op": "read",
+      "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+    },
+    {
+      "fd": 1,
+      "line": "write(1,0x12000,24) = 24",
+      "op": "write",
+      "path": "<stdout>"
+    }
+  ],
+  "row": {
+    "execve_filename_accuracy": 1.0,
+    "fd_graph_complete": true,
+    "fd_policy": "negative or intentionally failing fds are modeled as expected abnormal behavior, not unresolved path ownership",
+    "graph": {
+      "edges": [
+        {
+          "fd": 3,
+          "line": "openat(AT_FDCWD,\"/tmp/rvmt_p0_file_open_read_write.txt\",O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC,0644) = 3",
+          "op": "openat",
+          "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+        },
+        {
+          "fd": 3,
+          "line": "write(3,0x10248,24) = 24",
+          "op": "write",
+          "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+        },
+        {
+          "fd": 3,
+          "line": "close(3) = 0",
+          "op": "close",
+          "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+        },
+        {
+          "fd": 3,
+          "line": "openat(AT_FDCWD,\"/tmp/rvmt_p0_file_open_read_write.txt\",O_RDONLY|O_CLOEXEC) = 3",
+          "op": "openat",
+          "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+        },
+        {
+          "fd": 3,
+          "line": "read(3,0x12000,128) = 24",
+          "op": "read",
+          "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+        },
+        {
+          "fd": 1,
+          "line": "write(1,0x12000,24) = 24",
+          "op": "write",
+          "path": "<stdout>"
+        }
+      ],
+      "nodes": [
+        "/tmp/rvmt_p0_file_open_read_write.txt"
+      ],
+      "unresolved_fd_count_observed_in_raw_parse": 0
+    },
+    "graph_schema": "rvmt.fd_path.graph.v1",
+    "has_execve": false,
+    "has_openat": true,
+    "openat_pathname_accuracy": 1.0,
+    "sample_id": "file_open_read_write",
+    "unresolved_fd_count": 0
+  },
+  "sample_id": "file_open_read_write",
+  "schema": "rvmt.fd_path.graph.v1"
+}

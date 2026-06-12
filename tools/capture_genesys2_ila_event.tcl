@@ -27,12 +27,14 @@ if {$argc >= 8} {
   set hw_server_url [lindex $argv 7]
 }
 
+set payload_width 136
+set payload_nibbles [expr {$payload_width / 4}]
 if {$primary_arg eq "x"} {
-  set compare "eq104'hXXXXXXXXXXXXXXXXXXXXXXXXX${evt_hex}"
+  set compare "eq${payload_width}'h[string repeat X [expr {$payload_nibbles - 1}]]${evt_hex}"
 } else {
   scan $primary_arg "%x" primary_value
   set primary_hex [format "%08x" $primary_value]
-  set compare "eq104'hX${primary_hex}XXXXXXXXXXXXXXXX${evt_hex}"
+  set compare "eq${payload_width}'h[string repeat X 9]${primary_hex}[string repeat X 16]${evt_hex}"
 }
 
 puts "RVMT_LTX_FILE=$ltx_file"
@@ -65,6 +67,10 @@ if {[llength $ilas] == 0} { puts "RVMT_NO_HW_ILA"; exit 2 }
 set ila [lindex $ilas 0]
 set fire_probe [get_hw_probes rvmt_trace_fire]
 set payload_probe [get_hw_probes rvmt_trace_probe_payload]
+set bram_probe [get_hw_probes -quiet rvmt_trace_bram_probe_payload]
+set bram_segment_probes [get_hw_probes -quiet rvmt_trace_bram_*]
+puts "RVMT_BRAM_PROBE=$bram_probe"
+puts "RVMT_BRAM_SEGMENT_PROBES=$bram_segment_probes"
 set_property CONTROL.WINDOW_COUNT 1 $ila
 set_property CONTROL.TRIGGER_POSITION $trigger_position $ila
 set_property TRIGGER_COMPARE_VALUE eq1'b1 $fire_probe

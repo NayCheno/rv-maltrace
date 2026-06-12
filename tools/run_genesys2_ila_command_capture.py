@@ -37,6 +37,22 @@ def read_for(ser, seconds: float, handle: TextIO) -> str:
     return "".join(chunks)
 
 
+def read_until_any(ser, *, seconds: float, handle: TextIO, tokens: list[str]) -> str:
+    deadline = time.time() + seconds
+    chunks: list[str] = []
+    while time.time() < deadline:
+        data = ser.read(4096)
+        if not data:
+            continue
+        text = data.decode("utf-8", errors="replace")
+        chunks.append(text)
+        emit(handle, text)
+        combined = "".join(chunks)
+        if any(token in combined for token in tokens):
+            return combined
+    raise TimeoutError(f"timed out waiting for UART token(s): {', '.join(tokens)}")
+
+
 def send_uart_commands(
     *,
     port: str,
@@ -47,6 +63,7 @@ def send_uart_commands(
     between_read: float,
     post_read: float,
     send_delay: float,
+    post_read_until: list[str],
 ) -> None:
     try:
         import serial
@@ -71,7 +88,10 @@ def send_uart_commands(
             emit(handle, f"\nRVMT_SEND {command!r}\n")
             if send_delay > 0:
                 time.sleep(send_delay)
-            read_for(ser, between_read if index + 1 < len(commands) else post_read, handle)
+            if index + 1 == len(commands) and post_read_until:
+                read_until_any(ser, seconds=post_read, handle=handle, tokens=post_read_until)
+            else:
+                read_for(ser, between_read if index + 1 < len(commands) else post_read, handle)
         handle.write("\nRVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART_DONE\n")
 
 
@@ -187,6 +207,7 @@ def run_capture(args: argparse.Namespace) -> int:
                 between_read=args.between_read,
                 post_read=args.post_read,
                 send_delay=args.send_delay,
+                post_read_until=args.post_read_until,
             )
 
         try:
@@ -215,6 +236,26 @@ def run_capture(args: argparse.Namespace) -> int:
             str(args.decode_out),
         ]
         result = subprocess.run(decode_cmd, cwd=args.root)
+        if result.returncode != 0:
+            return result.returncode
+    if args.bram_out_jsonl or args.bram_summary:
+        if not args.bram_out_jsonl or not args.bram_summary:
+            raise ValueError("--bram-out-jsonl and --bram-summary must be supplied together")
+        bram_cmd = [
+            sys.executable,
+            "tools/decode_genesys2_bram_ring_dump.py",
+            "--csv",
+            str(args.csv),
+            "--out-jsonl",
+            str(args.bram_out_jsonl),
+            "--summary",
+            str(args.bram_summary),
+        ]
+        if args.sample_id:
+            bram_cmd.extend(["--sample-id", args.sample_id])
+        if args.bram_trigger_primary:
+            bram_cmd.extend(["--trigger-primary", args.bram_trigger_primary])
+        result = subprocess.run(bram_cmd, cwd=args.root)
         if result.returncode != 0:
             return result.returncode
     print(f"[PASS] Genesys2 ILA command capture complete: {args.csv}")
@@ -260,10 +301,15 @@ def self_test() -> int:
             between_read=0.1,
             post_read=0.1,
             send_delay=0.0,
+            post_read_until=[],
             arm_timeout=2.0,
             process_wait_timeout=5.0,
             serial_sim=True,
             decode_out=None,
+            bram_out_jsonl=None,
+            bram_summary=None,
+            bram_trigger_primary=None,
+            sample_id=None,
         )
         rc = run_capture(args)
         if rc != 0:
@@ -305,10 +351,15 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--pre-read", type=float, default=0.0)
     parser.add_argument("--between-read", type=float, default=0.5)
     parser.add_argument("--post-read", type=float, default=8.0)
+    parser.add_argument("--post-read-until", action="append", default=[])
     parser.add_argument("--send-delay", type=float, default=0.0)
     parser.add_argument("--arm-timeout", type=float, default=30.0)
     parser.add_argument("--process-wait-timeout", type=float, default=180.0)
     parser.add_argument("--decode-out", type=Path)
+    parser.add_argument("--bram-out-jsonl", type=Path)
+    parser.add_argument("--bram-summary", type=Path)
+    parser.add_argument("--bram-trigger-primary", help="Expected BRAM dump marker primary, for example e0000a01.")
+    parser.add_argument("--sample-id")
     parser.add_argument("--self-test", action="store_true")
     parser.add_argument("--serial-sim", action="store_true", help=argparse.SUPPRESS)
     parser.add_argument("--capture-command", nargs="+", help=argparse.SUPPRESS)

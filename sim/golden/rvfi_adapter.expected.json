@@ -2,13 +2,14 @@
   "mode": "rvfi_adapter",
   "test": "rvfi_adapter",
   "exact_counts": {
-    "RETIRE": 9,
+    "RETIRE": 12,
     "BRANCH": 1,
     "JUMP": 1,
-    "SYSCALL_ENTRY": 3,
+    "SYSCALL_ENTRY": 2,
     "SYSCALL_RET": 1,
-    "TRAP": 4,
-    "MARKER": 2
+    "TRAP": 5,
+    "MARKER": 2,
+    "ARG_MEM": 1
   },
   "forbidden_events": ["DROP"],
   "required_events": [
@@ -57,6 +58,17 @@
     {
       "evt": "MARKER",
       "value": "0x00000000e00000a5"
+    },
+    {
+      "evt": "ARG_MEM",
+      "pc": "0x0000000080000090",
+      "priv": "S",
+      "syscall_id": "0x0000000000000001",
+      "arg_index": 1,
+      "mem_addr": "0x0000000080002000",
+      "mem_data": "0x00000000706d742f",
+      "mem_size": 4,
+      "mem_last": false
     }
   ]
 }

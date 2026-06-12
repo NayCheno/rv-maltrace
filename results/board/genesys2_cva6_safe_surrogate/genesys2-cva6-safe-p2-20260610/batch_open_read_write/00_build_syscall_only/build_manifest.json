@@ -1,9 +1,9 @@
 {
   "binary": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/00_build_syscall_only/batch_open_read_write.riscv64",
   "binary_role": "linux_user_malware_like_synthetic_syscall_only",
-  "binary_sha256": "10361226e7f63e495f4d84a4fb15fc191bd423fa64acab1762909b2e636597c9",
+  "binary_sha256": "eb99ac8463411b917749373d87daaf0513fcf0620c18b6ac2d716c296cfce8f6",
   "builder": "tools/build_genesys2_safe_syscall_elf.py",
-  "data_size": 512,
+  "data_size": 1024,
   "entry": "0x0000000000010100",
   "expected_behavior": [
     "batch_file_read_write"
@@ -16,6 +16,12 @@
     "write",
     "close"
   ],
+  "marker_scope": {
+    "begin_value_low32": "0xb0000a11",
+    "enabled": true,
+    "end_value_low32": "0xe0000a11",
+    "syscall_nr": 1023
+  },
   "non_claims": [
     "No real malware validation is demonstrated.",
     "No real malware detection quality or efficacy is claimed.",
@@ -25,19 +31,22 @@
   "reference_manifest": "experiments/linux_behavior/malware_like/manifest.json",
   "reference_source": "experiments/linux_behavior/malware_like/programs/batch_open_read_write.c",
   "reference_source_sha256": "ce08281587feaad448e1ad03989bf8709277532142ca18e640dcb76184b4a686",
+  "runtime_map_warmup_iterations": 80000000,
   "runtime_path": "/tmp/rvmt_p2/batch_open_read_write",
   "sample_class": "malware_like_synthetic",
   "sample_id": "batch_open_read_write",
   "schema": "rvmt.genesys2.safe_syscall_elf_build.v1",
   "source_relation": "syscall-shape surrogate generated from repository manifest; not compiled from real malware",
   "syscall_sequence": [
+    "rvmt_marker",
     "openat",
     "read",
     "close",
     "openat",
     "write",
     "close",
+    "rvmt_marker",
     "exit"
   ],
-  "text_size": 160
+  "text_size": 232
 }

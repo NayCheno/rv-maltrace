@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import sys
@@ -15,11 +16,26 @@ DEFAULT_TRACE_MARKER_DIR = Path("build/vivado/genesys2-cv64a6_imafdc_sv39-trace-
 TRACE_MARKER_ILA_XCI = Path("work-fpga/xlnx_ila.xci")
 TRACE_MARKER_MANIFEST = Path("work-fpga/rvmt_trace_marker_build_manifest.json")
 TRACE_MARKER_ILA_EXPECTED = {
+    "C_NUM_OF_PROBES": "3",
+    "C_PROBE1_WIDTH": "136",
+    "C_PROBE2_WIDTH": "484",
     "C_DATA_DEPTH": "8192",
     "C_INPUT_PIPE_STAGES": "2",
     "C_EN_STRG_QUAL": "1",
     "C_ADV_TRIGGER": "TRUE",
 }
+TRACE_MARKER_SOURCE_HASH_FILES = [
+    "rtl/cva6/corev_apu/fpga/src/ariane_xilinx.sv",
+    "rtl/cva6/corev_apu/fpga/xilinx/xlnx_ila/tcl/run.tcl",
+    "rtl/trace/trace_pkg.sv",
+    "rtl/trace/trace_bram_ring.sv",
+    "rtl/trace/cva6_rvfi_trace_adapter.sv",
+    "tools/capture_genesys2_ila_event.tcl",
+    "tools/decode_genesys2_ila_trace.py",
+    "tools/decode_genesys2_bram_ring_dump.py",
+    "tools/package_genesys2_bram_trace_sink_summary.py",
+    "tools/run_genesys2_ila_command_capture.py",
+]
 
 
 class Check(NamedTuple):
@@ -100,6 +116,14 @@ def xci_config_value(text: str, key: str) -> str | None:
     return match.group(1) if match else None
 
 
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
 def check_ila_xci(root: Path, path: Path, label: str) -> Check:
     full_path = resolve(root, path)
     if not full_path.exists():
@@ -114,6 +138,39 @@ def check_ila_xci(root: Path, path: Path, label: str) -> Check:
         return Check(label, "FAIL", f"{display(full_path, root)}: " + "; ".join(mismatches))
     configured = ", ".join(f"{key}={value}" for key, value in TRACE_MARKER_ILA_EXPECTED.items())
     return Check(label, "PASS", f"{display(full_path, root)} ({configured})")
+
+
+def check_trace_marker_source_hashes(root: Path, manifest_path: Path, data: dict) -> Check | None:
+    hashes = data.get("source_hashes")
+    if hashes is None:
+        return Check(
+            "Trace-marker source hashes",
+            "WARN",
+            f"{display(manifest_path, root)}: source_hashes missing; rebuild trace-marker bitstream to bind artifact to current RTL/decoder sources",
+        )
+    if not isinstance(hashes, dict):
+        return Check("Trace-marker source hashes", "FAIL", f"{display(manifest_path, root)}: source_hashes must be an object")
+    if str(hashes.get("hash_algorithm", "")).lower() != "sha256":
+        return Check("Trace-marker source hashes", "FAIL", f"{display(manifest_path, root)}: source_hashes.hash_algorithm must be sha256")
+    files = hashes.get("files")
+    if not isinstance(files, dict):
+        return Check("Trace-marker source hashes", "FAIL", f"{display(manifest_path, root)}: source_hashes.files missing")
+    missing = [path for path in TRACE_MARKER_SOURCE_HASH_FILES if path not in files]
+    if missing:
+        return Check("Trace-marker source hashes", "FAIL", f"{display(manifest_path, root)}: missing source hashes {', '.join(missing)}")
+    mismatches: list[str] = []
+    for path in TRACE_MARKER_SOURCE_HASH_FILES:
+        full_path = root / path
+        if not full_path.is_file():
+            mismatches.append(f"{path}=missing")
+            continue
+        expected = str(files[path]).lower()
+        actual = sha256_file(full_path)
+        if actual.lower() != expected:
+            mismatches.append(f"{path}=current {actual[:12]}... manifest {expected[:12]}...")
+    if mismatches:
+        return Check("Trace-marker source hashes", "FAIL", f"{display(manifest_path, root)}: " + "; ".join(mismatches))
+    return Check("Trace-marker source hashes", "PASS", f"{display(manifest_path, root)} source hashes match current sources")
 
 
 def check_trace_marker_manifest(root: Path, path: Path) -> Check:
@@ -140,6 +197,9 @@ def check_trace_marker_manifest(root: Path, path: Path) -> Check:
             "FAIL",
             f"{display(full_path, root)}: expected marker enabled and branch disabled policy",
         )
+    hash_check = check_trace_marker_source_hashes(root, full_path, data)
+    if hash_check is not None and hash_check.level != "PASS":
+        return hash_check
     return Check(
         "Trace-marker build manifest",
         "PASS",
@@ -217,8 +277,14 @@ def self_test() -> int:
             trace / "reports",
             trace_marker / "work-fpga",
             trace_marker / "reports",
+            root / "rtl/cva6/corev_apu/fpga/src",
+            root / "rtl/cva6/corev_apu/fpga/xilinx/xlnx_ila/tcl",
+            root / "rtl/trace",
+            root / "tools",
         ):
             directory.mkdir(parents=True, exist_ok=True)
+        for source in TRACE_MARKER_SOURCE_HASH_FILES:
+            (root / source).write_text(f"{source}\n", encoding="utf-8")
         for path in (
             baseline / "work-fpga/ariane_xilinx.bit",
             baseline / "work-fpga/ariane_xilinx.mcs",
@@ -265,6 +331,10 @@ def self_test() -> int:
                     "trace_marker_scope": True,
                     "verilog_defines": ["RV_MALTRACE_FPGA_TRACE", "RV_MALTRACE_FPGA_TRACE_MARKER_SCOPE"],
                     "marker_scope_policy": {"enable_marker": True, "enable_branch": False},
+                    "source_hashes": {
+                        "hash_algorithm": "sha256",
+                        "files": {path: sha256_file(root / path) for path in TRACE_MARKER_SOURCE_HASH_FILES},
+                    },
                 }
             )
             + "\n",
@@ -307,6 +377,10 @@ def self_test() -> int:
                     "trace_marker_scope": True,
                     "verilog_defines": ["RV_MALTRACE_FPGA_TRACE"],
                     "marker_scope_policy": {"enable_marker": True, "enable_branch": False},
+                    "source_hashes": {
+                        "hash_algorithm": "sha256",
+                        "files": {path: sha256_file(root / path) for path in TRACE_MARKER_SOURCE_HASH_FILES},
+                    },
                 }
             )
             + "\n",
@@ -315,6 +389,27 @@ def self_test() -> int:
         checks = collect_checks(root, DEFAULT_BASELINE_DIR, DEFAULT_TRACE_DIR, DEFAULT_TRACE_MARKER_DIR)
         if exit_code(checks, strict=True) == 0:
             print("[FAIL] strict inventory must fail when marker-scope define is missing", file=sys.stderr)
+            return 1
+        (trace_marker / TRACE_MARKER_MANIFEST).write_text(
+            json.dumps(
+                {
+                    "schema": "rvmt.trace_marker_build_manifest.v1",
+                    "trace_marker_scope": True,
+                    "verilog_defines": ["RV_MALTRACE_FPGA_TRACE", "RV_MALTRACE_FPGA_TRACE_MARKER_SCOPE"],
+                    "marker_scope_policy": {"enable_marker": True, "enable_branch": False},
+                    "source_hashes": {
+                        "hash_algorithm": "sha256",
+                        "files": {path: sha256_file(root / path) for path in TRACE_MARKER_SOURCE_HASH_FILES},
+                    },
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        (root / "tools/decode_genesys2_ila_trace.py").write_text("modified\n", encoding="utf-8")
+        checks = collect_checks(root, DEFAULT_BASELINE_DIR, DEFAULT_TRACE_DIR, DEFAULT_TRACE_MARKER_DIR)
+        if exit_code(checks, strict=True) == 0:
+            print("[FAIL] strict inventory must fail when source hashes are stale", file=sys.stderr)
             return 1
     print("[PASS] Genesys2 bitstream artifact checker self-test")
     return 0

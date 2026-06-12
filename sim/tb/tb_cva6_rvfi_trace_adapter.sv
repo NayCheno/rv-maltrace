@@ -21,6 +21,10 @@ module tb_cva6_rvfi_trace_adapter
   logic [COMMIT_PORTS-1:0][63:0]  rvfi_rs2;
   logic [COMMIT_PORTS-1:0][4:0]   rvfi_rd;
   logic [COMMIT_PORTS-1:0][63:0]  rvfi_rd_wdata;
+  trace_mem_mode_e                 trace_mem_mode;
+  logic [COMMIT_PORTS-1:0][63:0]  rvfi_mem_addr;
+  logic [COMMIT_PORTS-1:0][63:0]  rvfi_mem_rdata;
+  logic [COMMIT_PORTS-1:0][7:0]   rvfi_mem_rmask;
   logic                           csr_valid;
   logic [11:0]                    csr_addr;
   logic [63:0]                    csr_wdata;
@@ -33,8 +37,11 @@ module tb_cva6_rvfi_trace_adapter
       .XLEN(64),
       .ILEN(32),
       .VLEN(64),
-      .EVENT_QUEUE_DEPTH(16),
-      .RELAX_SRET_TO_USER_CHECK(1'b1)
+      .EVENT_QUEUE_DEPTH(32),
+      .RELAX_SRET_TO_USER_CHECK(1'b1),
+      .ENABLE_USER_POINTER_SNAPSHOT(1'b1),
+      .MAX_POINTER_SNAPSHOT_BYTES(16),
+      .MAX_POINTER_WATCH_CYCLES(64)
   ) dut (
       .clk_i(clk),
       .rst_ni(rst_n),
@@ -52,6 +59,10 @@ module tb_cva6_rvfi_trace_adapter
       .rvfi_rs2_rdata_i(rvfi_rs2),
       .rvfi_rd_addr_i(rvfi_rd),
       .rvfi_rd_wdata_i(rvfi_rd_wdata),
+      .trace_mem_mode_i(trace_mem_mode),
+      .rvfi_mem_addr_i(rvfi_mem_addr),
+      .rvfi_mem_rdata_i(rvfi_mem_rdata),
+      .rvfi_mem_rmask_i(rvfi_mem_rmask),
       .csr_valid_i(csr_valid),
       .csr_addr_i(csr_addr),
       .csr_wdata_i(csr_wdata),
@@ -92,6 +103,10 @@ module tb_cva6_rvfi_trace_adapter
     rvfi_rs2        = '0;
     rvfi_rd         = '0;
     rvfi_rd_wdata   = '0;
+    trace_mem_mode  = TRACE_MEM_MODE_RANGE;
+    rvfi_mem_addr   = '0;
+    rvfi_mem_rdata  = '0;
+    rvfi_mem_rmask  = '0;
     csr_valid       = 1'b0;
     csr_addr        = 12'h000;
     csr_wdata       = 64'd0;
@@ -209,6 +224,43 @@ module tb_cva6_rvfi_trace_adapter
     rvfi_cause[1] = 64'd8;
     rvfi_mode[1] = TRACE_PRIV_U;
     rvfi_pc[1] = 64'h0000_0000_8000_0070;
+    @(posedge clk);
+
+    clear_inputs();
+    rvfi_valid[0] = 1'b1;
+    rvfi_insn[0] = 32'h0380_0893;  // addi a7, zero, openat
+    rvfi_mode[0] = TRACE_PRIV_U;
+    rvfi_pc[0] = 64'h0000_0000_8000_0080;
+    rvfi_rd[0] = 5'd17;
+    rvfi_rd_wdata[0] = 64'd56;
+    rvfi_valid[1] = 1'b1;
+    rvfi_insn[1] = 32'h0000_0593;  // addi a1, zero, pathname pointer in test metadata
+    rvfi_mode[1] = TRACE_PRIV_U;
+    rvfi_pc[1] = 64'h0000_0000_8000_0084;
+    rvfi_rd[1] = 5'd11;
+    rvfi_rd_wdata[1] = 64'h0000_0000_8000_2000;
+    @(posedge clk);
+
+    clear_inputs();
+    rvfi_valid[0] = 1'b1;
+    rvfi_trap[0] = 1'b1;
+    rvfi_insn[0] = 32'h0000_0073;  // openat ecall
+    rvfi_cause[0] = 64'd8;
+    rvfi_mode[0] = TRACE_PRIV_U;
+    rvfi_pc[0] = 64'h0000_0000_8000_0088;
+    @(posedge clk);
+
+    clear_inputs();
+    repeat (24) @(posedge clk);
+
+    clear_inputs();
+    rvfi_valid[0] = 1'b1;
+    rvfi_insn[0] = 32'h0000_2503;  // synthetic committed S-mode load from pathname
+    rvfi_mode[0] = TRACE_PRIV_S;
+    rvfi_pc[0] = 64'h0000_0000_8000_0090;
+    rvfi_mem_addr[0] = 64'h0000_0000_8000_2000;
+    rvfi_mem_rdata[0] = 64'h0000_0000_706d_742f;
+    rvfi_mem_rmask[0] = 8'h0f;
     @(posedge clk);
 
     clear_inputs();
