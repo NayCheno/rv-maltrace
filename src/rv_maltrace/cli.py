@@ -42,6 +42,7 @@ TRACE_MARKER_SOURCE_HASH_FILES = {
     "rtl/cva6/corev_apu/fpga/xilinx/xlnx_ila/tcl/run.tcl": ("cva6", "corev_apu/fpga/xilinx/xlnx_ila/tcl/run.tcl"),
     "rtl/trace/trace_pkg.sv": ("repo", "rtl/trace/trace_pkg.sv"),
     "rtl/trace/trace_bram_ring.sv": ("repo", "rtl/trace/trace_bram_ring.sv"),
+    "rtl/trace/rvmt_genesys2_oled_status.sv": ("repo", "rtl/trace/rvmt_genesys2_oled_status.sv"),
     "rtl/trace/cva6_rvfi_trace_adapter.sv": ("repo", "rtl/trace/cva6_rvfi_trace_adapter.sv"),
     "tools/capture_genesys2_ila_event.tcl": ("repo", "tools/capture_genesys2_ila_event.tcl"),
     "tools/decode_genesys2_ila_trace.py": ("repo", "tools/decode_genesys2_ila_trace.py"),
@@ -820,6 +821,10 @@ normalize_msys_paths() {{
       cat "$file"
     }} > "$tmp_file"
     mv "$tmp_file" "$file"
+  fi
+
+  if ! grep -q "R:/rtl/trace/rvmt_genesys2_oled_status.sv" "$file"; then
+    echo "read_verilog -sv {{R:/rtl/trace/rvmt_genesys2_oled_status.sv}}" >> "$file"
   fi
 
   if [[ "${{RV_MALTRACE_FPGA_TRACE:-0}}" == "1" || "${{RVMT_VIVADO_VERILOG_DEFINES:-}}" == *"RV_MALTRACE_FPGA_TRACE"* ]]; then

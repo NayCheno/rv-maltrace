@@ -19,6 +19,7 @@ REQUIRED_GENESYS2_CURRENT_SCRIPTS = {
     "tools/check_ccfa_claim_boundaries.py",
     "tools/check_genesys2_cva_evidence_boundary.py",
     "tools/check_genesys2_cva_closure_readiness.py",
+    "tools/check_genesys2_oled_status.py",
     "tools/check_genesys2_bram_trace_sink_readiness.py",
     "tools/check_genesys2_bram_trace_sink.py",
     "tools/check_genesys2_safe_surrogate_bram_trace.py",

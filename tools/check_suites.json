@@ -70,6 +70,12 @@
           "tags": ["genesys2", "cva6", "trace", "timing", "marker-scope", "readiness"]
         },
         {
+          "id": "oled-status-readiness",
+          "label": "Genesys2/CVA6 OLED progress status readiness",
+          "command": ["{python}", "tools/check_genesys2_oled_status.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "oled", "status", "readiness"]
+        },
+        {
           "id": "bram-trace-sink-readiness",
           "label": "Genesys2/CVA6 BRAM trace sink RTL readiness",
           "command": ["{python}", "tools/check_genesys2_bram_trace_sink_readiness.py", "--root", "{root}"],
