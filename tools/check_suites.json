@@ -10,16 +10,34 @@
       "tier": "current-gate",
       "checks": [
         {
+          "id": "latest-standard",
+          "label": "Genesys2/CVA6 latest manifest standard",
+          "command": ["{python}", "tools/check_genesys2_latest_standard.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "latest", "current-gate", "hygiene"]
+        },
+        {
           "id": "board-baseline",
           "label": "Genesys2/CVA6 board baseline evidence",
           "command": ["{python}", "tools/check_board_baseline.py", "--root", "{root}"],
           "tags": ["genesys2", "cva6", "board", "baseline"]
         },
         {
+          "id": "baseline-pass-criteria",
+          "label": "Genesys2/CVA6 baseline pass criteria evidence",
+          "command": ["{python}", "tools/check_baseline_pass_criteria.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "board", "baseline", "claim-boundary"]
+        },
+        {
           "id": "board-trace-minimal",
           "label": "Genesys2/CVA6 minimal trace policy",
           "command": ["{python}", "tools/check_board_trace_minimal.py", "--root", "{root}"],
           "tags": ["genesys2", "cva6", "trace", "policy"]
+        },
+        {
+          "id": "trace-export-decision",
+          "label": "Genesys2/CVA6 trace export decision boundary",
+          "command": ["{python}", "tools/check_trace_export_decision.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "trace", "bram-ring", "claim-boundary"]
         },
         {
           "id": "board-trace-programs",
@@ -64,6 +82,24 @@
           "tags": ["genesys2", "cva6", "ccfa", "claim-boundary"]
         },
         {
+          "id": "risk-log-current-boundaries",
+          "label": "Current risk log claim-boundary consistency",
+          "command": ["{python}", "tools/check_risk_log_current.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "risk-log", "claim-boundary"]
+        },
+        {
+          "id": "evaluation-plan-current",
+          "label": "Current evaluation-plan evidence index consistency",
+          "command": ["{python}", "tools/check_evaluation_plan.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "ccfa", "evaluation", "claim-boundary"]
+        },
+        {
+          "id": "review-closure-audit",
+          "label": "CCF-A review closure audit consistency",
+          "command": ["{python}", "tools/check_genesys2_review_closure_audit.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "ccfa", "review", "claim-boundary"]
+        },
+        {
           "id": "cva-closure-readiness",
           "label": "Genesys2/CVA6 trace closure readiness",
           "command": ["{python}", "tools/check_genesys2_cva_closure_readiness.py", "--root", "{root}"],
@@ -106,10 +142,58 @@
           "tags": ["genesys2", "cva6", "trace", "drop", "evidence"]
         },
         {
+          "id": "fuzz-trace-validation",
+          "label": "RV-MalTrace bounded fuzz trace invariant fixtures",
+          "command": ["{python}", "tools/check_fuzz_trace_plan.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "trace", "fuzz", "invariants", "claim-boundary"]
+        },
+        {
+          "id": "statistical-robustness",
+          "label": "Genesys2/CVA6 controlled repetition robustness audit",
+          "command": ["{python}", "tools/check_genesys2_statistical_robustness.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "statistics", "repetitions", "failure-retention", "claim-boundary"]
+        },
+        {
+          "id": "streaming-dma-target",
+          "label": "Genesys2/CVA6 streaming/DMA throughput target baseline",
+          "command": ["{python}", "tools/check_genesys2_streaming_dma_target.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "trace", "streaming-dma", "throughput-target", "claim-boundary"]
+        },
+        {
+          "id": "streaming-dma-readiness",
+          "label": "Genesys2/CVA6 production streaming/DMA readiness evidence",
+          "command": ["{python}", "tools/check_genesys2_streaming_dma_readiness.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "trace", "streaming-dma", "production-readiness", "claim-boundary"]
+        },
+        {
           "id": "pointer-snapshot-guardrails",
           "label": "Genesys2/CVA6 pointer snapshot guardrails",
           "command": ["{python}", "tools/check_pointer_snapshot_guardrails.py", "--root", "{root}"],
           "tags": ["genesys2", "cva6", "pointer-snapshot", "guardrails", "claim-boundary"]
+        },
+        {
+          "id": "hardware-pointer-prefixes",
+          "label": "Genesys2/CVA6 hardware pointer byte-prefix evidence",
+          "command": ["{python}", "tools/check_hardware_pointer_prefixes.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "pointer-snapshot", "hardware-prefix", "claim-boundary"]
+        },
+        {
+          "id": "pointer-string-readiness",
+          "label": "Genesys2/CVA6 full hardware pointer-string readiness evidence",
+          "command": ["{python}", "tools/check_genesys2_pointer_string_readiness.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "pointer-snapshot", "hardware-string-readiness", "claim-boundary"]
+        },
+        {
+          "id": "benign-control-summary",
+          "label": "Genesys2/CVA6 local benign-control behavior evidence",
+          "command": ["{python}", "tools/check_benign_control_summary.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "benign", "behavior-audit", "claim-boundary"]
+        },
+        {
+          "id": "board-benign-readiness",
+          "label": "Genesys2/CVA6 board benign-control readiness evidence",
+          "command": ["{python}", "tools/check_genesys2_board_benign_readiness.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "benign", "board-readiness", "claim-boundary"]
         },
         {
           "id": "syscall-semantic-reconstruction",
@@ -128,6 +212,18 @@
           "label": "Genesys2/CVA6 source/function attribution evidence",
           "command": ["{python}", "tools/check_source_line_attribution.py", "--root", "{root}"],
           "tags": ["genesys2", "cva6", "source-attribution", "code-attribution"]
+        },
+        {
+          "id": "source-line-toolchain-probe",
+          "label": "Genesys2/CVA6 source-line toolchain probe",
+          "command": ["{python}", "tools/check_source_line_toolchain_probe.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "source-attribution", "toolchain", "claim-boundary"]
+        },
+        {
+          "id": "debug-elf-readiness",
+          "label": "Genesys2/CVA6 debug ELF source-line rerun readiness",
+          "command": ["{python}", "tools/check_genesys2_debug_elf_readiness.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "source-attribution", "debug-elf", "claim-boundary"]
         },
         {
           "id": "process-elf-ownership",
@@ -160,10 +256,64 @@
           "tags": ["ccfa", "behavior-audit", "metrics"]
         },
         {
+          "id": "ccfa-case-study-manifest",
+          "label": "CCF-A per-sample case-study package evidence",
+          "command": ["{python}", "tools/check_ccfa_case_study_manifest.py", "--root", "{root}"],
+          "tags": ["ccfa", "case-study", "behavior-audit", "artifact-integrity"]
+        },
+        {
           "id": "ccfa-current-quality",
           "label": "CCF-A non-real-malware current evidence quality",
           "command": ["{python}", "tools/check_ccfa_current_quality.py", "--root", "{root}"],
           "tags": ["ccfa", "quality", "artifact-integrity", "claim-boundary"]
+        },
+        {
+          "id": "reproducibility-manifest",
+          "label": "Genesys2/CVA6 current reproducibility manifest",
+          "command": ["{python}", "tools/check_genesys2_reproducibility_manifest.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "reproducibility", "artifact-integrity"]
+        },
+        {
+          "id": "artifact-package",
+          "label": "Genesys2/CVA6 lightweight artifact package and fresh-clone reproduction manifest",
+          "command": ["{python}", "tools/check_genesys2_artifact_package.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "artifact-package", "reproducibility", "fresh-clone"]
+        },
+        {
+          "id": "external-closure-readiness",
+          "label": "Genesys2/CVA6 remaining external closure readiness contract",
+          "command": ["{python}", "tools/check_genesys2_external_closure_readiness.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "external-closure", "claim-boundary", "reproducibility"]
+        },
+        {
+          "id": "external-closure-intake",
+          "label": "Genesys2/CVA6 optional external evidence intake gate",
+          "command": ["{python}", "tools/check_genesys2_external_closure_intake.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "external-closure", "claim-boundary", "reproducibility"]
+        },
+        {
+          "id": "external-closure-plan",
+          "label": "Genesys2/CVA6 executable external closure plan",
+          "command": ["{python}", "tools/check_genesys2_external_closure_plan.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "external-closure", "claim-boundary", "reproducibility"]
+        },
+        {
+          "id": "external-closure-preflight",
+          "label": "Genesys2/CVA6 external closure local preflight",
+          "command": ["{python}", "tools/check_genesys2_external_closure_preflight.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "external-closure", "preflight", "claim-boundary", "reproducibility"]
+        },
+        {
+          "id": "external-operator-packet",
+          "label": "Genesys2/CVA6 external closure operator handoff packet",
+          "command": ["{python}", "tools/check_genesys2_external_operator_packet.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "external-closure", "operator-handoff", "claim-boundary", "reproducibility"]
+        },
+        {
+          "id": "external-summary-templates",
+          "label": "Genesys2/CVA6 external summary templates stay non-evidence",
+          "command": ["{python}", "tools/prepare_genesys2_external_summary.py", "--root", "{root}", "--check-templates"],
+          "tags": ["genesys2", "cva6", "external-closure", "summary-template", "claim-boundary", "reproducibility"]
         },
         {
           "id": "p0-continuous-trace",
@@ -171,8 +321,8 @@
           "command": [
             "{python}",
             "tools/check_genesys2_p0_continuous_trace.py",
-            "--run-root",
-            "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit"
+            "--root",
+            "{root}"
           ],
           "tags": ["genesys2", "cva6", "p0", "trace", "board", "continuous"]
         },
@@ -260,8 +410,8 @@
           "command": [
             "{python}",
             "tools/check_genesys2_p0_continuous_trace.py",
-            "--run-root",
-            "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit"
+            "--root",
+            "{root}"
           ],
           "tags": ["genesys2", "cva6", "p0", "trace", "board", "continuous"]
         },
@@ -325,16 +475,34 @@
       "tier": "fast-self-test",
       "checks": [
         {
+          "id": "latest-standard-self-test",
+          "label": "latest manifest standard checker self-test",
+          "command": ["{python}", "tools/check_genesys2_latest_standard.py", "--self-test"],
+          "tags": ["genesys2", "latest", "self-test"]
+        },
+        {
           "id": "board-baseline-self-test",
           "label": "board baseline checker self-test",
           "command": ["{python}", "tools/check_board_baseline.py", "--self-test"],
           "tags": ["genesys2", "self-test"]
         },
         {
+          "id": "baseline-pass-criteria-self-test",
+          "label": "baseline pass criteria checker self-test",
+          "command": ["{python}", "tools/check_baseline_pass_criteria.py", "--self-test"],
+          "tags": ["genesys2", "baseline", "claim-boundary", "self-test"]
+        },
+        {
           "id": "board-trace-minimal-self-test",
           "label": "minimal trace checker self-test",
           "command": ["{python}", "tools/check_board_trace_minimal.py", "--self-test"],
           "tags": ["genesys2", "trace", "self-test"]
+        },
+        {
+          "id": "trace-export-decision-self-test",
+          "label": "trace export decision checker self-test",
+          "command": ["{python}", "tools/check_trace_export_decision.py", "--self-test"],
+          "tags": ["genesys2", "trace", "claim-boundary", "self-test"]
         },
         {
           "id": "board-trace-programs-self-test",
@@ -421,10 +589,244 @@
           "tags": ["genesys2", "trace", "drop", "self-test"]
         },
         {
+          "id": "fuzz-trace-seed-generator-self-test",
+          "label": "bounded fuzz trace seed generator self-test",
+          "command": ["{python}", "tools/gen_rv_trace_fuzz.py", "--self-test"],
+          "tags": ["genesys2", "trace", "fuzz", "self-test"]
+        },
+        {
+          "id": "fuzz-trace-invariant-checker-self-test",
+          "label": "bounded fuzz trace invariant checker self-test",
+          "command": ["{python}", "tools/check_fuzz_trace.py", "--self-test"],
+          "tags": ["genesys2", "trace", "fuzz", "self-test"]
+        },
+        {
+          "id": "fuzz-trace-plan-self-test",
+          "label": "bounded fuzz trace validation plan self-test",
+          "command": ["{python}", "tools/check_fuzz_trace_plan.py", "--self-test"],
+          "tags": ["genesys2", "trace", "fuzz", "self-test"]
+        },
+        {
+          "id": "statistical-robustness-packager-self-test",
+          "label": "Genesys2/CVA6 statistical robustness packager self-test",
+          "command": ["{python}", "tools/package_genesys2_statistical_robustness.py", "--self-test"],
+          "tags": ["genesys2", "statistics", "repetitions", "self-test"]
+        },
+        {
+          "id": "statistical-robustness-checker-self-test",
+          "label": "Genesys2/CVA6 statistical robustness checker self-test",
+          "command": ["{python}", "tools/check_genesys2_statistical_robustness.py", "--self-test"],
+          "tags": ["genesys2", "statistics", "repetitions", "self-test"]
+        },
+        {
+          "id": "streaming-dma-target-packager-self-test",
+          "label": "Genesys2/CVA6 streaming/DMA target packager self-test",
+          "command": ["{python}", "tools/package_genesys2_streaming_dma_target.py", "--self-test"],
+          "tags": ["genesys2", "streaming-dma", "throughput-target", "self-test"]
+        },
+        {
+          "id": "streaming-dma-target-checker-self-test",
+          "label": "Genesys2/CVA6 streaming/DMA target checker self-test",
+          "command": ["{python}", "tools/check_genesys2_streaming_dma_target.py", "--self-test"],
+          "tags": ["genesys2", "streaming-dma", "throughput-target", "self-test"]
+        },
+        {
+          "id": "streaming-dma-readiness-packager-self-test",
+          "label": "Genesys2/CVA6 streaming/DMA readiness packager self-test",
+          "command": ["{python}", "tools/package_genesys2_streaming_dma_readiness.py", "--self-test"],
+          "tags": ["genesys2", "streaming-dma", "production-readiness", "self-test"]
+        },
+        {
+          "id": "streaming-dma-readiness-checker-self-test",
+          "label": "Genesys2/CVA6 streaming/DMA readiness checker self-test",
+          "command": ["{python}", "tools/check_genesys2_streaming_dma_readiness.py", "--self-test"],
+          "tags": ["genesys2", "streaming-dma", "production-readiness", "self-test"]
+        },
+        {
           "id": "pointer-snapshot-guardrails-packager-self-test",
           "label": "pointer snapshot guardrails packager self-test",
           "command": ["{python}", "tools/package_pointer_snapshot_guardrails.py", "--self-test"],
           "tags": ["genesys2", "pointer-snapshot", "guardrails", "self-test"]
+        },
+        {
+          "id": "hardware-pointer-prefix-packager-self-test",
+          "label": "hardware pointer prefix packager self-test",
+          "command": ["{python}", "tools/package_hardware_pointer_prefixes.py", "--self-test"],
+          "tags": ["genesys2", "pointer-snapshot", "hardware-prefix", "self-test"]
+        },
+        {
+          "id": "hardware-pointer-prefix-checker-self-test",
+          "label": "hardware pointer prefix checker self-test",
+          "command": ["{python}", "tools/check_hardware_pointer_prefixes.py", "--self-test"],
+          "tags": ["genesys2", "pointer-snapshot", "hardware-prefix", "self-test"]
+        },
+        {
+          "id": "pointer-string-readiness-packager-self-test",
+          "label": "pointer string readiness packager self-test",
+          "command": ["{python}", "tools/package_genesys2_pointer_string_readiness.py", "--self-test"],
+          "tags": ["genesys2", "pointer-snapshot", "hardware-string-readiness", "self-test"]
+        },
+        {
+          "id": "pointer-string-readiness-checker-self-test",
+          "label": "pointer string readiness checker self-test",
+          "command": ["{python}", "tools/check_genesys2_pointer_string_readiness.py", "--self-test"],
+          "tags": ["genesys2", "pointer-snapshot", "hardware-string-readiness", "self-test"]
+        },
+        {
+          "id": "benign-control-packager-self-test",
+          "label": "benign control packager self-test",
+          "command": ["{python}", "tools/package_benign_control_summary.py", "--self-test"],
+          "tags": ["genesys2", "benign", "behavior-audit", "self-test"]
+        },
+        {
+          "id": "benign-control-checker-self-test",
+          "label": "benign control checker self-test",
+          "command": ["{python}", "tools/check_benign_control_summary.py", "--self-test"],
+          "tags": ["genesys2", "benign", "behavior-audit", "self-test"]
+        },
+        {
+          "id": "board-benign-readiness-packager-self-test",
+          "label": "board benign readiness packager self-test",
+          "command": ["{python}", "tools/package_genesys2_board_benign_readiness.py", "--self-test"],
+          "tags": ["genesys2", "benign", "board-readiness", "self-test"]
+        },
+        {
+          "id": "board-benign-readiness-checker-self-test",
+          "label": "board benign readiness checker self-test",
+          "command": ["{python}", "tools/check_genesys2_board_benign_readiness.py", "--self-test"],
+          "tags": ["genesys2", "benign", "board-readiness", "self-test"]
+        },
+        {
+          "id": "ccfa-case-study-packager-self-test",
+          "label": "CCF-A case-study manifest packager self-test",
+          "command": ["{python}", "tools/package_ccfa_case_study_manifest.py", "--self-test"],
+          "tags": ["ccfa", "case-study", "behavior-audit", "self-test"]
+        },
+        {
+          "id": "ccfa-case-study-checker-self-test",
+          "label": "CCF-A case-study manifest checker self-test",
+          "command": ["{python}", "tools/check_ccfa_case_study_manifest.py", "--self-test"],
+          "tags": ["ccfa", "case-study", "behavior-audit", "self-test"]
+        },
+        {
+          "id": "reproducibility-manifest-packager-self-test",
+          "label": "Genesys2/CVA6 reproducibility manifest packager self-test",
+          "command": ["{python}", "tools/package_genesys2_reproducibility_manifest.py", "--self-test"],
+          "tags": ["genesys2", "reproducibility", "self-test"]
+        },
+        {
+          "id": "reproducibility-manifest-checker-self-test",
+          "label": "Genesys2/CVA6 reproducibility manifest checker self-test",
+          "command": ["{python}", "tools/check_genesys2_reproducibility_manifest.py", "--self-test"],
+          "tags": ["genesys2", "reproducibility", "self-test"]
+        },
+        {
+          "id": "artifact-package-packager-self-test",
+          "label": "Genesys2/CVA6 artifact package packager self-test",
+          "command": ["{python}", "tools/package_genesys2_artifact_package.py", "--self-test"],
+          "tags": ["genesys2", "artifact-package", "reproducibility", "self-test"]
+        },
+        {
+          "id": "artifact-package-checker-self-test",
+          "label": "Genesys2/CVA6 artifact package checker self-test",
+          "command": ["{python}", "tools/check_genesys2_artifact_package.py", "--self-test"],
+          "tags": ["genesys2", "artifact-package", "reproducibility", "self-test"]
+        },
+        {
+          "id": "fresh-clone-reproduction-self-test",
+          "label": "Genesys2/CVA6 fresh-clone reproduction script self-test",
+          "command": ["{python}", "tools/reproduce_genesys2_current.py", "--self-test"],
+          "tags": ["genesys2", "artifact-package", "fresh-clone", "self-test"]
+        },
+        {
+          "id": "external-closure-readiness-packager-self-test",
+          "label": "Genesys2/CVA6 external closure readiness packager self-test",
+          "command": ["{python}", "tools/package_genesys2_external_closure_readiness.py", "--self-test"],
+          "tags": ["genesys2", "external-closure", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "external-closure-readiness-checker-self-test",
+          "label": "Genesys2/CVA6 external closure readiness checker self-test",
+          "command": ["{python}", "tools/check_genesys2_external_closure_readiness.py", "--self-test"],
+          "tags": ["genesys2", "external-closure", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "external-closure-intake-packager-self-test",
+          "label": "Genesys2/CVA6 external closure intake packager self-test",
+          "command": ["{python}", "tools/package_genesys2_external_closure_intake.py", "--self-test"],
+          "tags": ["genesys2", "external-closure", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "external-closure-intake-checker-self-test",
+          "label": "Genesys2/CVA6 external closure intake checker self-test",
+          "command": ["{python}", "tools/check_genesys2_external_closure_intake.py", "--self-test"],
+          "tags": ["genesys2", "external-closure", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "external-closure-plan-packager-self-test",
+          "label": "Genesys2/CVA6 external closure plan packager self-test",
+          "command": ["{python}", "tools/package_genesys2_external_closure_plan.py", "--self-test"],
+          "tags": ["genesys2", "external-closure", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "external-closure-plan-checker-self-test",
+          "label": "Genesys2/CVA6 external closure plan checker self-test",
+          "command": ["{python}", "tools/check_genesys2_external_closure_plan.py", "--self-test"],
+          "tags": ["genesys2", "external-closure", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "external-closure-preflight-packager-self-test",
+          "label": "Genesys2/CVA6 external closure preflight packager self-test",
+          "command": ["{python}", "tools/package_genesys2_external_closure_preflight.py", "--self-test"],
+          "tags": ["genesys2", "external-closure", "preflight", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "external-closure-preflight-checker-self-test",
+          "label": "Genesys2/CVA6 external closure preflight checker self-test",
+          "command": ["{python}", "tools/check_genesys2_external_closure_preflight.py", "--self-test"],
+          "tags": ["genesys2", "external-closure", "preflight", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "external-operator-packet-packager-self-test",
+          "label": "Genesys2/CVA6 external operator packet packager self-test",
+          "command": ["{python}", "tools/package_genesys2_external_operator_packet.py", "--self-test"],
+          "tags": ["genesys2", "external-closure", "operator-handoff", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "external-operator-packet-checker-self-test",
+          "label": "Genesys2/CVA6 external operator packet checker self-test",
+          "command": ["{python}", "tools/check_genesys2_external_operator_packet.py", "--self-test"],
+          "tags": ["genesys2", "external-closure", "operator-handoff", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "external-summary-preparation-self-test",
+          "label": "Genesys2/CVA6 external summary preparation helper self-test",
+          "command": ["{python}", "tools/prepare_genesys2_external_summary.py", "--self-test"],
+          "tags": ["genesys2", "external-closure", "summary-template", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "source-line-toolchain-probe-packager-self-test",
+          "label": "source-line toolchain probe packager self-test",
+          "command": ["{python}", "tools/package_source_line_toolchain_probe.py", "--self-test"],
+          "tags": ["genesys2", "source-attribution", "toolchain", "self-test"]
+        },
+        {
+          "id": "source-line-toolchain-probe-checker-self-test",
+          "label": "source-line toolchain probe checker self-test",
+          "command": ["{python}", "tools/check_source_line_toolchain_probe.py", "--self-test"],
+          "tags": ["genesys2", "source-attribution", "toolchain", "self-test"]
+        },
+        {
+          "id": "debug-elf-readiness-packager-self-test",
+          "label": "debug ELF readiness packager self-test",
+          "command": ["{python}", "tools/package_genesys2_debug_elf_readiness.py", "--self-test"],
+          "tags": ["genesys2", "source-attribution", "debug-elf", "self-test"]
+        },
+        {
+          "id": "debug-elf-readiness-checker-self-test",
+          "label": "debug ELF readiness checker self-test",
+          "command": ["{python}", "tools/check_genesys2_debug_elf_readiness.py", "--self-test"],
+          "tags": ["genesys2", "source-attribution", "debug-elf", "self-test"]
         },
         {
           "id": "safe-surrogate-syscall-elf-self-test",
@@ -449,6 +851,30 @@
           "label": "CCF-A claim-boundary checker self-test",
           "command": ["{python}", "tools/check_ccfa_claim_boundaries.py", "--self-test"],
           "tags": ["ccfa", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "risk-log-current-boundaries-self-test",
+          "label": "current risk-log boundary checker self-test",
+          "command": ["{python}", "tools/check_risk_log_current.py", "--self-test"],
+          "tags": ["risk-log", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "evaluation-plan-self-test",
+          "label": "evaluation-plan checker self-test",
+          "command": ["{python}", "tools/check_evaluation_plan.py", "--self-test"],
+          "tags": ["ccfa", "evaluation", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "review-closure-audit-packager-self-test",
+          "label": "review closure audit packager self-test",
+          "command": ["{python}", "tools/package_genesys2_review_closure_audit.py", "--self-test"],
+          "tags": ["ccfa", "review", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "review-closure-audit-checker-self-test",
+          "label": "review closure audit checker self-test",
+          "command": ["{python}", "tools/check_genesys2_review_closure_audit.py", "--self-test"],
+          "tags": ["ccfa", "review", "claim-boundary", "self-test"]
         },
         {
           "id": "suite-manifest-self-test",
@@ -509,6 +935,42 @@
           "tags": ["trace", "drop", "self-test"]
         },
         {
+          "id": "fuzz-trace-seed-generator-self-test",
+          "label": "bounded fuzz trace seed generator self-test",
+          "command": ["{python}", "tools/gen_rv_trace_fuzz.py", "--self-test"],
+          "tags": ["trace", "fuzz", "self-test"]
+        },
+        {
+          "id": "fuzz-trace-invariant-checker-self-test",
+          "label": "bounded fuzz trace invariant checker self-test",
+          "command": ["{python}", "tools/check_fuzz_trace.py", "--self-test"],
+          "tags": ["trace", "fuzz", "self-test"]
+        },
+        {
+          "id": "fuzz-trace-plan-self-test",
+          "label": "bounded fuzz trace validation plan self-test",
+          "command": ["{python}", "tools/check_fuzz_trace_plan.py", "--self-test"],
+          "tags": ["trace", "fuzz", "self-test"]
+        },
+        {
+          "id": "statistical-robustness-self-test",
+          "label": "Genesys2/CVA6 statistical robustness checker self-test",
+          "command": ["{python}", "tools/check_genesys2_statistical_robustness.py", "--self-test"],
+          "tags": ["genesys2", "statistics", "repetitions", "self-test"]
+        },
+        {
+          "id": "streaming-dma-target-self-test",
+          "label": "Genesys2/CVA6 streaming/DMA target checker self-test",
+          "command": ["{python}", "tools/check_genesys2_streaming_dma_target.py", "--self-test"],
+          "tags": ["genesys2", "streaming-dma", "throughput-target", "self-test"]
+        },
+        {
+          "id": "streaming-dma-readiness-self-test",
+          "label": "Genesys2/CVA6 streaming/DMA readiness checker self-test",
+          "command": ["{python}", "tools/check_genesys2_streaming_dma_readiness.py", "--self-test"],
+          "tags": ["genesys2", "streaming-dma", "production-readiness", "self-test"]
+        },
+        {
           "id": "syscall-semantic-reconstruction-self-test",
           "label": "syscall semantic reconstruction checker self-test",
           "command": ["{python}", "tools/check_syscall_semantic_reconstruction.py", "--self-test"],
@@ -521,6 +983,30 @@
           "tags": ["pointer-snapshot", "self-test"]
         },
         {
+          "id": "hardware-pointer-prefixes-self-test",
+          "label": "hardware pointer prefix checker self-test",
+          "command": ["{python}", "tools/check_hardware_pointer_prefixes.py", "--self-test"],
+          "tags": ["pointer-snapshot", "hardware-prefix", "self-test"]
+        },
+        {
+          "id": "pointer-string-readiness-self-test",
+          "label": "pointer string readiness checker self-test",
+          "command": ["{python}", "tools/check_genesys2_pointer_string_readiness.py", "--self-test"],
+          "tags": ["pointer-snapshot", "hardware-string-readiness", "self-test"]
+        },
+        {
+          "id": "benign-control-self-test",
+          "label": "benign control checker self-test",
+          "command": ["{python}", "tools/check_benign_control_summary.py", "--self-test"],
+          "tags": ["benign", "behavior-audit", "self-test"]
+        },
+        {
+          "id": "board-benign-readiness-self-test",
+          "label": "board benign readiness checker self-test",
+          "command": ["{python}", "tools/check_genesys2_board_benign_readiness.py", "--self-test"],
+          "tags": ["benign", "board-readiness", "self-test"]
+        },
+        {
           "id": "fd-path-graph-self-test",
           "label": "fd/path graph checker self-test",
           "command": ["{python}", "tools/check_fd_path_graph.py", "--self-test"],
@@ -531,6 +1017,24 @@
           "label": "source-line attribution checker self-test",
           "command": ["{python}", "tools/check_source_line_attribution.py", "--self-test"],
           "tags": ["source-attribution", "self-test"]
+        },
+        {
+          "id": "source-line-toolchain-probe-self-test",
+          "label": "source-line toolchain probe checker self-test",
+          "command": ["{python}", "tools/check_source_line_toolchain_probe.py", "--self-test"],
+          "tags": ["source-attribution", "toolchain", "self-test"]
+        },
+        {
+          "id": "debug-elf-readiness-self-test",
+          "label": "debug ELF readiness checker self-test",
+          "command": ["{python}", "tools/check_genesys2_debug_elf_readiness.py", "--self-test"],
+          "tags": ["source-attribution", "debug-elf", "self-test"]
+        },
+        {
+          "id": "trace-export-decision-self-test",
+          "label": "trace export decision checker self-test",
+          "command": ["{python}", "tools/check_trace_export_decision.py", "--self-test"],
+          "tags": ["trace", "claim-boundary", "self-test"]
         },
         {
           "id": "process-elf-ownership-self-test",
@@ -563,10 +1067,76 @@
           "tags": ["behavior-audit", "metrics", "self-test"]
         },
         {
+          "id": "ccfa-case-study-manifest-self-test",
+          "label": "CCF-A case-study manifest checker self-test",
+          "command": ["{python}", "tools/check_ccfa_case_study_manifest.py", "--self-test"],
+          "tags": ["ccfa", "case-study", "self-test"]
+        },
+        {
           "id": "ccfa-current-quality-self-test",
           "label": "current-quality checker self-test",
           "command": ["{python}", "tools/check_ccfa_current_quality.py", "--self-test"],
           "tags": ["ccfa", "quality", "self-test"]
+        },
+        {
+          "id": "evaluation-plan-self-test",
+          "label": "evaluation-plan checker self-test",
+          "command": ["{python}", "tools/check_evaluation_plan.py", "--self-test"],
+          "tags": ["ccfa", "evaluation", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "review-closure-audit-self-test",
+          "label": "review closure audit checker self-test",
+          "command": ["{python}", "tools/check_genesys2_review_closure_audit.py", "--self-test"],
+          "tags": ["ccfa", "review", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "reproducibility-manifest-self-test",
+          "label": "Genesys2/CVA6 reproducibility manifest checker self-test",
+          "command": ["{python}", "tools/check_genesys2_reproducibility_manifest.py", "--self-test"],
+          "tags": ["genesys2", "reproducibility", "self-test"]
+        },
+        {
+          "id": "artifact-package-self-test",
+          "label": "Genesys2/CVA6 artifact package checker self-test",
+          "command": ["{python}", "tools/check_genesys2_artifact_package.py", "--self-test"],
+          "tags": ["genesys2", "artifact-package", "reproducibility", "self-test"]
+        },
+        {
+          "id": "external-closure-readiness-self-test",
+          "label": "Genesys2/CVA6 external closure readiness checker self-test",
+          "command": ["{python}", "tools/check_genesys2_external_closure_readiness.py", "--self-test"],
+          "tags": ["genesys2", "external-closure", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "external-closure-intake-self-test",
+          "label": "Genesys2/CVA6 external closure intake checker self-test",
+          "command": ["{python}", "tools/check_genesys2_external_closure_intake.py", "--self-test"],
+          "tags": ["genesys2", "external-closure", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "external-closure-plan-self-test",
+          "label": "Genesys2/CVA6 external closure plan checker self-test",
+          "command": ["{python}", "tools/check_genesys2_external_closure_plan.py", "--self-test"],
+          "tags": ["genesys2", "external-closure", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "external-closure-preflight-self-test",
+          "label": "Genesys2/CVA6 external closure preflight checker self-test",
+          "command": ["{python}", "tools/check_genesys2_external_closure_preflight.py", "--self-test"],
+          "tags": ["genesys2", "external-closure", "preflight", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "external-operator-packet-self-test",
+          "label": "Genesys2/CVA6 external operator packet checker self-test",
+          "command": ["{python}", "tools/check_genesys2_external_operator_packet.py", "--self-test"],
+          "tags": ["genesys2", "external-closure", "operator-handoff", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "external-summary-preparation-self-test",
+          "label": "Genesys2/CVA6 external summary preparation helper self-test",
+          "command": ["{python}", "tools/prepare_genesys2_external_summary.py", "--self-test"],
+          "tags": ["genesys2", "external-closure", "summary-template", "claim-boundary", "self-test"]
         },
         {
           "id": "real-malware-containment-self-test",

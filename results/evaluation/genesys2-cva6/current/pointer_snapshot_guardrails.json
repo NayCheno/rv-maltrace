@@ -53,7 +53,7 @@
     "network_default": "disabled",
     "redaction_policy": "raw pointer payloads are either absent or retained only in local BRAM/ILA artifacts; published summaries expose bounded byte counts and sanitized metadata"
   },
-  "safe_surrogate_bram_run_root": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram",
+  "safe_surrogate_bram_run_root": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings",
   "safe_surrogate_run_root": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610",
   "samples": [
     {
@@ -193,175 +193,175 @@
             "openat"
           ],
           "rep": "rep_01",
-          "snapshot_bytes": 32,
+          "snapshot_bytes": 64,
           "snapshot_count": 8,
           "snapshot_sources": [
-            "hardware_bram_ring_compact"
+            "hardware_bram_ring_v3"
           ],
           "snapshot_syscalls": [
             "openat"
           ],
-          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/file_scan/rep_01/bram_records.jsonl"
+          "trace": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/file_scan/rep_01/bram_records.jsonl"
         },
         {
           "hardware_snapshot_syscalls": [
             "openat"
           ],
           "rep": "rep_02",
-          "snapshot_bytes": 32,
+          "snapshot_bytes": 64,
           "snapshot_count": 8,
           "snapshot_sources": [
-            "hardware_bram_ring_compact"
+            "hardware_bram_ring_v3"
           ],
           "snapshot_syscalls": [
             "openat"
           ],
-          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/file_scan/rep_02/bram_records.jsonl"
+          "trace": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/file_scan/rep_02/bram_records.jsonl"
         },
         {
           "hardware_snapshot_syscalls": [
             "openat"
           ],
           "rep": "rep_03",
-          "snapshot_bytes": 32,
+          "snapshot_bytes": 64,
           "snapshot_count": 8,
           "snapshot_sources": [
-            "hardware_bram_ring_compact"
+            "hardware_bram_ring_v3"
           ],
           "snapshot_syscalls": [
             "openat"
           ],
-          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/file_scan/rep_03/bram_records.jsonl"
+          "trace": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/file_scan/rep_03/bram_records.jsonl"
         },
         {
           "hardware_snapshot_syscalls": [
             "openat"
           ],
           "rep": "rep_04",
-          "snapshot_bytes": 32,
+          "snapshot_bytes": 64,
           "snapshot_count": 8,
           "snapshot_sources": [
-            "hardware_bram_ring_compact"
+            "hardware_bram_ring_v3"
           ],
           "snapshot_syscalls": [
             "openat"
           ],
-          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/file_scan/rep_04/bram_records.jsonl"
+          "trace": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/file_scan/rep_04/bram_records.jsonl"
         },
         {
           "hardware_snapshot_syscalls": [
             "openat"
           ],
           "rep": "rep_05",
-          "snapshot_bytes": 32,
+          "snapshot_bytes": 64,
           "snapshot_count": 8,
           "snapshot_sources": [
-            "hardware_bram_ring_compact"
+            "hardware_bram_ring_v3"
           ],
           "snapshot_syscalls": [
             "openat"
           ],
-          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/file_scan/rep_05/bram_records.jsonl"
+          "trace": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/file_scan/rep_05/bram_records.jsonl"
         },
         {
           "hardware_snapshot_syscalls": [
             "openat"
           ],
           "rep": "rep_06",
-          "snapshot_bytes": 32,
+          "snapshot_bytes": 64,
           "snapshot_count": 8,
           "snapshot_sources": [
-            "hardware_bram_ring_compact"
+            "hardware_bram_ring_v3"
           ],
           "snapshot_syscalls": [
             "openat"
           ],
-          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/file_scan/rep_06/bram_records.jsonl"
+          "trace": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/file_scan/rep_06/bram_records.jsonl"
         },
         {
           "hardware_snapshot_syscalls": [
             "openat"
           ],
           "rep": "rep_07",
-          "snapshot_bytes": 32,
+          "snapshot_bytes": 64,
           "snapshot_count": 8,
           "snapshot_sources": [
-            "hardware_bram_ring_compact"
+            "hardware_bram_ring_v3"
           ],
           "snapshot_syscalls": [
             "openat"
           ],
-          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/file_scan/rep_07/bram_records.jsonl"
+          "trace": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/file_scan/rep_07/bram_records.jsonl"
         },
         {
           "hardware_snapshot_syscalls": [
             "openat"
           ],
           "rep": "rep_08",
-          "snapshot_bytes": 32,
+          "snapshot_bytes": 64,
           "snapshot_count": 8,
           "snapshot_sources": [
-            "hardware_bram_ring_compact"
+            "hardware_bram_ring_v3"
           ],
           "snapshot_syscalls": [
             "openat"
           ],
-          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/file_scan/rep_08/bram_records.jsonl"
+          "trace": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/file_scan/rep_08/bram_records.jsonl"
         },
         {
           "hardware_snapshot_syscalls": [
             "openat"
           ],
           "rep": "rep_09",
-          "snapshot_bytes": 32,
+          "snapshot_bytes": 64,
           "snapshot_count": 8,
           "snapshot_sources": [
-            "hardware_bram_ring_compact"
+            "hardware_bram_ring_v3"
           ],
           "snapshot_syscalls": [
             "openat"
           ],
-          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/file_scan/rep_09/bram_records.jsonl"
+          "trace": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/file_scan/rep_09/bram_records.jsonl"
         },
         {
           "hardware_snapshot_syscalls": [
             "openat"
           ],
           "rep": "rep_10",
-          "snapshot_bytes": 32,
+          "snapshot_bytes": 64,
           "snapshot_count": 8,
           "snapshot_sources": [
-            "hardware_bram_ring_compact"
+            "hardware_bram_ring_v3"
           ],
           "snapshot_syscalls": [
             "openat"
           ],
-          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/file_scan/rep_10/bram_records.jsonl"
+          "trace": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/file_scan/rep_10/bram_records.jsonl"
         }
       ],
       "sample_class": "malware_like_synthetic",
       "sample_id": "file_scan",
-      "snapshot_bytes": 320,
+      "snapshot_bytes": 640,
       "snapshot_count": 80,
       "snapshot_mode": "bounded_prefix",
       "snapshot_sources": [
-        "hardware_bram_ring_compact"
+        "hardware_bram_ring_v3"
       ],
       "snapshot_syscalls": [
         "openat"
       ],
-      "trace": null,
+      "trace": "MULTIPLE_REPETITION_TRACES_SEE_TRACES",
       "traces": [
-        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/file_scan/rep_01/bram_records.jsonl",
-        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/file_scan/rep_02/bram_records.jsonl",
-        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/file_scan/rep_03/bram_records.jsonl",
-        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/file_scan/rep_04/bram_records.jsonl",
-        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/file_scan/rep_05/bram_records.jsonl",
-        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/file_scan/rep_06/bram_records.jsonl",
-        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/file_scan/rep_07/bram_records.jsonl",
-        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/file_scan/rep_08/bram_records.jsonl",
-        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/file_scan/rep_09/bram_records.jsonl",
-        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/file_scan/rep_10/bram_records.jsonl"
+        "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/file_scan/rep_01/bram_records.jsonl",
+        "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/file_scan/rep_02/bram_records.jsonl",
+        "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/file_scan/rep_03/bram_records.jsonl",
+        "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/file_scan/rep_04/bram_records.jsonl",
+        "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/file_scan/rep_05/bram_records.jsonl",
+        "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/file_scan/rep_06/bram_records.jsonl",
+        "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/file_scan/rep_07/bram_records.jsonl",
+        "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/file_scan/rep_08/bram_records.jsonl",
+        "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/file_scan/rep_09/bram_records.jsonl",
+        "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/file_scan/rep_10/bram_records.jsonl"
       ]
     },
     {
@@ -391,16 +391,16 @@
             "write"
           ],
           "rep": "rep_01",
-          "snapshot_bytes": 156,
+          "snapshot_bytes": 102,
           "snapshot_count": 39,
           "snapshot_sources": [
-            "hardware_bram_ring_compact"
+            "hardware_bram_ring_v3"
           ],
           "snapshot_syscalls": [
             "openat",
             "write"
           ],
-          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/batch_open_read_write/rep_01/bram_records.jsonl"
+          "trace": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/batch_open_read_write/rep_01/bram_records.jsonl"
         },
         {
           "hardware_snapshot_syscalls": [
@@ -408,16 +408,16 @@
             "write"
           ],
           "rep": "rep_02",
-          "snapshot_bytes": 156,
+          "snapshot_bytes": 102,
           "snapshot_count": 39,
           "snapshot_sources": [
-            "hardware_bram_ring_compact"
+            "hardware_bram_ring_v3"
           ],
           "snapshot_syscalls": [
             "openat",
             "write"
           ],
-          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/batch_open_read_write/rep_02/bram_records.jsonl"
+          "trace": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/batch_open_read_write/rep_02/bram_records.jsonl"
         },
         {
           "hardware_snapshot_syscalls": [
@@ -425,16 +425,16 @@
             "write"
           ],
           "rep": "rep_03",
-          "snapshot_bytes": 156,
+          "snapshot_bytes": 102,
           "snapshot_count": 39,
           "snapshot_sources": [
-            "hardware_bram_ring_compact"
+            "hardware_bram_ring_v3"
           ],
           "snapshot_syscalls": [
             "openat",
             "write"
           ],
-          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/batch_open_read_write/rep_03/bram_records.jsonl"
+          "trace": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/batch_open_read_write/rep_03/bram_records.jsonl"
         },
         {
           "hardware_snapshot_syscalls": [
@@ -442,16 +442,16 @@
             "write"
           ],
           "rep": "rep_04",
-          "snapshot_bytes": 156,
+          "snapshot_bytes": 102,
           "snapshot_count": 39,
           "snapshot_sources": [
-            "hardware_bram_ring_compact"
+            "hardware_bram_ring_v3"
           ],
           "snapshot_syscalls": [
             "openat",
             "write"
           ],
-          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/batch_open_read_write/rep_04/bram_records.jsonl"
+          "trace": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/batch_open_read_write/rep_04/bram_records.jsonl"
         },
         {
           "hardware_snapshot_syscalls": [
@@ -459,16 +459,16 @@
             "write"
           ],
           "rep": "rep_05",
-          "snapshot_bytes": 156,
+          "snapshot_bytes": 102,
           "snapshot_count": 39,
           "snapshot_sources": [
-            "hardware_bram_ring_compact"
+            "hardware_bram_ring_v3"
           ],
           "snapshot_syscalls": [
             "openat",
             "write"
           ],
-          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/batch_open_read_write/rep_05/bram_records.jsonl"
+          "trace": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/batch_open_read_write/rep_05/bram_records.jsonl"
         },
         {
           "hardware_snapshot_syscalls": [
@@ -476,16 +476,16 @@
             "write"
           ],
           "rep": "rep_06",
-          "snapshot_bytes": 156,
+          "snapshot_bytes": 102,
           "snapshot_count": 39,
           "snapshot_sources": [
-            "hardware_bram_ring_compact"
+            "hardware_bram_ring_v3"
           ],
           "snapshot_syscalls": [
             "openat",
             "write"
           ],
-          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/batch_open_read_write/rep_06/bram_records.jsonl"
+          "trace": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/batch_open_read_write/rep_06/bram_records.jsonl"
         },
         {
           "hardware_snapshot_syscalls": [
@@ -493,16 +493,16 @@
             "write"
           ],
           "rep": "rep_07",
-          "snapshot_bytes": 156,
+          "snapshot_bytes": 102,
           "snapshot_count": 39,
           "snapshot_sources": [
-            "hardware_bram_ring_compact"
+            "hardware_bram_ring_v3"
           ],
           "snapshot_syscalls": [
             "openat",
             "write"
           ],
-          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/batch_open_read_write/rep_07/bram_records.jsonl"
+          "trace": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/batch_open_read_write/rep_07/bram_records.jsonl"
         },
         {
           "hardware_snapshot_syscalls": [
@@ -510,33 +510,31 @@
             "write"
           ],
           "rep": "rep_08",
-          "snapshot_bytes": 156,
+          "snapshot_bytes": 102,
           "snapshot_count": 39,
           "snapshot_sources": [
-            "hardware_bram_ring_compact"
+            "hardware_bram_ring_v3"
           ],
           "snapshot_syscalls": [
             "openat",
             "write"
           ],
-          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/batch_open_read_write/rep_08/bram_records.jsonl"
+          "trace": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/batch_open_read_write/rep_08/bram_records.jsonl"
         },
         {
           "hardware_snapshot_syscalls": [
-            "openat",
-            "write"
+            "openat"
           ],
           "rep": "rep_09",
-          "snapshot_bytes": 156,
-          "snapshot_count": 39,
+          "snapshot_bytes": 72,
+          "snapshot_count": 9,
           "snapshot_sources": [
-            "hardware_bram_ring_compact"
+            "hardware_bram_ring_v3"
           ],
           "snapshot_syscalls": [
-            "openat",
-            "write"
+            "openat"
           ],
-          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/batch_open_read_write/rep_09/bram_records.jsonl"
+          "trace": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/batch_open_read_write/rep_09/bram_records.jsonl"
         },
         {
           "hardware_snapshot_syscalls": [
@@ -544,42 +542,42 @@
             "write"
           ],
           "rep": "rep_10",
-          "snapshot_bytes": 156,
+          "snapshot_bytes": 102,
           "snapshot_count": 39,
           "snapshot_sources": [
-            "hardware_bram_ring_compact"
+            "hardware_bram_ring_v3"
           ],
           "snapshot_syscalls": [
             "openat",
             "write"
           ],
-          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/batch_open_read_write/rep_10/bram_records.jsonl"
+          "trace": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/batch_open_read_write/rep_10/bram_records.jsonl"
         }
       ],
       "sample_class": "malware_like_synthetic",
       "sample_id": "batch_open_read_write",
-      "snapshot_bytes": 1560,
-      "snapshot_count": 390,
+      "snapshot_bytes": 990,
+      "snapshot_count": 360,
       "snapshot_mode": "bounded_prefix",
       "snapshot_sources": [
-        "hardware_bram_ring_compact"
+        "hardware_bram_ring_v3"
       ],
       "snapshot_syscalls": [
         "openat",
         "write"
       ],
-      "trace": null,
+      "trace": "MULTIPLE_REPETITION_TRACES_SEE_TRACES",
       "traces": [
-        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/batch_open_read_write/rep_01/bram_records.jsonl",
-        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/batch_open_read_write/rep_02/bram_records.jsonl",
-        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/batch_open_read_write/rep_03/bram_records.jsonl",
-        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/batch_open_read_write/rep_04/bram_records.jsonl",
-        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/batch_open_read_write/rep_05/bram_records.jsonl",
-        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/batch_open_read_write/rep_06/bram_records.jsonl",
-        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/batch_open_read_write/rep_07/bram_records.jsonl",
-        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/batch_open_read_write/rep_08/bram_records.jsonl",
-        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/batch_open_read_write/rep_09/bram_records.jsonl",
-        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/batch_open_read_write/rep_10/bram_records.jsonl"
+        "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/batch_open_read_write/rep_01/bram_records.jsonl",
+        "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/batch_open_read_write/rep_02/bram_records.jsonl",
+        "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/batch_open_read_write/rep_03/bram_records.jsonl",
+        "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/batch_open_read_write/rep_04/bram_records.jsonl",
+        "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/batch_open_read_write/rep_05/bram_records.jsonl",
+        "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/batch_open_read_write/rep_06/bram_records.jsonl",
+        "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/batch_open_read_write/rep_07/bram_records.jsonl",
+        "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/batch_open_read_write/rep_08/bram_records.jsonl",
+        "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/batch_open_read_write/rep_09/bram_records.jsonl",
+        "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/batch_open_read_write/rep_10/bram_records.jsonl"
       ]
     },
     {
@@ -691,175 +689,175 @@
             "execve"
           ],
           "rep": "rep_01",
-          "snapshot_bytes": 16,
-          "snapshot_count": 4,
+          "snapshot_bytes": 64,
+          "snapshot_count": 8,
           "snapshot_sources": [
-            "hardware_bram_ring_compact"
+            "hardware_bram_ring_v3"
           ],
           "snapshot_syscalls": [
             "execve"
           ],
-          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/process_chain/rep_01/bram_records.jsonl"
+          "trace": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/process_chain/rep_01/bram_records.jsonl"
         },
         {
           "hardware_snapshot_syscalls": [
             "execve"
           ],
           "rep": "rep_02",
-          "snapshot_bytes": 16,
+          "snapshot_bytes": 32,
           "snapshot_count": 4,
           "snapshot_sources": [
-            "hardware_bram_ring_compact"
+            "hardware_bram_ring_v3"
           ],
           "snapshot_syscalls": [
             "execve"
           ],
-          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/process_chain/rep_02/bram_records.jsonl"
+          "trace": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/process_chain/rep_02/bram_records.jsonl"
         },
         {
           "hardware_snapshot_syscalls": [
             "execve"
           ],
           "rep": "rep_03",
-          "snapshot_bytes": 32,
+          "snapshot_bytes": 64,
           "snapshot_count": 8,
           "snapshot_sources": [
-            "hardware_bram_ring_compact"
+            "hardware_bram_ring_v3"
           ],
           "snapshot_syscalls": [
             "execve"
           ],
-          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/process_chain/rep_03/bram_records.jsonl"
+          "trace": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/process_chain/rep_03/bram_records.jsonl"
         },
         {
           "hardware_snapshot_syscalls": [
             "execve"
           ],
           "rep": "rep_04",
-          "snapshot_bytes": 16,
-          "snapshot_count": 4,
+          "snapshot_bytes": 64,
+          "snapshot_count": 8,
           "snapshot_sources": [
-            "hardware_bram_ring_compact"
+            "hardware_bram_ring_v3"
           ],
           "snapshot_syscalls": [
             "execve"
           ],
-          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/process_chain/rep_04/bram_records.jsonl"
+          "trace": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/process_chain/rep_04/bram_records.jsonl"
         },
         {
           "hardware_snapshot_syscalls": [
             "execve"
           ],
           "rep": "rep_05",
-          "snapshot_bytes": 16,
+          "snapshot_bytes": 32,
           "snapshot_count": 4,
           "snapshot_sources": [
-            "hardware_bram_ring_compact"
+            "hardware_bram_ring_v3"
           ],
           "snapshot_syscalls": [
             "execve"
           ],
-          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/process_chain/rep_05/bram_records.jsonl"
+          "trace": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/process_chain/rep_05/bram_records.jsonl"
         },
         {
           "hardware_snapshot_syscalls": [
             "execve"
           ],
           "rep": "rep_06",
-          "snapshot_bytes": 16,
+          "snapshot_bytes": 32,
           "snapshot_count": 4,
           "snapshot_sources": [
-            "hardware_bram_ring_compact"
+            "hardware_bram_ring_v3"
           ],
           "snapshot_syscalls": [
             "execve"
           ],
-          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/process_chain/rep_06/bram_records.jsonl"
+          "trace": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/process_chain/rep_06/bram_records.jsonl"
         },
         {
           "hardware_snapshot_syscalls": [
             "execve"
           ],
           "rep": "rep_07",
-          "snapshot_bytes": 16,
+          "snapshot_bytes": 32,
           "snapshot_count": 4,
           "snapshot_sources": [
-            "hardware_bram_ring_compact"
+            "hardware_bram_ring_v3"
           ],
           "snapshot_syscalls": [
             "execve"
           ],
-          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/process_chain/rep_07/bram_records.jsonl"
+          "trace": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/process_chain/rep_07/bram_records.jsonl"
         },
         {
           "hardware_snapshot_syscalls": [
             "execve"
           ],
           "rep": "rep_08",
-          "snapshot_bytes": 16,
+          "snapshot_bytes": 32,
           "snapshot_count": 4,
           "snapshot_sources": [
-            "hardware_bram_ring_compact"
+            "hardware_bram_ring_v3"
           ],
           "snapshot_syscalls": [
             "execve"
           ],
-          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/process_chain/rep_08/bram_records.jsonl"
+          "trace": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/process_chain/rep_08/bram_records.jsonl"
         },
         {
           "hardware_snapshot_syscalls": [
             "execve"
           ],
           "rep": "rep_09",
-          "snapshot_bytes": 16,
+          "snapshot_bytes": 32,
           "snapshot_count": 4,
           "snapshot_sources": [
-            "hardware_bram_ring_compact"
+            "hardware_bram_ring_v3"
           ],
           "snapshot_syscalls": [
             "execve"
           ],
-          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/process_chain/rep_09/bram_records.jsonl"
+          "trace": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/process_chain/rep_09/bram_records.jsonl"
         },
         {
           "hardware_snapshot_syscalls": [
             "execve"
           ],
           "rep": "rep_10",
-          "snapshot_bytes": 16,
+          "snapshot_bytes": 32,
           "snapshot_count": 4,
           "snapshot_sources": [
-            "hardware_bram_ring_compact"
+            "hardware_bram_ring_v3"
           ],
           "snapshot_syscalls": [
             "execve"
           ],
-          "trace": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/process_chain/rep_10/bram_records.jsonl"
+          "trace": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/process_chain/rep_10/bram_records.jsonl"
         }
       ],
       "sample_class": "malware_like_synthetic",
       "sample_id": "process_chain",
-      "snapshot_bytes": 176,
-      "snapshot_count": 44,
+      "snapshot_bytes": 416,
+      "snapshot_count": 52,
       "snapshot_mode": "bounded_prefix",
       "snapshot_sources": [
-        "hardware_bram_ring_compact"
+        "hardware_bram_ring_v3"
       ],
       "snapshot_syscalls": [
         "execve"
       ],
-      "trace": null,
+      "trace": "MULTIPLE_REPETITION_TRACES_SEE_TRACES",
       "traces": [
-        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/process_chain/rep_01/bram_records.jsonl",
-        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/process_chain/rep_02/bram_records.jsonl",
-        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/process_chain/rep_03/bram_records.jsonl",
-        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/process_chain/rep_04/bram_records.jsonl",
-        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/process_chain/rep_05/bram_records.jsonl",
-        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/process_chain/rep_06/bram_records.jsonl",
-        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/process_chain/rep_07/bram_records.jsonl",
-        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/process_chain/rep_08/bram_records.jsonl",
-        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/process_chain/rep_09/bram_records.jsonl",
-        "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram/process_chain/rep_10/bram_records.jsonl"
+        "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/process_chain/rep_01/bram_records.jsonl",
+        "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/process_chain/rep_02/bram_records.jsonl",
+        "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/process_chain/rep_03/bram_records.jsonl",
+        "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/process_chain/rep_04/bram_records.jsonl",
+        "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/process_chain/rep_05/bram_records.jsonl",
+        "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/process_chain/rep_06/bram_records.jsonl",
+        "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/process_chain/rep_07/bram_records.jsonl",
+        "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/process_chain/rep_08/bram_records.jsonl",
+        "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/process_chain/rep_09/bram_records.jsonl",
+        "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/process_chain/rep_10/bram_records.jsonl"
       ]
     },
     {
@@ -920,11 +918,11 @@
     }
   ],
   "schema": "rvmt.pointer_snapshot_guardrails.v1",
-  "snapshot_bytes": 2056,
-  "snapshot_count": 514,
+  "snapshot_bytes": 2046,
+  "snapshot_count": 492,
   "snapshot_mode": "bounded_prefix",
   "snapshot_sources": [
-    "hardware_bram_ring_compact"
+    "hardware_bram_ring_v3"
   ],
   "status": "PASS"
 }

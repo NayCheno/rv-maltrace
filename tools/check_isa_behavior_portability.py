@@ -13,6 +13,13 @@ DEFAULT_SPEC = Path("experiments/analysis/isa_behavior_portability.json")
 DEFAULT_DOC = Path("docs/05-semantic-analysis/isa_behavior_portability.md")
 DEFAULT_UV_DOC = Path("docs/10-process/uv_workflow.md")
 EXPECTED_MAPPINGS = ["syscall_abi", "control_flow", "privilege_transition", "anti_analysis", "dynamic_code"]
+EXPECTED_MAPPING_STATUSES = {
+    "syscall_abi": "PASS_CONTROLLED_CASE_STUDY",
+    "control_flow": "PASS_SCOPE_LIMITED_CASE_STUDY",
+    "privilege_transition": "PASS_SCOPED_SYSCALL_TRAP_BOUNDARY",
+    "anti_analysis": "PASS_CONTROLLED_CASE_STUDY",
+    "dynamic_code": "PASS_CONTROLLED_CASE_STUDY",
+}
 FORBIDDEN_PATTERNS = (
     re.compile(
         r"\bx86\s*(?:instruction|opcode)\s*(?:to|->)\s*RISC[- ]?V\s*(?:instruction|opcode)\s+"
@@ -25,7 +32,9 @@ FORBIDDEN_PATTERNS = (
 )
 REQUIRED_DOC_TEXT = (
     "Phase 10.1 records how RV-MalTrace treats x86-to-RISC-V malware differences.",
+    "controlled behavior-rubric evidence",
     "not malware detection quality evidence",
+    "not real-malware corpus coverage",
     "not an x86 instruction translation plan",
     "experiments/analysis/isa_behavior_portability.json",
     "Instruction-level malware signatures are architecture-dependent.",
@@ -75,8 +84,8 @@ def check_spec(path: Path) -> list[str]:
     errors = check_forbidden(path, text)
     if spec.get("phase") != "10.1":
         errors.append(f"{path}: phase must be 10.1")
-    if spec.get("status") != "TODO(EXPERIMENT)":
-        errors.append(f"{path}: status must remain TODO(EXPERIMENT)")
+    if spec.get("status") != "PASS_CONTROLLED_BEHAVIOR_RUBRIC":
+        errors.append(f"{path}: status must be PASS_CONTROLLED_BEHAVIOR_RUBRIC")
     if spec.get("scope") != "isa_specific_capture_to_architecture_neutral_behavior":
         errors.append(f"{path}: unexpected scope")
     policy = spec.get("policy", {})
@@ -87,8 +96,8 @@ def check_spec(path: Path) -> list[str]:
             errors.append(f"{path}: raw_opcode_mapping must be FORBIDDEN")
         if policy.get("primary_comparison_unit") != "behavior_semantics":
             errors.append(f"{path}: primary_comparison_unit must be behavior_semantics")
-        if policy.get("claim_boundary") != "design motivation and experiment rubric only":
-            errors.append(f"{path}: claim_boundary must stay design motivation and experiment rubric only")
+        if policy.get("claim_boundary") != "controlled behavior-rubric evidence only":
+            errors.append(f"{path}: claim_boundary must stay controlled behavior-rubric evidence only")
     if spec.get("outputs") != ["isa_behavior_portability_report.md"]:
         errors.append(f"{path}: outputs must be isa_behavior_portability_report.md")
     mappings = mappings_by_id(spec)
@@ -99,8 +108,9 @@ def check_spec(path: Path) -> list[str]:
         for field in ("x86_signal", "riscv_signal", "normalized_behavior"):
             if not isinstance(mapping.get(field), str) or not mapping.get(field):
                 errors.append(f"{path}: {mapping_id}.{field} must be a non-empty string")
-        if mapping.get("status") != "TODO(EXPERIMENT)":
-            errors.append(f"{path}: {mapping_id}.status must remain TODO(EXPERIMENT)")
+        expected_status = EXPECTED_MAPPING_STATUSES[mapping_id]
+        if mapping.get("status") != expected_status:
+            errors.append(f"{path}: {mapping_id}.status must be {expected_status}")
     non_goals = spec.get("non_goals", [])
     for required in (
         "x86 instruction to RISC-V instruction translation",
@@ -144,8 +154,9 @@ def check_doc(path: Path) -> list[str]:
             continue
         if row[0] != str(index):
             errors.append(f"{path}: {mapping_id} order must be {index}")
-        if row[5] != "TODO(EXPERIMENT)":
-            errors.append(f"{path}: {mapping_id} status must remain TODO(EXPERIMENT)")
+        expected_status = EXPECTED_MAPPING_STATUSES[mapping_id]
+        if row[5] != expected_status:
+            errors.append(f"{path}: {mapping_id} status must be {expected_status}")
     return errors
 
 
@@ -153,6 +164,8 @@ def check_uv_doc(path: Path) -> list[str]:
     text = path.read_text(encoding="utf-8")
     errors = []
     for token, label in (
+        ("tools/check_ccfa_case_study_manifest.py --root .", "current case-study checker command"),
+        ("tools/check_linux_behavior_recovery.py", "Linux recovery checker command"),
         ("tools/check_isa_behavior_portability.py", "Phase 10.1 checker command"),
         ("docs/05-semantic-analysis/isa_behavior_portability.md", "Phase 10.1 doc reference"),
         ("experiments/analysis/isa_behavior_portability.json", "Phase 10.1 spec reference"),
@@ -179,14 +192,15 @@ def run_checks(root: Path, spec: Path, doc: Path, uv_doc: Path) -> list[str]:
 
 def write_fixture(root: Path) -> None:
     (root / "experiments/analysis").mkdir(parents=True)
-    (root / "docs").mkdir(parents=True)
+    (root / DEFAULT_DOC).parent.mkdir(parents=True, exist_ok=True)
+    (root / DEFAULT_UV_DOC).parent.mkdir(parents=True, exist_ok=True)
     mappings = [
         {
             "id": mapping_id,
             "x86_signal": "x86 behavior signal",
             "riscv_signal": "RISC-V behavior signal",
             "normalized_behavior": "architecture-neutral behavior semantics",
-            "status": "TODO(EXPERIMENT)",
+            "status": EXPECTED_MAPPING_STATUSES[mapping_id],
         }
         for mapping_id in EXPECTED_MAPPINGS
     ]
@@ -194,12 +208,12 @@ def write_fixture(root: Path) -> None:
         json.dumps(
             {
                 "phase": "10.1",
-                "status": "TODO(EXPERIMENT)",
+                "status": "PASS_CONTROLLED_BEHAVIOR_RUBRIC",
                 "scope": "isa_specific_capture_to_architecture_neutral_behavior",
                 "policy": {
                     "raw_opcode_mapping": "FORBIDDEN",
                     "primary_comparison_unit": "behavior_semantics",
-                    "claim_boundary": "design motivation and experiment rubric only",
+                    "claim_boundary": "controlled behavior-rubric evidence only",
                 },
                 "inputs": ["trace.jsonl", "semantic_events.json", "behavior_graph.json"],
                 "outputs": ["isa_behavior_portability_report.md"],
@@ -218,7 +232,9 @@ def write_fixture(root: Path) -> None:
         """# ISA Behavior Portability
 
 Phase 10.1 records how RV-MalTrace treats x86-to-RISC-V malware differences.
+controlled behavior-rubric evidence
 not malware detection quality evidence
+not real-malware corpus coverage
 not an x86 instruction translation plan
 experiments/analysis/isa_behavior_portability.json
 Instruction-level malware signatures are architecture-dependent.
@@ -227,15 +243,17 @@ must not be used to claim real malware corpus coverage
 
 | Order | Mapping | x86 signal | RISC-V signal | Normalized behavior | Status |
 | ---: | --- | --- | --- | --- | --- |
-| 1 | syscall_abi | x86 syscall | ecall | behavior | TODO(EXPERIMENT) |
-| 2 | control_flow | x86 branch | RISC-V branch | behavior | TODO(EXPERIMENT) |
-| 3 | privilege_transition | ring | U/S/M | behavior | TODO(EXPERIMENT) |
-| 4 | anti_analysis | ptrace | ptrace | behavior | TODO(EXPERIMENT) |
-| 5 | dynamic_code | mmap | mmap | behavior | TODO(EXPERIMENT) |
+| 1 | syscall_abi | x86 syscall | ecall | behavior | PASS_CONTROLLED_CASE_STUDY |
+| 2 | control_flow | x86 branch | RISC-V branch | behavior | PASS_SCOPE_LIMITED_CASE_STUDY |
+| 3 | privilege_transition | ring | U/S/M | behavior | PASS_SCOPED_SYSCALL_TRAP_BOUNDARY |
+| 4 | anti_analysis | ptrace | ptrace | behavior | PASS_CONTROLLED_CASE_STUDY |
+| 5 | dynamic_code | mmap | mmap | behavior | PASS_CONTROLLED_CASE_STUDY |
 """,
         encoding="utf-8",
     )
     (root / DEFAULT_UV_DOC).write_text(
+        "uv run python tools/check_ccfa_case_study_manifest.py --root .\n"
+        "uv run python tools/check_linux_behavior_recovery.py\n"
         "uv run python tools/check_isa_behavior_portability.py\n"
         "docs/05-semantic-analysis/isa_behavior_portability.md\n"
         "experiments/analysis/isa_behavior_portability.json\n",
@@ -271,10 +289,10 @@ def self_test() -> int:
         root = Path(tmp)
         write_fixture(root)
         spec = load_json(root / DEFAULT_SPEC)
-        spec["mappings"][0]["status"] = "CHECKED(EXPERIMENT)"
+        spec["mappings"][0]["status"] = "TODO(EXPERIMENT)"
         (root / DEFAULT_SPEC).write_text(json.dumps(spec), encoding="utf-8")
-        if not expect_error(root, "syscall_abi.status must remain TODO"):
-            print("[FAIL] self-test missed premature mapping completion", file=sys.stderr)
+        if not expect_error(root, "syscall_abi.status must be PASS_CONTROLLED_CASE_STUDY"):
+            print("[FAIL] self-test missed stale mapping TODO status", file=sys.stderr)
             return 1
 
     for phrase in (

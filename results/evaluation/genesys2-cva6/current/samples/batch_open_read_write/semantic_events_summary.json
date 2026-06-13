@@ -3,7 +3,7 @@
     "anti_analysis_behavior_node": false,
     "argument_reconstruction_accuracy": 1.0,
     "execve_filename_accuracy": 1.0,
-    "execve_path_source": null,
+    "execve_path_source": "NOT_OBSERVED",
     "execve_paths": [],
     "expected_syscall_recall": 1.0,
     "expected_syscalls": [

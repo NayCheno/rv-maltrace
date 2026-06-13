@@ -9,6 +9,7 @@ rtl/trace/context_tap.sv
 rtl/trace/trace_filter.sv
 rtl/trace/trace_board_minimal_ctrl.sv
 rtl/trace/trace_bram_ring.sv
+rtl/trace/trace_uart_stream_sink.sv
 rtl/trace/rvmt_genesys2_oled_status.sv
 rtl/trace/trace_top.sv
 rtl/trace/trace_board_minimal_top.sv

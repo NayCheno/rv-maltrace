@@ -78,6 +78,7 @@
   "sha256": "bbce854f41d23cdb32543b757041d301c459ca5613d7fcc3d7bb0801de7b1a5e",
   "source": "board/trace_validation/programs/hello_write.c",
   "source_attribution": {
+    "addr2line_tool": null,
     "function_count": 1,
     "function_level": "available",
     "function_level_basis": "ELF symbol table",
@@ -85,8 +86,9 @@
       "Function-level attribution from symbols is not source-line attribution.",
       "Source-line attribution requires retained DWARF/debug-line metadata or an addr2line-compatible side channel."
     ],
-    "source_line_basis": "DWARF/source-line decoding is not present in rvmt.code_map.v1",
-    "source_line_level": "unavailable"
+    "source_line_basis": "no addr2line-compatible tool found; set RVMT_ADDR2LINE or install a RISC-V addr2line",
+    "source_line_level": "unavailable",
+    "source_location_count": 0
   },
   "source_locations": [],
   "symbols": [

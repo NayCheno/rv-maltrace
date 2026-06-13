@@ -1,71 +1,74 @@
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import sys
 import tempfile
 from pathlib import Path
+from typing import Any
 
 
 DEFAULT_DOC = Path("docs/07-evaluation-evidence/evaluation_plan.md")
 DEFAULT_UV_DOC = Path("docs/10-process/uv_workflow.md")
 
 REQUIRED_TEXT = (
-    "This document turns `docs/09-planning/next-plan.md` Section 9 and Stage 3 into a checkable evaluation plan.",
-    "research design and artifact gate, not evaluation evidence.",
-    "RQ1",
-    "Correctness: can committed syscall/control-flow/trap/context events be captured accurately?",
-    "RQ2",
-    "Semantic reconstruction: can syscall arguments, return values, paths, fd behavior, and behavior graphs be recovered?",
-    "RQ3",
-    "Low perturbation",
-    "RQ4",
-    "Evasion resistance",
-    "RQ5",
-    "Hardware cost",
-    "RQ6",
-    "Malware behavior usefulness",
-    "`strace` / `ptrace`",
-    "eBPF-only",
-    "QEMU plugin",
-    "RV-MalScope event-only",
-    "RV-MalScope + pointer snapshot",
-    "RV-MalScope + kernel helper/eBPF companion",
-    "Class A",
-    "Class B",
-    "Class C",
-    "syscall precision / recall",
-    "argument reconstruction accuracy",
-    "path string reconstruction accuracy",
-    "trace drop rate",
-    "LUT / FF / BRAM overhead",
-    "Fmax degradation",
-    "simulation correctness",
-    "board baseline",
-    "Linux syscall trace",
-    "Do not claim board or Linux validation from simulation-only artifacts.",
+    "This document turns `docs/09-planning/next-plan.md` Section 9 and Stage 3 into a checkable",
+    "evaluation plan and current-evidence index.",
+    "not evaluation evidence by itself.",
+    "they do not make the project CCF-A paper-ready.",
+    "PASS_CURRENT_GENESYS2_CONTROLLED",
+    "PASS_CURRENT_BOUNDED_SEMANTICS",
+    "PASS_CURRENT_RUNTIME_BENCHMARK",
+    "PASS_CONTROLLED_SAFE_SURROGATE",
+    "PASS_CURRENT_BRAM_COST_OPEN_STREAMING_DMA",
+    "PASS_SAFE_CASE_STUDIES_NON_REAL",
+    "PASS_CURRENT_STRACE_ALIGNMENT",
+    "OPTIONAL_DEFERRED_EBPF",
+    "PASS_CURRENT_QEMU_STRACE_ONLY",
+    "PASS_BOUNDED_ARG_MEM_PREFIX_OPEN_FULL_STRINGS",
+    "PASS_LOCAL_LINUX_BENIGN_OPEN_BOARD_BENIGN",
+    "PASS_CURRENT_REPRO_PACKAGE",
+    "## Current Evidence Index",
+    "## Remaining External Closure Items",
+    "board_native_dwarf_source_lines",
+    "full_hardware_pointer_strings",
+    "production_streaming_dma_trace_sink",
+    "genesys2_board_benign_control",
     "uv run python tools/check_evaluation_plan.py",
 )
 
 FORBIDDEN_PATTERNS = (
-    re.compile(r"\bPASS\b", re.IGNORECASE),
-    re.compile(r"\b(?:evaluation|experiment|study|suite)\s+(?:is|are|has|have)?\s*(?:been\s+)?(?:complete|completed|validated|passed)\b", re.IGNORECASE),
-    re.compile(r"\bCCF-A\s+(?:ready|readiness|accepted|acceptable|guaranteed)\b", re.IGNORECASE),
-    re.compile(r"\bboard\s+(?:validation|trace|baseline)\s+(?:is|has)?\s*(?:been\s+)?(?:complete|completed|validated|passed)\b", re.IGNORECASE),
-    re.compile(r"\bLinux\s+(?:syscall\s+)?trace\s+(?:is|has)?\s*(?:been\s+)?(?:complete|completed|validated|passed)\b", re.IGNORECASE),
+    re.compile(r"\bTODO(?:\([A-Z_]+\))?\b"),
+    re.compile(r"All rows remain TODO", re.IGNORECASE),
+    re.compile(r"\bCCF-A\s+(?:ready|accepted|guaranteed)\b", re.IGNORECASE),
+    re.compile(r"\breal[- ]malware\s+validation\s+(?:is|has)?\s*(?:been\s+)?(?:complete|completed|passed|validated)\b", re.IGNORECASE),
+    re.compile(r"\bfull\s+hardware\s+pointer\s+strings\s+(?:are|have)?\s*(?:been\s+)?(?:complete|completed|claimed|validated)\b", re.IGNORECASE),
+    re.compile(r"\bproduction\s+streaming(?:/DMA|\s+DMA)?\s+(?:trace\s+sink|throughput)\s+(?:is|has)?\s*(?:been\s+)?(?:complete|completed|validated)\b", re.IGNORECASE),
 )
 
-EXPECTED_RQ_IDS = ("RQ1", "RQ2", "RQ3", "RQ4", "RQ5", "RQ6")
-EXPECTED_BASELINES = (
-    "strace / ptrace",
-    "eBPF-only",
-    "QEMU plugin",
-    "software instrumentation",
-    "RV-MalScope event-only",
-    "RV-MalScope + pointer snapshot",
-    "RV-MalScope + kernel helper/eBPF companion",
-)
-EXPECTED_DATASETS = ("Class A", "Class B", "Class C")
+EXPECTED_RQ_STATUSES = {
+    "RQ1": "PASS_CURRENT_GENESYS2_CONTROLLED",
+    "RQ2": "PASS_CURRENT_BOUNDED_SEMANTICS",
+    "RQ3": "PASS_CURRENT_RUNTIME_BENCHMARK",
+    "RQ4": "PASS_CONTROLLED_SAFE_SURROGATE",
+    "RQ5": "PASS_CURRENT_BRAM_COST_OPEN_STREAMING_DMA",
+    "RQ6": "PASS_SAFE_CASE_STUDIES_NON_REAL",
+}
+EXPECTED_BASELINE_STATUSES = {
+    "strace / ptrace": "PASS_CURRENT_STRACE_ALIGNMENT",
+    "eBPF-only": "OPTIONAL_DEFERRED_EBPF",
+    "QEMU plugin": "PASS_CURRENT_QEMU_STRACE_ONLY",
+    "software instrumentation": "PASS_SOURCE_SIDECAR_BASELINE",
+    "RV-MalScope event-only": "PASS_CURRENT_EVENT_ONLY",
+    "RV-MalScope + pointer snapshot": "PASS_BOUNDED_ARG_MEM_PREFIX_OPEN_FULL_STRINGS",
+    "RV-MalScope + kernel helper/eBPF companion": "PASS_TRUSTED_COMPANION_OPTIONAL_EBPF",
+}
+EXPECTED_DATASET_STATUSES = {
+    "Class A": "PASS_CURRENT_P0_CONTROLLED",
+    "Class B": "PASS_LOCAL_LINUX_BENIGN_OPEN_BOARD_BENIGN",
+    "Class C": "PASS_SAFE_SURROGATE_NON_REAL",
+}
 EXPECTED_METRICS = (
     "syscall precision / recall",
     "argument reconstruction accuracy",
@@ -79,20 +82,99 @@ EXPECTED_METRICS = (
     "Fmax degradation",
     "anti-analysis detection outcome",
 )
-EXPECTED_GATES = (
-    "simulation correctness",
-    "direct-core CVA6 smoke",
-    "board baseline",
-    "board trace",
-    "Linux syscall trace",
-    "semantic reconstruction",
-    "evasion suite",
-    "hardware cost",
-    "ablation study",
-    "case studies",
-    "artifact package",
-)
-EXPECTED_STATUSES = ("TODO", "TODO(BOARD)", "TODO(LINUX)")
+EXPECTED_GATE_STATUSES = {
+    "simulation correctness": "PASS_REPOSITORY_SIM",
+    "direct-core CVA6 smoke": "PASS_DIRECT_CORE",
+    "board baseline": "PASS_GENESYS2_BASELINE",
+    "board trace": "PASS_CURRENT_BRAM_MARKER_WINDOW",
+    "Linux syscall trace": "PASS_CONTROLLED_TRACE_ALIGNMENT",
+    "semantic reconstruction": "PASS_CURRENT_SEMANTIC_SUMMARIES",
+    "evasion suite": "PASS_SAFE_SURROGATE_AUDIT",
+    "hardware cost": "PASS_CURRENT_RESOURCE_TIMING",
+    "ablation study": "PASS_CURRENT_BASELINE_ALIGNMENT",
+    "case studies": "PASS_CURRENT_CASE_STUDIES",
+    "artifact package": "PASS_CURRENT_REPRO_PACKAGE",
+}
+EXPECTED_EVIDENCE_ARTIFACTS = {
+    "results/evaluation/genesys2-cva6/current/ccfa_evaluation_matrix.json": (
+        "rvmt.ccfa_evaluation_matrix.v1",
+        "tools/check_ccfa_evaluation_matrix.py",
+    ),
+    "results/evaluation/genesys2-cva6/current/baseline_alignment_summary.json": (
+        "rvmt.baseline_alignment.v1",
+        "tools/check_baseline_alignment.py",
+    ),
+    "results/evaluation/genesys2-cva6/current/behavior_audit_metrics.json": (
+        "rvmt.behavior_audit_metrics.v1",
+        "tools/check_behavior_audit_metrics.py",
+    ),
+    "results/evaluation/genesys2-cva6/current/statistical_robustness_summary.json": (
+        "rvmt.genesys2.statistical_robustness.v1",
+        "tools/check_genesys2_statistical_robustness.py",
+    ),
+    "results/evaluation/genesys2-cva6/current/streaming_dma_target_summary.json": (
+        "rvmt.genesys2.streaming_dma_target.v1",
+        "tools/check_genesys2_streaming_dma_target.py",
+    ),
+    "results/evaluation/genesys2-cva6/current/streaming_dma_readiness_summary.json": (
+        "rvmt.genesys2.streaming_dma_readiness.v1",
+        "tools/check_genesys2_streaming_dma_readiness.py",
+    ),
+    "results/evaluation/genesys2-cva6/current/pointer_string_readiness_summary.json": (
+        "rvmt.genesys2.pointer_string_readiness.v1",
+        "tools/check_genesys2_pointer_string_readiness.py",
+    ),
+    "results/evaluation/genesys2-cva6/current/debug_elf_readiness_summary.json": (
+        "rvmt.genesys2.debug_elf_readiness.v1",
+        "tools/check_genesys2_debug_elf_readiness.py",
+    ),
+    "results/evaluation/genesys2-cva6/current/board_benign_readiness_summary.json": (
+        "rvmt.genesys2.board_benign_readiness.v1",
+        "tools/check_genesys2_board_benign_readiness.py",
+    ),
+    "results/evaluation/genesys2-cva6/current/case_study_manifest.json": (
+        "rvmt.ccfa.case_study_manifest.v1",
+        "tools/check_ccfa_case_study_manifest.py",
+    ),
+    "results/evaluation/genesys2-cva6/current/production_runtime_benchmark.json": (
+        "rvmt.genesys2.production_runtime_benchmark.v1",
+        "tools/check_ccfa_current_quality.py",
+    ),
+    "results/evaluation/genesys2-cva6/current/reproducibility_manifest.json": (
+        "rvmt.genesys2.reproducibility_manifest.v1",
+        "tools/check_genesys2_reproducibility_manifest.py",
+    ),
+    "results/evaluation/genesys2-cva6/current/artifact_package_manifest.json": (
+        "rvmt.genesys2.artifact_package.v1",
+        "tools/check_genesys2_artifact_package.py",
+    ),
+    "results/evaluation/genesys2-cva6/current/external_closure_readiness.json": (
+        "rvmt.genesys2.external_closure_readiness.v1",
+        "tools/check_genesys2_external_closure_readiness.py",
+    ),
+    "results/evaluation/genesys2-cva6/current/external_closure_intake.json": (
+        "rvmt.genesys2.external_closure_intake.v1",
+        "tools/check_genesys2_external_closure_intake.py",
+    ),
+    "results/evaluation/genesys2-cva6/current/external_closure_plan.json": (
+        "rvmt.genesys2.external_closure_plan.v1",
+        "tools/check_genesys2_external_closure_plan.py",
+    ),
+    "results/evaluation/genesys2-cva6/current/external_closure_preflight.json": (
+        "rvmt.genesys2.external_closure_preflight.v1",
+        "tools/check_genesys2_external_closure_preflight.py",
+    ),
+    "results/evaluation/genesys2-cva6/current/external_operator_packet.json": (
+        "rvmt.genesys2.external_operator_packet.v1",
+        "tools/check_genesys2_external_operator_packet.py",
+    ),
+}
+EXPECTED_EXTERNAL_ITEMS = {
+    "board_native_dwarf_source_lines": "results/evaluation/genesys2-cva6/current/external_closure/board_native_source_lines_summary.json",
+    "full_hardware_pointer_strings": "results/evaluation/genesys2-cva6/current/external_closure/hardware_pointer_strings_summary.json",
+    "production_streaming_dma_trace_sink": "results/evaluation/genesys2-cva6/current/external_closure/streaming_dma_throughput_summary.json",
+    "genesys2_board_benign_control": "results/evaluation/genesys2-cva6/current/external_closure/board_benign_control_summary.json",
+}
 
 
 def normalized_text(text: str) -> str:
@@ -128,10 +210,33 @@ def section_table_rows(text: str, heading: str, header_first_cell: str) -> list[
 
 
 def is_negated_context(text: str, start: int) -> bool:
-    prefix = text[max(0, start - 96) : start].lower()
-    return any(marker in prefix for marker in ("do not", "must not", "should not", "never ")) or bool(
-        re.search(r"\bnot(?:\s+\w+){0,6}\s*$", prefix)
+    prefix = text[max(0, start - 128) : start].lower()
+    return any(marker in prefix for marker in ("do not", "must not", "should not", "never ", "not make")) or bool(
+        re.search(r"\bnot(?:\s+\w+){0,8}\s*$", prefix)
     )
+
+
+def require_exact_statuses(
+    errors: list[str],
+    path: Path,
+    rows: list[list[str]],
+    expected: dict[str, str],
+    section_name: str,
+    status_index: int,
+) -> None:
+    ids = [row[0] for row in rows]
+    if ids != list(expected):
+        errors.append(f"{path}: {section_name} rows must be exactly {list(expected)}")
+    row_map = {row[0]: row for row in rows}
+    for row_id, expected_status in expected.items():
+        row = row_map.get(row_id)
+        if row is None:
+            continue
+        if len(row) <= status_index:
+            errors.append(f"{path}: {section_name} row {row_id} is malformed")
+            continue
+        if row[status_index] != expected_status:
+            errors.append(f"{path}: {row_id} status must be {expected_status}")
 
 
 def check_doc(path: Path) -> list[str]:
@@ -147,86 +252,101 @@ def check_doc(path: Path) -> list[str]:
         for match in pattern.finditer(text):
             if is_negated_context(text, match.start()):
                 continue
-            errors.append(f"{path}: must not claim completed evaluation, board, Linux, or CCF-A evidence")
+            errors.append(f"{path}: forbidden stale or overclaim wording: {match.group(0)}")
             break
 
-    rq_section_rows = section_table_rows(text, "Research Questions", "ID")
-    baseline_section_rows = section_table_rows(text, "Baselines", "Baseline")
-    dataset_section_rows = section_table_rows(text, "Datasets", "Class")
-    metric_section_rows = section_table_rows(text, "Metrics", "Metric")
-    gate_section_rows = section_table_rows(text, "Artifact Gates", "Gate")
-    rows = rq_section_rows + baseline_section_rows + dataset_section_rows + metric_section_rows + gate_section_rows
+    rq_rows = section_table_rows(text, "Research Questions", "ID")
+    baseline_rows = section_table_rows(text, "Baselines", "Baseline")
+    dataset_rows = section_table_rows(text, "Datasets", "Class")
+    metric_rows = section_table_rows(text, "Metrics", "Metric")
+    gate_rows = section_table_rows(text, "Artifact Gates", "Gate")
+    evidence_rows = section_table_rows(text, "Current Evidence Index", "Artifact")
+    external_rows = section_table_rows(text, "Remaining External Closure Items", "Item")
 
-    if not rq_section_rows:
-        errors.append(f"{path}: missing Research Questions table")
-    if not baseline_section_rows:
-        errors.append(f"{path}: missing Baselines table")
-    if not dataset_section_rows:
-        errors.append(f"{path}: missing Datasets table")
-    if not metric_section_rows:
-        errors.append(f"{path}: missing Metrics table")
-    if not gate_section_rows:
-        errors.append(f"{path}: missing Artifact Gates table")
+    require_exact_statuses(errors, path, rq_rows, EXPECTED_RQ_STATUSES, "research question", 3)
+    require_exact_statuses(errors, path, baseline_rows, EXPECTED_BASELINE_STATUSES, "baseline", 3)
+    require_exact_statuses(errors, path, dataset_rows, EXPECTED_DATASET_STATUSES, "dataset", 3)
+    require_exact_statuses(errors, path, gate_rows, EXPECTED_GATE_STATUSES, "artifact gate", 2)
 
-    rq_rows = {row[0]: row for row in rows if row and row[0] in EXPECTED_RQ_IDS}
-    rq_ids = [row[0] for row in rq_section_rows]
-    if rq_ids != list(EXPECTED_RQ_IDS):
-        errors.append(f"{path}: research question rows must be exactly {list(EXPECTED_RQ_IDS)}")
-    for rq_id, row in rq_rows.items():
-        if len(row) < 4 or row[3] != "TODO":
-            errors.append(f"{path}: {rq_id} status must remain TODO")
-
-    dataset_rows = {row[0]: row for row in rows if row and row[0] in EXPECTED_DATASETS}
-    dataset_ids = [row[0] for row in dataset_section_rows]
-    if dataset_ids != list(EXPECTED_DATASETS):
-        errors.append(f"{path}: dataset rows must be exactly {list(EXPECTED_DATASETS)}")
-    for dataset_id, row in dataset_rows.items():
-        if len(row) < 4 or row[3] != "TODO":
-            errors.append(f"{path}: {dataset_id} status must remain TODO")
-
-    baseline_rows = {row[0]: row for row in rows if row and row[0] in EXPECTED_BASELINES}
-    baseline_ids = [row[0] for row in baseline_section_rows]
-    if baseline_ids != list(EXPECTED_BASELINES):
-        errors.append(f"{path}: baseline rows must be exactly {list(EXPECTED_BASELINES)}")
-    for baseline_id, row in baseline_rows.items():
-        if len(row) < 4 or row[3] != "TODO":
-            errors.append(f"{path}: {baseline_id} status must remain TODO")
-
-    metric_rows = {row[0]: row for row in rows if row and row[0] in EXPECTED_METRICS}
-    metric_ids = [row[0] for row in metric_section_rows]
+    metric_ids = [row[0] for row in metric_rows]
     if metric_ids != list(EXPECTED_METRICS):
         errors.append(f"{path}: metric rows must be exactly {list(EXPECTED_METRICS)}")
 
-    gate_rows = {row[0]: row for row in rows if row and row[0] in EXPECTED_GATES}
-    gate_ids = [row[0] for row in gate_section_rows]
-    if gate_ids != list(EXPECTED_GATES):
-        errors.append(f"{path}: artifact gate rows must be exactly {list(EXPECTED_GATES)}")
-    for gate_id, row in gate_rows.items():
-        if len(row) < 3:
-            errors.append(f"{path}: {gate_id} gate row is malformed")
+    evidence = {row[0]: row for row in evidence_rows}
+    if list(evidence) != list(EXPECTED_EVIDENCE_ARTIFACTS):
+        errors.append(f"{path}: evidence index rows must be exactly {list(EXPECTED_EVIDENCE_ARTIFACTS)}")
+    for artifact, (_, checker) in EXPECTED_EVIDENCE_ARTIFACTS.items():
+        row = evidence.get(artifact)
+        if row is None:
             continue
-        expected_status = "TODO"
-        if gate_id in {"board baseline", "board trace"}:
-            expected_status = "TODO(BOARD)"
-        elif gate_id == "Linux syscall trace":
-            expected_status = "TODO(LINUX)"
-        if row[2] != expected_status:
-            errors.append(f"{path}: {gate_id} status must remain {expected_status}")
+        if len(row) < 3 or checker not in row[2]:
+            errors.append(f"{path}: {artifact} must reference checker {checker}")
 
-    if "results/board/genesys2_baseline/<run-id>/" not in text:
-        errors.append(f"{path}: board baseline gate must use results/board/genesys2_baseline/<run-id>/")
-    if "results/board/genesys2_trace_validation/<run-id>/" not in text:
-        errors.append(f"{path}: board trace gate must use results/board/genesys2_trace_validation/<run-id>/")
+    external = {row[0]: row for row in external_rows}
+    if list(external) != list(EXPECTED_EXTERNAL_ITEMS):
+        errors.append(f"{path}: external closure rows must be exactly {list(EXPECTED_EXTERNAL_ITEMS)}")
+    for item_id, closure_path in EXPECTED_EXTERNAL_ITEMS.items():
+        row = external.get(item_id)
+        if row is None:
+            continue
+        if len(row) < 3:
+            errors.append(f"{path}: external closure row {item_id} is malformed")
+            continue
+        if row[1] != "OPEN_EXTERNAL_ARTIFACTS_REQUIRED":
+            errors.append(f"{path}: {item_id} must remain OPEN_EXTERNAL_ARTIFACTS_REQUIRED")
+        if row[2] != closure_path:
+            errors.append(f"{path}: {item_id} closure gate path mismatch")
 
-    statuses = [cell for row in rows for cell in row if cell in EXPECTED_STATUSES or cell.startswith("TODO")]
-    if "TODO(BOARD)" not in statuses:
-        errors.append(f"{path}: board gates must use TODO(BOARD)")
-    if "TODO(LINUX)" not in statuses:
-        errors.append(f"{path}: Linux gates must use TODO(LINUX)")
-    unexpected_statuses = sorted({cell for cell in statuses if cell not in EXPECTED_STATUSES})
-    if unexpected_statuses:
-        errors.append(f"{path}: unexpected TODO-style statuses: {unexpected_statuses}")
+    non_goals = section_text(text, "Non-Goals")
+    for token in (
+        "real malware validation",
+        "board-native DWARF source",
+        "full hardware pointer strings",
+        "production streaming/DMA throughput",
+    ):
+        if token not in non_goals:
+            errors.append(f"{path}: Non-Goals must include {token}")
 
+    return errors
+
+
+def load_json(path: Path) -> dict[str, Any]:
+    value = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(value, dict):
+        raise ValueError(f"{path}: expected JSON object")
+    return value
+
+
+def check_current_artifacts(root: Path) -> list[str]:
+    errors: list[str] = []
+    for artifact, (schema, _) in EXPECTED_EVIDENCE_ARTIFACTS.items():
+        path = root / artifact
+        if not path.is_file():
+            errors.append(f"{artifact}: missing current evidence artifact")
+            continue
+        try:
+            data = load_json(path)
+        except Exception as exc:
+            errors.append(f"{artifact}: invalid JSON: {exc}")
+            continue
+        if data.get("schema") != schema:
+            errors.append(f"{artifact}: schema must be {schema}")
+        if data.get("status") != "PASS":
+            errors.append(f"{artifact}: status must be PASS")
+        boundary = data.get("claim_boundary")
+        if isinstance(boundary, dict) and boundary.get("real_malware_validation_claimed") is not False:
+            errors.append(f"{artifact}: real_malware_validation_claimed must be false")
+    intake = root / "results/evaluation/genesys2-cva6/current/external_closure_intake.json"
+    if intake.is_file():
+        data = load_json(intake)
+        if data.get("closure_status") != "OPEN_EXTERNAL_ARTIFACTS_REQUIRED":
+            errors.append("external_closure_intake.json: closure_status must remain OPEN_EXTERNAL_ARTIFACTS_REQUIRED until external summaries exist")
+        records = data.get("records")
+        if isinstance(records, list):
+            statuses = {str(row.get("id")): row.get("completion_status") for row in records if isinstance(row, dict)}
+            for item_id in EXPECTED_EXTERNAL_ITEMS:
+                if statuses.get(item_id) != "OPEN_NO_EXTERNAL_SUMMARY":
+                    errors.append(f"external_closure_intake.json: {item_id} must remain OPEN_NO_EXTERNAL_SUMMARY")
     return errors
 
 
@@ -239,6 +359,23 @@ def check_uv_doc(path: Path) -> list[str]:
     return errors
 
 
+def write_json(path: Path, value: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
+
+
+def write_artifact_fixtures(root: Path) -> None:
+    for artifact, (schema, _) in EXPECTED_EVIDENCE_ARTIFACTS.items():
+        payload: dict[str, Any] = {"schema": schema, "status": "PASS", "claim_boundary": {"real_malware_validation_claimed": False}}
+        if artifact.endswith("external_closure_intake.json"):
+            payload["closure_status"] = "OPEN_EXTERNAL_ARTIFACTS_REQUIRED"
+            payload["records"] = [
+                {"id": item_id, "completion_status": "OPEN_NO_EXTERNAL_SUMMARY"}
+                for item_id in EXPECTED_EXTERNAL_ITEMS
+            ]
+        write_json(root / artifact, payload)
+
+
 def self_test() -> int:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
@@ -248,6 +385,7 @@ def self_test() -> int:
         doc.parent.mkdir(parents=True)
         uv_doc.parent.mkdir(parents=True)
         tools.mkdir()
+        write_artifact_fixtures(root)
 
         source_doc = DEFAULT_DOC.read_text(encoding="utf-8")
         doc.write_text(source_doc, encoding="utf-8")
@@ -257,8 +395,18 @@ def self_test() -> int:
             encoding="utf-8",
         )
 
-        if check_doc(doc) or check_uv_doc(uv_doc):
+        if check_doc(doc) or check_uv_doc(uv_doc) or check_current_artifacts(root):
             print("[FAIL] self-test rejected valid evaluation plan fixture", file=sys.stderr)
+            return 1
+
+        doc.write_text(source_doc.replace("PASS_CURRENT_GENESYS2_CONTROLLED", "TODO", 1), encoding="utf-8")
+        if not any("forbidden stale" in error or "RQ1 status" in error for error in check_doc(doc)):
+            print("[FAIL] self-test missed stale TODO status", file=sys.stderr)
+            return 1
+
+        doc.write_text(source_doc.replace("OPEN_EXTERNAL_ARTIFACTS_REQUIRED", "PASS", 1), encoding="utf-8")
+        if not any("OPEN_EXTERNAL_ARTIFACTS_REQUIRED" in error for error in check_doc(doc)):
+            print("[FAIL] self-test missed external blocker overclosure", file=sys.stderr)
             return 1
 
         doc.write_text(source_doc.replace("| RQ1 |", "| RQX |", 1), encoding="utf-8")
@@ -266,31 +414,12 @@ def self_test() -> int:
             print("[FAIL] self-test missed missing RQ row", file=sys.stderr)
             return 1
 
-        doc.write_text(source_doc.replace("TODO(BOARD)", "PASS", 1), encoding="utf-8")
-        if not any("must not claim" in error for error in check_doc(doc)):
-            print("[FAIL] self-test missed PASS evidence claim", file=sys.stderr)
-            return 1
-
-        doc.write_text(
-            source_doc.replace(
-                "| artifact package | scripts, manifests, expected outputs, and reproduction notes | TODO |",
-                "| extra gate | extra artifacts | TODO |\n"
-                "| artifact package | scripts, manifests, expected outputs, and reproduction notes | TODO |",
-            ),
-            encoding="utf-8",
-        )
-        if not any("artifact gate rows" in error for error in check_doc(doc)):
-            print("[FAIL] self-test missed extra artifact gate row", file=sys.stderr)
-            return 1
-
-        doc.write_text(source_doc + "\nDo not claim board trace passed before evidence exists.\n", encoding="utf-8")
-        if check_doc(doc):
-            print("[FAIL] self-test rejected negated forbidden wording", file=sys.stderr)
-            return 1
-
-        doc.write_text(source_doc + "\nThis gate is not PASS before evidence exists.\n", encoding="utf-8")
-        if check_doc(doc):
-            print("[FAIL] self-test rejected not-PASS wording", file=sys.stderr)
+        bad_artifact = root / "results/evaluation/genesys2-cva6/current/external_closure_intake.json"
+        bad = load_json(bad_artifact)
+        bad["closure_status"] = "ALL_NON_REAL_EXTERNAL_SUMMARIES_ACCEPTED"
+        write_json(bad_artifact, bad)
+        if not any("closure_status" in error for error in check_current_artifacts(root)):
+            print("[FAIL] self-test missed premature external closure", file=sys.stderr)
             return 1
 
         uv_doc.write_text("uv run rvmt tasks:list\n", encoding="utf-8")
@@ -304,6 +433,7 @@ def self_test() -> int:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Check the RV-MalTrace evaluation plan gate.")
+    parser.add_argument("--root", type=Path, default=Path("."))
     parser.add_argument("--doc", type=Path, default=DEFAULT_DOC)
     parser.add_argument("--uv-doc", type=Path, default=DEFAULT_UV_DOC)
     parser.add_argument("--self-test", action="store_true")
@@ -312,10 +442,12 @@ def main(argv: list[str] | None = None) -> int:
     if args.self_test:
         return self_test()
 
+    root = args.root.resolve()
     errors: list[str] = []
     try:
-        errors.extend(check_doc(args.doc))
-        errors.extend(check_uv_doc(args.uv_doc))
+        errors.extend(check_doc(args.doc if args.doc.is_absolute() else root / args.doc))
+        errors.extend(check_uv_doc(args.uv_doc if args.uv_doc.is_absolute() else root / args.uv_doc))
+        errors.extend(check_current_artifacts(root))
     except Exception as exc:
         print(f"check_evaluation_plan: error: {exc}", file=sys.stderr)
         return 2

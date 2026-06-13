@@ -1,0 +1,31 @@
+{
+  "evidence": {
+    "behavior_graph": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/behavior/behavior_graph.json",
+    "behavior_mapping": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/malware_analysis/behavior_mapping.json",
+    "code_map": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/local_code_analysis/code_map.json",
+    "integrated_validation": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/integrated_validation.json",
+    "runtime_process_map": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map/abnormal_syscall_sequence/runtime_process_map.json",
+    "semantic_events": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/behavior/semantic_events.json",
+    "source_attribution": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/local_code_analysis/source_attribution_summary.json",
+    "trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_01/bram_records.jsonl"
+  },
+  "metrics": {
+    "anti_analysis_visibility": 1.0,
+    "argument_reconstruction_accuracy": 1.0,
+    "behavior_rule_recall": 1.0,
+    "benign_false_positive_rate": 0.0,
+    "expected_syscall_recall": 1.0,
+    "syscall_precision": 1.0,
+    "unaccounted_drop": 0
+  },
+  "non_claims": [
+    "Integrated validation is limited to controlled safe workloads and safe malware-like surrogates.",
+    "This integrated validation artifact is not real malware validation."
+  ],
+  "real_malware": false,
+  "sample_class": "malware_like_synthetic_syscall_only",
+  "sample_id": "abnormal_syscall_sequence",
+  "schema": "rvmt.sample.integrated_validation.v1",
+  "source_artifact": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/integrated_validation.json",
+  "status": "PASS_CONTROLLED_SAFE_WORKLOAD_AUDIT"
+}

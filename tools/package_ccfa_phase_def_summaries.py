@@ -23,6 +23,7 @@ DEFAULT_SAFE_BRAM_SUMMARY = DEFAULT_OUT_ROOT / "safe_surrogate_bram_trace_summar
 DEFAULT_DROP_SUMMARY = DEFAULT_OUT_ROOT / "drop_accounting_summary.json"
 DEFAULT_POINTER_GUARDRAILS = DEFAULT_OUT_ROOT / "pointer_snapshot_guardrails.json"
 DEFAULT_RUNTIME_BENCHMARK = DEFAULT_OUT_ROOT / "production_runtime_benchmark.json"
+DEFAULT_BENIGN_CONTROL_SUMMARY = DEFAULT_OUT_ROOT / "benign_control_summary.json"
 DEFAULT_REAL_MALWARE_CONTAINMENT = DEFAULT_OUT_ROOT / "real_malware_containment.json"
 
 P0_DIRS = {
@@ -61,6 +62,8 @@ SYSCALL_LINE_TOKENS = {
 }
 
 IGNORED_SOURCE_SYSCALLS = {"rvmt_marker", "exit"}
+NOT_OBSERVED = "NOT_OBSERVED"
+DERIVED_CURRENT_SAMPLE_ARTIFACT = "DERIVED_CURRENT_SAMPLE_ARTIFACT"
 QUOTED_RE = re.compile(r'"((?:\\.|[^"\\])*)"')
 SYSCALL_TOKEN_RE = re.compile(r"(?:^|\s|\))\s*(?:\d+\s+)?([A-Za-z_][A-Za-z0-9_]*)\(")
 RET_RE = re.compile(r"\)\s+=\s+(-?\d+)")
@@ -210,13 +213,23 @@ def parse_strace(path: Path | None) -> dict[str, Any]:
                 fd_edges.append({"op": "execve", "path": target, "line": segment})
             elif name in {"read", "write", "close", "getdents64"}:
                 fd = parse_fd_argument(segment)
-                target = fd_map.get(fd) if fd is not None else None
+                if fd is None:
+                    target = "<unparsed-fd-argument>"
+                elif fd < 0:
+                    target = f"<invalid-fd:{fd}>"
+                else:
+                    target = fd_map.get(fd)
                 if target is None and fd is not None and fd >= 0:
                     unresolved += 1
                     target = f"<unresolved-fd:{fd}>"
                 if name == "write" and strings:
                     write_prefixes.append(strings[0][:64])
-                fd_edges.append({"op": name, "fd": fd, "path": target, "line": segment})
+                edge = {"op": name, "path": target, "line": segment}
+                if fd is None:
+                    edge["fd_parse_status"] = "UNPARSED_FD_ARGUMENT"
+                else:
+                    edge["fd"] = fd
+                fd_edges.append(edge)
                 if name == "close" and fd is not None and fd > 2:
                     fd_map.pop(fd, None)
             elif name in {"mmap", "mprotect", "munmap", "ptrace", "clock_gettime", "wait4", "waitid", "clone"}:
@@ -437,11 +450,11 @@ def build_semantic_details(sample_id: str, gt: dict[str, Any], expected_sequence
         "syscalls": dict(sorted(syscalls.items())),
         "expected_syscalls": expected,
         "openat_paths": openat_paths,
-        "openat_path_source": openat_path_source if openat_paths else None,
+        "openat_path_source": openat_path_source if openat_paths else NOT_OBSERVED,
         "execve_paths": execve_paths,
-        "execve_path_source": execve_path_source if execve_paths else None,
+        "execve_path_source": execve_path_source if execve_paths else NOT_OBSERVED,
         "write_prefixes": write_prefixes,
-        "write_prefix_source": write_prefix_source if write_prefixes else None,
+        "write_prefix_source": write_prefix_source if write_prefixes else NOT_OBSERVED,
         "fd_edges": fd_edges,
         "unresolved_fd_count": base.get("unresolved_fd_count", 0),
         "primary_semantic_source": "qemu_guest_strace" if base is qemu else "host_or_control_strace",
@@ -461,6 +474,7 @@ def row_common_evidence(
             "trace": repo_rel(run_dir / "trace.jsonl"),
             "semantic_events": repo_rel(run_dir / "semantic_events.json"),
             "behavior_graph": repo_rel(run_dir / "behavior_graph.json"),
+            "behavior_mapping": DERIVED_CURRENT_SAMPLE_ARTIFACT,
             "code_map": repo_rel(run_dir / "trace_code_map" / "code_map.json"),
             "source_attribution": repo_rel(run_dir / "trace_code_map" / "source_attribution_summary.json"),
             "runtime_process_map": repo_rel(run_dir / "runtime_process_map.json"),
@@ -473,6 +487,7 @@ def row_common_evidence(
         "trace": artifacts.get("bram_records") or repo_rel(sample_root / "hardware_trace" / "trace.jsonl"),
         "semantic_events": repo_rel(sample_root / "behavior" / "semantic_events.json"),
         "behavior_graph": repo_rel(sample_root / "behavior" / "behavior_graph.json"),
+        "behavior_mapping": repo_rel(sample_root / "malware_analysis" / "behavior_mapping.json"),
         "code_map": repo_rel(sample_root / "local_code_analysis" / "code_map.json"),
         "source_attribution": repo_rel(sample_root / "local_code_analysis" / "source_attribution_summary.json"),
         "runtime_process_map": repo_rel(DEFAULT_SAFE_RUNTIME_ROOT / sample_id / "runtime_process_map.json"),
@@ -615,6 +630,91 @@ def write_per_sample_artifacts(
         "sample_id": sample_id,
         "row": semantic_row,
     }
+    semantic_events = {
+        "schema": "rvmt.sample.semantic_events.v1",
+        "sample_id": sample_id,
+        "sample_class": "p0_safe_synthetic"
+        if sample_id in P0_SAMPLES
+        else "malware_like_synthetic_syscall_only",
+        "real_malware": False,
+        "source_artifact": evidence.get("semantic_events"),
+        "trace_source": evidence.get("trace"),
+        "row": semantic_row,
+        "non_claims": [
+            "This artifact is a controlled safe-workload semantic audit artifact, not real malware validation.",
+            "Companion-derived strings are not hardware-derived pointer strings.",
+        ],
+    }
+    behavior_graph = {
+        "schema": "rvmt.sample.behavior_graph.v1",
+        "sample_id": sample_id,
+        "sample_class": "p0_safe_synthetic"
+        if sample_id in P0_SAMPLES
+        else "malware_like_synthetic_syscall_only",
+        "real_malware": False,
+        "source_artifact": evidence.get("behavior_graph"),
+        "behavior_nodes": {
+            "has_openat": semantic_row.get("has_openat"),
+            "has_execve": semantic_row.get("has_execve"),
+            "has_write": semantic_row.get("has_write"),
+            "mmap_mprotect_behavior_node": semantic_row.get("mmap_mprotect_behavior_node"),
+            "anti_analysis_behavior_node": semantic_row.get("anti_analysis_behavior_node"),
+        },
+        "non_claims": [
+            "Behavior graph evidence is malware-like safe surrogate audit where applicable, not real malware detection accuracy.",
+        ],
+    }
+    behavior_mapping = {
+        "schema": "rvmt.sample.behavior_mapping.v1",
+        "sample_id": sample_id,
+        "sample_class": "p0_safe_synthetic"
+        if sample_id in P0_SAMPLES
+        else "malware_like_synthetic_syscall_only",
+        "real_malware": False,
+        "source_artifact": evidence.get("behavior_mapping") or DERIVED_CURRENT_SAMPLE_ARTIFACT,
+        "expected_syscalls": semantic_row.get("expected_syscalls", []),
+        "metrics": metric_row,
+        "non_claims": [
+            "The mapping covers declared safe workload behavior only; it is not a malware-family validation claim.",
+            "This behavior mapping is not real malware validation.",
+        ],
+    }
+    integrated_validation = {
+        "schema": "rvmt.sample.integrated_validation.v1",
+        "sample_id": sample_id,
+        "sample_class": "p0_safe_synthetic"
+        if sample_id in P0_SAMPLES
+        else "malware_like_synthetic_syscall_only",
+        "real_malware": False,
+        "source_artifact": evidence.get("integrated_validation"),
+        "evidence": evidence,
+        "metrics": metric_row,
+        "status": "PASS_CONTROLLED_SAFE_WORKLOAD_AUDIT",
+        "non_claims": [
+            "Integrated validation is limited to controlled safe workloads and safe malware-like surrogates.",
+            "This integrated validation artifact is not real malware validation.",
+        ],
+    }
+    behavior_audit_metrics = {
+        "schema": "rvmt.sample.behavior_audit_metrics.v1",
+        "sample_id": sample_id,
+        "sample_class": "p0_safe_synthetic"
+        if sample_id in P0_SAMPLES
+        else "malware_like_synthetic_syscall_only",
+        "real_malware": False,
+        "metrics": metric_row,
+        "baseline_alignment": {
+            "strace": semantic_row.get("ground_truth_alignment", {}).get("strace")
+            if isinstance(semantic_row.get("ground_truth_alignment"), dict)
+            else None,
+            "qemu_strace": semantic_row.get("ground_truth_alignment", {}).get("qemu_strace")
+            if isinstance(semantic_row.get("ground_truth_alignment"), dict)
+            else None,
+        },
+        "non_claims": [
+            "Per-sample behavior audit metrics are controlled safe-workload metrics, not real-malware detection accuracy.",
+        ],
+    }
     fd_graph = {
         "schema": "rvmt.fd_path.graph.v1",
         "sample_id": sample_id,
@@ -628,12 +728,22 @@ def write_per_sample_artifacts(
     }
     paths = {
         "baseline_logs": sample_dir / "baseline_logs.json",
+        "semantic_events": sample_dir / "semantic_events.json",
         "semantic_events_summary": sample_dir / "semantic_events_summary.json",
+        "behavior_graph": sample_dir / "behavior_graph.json",
+        "behavior_mapping": sample_dir / "behavior_mapping.json",
+        "integrated_validation": sample_dir / "integrated_validation.json",
+        "behavior_audit_metrics": sample_dir / "behavior_audit_metrics.json",
         "fd_path_graph": sample_dir / "fd_path_graph.json",
         "metric_summary": sample_dir / "metric_summary.json",
     }
     write_json(paths["baseline_logs"], baseline_logs)
+    write_json(paths["semantic_events"], semantic_events)
     write_json(paths["semantic_events_summary"], semantic_events_summary)
+    write_json(paths["behavior_graph"], behavior_graph)
+    write_json(paths["behavior_mapping"], behavior_mapping)
+    write_json(paths["integrated_validation"], integrated_validation)
+    write_json(paths["behavior_audit_metrics"], behavior_audit_metrics)
     write_json(paths["fd_path_graph"], fd_graph)
     write_json(paths["metric_summary"], metric_summary)
     return {key: repo_rel(path) or path.as_posix() for key, path in paths.items()}
@@ -806,8 +916,13 @@ def package(args: argparse.Namespace) -> dict[str, Any]:
             {
                 "sample_id": sample_id,
                 "trace": evidence["trace"],
-                "semantic_events": evidence["semantic_events"],
-                "behavior_graph": evidence["behavior_graph"],
+                "semantic_events": artifact_paths["semantic_events"],
+                "behavior_graph": artifact_paths["behavior_graph"],
+                "behavior_mapping": artifact_paths["behavior_mapping"],
+                "integrated_validation": artifact_paths["integrated_validation"],
+                "behavior_audit_metrics": artifact_paths["behavior_audit_metrics"],
+                "source_semantic_events": evidence["semantic_events"],
+                "source_behavior_graph": evidence["behavior_graph"],
                 "baseline_logs": artifact_paths["baseline_logs"],
                 "metric_summary": artifact_paths["metric_summary"],
                 "continuous_trace": True,
@@ -1009,11 +1124,49 @@ def package(args: argparse.Namespace) -> dict[str, Any]:
         },
         "resource_overhead": repo_rel(out_root / "resource_timing_summary.json"),
         "baseline_comparison": repo_rel(out_root / "baseline_alignment_summary.json"),
+        "benign_control_summary": repo_rel(args.benign_control_summary) if args.benign_control_summary.is_file() else None,
+        "sample_artifact_root": repo_rel(out_root / "samples"),
         "samples": sample_metric_rows,
         "non_claims": ["Behavior audit metrics are controlled safe-workload metrics, not real-malware detection accuracy."],
     }
+    active_roots = {
+        "p0_continuous_trace": repo_rel(args.p0_run_root),
+        "p0_bram_repetitions": str(drop_summary.get("p0_bram_run_root") or ""),
+        "safe_surrogate_bram_repetitions": str(safe_bram_summary.get("run_root") or ""),
+        "safe_surrogate_runtime_map": repo_rel(args.safe_runtime_root),
+        "pointer_snapshot_bram": str((pointer_guardrails or {}).get("safe_surrogate_bram_run_root") or ""),
+        "production_runtime_benchmark": str((runtime_benchmark or {}).get("run_root") or ""),
+    }
+    latest_manifest = {
+        "schema": "rvmt.genesys2.latest_manifest.v1",
+        "status": "PASS",
+        "canonical_evaluation_root": repo_rel(out_root),
+        "policy": {
+            "latest_is_authoritative": True,
+            "dated_run_roots_are_provenance_only": True,
+            "do_not_select_by_chronological_order": True,
+            "physical_prune_requires_external_archive_or_explicit_user_confirmation": True,
+        },
+        "active_run_roots": active_roots,
+        "source_summary_files": {
+            "p0_bram_trace": repo_rel(out_root / "p0_bram_trace_summary.json"),
+            "safe_surrogate_bram_trace": repo_rel(args.safe_bram_summary),
+            "drop_accounting": repo_rel(args.drop_summary),
+            "pointer_snapshot_guardrails": repo_rel(args.pointer_guardrails),
+            "benign_control": repo_rel(args.benign_control_summary) if args.benign_control_summary.is_file() else None,
+            "production_runtime_benchmark": repo_rel(args.runtime_benchmark) if args.runtime_benchmark.is_file() else None,
+            "ccfa_evaluation_matrix": repo_rel(out_root / "ccfa_evaluation_matrix.json"),
+            "behavior_audit_metrics": repo_rel(out_root / "behavior_audit_metrics.json"),
+        },
+        "non_claims": [
+            "The latest manifest selects the current controlled evidence package; dated board run roots remain provenance only.",
+            "This manifest is not real malware validation and does not claim malware detection accuracy.",
+            "Companion-derived strings remain trusted semantic companions, not hardware-derived strings.",
+        ],
+    }
 
     outputs = {
+        "latest_manifest.json": latest_manifest,
         "semantic_reconstruction_summary.json": semantic_summary,
         "fd_path_graph_summary.json": fd_summary,
         "source_line_attribution_summary.json": source_summary,
@@ -1040,6 +1193,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--drop-summary", type=Path, default=DEFAULT_DROP_SUMMARY)
     parser.add_argument("--pointer-guardrails", type=Path, default=DEFAULT_POINTER_GUARDRAILS)
     parser.add_argument("--runtime-benchmark", type=Path, default=DEFAULT_RUNTIME_BENCHMARK)
+    parser.add_argument("--benign-control-summary", type=Path, default=DEFAULT_BENIGN_CONTROL_SUMMARY)
     parser.add_argument("--real-malware-containment", type=Path, default=DEFAULT_REAL_MALWARE_CONTAINMENT)
     args = parser.parse_args(argv)
     try:

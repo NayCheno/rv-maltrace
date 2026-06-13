@@ -1,0 +1,428 @@
+{
+  "aggregate": {
+    "accepted_board_repetitions": 120,
+    "benign_control_sample_count": 5,
+    "benign_false_positive_rate": 0.0,
+    "board_attempt_count": 121,
+    "board_sample_count": 12,
+    "case_study_count": 12,
+    "max_accepted_bram_dropped_count": 0,
+    "max_accepted_unaccounted_drop": 0,
+    "max_accepted_wrap_count": 0,
+    "min_accepted_repetitions_per_board_sample": 10,
+    "p0_sample_count": 4,
+    "retained_failed_attempt_count": 1,
+    "safe_surrogate_sample_count": 8,
+    "sequence_gap_sample_count": 0,
+    "unexpected_benign_false_positive_count": 0,
+    "workload_class_count": 3
+  },
+  "allowed_claims": [
+    "The current controlled Genesys2/CVA6 board evidence contains 120 accepted marker-window repetitions across 12 safe/surrogate board samples, with at least 10 accepted repetitions per board sample.",
+    "Accepted board repetitions have zero unaccounted DROP, zero BRAM wrap, and no sequence-gap samples under the captured-window criteria.",
+    "One failed P0 board attempt is retained as failure evidence and is not counted as an accepted PASS repetition.",
+    "The current local benign-control set contains at least five benign workloads with zero unexpected false positives under the controlled local Linux audit."
+  ],
+  "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",
+  "claim_boundary": {
+    "controlled_repetition_robustness_claimed": true,
+    "malware_detection_accuracy_claimed": false,
+    "production_long_run_stability_claimed": false,
+    "production_streaming_dma_throughput_claimed": false,
+    "randomized_workload_generalization_claimed": false,
+    "real_malware_generalization_claimed": false,
+    "real_malware_validation_claimed": false,
+    "retained_failed_attempts_counted_as_pass": false
+  },
+  "cohorts": [
+    {
+      "accepted_repetitions": 40,
+      "attempt_count": 41,
+      "failed_attempt_count": 1,
+      "id": "p0_bram_repetitions",
+      "label": "P0 safe synthetic board marker-window repetitions",
+      "max_accepted_bram_dropped_count": 0,
+      "max_accepted_repetitions_per_sample": 10,
+      "max_accepted_unaccounted_drop": 0,
+      "max_accepted_wrap_count": 0,
+      "min_accepted_repetitions_per_sample": 10,
+      "minimum_repetitions_per_sample": 10,
+      "run_root": "results/board/genesys2_trace_validation/20260612-p0-bram-repetitions",
+      "sample_count": 4,
+      "sample_ids": [
+        "hello_write",
+        "file_open_read_write",
+        "fork_exec",
+        "illegal_instruction"
+      ],
+      "sequence_gap_sample_count": 0
+    },
+    {
+      "accepted_repetitions": 80,
+      "attempt_count": 80,
+      "failed_attempt_count": 0,
+      "id": "safe_surrogate_bram_repetitions",
+      "label": "Safe surrogate board marker-window repetitions",
+      "max_accepted_bram_dropped_count": 0,
+      "max_accepted_repetitions_per_sample": 10,
+      "max_accepted_unaccounted_drop": 0,
+      "max_accepted_wrap_count": 0,
+      "min_accepted_repetitions_per_sample": 10,
+      "minimum_repetitions_per_sample": 10,
+      "run_root": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait",
+      "sample_count": 8,
+      "sample_ids": [
+        "file_scan",
+        "batch_open_read_write",
+        "self_copy_sim",
+        "abnormal_syscall_sequence",
+        "illegal_trap",
+        "process_chain",
+        "dynamic_executable_memory",
+        "anti_debug_like"
+      ],
+      "sequence_gap_sample_count": 0
+    }
+  ],
+  "evidence_scope": "controlled_safe_surrogate_marker_window_repetition_audit",
+  "non_claims": [
+    "This summary is a controlled repetition and failure-retention audit; it is not a randomized workload generalization study.",
+    "This summary does not add real-malware validation, malware-family coverage, or malware detection accuracy.",
+    "This summary does not close production long-run stability or production streaming/DMA trace sink throughput.",
+    "Local Linux benign controls are not Genesys2 board benign-control evidence."
+  ],
+  "retained_failed_attempts": [
+    {
+      "bram_dropped_count": 3612,
+      "bram_records": "results/board/genesys2_trace_validation/20260612-p0-bram-repetitions/fork_exec/rep_03/bram_records.jsonl",
+      "bram_summary": "results/board/genesys2_trace_validation/20260612-p0-bram-repetitions/fork_exec/rep_03/bram_summary.json",
+      "capture_log": "results/board/genesys2_trace_validation/20260612-p0-bram-repetitions/fork_exec/rep_03/capture.log",
+      "cohort_id": "p0_bram_repetitions",
+      "reason": [
+        "parse_success_false",
+        "begin_marker_count_not_one",
+        "bram_ring_full",
+        "bram_wrap_count_nonzero",
+        "bram_dropped_count_nonzero",
+        "unaccounted_drop_nonzero"
+      ],
+      "repetition": "rep_03",
+      "sample_class": "p0_safe_synthetic",
+      "sample_id": "fork_exec",
+      "uart_log": "results/board/genesys2_trace_validation/20260612-p0-bram-repetitions/fork_exec/rep_03/uart.log",
+      "unaccounted_drop": 3612,
+      "wrap_count": 4
+    }
+  ],
+  "sample_repetition_rows": [
+    {
+      "accepted_repetitions": 10,
+      "attempt_count": 10,
+      "cohort_id": "p0_bram_repetitions",
+      "event_count_stats": {
+        "max": 115.0,
+        "median": 87.0,
+        "min": 87.0,
+        "p95": 115.0,
+        "variance": 153.69
+      },
+      "failed_attempt_count": 0,
+      "marker_window_cycle_stats": {
+        "max": 220322.0,
+        "median": 170231.5,
+        "min": 127821.0,
+        "p95": 220322.0,
+        "variance": 893866367.81
+      },
+      "max_accepted_bram_dropped_count": 0,
+      "max_accepted_unaccounted_drop": 0,
+      "max_accepted_wrap_count": 0,
+      "minimum_repetitions": 10,
+      "sample_class": "p0_safe_synthetic",
+      "sample_id": "hello_write",
+      "sequence_gap_repetition_count": 0
+    },
+    {
+      "accepted_repetitions": 10,
+      "attempt_count": 10,
+      "cohort_id": "p0_bram_repetitions",
+      "event_count_stats": {
+        "max": 184.0,
+        "median": 170.0,
+        "min": 125.0,
+        "p95": 184.0,
+        "variance": 344.84
+      },
+      "failed_attempt_count": 0,
+      "marker_window_cycle_stats": {
+        "max": 413989.0,
+        "median": 359661.5,
+        "min": 243143.0,
+        "p95": 413989.0,
+        "variance": 2410889017.44
+      },
+      "max_accepted_bram_dropped_count": 0,
+      "max_accepted_unaccounted_drop": 0,
+      "max_accepted_wrap_count": 0,
+      "minimum_repetitions": 10,
+      "sample_class": "p0_safe_synthetic",
+      "sample_id": "file_open_read_write",
+      "sequence_gap_repetition_count": 0
+    },
+    {
+      "accepted_repetitions": 10,
+      "attempt_count": 11,
+      "cohort_id": "p0_bram_repetitions",
+      "event_count_stats": {
+        "max": 4636.0,
+        "median": 652.0,
+        "min": 644.0,
+        "p95": 4636.0,
+        "variance": 1312234.0661157025
+      },
+      "failed_attempt_count": 1,
+      "marker_window_cycle_stats": {
+        "max": 5096279.0,
+        "median": 5026504.0,
+        "min": 3382522.0,
+        "p95": 5096279.0,
+        "variance": 228552881089.86777
+      },
+      "max_accepted_bram_dropped_count": 0,
+      "max_accepted_unaccounted_drop": 0,
+      "max_accepted_wrap_count": 0,
+      "minimum_repetitions": 10,
+      "sample_class": "p0_safe_synthetic",
+      "sample_id": "fork_exec",
+      "sequence_gap_repetition_count": 0
+    },
+    {
+      "accepted_repetitions": 10,
+      "attempt_count": 10,
+      "cohort_id": "p0_bram_repetitions",
+      "event_count_stats": {
+        "max": 126.0,
+        "median": 107.0,
+        "min": 94.0,
+        "p95": 126.0,
+        "variance": 183.16
+      },
+      "failed_attempt_count": 0,
+      "marker_window_cycle_stats": {
+        "max": 304921.0,
+        "median": 203360.5,
+        "min": 169059.0,
+        "p95": 304921.0,
+        "variance": 1599904146.24
+      },
+      "max_accepted_bram_dropped_count": 0,
+      "max_accepted_unaccounted_drop": 0,
+      "max_accepted_wrap_count": 0,
+      "minimum_repetitions": 10,
+      "sample_class": "p0_safe_synthetic",
+      "sample_id": "illegal_instruction",
+      "sequence_gap_repetition_count": 0
+    },
+    {
+      "accepted_repetitions": 10,
+      "attempt_count": 10,
+      "cohort_id": "safe_surrogate_bram_repetitions",
+      "event_count_stats": {},
+      "failed_attempt_count": 0,
+      "marker_window_cycle_stats": {},
+      "max_accepted_bram_dropped_count": 0,
+      "max_accepted_unaccounted_drop": 0,
+      "max_accepted_wrap_count": 0,
+      "minimum_repetitions": 10,
+      "sample_class": "malware_like_synthetic_syscall_only",
+      "sample_id": "file_scan",
+      "sequence_gap_repetition_count": 0
+    },
+    {
+      "accepted_repetitions": 10,
+      "attempt_count": 10,
+      "cohort_id": "safe_surrogate_bram_repetitions",
+      "event_count_stats": {},
+      "failed_attempt_count": 0,
+      "marker_window_cycle_stats": {},
+      "max_accepted_bram_dropped_count": 0,
+      "max_accepted_unaccounted_drop": 0,
+      "max_accepted_wrap_count": 0,
+      "minimum_repetitions": 10,
+      "sample_class": "malware_like_synthetic_syscall_only",
+      "sample_id": "batch_open_read_write",
+      "sequence_gap_repetition_count": 0
+    },
+    {
+      "accepted_repetitions": 10,
+      "attempt_count": 10,
+      "cohort_id": "safe_surrogate_bram_repetitions",
+      "event_count_stats": {},
+      "failed_attempt_count": 0,
+      "marker_window_cycle_stats": {},
+      "max_accepted_bram_dropped_count": 0,
+      "max_accepted_unaccounted_drop": 0,
+      "max_accepted_wrap_count": 0,
+      "minimum_repetitions": 10,
+      "sample_class": "malware_like_synthetic_syscall_only",
+      "sample_id": "self_copy_sim",
+      "sequence_gap_repetition_count": 0
+    },
+    {
+      "accepted_repetitions": 10,
+      "attempt_count": 10,
+      "cohort_id": "safe_surrogate_bram_repetitions",
+      "event_count_stats": {},
+      "failed_attempt_count": 0,
+      "marker_window_cycle_stats": {},
+      "max_accepted_bram_dropped_count": 0,
+      "max_accepted_unaccounted_drop": 0,
+      "max_accepted_wrap_count": 0,
+      "minimum_repetitions": 10,
+      "sample_class": "malware_like_synthetic_syscall_only",
+      "sample_id": "abnormal_syscall_sequence",
+      "sequence_gap_repetition_count": 0
+    },
+    {
+      "accepted_repetitions": 10,
+      "attempt_count": 10,
+      "cohort_id": "safe_surrogate_bram_repetitions",
+      "event_count_stats": {},
+      "failed_attempt_count": 0,
+      "marker_window_cycle_stats": {},
+      "max_accepted_bram_dropped_count": 0,
+      "max_accepted_unaccounted_drop": 0,
+      "max_accepted_wrap_count": 0,
+      "minimum_repetitions": 10,
+      "sample_class": "malware_like_synthetic_syscall_only",
+      "sample_id": "illegal_trap",
+      "sequence_gap_repetition_count": 0
+    },
+    {
+      "accepted_repetitions": 10,
+      "attempt_count": 10,
+      "cohort_id": "safe_surrogate_bram_repetitions",
+      "event_count_stats": {},
+      "failed_attempt_count": 0,
+      "marker_window_cycle_stats": {},
+      "max_accepted_bram_dropped_count": 0,
+      "max_accepted_unaccounted_drop": 0,
+      "max_accepted_wrap_count": 0,
+      "minimum_repetitions": 10,
+      "sample_class": "malware_like_synthetic_syscall_only",
+      "sample_id": "process_chain",
+      "sequence_gap_repetition_count": 0
+    },
+    {
+      "accepted_repetitions": 10,
+      "attempt_count": 10,
+      "cohort_id": "safe_surrogate_bram_repetitions",
+      "event_count_stats": {},
+      "failed_attempt_count": 0,
+      "marker_window_cycle_stats": {},
+      "max_accepted_bram_dropped_count": 0,
+      "max_accepted_unaccounted_drop": 0,
+      "max_accepted_wrap_count": 0,
+      "minimum_repetitions": 10,
+      "sample_class": "malware_like_synthetic_syscall_only",
+      "sample_id": "dynamic_executable_memory",
+      "sequence_gap_repetition_count": 0
+    },
+    {
+      "accepted_repetitions": 10,
+      "attempt_count": 10,
+      "cohort_id": "safe_surrogate_bram_repetitions",
+      "event_count_stats": {},
+      "failed_attempt_count": 0,
+      "marker_window_cycle_stats": {},
+      "max_accepted_bram_dropped_count": 0,
+      "max_accepted_unaccounted_drop": 0,
+      "max_accepted_wrap_count": 0,
+      "minimum_repetitions": 10,
+      "sample_class": "malware_like_synthetic_syscall_only",
+      "sample_id": "anti_debug_like",
+      "sequence_gap_repetition_count": 0
+    }
+  ],
+  "schema": "rvmt.genesys2.statistical_robustness.v1",
+  "source_summaries": [
+    {
+      "checker_command": "uv run python tools/check_genesys2_p0_bram_trace.py --root .",
+      "id": "p0_bram_trace",
+      "path": "results/evaluation/genesys2-cva6/current/p0_bram_trace_summary.json",
+      "schema": "rvmt.genesys2.p0_bram_trace.v1",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_genesys2_safe_surrogate_bram_trace.py --root .",
+      "id": "safe_surrogate_bram_trace",
+      "path": "results/evaluation/genesys2-cva6/current/safe_surrogate_bram_trace_summary.json",
+      "schema": "rvmt.genesys2.safe_surrogate_bram_trace.v1",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_trace_drop_accounting.py --root .",
+      "id": "drop_accounting",
+      "path": "results/evaluation/genesys2-cva6/current/drop_accounting_summary.json",
+      "schema": "rvmt.trace_drop_accounting.v1",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_ccfa_case_study_manifest.py --root .",
+      "id": "case_study_manifest",
+      "path": "results/evaluation/genesys2-cva6/current/case_study_manifest.json",
+      "schema": "rvmt.ccfa.case_study_manifest.v1",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_benign_control_summary.py --root .",
+      "id": "benign_control",
+      "path": "results/evaluation/genesys2-cva6/current/benign_control_summary.json",
+      "schema": "rvmt.genesys2.benign_control_summary.v1",
+      "status": "PASS"
+    }
+  ],
+  "status": "PASS",
+  "validation_commands": [
+    "uv run python tools/package_genesys2_statistical_robustness.py",
+    "uv run python tools/check_genesys2_statistical_robustness.py --root .",
+    "uv run python tools/run_check_suite.py --suite genesys2-current"
+  ],
+  "workload_classes": [
+    {
+      "sample_class": "local_linux_benign_control",
+      "sample_count": 5,
+      "sample_ids": [
+        "cat",
+        "cp",
+        "hello",
+        "ls",
+        "sha256sum"
+      ]
+    },
+    {
+      "sample_class": "malware_like_synthetic_syscall_only",
+      "sample_count": 8,
+      "sample_ids": [
+        "abnormal_syscall_sequence",
+        "anti_debug_like",
+        "batch_open_read_write",
+        "dynamic_executable_memory",
+        "file_scan",
+        "illegal_trap",
+        "process_chain",
+        "self_copy_sim"
+      ]
+    },
+    {
+      "sample_class": "p0_safe_synthetic",
+      "sample_count": 4,
+      "sample_ids": [
+        "file_open_read_write",
+        "fork_exec",
+        "hello_write",
+        "illegal_instruction"
+      ]
+    }
+  ]
+}

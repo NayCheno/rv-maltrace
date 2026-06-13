@@ -1,0 +1,190 @@
+{
+  "aggregate": {
+    "marker_windows_passed": true,
+    "sample_count": 12,
+    "source_line_rate": ">=0.95",
+    "unaccounted_drop": 0,
+    "unknown_key_events": 0
+  },
+  "claim_boundary": {
+    "board_native_source_line_attribution_claimed": true,
+    "captured_elf_sha256_exact_match": true,
+    "real_malware_validation_claimed": false,
+    "sidecar_source_lines_substituted": false
+  },
+  "evidence_artifacts": [
+    {
+      "id": "board_capture_manifest",
+      "kind": "board_capture_manifest",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/board_native_dwarf_source_lines/board_capture_manifest.txt",
+      "sha256": "<64 lowercase hex sha256 of artifact file>"
+    },
+    {
+      "id": "debug_elf_manifest",
+      "kind": "debug_elf_manifest",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/board_native_dwarf_source_lines/debug_elf_manifest.txt",
+      "sha256": "<64 lowercase hex sha256 of artifact file>"
+    },
+    {
+      "id": "joined_trace_code_map_manifest",
+      "kind": "joined_trace_code_map_manifest",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/board_native_dwarf_source_lines/joined_trace_code_map_manifest.txt",
+      "sha256": "<64 lowercase hex sha256 of artifact file>"
+    },
+    {
+      "id": "readelf_debug_line_transcript",
+      "kind": "readelf_debug_line_transcript",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/board_native_dwarf_source_lines/readelf_debug_line_transcript.txt",
+      "sha256": "<64 lowercase hex sha256 of artifact file>"
+    }
+  ],
+  "samples": [
+    {
+      "board_trace_source_line_available": true,
+      "captured_elf_sha256": "<64 lowercase hex sha256 of exact board ELF>",
+      "captured_elf_sha256_exact_match": true,
+      "debug_sections_present": true,
+      "genesys2_cva6_board_claimed": true,
+      "id": "hello_write",
+      "readelf_debug_line_proven": true,
+      "source_line_attribution_available": true,
+      "source_line_rate": ">=0.95",
+      "unaccounted_drop": 0
+    },
+    {
+      "board_trace_source_line_available": true,
+      "captured_elf_sha256": "<64 lowercase hex sha256 of exact board ELF>",
+      "captured_elf_sha256_exact_match": true,
+      "debug_sections_present": true,
+      "genesys2_cva6_board_claimed": true,
+      "id": "file_open_read_write",
+      "readelf_debug_line_proven": true,
+      "source_line_attribution_available": true,
+      "source_line_rate": ">=0.95",
+      "unaccounted_drop": 0
+    },
+    {
+      "board_trace_source_line_available": true,
+      "captured_elf_sha256": "<64 lowercase hex sha256 of exact board ELF>",
+      "captured_elf_sha256_exact_match": true,
+      "debug_sections_present": true,
+      "genesys2_cva6_board_claimed": true,
+      "id": "fork_exec",
+      "readelf_debug_line_proven": true,
+      "source_line_attribution_available": true,
+      "source_line_rate": ">=0.95",
+      "unaccounted_drop": 0
+    },
+    {
+      "board_trace_source_line_available": true,
+      "captured_elf_sha256": "<64 lowercase hex sha256 of exact board ELF>",
+      "captured_elf_sha256_exact_match": true,
+      "debug_sections_present": true,
+      "genesys2_cva6_board_claimed": true,
+      "id": "illegal_instruction",
+      "readelf_debug_line_proven": true,
+      "source_line_attribution_available": true,
+      "source_line_rate": ">=0.95",
+      "unaccounted_drop": 0
+    },
+    {
+      "board_trace_source_line_available": true,
+      "captured_elf_sha256": "<64 lowercase hex sha256 of exact board ELF>",
+      "captured_elf_sha256_exact_match": true,
+      "debug_sections_present": true,
+      "genesys2_cva6_board_claimed": true,
+      "id": "file_scan",
+      "readelf_debug_line_proven": true,
+      "source_line_attribution_available": true,
+      "source_line_rate": ">=0.95",
+      "unaccounted_drop": 0
+    },
+    {
+      "board_trace_source_line_available": true,
+      "captured_elf_sha256": "<64 lowercase hex sha256 of exact board ELF>",
+      "captured_elf_sha256_exact_match": true,
+      "debug_sections_present": true,
+      "genesys2_cva6_board_claimed": true,
+      "id": "batch_open_read_write",
+      "readelf_debug_line_proven": true,
+      "source_line_attribution_available": true,
+      "source_line_rate": ">=0.95",
+      "unaccounted_drop": 0
+    },
+    {
+      "board_trace_source_line_available": true,
+      "captured_elf_sha256": "<64 lowercase hex sha256 of exact board ELF>",
+      "captured_elf_sha256_exact_match": true,
+      "debug_sections_present": true,
+      "genesys2_cva6_board_claimed": true,
+      "id": "self_copy_sim",
+      "readelf_debug_line_proven": true,
+      "source_line_attribution_available": true,
+      "source_line_rate": ">=0.95",
+      "unaccounted_drop": 0
+    },
+    {
+      "board_trace_source_line_available": true,
+      "captured_elf_sha256": "<64 lowercase hex sha256 of exact board ELF>",
+      "captured_elf_sha256_exact_match": true,
+      "debug_sections_present": true,
+      "genesys2_cva6_board_claimed": true,
+      "id": "abnormal_syscall_sequence",
+      "readelf_debug_line_proven": true,
+      "source_line_attribution_available": true,
+      "source_line_rate": ">=0.95",
+      "unaccounted_drop": 0
+    },
+    {
+      "board_trace_source_line_available": true,
+      "captured_elf_sha256": "<64 lowercase hex sha256 of exact board ELF>",
+      "captured_elf_sha256_exact_match": true,
+      "debug_sections_present": true,
+      "genesys2_cva6_board_claimed": true,
+      "id": "illegal_trap",
+      "readelf_debug_line_proven": true,
+      "source_line_attribution_available": true,
+      "source_line_rate": ">=0.95",
+      "unaccounted_drop": 0
+    },
+    {
+      "board_trace_source_line_available": true,
+      "captured_elf_sha256": "<64 lowercase hex sha256 of exact board ELF>",
+      "captured_elf_sha256_exact_match": true,
+      "debug_sections_present": true,
+      "genesys2_cva6_board_claimed": true,
+      "id": "process_chain",
+      "readelf_debug_line_proven": true,
+      "source_line_attribution_available": true,
+      "source_line_rate": ">=0.95",
+      "unaccounted_drop": 0
+    },
+    {
+      "board_trace_source_line_available": true,
+      "captured_elf_sha256": "<64 lowercase hex sha256 of exact board ELF>",
+      "captured_elf_sha256_exact_match": true,
+      "debug_sections_present": true,
+      "genesys2_cva6_board_claimed": true,
+      "id": "dynamic_executable_memory",
+      "readelf_debug_line_proven": true,
+      "source_line_attribution_available": true,
+      "source_line_rate": ">=0.95",
+      "unaccounted_drop": 0
+    },
+    {
+      "board_trace_source_line_available": true,
+      "captured_elf_sha256": "<64 lowercase hex sha256 of exact board ELF>",
+      "captured_elf_sha256_exact_match": true,
+      "debug_sections_present": true,
+      "genesys2_cva6_board_claimed": true,
+      "id": "anti_debug_like",
+      "readelf_debug_line_proven": true,
+      "source_line_attribution_available": true,
+      "source_line_rate": ">=0.95",
+      "unaccounted_drop": 0
+    }
+  ],
+  "schema": "rvmt.genesys2.board_native_source_lines.v1",
+  "status": "TEMPLATE_NOT_EVIDENCE",
+  "template_only": true
+}

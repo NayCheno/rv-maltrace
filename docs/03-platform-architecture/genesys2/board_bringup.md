@@ -14,9 +14,9 @@ Board work is intentionally after the Vivado simulation MVP.
 | Genesys 2 constraints available | PASS | Active `rtl/cva6/corev_apu/fpga/constraints/genesys-2.xdc` commands constrain `cpu_resetn`, `prog_clko`, UART `tx`, and UART `rx` |
 | DDR / clock / reset / UART static path | PASS | Active FPGA Tcl commands include `xlnx_mig_7_ddr3`, `xlnx_clk_gen`, `xlnx_dpti_clk`, and the APB UART source path; generated DDR/clock IP artifacts are present |
 | Trace-enabled resource build | PASS | `uv run rvmt bitstream:build-trace` on 2026-05-17 generated `build/vivado/genesys2-cv64a6_imafdc_sv39-trace/`; `docs/07-evaluation-evidence/reports/resource_report.md` records the routed delta |
-| Clock/reset sanity | TODO (BOARD) | Requires board observation notes after programming the bitstream |
-| UART hello | TODO (BOARD) | Requires serial log from the physical board |
-| Bare-metal program runs | TODO (BOARD) | Requires UART/tohost log from the physical board |
+| Clock/reset sanity | PASS | `results/board/genesys2_baseline/20260609-1440-onboard-uart-reroute/01_led_clock_reset/observation.md` plus programming and board observation logs |
+| UART hello | PASS | `results/board/genesys2_baseline/20260609-1440-onboard-uart-reroute/02_uart_hello/observation.md` plus `serial.log` |
+| Bare-metal program runs | PASS | `results/board/genesys2_baseline/20260609-1440-onboard-uart-reroute/04_cva6_baremetal_boot/observation.md` plus UART/tohost logs |
 
 Local preflight:
 
@@ -46,11 +46,11 @@ Record all physical observations under `results/board/genesys2_baseline/<run-id>
 
 | Order | Step | Status | Evidence directory |
 | ---: | --- | --- | --- |
-| 1 | LED Blink / Clock Reset Sanity | TODO (BOARD) | `01_led_clock_reset/` |
-| 2 | UART Hello | TODO (BOARD) | `02_uart_hello/` |
-| 3 | Minimal RISC-V Core Boot | TODO (BOARD) | `03_minimal_core_boot/` |
-| 4 | CVA6 Bare-metal Boot | TODO (BOARD) | `04_cva6_baremetal_boot/` |
-| 5 | CVA6 Simple Linux Boot (Optional) | TODO (OPTIONAL) | `05_linux_boot_optional/` |
+| 1 | LED Blink / Clock Reset Sanity | PASS | `results/board/genesys2_baseline/20260609-1440-onboard-uart-reroute/01_led_clock_reset/` |
+| 2 | UART Hello | PASS | `results/board/genesys2_baseline/20260609-1440-onboard-uart-reroute/02_uart_hello/` |
+| 3 | Minimal RISC-V Core Boot | N/A (SUPERSEDED) | Current baseline run went directly to CVA6 bare-metal boot |
+| 4 | CVA6 Bare-metal Boot | PASS | `results/board/genesys2_baseline/20260609-1440-onboard-uart-reroute/04_cva6_baremetal_boot/` |
+| 5 | CVA6 Simple Linux Boot (Optional) | N/A (OPTIONAL) | Not required for Phase 4.4 baseline acceptance |
 
 ## Baseline Pass Criteria
 
@@ -59,9 +59,9 @@ Phase 4.4 is tracked in `docs/03-platform-architecture/genesys2/baseline_pass_cr
 | Criterion | Status | Evidence |
 | --- | --- | --- |
 | Bitstream generated | PASS | Phase 4.1/4.2 preflight and `ariane_xilinx.bit` artifact |
-| Board clock/reset stable | TODO (BOARD) | Requires `01_led_clock_reset/observation.md` |
-| UART output visible | TODO (BOARD) | Requires `02_uart_hello/observation.md` and raw UART log |
-| Bare-metal program can run | TODO (BOARD) | Requires `04_cva6_baremetal_boot/observation.md` and UART/tohost/JTAG log |
+| Board clock/reset stable | PASS | `results/board/genesys2_baseline/20260609-1440-onboard-uart-reroute/01_led_clock_reset/observation.md` |
+| UART output visible | PASS | `results/board/genesys2_baseline/20260609-1440-onboard-uart-reroute/02_uart_hello/observation.md` and raw UART log |
+| Bare-metal program can run | PASS | `results/board/genesys2_baseline/20260609-1440-onboard-uart-reroute/04_cva6_baremetal_boot/observation.md` and UART/tohost/JTAG log |
 | No trace modification yet | PASS | Baseline runbook forbids trace-enabled RTL/export changes |
 
 ## Trace-enabled Bring-up Plan
@@ -70,7 +70,9 @@ Phase 5.1 export choice is recorded in `docs/02-trace-architecture/trace_export_
 Phase 5.2 first-board event policy is recorded in `docs/03-platform-architecture/genesys2/board_trace_minimal.md`
 and driven by `rtl/trace/trace_board_minimal_top.sv`.
 Phase 5.3 validation programs are recorded in
-`docs/03-platform-architecture/genesys2/board_trace_validation.md` and `board/trace_validation/manifest.json`.
+`docs/03-platform-architecture/genesys2/board_trace_validation.md` and
+`board/trace_validation/manifest.json`; the accepted first board evidence root
+is `results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix`.
 
 1. Keep full retire disabled by default.
 2. Enable syscall, trap, context, and branch events first.
@@ -78,3 +80,9 @@ Phase 5.3 validation programs are recorded in
 4. Export the first hardware trace through BRAM ring buffer plus ILA/JTAG dump.
 5. Run hello, file open/read/write, fork/exec, and illegal-instruction validation programs.
 6. Compare hardware trace event shape against Vivado simulation JSONL.
+
+Current Phase 5.3 evidence is checked by:
+
+```powershell
+uv run python tools/check_board_trace_evidence.py --root . --run-root results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix
+```

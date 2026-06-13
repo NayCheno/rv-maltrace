@@ -1,3 +1,5 @@
+`timescale 1ns/1ps
+
 module trace_top
   import trace_pkg::*;
 #(
@@ -41,7 +43,7 @@ module trace_top
     input  logic [63:0]               mem_load_pc_i,
     input  logic [63:0]               mem_load_addr_i,
     input  logic [63:0]               mem_load_data_i,
-    input  logic [ 2:0]               mem_load_size_i,
+    input  logic [ 3:0]               mem_load_size_i,
 
     input  logic                      trace_enable_retire_i,
     input  logic                      trace_enable_branch_i,
@@ -90,7 +92,7 @@ module trace_top
   logic [63:0] mem_load_pc_s;
   logic [63:0] mem_load_addr_s;
   logic [63:0] mem_load_data_s;
-  logic [2:0]  mem_load_size_s;
+  logic [3:0]  mem_load_size_s;
   logic        trace_enable_retire_s;
   logic        trace_enable_branch_s;
   logic        trace_enable_jump_s;
@@ -181,7 +183,7 @@ module trace_top
           mem_load_pc_s <= 64'd0;
           mem_load_addr_s <= 64'd0;
           mem_load_data_s <= 64'd0;
-          mem_load_size_s <= 3'd0;
+          mem_load_size_s <= 4'd0;
           trace_enable_retire_s <= 1'b0;
           trace_enable_branch_s <= 1'b0;
           trace_enable_jump_s <= 1'b0;

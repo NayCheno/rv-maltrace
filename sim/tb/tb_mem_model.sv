@@ -1,3 +1,5 @@
+`timescale 1ns/1ps
+
 module tb_mem_model (
     input  logic        clk_i,
     input  logic        rst_ni,

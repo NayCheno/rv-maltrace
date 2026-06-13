@@ -1,6 +1,6 @@
 {
   "phase": "6.1",
-  "status": "TODO(EXPERIMENT)",
+  "status": "PASS_CURRENT_CONTROLLED_POLICY",
   "real_malware_policy": "FORBIDDEN_EARLY",
   "allowed_sample_classes": [
     "benign",

@@ -693,7 +693,7 @@
               "amount": 3612,
               "bram_summary": "results/board/genesys2_trace_validation/20260612-p0-bram-repetitions/fork_exec/rep_03/bram_summary.json",
               "cycle": 344664671,
-              "record_index": null,
+              "record_index": "BRAM_SUMMARY_RECORD_INDEX_NOT_AVAILABLE",
               "trace": "results/board/genesys2_trace_validation/20260612-p0-bram-repetitions/fork_exec/rep_03/bram_records.jsonl",
               "wrap_count": 4
             }

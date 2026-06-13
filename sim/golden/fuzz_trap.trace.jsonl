@@ -1,0 +1,4 @@
+{"cycle":1,"evt":"TRAP","pc":"0x0000000080003000","instr":"0xffffffff","cause":"0x0000000000000002","tval":"0x00000000ffffffff","priv":"U"}
+{"cycle":2,"evt":"TRAP","pc":"0x0000000080003004","instr":"0x00100073","cause":"0x0000000000000003","tval":"0x0000000000000000","priv":"U"}
+{"cycle":3,"evt":"PRIV","pc":"0x0000000080003004","old_priv":"U","new_priv":"S"}
+{"cycle":4,"evt":"DROP","value":"0x0000000000000001"}

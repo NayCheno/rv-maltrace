@@ -1,0 +1,479 @@
+{
+  "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",
+  "claim_boundary": {
+    "board_native_source_line_attribution_claimed": false,
+    "current_board_elf_dwarf_available": false,
+    "current_board_trace_source_line_available": false,
+    "full_string_claimed": false,
+    "genesys2_board_benign_control_claimed": false,
+    "hardware_full_pointer_strings_claimed": false,
+    "production_streaming_dma_throughput_claimed": false,
+    "readiness_contract_only": true,
+    "real_malware_validation_claimed": false
+  },
+  "external_blocker_count": 4,
+  "failures": [],
+  "interpretation": [
+    "This artifact fixes the closure contract for remaining non-real-malware blockers.",
+    "It does not upgrade current evidence to board-native DWARF source lines, full hardware pointer strings, production streaming/DMA throughput, or board benign-control evidence.",
+    "Each remaining blocker still requires new board, RTL, or external reviewer execution before it can move from readiness to completed evidence."
+  ],
+  "objective_exclusions": [
+    "real_malware_validation"
+  ],
+  "records": [
+    {
+      "acceptance_criteria": [
+        "every accepted board trace references an exact captured_elf_sha256 that matches the debug ELF manifest",
+        "every sample has board_trace_source_line_available=true and source_line_attribution_available=true",
+        "source-line attribution rate is at least 0.95 across key syscall/trap events",
+        "marker windows, syscall entry/return pairing, wrap count, and unaccounted DROP criteria still pass",
+        "current sidecar-only source lines are not substituted for DWARF-derived board trace source lines"
+      ],
+      "completion_requires_external_state": true,
+      "current_blocker": true,
+      "current_status": "TOOLCHAIN_PROVEN_BOARD_RERUN_REQUIRED",
+      "existing_evidence": [
+        {
+          "exists": true,
+          "id": "source_line_toolchain_probe",
+          "path": "results/evaluation/genesys2-cva6/current/source_line_toolchain_probe.json",
+          "schema": "rvmt.genesys2.source_line_toolchain_probe.v1",
+          "sha256": "67cb78ef4d415b946fb02d52ed584c9a063bec58b47619815d03068930cc20bb",
+          "status": "PASS"
+        },
+        {
+          "exists": true,
+          "id": "debug_elf_readiness_summary",
+          "path": "results/evaluation/genesys2-cva6/current/debug_elf_readiness_summary.json",
+          "schema": "rvmt.genesys2.debug_elf_readiness.v1",
+          "sha256": "d96cc9a1f1b6a17d98bd0aa9bcb12a1665041c5eeca459f006a65aa93bae9bfc",
+          "status": "PASS"
+        },
+        {
+          "exists": true,
+          "id": "source_line_attribution_summary",
+          "path": "results/evaluation/genesys2-cva6/current/source_line_attribution_summary.json",
+          "schema": "rvmt.source_line_attribution.v1",
+          "sha256": "88e3ddda02ac5dbfe5106f126896aa3b4f7859ae9372a3dbf267fdd89791fa68",
+          "status": "PASS"
+        },
+        {
+          "exists": true,
+          "id": "source_line_sidecar",
+          "path": "results/evaluation/genesys2-cva6/current/source_line_sidecar.json",
+          "schema": "rvmt.source_line_sidecar.v1",
+          "sha256": "2cdcca1002de41cafa6d408720b6a7623e59b77b16fe6673d33eac8ea5724010",
+          "status": "PASS"
+        },
+        {
+          "exists": true,
+          "id": "build_code_map_addr2line_support",
+          "path": "tools/build_code_map.py",
+          "sha256": "bcfa962e050ab9aa8ce830a2333064f67ff3ae71ffadb6f97e32529301237a4a"
+        },
+        {
+          "exists": true,
+          "id": "join_trace_code_map_source_support",
+          "path": "tools/join_trace_code_map.py",
+          "sha256": "dbf11902a84267b929b3abc8c4342c34bc2baae45d60fed62db9896dc7d7cc41"
+        },
+        {
+          "exists": true,
+          "id": "p0_source_hello_write",
+          "path": "board/trace_validation/programs/hello_write.c",
+          "sha256": "c245db91051950cb7b75179d94cb38e9e2c53d356c4d92952a8268ea4dba7a68"
+        },
+        {
+          "exists": true,
+          "id": "p0_source_file_open_read_write",
+          "path": "board/trace_validation/programs/file_open_read_write.c",
+          "sha256": "2f3e5aebb90008788789fa9c6364800f018647b7f4bf02b6930923f504d7c693"
+        },
+        {
+          "exists": true,
+          "id": "p0_source_fork_exec",
+          "path": "board/trace_validation/programs/fork_exec.c",
+          "sha256": "27d9fc56f21480f216194199afbb67d17b3ac477cbd2480e09c7c75b570d3e86"
+        },
+        {
+          "exists": true,
+          "id": "p0_source_illegal_instruction",
+          "path": "board/trace_validation/programs/illegal_instruction.c",
+          "sha256": "9b37fbb288f5a1fcfeb81cd74c405f1c3a413c60cde4db5e6e3a812a4aaec203"
+        },
+        {
+          "exists": true,
+          "id": "safe_source_file_scan",
+          "path": "experiments/linux_behavior/malware_like/programs/file_scan.c",
+          "sha256": "e7e9e57918d10a95c0b3cabd5a55a462d676d44d3d9cf26d4b3c6fdc2511fa83"
+        },
+        {
+          "exists": true,
+          "id": "safe_source_batch_open_read_write",
+          "path": "experiments/linux_behavior/malware_like/programs/batch_open_read_write.c",
+          "sha256": "ce08281587feaad448e1ad03989bf8709277532142ca18e640dcb76184b4a686"
+        },
+        {
+          "exists": true,
+          "id": "safe_source_self_copy_sim",
+          "path": "experiments/linux_behavior/malware_like/programs/self_copy_sim.c",
+          "sha256": "4145d12972d3c6e0076734a5417fbaf3f3174ed32f4787f8211b489150fc3ef1"
+        },
+        {
+          "exists": true,
+          "id": "safe_source_abnormal_syscall_sequence",
+          "path": "experiments/linux_behavior/malware_like/programs/abnormal_syscall_sequence.c",
+          "sha256": "00168ddda97b8489bbbb81dbbfd233830542ac90b195bb0dc21c4e0a85192cec"
+        },
+        {
+          "exists": true,
+          "id": "safe_source_illegal_trap",
+          "path": "experiments/linux_behavior/malware_like/programs/illegal_trap.c",
+          "sha256": "a2d148c507ea4020214fbf47259ad73d886fa9280c32624756def64228158c53"
+        },
+        {
+          "exists": true,
+          "id": "safe_source_process_chain",
+          "path": "experiments/linux_behavior/malware_like/programs/process_chain.c",
+          "sha256": "e172ee83af66245e2ce083439da6d40e8250cea2e10b14c93710d4b620fe57cf"
+        },
+        {
+          "exists": true,
+          "id": "safe_source_dynamic_executable_memory",
+          "path": "experiments/linux_behavior/malware_like/programs/dynamic_executable_memory.c",
+          "sha256": "18b432b21f7dfb88b761f2f1d7efdd442312e8c00fbbec1aa1f87a6ca8dedf4d"
+        },
+        {
+          "exists": true,
+          "id": "safe_source_anti_debug_like",
+          "path": "experiments/linux_behavior/malware_like/programs/anti_debug_like.c",
+          "sha256": "150753064e0657fafea321cc7b838865d3cb53ad0035f40d3e8f07bcaf03888f"
+        }
+      ],
+      "external_evidence_claimed": false,
+      "future_checker_contract": {
+        "must_fail_until_external_artifacts_present": true,
+        "required_fields": [
+          "evidence_artifacts",
+          "captured_elf_sha256",
+          "debug_sections_present",
+          "source_line_attribution_available",
+          "board_trace_source_line_available",
+          "source_line_rate"
+        ],
+        "required_summary_schema": "rvmt.genesys2.board_native_source_lines.v1"
+      },
+      "id": "board_native_dwarf_source_lines",
+      "no_substitution_rule": "Toolchain probes and source-equivalent sidecars must not be substituted for board-native DWARF source-line attribution.",
+      "readiness_status": "EXTERNAL_BOARD_RERUN_READY_NOT_EXECUTED",
+      "required_external_artifacts": [
+        "debug/no-PIE board workload ELFs for every sample with retained .debug_line sections",
+        "readelf -S transcripts proving .debug_line for each captured ELF",
+        "board capture roots generated from those exact debug ELFs",
+        "per-run manifest linking captured_elf_sha256 to the debug ELF sha256",
+        "trace/code-map joins produced with addr2line source locations from the captured ELF"
+      ],
+      "sample_scope": [
+        "hello_write",
+        "file_open_read_write",
+        "fork_exec",
+        "illegal_instruction",
+        "file_scan",
+        "batch_open_read_write",
+        "self_copy_sim",
+        "abnormal_syscall_sequence",
+        "illegal_trap",
+        "process_chain",
+        "dynamic_executable_memory",
+        "anti_debug_like"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "full_string_claimed may become true only for pointer groups with contiguous bytes from offset 0 through terminator or documented bounded truncation",
+        "fragmented or gapped ARG_MEM groups remain fragments and are not promoted to strings",
+        "companion-derived strings are never counted as hardware-derived pointer strings",
+        "kernel-space addresses and full memory dumps remain absent",
+        "openat/write/execve hardware string coverage is reported with per-sample counts and negative cases"
+      ],
+      "completion_requires_external_state": true,
+      "current_blocker": true,
+      "current_status": "BOUNDED_PREFIX_ONLY_FULL_STRINGS_NOT_CLAIMED",
+      "existing_evidence": [
+        {
+          "exists": true,
+          "id": "hardware_pointer_prefix_summary",
+          "path": "results/evaluation/genesys2-cva6/current/hardware_pointer_prefix_summary.json",
+          "schema": "rvmt.hardware_pointer_prefixes.v1",
+          "sha256": "ac9147537748f14af252fc6de3562e963f12e885bfd4b90e5ab961c76ae78196",
+          "status": "PASS"
+        },
+        {
+          "exists": true,
+          "id": "pointer_string_readiness",
+          "path": "results/evaluation/genesys2-cva6/current/pointer_string_readiness_summary.json",
+          "schema": "rvmt.genesys2.pointer_string_readiness.v1",
+          "sha256": "cc920ee8539a323026f1e59465f33b812a285c982d216ebe20dd8ca70e5f77c3",
+          "status": "PASS"
+        },
+        {
+          "exists": true,
+          "id": "pointer_snapshot_guardrails",
+          "path": "results/evaluation/genesys2-cva6/current/pointer_snapshot_guardrails.json",
+          "schema": "rvmt.pointer_snapshot_guardrails.v1",
+          "sha256": "a01c91c047ceb434263f95c48db4d93dcd6344b7a4df299a8c479d853e2ad237",
+          "status": "PASS"
+        },
+        {
+          "exists": true,
+          "id": "trace_format_arg_mem_schema",
+          "path": "docs/02-trace-architecture/trace_format.md",
+          "sha256": "242758450413b00a57cc1bb24d81a64d96e8923f406b2af1c3b379fe106beda9"
+        },
+        {
+          "exists": true,
+          "id": "cva6_signal_map_pointer_hooks",
+          "path": "docs/02-trace-architecture/signal_map.md",
+          "sha256": "25cd91ca2f506b9be20ee2642e860ce9405ca79385b1886798d59545c094d5f4"
+        },
+        {
+          "exists": true,
+          "id": "trace_top_arg_mem_parameters",
+          "path": "rtl/trace/trace_top.sv",
+          "sha256": "0c180c4b2382ea2386491aff9230912192d651afa2a90b812450271b96e58475"
+        },
+        {
+          "exists": true,
+          "id": "package_pointer_string_readiness",
+          "path": "tools/package_genesys2_pointer_string_readiness.py",
+          "sha256": "d6d23f7701e6edd114a1e70cbca0070358fe413104619fb0d867ee73bbd16c3c"
+        },
+        {
+          "exists": true,
+          "id": "check_pointer_string_readiness",
+          "path": "tools/check_genesys2_pointer_string_readiness.py",
+          "sha256": "f0810c609eb44c69364848b138190bb251b7fbbb3225c229f34c798102ac86d1"
+        }
+      ],
+      "external_evidence_claimed": false,
+      "future_checker_contract": {
+        "must_fail_until_external_artifacts_present": true,
+        "required_fields": [
+          "evidence_artifacts",
+          "full_string_claimed",
+          "full_string_group_count",
+          "pointer_groups",
+          "contiguous_from_offset_zero",
+          "mem_last_observed",
+          "companion_derived_strings_as_hardware",
+          "kernel_fragment_count",
+          "redaction_policy",
+          "failed_attempts"
+        ],
+        "required_summary_schema": "rvmt.genesys2.hardware_pointer_strings.v1"
+      },
+      "id": "full_hardware_pointer_strings",
+      "no_substitution_rule": "Bounded prefixes, fragments, qemu/strace strings, and trusted companion strings must not be substituted for full hardware-derived pointer strings.",
+      "readiness_status": "RTL_EXTENSION_REQUIRED_NOT_EXECUTED",
+      "required_external_artifacts": [
+        "CVA6 LSU/user-copy hook or equivalent RTL path that observes contiguous user-pointer bytes",
+        "full-string ARG_MEM records with mem_last=true for null-terminated path/string arguments",
+        "gap-free pointer-group reconstruction for openat, write, and execve where a full string is claimed",
+        "board recapture roots proving the new RTL path on Genesys2/CVA6",
+        "redaction/release policy for raw payload bytes and sanitized public summaries"
+      ],
+      "syscall_scope": [
+        "openat",
+        "write",
+        "execve"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "transport is not reported as BRAM ring plus ILA/JTAG when claiming production streaming/DMA throughput",
+        "sustained throughput exceeds the measured p95 event byte production rate recorded in streaming_dma_target_summary.json for the selected workload set",
+        "unaccounted DROP is 0 for accepted throughput runs and every failed attempt is retained with impact analysis",
+        "trace_on versus trace_off behavior remains equivalent for the workload pass/fail result",
+        "timing closure and resource deltas are reported for the exact bitstream used in the throughput run"
+      ],
+      "completion_requires_external_state": true,
+      "current_blocker": true,
+      "current_status": "BRAM_JTAG_SELECTED_STREAMING_DMA_THROUGHPUT_UNMEASURED",
+      "existing_evidence": [
+        {
+          "exists": true,
+          "id": "trace_export_decision",
+          "path": "docs/02-trace-architecture/trace_export_decision.md",
+          "sha256": "0efef4981643d1e094e0b3bbcc38cf3ca5b917eca5a29f8099c2fe3b1807f8f1"
+        },
+        {
+          "exists": true,
+          "id": "trace_sink_summary",
+          "path": "results/evaluation/genesys2-cva6/current/trace_sink_summary.json",
+          "schema": "rvmt.genesys2.bram_trace_sink.v1",
+          "sha256": "71342c84315955f94ab789157a5d9b68c94508754d4ec9b9f70d3b6983cc27f1",
+          "status": "PASS"
+        },
+        {
+          "exists": true,
+          "id": "drop_accounting_summary",
+          "path": "results/evaluation/genesys2-cva6/current/drop_accounting_summary.json",
+          "schema": "rvmt.trace_drop_accounting.v1",
+          "sha256": "8192977caa1adef849b53a47d09dbc4dfa7a0c503ffd1d3158a6ca6baade3150",
+          "status": "PASS"
+        },
+        {
+          "exists": true,
+          "id": "streaming_dma_target_summary",
+          "path": "results/evaluation/genesys2-cva6/current/streaming_dma_target_summary.json",
+          "schema": "rvmt.genesys2.streaming_dma_target.v1",
+          "sha256": "2435bf54229623cbbaf3248cec1cb8f5c0ec1ac3cc170107a0fe70fd16c40f55",
+          "status": "PASS"
+        },
+        {
+          "exists": true,
+          "id": "streaming_dma_readiness",
+          "path": "results/evaluation/genesys2-cva6/current/streaming_dma_readiness_summary.json",
+          "schema": "rvmt.genesys2.streaming_dma_readiness.v1",
+          "sha256": "88e9f63fb531bba1a69d508a9c7542218277bf918da6db922d67fd4e423b0908",
+          "status": "PASS"
+        },
+        {
+          "exists": true,
+          "id": "production_runtime_benchmark",
+          "path": "results/evaluation/genesys2-cva6/current/production_runtime_benchmark.json",
+          "schema": "rvmt.genesys2.production_runtime_benchmark.v1",
+          "sha256": "c433123bd5e6a2d10c3158a4f67335e3a84f06554e8dc014dab08ac2c5c15f25",
+          "status": "PASS"
+        },
+        {
+          "exists": true,
+          "id": "package_streaming_dma_readiness",
+          "path": "tools/package_genesys2_streaming_dma_readiness.py",
+          "sha256": "681226fc2b71d63a7d18db4de87008b2536f51b553649ac2fc1266a62718b9bc"
+        },
+        {
+          "exists": true,
+          "id": "check_streaming_dma_readiness",
+          "path": "tools/check_genesys2_streaming_dma_readiness.py",
+          "sha256": "ec81340cc5554c03bed4617771563ebc78914320fe2f6b4befcd99ed72b3fa2c"
+        }
+      ],
+      "external_evidence_claimed": false,
+      "future_checker_contract": {
+        "must_fail_until_external_artifacts_present": true,
+        "required_fields": [
+          "evidence_artifacts",
+          "transport",
+          "sustained_bytes_per_second",
+          "p95_event_bytes_per_second",
+          "unaccounted_drop",
+          "timing_passed",
+          "noninterference_passed"
+        ],
+        "required_summary_schema": "rvmt.genesys2.streaming_dma_throughput.v1"
+      },
+      "id": "production_streaming_dma_trace_sink",
+      "no_substitution_rule": "BRAM ring captures, ILA/JTAG dumps, and local runtime benchmarks must not be substituted for production streaming or DMA throughput evidence.",
+      "readiness_status": "STREAMING_DMA_EXPERIMENT_REQUIRED_NOT_EXECUTED",
+      "required_external_artifacts": [
+        "selected non-BRAM production transport design, such as AXI DMA or Ethernet streaming",
+        "host receiver logs with byte counts, event counts, elapsed time, and parser success",
+        "throughput benchmark showing sustained transport capacity against trace event production rate",
+        "drop/wrap/backpressure accounting under stress and normal workloads",
+        "resource, timing, and noninterference reports for trace_off versus streaming trace modes"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "at least five non-network benign workloads execute on Genesys2/CVA6 under the current trace route",
+        "unexpected false-positive rate is reported and is 0.0 for the accepted board benign control set",
+        "allowed rule overlaps are explicitly listed and do not count as unexpected false positives",
+        "board benign evidence is kept distinct from local Linux strace control evidence"
+      ],
+      "completion_requires_external_state": true,
+      "current_blocker": true,
+      "current_status": "LOCAL_LINUX_BENIGN_PASS_BOARD_CONTROL_NOT_RUN",
+      "existing_evidence": [
+        {
+          "exists": true,
+          "id": "benign_control_summary",
+          "path": "results/evaluation/genesys2-cva6/current/benign_control_summary.json",
+          "schema": "rvmt.genesys2.benign_control_summary.v1",
+          "sha256": "7256ece3a71e99b389be36e98ff2f06e86ecfbcb05587bfcef94f82e19269c34",
+          "status": "PASS"
+        },
+        {
+          "exists": true,
+          "id": "board_benign_readiness",
+          "path": "results/evaluation/genesys2-cva6/current/board_benign_readiness_summary.json",
+          "schema": "rvmt.genesys2.board_benign_readiness.v1",
+          "sha256": "9dff7393238f206623c341429ec135dd35a2a31500f2732fafcf09d153db0b4d",
+          "status": "PASS"
+        },
+        {
+          "exists": true,
+          "id": "behavior_audit_metrics",
+          "path": "results/evaluation/genesys2-cva6/current/behavior_audit_metrics.json",
+          "schema": "rvmt.behavior_audit_metrics.v1",
+          "sha256": "c0b82cd2dcfe7d3bf67b77c44120e23ed8ce5d14601bf76f3807d5d57a7f7ea6",
+          "status": "PASS"
+        },
+        {
+          "exists": true,
+          "id": "audit_behavior_tool",
+          "path": "tools/audit_behavior.py",
+          "sha256": "2dc61eca8938f0447825261a40c3b20cb13afec81e0ec8f25a8ce7b2c2219504"
+        },
+        {
+          "exists": true,
+          "id": "package_benign_control_summary",
+          "path": "tools/package_benign_control_summary.py",
+          "sha256": "5f23636990a49dea98e3366f8f5ea29c90ca477d0fc6a81b742446cb7a1e520a"
+        },
+        {
+          "exists": true,
+          "id": "package_board_benign_readiness",
+          "path": "tools/package_genesys2_board_benign_readiness.py",
+          "sha256": "da942fb0955b870a78727fd92e6b7d99d729cada4c3c4fa06c24fc4962e518f2"
+        },
+        {
+          "exists": true,
+          "id": "check_board_benign_readiness",
+          "path": "tools/check_genesys2_board_benign_readiness.py",
+          "sha256": "2983d296f4e87c927dd91ecd9d46946bc75e1fd34917894b86aee6940b4ae366"
+        }
+      ],
+      "external_evidence_claimed": false,
+      "future_checker_contract": {
+        "must_fail_until_external_artifacts_present": true,
+        "required_fields": [
+          "evidence_artifacts",
+          "genesys2_board_trace_claimed",
+          "sample_count",
+          "unexpected_false_positive_count",
+          "benign_false_positive_rate",
+          "samples"
+        ],
+        "required_summary_schema": "rvmt.genesys2.board_benign_control.v1"
+      },
+      "id": "genesys2_board_benign_control",
+      "no_substitution_rule": "Local Linux benign strace/control evidence must not be substituted for Genesys2 board benign false-positive evidence.",
+      "readiness_status": "BOARD_BENIGN_CONTROL_RUN_REQUIRED_NOT_EXECUTED",
+      "required_external_artifacts": [
+        "Genesys2/CVA6 board traces for representative non-network benign workloads",
+        "per-benign-sample semantic_events, behavior_graph, and behavior_audit artifacts from board traces",
+        "documented allowed benign overlaps versus unexpected behavior-rule matches",
+        "board-run false-positive summary with sample count and unexpected false-positive rate"
+      ]
+    }
+  ],
+  "schema": "rvmt.genesys2.external_closure_readiness.v1",
+  "scope": "non-real-malware external closure readiness for remaining Genesys2/CVA6 blockers",
+  "status": "PASS",
+  "validation_commands": [
+    "uv run python tools/package_genesys2_external_closure_readiness.py",
+    "uv run python tools/check_genesys2_external_closure_readiness.py --root ."
+  ]
+}

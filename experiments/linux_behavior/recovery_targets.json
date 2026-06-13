@@ -1,6 +1,6 @@
 {
   "phase": "6.4",
-  "status": "TODO(EXPERIMENT)",
+  "status": "PASS_CONTROLLED_CASE_STUDY",
   "policy_ref": "experiments/linux_behavior/policy.json",
   "dataset_refs": [
     "experiments/linux_behavior/benign/manifest.json",

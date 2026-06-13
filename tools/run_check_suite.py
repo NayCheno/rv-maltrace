@@ -10,13 +10,20 @@ from typing import Any
 
 
 DEFAULT_MANIFEST = Path("tools/check_suites.json")
+DEFAULT_CHECK_SUITES_DOC = Path("docs/10-process/check_suites.md")
 REQUIRED_GENESYS2_CURRENT_SCRIPTS = {
+    "tools/check_genesys2_latest_standard.py",
     "tools/check_board_baseline.py",
+    "tools/check_baseline_pass_criteria.py",
     "tools/check_board_trace_minimal.py",
+    "tools/check_trace_export_decision.py",
     "tools/check_board_trace_programs.py",
     "tools/check_board_trace_evidence.py",
     "tools/check_board_local_code_analysis.py",
     "tools/check_ccfa_claim_boundaries.py",
+    "tools/check_risk_log_current.py",
+    "tools/check_evaluation_plan.py",
+    "tools/check_genesys2_review_closure_audit.py",
     "tools/check_genesys2_cva_evidence_boundary.py",
     "tools/check_genesys2_cva_closure_readiness.py",
     "tools/check_genesys2_oled_status.py",
@@ -25,21 +32,46 @@ REQUIRED_GENESYS2_CURRENT_SCRIPTS = {
     "tools/check_genesys2_safe_surrogate_bram_trace.py",
     "tools/check_genesys2_p0_bram_trace.py",
     "tools/check_trace_drop_accounting.py",
+    "tools/check_fuzz_trace_plan.py",
+    "tools/check_genesys2_statistical_robustness.py",
+    "tools/check_genesys2_streaming_dma_target.py",
+    "tools/check_genesys2_streaming_dma_readiness.py",
     "tools/check_pointer_snapshot_guardrails.py",
+    "tools/check_hardware_pointer_prefixes.py",
+    "tools/check_genesys2_pointer_string_readiness.py",
+    "tools/check_benign_control_summary.py",
+    "tools/check_genesys2_board_benign_readiness.py",
     "tools/check_syscall_semantic_reconstruction.py",
     "tools/check_fd_path_graph.py",
     "tools/check_source_line_attribution.py",
+    "tools/check_source_line_toolchain_probe.py",
+    "tools/check_genesys2_debug_elf_readiness.py",
     "tools/check_process_elf_ownership.py",
     "tools/check_dynamic_mapping_attribution.py",
     "tools/check_ccfa_evaluation_matrix.py",
     "tools/check_baseline_alignment.py",
     "tools/check_behavior_audit_metrics.py",
+    "tools/check_ccfa_case_study_manifest.py",
     "tools/check_ccfa_current_quality.py",
+    "tools/check_genesys2_reproducibility_manifest.py",
+    "tools/check_genesys2_artifact_package.py",
+    "tools/check_genesys2_external_closure_readiness.py",
+    "tools/check_genesys2_external_closure_intake.py",
+    "tools/check_genesys2_external_closure_plan.py",
+    "tools/check_genesys2_external_closure_preflight.py",
+    "tools/check_genesys2_external_operator_packet.py",
+    "tools/prepare_genesys2_external_summary.py",
     "tools/check_genesys2_p0_continuous_trace.py",
     "tools/check_genesys2_safe_surrogate.py",
     "tools/check_genesys2_safe_surrogate_coverage.py",
     "tools/check_real_malware_containment.py",
 }
+
+
+def documented_current_command(command: list[str]) -> str:
+    if command[0] == "{python}" and len(command) >= 2:
+        return "uv run python " + " ".join("." if token == "{root}" else token for token in command[1:])
+    return " ".join("." if token == "{root}" else token for token in command)
 
 
 def resolve(root: Path, path: Path) -> Path:
@@ -246,6 +278,21 @@ def validate_manifest(root: Path, manifest: dict[str, Any]) -> list[str]:
                 "genesys2-current scripts mismatch: expected "
                 + ", ".join(sorted(REQUIRED_GENESYS2_CURRENT_SCRIPTS))
             )
+        doc_path = resolve(root, DEFAULT_CHECK_SUITES_DOC)
+        if not doc_path.is_file():
+            errors.append(f"missing check suite documentation: {DEFAULT_CHECK_SUITES_DOC}")
+        else:
+            doc_text = doc_path.read_text(encoding="utf-8", errors="replace")
+            missing_doc_commands = [
+                documented_current_command(command_tokens(check))
+                for check in iter_checks(current)
+                if documented_current_command(command_tokens(check)) not in doc_text
+            ]
+            if missing_doc_commands:
+                errors.append(
+                    "docs/10-process/check_suites.md missing genesys2-current commands: "
+                    + ", ".join(missing_doc_commands)
+                )
     return errors
 
 

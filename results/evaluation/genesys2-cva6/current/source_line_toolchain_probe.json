@@ -1,0 +1,124 @@
+{
+  "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",
+  "claim_boundary": {
+    "board_rerun_required_for_board_native_source_lines": true,
+    "current_board_elf_dwarf_available": false,
+    "current_board_trace_source_line_available": false,
+    "debug_counterpart_source_line_available": true,
+    "real_malware_validation_claimed": false,
+    "toolchain_source_line_probe_passed": true
+  },
+  "current_board_elfs": [
+    {
+      "debug_section_names": [],
+      "debug_sections_present": false,
+      "exists": true,
+      "id": "phase4_uart_pass",
+      "path": "build/board/genesys2_cva6_phase4/rvmt_cva6_uart_pass.elf",
+      "readelf_sections": "build/source_line_toolchain_probe/board_phase4_uart_pass.readelf_sections.txt",
+      "sha256": "46c6a31f44b66fc765ce98242dcd65928c04cf3be40911a3737dc60eaffcad25"
+    },
+    {
+      "debug_section_names": [],
+      "debug_sections_present": false,
+      "exists": true,
+      "id": "phase4_onboard_uart_pass",
+      "path": "build/board/genesys2_cva6_phase4_onboard_com7/rvmt_cva6_uart_pass.elf",
+      "readelf_sections": "build/source_line_toolchain_probe/board_phase4_onboard_uart_pass.readelf_sections.txt",
+      "sha256": "dda81380700709d61b94853b53333602cfa3e265798340de769b4a5930ffe2ba"
+    },
+    {
+      "debug_section_names": [],
+      "debug_sections_present": false,
+      "exists": true,
+      "id": "p0_marker_hello_write",
+      "path": "build/board/genesys2_cva6_p0_marker/hello_write/hello_write.riscv64",
+      "readelf_sections": "build/source_line_toolchain_probe/board_p0_marker_hello_write.readelf_sections.txt",
+      "sha256": "bbce854f41d23cdb32543b757041d301c459ca5613d7fcc3d7bb0801de7b1a5e"
+    },
+    {
+      "debug_section_names": [],
+      "debug_sections_present": false,
+      "exists": true,
+      "id": "safe_surrogate_file_scan",
+      "path": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/00_build_syscall_only/file_scan.riscv64",
+      "readelf_sections": "build/source_line_toolchain_probe/board_safe_surrogate_file_scan.readelf_sections.txt",
+      "sha256": "053f6c45c149e52e665a0fac9d9e36d3cac5004f75306a2c05bf8537dc5b875c"
+    }
+  ],
+  "docker": {
+    "returncode": 0,
+    "stderr_tail": [
+      " Container rv-maltrace-linux-behavior-run-59de0b190dd9 Creating",
+      " Container rv-maltrace-linux-behavior-run-59de0b190dd9 Created"
+    ],
+    "stdout_tail": [
+      "[PASS] code map written: build/source_line_toolchain_probe/source_line_probe.code_map.json"
+    ]
+  },
+  "non_claims": [
+    "This proves the RISC-V Linux debug/no-PIE source-line toolchain path, not current board-trace DWARF attribution.",
+    "Current generated board ELFs are recorded as lacking DWARF debug sections and remain function-level for board trace attribution.",
+    "Board-native source-line attribution still requires rebuilding the exact board workload ELF with DWARF, rerunning board capture, and rejoining the trace to that ELF.",
+    "This probe does not add real-malware validation."
+  ],
+  "probe": {
+    "addr2line_source_line_available": true,
+    "addr2line_tool": "/usr/bin/riscv64-linux-gnu-addr2line",
+    "code_map_path": "build/source_line_toolchain_probe/source_line_probe.code_map.json",
+    "code_map_sha256": "4b955bfe4638653c59f2603d0db2fc7ec60eb4143be5cb7ce24eb1f6e741a99f",
+    "debug_section_names": [
+      ".debug_abbrev",
+      ".debug_aranges",
+      ".debug_info",
+      ".debug_line",
+      ".debug_line_str",
+      ".debug_str"
+    ],
+    "debug_sections_present": true,
+    "elf_path": "build/source_line_toolchain_probe/source_line_probe.riscv64",
+    "elf_sha256": "b3474f1d8719b383b7bef03f0b4c87b014c93508b9fa15fe88e6051eb9e2d686",
+    "readelf_sections": "build/source_line_toolchain_probe/probe.readelf_sections.txt",
+    "source_line_basis": "DWARF line table via addr2line-compatible tool",
+    "source_location_count": 3,
+    "source_locations": [
+      {
+        "confidence": "debug_info",
+        "file": "/workspace/rv-maltrace/build/source_line_toolchain_probe/source_line_probe.c",
+        "function": "rvmt_syscall",
+        "line": 3,
+        "pc": "0x00000000000100e8"
+      },
+      {
+        "confidence": "debug_info",
+        "file": "/workspace/rv-maltrace/build/source_line_toolchain_probe/source_line_probe.c",
+        "function": "rvmt_syscall",
+        "line": 8,
+        "pc": "0x000000000001010e"
+      },
+      {
+        "confidence": "debug_info",
+        "file": "/workspace/rv-maltrace/build/source_line_toolchain_probe/source_line_probe.c",
+        "function": "_start",
+        "line": 12,
+        "pc": "0x000000000001011c"
+      }
+    ],
+    "source_path": "build/source_line_toolchain_probe/source_line_probe.c",
+    "source_sha256": "c43ced1e80b8b9ac4c3c779869123ae27f426fd47ea55cad40fe1d293326cd88"
+  },
+  "schema": "rvmt.genesys2.source_line_toolchain_probe.v1",
+  "status": "PASS",
+  "toolchain": {
+    "addr2line": "GNU addr2line (GNU Binutils for Ubuntu) 2.42",
+    "compiler": "riscv64-linux-gnu-gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+    "docker_service": "linux-behavior",
+    "qemu": "qemu-riscv64 version 8.2.2 (Debian 1:8.2.2+ds-0ubuntu1.16)",
+    "readelf": "GNU readelf (GNU Binutils for Ubuntu) 2.42",
+    "strace": "strace -- version 6.8"
+  },
+  "validation_commands": [
+    "uv run python tools/package_source_line_toolchain_probe.py",
+    "uv run python tools/check_source_line_toolchain_probe.py --root ."
+  ]
+}

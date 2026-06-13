@@ -1,0 +1,17 @@
+{
+  "behavior_nodes": {
+    "anti_analysis_behavior_node": true,
+    "has_execve": false,
+    "has_openat": true,
+    "has_write": false,
+    "mmap_mprotect_behavior_node": false
+  },
+  "non_claims": [
+    "Behavior graph evidence is malware-like safe surrogate audit where applicable, not real malware detection accuracy."
+  ],
+  "real_malware": false,
+  "sample_class": "malware_like_synthetic_syscall_only",
+  "sample_id": "anti_debug_like",
+  "schema": "rvmt.sample.behavior_graph.v1",
+  "source_artifact": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/behavior/behavior_graph.json"
+}

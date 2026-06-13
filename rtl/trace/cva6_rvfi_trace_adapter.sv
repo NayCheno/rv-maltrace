@@ -1,3 +1,5 @@
+`timescale 1ns/1ps
+
 module cva6_rvfi_trace_adapter
   import trace_pkg::*;
 #(
@@ -48,6 +50,9 @@ module cva6_rvfi_trace_adapter
     input  logic                                trace_enable_context_i,
     input  logic                                trace_enable_marker_i,
     input  logic                                trace_enable_drop_i,
+    input  logic                                trace_pc_filter_enable_i,
+    input  logic [63:0]                         trace_pc_start_i,
+    input  logic [63:0]                         trace_pc_end_i,
 
     output logic                                trace_valid_o,
     output trace_packet_t                       trace_packet_o
@@ -329,6 +334,11 @@ module cva6_rvfi_trace_adapter
     base_packet.satp  = satp;
   endfunction
 
+  function automatic logic trace_pc_pass(input logic [63:0] pc);
+    trace_pc_pass = !trace_pc_filter_enable_i ||
+                    (pc >= trace_pc_start_i && pc < trace_pc_end_i);
+  endfunction
+
   function automatic logic [63:0] bounded_pointer_len(input logic [63:0] requested_len);
     if (requested_len == 64'd0 || requested_len > MAX_POINTER_SNAPSHOT_BYTES_64) begin
       bounded_pointer_len = MAX_POINTER_SNAPSHOT_BYTES_64;
@@ -351,20 +361,20 @@ module cva6_rvfi_trace_adapter
     end
   endfunction
 
-  function automatic logic [2:0] rmask_capture_size(input logic [MEM_LANES-1:0] mask);
-    logic [2:0] count;
+  function automatic logic [3:0] rmask_capture_size(input logic [MEM_LANES-1:0] mask);
+    logic [3:0] count;
     begin
-      count = 3'd0;
+      count = 4'd0;
       for (int unsigned i = 0; i < MEM_LANES; i++) begin
-        if (mask[i] && count < 3'd4) begin
-          count = count + 3'd1;
+        if (mask[i] && count < 4'd8) begin
+          count = count + 4'd1;
         end
       end
       rmask_capture_size = count;
     end
   endfunction
 
-  function automatic logic [63:0] mask_data_to_size(input logic [63:0] data, input logic [2:0] size);
+  function automatic logic [63:0] mask_data_to_size(input logic [63:0] data, input logic [3:0] size);
     mask_data_to_size = 64'd0;
     for (int unsigned i = 0; i < 8; i++) begin
       if (i < size) begin
@@ -373,7 +383,7 @@ module cva6_rvfi_trace_adapter
     end
   endfunction
 
-  function automatic logic data_has_zero_byte(input logic [63:0] data, input logic [2:0] size);
+  function automatic logic data_has_zero_byte(input logic [63:0] data, input logic [3:0] size);
     data_has_zero_byte = 1'b0;
     for (int unsigned i = 0; i < 8; i++) begin
       if (i < size && data[i*8+:8] == 8'd0) begin
@@ -414,14 +424,14 @@ module cva6_rvfi_trace_adapter
       logic [63:0] mem_addr64;
       logic [63:0] mem_data64;
       logic [63:0] remaining;
-      logic [2:0]  capture_size;
+      logic [3:0]  capture_size;
 
       mem_addr64 = vlen_to_64(rvfi_mem_addr_s[port]);
       mem_data64 = xlen_to_64(rvfi_mem_rdata_s[port]);
       remaining = pointer_watch_limit_q - mem_addr64;
       capture_size = rmask_capture_size(rvfi_mem_rmask_s[port]);
-      if (capture_size != 3'd0 && remaining < {61'd0, capture_size}) begin
-        capture_size = remaining[2:0];
+      if (capture_size != 4'd0 && remaining < {60'd0, capture_size}) begin
+        capture_size = remaining[3:0];
       end
 
       pointer_capture_valid[port] = ENABLE_USER_POINTER_SNAPSHOT &&
@@ -431,12 +441,12 @@ module cva6_rvfi_trace_adapter
                                     !rvfi_trap_s[port] &&
                                     rvfi_mode_s[port] == TRACE_PRIV_S &&
                                     rvfi_mem_rmask_s[port] != '0 &&
-                                    capture_size != 3'd0 &&
+                                    capture_size != 4'd0 &&
                                     mem_addr64 >= pointer_watch_base_q &&
                                     mem_addr64 < pointer_watch_limit_q;
       pointer_capture_last[port] = pointer_capture_valid[port] &&
                                    (data_has_zero_byte(mask_data_to_size(mem_data64, capture_size), capture_size) ||
-                                    (mem_addr64 + {61'd0, capture_size}) >= pointer_watch_limit_q);
+                                    (mem_addr64 + {60'd0, capture_size}) >= pointer_watch_limit_q);
       pointer_capture_packet[port] = base_packet(
           sample_cycle,
           vlen_to_64(rvfi_pc_rdata_s[port]),
@@ -448,6 +458,7 @@ module cva6_rvfi_trace_adapter
       pointer_capture_packet[port].valid = pointer_capture_valid[port];
       pointer_capture_packet[port].syscall_id = pointer_watch_syscall_id_q;
       pointer_capture_packet[port].arg_index = pointer_watch_arg_index_q;
+      pointer_capture_packet[port].mem_base = pointer_watch_base_q;
       pointer_capture_packet[port].mem_addr = mem_addr64;
       pointer_capture_packet[port].mem_data = trace_mem_mode_s == TRACE_MEM_MODE_RANGE ?
                                               mask_data_to_size(mem_data64, capture_size) : 64'd0;
@@ -508,10 +519,12 @@ module cva6_rvfi_trace_adapter
       logic [63:0] pointer_entry_base;
       logic [63:0] pointer_entry_len;
       logic [2:0]  pointer_entry_arg_index;
+      logic        pc_pass;
 
       event_valid = rvfi_valid_s[port] || rvfi_trap_s[port];
       instr       = insn_to_32(rvfi_insn_s[port]);
       pc          = vlen_to_64(rvfi_pc_rdata_s[port]);
+      pc_pass     = trace_pc_pass(pc);
       satp64      = xlen_to_64(satp_s);
       compressed  = rvfi_compressed_s[port] || instr[1:0] != 2'b11;
       fallthrough_pc = pc + (compressed ? 64'd2 : 64'd4);
@@ -565,7 +578,7 @@ module cva6_rvfi_trace_adapter
         end
       endcase
 
-      if (event_valid && rvfi_trap_s[port] && trace_enable_trap_i) begin
+      if (event_valid && rvfi_trap_s[port] && trace_enable_trap_i && pc_pass) begin
         packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
         packet.evt   = EVT_TRAP;
         packet.cause = xlen_to_64(rvfi_cause_s[port]);
@@ -581,7 +594,7 @@ module cva6_rvfi_trace_adapter
       end
 
       if (syscall_entry_evt && !marker_evt) begin
-        if (trace_enable_syscall_i) begin
+        if (trace_enable_syscall_i && pc_pass) begin
           packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
           packet.evt = EVT_SYSCALL_ENTRY;
           packet.syscall_id = next_syscall_id_view;
@@ -610,7 +623,7 @@ module cva6_rvfi_trace_adapter
       end
 
       if (syscall_ret_evt) begin
-        if (trace_enable_syscall_i) begin
+        if (trace_enable_syscall_i && pc_pass) begin
           packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
           packet.evt = EVT_SYSCALL_RET;
           packet.target = vlen_to_64(rvfi_pc_wdata_s[port]);
@@ -624,7 +637,8 @@ module cva6_rvfi_trace_adapter
         pointer_watch_age_view = 64'd0;
       end
 
-      if (pointer_capture_valid[port] && trace_enable_syscall_i) begin
+      if (pointer_capture_valid[port] && trace_enable_syscall_i &&
+          trace_pc_pass(pointer_capture_packet[port].pc)) begin
         candidate_count++;
         pointer_watch_age_view = 64'd0;
         if (pointer_capture_last[port]) begin
@@ -633,7 +647,7 @@ module cva6_rvfi_trace_adapter
       end
 
       if (event_valid && port == 0 && csr_valid_s && trace_is_watched_csr(csr_addr_s) &&
-          trace_enable_context_i) begin
+          trace_enable_context_i && pc_pass) begin
         packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
         packet.evt   = csr_addr_s == TRACE_CSR_SATP ? EVT_SATP : EVT_CSR;
         packet.csr   = csr_addr_s;
@@ -643,7 +657,7 @@ module cva6_rvfi_trace_adapter
       end
 
       if (event_valid && rvfi_mode_s[port] != priv_view) begin
-        if (trace_enable_context_i) begin
+        if (trace_enable_context_i && pc_pass) begin
           packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
           packet.evt      = EVT_PRIV;
           packet.old_priv = priv_view;
@@ -655,7 +669,7 @@ module cva6_rvfi_trace_adapter
       end
 
       if (event_valid && !rvfi_trap_s[port] && branch_evt) begin
-        if (trace_enable_branch_i) begin
+        if (trace_enable_branch_i && pc_pass) begin
           packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
           packet.evt    = EVT_BRANCH;
           packet.taken  = branch_taken;
@@ -663,7 +677,7 @@ module cva6_rvfi_trace_adapter
           candidate_count++;
         end
       end else if (event_valid && !rvfi_trap_s[port] && jump_evt) begin
-        if (trace_enable_jump_i) begin
+        if (trace_enable_jump_i && pc_pass) begin
           packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
           packet.evt    = EVT_JUMP;
           packet.taken  = 1'b1;
@@ -672,7 +686,7 @@ module cva6_rvfi_trace_adapter
         end
       end
 
-      if (event_valid && rvfi_valid_s[port] && !rvfi_trap_s[port] && trace_enable_retire_i) begin
+      if (event_valid && rvfi_valid_s[port] && !rvfi_trap_s[port] && trace_enable_retire_i && pc_pass) begin
         packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
         packet.evt = EVT_RETIRE;
         candidate_count++;
@@ -816,10 +830,12 @@ module cva6_rvfi_trace_adapter
         logic        syscall_ret_evt;
         logic        marker_evt;
         logic [63:0] marker_tag;
+        logic        pc_pass;
 
         event_valid = rvfi_valid_s[port] || rvfi_trap_s[port];
         instr       = insn_to_32(rvfi_insn_s[port]);
         pc          = vlen_to_64(rvfi_pc_rdata_s[port]);
+        pc_pass     = trace_pc_pass(pc);
         satp64      = xlen_to_64(satp_s);
         compressed  = rvfi_compressed_s[port] || instr[1:0] != 2'b11;
         fallthrough_pc = pc + (compressed ? 64'd2 : 64'd4);
@@ -846,7 +862,7 @@ module cva6_rvfi_trace_adapter
                            (rvfi_sret_to_user_s[port] || RELAX_SRET_TO_USER_CHECK) &&
                            syscall_outstanding_view;
 
-        if (event_valid && rvfi_trap_s[port] && trace_enable_trap_i) begin
+        if (event_valid && rvfi_trap_s[port] && trace_enable_trap_i && pc_pass) begin
           packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
           packet.evt   = EVT_TRAP;
           packet.cause = xlen_to_64(rvfi_cause_s[port]);
@@ -862,7 +878,7 @@ module cva6_rvfi_trace_adapter
         end
 
         if (syscall_entry_evt && !marker_evt) begin
-          if (trace_enable_syscall_i) begin
+          if (trace_enable_syscall_i && pc_pass) begin
             packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
             packet.evt = EVT_SYSCALL_ENTRY;
             packet.syscall_id = next_syscall_id_view;
@@ -883,7 +899,7 @@ module cva6_rvfi_trace_adapter
         end
 
         if (syscall_ret_evt) begin
-          if (trace_enable_syscall_i) begin
+          if (trace_enable_syscall_i && pc_pass) begin
             packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
             packet.evt = EVT_SYSCALL_RET;
             packet.target = vlen_to_64(rvfi_pc_wdata_s[port]);
@@ -895,12 +911,13 @@ module cva6_rvfi_trace_adapter
           syscall_outstanding_view = 1'b0;
         end
 
-        if (pointer_capture_valid[port] && trace_enable_syscall_i) begin
+        if (pointer_capture_valid[port] && trace_enable_syscall_i &&
+            trace_pc_pass(pointer_capture_packet[port].pc)) begin
           offer_candidate(pointer_capture_packet[port], pending_count_after_pop, append_count);
         end
 
         if (event_valid && port == 0 && csr_valid_s && trace_is_watched_csr(csr_addr_s) &&
-            trace_enable_context_i) begin
+            trace_enable_context_i && pc_pass) begin
           packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
           packet.evt   = csr_addr_s == TRACE_CSR_SATP ? EVT_SATP : EVT_CSR;
           packet.csr   = csr_addr_s;
@@ -910,7 +927,7 @@ module cva6_rvfi_trace_adapter
         end
 
         if (event_valid && rvfi_mode_s[port] != priv_view) begin
-          if (trace_enable_context_i) begin
+          if (trace_enable_context_i && pc_pass) begin
             packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
             packet.evt      = EVT_PRIV;
             packet.old_priv = priv_view;
@@ -922,7 +939,7 @@ module cva6_rvfi_trace_adapter
         end
 
         if (event_valid && !rvfi_trap_s[port] && branch_evt) begin
-          if (trace_enable_branch_i) begin
+          if (trace_enable_branch_i && pc_pass) begin
             packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
             packet.evt    = EVT_BRANCH;
             packet.taken  = branch_taken;
@@ -930,7 +947,7 @@ module cva6_rvfi_trace_adapter
             offer_candidate(packet, pending_count_after_pop, append_count);
           end
         end else if (event_valid && !rvfi_trap_s[port] && jump_evt) begin
-          if (trace_enable_jump_i) begin
+          if (trace_enable_jump_i && pc_pass) begin
             packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
             packet.evt    = EVT_JUMP;
             packet.taken  = 1'b1;
@@ -939,7 +956,7 @@ module cva6_rvfi_trace_adapter
           end
         end
 
-        if (event_valid && rvfi_valid_s[port] && !rvfi_trap_s[port] && trace_enable_retire_i) begin
+        if (event_valid && rvfi_valid_s[port] && !rvfi_trap_s[port] && trace_enable_retire_i && pc_pass) begin
           packet = base_packet(sample_cycle, pc, instr, rvfi_mode_s[port], satp64);
           packet.evt = EVT_RETIRE;
           offer_candidate(packet, pending_count_after_pop, append_count);

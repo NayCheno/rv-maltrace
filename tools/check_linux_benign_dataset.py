@@ -18,7 +18,8 @@ EXPECTED_FIXTURES = ["experiments/linux_behavior/benign/fixtures/input.txt"]
 EXPECTED_SAMPLES = {
     "hello": {
         "order": 1,
-        "status": "TODO(EXPERIMENT)",
+        "status": "PASS_LOCAL_LINUX_CONTROL",
+        "doc_evidence_dir": "build/benign_control/hello",
         "provenance": "known_benign_rootfs",
         "network_required": False,
         "default_enabled": True,
@@ -30,7 +31,8 @@ EXPECTED_SAMPLES = {
     },
     "ls": {
         "order": 2,
-        "status": "TODO(EXPERIMENT)",
+        "status": "PASS_LOCAL_LINUX_CONTROL",
+        "doc_evidence_dir": "build/benign_control/ls",
         "provenance": "known_benign_rootfs",
         "network_required": False,
         "default_enabled": True,
@@ -42,7 +44,8 @@ EXPECTED_SAMPLES = {
     },
     "cat": {
         "order": 3,
-        "status": "TODO(EXPERIMENT)",
+        "status": "PASS_LOCAL_LINUX_CONTROL",
+        "doc_evidence_dir": "build/benign_control/cat",
         "provenance": "known_benign_rootfs",
         "network_required": False,
         "default_enabled": True,
@@ -54,7 +57,8 @@ EXPECTED_SAMPLES = {
     },
     "cp": {
         "order": 4,
-        "status": "TODO(EXPERIMENT)",
+        "status": "PASS_LOCAL_LINUX_CONTROL",
+        "doc_evidence_dir": "build/benign_control/cp",
         "provenance": "known_benign_rootfs",
         "network_required": False,
         "default_enabled": True,
@@ -66,7 +70,8 @@ EXPECTED_SAMPLES = {
     },
     "sha256sum": {
         "order": 5,
-        "status": "TODO(EXPERIMENT)",
+        "status": "PASS_LOCAL_LINUX_CONTROL",
+        "doc_evidence_dir": "build/benign_control/sha256sum",
         "provenance": "known_benign_rootfs",
         "network_required": False,
         "default_enabled": True,
@@ -79,6 +84,7 @@ EXPECTED_SAMPLES = {
     "small_network_client": {
         "order": 6,
         "status": "OPTIONAL_DISABLED_BY_DEFAULT",
+        "doc_evidence_dir": "06_small_network_client",
         "provenance": "repository_source",
         "network_required": True,
         "default_enabled": False,
@@ -104,9 +110,10 @@ SAMPLE_KEYS = {
 }
 REQUIRED_DOC_TEXT = (
     "Phase 6.2 defines the benign Linux behavior dataset.",
-    "sample specification, not board or Linux experiment evidence.",
+    "current evidence package includes a local Linux non-network benign-control audit",
+    "not Genesys2 board benign-trace evidence and not malware detection accuracy evidence",
     "experiments/linux_behavior/benign/manifest.json",
-    "results/linux_behavior/<run-id>/benign/",
+    "results/evaluation/genesys2-cva6/current/benign_control_summary.json",
     "optional, disabled by default",
     "preserve the Phase 6.1 network policy",
     "`trace.jsonl`",
@@ -115,6 +122,7 @@ REQUIRED_DOC_TEXT = (
     "`recovery_report.md`",
     "All samples in this dataset are benign.",
     "must not include real malware",
+    "uv run python tools/check_benign_control_summary.py --root .",
 )
 FORBIDDEN_DOC_PATTERNS = (
     re.compile(r"\bPASS\b", re.IGNORECASE),
@@ -186,8 +194,8 @@ def check_manifest(root: Path, path: Path) -> list[str]:
     errors: list[str] = []
     if manifest.get("phase") != "6.2":
         errors.append(f"{path}: phase must be 6.2")
-    if manifest.get("status") != "TODO(EXPERIMENT)":
-        errors.append(f"{path}: status must remain TODO(EXPERIMENT)")
+    if manifest.get("status") != "PASS_LOCAL_LINUX_CONTROL":
+        errors.append(f"{path}: status must be PASS_LOCAL_LINUX_CONTROL")
     if manifest.get("sample_class") != "benign":
         errors.append(f"{path}: sample_class must be benign")
     if manifest.get("policy_ref") != "experiments/linux_behavior/policy.json":
@@ -213,7 +221,7 @@ def check_manifest(root: Path, path: Path) -> list[str]:
         if sample.get("provenance") in {"unknown", "unknown_provenance", "real_malware"}:
             errors.append(f"{path}: {sample_id}.provenance must not be unknown or real malware")
         for field, value in expected.items():
-            if field == "order":
+            if field in {"order", "doc_evidence_dir"}:
                 continue
             if sample.get(field) != value:
                 errors.append(f"{path}: {sample_id}.{field} must be {value!r}")
@@ -269,7 +277,7 @@ def check_doc(path: Path) -> list[str]:
             errors.append(f"{path}: {sample_id} must not document network as enabled")
         if row[5] != expected["status"]:
             errors.append(f"{path}: {sample_id} status must be {expected['status']}")
-        if row[6] != f"{expected['evidence_dir']}/":
+        if row[6] != f"{expected['doc_evidence_dir']}/":
             errors.append(f"{path}: {sample_id} evidence directory mismatch")
     return errors
 
@@ -331,14 +339,14 @@ def write_fixture(root: Path) -> None:
     for sample_id, expected in EXPECTED_SAMPLES.items():
         sample = {"id": sample_id, "class": "benign"}
         for field, value in expected.items():
-            if field != "order":
+            if field not in {"order", "doc_evidence_dir"}:
                 sample[field] = value
         samples.append(sample)
     (root / DEFAULT_MANIFEST).write_text(
         json.dumps(
             {
                 "phase": "6.2",
-                "status": "TODO(EXPERIMENT)",
+                "status": "PASS_LOCAL_LINUX_CONTROL",
                 "sample_class": "benign",
                 "policy_ref": "experiments/linux_behavior/policy.json",
                 "evidence_root": "results/linux_behavior/<run-id>/benign",
@@ -352,19 +360,20 @@ def write_fixture(root: Path) -> None:
         """# Linux Benign Dataset
 
 Phase 6.2 defines the benign Linux behavior dataset.
-sample specification, not board or Linux experiment evidence.
+current evidence package includes a local Linux non-network benign-control audit
+not Genesys2 board benign-trace evidence and not malware detection accuracy evidence
 experiments/linux_behavior/benign/manifest.json
-results/linux_behavior/<run-id>/benign/
+results/evaluation/genesys2-cva6/current/benign_control_summary.json
 optional, disabled by default
 preserve the Phase 6.1 network policy
 
 | Order | Sample | Command shape | Expected behavior | Network | Status | Evidence directory |
 | ---: | --- | --- | --- | --- | --- | --- |
-| 1 | hello | echo | stdout write | no | TODO(EXPERIMENT) | `01_hello/` |
-| 2 | ls | ls | directory listing | no | TODO(EXPERIMENT) | `02_ls/` |
-| 3 | cat | cat | file read | no | TODO(EXPERIMENT) | `03_cat/` |
-| 4 | cp | cp | file copy | no | TODO(EXPERIMENT) | `04_cp/` |
-| 5 | sha256sum | sha256sum | file hash | no | TODO(EXPERIMENT) | `05_sha256sum/` |
+| 1 | hello | echo | stdout write | no | PASS_LOCAL_LINUX_CONTROL | `build/benign_control/hello/` |
+| 2 | ls | ls | directory listing | no | PASS_LOCAL_LINUX_CONTROL | `build/benign_control/ls/` |
+| 3 | cat | cat | file read | no | PASS_LOCAL_LINUX_CONTROL | `build/benign_control/cat/` |
+| 4 | cp | cp | file copy | no | PASS_LOCAL_LINUX_CONTROL | `build/benign_control/cp/` |
+| 5 | sha256sum | sha256sum | file hash | no | PASS_LOCAL_LINUX_CONTROL | `build/benign_control/sha256sum/` |
 | 6 | small_network_client | client | socket | optional, disabled by default | OPTIONAL_DISABLED_BY_DEFAULT | `06_small_network_client/` |
 
 `trace.jsonl`
@@ -373,6 +382,7 @@ preserve the Phase 6.1 network policy
 `recovery_report.md`
 All samples in this dataset are benign.
 must not include real malware
+uv run python tools/check_benign_control_summary.py --root .
 """,
         encoding="utf-8",
     )

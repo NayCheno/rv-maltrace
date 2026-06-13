@@ -59,6 +59,8 @@ def collect(result_dir: Path) -> dict[str, Any]:
         xsim_status_log = test_dir / "xsim_status.log"
         metadata = expected_metadata.get(test_name, {})
         expected_path = expected_files.get(test_name)
+        if expected_path is None and test_dir.exists() and not xsim_status_log.exists():
+            continue
         trace_summary: dict[str, Any] = {"events": 0, "counts": {}}
         status = "MISSING"
         if test_dir.exists() and expected_path is None and xsim_status_log.exists():

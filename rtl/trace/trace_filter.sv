@@ -1,3 +1,5 @@
+`timescale 1ns/1ps
+
 module trace_filter
   import trace_pkg::*;
 (
@@ -25,6 +27,7 @@ module trace_filter
 );
 
   logic event_enabled;
+  logic filter_exempt;
   logic pc_enabled;
   logic priv_enabled;
 
@@ -46,9 +49,10 @@ module trace_filter
     endcase
   end
 
-  assign pc_enabled = !pc_filter_enable_i ||
+  assign filter_exempt = trace_packet_i.evt == EVT_MARKER || trace_packet_i.evt == EVT_DROP;
+  assign pc_enabled = filter_exempt || !pc_filter_enable_i ||
                       (trace_packet_i.pc >= pc_start_i && trace_packet_i.pc <= pc_end_i);
-  assign priv_enabled = !priv_filter_enable_i || priv_mask_i[trace_packet_i.priv];
+  assign priv_enabled = filter_exempt || !priv_filter_enable_i || priv_mask_i[trace_packet_i.priv];
 
   assign trace_valid_o = trace_valid_i && event_enabled && pc_enabled && priv_enabled;
 

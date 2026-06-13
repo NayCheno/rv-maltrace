@@ -305,57 +305,60 @@ simulation evidence，不是 physical board peripheral validation evidence。
 
 - PASS：baseline routed snapshot、trace-enabled implementation delta 和
   simulation drop accounting。
-- TODO：board runtime overhead、trace bandwidth 和 physical trace export
-  measurement。
+- OPEN：production streaming/DMA throughput、board benign-control、board-native
+  DWARF/source-line 和 full hardware pointer-string closure 仍需要外部板卡、
+  RTL 或 transport artifacts。
 
-### 4. 物理板证据缺失
+### 4. 物理板证据已部分闭合，但不是 Linux/production closure
 
-Board 文档仍要求以下 physical artifacts：
+当前已经有 evidence-scoped Genesys2/CVA6 board artifacts：
 
-- clock/reset sanity。
-- UART hello。
-- CVA6 bare-metal board boot。
-- 第一版 trace export path 的 board trace dump。
-- decoded board trace JSONL。
-- board expected output comparison。
+- baseline board bring-up evidence。
+- Phase 5.3 minimal trace validation program evidence。
+- board trace dump、decoded JSONL、expected comparison 和 local code-analysis
+  evidence for the controlled trace-validation route。
 
-现有 baseline bitstream 和 route/timing report 是 repository-local build
-evidence，不等于真实板上 observation。
+这些证据支持受控 baseline/trace-validation claim，但不能外推为 Linux boot、
+production streaming/DMA、board-native DWARF/source-line、full hardware
+pointer strings 或 Genesys2 board benign-control evidence。
 
-### 5. Linux workload 证据缺失
+### 5. Linux / paper-level 泛化仍未闭合
 
-Linux 仍是后续 gate。当前缺少：
+当前 CCF-A 包已经有受控 safe-surrogate case studies、local Linux benign-control
+summary、behavior graph、semantic events 和 evaluation matrix。仍缺的是：
 
-- RISC-V Linux userland compiler version lock。
-- Linux 或 Buildroot boot evidence。
-- benign workload traces。
-- malware-like synthetic workload traces。
-- `strace` 或等价 ground truth runs。
-- hardware trace 与 Linux syscall 的 alignment report。
+- board-native benign-control traces。
+- board-native DWARF/source-line attribution。
+- full hardware pointer strings。
+- production streaming/DMA throughput evidence。
+- Linux/paper-level 泛化评估。
 
 在这些 artifact 存在之前，RV-MalTrace 只能声称 simulation-level syscall
-semantics，不能声称 Linux malware behavior tracing 已完成。
+semantics 和 controlled safe-surrogate behavior audit，不能声称 Linux malware
+behavior tracing 或 paper-level 泛化评估已完成。
 
-### 6. Semantic recovery 仍停在 synthetic 级别
+### 6. Semantic recovery 已有 controlled artifacts，board-native 泛化仍开
 
-项目已经有有价值的 synthetic semantic recovery 和 pointer snapshot 测试。但
-论文级证据需要来自真实 Linux workload 的恢复结果。
+项目已经有 controlled safe-surrogate/P0 的 per-sample `semantic_events.json`、
+`behavior_graph.json`、fd/path graph、process/ELF attribution 和 behavior audit
+metrics。但论文级泛化仍需要来自 board-native/Linux workload 的外部闭环结果。
 
 还缺：
 
-- 每个 workload 的 `semantic_events.json`。
-- 每个 workload 的 `behavior_graph.json`。
-- 带 mismatch 和 assumption 的 `recovery_report.md`。
-- 从真实 trace 推导出来的 fd/path/process relationship。
-- 通过真实 CVA6/Linux LSU 或明确 helper 路线恢复的 pointer strings。
+- board-native benign workload 的 semantic/audit artifacts。
+- board-native DWARF/source-line attribution。
+- full hardware pointer strings，且不能用 companion strings 代替。
+- production streaming/DMA trace sink 下的 long-run trace artifacts。
 
-`ARG_MEM` synthetic PASS 很重要，但不能被写成 Linux path recovery PASS。
+当前 bounded `ARG_MEM`/hardware prefix PASS 很重要，但不能被写成 full Linux path
+string recovery 或 full hardware pointer-string PASS。
 
-### 7. Evaluation baselines 还没有完成
+### 7. Evaluation baselines 已有 controlled alignment，paper-level 对比仍开
 
-`docs/07-evaluation-evidence/evaluation_plan.md` 中的 paper baselines 和 RQs 仍是 TODO。
+当前已经有 CCF-A evaluation matrix、baseline alignment、behavior audit metrics
+和 case-study manifest。paper-level 对比仍需要更宽的外部/独立运行 baseline。
 
-缺少的 baseline artifacts 包括：
+仍需补强的 baseline artifacts 包括：
 
 - `strace` / `ptrace` comparison runs。
 - eBPF-only comparison，前提是 kernel support 存在。
@@ -367,21 +370,22 @@ semantics，不能声称 Linux malware behavior tracing 已完成。
 
 这是当前工程 MVP 与 paper-ready system 之间最大的差距。
 
-### 8. Dataset manifests 还是计划，不是实验结果
+### 8. Dataset manifests 已有受控证据，但不是真实恶意软件结果
 
-Benign 和 malware-like workload manifests 已存在，但 row 状态仍是
-`TODO(EXPERIMENT)`。
+Benign 和 malware-like workload manifests 已存在，当前状态已经同步到
+local benign-control 与 Genesys2/CVA6 safe-surrogate case-study 证据。
 
-每个样例还需要：
+当前已补齐的样例证据包括：
 
-- build evidence。
-- behavior ground truth。
-- simulation、board 或 Linux trace。
+- build/source-controlled workload provenance。
+- local benign-control 或 safe-surrogate behavior ground truth。
+- current Genesys2/CVA6 controlled trace package linkage。
 - semantic recovery output。
-- audit report。
+- audit report 和 per-sample case-study summary。
 
-真实恶意样本不应该进入早期成功标准，除非 containment、provenance、legal 和
-ethics procedure 都已经写清楚并可执行。
+真实恶意样本不应该进入当前成功标准，除非 containment、provenance、legal 和
+ethics procedure 都已经写清楚并可执行；当前仍不声明 real malware validation 或
+malware detection accuracy。
 
 ## 推荐论文叙事
 
@@ -460,16 +464,16 @@ analysis；RV-MalScope 进一步面向开源 RISC-V/CVA6，把低扰动行为观
    plumbing gap。
 3. 继续维护已记录的 trace-enabled FPGA implementation resource/timing delta，
    后续只在 synthesis artifact 变化时更新。
-4. 收集 physical board baseline evidence：clock/reset、UART、CVA6 bare-metal boot。
-5. 启动第一版 board trace export，使用 minimal profile：syscall、trap、context、
-   branch、drop；默认关闭 full retire 和 full memory trace。
-6. 跑 board trace validation programs，并将 decoded JSONL 与
-   `board/trace_validation/expected` 对比。
-7. 只有在 board trace evidence 存在后，再推进 Linux workloads 和 `strace`
-   alignment。
-8. 把 semantic recovery 从 synthetic proof 推进到 per-workload
+4. 保持 baseline board bring-up 和 Phase 5.3 minimal trace validation evidence
+   在 current suite 中通过。
+5. 对剩余四个 external closure ids 只接受 intake gate 认可的外部 summary：
+   board-native DWARF/source-line、full hardware pointer strings、production
+   streaming/DMA trace sink、Genesys2 board benign-control。
+6. 只有在对应 board/RTL/transport artifacts 存在后，再推进 Linux workloads 和
+   `strace` alignment 的 board-native claim。
+7. 把 semantic recovery 从 controlled safe-surrogate proof 推进到 per-workload
    `semantic_events.json`、`behavior_graph.json`、`recovery_report.md`。
-9. 最后补 paper-level ablation 和 comparison baselines。
+8. 最后补 paper-level ablation 和 comparison baselines。
 
 这个顺序可以保留当前 simulation PASS 的价值，同时避免对 board、Linux 或
 malware-analysis completeness 做没有证据支撑的外推。

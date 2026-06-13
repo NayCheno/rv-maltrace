@@ -20,6 +20,9 @@ CLI = Path("src/rv_maltrace/cli.py")
 BRAM_DECODER = Path("tools/decode_genesys2_bram_ring_dump.py")
 BRAM_PACKAGER = Path("tools/package_genesys2_bram_trace_sink_summary.py")
 ILA_COMMAND_CAPTURE = Path("tools/run_genesys2_ila_command_capture.py")
+POINTER_BRAM_CAPTURE = Path("tools/run_genesys2_pointer_snapshot_bram_capture.py")
+P0_BRAM_CAPTURE = Path("tools/run_genesys2_p0_bram_repetitions.py")
+SAFE_BRAM_CAPTURE = Path("tools/run_genesys2_safe_surrogate_bram_repetitions.py")
 
 
 def read(root: Path, path: Path) -> str:
@@ -120,22 +123,30 @@ def check_fpga_top(root: Path) -> list[str]:
         "rvmt_trace_bram_dump_sequence",
         "rvmt_trace_bram_dump_primary",
         "rvmt_trace_bram_clear",
-        "RVMT_TRACE_BRAM_PROBE_WIDTH = 484",
+        "rvmt_trace_bram_freeze",
+        "rvmt_trace_bram_marker_begin",
+        "rvmt_trace_bram_marker_end",
+        "RVMT_TRACE_BRAM_PROBE_WIDTH = 716",
         "rvmt_trace_bram_probe_payload",
         "mark_debug",
     ):
         require(errors, needle in text, f"{FPGA_TOP}: missing {needle}")
     for needle in (
         "`ifdefRV_MALTRACE_FPGA_TRACE",
-        "assignrvmt_trace_bram_clear=rvmt_trace_fire&&rvmt_trace_packet.evt==trace_pkg::EVT_MARKER&&rvmt_trace_packet.value[31:28]==4'hb;",
+        "assignrvmt_trace_bram_marker_begin=rvmt_trace_fire&&rvmt_trace_packet.evt==trace_pkg::EVT_MARKER&&rvmt_trace_packet.value[31:28]==4'hb;",
+        "assignrvmt_trace_bram_marker_end=rvmt_trace_fire&&rvmt_trace_packet.evt==trace_pkg::EVT_MARKER&&rvmt_trace_packet.value[31:28]==4'he;",
+        "assignrvmt_trace_bram_clear=rvmt_trace_bram_marker_begin;",
+        "elseif(rvmt_trace_bram_marker_begin)beginrvmt_trace_bram_freeze<=1'b0;",
+        "elseif(rvmt_trace_bram_marker_end)beginrvmt_trace_bram_freeze<=1'b1;",
         "trace_bram_ring#(.DEPTH(RVMT_TRACE_BRAM_RING_DEPTH),.ADDR_WIDTH(RVMT_TRACE_BRAM_RING_ADDR_WIDTH))i_rvmt_trace_bram_ring",
         ".clear_i(rvmt_trace_bram_clear)",
+        ".freeze_i(rvmt_trace_bram_freeze)",
         ".trace_valid_i(rvmt_trace_valid)",
         ".trace_packet_i(rvmt_trace_packet)",
         ".dropped_count_o(rvmt_trace_bram_dropped_count)",
         ".wrap_count_o(rvmt_trace_bram_wrap_count)",
         "rvmt_trace_bram_dump_index<=rvmt_trace_bram_dump_index+1'b1;",
-        "assignrvmt_trace_bram_probe_payload={rvmt_trace_bram_event_count,rvmt_trace_bram_captured_count,rvmt_trace_bram_dropped_count,rvmt_trace_bram_wrap_count,rvmt_trace_bram_next_sequence,rvmt_trace_bram_oldest_index,rvmt_trace_bram_write_index,rvmt_trace_bram_dump_index,rvmt_trace_bram_full,rvmt_trace_bram_dump_valid,rvmt_trace_bram_dump_sequence,rvmt_trace_bram_dump_aux,rvmt_trace_bram_dump_primary,rvmt_trace_bram_dump_pc,rvmt_trace_bram_dump_cycle,rvmt_trace_bram_dump_evt};",
+        "assignrvmt_trace_bram_probe_payload={rvmt_trace_bram_event_count,rvmt_trace_bram_captured_count,rvmt_trace_bram_dropped_count,rvmt_trace_bram_wrap_count,rvmt_trace_bram_next_sequence,rvmt_trace_bram_oldest_index,rvmt_trace_bram_write_index,rvmt_trace_bram_dump_index,rvmt_trace_bram_full,rvmt_trace_bram_dump_valid,rvmt_trace_bram_dump_mem_base,rvmt_trace_bram_dump_mem_addr,rvmt_trace_bram_dump_mem_data,rvmt_trace_bram_dump_syscall_id,rvmt_trace_bram_dump_arg_index,rvmt_trace_bram_dump_mem_size,rvmt_trace_bram_dump_mem_last,rvmt_trace_bram_dump_sequence,rvmt_trace_bram_dump_aux,rvmt_trace_bram_dump_primary,rvmt_trace_bram_dump_pc,rvmt_trace_bram_dump_cycle,rvmt_trace_bram_dump_evt};",
         "xlnx_ilai_rvmt_trace_ila",
         ".probe2(rvmt_trace_bram_probe_payload)",
     ):
@@ -155,6 +166,9 @@ def check_build_and_sim(root: Path) -> list[str]:
     bram_decoder = read(root, BRAM_DECODER)
     bram_packager = read(root, BRAM_PACKAGER)
     ila_command_capture = read(root, ILA_COMMAND_CAPTURE)
+    pointer_capture = read(root, POINTER_BRAM_CAPTURE)
+    p0_capture = read(root, P0_BRAM_CAPTURE)
+    safe_capture = read(root, SAFE_BRAM_CAPTURE)
     add_sources_has_ring = "R:/rtl/trace/trace_bram_ring.sv" in add_sources
     wrapper_injects_ring = (
         "trace_bram_ring.sv" in cli
@@ -177,10 +191,16 @@ def check_build_and_sim(root: Path) -> list[str]:
     require(errors, '"tools/package_genesys2_bram_trace_sink_summary.py"' in cli, f"{CLI}: trace-marker source hash manifest must include BRAM trace sink packager")
     require(errors, '"tools/run_genesys2_ila_command_capture.py"' in cli, f"{CLI}: trace-marker source hash manifest must include ILA command capture helper")
     require(errors, "rvmt_trace_bram_probe_payload" in bram_decoder, f"{BRAM_DECODER}: BRAM probe payload decoder missing")
-    require(errors, "BRAM_PAYLOAD_WIDTH = 484" in bram_decoder, f"{BRAM_DECODER}: BRAM payload width mismatch")
+    require(errors, "BRAM_PAYLOAD_WIDTH_V3 = 716" in bram_decoder, f"{BRAM_DECODER}: BRAM payload width mismatch")
     require(errors, "rvmt.genesys2.bram_trace_sink.v1" in bram_packager, f"{BRAM_PACKAGER}: Phase C trace sink summary schema missing")
     require(errors, "expected_event_recall" in bram_packager, f"{BRAM_PACKAGER}: expected event recall packaging missing")
     require(errors, "--bram-summary" in ila_command_capture, f"{ILA_COMMAND_CAPTURE}: BRAM summary capture option missing")
+    for path, text in (
+        (POINTER_BRAM_CAPTURE, pointer_capture),
+        (P0_BRAM_CAPTURE, p0_capture),
+        (SAFE_BRAM_CAPTURE, safe_capture),
+    ):
+        require(errors, "--event-only-capture" in text, f"{path}: BRAM capture must use event-only ILA storage with marker-window freeze")
     return errors
 
 
@@ -209,6 +229,9 @@ def write_fixture(root: Path) -> None:
         BRAM_DECODER,
         BRAM_PACKAGER,
         ILA_COMMAND_CAPTURE,
+        POINTER_BRAM_CAPTURE,
+        P0_BRAM_CAPTURE,
+        SAFE_BRAM_CAPTURE,
     ):
         (root / path.parent).mkdir(parents=True, exist_ok=True)
     (root / TRACE_PKG).write_text(
@@ -268,26 +291,38 @@ def write_fixture(root: Path) -> None:
         "`ifdef RV_MALTRACE_FPGA_TRACE\n"
         "localparam int unsigned RVMT_TRACE_BRAM_RING_DEPTH = 1024;\n"
         "localparam int unsigned RVMT_TRACE_BRAM_RING_ADDR_WIDTH = $clog2(RVMT_TRACE_BRAM_RING_DEPTH);\n"
-        "localparam int unsigned RVMT_TRACE_BRAM_PROBE_WIDTH = 484;\n"
+        "localparam int unsigned RVMT_TRACE_BRAM_PROBE_WIDTH = 716;\n"
         "(* mark_debug = \"true\" *) logic rvmt_trace_bram_dump_index;\n"
         "logic rvmt_trace_bram_dropped_count, rvmt_trace_bram_wrap_count, rvmt_trace_bram_start_timestamp, rvmt_trace_bram_end_timestamp;\n"
         "logic rvmt_trace_bram_dump_sequence, rvmt_trace_bram_dump_primary;\n"
+        "logic rvmt_trace_bram_dump_mem_addr, rvmt_trace_bram_dump_mem_data, rvmt_trace_bram_dump_syscall_id;\n"
+        "logic rvmt_trace_bram_dump_arg_index, rvmt_trace_bram_dump_mem_size, rvmt_trace_bram_dump_mem_last;\n"
         "logic rvmt_trace_bram_event_count, rvmt_trace_bram_captured_count, rvmt_trace_bram_next_sequence, rvmt_trace_bram_oldest_index, rvmt_trace_bram_write_index;\n"
         "logic rvmt_trace_bram_full, rvmt_trace_bram_dump_valid, rvmt_trace_bram_dump_aux, rvmt_trace_bram_dump_pc, rvmt_trace_bram_dump_cycle, rvmt_trace_bram_dump_evt;\n"
+        "logic [63:0] rvmt_trace_bram_dump_mem_base;\n"
         "logic [RVMT_TRACE_BRAM_PROBE_WIDTH-1:0] rvmt_trace_bram_probe_payload;\n"
-        "assign rvmt_trace_bram_clear = rvmt_trace_fire && rvmt_trace_packet.evt == trace_pkg::EVT_MARKER && rvmt_trace_packet.value[31:28] == 4'hb;\n"
+        "logic rvmt_trace_bram_clear, rvmt_trace_bram_freeze, rvmt_trace_bram_marker_begin, rvmt_trace_bram_marker_end;\n"
+        "assign rvmt_trace_bram_marker_begin = rvmt_trace_fire && rvmt_trace_packet.evt == trace_pkg::EVT_MARKER && rvmt_trace_packet.value[31:28] == 4'hb;\n"
+        "assign rvmt_trace_bram_marker_end = rvmt_trace_fire && rvmt_trace_packet.evt == trace_pkg::EVT_MARKER && rvmt_trace_packet.value[31:28] == 4'he;\n"
+        "assign rvmt_trace_bram_clear = rvmt_trace_bram_marker_begin;\n"
+        "always_ff @(posedge clk or negedge ndmreset_n) begin\n"
+        "  if (!ndmreset_n) begin rvmt_trace_bram_freeze <= 1'b0; end\n"
+        "  else if (rvmt_trace_bram_marker_begin) begin rvmt_trace_bram_freeze <= 1'b0; end\n"
+        "  else if (rvmt_trace_bram_marker_end) begin rvmt_trace_bram_freeze <= 1'b1; end\n"
+        "end\n"
         "trace_bram_ring #(\n"
         "  .DEPTH(RVMT_TRACE_BRAM_RING_DEPTH),\n"
         "  .ADDR_WIDTH(RVMT_TRACE_BRAM_RING_ADDR_WIDTH)\n"
         ") i_rvmt_trace_bram_ring (\n"
         "  .clear_i(rvmt_trace_bram_clear),\n"
+        "  .freeze_i(rvmt_trace_bram_freeze),\n"
         "  .trace_valid_i(rvmt_trace_valid),\n"
         "  .trace_packet_i(rvmt_trace_packet),\n"
         "  .dropped_count_o(rvmt_trace_bram_dropped_count),\n"
         "  .wrap_count_o(rvmt_trace_bram_wrap_count)\n"
         ");\n"
         "always_ff @(posedge clk) rvmt_trace_bram_dump_index <= rvmt_trace_bram_dump_index + 1'b1;\n"
-        "assign rvmt_trace_bram_probe_payload = {rvmt_trace_bram_event_count, rvmt_trace_bram_captured_count, rvmt_trace_bram_dropped_count, rvmt_trace_bram_wrap_count, rvmt_trace_bram_next_sequence, rvmt_trace_bram_oldest_index, rvmt_trace_bram_write_index, rvmt_trace_bram_dump_index, rvmt_trace_bram_full, rvmt_trace_bram_dump_valid, rvmt_trace_bram_dump_sequence, rvmt_trace_bram_dump_aux, rvmt_trace_bram_dump_primary, rvmt_trace_bram_dump_pc, rvmt_trace_bram_dump_cycle, rvmt_trace_bram_dump_evt};\n"
+        "assign rvmt_trace_bram_probe_payload = {rvmt_trace_bram_event_count, rvmt_trace_bram_captured_count, rvmt_trace_bram_dropped_count, rvmt_trace_bram_wrap_count, rvmt_trace_bram_next_sequence, rvmt_trace_bram_oldest_index, rvmt_trace_bram_write_index, rvmt_trace_bram_dump_index, rvmt_trace_bram_full, rvmt_trace_bram_dump_valid, rvmt_trace_bram_dump_mem_base, rvmt_trace_bram_dump_mem_addr, rvmt_trace_bram_dump_mem_data, rvmt_trace_bram_dump_syscall_id, rvmt_trace_bram_dump_arg_index, rvmt_trace_bram_dump_mem_size, rvmt_trace_bram_dump_mem_last, rvmt_trace_bram_dump_sequence, rvmt_trace_bram_dump_aux, rvmt_trace_bram_dump_primary, rvmt_trace_bram_dump_pc, rvmt_trace_bram_dump_cycle, rvmt_trace_bram_dump_evt};\n"
         "xlnx_ila i_rvmt_trace_ila(.probe2(rvmt_trace_bram_probe_payload));\n"
         "`endif\n",
         encoding="utf-8",
@@ -307,7 +342,7 @@ def write_fixture(root: Path) -> None:
         encoding="utf-8",
     )
     (root / BRAM_DECODER).write_text(
-        "BRAM_PAYLOAD_WIDTH = 484\nrvmt_trace_bram_probe_payload\n",
+        "BRAM_PAYLOAD_WIDTH_V3 = 716\nrvmt_trace_bram_probe_payload\n",
         encoding="utf-8",
     )
     (root / BRAM_PACKAGER).write_text(
@@ -318,6 +353,8 @@ def write_fixture(root: Path) -> None:
         "parser.add_argument('--bram-summary')\n",
         encoding="utf-8",
     )
+    for path in (POINTER_BRAM_CAPTURE, P0_BRAM_CAPTURE, SAFE_BRAM_CAPTURE):
+        (root / path).write_text("--event-only-capture\n", encoding="utf-8")
 
 
 def self_test() -> int:

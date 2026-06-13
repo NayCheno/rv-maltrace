@@ -1,0 +1,22 @@
+{
+  "baseline_alignment": {
+    "qemu_strace": true,
+    "strace": true
+  },
+  "metrics": {
+    "anti_analysis_visibility": 1.0,
+    "argument_reconstruction_accuracy": 1.0,
+    "behavior_rule_recall": 1.0,
+    "benign_false_positive_rate": 0.0,
+    "expected_syscall_recall": 1.0,
+    "syscall_precision": 1.0,
+    "unaccounted_drop": 0
+  },
+  "non_claims": [
+    "Per-sample behavior audit metrics are controlled safe-workload metrics, not real-malware detection accuracy."
+  ],
+  "real_malware": false,
+  "sample_class": "p0_safe_synthetic",
+  "sample_id": "illegal_instruction",
+  "schema": "rvmt.sample.behavior_audit_metrics.v1"
+}

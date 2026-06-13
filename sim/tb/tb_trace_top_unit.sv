@@ -1,3 +1,5 @@
+`timescale 1ns/1ps
+
 module tb_trace_top_unit
   import trace_pkg::*;
 ;
@@ -36,7 +38,7 @@ module tb_trace_top_unit
   logic [63:0] trace_mem_load_pc;
   logic [63:0] trace_mem_load_addr;
   logic [63:0] trace_mem_load_data;
-  logic [2:0] trace_mem_load_size;
+  logic [3:0] trace_mem_load_size;
   logic trace_enable_retire;
   logic trace_enable_branch;
   logic trace_enable_jump;

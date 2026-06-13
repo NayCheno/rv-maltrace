@@ -1,3 +1,5 @@
+`timescale 1ns/1ps
+
 module syscall_tap
   import trace_pkg::*;
 (

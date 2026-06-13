@@ -1,7 +1,7 @@
 {
   "program": "file_open_read_write",
   "mode": "linux_user",
-  "status": "TODO(BOARD)",
+  "status": "EXPECTED_TRACE_SPEC",
   "required_syscalls": [
     {
       "name": "openat",

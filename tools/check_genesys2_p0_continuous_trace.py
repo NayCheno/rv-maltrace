@@ -8,6 +8,8 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
+from genesys2_latest import DEFAULT_LATEST_MANIFEST, active_run_root
+
 
 P0_SAMPLES = [
     ("01_hello_write", "hello_write", 0xA01, [64], []),
@@ -311,15 +313,24 @@ def self_test() -> int:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Check Genesys2/CVA6 P0 marker-scoped continuous trace evidence.")
+    parser.add_argument("--root", type=Path, default=Path("."))
+    parser.add_argument("--latest-manifest", type=Path, default=DEFAULT_LATEST_MANIFEST)
     parser.add_argument("--run-root", type=Path)
     parser.add_argument("--self-test", action="store_true")
     args = parser.parse_args(argv)
     if args.self_test:
         return self_test()
+    root = args.root.resolve()
     if args.run_root is None:
-        parser.error("--run-root is required unless --self-test is used")
+        try:
+            run_root = active_run_root(root, "p0_continuous_trace", args.latest_manifest)
+        except Exception as exc:
+            print(f"[FAIL] latest manifest could not resolve p0_continuous_trace: {exc}", file=sys.stderr)
+            return 2
+    else:
+        run_root = args.run_root if args.run_root.is_absolute() else root / args.run_root
     try:
-        errors = check_run(args.run_root)
+        errors = check_run(run_root)
     except Exception as exc:
         print(f"[FAIL] checker error: {exc}", file=sys.stderr)
         return 2
@@ -328,7 +339,7 @@ def main(argv: list[str] | None = None) -> int:
         for error in errors:
             print(f"- {error}")
         return 1
-    print(f"[PASS] Genesys2 P0 continuous trace evidence accepted: {args.run_root}")
+    print(f"[PASS] Genesys2 P0 continuous trace evidence accepted: {run_root}")
     return 0
 
 

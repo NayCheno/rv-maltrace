@@ -18,7 +18,7 @@ TRACE_MARKER_MANIFEST = Path("work-fpga/rvmt_trace_marker_build_manifest.json")
 TRACE_MARKER_ILA_EXPECTED = {
     "C_NUM_OF_PROBES": "3",
     "C_PROBE1_WIDTH": "136",
-    "C_PROBE2_WIDTH": "484",
+    "C_PROBE2_WIDTH": "716",
     "C_DATA_DEPTH": "8192",
     "C_INPUT_PIPE_STAGES": "2",
     "C_EN_STRG_QUAL": "1",
@@ -29,6 +29,7 @@ TRACE_MARKER_SOURCE_HASH_FILES = [
     "rtl/cva6/corev_apu/fpga/xilinx/xlnx_ila/tcl/run.tcl",
     "rtl/trace/trace_pkg.sv",
     "rtl/trace/trace_bram_ring.sv",
+    "rtl/trace/trace_uart_stream_sink.sv",
     "rtl/trace/cva6_rvfi_trace_adapter.sv",
     "tools/capture_genesys2_ila_event.tcl",
     "tools/decode_genesys2_ila_trace.py",

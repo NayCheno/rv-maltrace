@@ -89,8 +89,10 @@ def code_map_index(code_map: dict[str, Any]) -> dict[str, Any]:
         "load_ranges": range_rows(code_map, "load_ranges"),
         "sections": range_rows(code_map, "sections"),
         "symbols": range_rows(code_map, "symbols"),
+        "function_ranges": range_rows(code_map, "function_ranges"),
         "syscall_sites": exact_site_rows(code_map, "syscall_sites"),
         "trap_sites": exact_site_rows(code_map, "trap_sites"),
+        "source_locations": exact_site_rows(code_map, "source_locations"),
     }
 
 
@@ -263,6 +265,15 @@ def static_pc_annotation(pc_value: Any, code_map: dict[str, Any], index: dict[st
     symbol = find_range(index["symbols"], pc)
     syscall_site = index["syscall_sites"].get(pc)
     trap_site = index["trap_sites"].get(pc)
+    source_location = index["source_locations"].get(pc)
+    function_source = find_range(index.get("function_ranges", []), pc)
+    if source_location is None and function_source is not None and function_source.get("source_file") and function_source.get("source_line") is not None:
+        source_location = {
+            "file": function_source.get("source_file"),
+            "line": function_source.get("source_line"),
+            "function": function_source.get("function"),
+            "confidence": function_source.get("confidence", "function_range"),
+        }
 
     if load is not None:
         callsite_kind = "normal_code"
@@ -276,6 +287,10 @@ def static_pc_annotation(pc_value: Any, code_map: dict[str, Any], index: dict[st
             "section": section.get("name") if section is not None else None,
             "symbol": symbol.get("name") if symbol is not None else None,
             "symbol_offset": f"0x{pc - int(symbol['_start']):x}" if symbol is not None else None,
+            "source_file": source_location.get("file") if source_location is not None else None,
+            "source_line": source_location.get("line") if source_location is not None else None,
+            "source_function": source_location.get("function") if source_location is not None else None,
+            "source_confidence": source_location.get("confidence") if source_location is not None else None,
             "callsite_kind": callsite_kind,
             "code_confidence": "pc_in_target_elf",
             "code_attribution_basis": "static_elf_vaddr_range",
@@ -363,6 +378,10 @@ def annotate_event(
         annotated["target_attribution_confidence"] = target.get("attribution_confidence")
         if target.get("symbol"):
             annotated["target_symbol"] = target.get("symbol")
+        if target.get("source_file"):
+            annotated["target_source_file"] = target.get("source_file")
+            annotated["target_source_line"] = target.get("source_line")
+            annotated["target_source_function"] = target.get("source_function")
     return annotated
 
 
@@ -393,11 +412,12 @@ def annotate_events(
     )
     events_with_function = sum(1 for event in annotated if event.get("symbol"))
     source_attribution = code_map.get("source_attribution") if isinstance(code_map.get("source_attribution"), dict) else {}
-    source_locations = code_map.get("source_locations", [])
-    events_with_source_line = 0
-    if isinstance(source_locations, list) and source_locations:
-        source_pcs = {parse_int(row.get("pc")) for row in source_locations if isinstance(row, dict)}
-        events_with_source_line = sum(1 for event in annotated if parse_int(event.get("pc")) in source_pcs)
+    events_with_source_line = sum(1 for event in annotated if event.get("source_file") and event.get("source_line"))
+    source_limitations = ["Function-level attribution is symbol/range based."]
+    if events_with_source_line:
+        source_limitations.append("Source-line attribution is limited to PCs with code_map source_locations.")
+    else:
+        source_limitations.append("Source-line attribution remains unavailable unless code_map source_locations are populated.")
     return annotated, {
         "schema": "rvmt.trace_code_join.summary.v1",
         "sample_id": code_map.get("sample_id"),
@@ -426,10 +446,7 @@ def annotate_events(
             "source_line_available": bool(events_with_source_line),
             "code_map_function_level": source_attribution.get("function_level", "unknown"),
             "code_map_source_line_level": source_attribution.get("source_line_level", "unknown"),
-            "limitations": [
-                "Function-level attribution is symbol/range based.",
-                "Source-line attribution remains unavailable unless code_map source_locations are populated.",
-            ],
+            "limitations": source_limitations,
         },
     }
 
@@ -449,6 +466,7 @@ def self_test() -> int:
         "symbols": [{"name": "main", "start": "0x0000000000010000", "end": "0x0000000000010100"}],
         "syscall_sites": [{"pc": "0x0000000000010004", "symbol": "main"}],
         "trap_sites": [{"pc": "0x0000000000010008", "symbol": "main", "kind": "illegal_instruction"}],
+        "source_locations": [{"pc": "0x0000000000010004", "function": "main", "file": "samples/self.c", "line": 7}],
     }
     events = [
         {"evt": "SYSCALL_ENTRY", "pc": "0x0000000000010004"},
@@ -473,6 +491,9 @@ def self_test() -> int:
         return 1
     if not summary.get("source_attribution", {}).get("function_level_available"):
         print("[FAIL] join_trace_code_map missed function-level attribution summary", file=sys.stderr)
+        return 1
+    if annotated[0].get("source_file") != "samples/self.c" or summary.get("source_attribution", {}).get("events_with_source_line") != 1:
+        print("[FAIL] join_trace_code_map missed source-line attribution", file=sys.stderr)
         return 1
     runtime_map = {
         "schema": "rvmt.runtime_process_map.v1",

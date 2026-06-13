@@ -3,7 +3,10 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
+import shutil
 import struct
+import subprocess
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -19,6 +22,13 @@ PF_X = 0x1
 PF_W = 0x2
 PF_R = 0x4
 STT_FUNC = 2
+ADDR2LINE_ENV = "RVMT_ADDR2LINE"
+ADDR2LINE_CANDIDATES = [
+    "riscv-none-elf-addr2line",
+    "riscv64-unknown-elf-addr2line",
+    "riscv64-linux-gnu-addr2line",
+    "llvm-addr2line",
+]
 
 
 @dataclass(frozen=True)
@@ -82,6 +92,22 @@ def parse_header(data: bytes) -> ElfHeader:
         shnum=shnum,
         shstrndx=shstrndx,
     )
+
+
+def parse_pc(value: Any) -> int | None:
+    if isinstance(value, bool):
+        return None
+    if isinstance(value, int):
+        return value
+    if isinstance(value, str):
+        text = value.strip()
+        if not text:
+            return None
+        try:
+            return int(text, 16) if text.startswith("0x") else int(text, 10)
+        except ValueError:
+            return None
+    return None
 
 
 def parse_program_headers(data: bytes, header: ElfHeader) -> list[dict[str, Any]]:
@@ -282,12 +308,126 @@ def function_ranges(symbols: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return rows
 
 
+def resolve_addr2line_tool(tool: str | None = None) -> str | None:
+    if tool:
+        return tool
+    env_tool = os.environ.get(ADDR2LINE_ENV)
+    if env_tool:
+        return env_tool
+    for candidate in ADDR2LINE_CANDIDATES:
+        resolved = shutil.which(candidate)
+        if resolved:
+            return resolved
+    return None
+
+
+def parse_addr2line_pairs(lines: list[str], pcs: list[int], tool: str) -> list[dict[str, Any]]:
+    locations: list[dict[str, Any]] = []
+    for index, pc in enumerate(pcs):
+        function = lines[index * 2].strip() if index * 2 < len(lines) else "??"
+        file_line = lines[index * 2 + 1].strip() if index * 2 + 1 < len(lines) else "??:0"
+        if not file_line or file_line.startswith("??"):
+            continue
+        file_part, sep, line_part = file_line.rpartition(":")
+        if not sep or not file_part:
+            continue
+        try:
+            line_no = int(line_part)
+        except ValueError:
+            continue
+        if line_no <= 0:
+            continue
+        locations.append(
+            {
+                "pc": f"0x{pc:016x}",
+                "function": None if function in {"", "??"} else function,
+                "file": file_part.replace("\\", "/"),
+                "line": line_no,
+                "confidence": "debug_info",
+                "tool": tool,
+            }
+        )
+    return locations
+
+
+def source_lookup_pcs(
+    syscall_sites: list[dict[str, Any]],
+    trap_sites: list[dict[str, Any]],
+    functions: list[dict[str, Any]],
+) -> list[int]:
+    pcs: set[int] = set()
+    for row in syscall_sites + trap_sites:
+        pc = parse_pc(row.get("pc"))
+        if pc is not None:
+            pcs.add(pc)
+    for row in functions:
+        pc = parse_pc(row.get("start"))
+        if pc is not None:
+            pcs.add(pc)
+    return sorted(pcs)
+
+
+def build_source_locations(
+    elf: Path,
+    pcs: list[int],
+    *,
+    tool: str | None = None,
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    resolved = resolve_addr2line_tool(tool)
+    if not pcs:
+        return [], {
+            "source_line_level": "unavailable",
+            "source_line_basis": "no executable site PCs to query",
+            "addr2line_tool": resolved,
+        }
+    if resolved is None:
+        return [], {
+            "source_line_level": "unavailable",
+            "source_line_basis": (
+                f"no addr2line-compatible tool found; set {ADDR2LINE_ENV} or install a RISC-V addr2line"
+            ),
+            "addr2line_tool": None,
+        }
+    command = [resolved, "-e", str(elf), "-f", "-C", *[f"0x{pc:x}" for pc in pcs]]
+    try:
+        result = subprocess.run(command, check=False, text=True, capture_output=True)
+    except OSError as exc:
+        return [], {
+            "source_line_level": "unavailable",
+            "source_line_basis": f"addr2line invocation failed: {exc}",
+            "addr2line_tool": resolved,
+        }
+    if result.returncode != 0:
+        detail = (result.stderr or result.stdout or "").strip().splitlines()
+        return [], {
+            "source_line_level": "unavailable",
+            "source_line_basis": "addr2line returned non-zero; tool may not support this ELF target",
+            "addr2line_tool": resolved,
+            "addr2line_returncode": result.returncode,
+            "addr2line_error": detail[:3],
+        }
+    locations = parse_addr2line_pairs(result.stdout.splitlines(), pcs, resolved)
+    if not locations:
+        return [], {
+            "source_line_level": "unavailable",
+            "source_line_basis": "addr2line produced no concrete file:line records; binary may lack DWARF debug info",
+            "addr2line_tool": resolved,
+        }
+    return locations, {
+        "source_line_level": "available",
+        "source_line_basis": "DWARF line table via addr2line-compatible tool",
+        "addr2line_tool": resolved,
+        "source_location_count": len(locations),
+    }
+
+
 def build_code_map(
     elf: Path,
     sample_id: str,
     source: str | None = None,
     binary_role: str | None = None,
     runtime_path: str | None = None,
+    addr2line_tool: str | None = None,
 ) -> dict[str, Any]:
     data = elf.read_bytes()
     header = parse_header(data)
@@ -332,8 +472,34 @@ def build_code_map(
         for row in symbols_raw
     ]
     functions = function_ranges(symbols)
+    source_locations, source_status = build_source_locations(
+        elf,
+        source_lookup_pcs(syscall_sites, trap_sites, functions),
+        tool=addr2line_tool,
+    )
+    source_by_pc = {row["pc"]: row for row in source_locations}
+    for row in functions:
+        location = source_by_pc.get(f"0x{int(row['start']):016x}")
+        if location is not None:
+            row["source_file"] = location.get("file")
+            row["source_line"] = location.get("line")
+            row["confidence"] = "dwarf"
+    for row in syscall_sites + trap_sites:
+        pc = parse_pc(row.get("pc"))
+        location = source_by_pc.get(f"0x{pc:016x}") if pc is not None else None
+        if location is not None:
+            row["source_file"] = location.get("file")
+            row["source_line"] = location.get("line")
+            row["source_confidence"] = location.get("confidence")
     elf_type = elf_type_name(header.elf_type)
     load_base_assumption = "fixed_vaddr_exec" if elf_type == "EXEC" else "runtime_load_base_required"
+    source_line_level = str(source_status.get("source_line_level") or "unavailable")
+    source_line_basis = str(source_status.get("source_line_basis") or "unavailable")
+    source_limitations = ["Function-level attribution from symbols is not source-line attribution."]
+    if source_line_level == "available":
+        source_limitations.append("Source-line attribution is available only for PCs represented in source_locations.")
+    else:
+        source_limitations.append("Source-line attribution requires retained DWARF/debug-line metadata or an addr2line-compatible side channel.")
     return {
         "schema": "rvmt.code_map.v1",
         "sample_id": sample_id,
@@ -354,17 +520,18 @@ def build_code_map(
         "sections": [hex_range(row) for row in sections],
         "symbols": [hex_range(row) for row in symbols],
         "function_ranges": [hex_range(row) for row in functions],
-        "source_locations": [],
+        "source_locations": source_locations,
         "source_attribution": {
             "function_level": "available" if functions else "unavailable",
             "function_level_basis": "ELF symbol table" if functions else "no function symbols found",
             "function_count": len(functions),
-            "source_line_level": "unavailable",
-            "source_line_basis": "DWARF/source-line decoding is not present in rvmt.code_map.v1",
-            "limitations": [
-                "Function-level attribution from symbols is not source-line attribution.",
-                "Source-line attribution requires retained DWARF/debug-line metadata or an addr2line-compatible side channel.",
-            ],
+            "source_line_level": source_line_level,
+            "source_line_basis": source_line_basis,
+            "source_location_count": len(source_locations),
+            "addr2line_tool": source_status.get("addr2line_tool"),
+            **({"addr2line_returncode": source_status.get("addr2line_returncode")} if "addr2line_returncode" in source_status else {}),
+            **({"addr2line_error": source_status.get("addr2line_error")} if "addr2line_error" in source_status else {}),
+            "limitations": source_limitations,
         },
         "syscall_sites": syscall_sites,
         "trap_sites": trap_sites,
@@ -401,9 +568,27 @@ def write_outputs(code_map: dict[str, Any], out_dir: Path, sample_id: str) -> Pa
 
 
 def self_test() -> int:
+    parsed = parse_addr2line_pairs(
+        ["main", "samples/file_scan.c:42", "??", "??:0"],
+        [0x1000, 0x1004],
+        "fixture-addr2line",
+    )
+    if parsed != [
+        {
+            "pc": "0x0000000000001000",
+            "function": "main",
+            "file": "samples/file_scan.c",
+            "line": 42,
+            "confidence": "debug_info",
+            "tool": "fixture-addr2line",
+        }
+    ]:
+        print("[FAIL] build_code_map addr2line parser self-test failed", file=sys.stderr)
+        return 1
     elf = next((ROOT / "results" / "experiments" / "35t").glob("*/samples/*/*/build/*.riscv"), None)
     if elf is None:
-        print("[SKIP] build_code_map self-test needs an existing .riscv artifact")
+        print("[SKIP] build_code_map ELF parser self-test needs an existing .riscv artifact")
+        print("[PASS] build_code_map helper self-test")
         return 0
     result = build_code_map(elf, elf.stem)
     if not result["load_ranges"] or not result["sections"]:
@@ -418,6 +603,10 @@ def self_test() -> int:
     if "source_attribution" not in result:
         print("[FAIL] code map missed source-attribution availability metadata", file=sys.stderr)
         return 1
+    source_attr = result.get("source_attribution", {})
+    if source_attr.get("source_line_level") not in {"available", "unavailable"}:
+        print("[FAIL] code map missed source-line availability status", file=sys.stderr)
+        return 1
     print("[PASS] build_code_map self-test")
     return 0
 
@@ -429,6 +618,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--source")
     parser.add_argument("--binary-role")
     parser.add_argument("--runtime-path")
+    parser.add_argument("--addr2line", help=f"addr2line-compatible executable. Defaults to {ADDR2LINE_ENV} or toolchain candidates.")
     parser.add_argument("--out-dir", type=Path)
     parser.add_argument("--self-test", action="store_true")
     args = parser.parse_args(argv)
@@ -437,7 +627,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.elf is None or args.sample_id is None or args.out_dir is None:
         parser.error("--elf, --sample-id, and --out-dir are required unless --self-test is used")
     try:
-        code_map = build_code_map(args.elf, args.sample_id, args.source, args.binary_role, args.runtime_path)
+        code_map = build_code_map(args.elf, args.sample_id, args.source, args.binary_role, args.runtime_path, args.addr2line)
         path = write_outputs(code_map, args.out_dir, args.sample_id)
     except Exception as exc:
         print(f"build_code_map: error: {exc}", file=sys.stderr)

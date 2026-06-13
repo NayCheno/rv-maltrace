@@ -28,6 +28,7 @@ DEFAULT_BUILD_ROOT = Path("results/board/genesys2_cva6_safe_surrogate/genesys2-c
 DEFAULT_OUT = Path("results/evaluation/genesys2-cva6/current/safe_surrogate_bram_trace_summary.json")
 DEFAULT_BITSTREAM = Path("build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.bit")
 DEFAULT_LTX = Path("build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.ltx")
+NOT_CAPTURED = "NOT_CAPTURED"
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -62,6 +63,10 @@ def sha256_file(path: Path | None) -> str | None:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def optional_artifact_path(path: Path) -> str:
+    return path.as_posix() if path.is_file() else NOT_CAPTURED
 
 
 def int_hex(value: Any) -> int | None:
@@ -228,11 +233,11 @@ def package_repetition(run_root: Path, build_root: Path, sample_id: str, rep_dir
         "artifacts": {
             "bram_summary": summary_path.as_posix(),
             "bram_records": records_path.as_posix(),
-            "ila_trace": trace_path.as_posix() if trace_path.is_file() else None,
+            "ila_trace": optional_artifact_path(trace_path),
             "csv": summary.get("csv"),
             "uart_log": (rep_dir / "uart.log").as_posix(),
             "capture_log": (rep_dir / "capture.log").as_posix(),
-            "upload_log": upload_log.as_posix() if upload_log.is_file() else None,
+            "upload_log": optional_artifact_path(upload_log),
             "build_manifest": manifest_path.as_posix(),
             "binary": binary_path.as_posix(),
             "binary_sha256": sha256_file(binary_path),
@@ -394,6 +399,14 @@ def run_self_test() -> int:
             write_json(manifest_dir / "build_manifest.json", {"sample_id": sample_id, "syscall_sequence": sequence})
             (manifest_dir / f"{sample_id}.riscv64").write_bytes(b"\x7fELFfixture")
         summary = package_run(run_root, build_root, bitstream=None, ltx=None, minimum_repetitions=10)
+    if any(
+        value is None
+        for sample in summary.get("samples", [])
+        for rep in sample.get("repetitions", [])
+        for value in (rep.get("artifacts", {}) if isinstance(rep.get("artifacts"), dict) else {}).values()
+    ):
+        print("[FAIL] safe surrogate BRAM packager fixture emitted null artifact markers", file=sys.stderr)
+        return 1
     if summary.get("status") != "PASS" or summary.get("sample_count") != len(SAMPLES):
         print("[FAIL] safe surrogate BRAM packager fixture did not pass", file=sys.stderr)
         return 1

@@ -1,0 +1,34 @@
+{
+  "active_run_roots": {
+    "p0_bram_repetitions": "results/board/genesys2_trace_validation/20260612-p0-bram-repetitions",
+    "p0_continuous_trace": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit",
+    "pointer_snapshot_bram": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram",
+    "production_runtime_benchmark": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark",
+    "safe_surrogate_bram_repetitions": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait",
+    "safe_surrogate_runtime_map": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map"
+  },
+  "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",
+  "non_claims": [
+    "The latest manifest selects the current controlled evidence package; dated board run roots remain provenance only.",
+    "This manifest is not real malware validation and does not claim malware detection accuracy.",
+    "Companion-derived strings remain trusted semantic companions, not hardware-derived strings."
+  ],
+  "policy": {
+    "dated_run_roots_are_provenance_only": true,
+    "do_not_select_by_chronological_order": true,
+    "latest_is_authoritative": true,
+    "physical_prune_requires_external_archive_or_explicit_user_confirmation": true
+  },
+  "schema": "rvmt.genesys2.latest_manifest.v1",
+  "source_summary_files": {
+    "behavior_audit_metrics": "results/evaluation/genesys2-cva6/current/behavior_audit_metrics.json",
+    "benign_control": "results/evaluation/genesys2-cva6/current/benign_control_summary.json",
+    "ccfa_evaluation_matrix": "results/evaluation/genesys2-cva6/current/ccfa_evaluation_matrix.json",
+    "drop_accounting": "results/evaluation/genesys2-cva6/current/drop_accounting_summary.json",
+    "p0_bram_trace": "results/evaluation/genesys2-cva6/current/p0_bram_trace_summary.json",
+    "pointer_snapshot_guardrails": "results/evaluation/genesys2-cva6/current/pointer_snapshot_guardrails.json",
+    "production_runtime_benchmark": "results/evaluation/genesys2-cva6/current/production_runtime_benchmark.json",
+    "safe_surrogate_bram_trace": "results/evaluation/genesys2-cva6/current/safe_surrogate_bram_trace_summary.json"
+  },
+  "status": "PASS"
+}

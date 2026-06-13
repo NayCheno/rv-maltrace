@@ -1,0 +1,805 @@
+{
+  "accepted_external_blocker_count": 0,
+  "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",
+  "claim_boundary": {
+    "all_non_real_external_blockers_closed": false,
+    "board_native_source_line_attribution_claimed": false,
+    "external_execution_completed": false,
+    "genesys2_board_benign_control_claimed": false,
+    "hardware_full_pointer_strings_claimed": false,
+    "local_preflight_only": true,
+    "production_streaming_dma_throughput_claimed": false,
+    "real_malware_validation_claimed": false
+  },
+  "interpretation": [
+    "This preflight proves only local scripts, dry-run hooks, schemas, paths, and no-substitution guardrails are ready.",
+    "It does not execute board, RTL, host receiver, or reviewer work and must not close external blockers by itself.",
+    "The intake gate remains authoritative for accepting any future external summaries."
+  ],
+  "invalid_external_blocker_count": 0,
+  "objective_exclusions": [
+    "real_malware_validation"
+  ],
+  "open_external_blocker_count": 4,
+  "records": [
+    {
+      "acceptance_criteria_count": 5,
+      "collection_commands": [
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/run_genesys2_p0_bram_repetitions.py --run-root <debug-p0-board-run-root> --repetitions 10",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/run_genesys2_p0_bram_repetitions.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/run_genesys2_safe_surrogate_bram_repetitions.py --run-root <debug-safe-board-run-root> --repetitions 10",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/run_genesys2_safe_surrogate_bram_repetitions.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "collect debug_elf_readiness_summary.json as the candidate debug ELF manifest and require captured_elf_sha256 exact matches after board rerun",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "operator_collection_instruction",
+          "local_preflight_ready": true,
+          "notes": [
+            "collection instruction; validated by external summary intake"
+          ],
+          "script": "NOT_APPLICABLE",
+          "script_exists": false
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/build_code_map.py --elf <captured-debug-elf> --addr2line --out <code-map.json>",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/build_code_map.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": true,
+          "command": "uv run python tools/join_trace_code_map.py --trace <trace.jsonl> --code-map <code-map.json> --out <joined.json>",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/join_trace_code_map.py",
+          "script_exists": true
+        }
+      ],
+      "completion_status": "OPEN_NO_EXTERNAL_SUMMARY",
+      "current_blocker": true,
+      "external_execution_still_required": true,
+      "external_summary_exists": false,
+      "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/board_native_source_lines_summary.json",
+      "id": "board_native_dwarf_source_lines",
+      "local_preflight_ready": true,
+      "no_substitution_rule_present": true,
+      "operator_input_count": 4,
+      "packaging_commands": [
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/prepare_genesys2_external_summary.py --record-id board_native_dwarf_source_lines --write-template results/evaluation/genesys2-cva6/current/external_closure_templates/board_native_source_lines_summary.template.json",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/prepare_genesys2_external_summary.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/prepare_genesys2_external_summary.py --record-id board_native_dwarf_source_lines --summary <candidate-board-native-dwarf-source-lines-summary.json>",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/prepare_genesys2_external_summary.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "write results/evaluation/genesys2-cva6/current/external_closure/board_native_source_lines_summary.json from the accepted board run roots",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "summary_packaging_instruction",
+          "local_preflight_ready": true,
+          "notes": [
+            "packaging instruction; target path is validated by intake"
+          ],
+          "script": "NOT_APPLICABLE",
+          "script_exists": false
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/package_genesys2_external_closure_intake.py",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/package_genesys2_external_closure_intake.py",
+          "script_exists": true
+        }
+      ],
+      "preflight_commands": [
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/package_source_line_toolchain_probe.py",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/package_source_line_toolchain_probe.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/check_source_line_toolchain_probe.py --root .",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/check_source_line_toolchain_probe.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/package_genesys2_debug_elf_readiness.py",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/package_genesys2_debug_elf_readiness.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/check_genesys2_debug_elf_readiness.py --root .",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/check_genesys2_debug_elf_readiness.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": true,
+          "command": "uv run python tools/build_genesys2_p0_marker_elf.py --code-map",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/build_genesys2_p0_marker_elf.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": true,
+          "command": "uv run python tools/build_genesys2_safe_syscall_elf.py --code-map",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/build_genesys2_safe_syscall_elf.py",
+          "script_exists": true
+        }
+      ],
+      "required_raw_artifact_count": 5,
+      "required_summary_schema": "rvmt.genesys2.board_native_source_lines.v1",
+      "schema_path_ready": true,
+      "status": "PASS_LOCAL_PREFLIGHT_EXTERNAL_OPEN",
+      "tool_entrypoints_ready": true
+    },
+    {
+      "acceptance_criteria_count": 5,
+      "collection_commands": [
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/run_genesys2_pointer_snapshot_bram_capture.py --run-root <full-string-board-run-root> --repetitions 10",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/run_genesys2_pointer_snapshot_bram_capture.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "collect full-string ARG_MEM groups with mem_last=true and contiguous offsets from zero",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "operator_collection_instruction",
+          "local_preflight_ready": true,
+          "notes": [
+            "collection instruction; validated by external summary intake"
+          ],
+          "script": "NOT_APPLICABLE",
+          "script_exists": false
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "retain negative kernel-range and gapped-fragment cases as non-promoted fragments",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "operator_collection_instruction",
+          "local_preflight_ready": true,
+          "notes": [
+            "collection instruction; validated by external summary intake"
+          ],
+          "script": "NOT_APPLICABLE",
+          "script_exists": false
+        }
+      ],
+      "completion_status": "OPEN_NO_EXTERNAL_SUMMARY",
+      "current_blocker": true,
+      "external_execution_still_required": true,
+      "external_summary_exists": false,
+      "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/hardware_pointer_strings_summary.json",
+      "id": "full_hardware_pointer_strings",
+      "local_preflight_ready": true,
+      "no_substitution_rule_present": true,
+      "operator_input_count": 4,
+      "packaging_commands": [
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/package_genesys2_pointer_string_readiness.py",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/package_genesys2_pointer_string_readiness.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/check_genesys2_pointer_string_readiness.py --root .",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/check_genesys2_pointer_string_readiness.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/prepare_genesys2_external_summary.py --record-id full_hardware_pointer_strings --write-template results/evaluation/genesys2-cva6/current/external_closure_templates/hardware_pointer_strings_summary.template.json",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/prepare_genesys2_external_summary.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/prepare_genesys2_external_summary.py --record-id full_hardware_pointer_strings --summary <candidate-full-hardware-pointer-strings-summary.json>",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/prepare_genesys2_external_summary.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "write results/evaluation/genesys2-cva6/current/external_closure/hardware_pointer_strings_summary.json from the full-string board run",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "summary_packaging_instruction",
+          "local_preflight_ready": true,
+          "notes": [
+            "packaging instruction; target path is validated by intake"
+          ],
+          "script": "NOT_APPLICABLE",
+          "script_exists": false
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/package_genesys2_external_closure_intake.py",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/package_genesys2_external_closure_intake.py",
+          "script_exists": true
+        }
+      ],
+      "preflight_commands": [
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/check_pointer_snapshot_guardrails.py --root .",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/check_pointer_snapshot_guardrails.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/check_hardware_pointer_prefixes.py --root .",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/check_hardware_pointer_prefixes.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/check_genesys2_pointer_string_readiness.py --root .",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/check_genesys2_pointer_string_readiness.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/run_genesys2_pointer_snapshot_bram_capture.py --dry-run",
+          "dry_run_supported": true,
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/run_genesys2_pointer_snapshot_bram_capture.py",
+          "script_exists": true
+        }
+      ],
+      "required_raw_artifact_count": 5,
+      "required_summary_schema": "rvmt.genesys2.hardware_pointer_strings.v1",
+      "schema_path_ready": true,
+      "status": "PASS_LOCAL_PREFLIGHT_EXTERNAL_OPEN",
+      "tool_entrypoints_ready": true
+    },
+    {
+      "acceptance_criteria_count": 5,
+      "collection_commands": [
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "external: build and program the selected non-BRAM streaming trace bitstream",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "external_operator_action",
+          "local_preflight_ready": true,
+          "notes": [
+            "external action; cannot be executed by local preflight"
+          ],
+          "script": "NOT_APPLICABLE",
+          "script_exists": false
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "external: run host receiver during the selected workload set and retain byte/event/elapsed/parser logs; compare sustained bytes/sec against streaming_dma_target_summary.json converted with the exact streaming bitstream clock report",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "external_operator_action",
+          "local_preflight_ready": true,
+          "notes": [
+            "external action; cannot be executed by local preflight"
+          ],
+          "script": "NOT_APPLICABLE",
+          "script_exists": false
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/run_genesys2_runtime_benchmark.py --run-root <streaming-runtime-run-root> --mode trace_off --mode event_only --mode bram_ring",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/run_genesys2_runtime_benchmark.py",
+          "script_exists": true
+        }
+      ],
+      "completion_status": "OPEN_NO_EXTERNAL_SUMMARY",
+      "current_blocker": true,
+      "external_execution_still_required": true,
+      "external_summary_exists": false,
+      "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/streaming_dma_throughput_summary.json",
+      "id": "production_streaming_dma_trace_sink",
+      "local_preflight_ready": true,
+      "no_substitution_rule_present": true,
+      "operator_input_count": 4,
+      "packaging_commands": [
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/package_genesys2_streaming_dma_readiness.py",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/package_genesys2_streaming_dma_readiness.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/check_genesys2_streaming_dma_readiness.py --root .",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/check_genesys2_streaming_dma_readiness.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/prepare_genesys2_external_summary.py --record-id production_streaming_dma_trace_sink --write-template results/evaluation/genesys2-cva6/current/external_closure_templates/streaming_dma_throughput_summary.template.json",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/prepare_genesys2_external_summary.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/prepare_genesys2_external_summary.py --record-id production_streaming_dma_trace_sink --summary <candidate-production-streaming-dma-trace-sink-summary.json>",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/prepare_genesys2_external_summary.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "write results/evaluation/genesys2-cva6/current/external_closure/streaming_dma_throughput_summary.json from transport, host receiver, timing, resource, and noninterference artifacts",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "summary_packaging_instruction",
+          "local_preflight_ready": true,
+          "notes": [
+            "packaging instruction; target path is validated by intake"
+          ],
+          "script": "NOT_APPLICABLE",
+          "script_exists": false
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/package_genesys2_external_closure_intake.py",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/package_genesys2_external_closure_intake.py",
+          "script_exists": true
+        }
+      ],
+      "preflight_commands": [
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/check_trace_export_decision.py --root .",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/check_trace_export_decision.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/check_genesys2_streaming_dma_target.py --root .",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/check_genesys2_streaming_dma_target.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/check_genesys2_streaming_dma_readiness.py --root .",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/check_genesys2_streaming_dma_readiness.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/run_genesys2_runtime_benchmark.py --dry-run",
+          "dry_run_supported": true,
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/run_genesys2_runtime_benchmark.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/check_genesys2_bitstream_artifacts.py --root .",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/check_genesys2_bitstream_artifacts.py",
+          "script_exists": true
+        }
+      ],
+      "required_raw_artifact_count": 5,
+      "required_summary_schema": "rvmt.genesys2.streaming_dma_throughput.v1",
+      "schema_path_ready": true,
+      "status": "PASS_LOCAL_PREFLIGHT_EXTERNAL_OPEN",
+      "tool_entrypoints_ready": true
+    },
+    {
+      "acceptance_criteria_count": 4,
+      "collection_commands": [
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "external: execute hello, ls, cat, cp, and sha256sum or equivalent non-network benign workloads on Genesys2/CVA6",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "external_operator_action",
+          "local_preflight_ready": true,
+          "notes": [
+            "external action; cannot be executed by local preflight"
+          ],
+          "script": "NOT_APPLICABLE",
+          "script_exists": false
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "external: capture per-benign-workload BRAM marker windows and UART logs",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "external_operator_action",
+          "local_preflight_ready": true,
+          "notes": [
+            "external action; cannot be executed by local preflight"
+          ],
+          "script": "NOT_APPLICABLE",
+          "script_exists": false
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/audit_behavior.py --help",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/audit_behavior.py",
+          "script_exists": true
+        }
+      ],
+      "completion_status": "OPEN_NO_EXTERNAL_SUMMARY",
+      "current_blocker": true,
+      "external_execution_still_required": true,
+      "external_summary_exists": false,
+      "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/board_benign_control_summary.json",
+      "id": "genesys2_board_benign_control",
+      "local_preflight_ready": true,
+      "no_substitution_rule_present": true,
+      "operator_input_count": 4,
+      "packaging_commands": [
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/package_genesys2_board_benign_readiness.py",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/package_genesys2_board_benign_readiness.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/check_genesys2_board_benign_readiness.py --root .",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/check_genesys2_board_benign_readiness.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/prepare_genesys2_external_summary.py --record-id genesys2_board_benign_control --write-template results/evaluation/genesys2-cva6/current/external_closure_templates/board_benign_control_summary.template.json",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/prepare_genesys2_external_summary.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/prepare_genesys2_external_summary.py --record-id genesys2_board_benign_control --summary <candidate-genesys2-board-benign-control-summary.json>",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/prepare_genesys2_external_summary.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "write results/evaluation/genesys2-cva6/current/external_closure/board_benign_control_summary.json from board-derived benign artifacts",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "summary_packaging_instruction",
+          "local_preflight_ready": true,
+          "notes": [
+            "packaging instruction; target path is validated by intake"
+          ],
+          "script": "NOT_APPLICABLE",
+          "script_exists": false
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/package_genesys2_external_closure_intake.py",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/package_genesys2_external_closure_intake.py",
+          "script_exists": true
+        }
+      ],
+      "preflight_commands": [
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/check_benign_control_summary.py --root .",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/check_benign_control_summary.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/check_genesys2_board_benign_readiness.py --root .",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/check_genesys2_board_benign_readiness.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/check_behavior_audit_metrics.py --root .",
+          "dry_run_supported": "NOT_REQUESTED",
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/check_behavior_audit_metrics.py",
+          "script_exists": true
+        },
+        {
+          "code_map_supported": "NOT_REQUESTED",
+          "command": "uv run python tools/run_genesys2_safe_surrogate_bram_repetitions.py --dry-run",
+          "dry_run_supported": true,
+          "kind": "local_tool",
+          "local_preflight_ready": true,
+          "notes": [
+            "local tool entrypoint is present"
+          ],
+          "script": "tools/run_genesys2_safe_surrogate_bram_repetitions.py",
+          "script_exists": true
+        }
+      ],
+      "required_raw_artifact_count": 4,
+      "required_summary_schema": "rvmt.genesys2.board_benign_control.v1",
+      "schema_path_ready": true,
+      "status": "PASS_LOCAL_PREFLIGHT_EXTERNAL_OPEN",
+      "tool_entrypoints_ready": true
+    }
+  ],
+  "schema": "rvmt.genesys2.external_closure_preflight.v1",
+  "scope": "local preflight for remaining non-real-malware external closure blockers",
+  "source_artifacts": [
+    {
+      "exists": true,
+      "expected_schema": "rvmt.genesys2.external_closure_plan.v1",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure_plan.json",
+      "schema": "rvmt.genesys2.external_closure_plan.v1",
+      "sha256": "97bc15b28ff09d5b1f1ac8a4fa3ba3a89ccde895910e4933a7cd64a32e536596",
+      "status": "PASS"
+    },
+    {
+      "exists": true,
+      "expected_schema": "rvmt.genesys2.external_closure_intake.v1",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure_intake.json",
+      "schema": "rvmt.genesys2.external_closure_intake.v1",
+      "sha256": "287b54a90ccf235723c41ef59b66c4cf7a5b59b29f2e5570708fc7bf352c2e60",
+      "status": "PASS"
+    }
+  ],
+  "status": "PASS",
+  "validation_commands": [
+    "uv run python tools/package_genesys2_external_closure_preflight.py",
+    "uv run python tools/check_genesys2_external_closure_preflight.py --root .",
+    "uv run python tools/check_genesys2_external_closure_plan.py --root .",
+    "uv run python tools/check_genesys2_external_closure_intake.py --root ."
+  ]
+}

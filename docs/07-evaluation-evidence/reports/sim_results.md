@@ -94,10 +94,14 @@ empty and `compare.log` starts with `[BLOCKED]`.
   committed RVFI store to `0x1000_0000`, and published PASS artifacts to
   `results/vivado_sim/cva6_full_soc_tohost_normal/`. This uses the normal
   completion path and does not set `RVMT_STORE_PATH_ONLY`.
-- Direct CVA6 trace integration: PARTIAL. `RV_MALTRACE_TRACE=1` enables the
-  guarded CVA6 testharness RVFI hook and JSONL sink; the direct-core smoke
-  separately verifies the same adapter/sink path against real CVA6 committed
-  RVFI events.
+- Direct CVA6 trace integration: PASS_SCOPED_LOCAL_SIMULATION.
+  `RV_MALTRACE_TRACE=1` enables the guarded CVA6 testharness RVFI hook and
+  JSONL sink; the direct-core trace-on/no-trace smoke verifies the same
+  adapter/sink path against real CVA6 committed RVFI events, while the full
+  `ariane_testharness` smoke, UART/MMIO store-path gate, and normal
+  tohost/MMIO completion gate keep the full-SoC path in the reproducible local
+  simulation evidence set. This remains repository-local simulation evidence,
+  not physical board evidence.
 
 The synthetic tests verify tap packet semantics, CSR/SATP/context events,
 filtering, queue/drop behavior, and the CVA6 RVFI adapter. The `cva6_*` rows are

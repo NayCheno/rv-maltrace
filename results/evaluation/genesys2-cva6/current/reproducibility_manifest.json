@@ -1,0 +1,674 @@
+{
+  "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",
+  "claim_boundary": {
+    "board_benign_readiness_available": true,
+    "board_native_source_line_attribution_claimed": false,
+    "controlled_safe_surrogate_evidence": true,
+    "dated_roots_are_provenance_only": true,
+    "debug_no_pie_elf_readiness_available": true,
+    "debug_toolchain_source_line_probe_available": true,
+    "hardware_full_pointer_strings_claimed": false,
+    "pointer_string_readiness_available": true,
+    "production_streaming_dma_throughput_claimed": false,
+    "real_malware_validation_claimed": false,
+    "streaming_dma_readiness_available": true
+  },
+  "latest_manifest": "results/evaluation/genesys2-cva6/current/latest_manifest.json",
+  "non_claims": [
+    "This manifest ties existing controlled board artifacts and summaries to checker commands; it does not add real-malware validation.",
+    "Raw dated board directories are provenance and are selected only through current/latest_manifest.json.",
+    "Hardware pointer strings remain bounded-prefix/fragment evidence only.",
+    "The pointer string readiness summary prepares future gap-free hardware full-string collection but does not complete full hardware pointer-string evidence.",
+    "The source-line toolchain probe does not make current board traces DWARF source-line attributed.",
+    "The debug ELF readiness summary prepares debug/no-PIE rerun candidates but does not make current board traces DWARF source-line attributed.",
+    "The board benign readiness summary prepares future Genesys2 benign-control collection but does not complete board benign false-positive evidence.",
+    "The streaming/DMA readiness summary prepares future non-BRAM transport collection but does not complete production streaming/DMA throughput evidence.",
+    "The external closure readiness contract records remaining non-real-malware blockers but does not complete them.",
+    "The external closure intake gate validates optional future external summaries but remains open until board/RTL summaries are present.",
+    "The external closure plan provides executable runbooks and templates but does not replace board/RTL execution.",
+    "The external closure preflight proves only local scripts, dry-run hooks, schema paths, and guardrails are ready; it does not replace external execution.",
+    "The external operator packet is an execution handoff and does not replace external board, RTL, host transport, or reviewer execution.",
+    "The external summary templates are TEMPLATE_NOT_EVIDENCE scaffolding and must not be treated as accepted external summaries.",
+    "The statistical robustness summary audits controlled repetitions and retained failures, but it does not make randomized workload or real-malware generalization claims.",
+    "The streaming/DMA target summary is a cycle-normalized local target baseline only; it does not complete production streaming/DMA throughput evidence."
+  ],
+  "raw_artifact_roots": [
+    {
+      "exists": true,
+      "file_counts": {
+        "bram_records": 41,
+        "capture_logs": 41,
+        "uart_logs": 41
+      },
+      "glob_patterns": {
+        "bram_records": "*/*/bram_records.jsonl",
+        "capture_logs": "*/*/capture.log",
+        "uart_logs": "*/*/uart.log"
+      },
+      "id": "p0_bram_repetitions",
+      "path": "results/board/genesys2_trace_validation/20260612-p0-bram-repetitions"
+    },
+    {
+      "exists": true,
+      "file_counts": {
+        "bram_records": 80,
+        "capture_logs": 80,
+        "uart_logs": 80
+      },
+      "glob_patterns": {
+        "bram_records": "*/*/bram_records.jsonl",
+        "capture_logs": "*/*/capture.log",
+        "uart_logs": "*/*/uart.log"
+      },
+      "id": "safe_surrogate_bram_repetitions",
+      "path": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait"
+    },
+    {
+      "exists": true,
+      "file_counts": {
+        "bram_records": 30,
+        "capture_logs": 30,
+        "uart_logs": 30
+      },
+      "glob_patterns": {
+        "bram_records": "*/*/bram_records.jsonl",
+        "capture_logs": "*/*/capture.log",
+        "uart_logs": "*/*/uart.log"
+      },
+      "id": "pointer_snapshot_bram",
+      "path": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram"
+    },
+    {
+      "exists": true,
+      "file_counts": {
+        "decoded_traces": 4,
+        "trace_summaries": 4,
+        "uart_logs": 4
+      },
+      "glob_patterns": {
+        "decoded_traces": "*/trace.jsonl",
+        "trace_summaries": "*/trace_summary.json",
+        "uart_logs": "*/uart_run.log"
+      },
+      "id": "p0_continuous_trace",
+      "path": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit"
+    },
+    {
+      "exists": true,
+      "file_counts": {
+        "helper_logs": 8,
+        "runtime_process_maps": 8
+      },
+      "glob_patterns": {
+        "helper_logs": "*/runtime_process_map_helper.log",
+        "runtime_process_maps": "*/runtime_process_map.json"
+      },
+      "id": "safe_surrogate_runtime_map",
+      "path": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map"
+    },
+    {
+      "exists": true,
+      "file_counts": {
+        "program_logs": 96
+      },
+      "glob_patterns": {
+        "program_logs": "**/uart.log"
+      },
+      "id": "production_runtime_benchmark",
+      "path": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark"
+    }
+  ],
+  "report_rows": [
+    {
+      "checker_commands": [
+        "uv run python tools/check_baseline_pass_criteria.py --root ."
+      ],
+      "id": "baseline_pass_criteria_current_status",
+      "raw_root_ids": [],
+      "report": "docs/03-platform-architecture/genesys2/baseline_pass_criteria.md",
+      "source_summary_ids": [
+        "latest_manifest"
+      ]
+    },
+    {
+      "checker_commands": [
+        "uv run python tools/run_check_suite.py --suite genesys2-current",
+        "uv run python tools/check_ccfa_claim_boundaries.py --root .",
+        "uv run python tools/check_source_line_toolchain_probe.py --root .",
+        "uv run python tools/check_genesys2_debug_elf_readiness.py --root .",
+        "uv run python tools/check_ccfa_case_study_manifest.py --root .",
+        "uv run python tools/check_genesys2_board_benign_readiness.py --root .",
+        "uv run python tools/check_genesys2_statistical_robustness.py --root .",
+        "uv run python tools/check_genesys2_streaming_dma_target.py --root .",
+        "uv run python tools/check_genesys2_streaming_dma_readiness.py --root .",
+        "uv run python tools/check_genesys2_pointer_string_readiness.py --root .",
+        "uv run python tools/check_genesys2_external_operator_packet.py --root .",
+        "uv run python tools/prepare_genesys2_external_summary.py --check-templates"
+      ],
+      "id": "readiness_claim_gates",
+      "raw_root_ids": [
+        "p0_bram_repetitions",
+        "safe_surrogate_bram_repetitions",
+        "pointer_snapshot_bram",
+        "p0_continuous_trace",
+        "safe_surrogate_runtime_map"
+      ],
+      "report": "docs/07-evaluation-evidence/reports/ccfa_readiness_matrix.md",
+      "source_summary_ids": [
+        "latest_manifest",
+        "p0_bram_trace",
+        "safe_surrogate_bram_trace",
+        "statistical_robustness",
+        "streaming_dma_target",
+        "streaming_dma_readiness",
+        "pointer_snapshot_guardrails",
+        "hardware_pointer_prefixes",
+        "pointer_string_readiness",
+        "benign_control",
+        "board_benign_readiness",
+        "drop_accounting",
+        "semantic_reconstruction",
+        "fd_path_graph",
+        "source_line_attribution",
+        "source_line_toolchain_probe",
+        "debug_elf_readiness",
+        "external_closure_readiness",
+        "external_closure_intake",
+        "external_closure_plan",
+        "external_closure_preflight",
+        "external_operator_packet",
+        "external_template_board_native_source_lines",
+        "external_template_hardware_pointer_strings",
+        "external_template_streaming_dma_throughput",
+        "external_template_board_benign_control",
+        "process_elf_ownership",
+        "ccfa_evaluation_matrix",
+        "behavior_audit_metrics",
+        "case_study_manifest",
+        "statistical_robustness"
+      ]
+    },
+    {
+      "checker_commands": [
+        "uv run python tools/check_hardware_pointer_prefixes.py --root .",
+        "uv run python tools/check_genesys2_pointer_string_readiness.py --root .",
+        "uv run python tools/check_ccfa_case_study_manifest.py --root .",
+        "uv run python tools/check_ccfa_current_quality.py --root .",
+        "uv run python tools/check_genesys2_statistical_robustness.py --root .",
+        "uv run python tools/check_genesys2_streaming_dma_target.py --root .",
+        "uv run python tools/check_genesys2_streaming_dma_readiness.py --root .",
+        "uv run python tools/check_genesys2_debug_elf_readiness.py --root .",
+        "uv run python tools/check_genesys2_board_benign_readiness.py --root .",
+        "uv run python tools/check_genesys2_external_operator_packet.py --root .",
+        "uv run python tools/prepare_genesys2_external_summary.py --check-templates"
+      ],
+      "id": "next_closure_completed_items",
+      "raw_root_ids": [
+        "p0_bram_repetitions",
+        "safe_surrogate_bram_repetitions",
+        "pointer_snapshot_bram",
+        "production_runtime_benchmark"
+      ],
+      "report": "docs/07-evaluation-evidence/reports/ccfa_next_closure_plan.md",
+      "source_summary_ids": [
+        "latest_manifest",
+        "p0_bram_trace",
+        "safe_surrogate_bram_trace",
+        "statistical_robustness",
+        "streaming_dma_target",
+        "streaming_dma_readiness",
+        "pointer_snapshot_guardrails",
+        "hardware_pointer_prefixes",
+        "pointer_string_readiness",
+        "benign_control",
+        "board_benign_readiness",
+        "case_study_manifest",
+        "production_runtime_benchmark",
+        "external_closure_plan",
+        "external_closure_preflight",
+        "external_operator_packet",
+        "debug_elf_readiness",
+        "external_template_board_native_source_lines",
+        "external_template_hardware_pointer_strings",
+        "external_template_streaming_dma_throughput",
+        "external_template_board_benign_control"
+      ]
+    },
+    {
+      "checker_commands": [
+        "uv run python tools/check_evaluation_plan.py --root .",
+        "uv run python tools/check_ccfa_evaluation_matrix.py --root .",
+        "uv run python tools/check_baseline_alignment.py --root .",
+        "uv run python tools/check_genesys2_statistical_robustness.py --root .",
+        "uv run python tools/check_genesys2_streaming_dma_target.py --root .",
+        "uv run python tools/check_genesys2_streaming_dma_readiness.py --root .",
+        "uv run python tools/check_genesys2_pointer_string_readiness.py --root .",
+        "uv run python tools/check_genesys2_board_benign_readiness.py --root .",
+        "uv run python tools/check_genesys2_external_operator_packet.py --root .",
+        "uv run python tools/prepare_genesys2_external_summary.py --check-templates"
+      ],
+      "id": "evaluation_plan_current_status",
+      "raw_root_ids": [
+        "p0_bram_repetitions",
+        "safe_surrogate_bram_repetitions",
+        "pointer_snapshot_bram",
+        "production_runtime_benchmark"
+      ],
+      "report": "docs/07-evaluation-evidence/evaluation_plan.md",
+      "source_summary_ids": [
+        "ccfa_evaluation_matrix",
+        "baseline_alignment",
+        "behavior_audit_metrics",
+        "case_study_manifest",
+        "statistical_robustness",
+        "streaming_dma_target",
+        "streaming_dma_readiness",
+        "pointer_string_readiness",
+        "production_runtime_benchmark",
+        "latest_manifest",
+        "external_closure_readiness",
+        "external_closure_intake",
+        "external_closure_plan",
+        "external_closure_preflight",
+        "external_operator_packet",
+        "board_benign_readiness",
+        "external_template_board_native_source_lines",
+        "external_template_hardware_pointer_strings",
+        "external_template_streaming_dma_throughput",
+        "external_template_board_benign_control"
+      ]
+    },
+    {
+      "checker_commands": [
+        "uv run python tools/package_genesys2_review_closure_audit.py",
+        "uv run python tools/check_genesys2_review_closure_audit.py --root .",
+        "uv run python tools/check_genesys2_external_closure_preflight.py --root .",
+        "uv run python tools/check_genesys2_external_operator_packet.py --root .",
+        "uv run python tools/check_genesys2_pointer_string_readiness.py --root .",
+        "uv run python tools/prepare_genesys2_external_summary.py --check-templates"
+      ],
+      "id": "review_closure_audit",
+      "raw_root_ids": [],
+      "report": "docs/07-evaluation-evidence/reports/ccfa_review_closure_audit.md",
+      "source_summary_ids": [
+        "review_closure_audit",
+        "latest_manifest",
+        "external_closure_readiness",
+        "external_closure_intake",
+        "external_closure_plan",
+        "external_closure_preflight",
+        "external_operator_packet",
+        "external_template_board_native_source_lines",
+        "external_template_hardware_pointer_strings",
+        "external_template_streaming_dma_throughput",
+        "streaming_dma_target",
+        "streaming_dma_readiness",
+        "pointer_string_readiness",
+        "external_template_board_benign_control",
+        "board_benign_readiness"
+      ]
+    },
+    {
+      "checker_commands": [
+        "uv run python tools/package_genesys2_external_operator_packet.py",
+        "uv run python tools/check_genesys2_external_operator_packet.py --root .",
+        "uv run python tools/check_genesys2_external_closure_intake.py --root .",
+        "uv run python tools/check_genesys2_external_closure_preflight.py --root ."
+      ],
+      "id": "external_operator_packet_handoff",
+      "raw_root_ids": [],
+      "report": "docs/07-evaluation-evidence/reports/ccfa_external_operator_packet.md",
+      "source_summary_ids": [
+        "external_operator_packet",
+        "external_closure_readiness",
+        "external_closure_intake",
+        "external_closure_plan",
+        "external_closure_preflight",
+        "external_template_board_native_source_lines",
+        "external_template_hardware_pointer_strings",
+        "external_template_streaming_dma_throughput",
+        "external_template_board_benign_control"
+      ]
+    },
+    {
+      "checker_commands": [
+        "uv run python tools/check_genesys2_p0_bram_trace.py --root .",
+        "uv run python tools/check_genesys2_safe_surrogate_bram_trace.py --root .",
+        "uv run python tools/check_genesys2_statistical_robustness.py --root .",
+        "uv run python tools/check_genesys2_streaming_dma_target.py --root .",
+        "uv run python tools/check_genesys2_streaming_dma_readiness.py --root .",
+        "uv run python tools/check_genesys2_pointer_string_readiness.py --root .",
+        "uv run python tools/check_genesys2_external_operator_packet.py --root .",
+        "uv run python tools/prepare_genesys2_external_summary.py --check-templates"
+      ],
+      "id": "p0_evidence_chain",
+      "raw_root_ids": [
+        "p0_bram_repetitions",
+        "safe_surrogate_bram_repetitions",
+        "p0_continuous_trace"
+      ],
+      "report": "docs/07-evaluation-evidence/reports/genesys2_cva6_evidence_chain_20260611.md",
+      "source_summary_ids": [
+        "p0_bram_trace",
+        "trace_sink",
+        "safe_surrogate_bram_trace",
+        "drop_accounting",
+        "statistical_robustness",
+        "streaming_dma_target",
+        "streaming_dma_readiness",
+        "pointer_string_readiness",
+        "external_operator_packet",
+        "external_template_board_native_source_lines",
+        "external_template_hardware_pointer_strings",
+        "external_template_streaming_dma_throughput",
+        "external_template_board_benign_control"
+      ]
+    }
+  ],
+  "schema": "rvmt.genesys2.reproducibility_manifest.v1",
+  "status": "PASS",
+  "summary_artifacts": [
+    {
+      "checker_command": "uv run python tools/check_genesys2_latest_standard.py --root .",
+      "id": "latest_manifest",
+      "path": "results/evaluation/genesys2-cva6/current/latest_manifest.json",
+      "schema": "rvmt.genesys2.latest_manifest.v1",
+      "sha256": "3095b5639ac6a02bc0be3e8aa47745763e19cbe848393bc465ad6bb8e574d812",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_genesys2_bram_trace_sink.py --root .",
+      "id": "trace_sink",
+      "path": "results/evaluation/genesys2-cva6/current/trace_sink_summary.json",
+      "schema": "rvmt.genesys2.bram_trace_sink.v1",
+      "sha256": "71342c84315955f94ab789157a5d9b68c94508754d4ec9b9f70d3b6983cc27f1",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_genesys2_safe_surrogate_bram_trace.py --root .",
+      "id": "safe_surrogate_bram_trace",
+      "path": "results/evaluation/genesys2-cva6/current/safe_surrogate_bram_trace_summary.json",
+      "schema": "rvmt.genesys2.safe_surrogate_bram_trace.v1",
+      "sha256": "4bdf85988cb9cd6cd6ec869aa91ddc0b121e3104c17a6d781ad36c5f7867f25a",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_genesys2_p0_bram_trace.py --root .",
+      "id": "p0_bram_trace",
+      "path": "results/evaluation/genesys2-cva6/current/p0_bram_trace_summary.json",
+      "schema": "rvmt.genesys2.p0_bram_trace.v1",
+      "sha256": "74beec191ba45c19acf962323a7e48af5d8d9aa0ba827f1d51b7262f0bef3095",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_trace_drop_accounting.py --root .",
+      "id": "drop_accounting",
+      "path": "results/evaluation/genesys2-cva6/current/drop_accounting_summary.json",
+      "schema": "rvmt.trace_drop_accounting.v1",
+      "sha256": "8192977caa1adef849b53a47d09dbc4dfa7a0c503ffd1d3158a6ca6baade3150",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_genesys2_statistical_robustness.py --root .",
+      "id": "statistical_robustness",
+      "path": "results/evaluation/genesys2-cva6/current/statistical_robustness_summary.json",
+      "schema": "rvmt.genesys2.statistical_robustness.v1",
+      "sha256": "6d8392bf1e163004b74f64e92c3ee6f707991dbf9e95a9a2ce639982df1a5922",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_genesys2_streaming_dma_target.py --root .",
+      "id": "streaming_dma_target",
+      "path": "results/evaluation/genesys2-cva6/current/streaming_dma_target_summary.json",
+      "schema": "rvmt.genesys2.streaming_dma_target.v1",
+      "sha256": "2435bf54229623cbbaf3248cec1cb8f5c0ec1ac3cc170107a0fe70fd16c40f55",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_genesys2_streaming_dma_readiness.py --root .",
+      "id": "streaming_dma_readiness",
+      "path": "results/evaluation/genesys2-cva6/current/streaming_dma_readiness_summary.json",
+      "schema": "rvmt.genesys2.streaming_dma_readiness.v1",
+      "sha256": "88e9f63fb531bba1a69d508a9c7542218277bf918da6db922d67fd4e423b0908",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_pointer_snapshot_guardrails.py --root .",
+      "id": "pointer_snapshot_guardrails",
+      "path": "results/evaluation/genesys2-cva6/current/pointer_snapshot_guardrails.json",
+      "schema": "rvmt.pointer_snapshot_guardrails.v1",
+      "sha256": "a01c91c047ceb434263f95c48db4d93dcd6344b7a4df299a8c479d853e2ad237",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_hardware_pointer_prefixes.py --root .",
+      "id": "hardware_pointer_prefixes",
+      "path": "results/evaluation/genesys2-cva6/current/hardware_pointer_prefix_summary.json",
+      "schema": "rvmt.hardware_pointer_prefixes.v1",
+      "sha256": "ac9147537748f14af252fc6de3562e963f12e885bfd4b90e5ab961c76ae78196",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_genesys2_pointer_string_readiness.py --root .",
+      "id": "pointer_string_readiness",
+      "path": "results/evaluation/genesys2-cva6/current/pointer_string_readiness_summary.json",
+      "schema": "rvmt.genesys2.pointer_string_readiness.v1",
+      "sha256": "cc920ee8539a323026f1e59465f33b812a285c982d216ebe20dd8ca70e5f77c3",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_benign_control_summary.py --root .",
+      "id": "benign_control",
+      "path": "results/evaluation/genesys2-cva6/current/benign_control_summary.json",
+      "schema": "rvmt.genesys2.benign_control_summary.v1",
+      "sha256": "7256ece3a71e99b389be36e98ff2f06e86ecfbcb05587bfcef94f82e19269c34",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_genesys2_board_benign_readiness.py --root .",
+      "id": "board_benign_readiness",
+      "path": "results/evaluation/genesys2-cva6/current/board_benign_readiness_summary.json",
+      "schema": "rvmt.genesys2.board_benign_readiness.v1",
+      "sha256": "9dff7393238f206623c341429ec135dd35a2a31500f2732fafcf09d153db0b4d",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_ccfa_current_quality.py --root .",
+      "id": "production_runtime_benchmark",
+      "path": "results/evaluation/genesys2-cva6/current/production_runtime_benchmark.json",
+      "schema": "rvmt.genesys2.production_runtime_benchmark.v1",
+      "sha256": "c433123bd5e6a2d10c3158a4f67335e3a84f06554e8dc014dab08ac2c5c15f25",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_syscall_semantic_reconstruction.py --root .",
+      "id": "semantic_reconstruction",
+      "path": "results/evaluation/genesys2-cva6/current/semantic_reconstruction_summary.json",
+      "schema": "rvmt.syscall_semantic_reconstruction.v1",
+      "sha256": "eb5532bcd2790d93a2af666267d249031f48db8550915b49c8d8daba21b7f266",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_fd_path_graph.py --root .",
+      "id": "fd_path_graph",
+      "path": "results/evaluation/genesys2-cva6/current/fd_path_graph_summary.json",
+      "schema": "rvmt.fd_path_graph.v1",
+      "sha256": "0d1fc8fc59d7ef7411d69184d7a8770c2b2f130cc38daf6175c13d23a46bf778",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_source_line_attribution.py --root .",
+      "id": "source_line_attribution",
+      "path": "results/evaluation/genesys2-cva6/current/source_line_attribution_summary.json",
+      "schema": "rvmt.source_line_attribution.v1",
+      "sha256": "88e3ddda02ac5dbfe5106f126896aa3b4f7859ae9372a3dbf267fdd89791fa68",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_source_line_attribution.py --root .",
+      "id": "source_line_sidecar",
+      "path": "results/evaluation/genesys2-cva6/current/source_line_sidecar.json",
+      "schema": "rvmt.source_line_sidecar.v1",
+      "sha256": "2cdcca1002de41cafa6d408720b6a7623e59b77b16fe6673d33eac8ea5724010",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_source_line_toolchain_probe.py --root .",
+      "id": "source_line_toolchain_probe",
+      "path": "results/evaluation/genesys2-cva6/current/source_line_toolchain_probe.json",
+      "schema": "rvmt.genesys2.source_line_toolchain_probe.v1",
+      "sha256": "67cb78ef4d415b946fb02d52ed584c9a063bec58b47619815d03068930cc20bb",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_genesys2_debug_elf_readiness.py --root .",
+      "id": "debug_elf_readiness",
+      "path": "results/evaluation/genesys2-cva6/current/debug_elf_readiness_summary.json",
+      "schema": "rvmt.genesys2.debug_elf_readiness.v1",
+      "sha256": "d96cc9a1f1b6a17d98bd0aa9bcb12a1665041c5eeca459f006a65aa93bae9bfc",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_genesys2_external_closure_readiness.py --root .",
+      "id": "external_closure_readiness",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure_readiness.json",
+      "schema": "rvmt.genesys2.external_closure_readiness.v1",
+      "sha256": "d62cfd241d9cad20e2b1d5d2f0de095e1db5b6933eeaf884a35d83b6c9217ff0",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_genesys2_external_closure_intake.py --root .",
+      "id": "external_closure_intake",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure_intake.json",
+      "schema": "rvmt.genesys2.external_closure_intake.v1",
+      "sha256": "287b54a90ccf235723c41ef59b66c4cf7a5b59b29f2e5570708fc7bf352c2e60",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_genesys2_external_closure_plan.py --root .",
+      "id": "external_closure_plan",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure_plan.json",
+      "schema": "rvmt.genesys2.external_closure_plan.v1",
+      "sha256": "97bc15b28ff09d5b1f1ac8a4fa3ba3a89ccde895910e4933a7cd64a32e536596",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_genesys2_external_closure_preflight.py --root .",
+      "id": "external_closure_preflight",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure_preflight.json",
+      "schema": "rvmt.genesys2.external_closure_preflight.v1",
+      "sha256": "4886342187a4cf6abea8e190be8b299837e894fd4c1b0f7053fb3624b7f6237d",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_genesys2_external_operator_packet.py --root .",
+      "id": "external_operator_packet",
+      "path": "results/evaluation/genesys2-cva6/current/external_operator_packet.json",
+      "schema": "rvmt.genesys2.external_operator_packet.v1",
+      "sha256": "a0463e66d467491a6b30cafcd3fe450ff4f07ed337407792e2597c8e23aa95ee",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/prepare_genesys2_external_summary.py --check-templates",
+      "id": "external_template_board_native_source_lines",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure_templates/board_native_source_lines_summary.template.json",
+      "schema": "rvmt.genesys2.board_native_source_lines.v1",
+      "sha256": "7b869446423c1947ccfc3635cc9257e791d25826599afbd572bd29b3b2d1f3d6",
+      "status": "TEMPLATE_NOT_EVIDENCE"
+    },
+    {
+      "checker_command": "uv run python tools/prepare_genesys2_external_summary.py --check-templates",
+      "id": "external_template_hardware_pointer_strings",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure_templates/hardware_pointer_strings_summary.template.json",
+      "schema": "rvmt.genesys2.hardware_pointer_strings.v1",
+      "sha256": "49910f49d3719c867d6895bc6dc387d3e6bf0f8c15fd5b1d530f100f5cdd7b51",
+      "status": "TEMPLATE_NOT_EVIDENCE"
+    },
+    {
+      "checker_command": "uv run python tools/prepare_genesys2_external_summary.py --check-templates",
+      "id": "external_template_streaming_dma_throughput",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure_templates/streaming_dma_throughput_summary.template.json",
+      "schema": "rvmt.genesys2.streaming_dma_throughput.v1",
+      "sha256": "0e2db4e7ec0e91b912b42cab50add91aa1ba4d3e08fd6e10cfd69c40cf573244",
+      "status": "TEMPLATE_NOT_EVIDENCE"
+    },
+    {
+      "checker_command": "uv run python tools/prepare_genesys2_external_summary.py --check-templates",
+      "id": "external_template_board_benign_control",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure_templates/board_benign_control_summary.template.json",
+      "schema": "rvmt.genesys2.board_benign_control.v1",
+      "sha256": "5308f4970165bd5e8b4aa4e5a2b3ca2dea300cd334a9ed3bc43d26fdb31b4c7f",
+      "status": "TEMPLATE_NOT_EVIDENCE"
+    },
+    {
+      "checker_command": "uv run python tools/check_process_elf_ownership.py --root .",
+      "id": "process_elf_ownership",
+      "path": "results/evaluation/genesys2-cva6/current/process_elf_ownership_summary.json",
+      "schema": "rvmt.process_elf_ownership.v1",
+      "sha256": "dda43af193d65809f823ce63085f9b838804a5d1d2ec4736960879477a20e056",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_dynamic_mapping_attribution.py --root .",
+      "id": "dynamic_mapping_attribution",
+      "path": "results/evaluation/genesys2-cva6/current/dynamic_mapping_attribution_summary.json",
+      "schema": "rvmt.dynamic_mapping_attribution.v1",
+      "sha256": "171daef9492ee8c44b6db431060fca414a301c4a535b373344caac0eeb7f33ec",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_ccfa_evaluation_matrix.py --root .",
+      "id": "ccfa_evaluation_matrix",
+      "path": "results/evaluation/genesys2-cva6/current/ccfa_evaluation_matrix.json",
+      "schema": "rvmt.ccfa_evaluation_matrix.v1",
+      "sha256": "d626fa623ed0807ec6a14f460e06214cca20bba7f18dd40604d7c130201fc2fe",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_baseline_alignment.py --root .",
+      "id": "baseline_alignment",
+      "path": "results/evaluation/genesys2-cva6/current/baseline_alignment_summary.json",
+      "schema": "rvmt.baseline_alignment.v1",
+      "sha256": "bb5d017d861103121206bad9a04d024b6582d212cbdcbc026ae6c013c55e0054",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_behavior_audit_metrics.py --root .",
+      "id": "behavior_audit_metrics",
+      "path": "results/evaluation/genesys2-cva6/current/behavior_audit_metrics.json",
+      "schema": "rvmt.behavior_audit_metrics.v1",
+      "sha256": "c0b82cd2dcfe7d3bf67b77c44120e23ed8ce5d14601bf76f3807d5d57a7f7ea6",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_ccfa_case_study_manifest.py --root .",
+      "id": "case_study_manifest",
+      "path": "results/evaluation/genesys2-cva6/current/case_study_manifest.json",
+      "schema": "rvmt.ccfa.case_study_manifest.v1",
+      "sha256": "71ceaab46c03e2e49f5e1a28507a6aa1f33c84c8824b3f14128f1ce97453ab4e",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_genesys2_review_closure_audit.py --root .",
+      "id": "review_closure_audit",
+      "path": "results/evaluation/genesys2-cva6/current/review_closure_audit.json",
+      "schema": "rvmt.genesys2.review_closure_audit.v1",
+      "sha256": "3b12df2b7f634fcb0c63ff009385d5dc89ccd5c4a4fd6f137c1fb66c2bc5421d",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_real_malware_containment.py --root .",
+      "id": "real_malware_containment",
+      "path": "results/evaluation/genesys2-cva6/current/real_malware_containment.json",
+      "schema": "rvmt.real_malware_containment.v1",
+      "sha256": "c5214d236d859637ec7c4e6def7802962abd6a9a88afe6123421229d5ed98962",
+      "status": "PASS"
+    }
+  ],
+  "validation_commands": [
+    "uv run python tools/run_check_suite.py --suite genesys2-current",
+    "uv run python tools/run_check_suite.py --suite genesys2-artifacts",
+    "uv run python tools/run_check_suite.py --suite genesys2-self-test",
+    "uv run python tools/run_check_suite.py --suite ccfa-gate-self-test"
+  ]
+}

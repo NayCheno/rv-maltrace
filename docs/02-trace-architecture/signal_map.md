@@ -49,11 +49,11 @@ trace tap. Signal paths are based on the local CVA6 checkout locked in
 | Logical Name | CVA6 Signal | Width | Notes |
 | --- | --- | ---: | --- |
 | `trace_mem_mode` | `TRACE_MEM_MODE_DEFAULT` / later board CSR | 2 | Defaults to `TRACE_MEM_MODE_NONE`; synthetic tests explicitly select `TRACE_MEM_MODE_RANGE`. |
-| `mem_load_valid` | synthetic testbench driver; CVA6 LSU hook TBD | 1 | Qualifies S-mode load data for default-disabled `ARG_MEM` snapshots. |
-| `mem_load_pc` | synthetic testbench driver; CVA6 LSU hook TBD | `XLEN` | PC associated with the load that copied from a watched user pointer. |
-| `mem_load_addr` | synthetic testbench driver; CVA6 LSU virtual address hook TBD | `XLEN` | Address compared against the active syscall pointer watch range. |
-| `mem_load_data` | synthetic testbench driver; CVA6 LSU data hook TBD | `XLEN` | Data emitted only for non-default `TRACE_MEM_MODE_RANGE`. |
-| `mem_load_size` | synthetic testbench driver; CVA6 LSU size hook TBD | 3 | Number of valid bytes in `mem_load_data`. |
+| `mem_load_valid` | synthetic testbench driver; full-string CVA6 LSU/user-copy hook remains external | 1 | Qualifies S-mode load data for default-disabled `ARG_MEM` snapshots. Current Genesys2/CVA6 board evidence is bounded-prefix compact BRAM `ARG_MEM`, not full-string pointer recovery. |
+| `mem_load_pc` | synthetic testbench driver; full-string CVA6 LSU/user-copy hook remains external | `XLEN` | PC associated with the load that copied from a watched user pointer. Current evidence preserves only the bounded prefix fields accepted by `hardware_pointer_prefix_summary.json`. |
+| `mem_load_addr` | synthetic testbench driver; full-string CVA6 LSU/user-copy virtual-address hook remains external | `XLEN` | Address compared against the active syscall pointer watch range. Full contiguous user-pointer strings require a future hook with pointer-group boundaries and `mem_last`. |
+| `mem_load_data` | synthetic testbench driver; full-string CVA6 LSU/user-copy data hook remains external | `XLEN` | Data emitted only for non-default `TRACE_MEM_MODE_RANGE`; current public claims stop at bounded hardware byte prefixes. |
+| `mem_load_size` | synthetic testbench driver; full-string CVA6 LSU/user-copy size hook remains external | 3 | Number of valid bytes in `mem_load_data`; current compact BRAM evidence does not promote fragments or companion-derived strings to hardware-derived strings. |
 
 ## Integration Notes
 
@@ -69,6 +69,11 @@ trace tap. Signal paths are based on the local CVA6 checkout locked in
 - The synthetic testbench still drives logical tap signals directly. The
   `rvfi_adapter` regression separately checks the CVA6 RVFI committed-stream
   translation, including dual commit ports and compressed control flow.
+- Current Genesys2/CVA6 hardware evidence covers bounded-prefix compact BRAM
+  `ARG_MEM` records and guardrails only. Full hardware-derived pointer strings
+  remain the `full_hardware_pointer_strings` external closure item; they require
+  a CVA6 LSU/user-copy hook that preserves contiguous bytes, pointer-group
+  boundaries, and `mem_last` on a new board run.
 - The retire tap must use `commit_ack_o && !commit_drop_i && !exception` as
   its logical valid expression; exception paths are emitted by the trap tap.
 - `EVT_SYSCALL_ENTRY` is emitted only for U-mode ECALL with U_ECALL cause; S/M

@@ -1,3 +1,5 @@
+`timescale 1ns/1ps
+
 module tb_cva6_rvfi_trace_adapter
   import trace_pkg::*;
 ;
@@ -75,6 +77,9 @@ module tb_cva6_rvfi_trace_adapter
       .trace_enable_context_i(1'b1),
       .trace_enable_marker_i(1'b1),
       .trace_enable_drop_i(1'b1),
+      .trace_pc_filter_enable_i(1'b0),
+      .trace_pc_start_i(64'd0),
+      .trace_pc_end_i(64'hffff_ffff_ffff_ffff),
       .trace_valid_o(trace_valid),
       .trace_packet_o(trace_packet)
   );
@@ -87,6 +92,14 @@ module tb_cva6_rvfi_trace_adapter
   );
 
   always #5 clk = ~clk;
+
+  always_ff @(posedge clk) begin
+    if (rst_n && trace_valid && trace_packet.valid && trace_packet.evt == EVT_ARG_MEM) begin
+      if (trace_packet.mem_base != 64'h0000_0000_8000_2000) begin
+        $fatal(1, "ARG_MEM mem_base mismatch: got 0x%016h", trace_packet.mem_base);
+      end
+    end
+  end
 
   task automatic clear_inputs();
     rvfi_valid      = '0;

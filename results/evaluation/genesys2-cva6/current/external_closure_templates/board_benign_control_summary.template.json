@@ -1,0 +1,95 @@
+{
+  "aggregate": {
+    "benign_false_positive_rate": 0.0,
+    "genesys2_board_trace_claimed": true,
+    "sample_count": ">=5",
+    "unexpected_false_positive_count": 0
+  },
+  "claim_boundary": {
+    "genesys2_board_benign_control_claimed": true,
+    "local_linux_benign_substituted": false,
+    "real_malware_validation_claimed": false
+  },
+  "evidence_artifacts": [
+    {
+      "id": "behavior_audit_manifest",
+      "kind": "behavior_audit_manifest",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/behavior_audit_manifest.txt",
+      "sha256": "<64 lowercase hex sha256 of artifact file>"
+    },
+    {
+      "id": "behavior_graph_manifest",
+      "kind": "behavior_graph_manifest",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/behavior_graph_manifest.txt",
+      "sha256": "<64 lowercase hex sha256 of artifact file>"
+    },
+    {
+      "id": "board_capture_manifest",
+      "kind": "board_capture_manifest",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/board_capture_manifest.txt",
+      "sha256": "<64 lowercase hex sha256 of artifact file>"
+    },
+    {
+      "id": "false_positive_report",
+      "kind": "false_positive_report",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/false_positive_report.txt",
+      "sha256": "<64 lowercase hex sha256 of artifact file>"
+    },
+    {
+      "id": "semantic_events_manifest",
+      "kind": "semantic_events_manifest",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/semantic_events_manifest.txt",
+      "sha256": "<64 lowercase hex sha256 of artifact file>"
+    }
+  ],
+  "samples": [
+    {
+      "behavior_audit": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/hello/behavior_audit.json",
+      "behavior_graph": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/hello/behavior_graph.json",
+      "genesys2_cva6_board_trace_claimed": true,
+      "id": "hello",
+      "non_network": true,
+      "semantic_events": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/hello/semantic_events.json",
+      "unexpected_false_positive": false
+    },
+    {
+      "behavior_audit": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/ls/behavior_audit.json",
+      "behavior_graph": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/ls/behavior_graph.json",
+      "genesys2_cva6_board_trace_claimed": true,
+      "id": "ls",
+      "non_network": true,
+      "semantic_events": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/ls/semantic_events.json",
+      "unexpected_false_positive": false
+    },
+    {
+      "behavior_audit": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/cat/behavior_audit.json",
+      "behavior_graph": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/cat/behavior_graph.json",
+      "genesys2_cva6_board_trace_claimed": true,
+      "id": "cat",
+      "non_network": true,
+      "semantic_events": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/cat/semantic_events.json",
+      "unexpected_false_positive": false
+    },
+    {
+      "behavior_audit": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/cp/behavior_audit.json",
+      "behavior_graph": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/cp/behavior_graph.json",
+      "genesys2_cva6_board_trace_claimed": true,
+      "id": "cp",
+      "non_network": true,
+      "semantic_events": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/cp/semantic_events.json",
+      "unexpected_false_positive": false
+    },
+    {
+      "behavior_audit": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/sha256sum/behavior_audit.json",
+      "behavior_graph": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/sha256sum/behavior_graph.json",
+      "genesys2_cva6_board_trace_claimed": true,
+      "id": "sha256sum",
+      "non_network": true,
+      "semantic_events": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/sha256sum/semantic_events.json",
+      "unexpected_false_positive": false
+    }
+  ],
+  "schema": "rvmt.genesys2.board_benign_control.v1",
+  "status": "TEMPLATE_NOT_EVIDENCE",
+  "template_only": true
+}

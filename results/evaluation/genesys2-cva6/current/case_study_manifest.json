@@ -1,0 +1,202 @@
+{
+  "aggregate_metrics": {
+    "anti_analysis_visibility": 1.0,
+    "argument_reconstruction_accuracy": 1.0,
+    "behavior_rule_recall": 1.0,
+    "benign_false_positive_rate": 0.0,
+    "expected_syscall_recall": 1.0,
+    "syscall_precision": 1.0,
+    "unaccounted_drop": 0
+  },
+  "benign_control_summary": "results/evaluation/genesys2-cva6/current/benign_control_summary.json",
+  "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",
+  "case_studies": [
+    {
+      "audit_decision": "PASS_CONTROLLED_SAFE_WORKLOAD_AUDIT",
+      "baseline_logs": "results/evaluation/genesys2-cva6/current/samples/hello_write/baseline_logs.json",
+      "behavior_graph": "results/evaluation/genesys2-cva6/current/samples/hello_write/behavior_graph.json",
+      "case_study_complete": true,
+      "case_study_summary": "results/evaluation/genesys2-cva6/current/samples/hello_write/case_study_summary.json",
+      "sample_class": "p0_safe_synthetic",
+      "sample_id": "hello_write",
+      "semantic_events": "results/evaluation/genesys2-cva6/current/samples/hello_write/semantic_events.json",
+      "trace": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/01_hello_write/trace.jsonl"
+    },
+    {
+      "audit_decision": "PASS_CONTROLLED_SAFE_WORKLOAD_AUDIT",
+      "baseline_logs": "results/evaluation/genesys2-cva6/current/samples/file_open_read_write/baseline_logs.json",
+      "behavior_graph": "results/evaluation/genesys2-cva6/current/samples/file_open_read_write/behavior_graph.json",
+      "case_study_complete": true,
+      "case_study_summary": "results/evaluation/genesys2-cva6/current/samples/file_open_read_write/case_study_summary.json",
+      "sample_class": "p0_safe_synthetic",
+      "sample_id": "file_open_read_write",
+      "semantic_events": "results/evaluation/genesys2-cva6/current/samples/file_open_read_write/semantic_events.json",
+      "trace": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/02_file_open_read_write/trace.jsonl"
+    },
+    {
+      "audit_decision": "PASS_CONTROLLED_SAFE_WORKLOAD_AUDIT",
+      "baseline_logs": "results/evaluation/genesys2-cva6/current/samples/fork_exec/baseline_logs.json",
+      "behavior_graph": "results/evaluation/genesys2-cva6/current/samples/fork_exec/behavior_graph.json",
+      "case_study_complete": true,
+      "case_study_summary": "results/evaluation/genesys2-cva6/current/samples/fork_exec/case_study_summary.json",
+      "sample_class": "p0_safe_synthetic",
+      "sample_id": "fork_exec",
+      "semantic_events": "results/evaluation/genesys2-cva6/current/samples/fork_exec/semantic_events.json",
+      "trace": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/03_fork_exec/trace.jsonl"
+    },
+    {
+      "audit_decision": "PASS_CONTROLLED_SAFE_WORKLOAD_AUDIT",
+      "baseline_logs": "results/evaluation/genesys2-cva6/current/samples/illegal_instruction/baseline_logs.json",
+      "behavior_graph": "results/evaluation/genesys2-cva6/current/samples/illegal_instruction/behavior_graph.json",
+      "case_study_complete": true,
+      "case_study_summary": "results/evaluation/genesys2-cva6/current/samples/illegal_instruction/case_study_summary.json",
+      "sample_class": "p0_safe_synthetic",
+      "sample_id": "illegal_instruction",
+      "semantic_events": "results/evaluation/genesys2-cva6/current/samples/illegal_instruction/semantic_events.json",
+      "trace": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/04_illegal_instruction/trace.jsonl"
+    },
+    {
+      "audit_decision": "PASS_CONTROLLED_SAFE_WORKLOAD_AUDIT",
+      "baseline_logs": "results/evaluation/genesys2-cva6/current/samples/file_scan/baseline_logs.json",
+      "behavior_graph": "results/evaluation/genesys2-cva6/current/samples/file_scan/behavior_graph.json",
+      "case_study_complete": true,
+      "case_study_summary": "results/evaluation/genesys2-cva6/current/samples/file_scan/case_study_summary.json",
+      "sample_class": "malware_like_synthetic_syscall_only",
+      "sample_id": "file_scan",
+      "semantic_events": "results/evaluation/genesys2-cva6/current/samples/file_scan/semantic_events.json",
+      "trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_01/bram_records.jsonl"
+    },
+    {
+      "audit_decision": "PASS_CONTROLLED_SAFE_WORKLOAD_AUDIT",
+      "baseline_logs": "results/evaluation/genesys2-cva6/current/samples/batch_open_read_write/baseline_logs.json",
+      "behavior_graph": "results/evaluation/genesys2-cva6/current/samples/batch_open_read_write/behavior_graph.json",
+      "case_study_complete": true,
+      "case_study_summary": "results/evaluation/genesys2-cva6/current/samples/batch_open_read_write/case_study_summary.json",
+      "sample_class": "malware_like_synthetic_syscall_only",
+      "sample_id": "batch_open_read_write",
+      "semantic_events": "results/evaluation/genesys2-cva6/current/samples/batch_open_read_write/semantic_events.json",
+      "trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_01/bram_records.jsonl"
+    },
+    {
+      "audit_decision": "PASS_CONTROLLED_SAFE_WORKLOAD_AUDIT",
+      "baseline_logs": "results/evaluation/genesys2-cva6/current/samples/self_copy_sim/baseline_logs.json",
+      "behavior_graph": "results/evaluation/genesys2-cva6/current/samples/self_copy_sim/behavior_graph.json",
+      "case_study_complete": true,
+      "case_study_summary": "results/evaluation/genesys2-cva6/current/samples/self_copy_sim/case_study_summary.json",
+      "sample_class": "malware_like_synthetic_syscall_only",
+      "sample_id": "self_copy_sim",
+      "semantic_events": "results/evaluation/genesys2-cva6/current/samples/self_copy_sim/semantic_events.json",
+      "trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_01/bram_records.jsonl"
+    },
+    {
+      "audit_decision": "PASS_CONTROLLED_SAFE_WORKLOAD_AUDIT",
+      "baseline_logs": "results/evaluation/genesys2-cva6/current/samples/abnormal_syscall_sequence/baseline_logs.json",
+      "behavior_graph": "results/evaluation/genesys2-cva6/current/samples/abnormal_syscall_sequence/behavior_graph.json",
+      "case_study_complete": true,
+      "case_study_summary": "results/evaluation/genesys2-cva6/current/samples/abnormal_syscall_sequence/case_study_summary.json",
+      "sample_class": "malware_like_synthetic_syscall_only",
+      "sample_id": "abnormal_syscall_sequence",
+      "semantic_events": "results/evaluation/genesys2-cva6/current/samples/abnormal_syscall_sequence/semantic_events.json",
+      "trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_01/bram_records.jsonl"
+    },
+    {
+      "audit_decision": "PASS_CONTROLLED_SAFE_WORKLOAD_AUDIT",
+      "baseline_logs": "results/evaluation/genesys2-cva6/current/samples/illegal_trap/baseline_logs.json",
+      "behavior_graph": "results/evaluation/genesys2-cva6/current/samples/illegal_trap/behavior_graph.json",
+      "case_study_complete": true,
+      "case_study_summary": "results/evaluation/genesys2-cva6/current/samples/illegal_trap/case_study_summary.json",
+      "sample_class": "malware_like_synthetic_syscall_only",
+      "sample_id": "illegal_trap",
+      "semantic_events": "results/evaluation/genesys2-cva6/current/samples/illegal_trap/semantic_events.json",
+      "trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_01/bram_records.jsonl"
+    },
+    {
+      "audit_decision": "PASS_CONTROLLED_SAFE_WORKLOAD_AUDIT",
+      "baseline_logs": "results/evaluation/genesys2-cva6/current/samples/process_chain/baseline_logs.json",
+      "behavior_graph": "results/evaluation/genesys2-cva6/current/samples/process_chain/behavior_graph.json",
+      "case_study_complete": true,
+      "case_study_summary": "results/evaluation/genesys2-cva6/current/samples/process_chain/case_study_summary.json",
+      "sample_class": "malware_like_synthetic_syscall_only",
+      "sample_id": "process_chain",
+      "semantic_events": "results/evaluation/genesys2-cva6/current/samples/process_chain/semantic_events.json",
+      "trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_01/bram_records.jsonl"
+    },
+    {
+      "audit_decision": "PASS_CONTROLLED_SAFE_WORKLOAD_AUDIT",
+      "baseline_logs": "results/evaluation/genesys2-cva6/current/samples/dynamic_executable_memory/baseline_logs.json",
+      "behavior_graph": "results/evaluation/genesys2-cva6/current/samples/dynamic_executable_memory/behavior_graph.json",
+      "case_study_complete": true,
+      "case_study_summary": "results/evaluation/genesys2-cva6/current/samples/dynamic_executable_memory/case_study_summary.json",
+      "sample_class": "malware_like_synthetic_syscall_only",
+      "sample_id": "dynamic_executable_memory",
+      "semantic_events": "results/evaluation/genesys2-cva6/current/samples/dynamic_executable_memory/semantic_events.json",
+      "trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_01/bram_records.jsonl"
+    },
+    {
+      "audit_decision": "PASS_CONTROLLED_SAFE_WORKLOAD_AUDIT",
+      "baseline_logs": "results/evaluation/genesys2-cva6/current/samples/anti_debug_like/baseline_logs.json",
+      "behavior_graph": "results/evaluation/genesys2-cva6/current/samples/anti_debug_like/behavior_graph.json",
+      "case_study_complete": true,
+      "case_study_summary": "results/evaluation/genesys2-cva6/current/samples/anti_debug_like/case_study_summary.json",
+      "sample_class": "malware_like_synthetic_syscall_only",
+      "sample_id": "anti_debug_like",
+      "semantic_events": "results/evaluation/genesys2-cva6/current/samples/anti_debug_like/semantic_events.json",
+      "trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_01/bram_records.jsonl"
+    }
+  ],
+  "case_study_count": 12,
+  "claim_boundary": {
+    "board_native_source_line_attribution_claimed": false,
+    "controlled_safe_surrogate_case_studies": true,
+    "hardware_full_pointer_strings_claimed": false,
+    "malware_detection_accuracy_claimed": false,
+    "paper_ready_claimed": false,
+    "production_streaming_dma_throughput_claimed": false,
+    "real_malware_validation_claimed": false
+  },
+  "non_claims": [
+    "Case studies are controlled safe/surrogate evidence, not real-malware validation.",
+    "Case studies do not claim malware detection accuracy or malware-family coverage.",
+    "Case studies do not close full hardware pointer strings, board-native DWARF source lines, or production streaming/DMA throughput."
+  ],
+  "p0_case_study_count": 4,
+  "safe_surrogate_case_study_count": 8,
+  "sample_artifact_root": "results/evaluation/genesys2-cva6/current/samples",
+  "schema": "rvmt.ccfa.case_study_manifest.v1",
+  "source_artifacts": [
+    {
+      "id": "ccfa_evaluation_matrix",
+      "path": "results/evaluation/genesys2-cva6/current/ccfa_evaluation_matrix.json"
+    },
+    {
+      "id": "semantic_reconstruction",
+      "path": "results/evaluation/genesys2-cva6/current/semantic_reconstruction_summary.json"
+    },
+    {
+      "id": "fd_path_graph",
+      "path": "results/evaluation/genesys2-cva6/current/fd_path_graph_summary.json"
+    },
+    {
+      "id": "source_line_attribution",
+      "path": "results/evaluation/genesys2-cva6/current/source_line_attribution_summary.json"
+    },
+    {
+      "id": "process_elf_ownership",
+      "path": "results/evaluation/genesys2-cva6/current/process_elf_ownership_summary.json"
+    },
+    {
+      "id": "baseline_alignment",
+      "path": "results/evaluation/genesys2-cva6/current/baseline_alignment_summary.json"
+    },
+    {
+      "id": "behavior_audit_metrics",
+      "path": "results/evaluation/genesys2-cva6/current/behavior_audit_metrics.json"
+    }
+  ],
+  "status": "PASS",
+  "validation_commands": [
+    "uv run python tools/package_ccfa_case_study_manifest.py --root .",
+    "uv run python tools/check_ccfa_case_study_manifest.py --root .",
+    "uv run python tools/check_behavior_audit_metrics.py --root ."
+  ]
+}

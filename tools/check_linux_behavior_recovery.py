@@ -52,6 +52,13 @@ EXPECTED_TARGETS = {
         "required_fields": ["nodes", "edges"],
     },
 }
+EXPECTED_TARGET_STATUSES = {
+    "syscall_sequence": "PASS_CONTROLLED_CASE_STUDY",
+    "control_flow_segment": "PASS_SCOPE_LIMITED_CASE_STUDY",
+    "trap_context_transition": "PASS_SCOPED_ILLEGAL_TRAP_CASE",
+    "privilege_boundary": "PASS_SCOPED_SYSCALL_TRAP_BOUNDARY",
+    "basic_behavior_graph": "PASS_CONTROLLED_CASE_STUDY",
+}
 EXPECTED_GOLDEN_SYSCALL_RETURN = {
     "return_value": "0x0000000000000005",
     "return_pc": "0x0000000080001004",
@@ -65,12 +72,15 @@ TARGET_KEYS = {
 }
 REQUIRED_DOC_TEXT = (
     "Phase 6.4 defines the behavior recovery targets for Linux experiments.",
-    "target specification and tooling plan, not board or Linux experiment evidence.",
+    "current Genesys2/CVA6 package now contains controlled P0 and safe-surrogate",
+    "not be read as real-malware validation or general malware detection accuracy",
     "experiments/linux_behavior/recovery_targets.json",
     "trace.jsonl",
     "semantic_events.json",
     "behavior_graph.json",
     "recovery_report.md",
+    "case_study_summary.json",
+    "results/evaluation/genesys2-cva6/current/case_study_manifest.json",
     "tools/recover_behavior.py",
     "syscall_sequence",
     "control_flow_segment",
@@ -131,8 +141,8 @@ def check_spec(path: Path) -> list[str]:
         errors.append(f"{path}: missing required spec keys: {sorted(missing_keys)}")
     if spec.get("phase") != "6.4":
         errors.append(f"{path}: phase must be 6.4")
-    if spec.get("status") != "TODO(EXPERIMENT)":
-        errors.append(f"{path}: status must remain TODO(EXPERIMENT)")
+    if spec.get("status") != "PASS_CONTROLLED_CASE_STUDY":
+        errors.append(f"{path}: status must be PASS_CONTROLLED_CASE_STUDY")
     if spec.get("policy_ref") != "experiments/linux_behavior/policy.json":
         errors.append(f"{path}: policy_ref must point at the Phase 6.1 policy")
     if spec.get("dataset_refs") != [
@@ -195,8 +205,9 @@ def check_doc(path: Path) -> list[str]:
             continue
         if row[0] != str(order):
             errors.append(f"{path}: {target_id} order must be {order}")
-        if row[4] != "TODO(EXPERIMENT)":
-            errors.append(f"{path}: {target_id} status must remain TODO(EXPERIMENT)")
+        expected_status = EXPECTED_TARGET_STATUSES[target_id]
+        if row[4] != expected_status:
+            errors.append(f"{path}: {target_id} status must be {expected_status}")
     return errors
 
 
@@ -318,7 +329,7 @@ def write_fixture(root: Path) -> None:
         json.dumps(
             {
                 "phase": "6.4",
-                "status": "TODO(EXPERIMENT)",
+                "status": "PASS_CONTROLLED_CASE_STUDY",
                 "policy_ref": "experiments/linux_behavior/policy.json",
                 "dataset_refs": [
                     "experiments/linux_behavior/benign/manifest.json",
@@ -335,21 +346,24 @@ def write_fixture(root: Path) -> None:
         """# Linux Behavior Recovery Targets
 
 Phase 6.4 defines the behavior recovery targets for Linux experiments.
-target specification and tooling plan, not board or Linux experiment evidence.
+current Genesys2/CVA6 package now contains controlled P0 and safe-surrogate
+not be read as real-malware validation or general malware detection accuracy
 experiments/linux_behavior/recovery_targets.json
 trace.jsonl
 semantic_events.json
 behavior_graph.json
 recovery_report.md
+case_study_summary.json
+results/evaluation/genesys2-cva6/current/case_study_manifest.json
 tools/recover_behavior.py
 
 | Order | Target | Source events | Output artifact path | Status |
 | ---: | --- | --- | --- | --- |
-| 1 | syscall_sequence | SYSCALL_ENTRY,SYSCALL_RET | semantic_events.syscall_sequence | TODO(EXPERIMENT) |
-| 2 | control_flow_segment | BRANCH,JUMP | semantic_events.control_flow_segments | TODO(EXPERIMENT) |
-| 3 | trap_context_transition | TRAP,CSR,SATP,PRIV | semantic_events.trap_context_transitions | TODO(EXPERIMENT) |
-| 4 | privilege_boundary | SYSCALL_ENTRY,SYSCALL_RET,TRAP,PRIV | semantic_events.privilege_boundaries | TODO(EXPERIMENT) |
-| 5 | basic_behavior_graph | all | behavior_graph | TODO(EXPERIMENT) |
+| 1 | syscall_sequence | SYSCALL_ENTRY,SYSCALL_RET | semantic_events.syscall_sequence | PASS_CONTROLLED_CASE_STUDY |
+| 2 | control_flow_segment | BRANCH,JUMP | semantic_events.control_flow_segments | PASS_SCOPE_LIMITED_CASE_STUDY |
+| 3 | trap_context_transition | TRAP,CSR,SATP,PRIV | semantic_events.trap_context_transitions | PASS_SCOPED_ILLEGAL_TRAP_CASE |
+| 4 | privilege_boundary | SYSCALL_ENTRY,SYSCALL_RET,TRAP,PRIV | semantic_events.privilege_boundaries | PASS_SCOPED_SYSCALL_TRAP_BOUNDARY |
+| 5 | basic_behavior_graph | all | behavior_graph | PASS_CONTROLLED_CASE_STUDY |
 
 must not be used to claim malware detection quality
 """,
@@ -394,10 +408,10 @@ def self_test() -> int:
         root = Path(tmp)
         write_fixture(root)
         spec = load_json(root / DEFAULT_SPEC)
-        spec["status"] = "PASS"
+        spec["status"] = "TODO(EXPERIMENT)"
         (root / DEFAULT_SPEC).write_text(json.dumps(spec), encoding="utf-8")
-        if not expect_error(root, "status must remain TODO"):
-            print("[FAIL] self-test missed premature spec PASS", file=sys.stderr)
+        if not expect_error(root, "status must be PASS_CONTROLLED_CASE_STUDY"):
+            print("[FAIL] self-test missed stale recovery spec TODO status", file=sys.stderr)
             return 1
 
     with tempfile.TemporaryDirectory() as tmp:

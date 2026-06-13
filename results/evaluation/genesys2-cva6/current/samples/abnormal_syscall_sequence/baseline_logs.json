@@ -1,6 +1,7 @@
 {
   "evidence": {
     "behavior_graph": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/behavior/behavior_graph.json",
+    "behavior_mapping": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/malware_analysis/behavior_mapping.json",
     "code_map": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/local_code_analysis/code_map.json",
     "integrated_validation": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/integrated_validation.json",
     "runtime_process_map": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map/abnormal_syscall_sequence/runtime_process_map.json",
@@ -118,13 +119,13 @@
         "fd": -1,
         "line": "read(-1, NULL, 16)                = -1 EBADF (Bad file descriptor)",
         "op": "read",
-        "path": null
+        "path": "<invalid-fd:-1>"
       },
       {
         "fd": -1,
         "line": "write(-1, \"x\", 1)                 = -1 EBADF (Bad file descriptor)",
         "op": "write",
-        "path": null
+        "path": "<invalid-fd:-1>"
       }
     ],
     "line_count": 37,
@@ -190,13 +191,13 @@
         "fd": -1,
         "line": "read(-1,0,16) = -1 errno=14 (Bad address)",
         "op": "read",
-        "path": null
+        "path": "<invalid-fd:-1>"
       },
       {
         "fd": -1,
         "line": "write(-1,0x52d18,1) = -1 errno=9 (Bad file descriptor)",
         "op": "write",
-        "path": null
+        "path": "<invalid-fd:-1>"
       }
     ],
     "line_count": 18,

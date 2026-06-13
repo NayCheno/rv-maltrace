@@ -1,3 +1,5 @@
+`timescale 1ns/1ps
+
 module trace_board_minimal_top
   import trace_pkg::*;
 #(
@@ -113,7 +115,7 @@ module trace_board_minimal_top
       .mem_load_pc_i(64'd0),
       .mem_load_addr_i(64'd0),
       .mem_load_data_i(64'd0),
-      .mem_load_size_i(3'd0),
+      .mem_load_size_i(4'd0),
       .trace_enable_retire_i(trace_enable_retire),
       .trace_enable_branch_i(trace_enable_branch),
       .trace_enable_jump_i(trace_enable_jump),

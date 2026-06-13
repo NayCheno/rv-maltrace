@@ -1,6 +1,7 @@
 {
   "evidence": {
     "behavior_graph": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/02_file_open_read_write/behavior_graph.json",
+    "behavior_mapping": "DERIVED_CURRENT_SAMPLE_ARTIFACT",
     "code_map": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/02_file_open_read_write/trace_code_map/code_map.json",
     "integrated_validation": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/02_file_open_read_write/integrated_validation.json",
     "runtime_process_map": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/02_file_open_read_write/runtime_process_map.json",

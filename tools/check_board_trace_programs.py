@@ -12,6 +12,10 @@ from typing import Any
 DEFAULT_MANIFEST = Path("board/trace_validation/manifest.json")
 DEFAULT_DOC = Path("docs/03-platform-architecture/genesys2/board_trace_validation.md")
 DEFAULT_BOARD_DOC = Path("docs/03-platform-architecture/genesys2/board_bringup.md")
+DEFAULT_EVIDENCE_RUN_ROOT = Path("results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix")
+MANIFEST_STATUS = "SPEC_READY_BOARD_EVIDENCE_PASS"
+EXPECTED_SPEC_STATUS = "EXPECTED_TRACE_SPEC"
+DOC_PROGRAM_STATUS = "BOARD_EVIDENCE_PASS"
 
 EXPECTED_PROGRAMS = {
     "hello_write": {
@@ -64,8 +68,10 @@ EXPECTED_PROGRAMS = {
     },
 }
 REQUIRED_DOC_TEXT = (
-    "This document is a run plan and does not claim the programs have passed on hardware.",
-    "results/board/genesys2_trace_validation/<run-id>/",
+    "This document is the Phase 5.3 trace-program specification and current board-evidence index.",
+    "Expected JSON files are specifications; raw board evidence lives under the recorded evidence run root.",
+    DEFAULT_EVIDENCE_RUN_ROOT.as_posix(),
+    "uv run python tools/check_board_trace_evidence.py --root . --run-root results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix",
     "`program.log`",
     "`trace.jsonl`",
     "`compare.log`",
@@ -73,9 +79,9 @@ REQUIRED_DOC_TEXT = (
     "The first-board trace profile from Phase 5.2 remains active",
 )
 FORBIDDEN_DOC_PATTERNS = (
-    re.compile(r"\bPASS\b", re.IGNORECASE),
-    re.compile(r"\bhardware\s+(?:passed|validated|complete)\b", re.IGNORECASE),
-    re.compile(r"\bboard\s+trace\s+(?:passed|validated|complete)\b", re.IGNORECASE),
+    re.compile(r"\bTODO\(BOARD\)\b"),
+    re.compile(r"\bproduction\s+streaming\s*/?\s*DMA\s+trace\s+sink\s+(?:passed|validated|complete)\b", re.IGNORECASE),
+    re.compile(r"\bfull\s+retire\s+trace\s+(?:passed|validated|complete)\b", re.IGNORECASE),
 )
 
 
@@ -120,10 +126,13 @@ def check_manifest(root: Path, path: Path) -> list[str]:
     errors: list[str] = []
     if manifest.get("phase") != "5.3":
         errors.append(f"{path}: phase must be 5.3")
-    if manifest.get("status") != "TODO(BOARD)":
-        errors.append(f"{path}: status must remain TODO(BOARD)")
-    if manifest.get("evidence_root") != "results/board/genesys2_trace_validation/<run-id>":
-        errors.append(f"{path}: evidence_root must use the trace validation run-id directory")
+    if manifest.get("status") != MANIFEST_STATUS:
+        errors.append(f"{path}: status must be {MANIFEST_STATUS}")
+    if manifest.get("evidence_root") != DEFAULT_EVIDENCE_RUN_ROOT.as_posix():
+        errors.append(f"{path}: evidence_root must be {DEFAULT_EVIDENCE_RUN_ROOT.as_posix()}")
+    checker = str(manifest.get("evidence_checker") or "")
+    if "tools/check_board_trace_evidence.py --root ." not in checker or DEFAULT_EVIDENCE_RUN_ROOT.as_posix() not in checker:
+        errors.append(f"{path}: evidence_checker must point at the accepted board evidence run")
 
     programs = by_program(manifest)
     if set(programs) != set(EXPECTED_PROGRAMS):
@@ -133,6 +142,8 @@ def check_manifest(root: Path, path: Path) -> list[str]:
         for field in ("source", "expected", "evidence_dir"):
             if item.get(field) != spec[field]:
                 errors.append(f"{path}: {program_id}.{field} must be {spec[field]}")
+        if item.get("evidence_status") != DOC_PROGRAM_STATUS:
+            errors.append(f"{path}: {program_id}.evidence_status must be {DOC_PROGRAM_STATUS}")
         source_path = resolve(root, Path(spec["source"]))
         expected_path = resolve(root, Path(spec["expected"]))
         if not source_path.exists():
@@ -156,8 +167,8 @@ def check_expected_file(path: Path, program_id: str, spec: dict[str, Any], expec
         errors.append(f"{path}: program must be {program_id}")
     if expected_json.get("mode") != "linux_user":
         errors.append(f"{path}: mode must be linux_user")
-    if expected_json.get("status") != "TODO(BOARD)":
-        errors.append(f"{path}: status must remain TODO(BOARD)")
+    if expected_json.get("status") != EXPECTED_SPEC_STATUS:
+        errors.append(f"{path}: status must be {EXPECTED_SPEC_STATUS}")
     if expected_json.get("evidence_dir") != spec["evidence_dir"]:
         errors.append(f"{path}: evidence_dir must be {spec['evidence_dir']}")
     if syscall_pairs(expected_json) != spec["syscalls"]:
@@ -208,8 +219,8 @@ def check_doc(path: Path, board_doc: Path) -> list[str]:
             errors.append(f"{path}: {program_id} order must be {index}")
         if spec["source"] not in row[2]:
             errors.append(f"{path}: {program_id} source path mismatch")
-        if row[4] != "TODO(BOARD)":
-            errors.append(f"{path}: {program_id} status must remain TODO(BOARD)")
+        if row[4] != DOC_PROGRAM_STATUS:
+            errors.append(f"{path}: {program_id} status must be {DOC_PROGRAM_STATUS}")
         if row[5] != f"{spec['evidence_dir']}/":
             errors.append(f"{path}: {program_id} evidence directory mismatch")
 
@@ -255,7 +266,7 @@ def write_fixture(root: Path) -> None:
                 {
                     "program": program_id,
                     "mode": "linux_user",
-                    "status": "TODO(BOARD)",
+                    "status": EXPECTED_SPEC_STATUS,
                     "required_syscalls": [
                         {"name": name, "number": number} for name, number in spec["syscalls"]
                     ],
@@ -272,6 +283,7 @@ def write_fixture(root: Path) -> None:
                 "source": spec["source"],
                 "expected": spec["expected"],
                 "evidence_dir": spec["evidence_dir"],
+                "evidence_status": DOC_PROGRAM_STATUS,
                 "expected_summary": "fixture",
             }
         )
@@ -279,8 +291,10 @@ def write_fixture(root: Path) -> None:
         json.dumps(
             {
                 "phase": "5.3",
-                "status": "TODO(BOARD)",
-                "evidence_root": "results/board/genesys2_trace_validation/<run-id>",
+                "status": MANIFEST_STATUS,
+                "evidence_root": DEFAULT_EVIDENCE_RUN_ROOT.as_posix(),
+                "evidence_checker": "uv run python tools/check_board_trace_evidence.py --root . --run-root "
+                + DEFAULT_EVIDENCE_RUN_ROOT.as_posix(),
                 "programs": programs,
             }
         ),
@@ -289,15 +303,17 @@ def write_fixture(root: Path) -> None:
     (root / DEFAULT_DOC).write_text(
         """# Board Trace Validation Programs
 
-This document is a run plan and does not claim the programs have passed on hardware.
-results/board/genesys2_trace_validation/<run-id>/
+This document is the Phase 5.3 trace-program specification and current board-evidence index.
+Expected JSON files are specifications; raw board evidence lives under the recorded evidence run root.
+results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix
+uv run python tools/check_board_trace_evidence.py --root . --run-root results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix
 
 | Order | Program | Source | Expected trace evidence | Status | Evidence directory |
 | ---: | --- | --- | --- | --- | --- |
-| 1 | hello_write | `board/trace_validation/programs/hello_write.c` | syscall `write` (`a7=64`) | TODO(BOARD) | `01_hello_write/` |
-| 2 | file_open_read_write | `board/trace_validation/programs/file_open_read_write.c` | creates `/tmp/rvmt_trace_validation_input.txt`, then syscalls `openat` (`a7=56`), `read` (`a7=63`), `write` (`a7=64`), `close` (`a7=57`) | TODO(BOARD) | `02_file_open_read_write/` |
-| 3 | fork_exec | `board/trace_validation/programs/fork_exec.c` | syscalls `clone` (`a7=220`), `execve` (`a7=221`), `wait4` (`a7=260`) | TODO(BOARD) | `03_fork_exec/` |
-| 4 | illegal_instruction | `board/trace_validation/programs/illegal_instruction.c` | trap event from an illegal instruction | TODO(BOARD) | `04_illegal_instruction/` |
+| 1 | hello_write | `board/trace_validation/programs/hello_write.c` | syscall `write` (`a7=64`) | BOARD_EVIDENCE_PASS | `01_hello_write/` |
+| 2 | file_open_read_write | `board/trace_validation/programs/file_open_read_write.c` | creates `/tmp/rvmt_trace_validation_input.txt`, then syscalls `openat` (`a7=56`), `read` (`a7=63`), `write` (`a7=64`), `close` (`a7=57`) | BOARD_EVIDENCE_PASS | `02_file_open_read_write/` |
+| 3 | fork_exec | `board/trace_validation/programs/fork_exec.c` | syscalls `clone` (`a7=220`), `execve` (`a7=221`), `wait4` (`a7=260`) | BOARD_EVIDENCE_PASS | `03_fork_exec/` |
+| 4 | illegal_instruction | `board/trace_validation/programs/illegal_instruction.c` | trap event from an illegal instruction | BOARD_EVIDENCE_PASS | `04_illegal_instruction/` |
 
 `program.log`
 `trace.jsonl`
@@ -334,7 +350,7 @@ def self_test() -> int:
         data = load_json(expected)
         data["status"] = "PASS"
         expected.write_text(json.dumps(data), encoding="utf-8")
-        if not expect_error(root, "status must remain TODO(BOARD)"):
+        if not expect_error(root, f"status must be {EXPECTED_SPEC_STATUS}"):
             print("[FAIL] self-test missed premature expected PASS", file=sys.stderr)
             return 1
 
@@ -372,9 +388,9 @@ def self_test() -> int:
         root = Path(tmp)
         write_fixture(root)
         doc = root / DEFAULT_DOC
-        doc.write_text(doc.read_text(encoding="utf-8").replace("TODO(BOARD)", "PASS", 1), encoding="utf-8")
-        if not expect_error(root, "must not claim Phase 5.3"):
-            print("[FAIL] self-test missed premature doc PASS", file=sys.stderr)
+        doc.write_text(doc.read_text(encoding="utf-8").replace(DOC_PROGRAM_STATUS, "TODO(BOARD)", 1), encoding="utf-8")
+        if not expect_error(root, f"status must be {DOC_PROGRAM_STATUS}"):
+            print("[FAIL] self-test missed stale doc TODO", file=sys.stderr)
             return 1
 
     print("[PASS] board trace validation program self-test")
@@ -402,7 +418,7 @@ def main(argv: list[str] | None = None) -> int:
         for error in errors:
             print(f"[FAIL] {error}", file=sys.stderr)
         return 1
-    print("[PASS] Phase 5.3 board trace validation programs are specified")
+    print("[PASS] Phase 5.3 board trace validation programs and current evidence index are specified")
     return 0
 
 

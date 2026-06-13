@@ -1,6 +1,6 @@
 {
   "schema": "rvmt.fuzz.invariants.v1",
-  "status": "TODO(SIM)",
+  "status": "PASS_GOLDEN_TRACE_FIXTURES_WITH_SYSCALL_EVIDENCE",
   "purpose": "Bounded fuzz/stress cases validate RV-MalTrace trace invariants, not CVA6 bug discovery.",
   "invariant_catalog": [
     "known_event_types",
@@ -14,6 +14,7 @@
   "cases": [
     {
       "id": "fuzz_trace_smoke",
+      "execution_status": "PASS_GOLDEN_TRACE_FIXTURE",
       "trace_fixture": "sim/golden/fuzz_trace_smoke.trace.jsonl",
       "min_counts": {
         "SYSCALL_ENTRY": 1,
@@ -46,9 +47,12 @@
     },
     {
       "id": "fuzz_cf",
+      "execution_status": "PASS_GOLDEN_TRACE_FIXTURE",
       "generated_program": "build/fuzz_trace_seeds/fuzz_cf/main.S",
+      "trace_fixture": "sim/golden/fuzz_cf.trace.jsonl",
       "min_counts": {
         "BRANCH": 1,
+        "DROP": 1,
         "JUMP": 1
       },
       "required_fields": {
@@ -64,8 +68,11 @@
     },
     {
       "id": "fuzz_trap",
+      "execution_status": "PASS_GOLDEN_TRACE_FIXTURE",
       "generated_program": "build/fuzz_trace_seeds/fuzz_trap/main.S",
+      "trace_fixture": "sim/golden/fuzz_trap.trace.jsonl",
       "min_counts": {
+        "DROP": 1,
         "TRAP": 1
       },
       "required_fields": {
@@ -82,10 +89,18 @@
     },
     {
       "id": "fuzz_syscall",
+      "execution_status": "PASS_GOLDEN_TRACE_FIXTURE_WITH_SYSCALL_EVIDENCE",
       "shape_seed": "build/fuzz_trace_seeds/fuzz_syscall/main.S",
-      "execution_status": "TODO(HARNESS)",
-      "execution_gate": "Requires a U-mode ECALL plus SRET-to-U direct-core harness before this seed can produce SYSCALL_ENTRY/SYSCALL_RET evidence.",
+      "syscall_harness_evidence": {
+        "report": "docs/07-evaluation-evidence/reports/sim_results.md",
+        "rvfi_adapter_test": "rvfi_adapter",
+        "seed_execution_claimed": false,
+        "summary": "results/vivado_sim/summary.json",
+        "trace_unit_test": "syscall_ret"
+      },
+      "trace_fixture": "sim/golden/fuzz_syscall.trace.jsonl",
       "min_counts": {
+        "DROP": 1,
         "SYSCALL_ENTRY": 1,
         "SYSCALL_RET": 1
       },
@@ -103,8 +118,11 @@
     },
     {
       "id": "fuzz_context",
+      "execution_status": "PASS_GOLDEN_TRACE_FIXTURE",
       "generated_program": "build/fuzz_trace_seeds/fuzz_context/main.S",
+      "trace_fixture": "sim/golden/fuzz_context.trace.jsonl",
       "min_counts": {
+        "DROP": 1,
         "SATP": 1
       },
       "required_fields": {
@@ -119,7 +137,9 @@
     },
     {
       "id": "fuzz_overflow",
+      "execution_status": "PASS_GOLDEN_TRACE_FIXTURE",
       "generated_program": "build/fuzz_trace_seeds/fuzz_overflow/main.S",
+      "trace_fixture": "sim/golden/fuzz_overflow.trace.jsonl",
       "min_counts": {
         "BRANCH": 1,
         "DROP": 1

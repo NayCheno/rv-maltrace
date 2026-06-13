@@ -20,14 +20,14 @@
 
 ## 当前仓库状态判断
 
-仓库已经超过空雏形：已有 commit-level trace MVP、事件格式、RTL/工具链、direct-core CVA6 matrix、full-SoC breakpoint smoke PASS、full-SoC UART/MMIO store-path observation PASS，以及 trace-enabled Genesys 2 routed resource delta。主要缺口已经从“完整 SoC 能否跑起来”转为 normal full-SoC multi-instruction tohost completion、production signal plumbing、physical board、Linux workload、真实 malware safety gate 和论文级 evaluation 证据。
+仓库已经超过空雏形：已有 commit-level trace MVP、事件格式、RTL/工具链、direct-core CVA6 matrix、full-SoC breakpoint smoke PASS、full-SoC UART/MMIO store-path observation PASS、normal full-SoC tohost/MMIO completion gate，以及 trace-enabled Genesys 2 routed resource delta。2026-06-13 复核时，主要缺口已经从“完整 SoC 能否跑起来”和“是否有 baseline board evidence”转为 production signal plumbing、board-native DWARF/source-line evidence、full hardware pointer strings、production streaming/DMA trace sink、Genesys2 board benign-control evidence、Linux/paper-level 泛化评估和真实 malware safety gate。
 
 - README 已把项目定位为 CVA6/RISC-V hardware-assisted behavior tracing，核心目标是 committed-event trace MVP、JSONL golden comparison，并明确 board/Linux claims 要放在 evidence gates 后面。
 - Trace event schema 已覆盖 `RETIRE`、`BRANCH`、`JUMP`、`SYSCALL_ENTRY`、`SYSCALL_RET`、`TRAP`、`CSR`、`SATP`、`PRIV`、`ARG_MEM`、`DROP`、`MARKER`。
 - CVA6 信号映射已经走 RVFI/commit/trap/CSR/writeback 路径，包括 `commit_pc`、`commit_instr`、`trap_cause`、`priv_lvl`、`satp`、`a0-a7 shadow` 等关键 attachment points。
 - 仿真结果文档显示 `trace-unit`、`rvfi_adapter`、`cva6_smoke`、`cva6_branch`、`cva6_jump`、`cva6_ecall`、`cva6_trap_illegal`、`cva6_full_soc_smoke`、`cva6_full_soc_uart_store_path` 等已记录为 PASS。
-- Full CVA6 `ariane_testharness` xsim 已有两条可复现 gate：breakpoint-terminated smoke 可以 compile/elaborate、从 DRAM `0x8000_0000` boot、退休第一条指令并在 `0x8000_0004` 观察 breakpoint trap；UART/MMIO store-path gate 可以观察 committed RVFI store 到 `0x1000_0000`。normal multi-instruction pseudo-tohost program completion 仍是单独 TODO，不能把这些 simulation gates 外推成 Linux/board 已验证。
-- Board 侧文档已明确：board work intentionally after Vivado simulation MVP；已有本地 preflight/bitstream/route/timing artifact，但 clock/reset、UART、bare-metal runtime 仍是 `TODO(BOARD)`，不能提前声称上板成功。
+- Full CVA6 `ariane_testharness` xsim 已有可复现 gate：breakpoint-terminated smoke 可以 compile/elaborate、从 DRAM `0x8000_0000` boot、退休第一条指令并在 `0x8000_0004` 观察 breakpoint trap；UART/MMIO store-path gate 可以观察 committed RVFI store 到 `0x1000_0000`；normal full-SoC tohost/MMIO completion 也已作为独立 repository-local simulation gate 记录为 PASS。不能把这些 simulation gates 外推成 Linux、production board workload 或真实 malware 已验证。
+- Board 侧文档已从早期 TODO 推进到 evidence-scoped 状态：Genesys2/CVA6 baseline board bring-up 和 Phase 5.3 minimal trace validation evidence 已被当前 checker 接受。仍不能声称 Linux boot、board-native DWARF/source-line、full hardware pointer strings、production streaming/DMA trace sink 或 Genesys2 board benign-control evidence 已完成。
 
 ## 2026-05-17 复核结论
 
@@ -35,9 +35,9 @@
 
 | 问题 | 当前判断 |
 | --- | --- |
-| two-week-plan 是否完成 | 仿真 MVP 基本完成；论文级/上板/Linux/malware 评估没有完成。计划中“软件模拟可验证的 RISC-V/CVA6 malware behavior tracing MVP”已有较完整证据链，但 board、Linux workload、真实 malware、安全隔离、baseline 对比仍是后续 gate。 |
-| 目前模拟的 SoC 是否正确 | 局部正确，不可外推为完整 SoC 正确。direct-core CVA6 和 trace-unit 回归较强；full SoC 已有 breakpoint smoke 与 UART/MMIO store-path observation PASS。但 normal full-SoC multi-instruction tohost completion、Linux boot、physical board 仍不能声称正确。 |
-| 没有板子测试时能否声称硬件正确 | 不能。当前 board 文档中 clock/reset、UART hello、bare-metal runtime 仍是 `TODO(BOARD)`；现有 bitstream、route/timing、preflight 只能算 repository-local Vivado evidence。 |
+| two-week-plan 是否完成 | 仿真 MVP 和当前受控 Genesys2/CVA6 evidence chain 已基本完成；论文级泛化、Linux board-native 外部闭环和真实 malware 评估没有完成。 |
+| 目前模拟的 SoC 是否正确 | repository-local simulation evidence 较强：direct-core CVA6、trace-unit、full-SoC breakpoint smoke、UART/MMIO store-path 和 normal tohost/MMIO completion gate 均有 PASS 记录。但不能外推为 Linux、production board workload 或真实 malware 已验证。 |
+| 早期没有板子测试时能否声称硬件正确 | 不能。当前状态已不再是早期“无板证据”阶段：baseline board bring-up 和 minimal trace validation evidence 已存在；但这些只支撑受限 baseline/controlled trace claim，不能替代 board-native DWARF/source-line、full hardware strings、production streaming/DMA、board benign-control 或 Linux boot claim。 |
 | malware 是否检测准确 | 不能声称检测准确率。仓库已有 synthetic malware-like manifest、semantic recovery 和 rule-based audit，但这些只能证明 synthetic behavior audit workflow，不是 real malware detection quality evidence。 |
 | 下一步主线 | 先做可视化可审计 demo、Linux/QEMU/strace ground truth 和 board bring-up；再做 QEMU/Spike/strace/eBPF/QEMU-plugin 对比；最后做 RISC-V vs x86 行为语义对比。 |
 
@@ -72,11 +72,11 @@ The next milestone is board-level trace export and Linux/QEMU/strace-aligned beh
 
 | 事项 | 两周内允许声称 | 两周内不能声称 |
 | --- | --- | --- |
-| Trace RTL | synthetic trace-unit、direct-core CVA6 xsim、full-SoC breakpoint smoke 和 full-SoC UART/MMIO store-path observation 已验证 | normal full-SoC tohost program、Linux、board 已完整通过 |
-| CVA6 集成 | direct-core trace-on/no-trace parity 和 full-SoC breakpoint smoke 可作为当前本地 execution evidence | 真实 Linux/board 执行已经证明 |
+| Trace RTL | synthetic trace-unit、direct-core CVA6 xsim、full-SoC breakpoint smoke、full-SoC UART/MMIO store-path observation 和 normal tohost/MMIO completion gate 已验证 | Linux、production board workload 或真实 malware 已完整通过 |
+| CVA6 集成 | direct-core trace-on/no-trace parity、full-SoC smoke/store-path/tohost gates 和受控 Genesys2 trace evidence 可作为当前 evidence-scoped execution evidence | 真实 Linux workload、board-native DWARF/source-line、production streaming/DMA 或真实 malware 已经证明 |
 | `ARG_MEM` | default-disabled synthetic pointer snapshot 已验证 guardrails | CVA6 LSU 真实信号接入和 Linux pointer recovery 已完成 |
 | Semantic recovery | `trace.jsonl` 可离线生成 `semantic_events.json`、`behavior_graph.json`、`recovery_report.md` | 已具备真实恶意样本检测准确率 |
-| Board | 可以冻结 first-board minimal trace profile 和 go/no-go checklist | clock/reset、UART、bare-metal、Linux boot 的实机通过证据已经满足 |
+| Board | baseline board bring-up、first-board minimal trace profile、Phase 5.3 validation program evidence 和 go/no-go checklist 可作为受限 board evidence | Linux boot、board-native DWARF/source-line、full hardware pointer strings、production streaming/DMA 和 board benign-control evidence 已满足 |
 | eBPF/kernel helper | 只能作为后续 enrichment/fallback 方案 | 不能作为 MVP 必需依赖或替代 RTL trace |
 
 核心原则：
@@ -389,8 +389,8 @@ uv run python tools/check_timing_principles.py
 
 - `results/vivado_sim/summary.json` 的 `overall` 必须为 `PASS`，否则先 triage 失败 test。
 - `docs/07-evaluation-evidence/reports/sim_results.md` 中 direct-core CVA6 rows 必须与 `summary.json` 一致。
-- full SoC `ariane_testharness` breakpoint smoke 应标为 `PASS`，但 UART/MMIO pseudo-tohost store path 仍应单独标为 `TODO`，不能混成 full-SoC execution blocker 或 Linux/board 证据。
-- `docs/10-process/risk_log.md` 中 full-SoC UART/MMIO store-path TODO、LSU hook TBD、board TODO 必须保留。
+- full SoC `ariane_testharness` breakpoint smoke、UART/MMIO store-path 和 normal tohost/MMIO completion gate 应保持 repository-local simulation `PASS`，但不能混成 Linux、production board workload 或真实 malware 证据。
+- `docs/10-process/risk_log.md` 中 production CVA6 signal plumbing、board-native DWARF/source-line、full hardware pointer strings、production streaming/DMA、board benign-control 和真实 malware 边界必须保留。
 
 产物：
 
@@ -937,7 +937,7 @@ RV-MalTrace translates RISC-V-specific execution events into architecture-neutra
 | JSONL parser + golden checker | PASS | `compare.log`/golden checker 和 `uv run rvmt sim:summary` PASS |
 | `semantic_events.json` + `behavior_graph.json` output | PASS(SYNTHETIC) | `build/behavior_recovery_smoke/` 已有 `semantic_events.json`、`behavior_graph.json`、`recovery_report.md`；Linux workload 输出仍 TODO |
 | fuzz/stress invariant checker | PASS(CHECKER) | `tools/check_fuzz_trace.py --self-test` 和 `fuzz_trace_smoke` fixture PASS；generated seed 的 direct-core/xsim execution 仍可作为后续优化 |
-| board bring-up go/no-go checklist | PASS(PLAN) | `check_board_trace_minimal.py` 和 `check_board_trace_programs.py` PASS；physical board observation 仍 TODO |
+| board bring-up go/no-go checklist | PASS(CONTROLLED BOARD) | `check_board_trace_minimal.py`、`check_board_trace_programs.py`、baseline board evidence 和 Phase 5.3 trace validation evidence PASS；Linux boot、board-native DWARF/source-line、full hardware strings、production streaming/DMA 和 board benign-control 仍需外部证据 |
 | trace-enabled FPGA resource delta | PASS(SYNTHESIS) | `uv run rvmt bitstream:build-trace` 生成 `build/vivado/genesys2-cv64a6_imafdc_sv39-trace/`；`docs/07-evaluation-evidence/reports/resource_report.md` 记录 LUT/FF/BRAM/DSP/slack delta |
 | normal full-SoC tohost/MMIO completion | PASS(SIM) | `uv run rvmt sim:cva6-full-soc-tohost` PASS；full `ariane_testharness` 观察到 committed tohost/MMIO store，且未使用 `RVMT_STORE_PATH_ONLY` shortcut |
 
@@ -945,7 +945,7 @@ RV-MalTrace translates RISC-V-specific execution events into architecture-neutra
 
 1. Normal full-SoC tohost/MMIO completion：`uv run rvmt sim:cva6-full-soc-tohost` 已成为单独 gate 且 PASS，不与 breakpoint smoke 或 `RVMT_STORE_PATH_ONLY` store-path PASS 混淆。
 2. Production CVA6 signal plumbing：减少对 RVFI/direct-core/synthetic path 的依赖，补 CSR/SATP/LSU/raw commit hook 证据。
-3. Physical board minimal trace：clock/reset、UART、bare-metal boot、trace dump、decode、expected compare。
+3. Remaining board/external closure：board-native DWARF/source-line、full hardware pointer strings、production streaming/DMA trace sink、Genesys2 board benign-control 和 Linux/paper-level 泛化评估。
 4. Linux workload semantic recovery：为 benign 和 malware-like suite 生成 build evidence、ground truth、trace、`semantic_events.json`、`behavior_graph.json`、`recovery_report.md`。
 5. Real malware admission gate：在 board/Linux workload 证据存在前，真实 malware 保持 `FORBIDDEN_EARLY`。
 

@@ -1,3 +1,5 @@
+`timescale 1ns/1ps
+
 module trace_bram_ring
   import trace_pkg::*;
 #(

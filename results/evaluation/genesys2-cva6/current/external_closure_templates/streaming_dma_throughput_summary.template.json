@@ -1,0 +1,51 @@
+{
+  "claim_boundary": {
+    "bram_jtag_substituted_for_streaming": false,
+    "production_streaming_dma_throughput_claimed": true,
+    "real_malware_validation_claimed": false
+  },
+  "evidence_artifacts": [
+    {
+      "id": "host_receiver_log",
+      "kind": "host_receiver_log",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/host_receiver_log.txt",
+      "sha256": "<64 lowercase hex sha256 of artifact file>"
+    },
+    {
+      "id": "noninterference_report",
+      "kind": "noninterference_report",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/noninterference_report.txt",
+      "sha256": "<64 lowercase hex sha256 of artifact file>"
+    },
+    {
+      "id": "resource_report",
+      "kind": "resource_report",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/resource_report.txt",
+      "sha256": "<64 lowercase hex sha256 of artifact file>"
+    },
+    {
+      "id": "timing_report",
+      "kind": "timing_report",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/timing_report.txt",
+      "sha256": "<64 lowercase hex sha256 of artifact file>"
+    },
+    {
+      "id": "transport_design_manifest",
+      "kind": "transport_design_manifest",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/transport_design_manifest.txt",
+      "sha256": "<64 lowercase hex sha256 of artifact file>"
+    }
+  ],
+  "failed_attempts_retained": true,
+  "host_receiver_log_present": true,
+  "noninterference_passed": true,
+  "p95_event_bytes_per_second": "> 0",
+  "resource_report_present": true,
+  "schema": "rvmt.genesys2.streaming_dma_throughput.v1",
+  "status": "TEMPLATE_NOT_EVIDENCE",
+  "sustained_bytes_per_second": "> p95_event_bytes_per_second",
+  "template_only": true,
+  "timing_passed": true,
+  "transport": "<axi_dma|ethernet_streaming|pcie_dma|uart_streaming_dma>",
+  "unaccounted_drop": 0
+}

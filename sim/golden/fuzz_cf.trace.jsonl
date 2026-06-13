@@ -1,0 +1,4 @@
+{"cycle":1,"evt":"BRANCH","pc":"0x0000000080002000","instr":"0x00050863","taken":true,"target":"0x0000000080002010"}
+{"cycle":2,"evt":"BRANCH","pc":"0x0000000080002004","instr":"0x00051463","taken":false,"target":"0x0000000080002018"}
+{"cycle":3,"evt":"JUMP","pc":"0x0000000080002010","instr":"0x0000006f","target":"0x0000000080002020"}
+{"cycle":4,"evt":"DROP","value":"0x0000000000000001"}

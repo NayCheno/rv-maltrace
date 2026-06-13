@@ -1,0 +1,460 @@
+{
+  "accepted_external_blocker_count": 0,
+  "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",
+  "claim_boundary": {
+    "all_non_real_external_blockers_closed": false,
+    "external_artifact_paths_record_scoped": true,
+    "external_artifact_paths_scoped_to_external_closure": true,
+    "external_execution_completed": false,
+    "external_readiness_substituted_for_completion": false,
+    "operator_packet_only": true,
+    "placeholder_values_treated_as_invalid": true,
+    "real_malware_validation_claimed": false,
+    "templates_treated_as_evidence": false
+  },
+  "closure_status": "OPEN_EXTERNAL_ARTIFACTS_REQUIRED",
+  "invalid_external_blocker_count": 0,
+  "non_claims": [
+    "This packet does not complete board-native DWARF source-line attribution.",
+    "This packet does not complete full hardware pointer-string reconstruction.",
+    "This packet does not complete production streaming/DMA throughput evidence.",
+    "This packet does not complete Genesys2 board benign-control evidence.",
+    "This packet does not add real-malware validation."
+  ],
+  "objective_exclusions": [
+    "real_malware_validation"
+  ],
+  "open_external_blocker_count": 4,
+  "operator_sequence": [
+    "Run the local preflight commands recorded for each external id.",
+    "Execute the required board, RTL, or host-transport experiment outside the repository-only checker path.",
+    "Write candidate summaries only from real record-specific external_closure artifacts with matching sha256-backed evidence rows and no template placeholders.",
+    "Validate each candidate with tools/prepare_genesys2_external_summary.py before moving it into the intake path.",
+    "Regenerate external_closure_intake.json, then run the intake, operator packet, current-suite, and full reproduction checks."
+  ],
+  "records": [
+    {
+      "acceptance_criteria": [
+        "every accepted board trace references an exact captured_elf_sha256 that matches the debug ELF manifest",
+        "every sample has board_trace_source_line_available=true and source_line_attribution_available=true",
+        "source-line attribution rate is at least 0.95 across key syscall/trap events",
+        "marker windows, syscall entry/return pairing, wrap count, and unaccounted DROP criteria still pass",
+        "current sidecar-only source lines are not substituted for DWARF-derived board trace source lines"
+      ],
+      "completion_evidence_valid": false,
+      "completion_requires_external_state": true,
+      "execution_steps": [
+        {
+          "commands": [
+            "uv run python tools/package_source_line_toolchain_probe.py",
+            "uv run python tools/check_source_line_toolchain_probe.py --root .",
+            "uv run python tools/package_genesys2_debug_elf_readiness.py",
+            "uv run python tools/check_genesys2_debug_elf_readiness.py --root .",
+            "uv run python tools/build_genesys2_p0_marker_elf.py --code-map",
+            "uv run python tools/build_genesys2_safe_syscall_elf.py --code-map"
+          ],
+          "must_pass_before_external_execution": true,
+          "phase": "local_preflight"
+        },
+        {
+          "commands": [
+            "uv run python tools/run_genesys2_p0_bram_repetitions.py --run-root <debug-p0-board-run-root> --repetitions 10",
+            "uv run python tools/run_genesys2_safe_surrogate_bram_repetitions.py --run-root <debug-safe-board-run-root> --repetitions 10",
+            "collect debug_elf_readiness_summary.json as the candidate debug ELF manifest and require captured_elf_sha256 exact matches after board rerun",
+            "uv run python tools/build_code_map.py --elf <captured-debug-elf> --addr2line --out <code-map.json>",
+            "uv run python tools/join_trace_code_map.py --trace <trace.jsonl> --code-map <code-map.json> --out <joined.json>"
+          ],
+          "phase": "external_collection",
+          "requires_board_rtl_or_host_transport": true
+        },
+        {
+          "candidate_must_pass_prepare_helper": true,
+          "commands": [
+            "uv run python tools/prepare_genesys2_external_summary.py --record-id board_native_dwarf_source_lines --write-template results/evaluation/genesys2-cva6/current/external_closure_templates/board_native_source_lines_summary.template.json",
+            "uv run python tools/prepare_genesys2_external_summary.py --record-id board_native_dwarf_source_lines --summary <candidate-board-native-dwarf-source-lines-summary.json>",
+            "write results/evaluation/genesys2-cva6/current/external_closure/board_native_source_lines_summary.json from the accepted board run roots",
+            "uv run python tools/package_genesys2_external_closure_intake.py"
+          ],
+          "phase": "candidate_summary_packaging"
+        },
+        {
+          "accepted_only_when_completion_status": "EXTERNAL_SUMMARY_ACCEPTED",
+          "commands": [
+            "uv run python tools/package_genesys2_external_closure_intake.py",
+            "uv run python tools/check_genesys2_external_closure_intake.py --root ."
+          ],
+          "phase": "intake_acceptance"
+        }
+      ],
+      "exit_criteria": [
+        "external_summary_exists=true in external_closure_intake.json",
+        "completion_status=EXTERNAL_SUMMARY_ACCEPTED for this record",
+        "completion_evidence_valid=true for this record",
+        "no validation_errors for this record"
+      ],
+      "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/board_native_source_lines_summary.json",
+      "id": "board_native_dwarf_source_lines",
+      "intake_completion_status": "OPEN_NO_EXTERNAL_SUMMARY",
+      "no_substitution_rule": "Toolchain probes and source-equivalent sidecars must not be substituted for board-native DWARF source-line attribution.",
+      "operator_inputs": [
+        "Genesys2/CVA6 board access with the current trace bitstream or a recorded equivalent bitstream hash",
+        "debug/no-PIE RISC-V Linux workload ELFs built from the exact listed sources with retained .debug_line",
+        "readelf -S and addr2line transcripts for each captured ELF",
+        "board capture roots produced from those exact debug ELFs"
+      ],
+      "operator_notes": [
+        "Do not copy template-only JSON into the intake directory as evidence.",
+        "Do not replace board, RTL, or host receiver artifacts with local sidecars or companion-derived fields.",
+        "Every evidence_artifacts row must point to a real nonempty record-specific file under results/evaluation/genesys2-cva6/current/external_closure/board_native_dwarf_source_lines/ with matching sha256 and no template placeholders.",
+        "Run the intake checker after writing any candidate external summary."
+      ],
+      "order": 1,
+      "plan_status": "READY_TO_EXECUTE_WITH_EXTERNAL_STATE",
+      "readiness_status": "EXTERNAL_BOARD_RERUN_READY_NOT_EXECUTED",
+      "required_evidence_artifact_kinds": [
+        "board_capture_manifest",
+        "debug_elf_manifest",
+        "joined_trace_code_map_manifest",
+        "readelf_debug_line_transcript"
+      ],
+      "required_raw_artifacts": [
+        "debug/no-PIE board workload ELFs for every sample with retained .debug_line sections",
+        "readelf -S transcripts proving .debug_line for each captured ELF",
+        "board capture roots generated from those exact debug ELFs",
+        "per-run manifest linking captured_elf_sha256 to the debug ELF sha256",
+        "trace/code-map joins produced with addr2line source locations from the captured ELF"
+      ],
+      "required_summary_schema": "rvmt.genesys2.board_native_source_lines.v1",
+      "template_path": "results/evaluation/genesys2-cva6/current/external_closure_templates/board_native_source_lines_summary.template.json"
+    },
+    {
+      "acceptance_criteria": [
+        "full_string_claimed may become true only for pointer groups with contiguous bytes from offset 0 through terminator or documented bounded truncation",
+        "fragmented or gapped ARG_MEM groups remain fragments and are not promoted to strings",
+        "companion-derived strings are never counted as hardware-derived pointer strings",
+        "kernel-space addresses and full memory dumps remain absent",
+        "openat/write/execve hardware string coverage is reported with per-sample counts and negative cases"
+      ],
+      "completion_evidence_valid": false,
+      "completion_requires_external_state": true,
+      "execution_steps": [
+        {
+          "commands": [
+            "uv run python tools/check_pointer_snapshot_guardrails.py --root .",
+            "uv run python tools/check_hardware_pointer_prefixes.py --root .",
+            "uv run python tools/check_genesys2_pointer_string_readiness.py --root .",
+            "uv run python tools/run_genesys2_pointer_snapshot_bram_capture.py --dry-run"
+          ],
+          "must_pass_before_external_execution": true,
+          "phase": "local_preflight"
+        },
+        {
+          "commands": [
+            "uv run python tools/run_genesys2_pointer_snapshot_bram_capture.py --run-root <full-string-board-run-root> --repetitions 10",
+            "collect full-string ARG_MEM groups with mem_last=true and contiguous offsets from zero",
+            "retain negative kernel-range and gapped-fragment cases as non-promoted fragments"
+          ],
+          "phase": "external_collection",
+          "requires_board_rtl_or_host_transport": true
+        },
+        {
+          "candidate_must_pass_prepare_helper": true,
+          "commands": [
+            "uv run python tools/package_genesys2_pointer_string_readiness.py",
+            "uv run python tools/check_genesys2_pointer_string_readiness.py --root .",
+            "uv run python tools/prepare_genesys2_external_summary.py --record-id full_hardware_pointer_strings --write-template results/evaluation/genesys2-cva6/current/external_closure_templates/hardware_pointer_strings_summary.template.json",
+            "uv run python tools/prepare_genesys2_external_summary.py --record-id full_hardware_pointer_strings --summary <candidate-full-hardware-pointer-strings-summary.json>",
+            "write results/evaluation/genesys2-cva6/current/external_closure/hardware_pointer_strings_summary.json from the full-string board run",
+            "uv run python tools/package_genesys2_external_closure_intake.py"
+          ],
+          "phase": "candidate_summary_packaging"
+        },
+        {
+          "accepted_only_when_completion_status": "EXTERNAL_SUMMARY_ACCEPTED",
+          "commands": [
+            "uv run python tools/package_genesys2_external_closure_intake.py",
+            "uv run python tools/check_genesys2_external_closure_intake.py --root ."
+          ],
+          "phase": "intake_acceptance"
+        }
+      ],
+      "exit_criteria": [
+        "external_summary_exists=true in external_closure_intake.json",
+        "completion_status=EXTERNAL_SUMMARY_ACCEPTED for this record",
+        "completion_evidence_valid=true for this record",
+        "no validation_errors for this record"
+      ],
+      "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/hardware_pointer_strings_summary.json",
+      "id": "full_hardware_pointer_strings",
+      "intake_completion_status": "OPEN_NO_EXTERNAL_SUMMARY",
+      "no_substitution_rule": "Bounded prefixes, fragments, qemu/strace strings, and trusted companion strings must not be substituted for full hardware-derived pointer strings.",
+      "operator_inputs": [
+        "RTL change or equivalent CVA6 LSU/user-copy hook that observes contiguous user-pointer bytes",
+        "Trace format extension preserving mem_last and pointer-group boundaries",
+        "Genesys2/CVA6 board recapture roots for openat, write, and execve full-string cases",
+        "Raw byte redaction policy for any releasable summaries"
+      ],
+      "operator_notes": [
+        "Do not copy template-only JSON into the intake directory as evidence.",
+        "Do not replace board, RTL, or host receiver artifacts with local sidecars or companion-derived fields.",
+        "Every evidence_artifacts row must point to a real nonempty record-specific file under results/evaluation/genesys2-cva6/current/external_closure/full_hardware_pointer_strings/ with matching sha256 and no template placeholders.",
+        "Run the intake checker after writing any candidate external summary."
+      ],
+      "order": 2,
+      "plan_status": "READY_TO_EXECUTE_WITH_EXTERNAL_STATE",
+      "readiness_status": "RTL_EXTENSION_REQUIRED_NOT_EXECUTED",
+      "required_evidence_artifact_kinds": [
+        "companion_substitution_audit",
+        "kernel_space_filter_report",
+        "mem_last_or_terminator_report",
+        "pointer_capture_manifest",
+        "pointer_group_reconstruction",
+        "redaction_policy",
+        "resource_timing_report",
+        "rtl_design_manifest"
+      ],
+      "required_raw_artifacts": [
+        "CVA6 LSU/user-copy hook or equivalent RTL path that observes contiguous user-pointer bytes",
+        "full-string ARG_MEM records with mem_last=true for null-terminated path/string arguments",
+        "gap-free pointer-group reconstruction for openat, write, and execve where a full string is claimed",
+        "board recapture roots proving the new RTL path on Genesys2/CVA6",
+        "redaction/release policy for raw payload bytes and sanitized public summaries"
+      ],
+      "required_summary_schema": "rvmt.genesys2.hardware_pointer_strings.v1",
+      "template_path": "results/evaluation/genesys2-cva6/current/external_closure_templates/hardware_pointer_strings_summary.template.json"
+    },
+    {
+      "acceptance_criteria": [
+        "transport is not reported as BRAM ring plus ILA/JTAG when claiming production streaming/DMA throughput",
+        "sustained throughput exceeds the measured p95 event byte production rate recorded in streaming_dma_target_summary.json for the selected workload set",
+        "unaccounted DROP is 0 for accepted throughput runs and every failed attempt is retained with impact analysis",
+        "trace_on versus trace_off behavior remains equivalent for the workload pass/fail result",
+        "timing closure and resource deltas are reported for the exact bitstream used in the throughput run"
+      ],
+      "completion_evidence_valid": false,
+      "completion_requires_external_state": true,
+      "execution_steps": [
+        {
+          "commands": [
+            "uv run python tools/check_trace_export_decision.py --root .",
+            "uv run python tools/check_genesys2_streaming_dma_target.py --root .",
+            "uv run python tools/check_genesys2_streaming_dma_readiness.py --root .",
+            "uv run python tools/run_genesys2_runtime_benchmark.py --dry-run",
+            "uv run python tools/check_genesys2_bitstream_artifacts.py --root ."
+          ],
+          "must_pass_before_external_execution": true,
+          "phase": "local_preflight"
+        },
+        {
+          "commands": [
+            "external: build and program the selected non-BRAM streaming trace bitstream",
+            "external: run host receiver during the selected workload set and retain byte/event/elapsed/parser logs; compare sustained bytes/sec against streaming_dma_target_summary.json converted with the exact streaming bitstream clock report",
+            "uv run python tools/run_genesys2_runtime_benchmark.py --run-root <streaming-runtime-run-root> --mode trace_off --mode event_only --mode bram_ring"
+          ],
+          "phase": "external_collection",
+          "requires_board_rtl_or_host_transport": true
+        },
+        {
+          "candidate_must_pass_prepare_helper": true,
+          "commands": [
+            "uv run python tools/package_genesys2_streaming_dma_readiness.py",
+            "uv run python tools/check_genesys2_streaming_dma_readiness.py --root .",
+            "uv run python tools/prepare_genesys2_external_summary.py --record-id production_streaming_dma_trace_sink --write-template results/evaluation/genesys2-cva6/current/external_closure_templates/streaming_dma_throughput_summary.template.json",
+            "uv run python tools/prepare_genesys2_external_summary.py --record-id production_streaming_dma_trace_sink --summary <candidate-production-streaming-dma-trace-sink-summary.json>",
+            "write results/evaluation/genesys2-cva6/current/external_closure/streaming_dma_throughput_summary.json from transport, host receiver, timing, resource, and noninterference artifacts",
+            "uv run python tools/package_genesys2_external_closure_intake.py"
+          ],
+          "phase": "candidate_summary_packaging"
+        },
+        {
+          "accepted_only_when_completion_status": "EXTERNAL_SUMMARY_ACCEPTED",
+          "commands": [
+            "uv run python tools/package_genesys2_external_closure_intake.py",
+            "uv run python tools/check_genesys2_external_closure_intake.py --root ."
+          ],
+          "phase": "intake_acceptance"
+        }
+      ],
+      "exit_criteria": [
+        "external_summary_exists=true in external_closure_intake.json",
+        "completion_status=EXTERNAL_SUMMARY_ACCEPTED for this record",
+        "completion_evidence_valid=true for this record",
+        "no validation_errors for this record"
+      ],
+      "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/streaming_dma_throughput_summary.json",
+      "id": "production_streaming_dma_trace_sink",
+      "intake_completion_status": "OPEN_NO_EXTERNAL_SUMMARY",
+      "no_substitution_rule": "BRAM ring captures, ILA/JTAG dumps, and local runtime benchmarks must not be substituted for production streaming or DMA throughput evidence.",
+      "operator_inputs": [
+        "Non-BRAM transport implementation such as AXI DMA, Ethernet streaming, or an equivalent production streaming path",
+        "Host receiver logs with byte count, event count, elapsed time, and parser success",
+        "Resource, timing, and route reports for the exact streaming bitstream",
+        "Trace-off versus trace-on workload result comparison"
+      ],
+      "operator_notes": [
+        "Do not copy template-only JSON into the intake directory as evidence.",
+        "Do not replace board, RTL, or host receiver artifacts with local sidecars or companion-derived fields.",
+        "Every evidence_artifacts row must point to a real nonempty record-specific file under results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/ with matching sha256 and no template placeholders.",
+        "Run the intake checker after writing any candidate external summary."
+      ],
+      "order": 3,
+      "plan_status": "READY_TO_EXECUTE_WITH_EXTERNAL_STATE",
+      "readiness_status": "STREAMING_DMA_EXPERIMENT_REQUIRED_NOT_EXECUTED",
+      "required_evidence_artifact_kinds": [
+        "host_receiver_log",
+        "noninterference_report",
+        "resource_report",
+        "timing_report",
+        "transport_design_manifest"
+      ],
+      "required_raw_artifacts": [
+        "selected non-BRAM production transport design, such as AXI DMA or Ethernet streaming",
+        "host receiver logs with byte counts, event counts, elapsed time, and parser success",
+        "throughput benchmark showing sustained transport capacity against trace event production rate",
+        "drop/wrap/backpressure accounting under stress and normal workloads",
+        "resource, timing, and noninterference reports for trace_off versus streaming trace modes"
+      ],
+      "required_summary_schema": "rvmt.genesys2.streaming_dma_throughput.v1",
+      "template_path": "results/evaluation/genesys2-cva6/current/external_closure_templates/streaming_dma_throughput_summary.template.json"
+    },
+    {
+      "acceptance_criteria": [
+        "at least five non-network benign workloads execute on Genesys2/CVA6 under the current trace route",
+        "unexpected false-positive rate is reported and is 0.0 for the accepted board benign control set",
+        "allowed rule overlaps are explicitly listed and do not count as unexpected false positives",
+        "board benign evidence is kept distinct from local Linux strace control evidence"
+      ],
+      "completion_evidence_valid": false,
+      "completion_requires_external_state": true,
+      "execution_steps": [
+        {
+          "commands": [
+            "uv run python tools/check_benign_control_summary.py --root .",
+            "uv run python tools/check_genesys2_board_benign_readiness.py --root .",
+            "uv run python tools/check_behavior_audit_metrics.py --root .",
+            "uv run python tools/run_genesys2_safe_surrogate_bram_repetitions.py --dry-run"
+          ],
+          "must_pass_before_external_execution": true,
+          "phase": "local_preflight"
+        },
+        {
+          "commands": [
+            "external: execute hello, ls, cat, cp, and sha256sum or equivalent non-network benign workloads on Genesys2/CVA6",
+            "external: capture per-benign-workload BRAM marker windows and UART logs",
+            "uv run python tools/audit_behavior.py --help"
+          ],
+          "phase": "external_collection",
+          "requires_board_rtl_or_host_transport": true
+        },
+        {
+          "candidate_must_pass_prepare_helper": true,
+          "commands": [
+            "uv run python tools/package_genesys2_board_benign_readiness.py",
+            "uv run python tools/check_genesys2_board_benign_readiness.py --root .",
+            "uv run python tools/prepare_genesys2_external_summary.py --record-id genesys2_board_benign_control --write-template results/evaluation/genesys2-cva6/current/external_closure_templates/board_benign_control_summary.template.json",
+            "uv run python tools/prepare_genesys2_external_summary.py --record-id genesys2_board_benign_control --summary <candidate-genesys2-board-benign-control-summary.json>",
+            "write results/evaluation/genesys2-cva6/current/external_closure/board_benign_control_summary.json from board-derived benign artifacts",
+            "uv run python tools/package_genesys2_external_closure_intake.py"
+          ],
+          "phase": "candidate_summary_packaging"
+        },
+        {
+          "accepted_only_when_completion_status": "EXTERNAL_SUMMARY_ACCEPTED",
+          "commands": [
+            "uv run python tools/package_genesys2_external_closure_intake.py",
+            "uv run python tools/check_genesys2_external_closure_intake.py --root ."
+          ],
+          "phase": "intake_acceptance"
+        }
+      ],
+      "exit_criteria": [
+        "external_summary_exists=true in external_closure_intake.json",
+        "completion_status=EXTERNAL_SUMMARY_ACCEPTED for this record",
+        "completion_evidence_valid=true for this record",
+        "no validation_errors for this record"
+      ],
+      "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/board_benign_control_summary.json",
+      "id": "genesys2_board_benign_control",
+      "intake_completion_status": "OPEN_NO_EXTERNAL_SUMMARY",
+      "no_substitution_rule": "Local Linux benign strace/control evidence must not be substituted for Genesys2 board benign false-positive evidence.",
+      "operator_inputs": [
+        "At least five non-network benign workloads staged on the Genesys2/CVA6 target",
+        "Board trace captures for each benign workload under the current trace route",
+        "Per-workload semantic events, behavior graph, and behavior audit generated from board traces",
+        "Documented allowed benign overlaps separated from unexpected false positives"
+      ],
+      "operator_notes": [
+        "Do not copy template-only JSON into the intake directory as evidence.",
+        "Do not replace board, RTL, or host receiver artifacts with local sidecars or companion-derived fields.",
+        "Every evidence_artifacts row must point to a real nonempty record-specific file under results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/ with matching sha256 and no template placeholders.",
+        "Run the intake checker after writing any candidate external summary."
+      ],
+      "order": 4,
+      "plan_status": "READY_TO_EXECUTE_WITH_EXTERNAL_STATE",
+      "readiness_status": "BOARD_BENIGN_CONTROL_RUN_REQUIRED_NOT_EXECUTED",
+      "required_evidence_artifact_kinds": [
+        "behavior_audit_manifest",
+        "behavior_graph_manifest",
+        "board_capture_manifest",
+        "false_positive_report",
+        "semantic_events_manifest"
+      ],
+      "required_raw_artifacts": [
+        "Genesys2/CVA6 board traces for representative non-network benign workloads",
+        "per-benign-sample semantic_events, behavior_graph, and behavior_audit artifacts from board traces",
+        "documented allowed benign overlaps versus unexpected behavior-rule matches",
+        "board-run false-positive summary with sample count and unexpected false-positive rate"
+      ],
+      "required_summary_schema": "rvmt.genesys2.board_benign_control.v1",
+      "template_path": "results/evaluation/genesys2-cva6/current/external_closure_templates/board_benign_control_summary.template.json"
+    }
+  ],
+  "schema": "rvmt.genesys2.external_operator_packet.v1",
+  "scope": "operator handoff for remaining non-real-malware Genesys2/CVA6 external closure items",
+  "source_artifacts": {
+    "external_closure_intake": {
+      "closure_status": "OPEN_EXTERNAL_ARTIFACTS_REQUIRED",
+      "exists": true,
+      "expected_schema": "rvmt.genesys2.external_closure_intake.v1",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure_intake.json",
+      "schema": "rvmt.genesys2.external_closure_intake.v1",
+      "sha256": "287b54a90ccf235723c41ef59b66c4cf7a5b59b29f2e5570708fc7bf352c2e60",
+      "status": "PASS"
+    },
+    "external_closure_plan": {
+      "closure_status": "NOT_APPLICABLE",
+      "exists": true,
+      "expected_schema": "rvmt.genesys2.external_closure_plan.v1",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure_plan.json",
+      "schema": "rvmt.genesys2.external_closure_plan.v1",
+      "sha256": "97bc15b28ff09d5b1f1ac8a4fa3ba3a89ccde895910e4933a7cd64a32e536596",
+      "status": "PASS"
+    },
+    "external_closure_preflight": {
+      "closure_status": "NOT_APPLICABLE",
+      "exists": true,
+      "expected_schema": "rvmt.genesys2.external_closure_preflight.v1",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure_preflight.json",
+      "schema": "rvmt.genesys2.external_closure_preflight.v1",
+      "sha256": "4886342187a4cf6abea8e190be8b299837e894fd4c1b0f7053fb3624b7f6237d",
+      "status": "PASS"
+    },
+    "external_closure_readiness": {
+      "closure_status": "NOT_APPLICABLE",
+      "exists": true,
+      "expected_schema": "rvmt.genesys2.external_closure_readiness.v1",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure_readiness.json",
+      "schema": "rvmt.genesys2.external_closure_readiness.v1",
+      "sha256": "d62cfd241d9cad20e2b1d5d2f0de095e1db5b6933eeaf884a35d83b6c9217ff0",
+      "status": "PASS"
+    }
+  },
+  "status": "PASS",
+  "validation_commands": [
+    "uv run python tools/package_genesys2_external_operator_packet.py",
+    "uv run python tools/check_genesys2_external_operator_packet.py --root .",
+    "uv run python tools/check_genesys2_external_closure_intake.py --root .",
+    "uv run python tools/check_genesys2_external_closure_preflight.py --root .",
+    "uv run python tools/reproduce_genesys2_current.py --full --dry-run"
+  ]
+}

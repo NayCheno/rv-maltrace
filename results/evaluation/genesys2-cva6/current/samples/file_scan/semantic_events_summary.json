@@ -3,7 +3,7 @@
     "anti_analysis_behavior_node": false,
     "argument_reconstruction_accuracy": 1.0,
     "execve_filename_accuracy": 1.0,
-    "execve_path_source": null,
+    "execve_path_source": "NOT_OBSERVED",
     "execve_paths": [],
     "expected_syscall_recall": 1.0,
     "expected_syscalls": [
@@ -40,7 +40,7 @@
     "syscall_precision": 1.0,
     "trace_source": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_01/bram_records.jsonl",
     "write_buffer_prefix_recovered": true,
-    "write_buffer_prefix_source": null,
+    "write_buffer_prefix_source": "NOT_OBSERVED",
     "write_buffer_prefixes": []
   },
   "sample_id": "file_scan",

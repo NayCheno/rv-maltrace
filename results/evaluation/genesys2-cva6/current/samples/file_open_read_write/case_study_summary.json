@@ -1,0 +1,116 @@
+{
+  "allowed_claims": [
+    "Genesys2/CVA6 controlled hardware trace evidence is linked to the case-study artifacts.",
+    "Runtime process, ELF/function attribution, semantic reconstruction, and behavior audit artifacts are traceable.",
+    "The sample is a safe synthetic P0 case study used for trace and attribution validation."
+  ],
+  "baseline_comparison": {
+    "baseline_alignment_summary": "results/evaluation/genesys2-cva6/current/baseline_alignment_summary.json",
+    "baseline_logs": "results/evaluation/genesys2-cva6/current/samples/file_open_read_write/baseline_logs.json",
+    "baselines": [
+      "qemu_strace",
+      "rv_maltrace_event_only",
+      "rv_maltrace_kernel_helper",
+      "rv_maltrace_pointer_snapshot",
+      "software_instrumentation",
+      "strace"
+    ]
+  },
+  "behavior_analysis": {
+    "audit_decision": "PASS_CONTROLLED_SAFE_WORKLOAD_AUDIT",
+    "behavior_audit_metrics": "results/evaluation/genesys2-cva6/current/samples/file_open_read_write/behavior_audit_metrics.json",
+    "behavior_graph": "results/evaluation/genesys2-cva6/current/samples/file_open_read_write/behavior_graph.json",
+    "behavior_mapping": "results/evaluation/genesys2-cva6/current/samples/file_open_read_write/behavior_mapping.json",
+    "integrated_validation": "results/evaluation/genesys2-cva6/current/samples/file_open_read_write/integrated_validation.json",
+    "metric_summary": "results/evaluation/genesys2-cva6/current/samples/file_open_read_write/metric_summary.json",
+    "metrics": {
+      "anti_analysis_visibility": 1.0,
+      "argument_reconstruction_accuracy": 1.0,
+      "behavior_rule_recall": 1.0,
+      "benign_false_positive_rate": 0.0,
+      "expected_syscall_recall": 1.0,
+      "syscall_precision": 1.0,
+      "unaccounted_drop": 0
+    }
+  },
+  "case_study_complete": true,
+  "hardware_trace": {
+    "continuous_trace": true,
+    "summary": "results/evaluation/genesys2-cva6/current/p0_bram_trace_summary.json",
+    "trace": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/02_file_open_read_write/trace.jsonl",
+    "trace_scope": "Genesys2/CVA6 BRAM marker-window controlled evidence",
+    "unaccounted_drop": 0
+  },
+  "limitations": [
+    "Safe-workload behavior audit metrics are controlled metrics.",
+    "Trusted companion strings may support semantics but are not promoted to hardware-derived full strings.",
+    "External closure intake must accept additional board/RTL summaries before stronger external claims are made."
+  ],
+  "local_code_attribution": {
+    "board_trace_source_line_available": false,
+    "function_attribution_available": true,
+    "process_elf_ownership_summary": "results/evaluation/genesys2-cva6/current/process_elf_ownership_summary.json",
+    "runtime_process_map": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/02_file_open_read_write/runtime_process_map.json",
+    "source_line_attribution_summary": "results/evaluation/genesys2-cva6/current/source_line_attribution_summary.json",
+    "source_line_sidecar": "results/evaluation/genesys2-cva6/current/source_line_sidecar.json",
+    "target_elf_attributed_events": 28
+  },
+  "non_claims": [
+    "This case study is not real malware validation.",
+    "This case study is not malware detection accuracy or malware-family coverage evidence.",
+    "Full hardware-derived pointer strings are not claimed.",
+    "Board-native DWARF source-line attribution is not claimed for current board traces.",
+    "Production streaming/DMA throughput is not claimed."
+  ],
+  "real_malware": false,
+  "reviewer_traceability": {
+    "checker_command": "uv run python tools/check_ccfa_case_study_manifest.py --root .",
+    "required_artifacts": [
+      "results/evaluation/genesys2-cva6/current/p0_bram_trace_summary.json",
+      "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/02_file_open_read_write/trace.jsonl",
+      "results/evaluation/genesys2-cva6/current/samples/file_open_read_write/semantic_events.json",
+      "results/evaluation/genesys2-cva6/current/samples/file_open_read_write/behavior_graph.json",
+      "results/evaluation/genesys2-cva6/current/samples/file_open_read_write/behavior_mapping.json",
+      "results/evaluation/genesys2-cva6/current/samples/file_open_read_write/integrated_validation.json",
+      "results/evaluation/genesys2-cva6/current/samples/file_open_read_write/behavior_audit_metrics.json",
+      "results/evaluation/genesys2-cva6/current/samples/file_open_read_write/baseline_logs.json",
+      "results/evaluation/genesys2-cva6/current/samples/file_open_read_write/metric_summary.json",
+      "results/evaluation/genesys2-cva6/current/samples/file_open_read_write/fd_path_graph.json",
+      "results/evaluation/genesys2-cva6/current/source_line_attribution_summary.json",
+      "results/evaluation/genesys2-cva6/current/process_elf_ownership_summary.json",
+      "results/evaluation/genesys2-cva6/current/semantic_reconstruction_summary.json",
+      "results/evaluation/genesys2-cva6/current/fd_path_graph_summary.json",
+      "results/evaluation/genesys2-cva6/current/baseline_alignment_summary.json",
+      "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/02_file_open_read_write/runtime_process_map.json",
+      "results/evaluation/genesys2-cva6/current/source_line_sidecar.json"
+    ]
+  },
+  "sample_class": "p0_safe_synthetic",
+  "sample_id": "file_open_read_write",
+  "schema": "rvmt.ccfa.case_study_summary.v1",
+  "semantic_reconstruction": {
+    "execve_paths": [],
+    "expected_syscalls": [
+      "openat",
+      "write",
+      "close",
+      "openat",
+      "read",
+      "write",
+      "close"
+    ],
+    "fd_graph_complete": true,
+    "fd_path_graph": "results/evaluation/genesys2-cva6/current/samples/file_open_read_write/fd_path_graph.json",
+    "fd_path_summary": "results/evaluation/genesys2-cva6/current/fd_path_graph_summary.json",
+    "openat_paths": [
+      "/tmp/rvmt_p0_file_open_read_write.txt"
+    ],
+    "semantic_events": "results/evaluation/genesys2-cva6/current/samples/file_open_read_write/semantic_events.json",
+    "semantic_source": "trusted_qemu_guest_strace_companion",
+    "semantic_summary": "results/evaluation/genesys2-cva6/current/semantic_reconstruction_summary.json",
+    "write_buffer_prefixes": [
+      "rv-maltrace file validation\n"
+    ]
+  },
+  "status": "PASS"
+}

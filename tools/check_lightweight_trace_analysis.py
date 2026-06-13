@@ -18,6 +18,7 @@ DEFAULT_TRACE = Path("results/vivado_sim/board_minimal/trace.jsonl")
 DEFAULT_COMPRESSION_TRACE = Path("sim/golden/compression_edges.trace.jsonl")
 DEFAULT_UV_DOC = Path("docs/10-process/uv_workflow.md")
 EXPECTED_PROFILES = ["board_minimal", "semantic_mvp"]
+SCOPED_CURRENT_STATUS = "PASS_SCOPED_GENESYS2_CURRENT"
 FORBIDDEN_CLAIM_PATTERNS = (
     re.compile(r"\bruntime\s+overhead\s+(?:is\s+)?(?:measured|validated|passed|complete)\b", re.IGNORECASE),
     re.compile(r"\btrace[- ]enabled\s+FPGA\s+bandwidth\s+(?:is\s+)?(?:measured|validated|passed|complete)\b", re.IGNORECASE),
@@ -25,10 +26,12 @@ FORBIDDEN_CLAIM_PATTERNS = (
 )
 REQUIRED_DOC_TEXT = (
     "Phase 9.1 defines the selective committed semantic trace analysis gate.",
+    "scoped Genesys2/CVA6 evidence for the semantic MVP event families",
     "experiments/analysis/lightweight_trace_profile.json",
     "tools/analyze_trace_lightweight.py",
     "compact JSONL roundtrip",
     "drop accounting",
+    "not a claim that every raw board trace is marker-free",
     "must not be used to claim runtime overhead",
 )
 
@@ -62,8 +65,8 @@ def check_spec(path: Path) -> list[str]:
     errors.extend(check_forbidden(path, path.read_text(encoding="utf-8")))
     if spec.get("phase") != "9.1":
         errors.append(f"{path}: phase must be 9.1")
-    if spec.get("status") != "TODO(EXPERIMENT)":
-        errors.append(f"{path}: status must remain TODO(EXPERIMENT)")
+    if spec.get("status") != "PASS_SCOPED_CURRENT_EVIDENCE":
+        errors.append(f"{path}: status must be PASS_SCOPED_CURRENT_EVIDENCE")
     if spec.get("scope") != "selective_committed_semantic_trace_analysis":
         errors.append(f"{path}: unexpected scope")
     if spec.get("input_artifacts") != ["trace.jsonl"]:
@@ -84,14 +87,20 @@ def check_spec(path: Path) -> list[str]:
     if set(board.get("forbidden_behavior_events", [])) != {"RETIRE", "JUMP", "MARKER", "ARG_MEM"}:
         errors.append(f"{path}: board_minimal forbidden_behavior_events mismatch")
     semantic = by_id.get("semantic_mvp", {})
-    if semantic.get("status") != "TODO(EXPERIMENT)":
-        errors.append(f"{path}: semantic_mvp status must remain TODO(EXPERIMENT)")
+    if semantic.get("status") != SCOPED_CURRENT_STATUS:
+        errors.append(f"{path}: semantic_mvp status must be {SCOPED_CURRENT_STATUS}")
     if semantic.get("allowed_other_events") != []:
         errors.append(f"{path}: semantic_mvp allowed_other_events must be empty")
     gates = spec.get("gates", [])
     gate_ids = [gate.get("id") for gate in gates if isinstance(gate, dict)]
-    if gate_ids != ["compact_roundtrip", "board_minimal_profile", "filter_regression"]:
-        errors.append(f"{path}: gates must be compact_roundtrip, board_minimal_profile, filter_regression")
+    if gate_ids != [
+        "compact_roundtrip",
+        "board_minimal_profile",
+        "filter_regression",
+        "current_arg_mem_pointer_prefix",
+        "current_trace_export_boundary",
+    ]:
+        errors.append(f"{path}: gates must include sim gates plus current ARG_MEM and trace-export gates")
     non_goals = spec.get("non_goals", [])
     for required in (
         "full instruction trace by default",
@@ -131,8 +140,8 @@ def check_doc(path: Path) -> list[str]:
     by_profile = {row[1]: row for row in rows if len(row) >= 6}
     if by_profile.get("board_minimal", ["", "", "", "", "", ""])[5] != "CHECKED(SIM)":
         errors.append(f"{path}: board_minimal row must stay CHECKED(SIM)")
-    if by_profile.get("semantic_mvp", ["", "", "", "", "", ""])[5] != "TODO(EXPERIMENT)":
-        errors.append(f"{path}: semantic_mvp row must stay TODO(EXPERIMENT)")
+    if by_profile.get("semantic_mvp", ["", "", "", "", "", ""])[5] != SCOPED_CURRENT_STATUS:
+        errors.append(f"{path}: semantic_mvp row must be {SCOPED_CURRENT_STATUS}")
     return errors
 
 
@@ -145,6 +154,9 @@ def check_uv_doc(path: Path) -> list[str]:
         ("docs/05-semantic-analysis/lightweight_trace_analysis.md", "lightweight doc reference"),
         ("experiments/analysis/lightweight_trace_profile.json", "lightweight spec reference"),
         ("tools/compress_trace.py sim/golden/compression_edges.trace.jsonl --check-roundtrip --stats", "compression roundtrip command"),
+        ("tools/check_hardware_pointer_prefixes.py --root .", "current ARG_MEM pointer-prefix command"),
+        ("tools/check_trace_export_decision.py --root .", "current trace-export boundary command"),
+        ("tools/check_ccfa_case_study_manifest.py --root .", "current case-study command"),
     ):
         if token not in text:
             errors.append(f"{path}: missing {label}")
@@ -260,14 +272,14 @@ def write_fixture(root: Path) -> None:
             "accounting_events": ["DROP"],
             "allowed_other_events": [],
             "forbidden_behavior_events": ["MARKER"],
-            "status": "TODO(EXPERIMENT)",
+            "status": SCOPED_CURRENT_STATUS,
         },
     ]
     (root / DEFAULT_SPEC).write_text(
         json.dumps(
             {
                 "phase": "9.1",
-                "status": "TODO(EXPERIMENT)",
+                "status": "PASS_SCOPED_CURRENT_EVIDENCE",
                 "scope": "selective_committed_semantic_trace_analysis",
                 "input_artifacts": ["trace.jsonl"],
                 "output_artifacts": ["lightweight_trace_analysis.json", "lightweight_trace_report.md"],
@@ -276,6 +288,8 @@ def write_fixture(root: Path) -> None:
                     {"id": "compact_roundtrip", "status": "CHECKED(SIM)", "command": "cmd"},
                     {"id": "board_minimal_profile", "status": "CHECKED(SIM)", "command": "cmd"},
                     {"id": "filter_regression", "status": "CHECKED(SIM)", "command": "cmd"},
+                    {"id": "current_arg_mem_pointer_prefix", "status": SCOPED_CURRENT_STATUS, "command": "cmd"},
+                    {"id": "current_trace_export_boundary", "status": SCOPED_CURRENT_STATUS, "command": "cmd"},
                 ],
                 "non_goals": [
                     "full instruction trace by default",
@@ -291,16 +305,18 @@ def write_fixture(root: Path) -> None:
         """# Lightweight Trace Analysis
 
 Phase 9.1 defines the selective committed semantic trace analysis gate.
+scoped Genesys2/CVA6 evidence for the semantic MVP event families
 experiments/analysis/lightweight_trace_profile.json
 tools/analyze_trace_lightweight.py
 compact JSONL roundtrip
 drop accounting
+not a claim that every raw board trace is marker-free
 must not be used to claim runtime overhead
 
 | Order | Profile | Behavior events | Accounting events | Forbidden behavior events | Status |
 | ---: | --- | --- | --- | --- | --- |
 | 1 | board_minimal | events | DROP | RETIRE | CHECKED(SIM) |
-| 2 | semantic_mvp | events | DROP | MARKER | TODO(EXPERIMENT) |
+| 2 | semantic_mvp | events | DROP | MARKER | PASS_SCOPED_GENESYS2_CURRENT |
 """,
         encoding="utf-8",
     )
@@ -309,7 +325,10 @@ must not be used to claim runtime overhead
         "uv run python tools/check_lightweight_trace_analysis.py\n"
         "docs/05-semantic-analysis/lightweight_trace_analysis.md\n"
         "experiments/analysis/lightweight_trace_profile.json\n"
-        "uv run python tools/compress_trace.py sim/golden/compression_edges.trace.jsonl --check-roundtrip --stats\n",
+        "uv run python tools/compress_trace.py sim/golden/compression_edges.trace.jsonl --check-roundtrip --stats\n"
+        "uv run python tools/check_hardware_pointer_prefixes.py --root .\n"
+        "uv run python tools/check_trace_export_decision.py --root .\n"
+        "uv run python tools/check_ccfa_case_study_manifest.py --root .\n",
         encoding="utf-8",
     )
 
@@ -359,10 +378,10 @@ def self_test() -> int:
         root = Path(tmp)
         write_fixture(root)
         spec = load_json(root / DEFAULT_SPEC)
-        spec["profiles"][1]["status"] = "CHECKED(SIM)"
+        spec["profiles"][1]["status"] = "TODO(EXPERIMENT)"
         (root / DEFAULT_SPEC).write_text(json.dumps(spec), encoding="utf-8")
-        if not expect_error(root, "semantic_mvp status must remain TODO"):
-            print("[FAIL] self-test missed premature semantic_mvp completion", file=sys.stderr)
+        if not expect_error(root, "semantic_mvp status must be PASS_SCOPED_GENESYS2_CURRENT"):
+            print("[FAIL] self-test missed stale semantic_mvp TODO status", file=sys.stderr)
             return 1
 
     for phrase in (

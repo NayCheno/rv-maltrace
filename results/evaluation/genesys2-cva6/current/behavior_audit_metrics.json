@@ -1,5 +1,6 @@
 {
   "baseline_comparison": "results/evaluation/genesys2-cva6/current/baseline_alignment_summary.json",
+  "benign_control_summary": "results/evaluation/genesys2-cva6/current/benign_control_summary.json",
   "metrics": {
     "anti_analysis_visibility": 1.0,
     "argument_reconstruction_accuracy": 1.0,
@@ -19,6 +20,7 @@
     "variance": 11862775956.07639
   },
   "resource_overhead": "results/evaluation/genesys2-cva6/current/resource_timing_summary.json",
+  "sample_artifact_root": "results/evaluation/genesys2-cva6/current/samples",
   "samples": {
     "abnormal_syscall_sequence": {
       "anti_analysis_visibility": 1.0,

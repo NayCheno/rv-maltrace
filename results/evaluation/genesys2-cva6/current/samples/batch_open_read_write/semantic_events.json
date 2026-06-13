@@ -1,0 +1,61 @@
+{
+  "non_claims": [
+    "This artifact is a controlled safe-workload semantic audit artifact, not real malware validation.",
+    "Companion-derived strings are not hardware-derived pointer strings."
+  ],
+  "real_malware": false,
+  "row": {
+    "anti_analysis_behavior_node": false,
+    "argument_reconstruction_accuracy": 1.0,
+    "execve_filename_accuracy": 1.0,
+    "execve_path_source": "NOT_OBSERVED",
+    "execve_paths": [],
+    "expected_syscall_recall": 1.0,
+    "expected_syscalls": [
+      "openat",
+      "read",
+      "close",
+      "openat",
+      "write",
+      "close"
+    ],
+    "ground_truth_alignment": {
+      "host_or_control_strace": "results/demo/ccfa-safe-20260611/batch_open_read_write/01_ground_truth/host.strace.log",
+      "qemu_guest_strace": "results/demo/ccfa-safe-20260611/batch_open_read_write/01_ground_truth/qemu-riscv64.strace.log",
+      "qemu_strace": true,
+      "strace": true
+    },
+    "has_execve": false,
+    "has_openat": true,
+    "has_write": true,
+    "mmap_mprotect_behavior_node": false,
+    "non_claims": [
+      "Hardware ARG_MEM records expose bounded compact address/data prefixes only; full pointer strings remain companion-aligned when bytes are absent from the compact payload.",
+      "Host/control string fallback is used only when qemu-riscv64 strace reports pointer addresses without dereferenced bytes."
+    ],
+    "openat_path_source": "qemu_guest_strace",
+    "openat_pathname_accuracy": 1.0,
+    "openat_paths": [
+      "/tmp/rvmt_batch_output.txt",
+      "experiments/linux_behavior/malware_like/fixtures/batch_input_0.txt",
+      "experiments/linux_behavior/malware_like/fixtures/batch_input_1.txt"
+    ],
+    "pointer_snapshot_route": "Path A bounded hardware ARG_MEM prefix snapshots plus Path B trusted companion alignment",
+    "primary_semantic_source": "qemu_guest_strace",
+    "sample_id": "batch_open_read_write",
+    "semantic_source": "trusted_qemu_guest_strace_companion",
+    "syscall_precision": 1.0,
+    "trace_source": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_01/bram_records.jsonl",
+    "write_buffer_prefix_recovered": true,
+    "write_buffer_prefix_source": "host_or_control_strace",
+    "write_buffer_prefixes": [
+      "batch input zero\n",
+      "batch input one\n"
+    ]
+  },
+  "sample_class": "malware_like_synthetic_syscall_only",
+  "sample_id": "batch_open_read_write",
+  "schema": "rvmt.sample.semantic_events.v1",
+  "source_artifact": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/behavior/semantic_events.json",
+  "trace_source": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_01/bram_records.jsonl"
+}

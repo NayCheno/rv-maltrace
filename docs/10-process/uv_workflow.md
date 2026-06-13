@@ -81,6 +81,7 @@ uv run python tools/run_check_suite.py --suite genesys2-artifacts
 uv run python tools/run_check_suite.py --suite genesys2-trace-bitstream-long --dry-run
 uv run python tools/check_genesys2_current.py
 uv run python tools/audit_repo_hygiene.py
+uv run python tools/check_risk_log_current.py --root .
 uv run python tools/check_linux_behavior_principles.py
 uv run python tools/check_linux_benign_dataset.py
 uv run python tools/check_linux_malware_like_dataset.py
@@ -99,6 +100,9 @@ uv run python tools/check_fuzz_trace_plan.py
 uv run python tools/check_noninterference_gate.py
 uv run python tools/analyze_trace_lightweight.py --self-test
 uv run python tools/check_lightweight_trace_analysis.py
+uv run python tools/check_hardware_pointer_prefixes.py --root .
+uv run python tools/check_trace_export_decision.py --root .
+uv run python tools/check_ccfa_case_study_manifest.py --root .
 uv run python tools/check_semantic_enrichment_rationale.py
 uv run python tools/check_semantic_enrichment_routes.py
 uv run python tools/check_semantic_enrichment_strategy.py
@@ -505,9 +509,12 @@ uv run python tools/check_bringup_runbook.py --self-test
 ## Baseline Pass Criteria
 
 Phase 4.4 is tracked in `docs/03-platform-architecture/genesys2/baseline_pass_criteria.md`. The checker keeps
-repository-local PASS rows separate from physical board PASS rows. Without a
-concrete `results/board/genesys2_baseline/<run-id>` evidence directory, the
-clock/reset, UART, and bare-metal criteria must remain `TODO (BOARD)`.
+repository-local PASS rows separate from physical board PASS rows. The current
+baseline board run is `20260609-1440-onboard-uart-reroute`; the checker can
+discover this documented run and verify the clock/reset, UART, and bare-metal
+PASS rows against its observation files. Without a concrete
+`results/board/genesys2_baseline/<run-id>` evidence directory, those physical
+board rows cannot be marked PASS.
 
 ```powershell
 uv run python tools/check_baseline_pass_criteria.py
@@ -549,18 +556,24 @@ uv run python tools/check_board_trace_minimal.py --self-test
 Phase 5.3 is tracked in `docs/03-platform-architecture/genesys2/board_trace_validation.md` and
 `board/trace_validation/manifest.json`. The first board validation set is:
 hello/write, file open/read/write/close, fork/exec/wait, and illegal instruction
-trap.
+trap. The specification is now linked to the accepted 2026-06-09 board evidence
+root:
+`results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix`.
 
 ```powershell
 uv run python tools/check_board_trace_programs.py
 uv run python tools/check_board_trace_programs.py --self-test
+uv run python tools/check_board_trace_evidence.py --root . --run-root results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix
 ```
 
-The 2026-06-09 Genesys2/CVA6 trace validation run proves that the current ILA
-can capture syscall entries and syscall returns, but it has not yet captured a
-target syscall entry and its matching return in one window. The `xlnx_ila`
-generator now defaults to a deeper, qualified capture configuration for the
-next paired syscall capture attempt:
+The 2026-06-09 Genesys2/CVA6 ILA trace validation run proves that the ILA path
+can capture syscall entries and syscall returns, but that specific ILA run did
+not capture a target syscall entry and its matching return in one window. Later
+BRAM marker-window evidence records paired syscall entry/return evidence for
+the controlled P0 and safe-surrogate workloads; the open item here is only the
+older continuous ILA capture path, not the current BRAM marker-window evidence.
+The `xlnx_ila` generator now defaults to a deeper, qualified capture
+configuration for the next paired ILA capture attempt:
 
 ```powershell
 $env:RVMT_ILA_DATA_DEPTH = "8192"
@@ -786,13 +799,22 @@ uv run python tools/check_35t_experiment_bundle.py --self-test
 Phase 8 trace-validator fuzzing is tracked in `docs/06-validation-gates/fuzz_trace_validation.md`
 and `sim/golden/fuzz_invariants.json`. The first implementation uses
 deterministic seed programs from `tools/gen_rv_trace_fuzz.py` and checks trace
-invariants with `tools/check_fuzz_trace.py`.
+invariants with `tools/check_fuzz_trace.py`. Golden JSONL fixtures are checked
+for every case. The `fuzz_syscall` golden fixture is tied to the existing
+`syscall_ret` and `rvfi_adapter` evidence in `results/vivado_sim/summary.json`
+and `docs/07-evaluation-evidence/reports/sim_results.md`; the seed assembly is
+still not treated as executed processor evidence.
 
 ```powershell
 uv run python tools/gen_rv_trace_fuzz.py --self-test
 uv run python tools/gen_rv_trace_fuzz.py --out-dir build/fuzz_trace_seeds
 uv run python tools/check_fuzz_trace.py --self-test
 uv run python tools/check_fuzz_trace.py --trace sim/golden/fuzz_trace_smoke.trace.jsonl --case fuzz_trace_smoke
+uv run python tools/check_fuzz_trace.py --trace sim/golden/fuzz_cf.trace.jsonl --case fuzz_cf
+uv run python tools/check_fuzz_trace.py --trace sim/golden/fuzz_trap.trace.jsonl --case fuzz_trap
+uv run python tools/check_fuzz_trace.py --trace sim/golden/fuzz_syscall.trace.jsonl --case fuzz_syscall
+uv run python tools/check_fuzz_trace.py --trace sim/golden/fuzz_context.trace.jsonl --case fuzz_context
+uv run python tools/check_fuzz_trace.py --trace sim/golden/fuzz_overflow.trace.jsonl --case fuzz_overflow
 uv run python tools/check_fuzz_trace_plan.py
 uv run python tools/check_fuzz_trace_plan.py --self-test
 ```
@@ -823,6 +845,9 @@ without claiming runtime overhead or detection quality.
 uv run python tools/analyze_trace_lightweight.py --self-test
 uv run python tools/analyze_trace_lightweight.py --trace results/vivado_sim/board_minimal/trace.jsonl --profile board_minimal --out-dir build/lightweight_trace_smoke
 uv run python tools/compress_trace.py sim/golden/compression_edges.trace.jsonl --check-roundtrip --stats
+uv run python tools/check_hardware_pointer_prefixes.py --root .
+uv run python tools/check_trace_export_decision.py --root .
+uv run python tools/check_ccfa_case_study_manifest.py --root .
 uv run python tools/check_lightweight_trace_analysis.py
 uv run python tools/check_lightweight_trace_analysis.py --self-test
 ```
@@ -835,6 +860,8 @@ x86-to-RISC-V comparison at the behavior semantics layer instead of raw opcode
 translation.
 
 ```powershell
+uv run python tools/check_ccfa_case_study_manifest.py --root .
+uv run python tools/check_linux_behavior_recovery.py
 uv run python tools/check_isa_behavior_portability.py
 uv run python tools/check_isa_behavior_portability.py --self-test
 ```
@@ -878,9 +905,12 @@ uv run python tools/check_semantic_enrichment_strategy.py --self-test
 
 ## Evaluation Plan
 
-Paper-level evaluation planning is tracked in `docs/07-evaluation-evidence/evaluation_plan.md`. It
-keeps the RQ, baseline, dataset, metric, and artifact gates in TODO status until
-simulation, board, Linux, or study evidence exists.
+Paper-level evaluation planning is tracked in
+`docs/07-evaluation-evidence/evaluation_plan.md`. It now records scoped current
+Genesys2/CVA6 evidence statuses for RQs, baselines, datasets, and artifact
+gates, links them to the current evaluation matrix and artifact package, and
+keeps the four non-real external closure items open until accepted external
+summaries exist.
 
 ```powershell
 uv run python tools/check_evaluation_plan.py

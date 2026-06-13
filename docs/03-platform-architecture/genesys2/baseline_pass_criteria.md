@@ -14,9 +14,11 @@ evidence exists under `results/board/genesys2_baseline/<run-id>/`.
 | Bare-metal program can run | PASS | `04_cva6_baremetal_boot/observation.md` with PASS plus UART/tohost/JTAG log showing the expected end state | `docs/03-platform-architecture/genesys2/baseline_bringup_runbook.md` |
 | No trace modification yet | PASS | Baseline artifacts come from the existing CVA6 FPGA build and no trace-enabled board export path is enabled in the Phase 4 runbook | `docs/03-platform-architecture/genesys2/baseline_bringup_runbook.md` |
 
-Baseline board bring-up is not complete until the three physical-board rows
-above have physical evidence. For run `20260609-1440-onboard-uart-reroute`,
-those rows now have PASS evidence under
+Phase 4.4 baseline board bring-up is accepted for run
+`20260609-1440-onboard-uart-reroute`: the three physical-board rows above have
+PASS evidence under
 `results/board/genesys2_baseline/20260609-1440-onboard-uart-reroute/`.
-Linux boot remains optional for the MVP and does not block Phase 4.4 unless the
-project explicitly chooses to make it part of the baseline acceptance run.
+This baseline PASS is scoped to the existing CVA6 FPGA build. It does not claim
+trace-enabled board export, production streaming/DMA, full-retire trace, or
+Linux boot. Linux boot remains optional for the MVP unless the project
+explicitly chooses to make it part of a later acceptance run.

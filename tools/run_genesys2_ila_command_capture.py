@@ -37,7 +37,14 @@ def read_for(ser, seconds: float, handle: TextIO) -> str:
     return "".join(chunks)
 
 
-def read_until_any(ser, *, seconds: float, handle: TextIO, tokens: list[str]) -> str:
+def read_until_any(
+    ser,
+    *,
+    seconds: float,
+    handle: TextIO,
+    tokens: list[str],
+    loose_required: list[str],
+) -> str:
     deadline = time.time() + seconds
     chunks: list[str] = []
     while time.time() < deadline:
@@ -49,6 +56,13 @@ def read_until_any(ser, *, seconds: float, handle: TextIO, tokens: list[str]) ->
         emit(handle, text)
         combined = "".join(chunks)
         if any(token in combined for token in tokens):
+            return combined
+        if loose_required and all(token in combined for token in loose_required):
+            handle.write(
+                "\nRVMT_POST_READ_LOOSE_TOKEN_ACCEPTED "
+                f"required={','.join(loose_required)}\n"
+            )
+            handle.flush()
             return combined
     raise TimeoutError(f"timed out waiting for UART token(s): {', '.join(tokens)}")
 
@@ -64,6 +78,7 @@ def send_uart_commands(
     post_read: float,
     send_delay: float,
     post_read_until: list[str],
+    post_read_loose_required: list[str],
 ) -> None:
     try:
         import serial
@@ -89,7 +104,13 @@ def send_uart_commands(
             if send_delay > 0:
                 time.sleep(send_delay)
             if index + 1 == len(commands) and post_read_until:
-                read_until_any(ser, seconds=post_read, handle=handle, tokens=post_read_until)
+                read_until_any(
+                    ser,
+                    seconds=post_read,
+                    handle=handle,
+                    tokens=post_read_until,
+                    loose_required=post_read_loose_required,
+                )
             else:
                 read_for(ser, between_read if index + 1 < len(commands) else post_read, handle)
         handle.write("\nRVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART_DONE\n")
@@ -208,6 +229,7 @@ def run_capture(args: argparse.Namespace) -> int:
                 post_read=args.post_read,
                 send_delay=args.send_delay,
                 post_read_until=args.post_read_until,
+                post_read_loose_required=args.post_read_loose_required,
             )
 
         try:
@@ -302,6 +324,7 @@ def self_test() -> int:
             post_read=0.1,
             send_delay=0.0,
             post_read_until=[],
+            post_read_loose_required=[],
             arm_timeout=2.0,
             process_wait_timeout=5.0,
             serial_sim=True,
@@ -352,6 +375,16 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--between-read", type=float, default=0.5)
     parser.add_argument("--post-read", type=float, default=8.0)
     parser.add_argument("--post-read-until", action="append", default=[])
+    parser.add_argument(
+        "--post-read-loose-required",
+        action="append",
+        default=[],
+        help=(
+            "Accept the post-read wait when all listed substrings appear in the current UART "
+            "read buffer. This is intended for marker-window UART stream corruption where the "
+            "strict token may be interrupted by binary trace bytes."
+        ),
+    )
     parser.add_argument("--send-delay", type=float, default=0.0)
     parser.add_argument("--arm-timeout", type=float, default=30.0)
     parser.add_argument("--process-wait-timeout", type=float, default=180.0)

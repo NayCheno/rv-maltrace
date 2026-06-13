@@ -11,6 +11,7 @@ from typing import Any
 
 DEFAULT_RESOURCE_REPORT = Path("docs/07-evaluation-evidence/reports/resource_report.md")
 DEFAULT_EVIDENCE_REPORT = Path("docs/07-evaluation-evidence/reports/genesys2_cva6_evidence_chain_20260610.md")
+DEFAULT_SIM_RESULTS = Path("docs/07-evaluation-evidence/reports/sim_results.md")
 DEFAULT_BASELINE_TIMING = Path("build/vivado/genesys2-cv64a6_imafdc_sv39/reports/ariane.timing.rpt")
 DEFAULT_TRACE_TIMING = Path("build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/reports/ariane.timing.rpt")
 DEFAULT_SAFE_SUMMARY = Path("results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/safe_surrogate_summary.json")
@@ -237,6 +238,30 @@ def check_evidence_report(root: Path, report_path: Path) -> list[str]:
     return errors
 
 
+def check_sim_results_report(root: Path, report_path: Path) -> list[str]:
+    path = resolve(root, report_path)
+    if not path.is_file():
+        return [f"missing simulation results report: {display(path, root)}"]
+    text = path.read_text(encoding="utf-8", errors="replace")
+    errors: list[str] = []
+    if "Direct CVA6 trace integration: PARTIAL" in text:
+        errors.append(f"{display(path, root)}: stale Direct CVA6 trace integration PARTIAL status")
+    require_text(
+        path,
+        text,
+        (
+            "Direct CVA6 trace integration: PASS_SCOPED_LOCAL_SIMULATION",
+            "`RV_MALTRACE_TRACE=1` enables the guarded CVA6 testharness RVFI hook and JSONL sink",
+            "direct-core trace-on/no-trace smoke verifies the same adapter/sink path against real CVA6 committed RVFI events",
+            "full `ariane_testharness` smoke",
+            "normal tohost/MMIO completion gate",
+            "not physical board evidence",
+        ),
+        errors,
+    )
+    return errors
+
+
 def run_checks(root: Path) -> list[str]:
     errors: list[str] = []
     errors.extend(check_resource_report(root, DEFAULT_RESOURCE_REPORT, DEFAULT_BASELINE_TIMING, DEFAULT_TRACE_TIMING))
@@ -244,6 +269,7 @@ def run_checks(root: Path) -> list[str]:
     errors.extend(check_runtime_attribution(root, DEFAULT_RUNTIME_ATTRIBUTION))
     errors.extend(check_trace_window_diagnosis(root, DEFAULT_TRACE_WINDOW_DIAGNOSIS))
     errors.extend(check_evidence_report(root, DEFAULT_EVIDENCE_REPORT))
+    errors.extend(check_sim_results_report(root, DEFAULT_SIM_RESULTS))
     return errors
 
 
@@ -335,6 +361,15 @@ def write_fixture(root: Path) -> None:
         "Timing closure alone is not claimed as runtime attribution\n",
         encoding="utf-8",
     )
+    (root / DEFAULT_SIM_RESULTS).write_text(
+        "Direct CVA6 trace integration: PASS_SCOPED_LOCAL_SIMULATION\n"
+        "`RV_MALTRACE_TRACE=1` enables the guarded CVA6 testharness RVFI hook and JSONL sink\n"
+        "direct-core trace-on/no-trace smoke verifies the same adapter/sink path against real CVA6 committed RVFI events\n"
+        "full `ariane_testharness` smoke\n"
+        "normal tohost/MMIO completion gate\n"
+        "not physical board evidence\n",
+        encoding="utf-8",
+    )
 
 
 def self_test() -> int:
@@ -346,6 +381,20 @@ def self_test() -> int:
             for error in errors:
                 print(f"[FAIL] {error}", file=sys.stderr)
             return 1
+        sim_report = root / DEFAULT_SIM_RESULTS
+        sim_original = sim_report.read_text(encoding="utf-8")
+        sim_report.write_text(
+            sim_original.replace(
+                "Direct CVA6 trace integration: PASS_SCOPED_LOCAL_SIMULATION",
+                "Direct CVA6 trace integration: PARTIAL",
+            ),
+            encoding="utf-8",
+        )
+        errors = run_checks(root)
+        if not any("Direct CVA6 trace integration PARTIAL" in error for error in errors):
+            print("[FAIL] self-test missed stale Direct CVA6 trace integration status", file=sys.stderr)
+            return 1
+        sim_report.write_text(sim_original, encoding="utf-8")
         resource_report = root / DEFAULT_RESOURCE_REPORT
         resource_report.write_text(resource_report.read_text(encoding="utf-8").replace("| Slack (ns) | 0.177 | 0.177 | 0.000 |", "| Slack (ns) | 0.177 | -0.427 | -0.604 |"), encoding="utf-8")
         errors = run_checks(root)

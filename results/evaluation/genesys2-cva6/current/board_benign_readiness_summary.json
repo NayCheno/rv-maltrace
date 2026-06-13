@@ -1,0 +1,499 @@
+{
+  "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",
+  "claim_boundary": {
+    "board_benign_false_positive_claimed": false,
+    "board_benign_readiness_claimed": true,
+    "board_capture_required_for_closure": true,
+    "genesys2_board_benign_control_claimed": false,
+    "local_linux_benign_substituted_for_board": false,
+    "local_linux_control_available": true,
+    "real_malware_validation_claimed": false
+  },
+  "expected_board_samples": [
+    "hello",
+    "ls",
+    "cat",
+    "cp",
+    "sha256sum"
+  ],
+  "failures": [],
+  "future_board_capture_plan": {
+    "acceptance_criteria": [
+      "at least five non-network benign workloads run on Genesys2/CVA6 under the accepted trace route",
+      "each accepted sample has board-derived semantic events, behavior graph, and behavior audit artifacts",
+      "unexpected false-positive count is 0 and benign_false_positive_rate is 0.0",
+      "allowed benign rule overlaps are listed separately from unexpected matches",
+      "local Linux strace artifacts are provenance only and are not counted as board benign evidence"
+    ],
+    "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/board_benign_control_summary.json",
+    "minimum_accepted_board_samples": 5,
+    "required_per_sample_artifacts": [
+      "board bram_records.jsonl or accepted external trace records",
+      "capture.log",
+      "uart.log",
+      "board-derived semantic_events.json",
+      "board-derived behavior_graph.json",
+      "board-derived behavior_audit.json",
+      "allowed benign overlap report"
+    ],
+    "required_sample_ids": [
+      "hello",
+      "ls",
+      "cat",
+      "cp",
+      "sha256sum"
+    ],
+    "required_summary_fields": [
+      "evidence_artifacts",
+      "genesys2_board_trace_claimed",
+      "sample_count",
+      "unexpected_false_positive_count",
+      "benign_false_positive_rate",
+      "samples"
+    ],
+    "required_summary_schema": "rvmt.genesys2.board_benign_control.v1",
+    "trace_route": "current Genesys2/CVA6 trace route with BRAM marker windows unless superseded by an accepted non-BRAM external trace route"
+  },
+  "local_control_summary": {
+    "exists": true,
+    "id": "benign_control_summary",
+    "path": "results/evaluation/genesys2-cva6/current/benign_control_summary.json",
+    "schema": "rvmt.genesys2.benign_control_summary.v1",
+    "sha256": "7256ece3a71e99b389be36e98ff2f06e86ecfbcb05587bfcef94f82e19269c34",
+    "status": "PASS"
+  },
+  "local_linux_control_aggregate": {
+    "allowed_overlap_count": 3,
+    "benign_false_positive_rate": 0.0,
+    "non_network_sample_count": 5,
+    "sample_count": 5,
+    "unexpected_false_positive_count": 0
+  },
+  "non_claims": [
+    "This is a readiness package and does not claim Genesys2 board benign-control evidence is complete.",
+    "Local Linux benign-control strace evidence must not be substituted for board-derived benign traces.",
+    "The local false-positive rate is not malware detection accuracy and is not real-malware validation.",
+    "The future board closure gate remains OPEN_EXTERNAL_ARTIFACTS_REQUIRED until external board artifacts are accepted."
+  ],
+  "sample_readiness": [
+    {
+      "accepted_as_board_benign_evidence": false,
+      "allowed_benign_rule_overlap": [],
+      "artifact_rows": [
+        {
+          "exists": true,
+          "id": "strace_log",
+          "path": "build/benign_control/hello/host.strace.log",
+          "sha256": "3bfb70bcfb5142f6e3e1a8f57926234298c3f454dc2492dc8c5b7cecab7c83f6"
+        },
+        {
+          "exists": true,
+          "id": "stdout",
+          "path": "build/benign_control/hello/stdout.txt",
+          "sha256": "687c09e59ff86ac9207775dd183bca7fa6176dd5e247890923525d9875733566"
+        },
+        {
+          "exists": true,
+          "id": "stderr",
+          "path": "build/benign_control/hello/stderr.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "exists": true,
+          "id": "semantic_events",
+          "path": "build/benign_control/hello/semantic_events.json",
+          "schema": "rvmt.behavior.semantic.v1",
+          "sha256": "e02b49a2e56e46e5e0e4852c010740cc8335ea823d62f16ecd233492ff3addb0",
+          "status": "DERIVED_SEMANTIC_EVENTS"
+        },
+        {
+          "exists": true,
+          "id": "behavior_graph",
+          "path": "build/benign_control/hello/behavior_graph.json",
+          "schema": "rvmt.behavior.graph.v1",
+          "sha256": "d66d8432aa3ff730909e57745923ec85ba8c477eab9ea6d33f15b82523c2bc8a",
+          "status": "DERIVED_BEHAVIOR_GRAPH"
+        },
+        {
+          "exists": true,
+          "id": "behavior_audit",
+          "path": "build/benign_control/hello/behavior_audit.json",
+          "schema": "rvmt.behavior.audit.v1",
+          "sha256": "9b870c7998469b2466b064baf906730ec487ac2bb07bc4d2ad7c363197c59f41",
+          "status": "DERIVED_AUDIT"
+        }
+      ],
+      "board_capture_required": true,
+      "expected_behavior": [
+        "stdout_write"
+      ],
+      "expected_syscalls": [
+        "write"
+      ],
+      "genesys2_board_trace_available": false,
+      "local_linux_control_available": true,
+      "local_linux_false_positive": false,
+      "network_required": false,
+      "observed_syscalls": [
+        "write"
+      ],
+      "sample_class": "benign",
+      "sample_id": "hello",
+      "unexpected_matched_rules": []
+    },
+    {
+      "accepted_as_board_benign_evidence": false,
+      "allowed_benign_rule_overlap": [
+        "many_file_scan"
+      ],
+      "artifact_rows": [
+        {
+          "exists": true,
+          "id": "strace_log",
+          "path": "build/benign_control/ls/host.strace.log",
+          "sha256": "a188e851873a9643d00e23842043e6f1a3b0731dd6a2fce1431a47804627beae"
+        },
+        {
+          "exists": true,
+          "id": "stdout",
+          "path": "build/benign_control/ls/stdout.txt",
+          "sha256": "d0b32e07b807bb8dad7b9149e8cdb11f430544e91b502db8954bbf03c0f1163b"
+        },
+        {
+          "exists": true,
+          "id": "stderr",
+          "path": "build/benign_control/ls/stderr.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "exists": true,
+          "id": "semantic_events",
+          "path": "build/benign_control/ls/semantic_events.json",
+          "schema": "rvmt.behavior.semantic.v1",
+          "sha256": "8de5f9536a17d30ee8dd4e63be6e4f0ae9536a1f8f564e9a96742930cc523b3e",
+          "status": "DERIVED_SEMANTIC_EVENTS"
+        },
+        {
+          "exists": true,
+          "id": "behavior_graph",
+          "path": "build/benign_control/ls/behavior_graph.json",
+          "schema": "rvmt.behavior.graph.v1",
+          "sha256": "1456c277db6a1775e40f8de183ff8a0184f7cf5dcb17703c28e2dc38c9c2f754",
+          "status": "DERIVED_BEHAVIOR_GRAPH"
+        },
+        {
+          "exists": true,
+          "id": "behavior_audit",
+          "path": "build/benign_control/ls/behavior_audit.json",
+          "schema": "rvmt.behavior.audit.v1",
+          "sha256": "9ed634c88419341b3d6e7196c4048f9df345789017d165672320cc0dda98fc5a",
+          "status": "DERIVED_AUDIT"
+        }
+      ],
+      "board_capture_required": true,
+      "expected_behavior": [
+        "directory_listing"
+      ],
+      "expected_syscalls": [
+        "openat",
+        "getdents64",
+        "write",
+        "close"
+      ],
+      "genesys2_board_trace_available": false,
+      "local_linux_control_available": true,
+      "local_linux_false_positive": false,
+      "network_required": false,
+      "observed_syscalls": [
+        "openat",
+        "getdents64",
+        "write",
+        "write",
+        "getdents64",
+        "close"
+      ],
+      "sample_class": "benign",
+      "sample_id": "ls",
+      "unexpected_matched_rules": []
+    },
+    {
+      "accepted_as_board_benign_evidence": false,
+      "allowed_benign_rule_overlap": [],
+      "artifact_rows": [
+        {
+          "exists": true,
+          "id": "strace_log",
+          "path": "build/benign_control/cat/host.strace.log",
+          "sha256": "829f0916bb976c35844c3d6f22edc2e4347be5ab89be864412cb7f288066229b"
+        },
+        {
+          "exists": true,
+          "id": "stdout",
+          "path": "build/benign_control/cat/stdout.txt",
+          "sha256": "34cfa8aef54d310dcdaaabf8cef35c49be04e6bb8fa7c72cc7a3f327263bd377"
+        },
+        {
+          "exists": true,
+          "id": "stderr",
+          "path": "build/benign_control/cat/stderr.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "exists": true,
+          "id": "semantic_events",
+          "path": "build/benign_control/cat/semantic_events.json",
+          "schema": "rvmt.behavior.semantic.v1",
+          "sha256": "d47240a1f06e941618d64de8f97468b70e5207f98d84f5ef1d84ef65c4f3be47",
+          "status": "DERIVED_SEMANTIC_EVENTS"
+        },
+        {
+          "exists": true,
+          "id": "behavior_graph",
+          "path": "build/benign_control/cat/behavior_graph.json",
+          "schema": "rvmt.behavior.graph.v1",
+          "sha256": "214a1a9afc9142702e6a9e987540f78be8b649c853d49277232a5e1a4bc49da0",
+          "status": "DERIVED_BEHAVIOR_GRAPH"
+        },
+        {
+          "exists": true,
+          "id": "behavior_audit",
+          "path": "build/benign_control/cat/behavior_audit.json",
+          "schema": "rvmt.behavior.audit.v1",
+          "sha256": "a1366f776091fceab71a3c6dd855eae30ff40931c2b36155dfba103a8e49aae0",
+          "status": "DERIVED_AUDIT"
+        }
+      ],
+      "board_capture_required": true,
+      "expected_behavior": [
+        "file_read",
+        "stdout_write"
+      ],
+      "expected_syscalls": [
+        "openat",
+        "read",
+        "write",
+        "close"
+      ],
+      "genesys2_board_trace_available": false,
+      "local_linux_control_available": true,
+      "local_linux_false_positive": false,
+      "network_required": false,
+      "observed_syscalls": [
+        "openat",
+        "read",
+        "write",
+        "read",
+        "close"
+      ],
+      "sample_class": "benign",
+      "sample_id": "cat",
+      "unexpected_matched_rules": []
+    },
+    {
+      "accepted_as_board_benign_evidence": false,
+      "allowed_benign_rule_overlap": [],
+      "artifact_rows": [
+        {
+          "exists": true,
+          "id": "strace_log",
+          "path": "build/benign_control/cp/host.strace.log",
+          "sha256": "b8f26d6bcf3d520245dac23462f66ba9d9d2f6c1047fbfba7e8e79326574b2c4"
+        },
+        {
+          "exists": true,
+          "id": "stdout",
+          "path": "build/benign_control/cp/stdout.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "exists": true,
+          "id": "stderr",
+          "path": "build/benign_control/cp/stderr.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "exists": true,
+          "id": "semantic_events",
+          "path": "build/benign_control/cp/semantic_events.json",
+          "schema": "rvmt.behavior.semantic.v1",
+          "sha256": "2fdbd2bf0c4d41e9cd3cee0728aca0f0f5d7fe71fe23d1de0f513513a9bf5f55",
+          "status": "DERIVED_SEMANTIC_EVENTS"
+        },
+        {
+          "exists": true,
+          "id": "behavior_graph",
+          "path": "build/benign_control/cp/behavior_graph.json",
+          "schema": "rvmt.behavior.graph.v1",
+          "sha256": "b8a553f455ff0551608d540a3b3fdcea9558c3ea9f3b708954c5ec788b35f682",
+          "status": "DERIVED_BEHAVIOR_GRAPH"
+        },
+        {
+          "exists": true,
+          "id": "behavior_audit",
+          "path": "build/benign_control/cp/behavior_audit.json",
+          "schema": "rvmt.behavior.audit.v1",
+          "sha256": "eebf8c9fc546c7d66a418987580abad39844ec4657254bd7ef63e7515d7e9a58",
+          "status": "DERIVED_AUDIT"
+        }
+      ],
+      "board_capture_required": true,
+      "expected_behavior": [
+        "file_copy"
+      ],
+      "expected_syscalls": [
+        "openat",
+        "read",
+        "write",
+        "close"
+      ],
+      "genesys2_board_trace_available": false,
+      "local_linux_control_available": true,
+      "local_linux_false_positive": false,
+      "network_required": false,
+      "observed_syscalls": [
+        "openat",
+        "openat",
+        "read",
+        "write",
+        "read",
+        "close",
+        "close"
+      ],
+      "sample_class": "benign",
+      "sample_id": "cp",
+      "unexpected_matched_rules": []
+    },
+    {
+      "accepted_as_board_benign_evidence": false,
+      "allowed_benign_rule_overlap": [
+        "direct_syscall_file_access",
+        "obfuscated_syscall_sequence"
+      ],
+      "artifact_rows": [
+        {
+          "exists": true,
+          "id": "strace_log",
+          "path": "build/benign_control/sha256sum/host.strace.log",
+          "sha256": "ef5c76f2a962dea049c4628aa204dc0b0ec860850cd6a86107cd388eb5864c4c"
+        },
+        {
+          "exists": true,
+          "id": "stdout",
+          "path": "build/benign_control/sha256sum/stdout.txt",
+          "sha256": "289481e048dceaa9cbb9634a8b3fbd378340a0ea5e0d1cc9f58ae3e491e6e699"
+        },
+        {
+          "exists": true,
+          "id": "stderr",
+          "path": "build/benign_control/sha256sum/stderr.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "exists": true,
+          "id": "semantic_events",
+          "path": "build/benign_control/sha256sum/semantic_events.json",
+          "schema": "rvmt.behavior.semantic.v1",
+          "sha256": "cce405f5d7b2fb933d6b822209b873104e92125c14ca7e6ffab48a66887af962",
+          "status": "DERIVED_SEMANTIC_EVENTS"
+        },
+        {
+          "exists": true,
+          "id": "behavior_graph",
+          "path": "build/benign_control/sha256sum/behavior_graph.json",
+          "schema": "rvmt.behavior.graph.v1",
+          "sha256": "4139f250de8bc6970e639c58cf64c505f41b32cbb0dff19e13e9daec0f738c8b",
+          "status": "DERIVED_BEHAVIOR_GRAPH"
+        },
+        {
+          "exists": true,
+          "id": "behavior_audit",
+          "path": "build/benign_control/sha256sum/behavior_audit.json",
+          "schema": "rvmt.behavior.audit.v1",
+          "sha256": "754e55835080c20e972303ab9b5f0e707fbe3a75ecfaf486eb275c3d2adda5df",
+          "status": "DERIVED_AUDIT"
+        }
+      ],
+      "board_capture_required": true,
+      "expected_behavior": [
+        "file_hash"
+      ],
+      "expected_syscalls": [
+        "openat",
+        "read",
+        "write",
+        "close"
+      ],
+      "genesys2_board_trace_available": false,
+      "local_linux_control_available": true,
+      "local_linux_false_positive": false,
+      "network_required": false,
+      "observed_syscalls": [
+        "openat",
+        "read",
+        "read",
+        "close",
+        "write"
+      ],
+      "sample_class": "benign",
+      "sample_id": "sha256sum",
+      "unexpected_matched_rules": []
+    }
+  ],
+  "schema": "rvmt.genesys2.board_benign_readiness.v1",
+  "scope": "readiness package for future Genesys2/CVA6 board benign-control false-positive evidence",
+  "status": "PASS",
+  "trace_route_evidence": [
+    {
+      "exists": true,
+      "id": "latest_manifest",
+      "path": "results/evaluation/genesys2-cva6/current/latest_manifest.json",
+      "schema": "rvmt.genesys2.latest_manifest.v1",
+      "sha256": "3095b5639ac6a02bc0be3e8aa47745763e19cbe848393bc465ad6bb8e574d812",
+      "status": "PASS"
+    },
+    {
+      "exists": true,
+      "id": "trace_sink",
+      "path": "results/evaluation/genesys2-cva6/current/trace_sink_summary.json",
+      "schema": "rvmt.genesys2.bram_trace_sink.v1",
+      "sha256": "71342c84315955f94ab789157a5d9b68c94508754d4ec9b9f70d3b6983cc27f1",
+      "status": "PASS"
+    },
+    {
+      "exists": true,
+      "id": "p0_bram_trace",
+      "path": "results/evaluation/genesys2-cva6/current/p0_bram_trace_summary.json",
+      "schema": "rvmt.genesys2.p0_bram_trace.v1",
+      "sha256": "74beec191ba45c19acf962323a7e48af5d8d9aa0ba827f1d51b7262f0bef3095",
+      "status": "PASS"
+    },
+    {
+      "exists": true,
+      "id": "safe_surrogate_bram_trace",
+      "path": "results/evaluation/genesys2-cva6/current/safe_surrogate_bram_trace_summary.json",
+      "schema": "rvmt.genesys2.safe_surrogate_bram_trace.v1",
+      "sha256": "4bdf85988cb9cd6cd6ec869aa91ddc0b121e3104c17a6d781ad36c5f7867f25a",
+      "status": "PASS"
+    },
+    {
+      "exists": true,
+      "id": "drop_accounting",
+      "path": "results/evaluation/genesys2-cva6/current/drop_accounting_summary.json",
+      "schema": "rvmt.trace_drop_accounting.v1",
+      "sha256": "8192977caa1adef849b53a47d09dbc4dfa7a0c503ffd1d3158a6ca6baade3150",
+      "status": "PASS"
+    },
+    {
+      "exists": true,
+      "id": "behavior_audit_metrics",
+      "path": "results/evaluation/genesys2-cva6/current/behavior_audit_metrics.json",
+      "schema": "rvmt.behavior_audit_metrics.v1",
+      "sha256": "c0b82cd2dcfe7d3bf67b77c44120e23ed8ce5d14601bf76f3807d5d57a7f7ea6",
+      "status": "PASS"
+    }
+  ],
+  "validation_commands": [
+    "uv run python tools/package_genesys2_board_benign_readiness.py",
+    "uv run python tools/check_genesys2_board_benign_readiness.py --root ."
+  ]
+}

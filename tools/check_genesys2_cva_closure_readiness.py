@@ -99,8 +99,8 @@ def check_fpga_top_payload(root: Path) -> list[str]:
     )
     require(
         errors,
-        re.search(r"localparam\s+int\s+unsigned\s+RVMT_TRACE_BRAM_PROBE_WIDTH\s*=\s*484\s*;", text) is not None,
-        f"{FPGA_TOP}: BRAM probe payload width must be 484 bits",
+        re.search(r"localparam\s+int\s+unsigned\s+RVMT_TRACE_BRAM_PROBE_WIDTH\s*=\s*716\s*;", text) is not None,
+        f"{FPGA_TOP}: BRAM probe payload width must be 716 bits",
     )
     require(
         errors,
@@ -115,6 +115,13 @@ def check_fpga_top_payload(root: Path) -> list[str]:
         "rvmt_trace_bram_dump_index,"
         "rvmt_trace_bram_full,"
         "rvmt_trace_bram_dump_valid,"
+        "rvmt_trace_bram_dump_mem_base,"
+        "rvmt_trace_bram_dump_mem_addr,"
+        "rvmt_trace_bram_dump_mem_data,"
+        "rvmt_trace_bram_dump_syscall_id,"
+        "rvmt_trace_bram_dump_arg_index,"
+        "rvmt_trace_bram_dump_mem_size,"
+        "rvmt_trace_bram_dump_mem_last,"
         "rvmt_trace_bram_dump_sequence,"
         "rvmt_trace_bram_dump_aux,"
         "rvmt_trace_bram_dump_primary,"
@@ -129,6 +136,14 @@ def check_fpga_top_payload(root: Path) -> list[str]:
         ".probe2(rvmt_trace_bram_probe_payload)" in compact,
         f"{FPGA_TOP}: ILA probe2 must expose BRAM ring dump/accounting payload",
     )
+    require(
+        errors,
+        "assignrvmt_trace_bram_marker_begin=rvmt_trace_fire&&rvmt_trace_packet.evt==trace_pkg::EVT_MARKER&&rvmt_trace_packet.value[31:28]==4'hb;" in compact
+        and "assignrvmt_trace_bram_marker_end=rvmt_trace_fire&&rvmt_trace_packet.evt==trace_pkg::EVT_MARKER&&rvmt_trace_packet.value[31:28]==4'he;" in compact
+        and "assignrvmt_trace_bram_clear=rvmt_trace_bram_marker_begin;" in compact
+        and ".freeze_i(rvmt_trace_bram_freeze)" in compact,
+        f"{FPGA_TOP}: BRAM marker window must clear on begin marker and freeze after end marker",
+    )
     return errors
 
 
@@ -138,7 +153,7 @@ def check_ila_generator(root: Path) -> list[str]:
     expected = {
         "CONFIG.C_NUM_OF_PROBES {3}": "ILA must expose fire, event payload, and BRAM ring payload",
         "CONFIG.C_PROBE1_WIDTH {136}": "packed ILA payload must expose syscall-id aux for entry records",
-        "CONFIG.C_PROBE2_WIDTH {484}": "BRAM ring dump/accounting payload width missing",
+        "CONFIG.C_PROBE2_WIDTH {716}": "BRAM ring dump/accounting payload width missing",
         "RVMT_ILA_DATA_DEPTH 8192": "default ILA data depth must cover paired syscall windows",
         "RVMT_ILA_INPUT_PIPE_STAGES 2": "ILA input pipeline must add timing isolation",
         "RVMT_ILA_STORAGE_QUAL 1": "storage qualification must default on for event-only capture",
@@ -183,7 +198,7 @@ def check_decoder(root: Path) -> list[str]:
     require(errors, "paired_syscall_windows" in package_text, f"{PACKAGE_SAFE}: same-window syscall pairs must be summarized")
     require(errors, "satp_context" in package_text, f"{PACKAGE_SAFE}: SATP/ASID context summary missing")
     require(errors, "rvmt_trace_bram_probe_payload" in bram_text, f"{BRAM_DECODER}: BRAM probe payload decoder missing")
-    require(errors, "BRAM_PAYLOAD_WIDTH = 484" in bram_text, f"{BRAM_DECODER}: BRAM payload width mismatch")
+    require(errors, "BRAM_PAYLOAD_WIDTH_V3 = 716" in bram_text, f"{BRAM_DECODER}: BRAM payload width mismatch")
     require(errors, "dropped_count" in bram_text and "wrap_count" in bram_text, f"{BRAM_DECODER}: drop/wrap accounting decode missing")
     require(errors, "start_timestamp" in bram_text and "end_timestamp" in bram_text, f"{BRAM_DECODER}: timestamp summary missing")
     return errors
@@ -204,7 +219,7 @@ def check_marker_scope(root: Path) -> list[str]:
     require(errors, '"C_DATA_DEPTH": "8192"' in text, f"{CLI}: ILA XCI data depth expectation missing")
     require(errors, '"C_NUM_OF_PROBES": "3"' in text, f"{CLI}: ILA probe-count expectation missing")
     require(errors, '"C_PROBE1_WIDTH": "136"' in text, f"{CLI}: ILA packed payload width expectation missing")
-    require(errors, '"C_PROBE2_WIDTH": "484"' in text, f"{CLI}: ILA BRAM payload width expectation missing")
+    require(errors, '"C_PROBE2_WIDTH": "716"' in text, f"{CLI}: ILA BRAM payload width expectation missing")
     require(errors, '"C_EN_STRG_QUAL": "1"' in text, f"{CLI}: ILA storage-qualification expectation missing")
     require(errors, "trace-marker" in plan_text, f"{PREPARE_CAPTURE}: capture plan must use marker-scope LTX")
     require(errors, "--ltx" in plan_text, f"{PREPARE_CAPTURE}: capture plan must pass the marker-scope LTX")
@@ -253,11 +268,12 @@ def write_fixture(root: Path) -> None:
     )
     (root / FPGA_TOP).write_text(
         "localparam int unsigned RVMT_TRACE_ILA_PAYLOAD_WIDTH = 136;\n"
-        "localparam int unsigned RVMT_TRACE_BRAM_PROBE_WIDTH = 484;\n"
+        "localparam int unsigned RVMT_TRACE_BRAM_PROBE_WIDTH = 716;\n"
         "logic [31:0] rvmt_trace_probe_primary;\n"
         "logic [31:0] rvmt_trace_probe_aux;\n"
         "logic [RVMT_TRACE_ILA_PAYLOAD_WIDTH-1:0] rvmt_trace_probe_payload;\n"
         "logic [RVMT_TRACE_BRAM_PROBE_WIDTH-1:0] rvmt_trace_bram_probe_payload;\n"
+        "logic rvmt_trace_bram_clear, rvmt_trace_bram_freeze, rvmt_trace_bram_marker_begin, rvmt_trace_bram_marker_end;\n"
         "always_comb begin\n"
         "  rvmt_trace_probe_primary = 32'd0;\n"
         "  rvmt_trace_probe_aux = 32'd0;\n"
@@ -293,6 +309,13 @@ def write_fixture(root: Path) -> None:
         "    rvmt_trace_bram_dump_index,\n"
         "    rvmt_trace_bram_full,\n"
         "    rvmt_trace_bram_dump_valid,\n"
+        "    rvmt_trace_bram_dump_mem_base,\n"
+        "    rvmt_trace_bram_dump_mem_addr,\n"
+        "    rvmt_trace_bram_dump_mem_data,\n"
+        "    rvmt_trace_bram_dump_syscall_id,\n"
+        "    rvmt_trace_bram_dump_arg_index,\n"
+        "    rvmt_trace_bram_dump_mem_size,\n"
+        "    rvmt_trace_bram_dump_mem_last,\n"
         "    rvmt_trace_bram_dump_sequence,\n"
         "    rvmt_trace_bram_dump_aux,\n"
         "    rvmt_trace_bram_dump_primary,\n"
@@ -300,6 +323,13 @@ def write_fixture(root: Path) -> None:
         "    rvmt_trace_bram_dump_cycle,\n"
         "    rvmt_trace_bram_dump_evt\n"
         "};\n"
+        "assign rvmt_trace_bram_marker_begin = rvmt_trace_fire && rvmt_trace_packet.evt == trace_pkg::EVT_MARKER && rvmt_trace_packet.value[31:28] == 4'hb;\n"
+        "assign rvmt_trace_bram_marker_end = rvmt_trace_fire && rvmt_trace_packet.evt == trace_pkg::EVT_MARKER && rvmt_trace_packet.value[31:28] == 4'he;\n"
+        "assign rvmt_trace_bram_clear = rvmt_trace_bram_marker_begin;\n"
+        "trace_bram_ring i_rvmt_trace_bram_ring (\n"
+        "    .clear_i(rvmt_trace_bram_clear),\n"
+        "    .freeze_i(rvmt_trace_bram_freeze)\n"
+        ");\n"
         "xlnx_ila i_rvmt_trace_ila (\n"
         "    .probe1(rvmt_trace_probe_payload),\n"
         "    .probe2(rvmt_trace_bram_probe_payload)\n"
@@ -312,7 +342,7 @@ def write_fixture(root: Path) -> None:
         "set storageQual [rvmt_env_or_default RVMT_ILA_STORAGE_QUAL 1]\n"
         "CONFIG.C_NUM_OF_PROBES {3}\n"
         "CONFIG.C_PROBE1_WIDTH {136}\n"
-        "CONFIG.C_PROBE2_WIDTH {484}\n"
+        "CONFIG.C_PROBE2_WIDTH {716}\n"
         "set advTrigger [rvmt_env_or_default RVMT_ILA_ADV_TRIGGER TRUE]\n",
         encoding="utf-8",
     )
@@ -337,7 +367,7 @@ def write_fixture(root: Path) -> None:
         encoding="utf-8",
     )
     (root / BRAM_DECODER).write_text(
-        "BRAM_PAYLOAD_WIDTH = 484\n"
+        "BRAM_PAYLOAD_WIDTH_V3 = 716\n"
         "rvmt_trace_bram_probe_payload\n"
         "dropped_count\n"
         "wrap_count\n"
@@ -355,7 +385,7 @@ def write_fixture(root: Path) -> None:
         '"C_DATA_DEPTH": "8192"\n'
         '"C_NUM_OF_PROBES": "3"\n'
         '"C_PROBE1_WIDTH": "136"\n'
-        '"C_PROBE2_WIDTH": "484"\n'
+        '"C_PROBE2_WIDTH": "716"\n'
         '"C_EN_STRG_QUAL": "1"\n',
         encoding="utf-8",
     )

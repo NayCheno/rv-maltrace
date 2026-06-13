@@ -1,0 +1,279 @@
+{
+  "aggregate": {
+    "allowed_overlap_count": 3,
+    "benign_false_positive_rate": 0.0,
+    "non_network_sample_count": 5,
+    "sample_count": 5,
+    "unexpected_false_positive_count": 0
+  },
+  "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",
+  "claim_boundary": {
+    "allowed_benign_overlap_is_not_false_positive": true,
+    "genesys2_board_trace_claimed": false,
+    "local_linux_behavior_control": true,
+    "malware_detection_accuracy_claimed": false,
+    "real_malware_validation_claimed": false
+  },
+  "docker": {
+    "returncode": 0,
+    "stderr_tail": [
+      " Container rv-maltrace-linux-behavior-run-ab15f3bf3c3b Creating ",
+      " Container rv-maltrace-linux-behavior-run-ab15f3bf3c3b Created "
+    ],
+    "stdout_tail": []
+  },
+  "non_claims": [
+    "Benign control evidence is local Linux behavior evidence, not Genesys2/CVA6 board trace evidence.",
+    "Benign false-positive rate here is a controlled safe-workload audit metric, not real-malware detection accuracy.",
+    "Allowed benign rule overlap, such as directory-scan shape in ls, is tracked separately and not counted as an unexpected false positive."
+  ],
+  "rules": "experiments/linux_behavior/behavior_audit_rules.json",
+  "run_root": "build/benign_control",
+  "samples": [
+    {
+      "allowed_benign_rule_overlap": [],
+      "behavior_audit": "build/benign_control/hello/behavior_audit.json",
+      "behavior_graph": "build/benign_control/hello/behavior_graph.json",
+      "command": [
+        "./rvmt_benign_workload",
+        "hello"
+      ],
+      "default_enabled": true,
+      "expected_behavior": [
+        "stdout_write"
+      ],
+      "expected_syscall_coverage": {
+        "write": true
+      },
+      "expected_syscalls": [
+        "write"
+      ],
+      "false_positive": false,
+      "matched_rules": [],
+      "network_required": false,
+      "observed_syscalls": [
+        "write"
+      ],
+      "returncode": 0,
+      "sample_class": "benign",
+      "sample_id": "hello",
+      "semantic_events": "build/benign_control/hello/semantic_events.json",
+      "source": "board/artix7_35t/linux/rvmt_benign_workload.c",
+      "status": "PASS",
+      "stderr": "build/benign_control/hello/stderr.txt",
+      "stdout": "build/benign_control/hello/stdout.txt",
+      "strace_log": "build/benign_control/hello/host.strace.log",
+      "unexpected_matched_rules": []
+    },
+    {
+      "allowed_benign_rule_overlap": [
+        "many_file_scan"
+      ],
+      "behavior_audit": "build/benign_control/ls/behavior_audit.json",
+      "behavior_graph": "build/benign_control/ls/behavior_graph.json",
+      "command": [
+        "./rvmt_benign_workload",
+        "ls"
+      ],
+      "default_enabled": true,
+      "expected_behavior": [
+        "directory_listing"
+      ],
+      "expected_syscall_coverage": {
+        "close": true,
+        "getdents64": true,
+        "openat": true,
+        "write": true
+      },
+      "expected_syscalls": [
+        "openat",
+        "getdents64",
+        "write",
+        "close"
+      ],
+      "false_positive": false,
+      "matched_rules": [
+        "many_file_scan"
+      ],
+      "network_required": false,
+      "observed_syscalls": [
+        "openat",
+        "getdents64",
+        "write",
+        "write",
+        "getdents64",
+        "close"
+      ],
+      "returncode": 0,
+      "sample_class": "benign",
+      "sample_id": "ls",
+      "semantic_events": "build/benign_control/ls/semantic_events.json",
+      "source": "board/artix7_35t/linux/rvmt_benign_workload.c",
+      "status": "PASS",
+      "stderr": "build/benign_control/ls/stderr.txt",
+      "stdout": "build/benign_control/ls/stdout.txt",
+      "strace_log": "build/benign_control/ls/host.strace.log",
+      "unexpected_matched_rules": []
+    },
+    {
+      "allowed_benign_rule_overlap": [],
+      "behavior_audit": "build/benign_control/cat/behavior_audit.json",
+      "behavior_graph": "build/benign_control/cat/behavior_graph.json",
+      "command": [
+        "./rvmt_benign_workload",
+        "cat"
+      ],
+      "default_enabled": true,
+      "expected_behavior": [
+        "file_read",
+        "stdout_write"
+      ],
+      "expected_syscall_coverage": {
+        "close": true,
+        "openat": true,
+        "read": true,
+        "write": true
+      },
+      "expected_syscalls": [
+        "openat",
+        "read",
+        "write",
+        "close"
+      ],
+      "false_positive": false,
+      "matched_rules": [],
+      "network_required": false,
+      "observed_syscalls": [
+        "openat",
+        "read",
+        "write",
+        "read",
+        "close"
+      ],
+      "returncode": 0,
+      "sample_class": "benign",
+      "sample_id": "cat",
+      "semantic_events": "build/benign_control/cat/semantic_events.json",
+      "source": "board/artix7_35t/linux/rvmt_benign_workload.c",
+      "status": "PASS",
+      "stderr": "build/benign_control/cat/stderr.txt",
+      "stdout": "build/benign_control/cat/stdout.txt",
+      "strace_log": "build/benign_control/cat/host.strace.log",
+      "unexpected_matched_rules": []
+    },
+    {
+      "allowed_benign_rule_overlap": [],
+      "behavior_audit": "build/benign_control/cp/behavior_audit.json",
+      "behavior_graph": "build/benign_control/cp/behavior_graph.json",
+      "command": [
+        "./rvmt_benign_workload",
+        "cp"
+      ],
+      "default_enabled": true,
+      "expected_behavior": [
+        "file_copy"
+      ],
+      "expected_syscall_coverage": {
+        "close": true,
+        "openat": true,
+        "read": true,
+        "write": true
+      },
+      "expected_syscalls": [
+        "openat",
+        "read",
+        "write",
+        "close"
+      ],
+      "false_positive": false,
+      "matched_rules": [],
+      "network_required": false,
+      "observed_syscalls": [
+        "openat",
+        "openat",
+        "read",
+        "write",
+        "read",
+        "close",
+        "close"
+      ],
+      "returncode": 0,
+      "sample_class": "benign",
+      "sample_id": "cp",
+      "semantic_events": "build/benign_control/cp/semantic_events.json",
+      "source": "board/artix7_35t/linux/rvmt_benign_workload.c",
+      "status": "PASS",
+      "stderr": "build/benign_control/cp/stderr.txt",
+      "stdout": "build/benign_control/cp/stdout.txt",
+      "strace_log": "build/benign_control/cp/host.strace.log",
+      "unexpected_matched_rules": []
+    },
+    {
+      "allowed_benign_rule_overlap": [
+        "direct_syscall_file_access",
+        "obfuscated_syscall_sequence"
+      ],
+      "behavior_audit": "build/benign_control/sha256sum/behavior_audit.json",
+      "behavior_graph": "build/benign_control/sha256sum/behavior_graph.json",
+      "command": [
+        "./rvmt_benign_workload",
+        "sha256sum"
+      ],
+      "default_enabled": true,
+      "expected_behavior": [
+        "file_hash"
+      ],
+      "expected_syscall_coverage": {
+        "close": true,
+        "openat": true,
+        "read": true,
+        "write": true
+      },
+      "expected_syscalls": [
+        "openat",
+        "read",
+        "write",
+        "close"
+      ],
+      "false_positive": false,
+      "matched_rules": [
+        "direct_syscall_file_access",
+        "obfuscated_syscall_sequence"
+      ],
+      "network_required": false,
+      "observed_syscalls": [
+        "openat",
+        "read",
+        "read",
+        "close",
+        "write"
+      ],
+      "returncode": 0,
+      "sample_class": "benign",
+      "sample_id": "sha256sum",
+      "semantic_events": "build/benign_control/sha256sum/semantic_events.json",
+      "source": "board/artix7_35t/linux/rvmt_benign_workload.c",
+      "status": "PASS",
+      "stderr": "build/benign_control/sha256sum/stderr.txt",
+      "stdout": "build/benign_control/sha256sum/stdout.txt",
+      "strace_log": "build/benign_control/sha256sum/host.strace.log",
+      "unexpected_matched_rules": []
+    }
+  ],
+  "schema": "rvmt.genesys2.benign_control_summary.v1",
+  "source_manifest": "experiments/linux_behavior/benign/manifest.json",
+  "status": "PASS",
+  "toolchain": {
+    "compiler": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+    "docker_service": "linux-behavior",
+    "strace": "strace -- version 6.8"
+  },
+  "validation_commands": [
+    "uv run python tools/package_benign_control_summary.py",
+    "uv run python tools/check_benign_control_summary.py --root ."
+  ],
+  "wrapper_binary": "build/benign_control/rvmt_benign_workload",
+  "wrapper_binary_sha256": "e9dcf77832aabc4a884201d25ba55a17b02ef6da1a995352da2203c1ab908920",
+  "wrapper_source": "board/artix7_35t/linux/rvmt_benign_workload.c",
+  "wrapper_source_sha256": "b404f107a77ee7f23a669255555fd3eebfcbf287665c7879f551b04f1a3d5f9d"
+}

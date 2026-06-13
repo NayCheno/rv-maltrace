@@ -77,6 +77,7 @@ def capture_command(args: argparse.Namespace, sample_id: str, rep: int) -> list[
         str(args.timeout_seconds),
         "--trigger-position",
         "0",
+        "--event-only-capture",
         "--ltx",
         str(args.ltx),
         "--hw-server-url",

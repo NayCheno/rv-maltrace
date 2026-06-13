@@ -99,6 +99,13 @@ def sample_rows(data: dict[str, Any]) -> dict[str, dict[str, Any]]:
     }
 
 
+def sample_metric_rows(data: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    rows = data.get("samples")
+    if isinstance(rows, dict):
+        return {str(key): value for key, value in rows.items() if isinstance(value, dict)}
+    return sample_rows(data)
+
+
 def require(errors: list[str], condition: bool, message: str) -> None:
     if not condition:
         errors.append(message)
@@ -227,6 +234,11 @@ def check_safe_surrogate_bram_trace(data: dict[str, Any], root: Path) -> list[st
                 require(errors, bool(value), f"{sample_id}/{rep_label}: artifact {key} missing")
                 if value:
                     require(errors, repo_path(root, Path(str(value))).is_file(), f"{sample_id}/{rep_label}: artifact file missing: {value}")
+            for key in ("ila_trace", "upload_log"):
+                value = rep_artifacts.get(key)
+                require(errors, isinstance(value, str) and bool(value), f"{sample_id}/{rep_label}: optional artifact {key} marker missing")
+                if value and value != "NOT_CAPTURED":
+                    require(errors, repo_path(root, Path(value)).is_file(), f"{sample_id}/{rep_label}: optional artifact file missing: {value}")
         marker = row.get("marker_window", {}) if isinstance(row.get("marker_window"), dict) else {}
         require(errors, marker.get("begin_marker") == "0xb0000a11", f"{sample_id}: begin_marker mismatch")
         require(errors, marker.get("end_marker") == "0xe0000a11", f"{sample_id}: end_marker mismatch")
@@ -247,6 +259,11 @@ def check_safe_surrogate_bram_trace(data: dict[str, Any], root: Path) -> list[st
             require(errors, bool(value), f"{sample_id}: artifact {key} missing")
             if value:
                 require(errors, repo_path(root, Path(str(value))).is_file(), f"{sample_id}: artifact file missing: {value}")
+        for key in ("ila_trace", "upload_log"):
+            value = artifacts.get(key)
+            require(errors, isinstance(value, str) and bool(value), f"{sample_id}: optional artifact {key} marker missing")
+            if value and value != "NOT_CAPTURED":
+                require(errors, repo_path(root, Path(value)).is_file(), f"{sample_id}: optional artifact file missing: {value}")
         digest = str(artifacts.get("binary_sha256") or "")
         require(errors, len(digest) == 64 and all(ch in "0123456789abcdef" for ch in digest), f"{sample_id}: binary_sha256 invalid")
     return errors
@@ -385,6 +402,7 @@ def check_trace_drop_accounting(data: dict[str, Any], root: Path) -> list[str]:
 
 def check_syscall_semantic_reconstruction(data: dict[str, Any], root: Path) -> list[str]:
     errors: list[str] = []
+    source_values = {"qemu_guest_strace", "host_or_control_strace"}
     require_schema_status(errors, data, "rvmt.syscall_semantic_reconstruction.v1")
     rows = sample_rows(data)
     require_sample_set(errors, rows, ALL_CCFA_SAMPLES)
@@ -394,10 +412,19 @@ def check_syscall_semantic_reconstruction(data: dict[str, Any], root: Path) -> l
         require(errors, num(row.get("argument_reconstruction_accuracy")) >= 0.95, f"{sample_id}: argument accuracy below 95%")
         if row.get("has_openat"):
             require(errors, num(row.get("openat_pathname_accuracy")) >= 1.0, f"{sample_id}: openat pathname accuracy must be 100%")
+            require(errors, row.get("openat_path_source") in source_values, f"{sample_id}: openat source invalid")
+        else:
+            require(errors, row.get("openat_path_source") == "NOT_OBSERVED", f"{sample_id}: openat source must be NOT_OBSERVED")
         if row.get("has_execve"):
             require(errors, num(row.get("execve_filename_accuracy")) >= 1.0, f"{sample_id}: execve filename accuracy must be 100%")
+            require(errors, row.get("execve_path_source") in source_values, f"{sample_id}: execve source invalid")
+        else:
+            require(errors, row.get("execve_path_source") == "NOT_OBSERVED", f"{sample_id}: execve source must be NOT_OBSERVED")
         if row.get("has_write"):
             require(errors, row.get("write_buffer_prefix_recovered") is True, f"{sample_id}: write buffer prefix not recovered")
+            require(errors, row.get("write_buffer_prefix_source") in source_values, f"{sample_id}: write prefix source invalid")
+        else:
+            require(errors, row.get("write_buffer_prefix_source") == "NOT_OBSERVED", f"{sample_id}: write prefix source must be NOT_OBSERVED")
         if sample_id == "dynamic_executable_memory":
             require(errors, row.get("mmap_mprotect_behavior_node") is True, "dynamic_executable_memory: executable-memory behavior node missing")
         if sample_id == "anti_debug_like":
@@ -522,8 +549,20 @@ def check_ccfa_evaluation_matrix(data: dict[str, Any], root: Path) -> list[str]:
     rows = sample_rows(data)
     require_sample_set(errors, rows, ALL_CCFA_SAMPLES)
     for sample_id, row in rows.items():
-        for key in ("trace", "semantic_events", "behavior_graph", "baseline_logs", "metric_summary"):
-            require(errors, bool(row.get(key)), f"{sample_id}: {key} required")
+        for key in (
+            "trace",
+            "semantic_events",
+            "behavior_graph",
+            "behavior_mapping",
+            "integrated_validation",
+            "behavior_audit_metrics",
+            "baseline_logs",
+            "metric_summary",
+        ):
+            value = row.get(key)
+            require(errors, bool(value), f"{sample_id}: {key} required")
+            if value and "*" not in str(value):
+                require(errors, repo_path(root, Path(str(value))).is_file(), f"{sample_id}: {key} artifact missing: {value}")
         require(errors, row.get("continuous_trace") is True, f"{sample_id}: continuous_trace must be true")
         require(errors, num(row.get("unaccounted_drop")) == 0, f"{sample_id}: unaccounted_drop must be 0")
     return errors
@@ -563,6 +602,61 @@ def check_behavior_audit_metrics(data: dict[str, Any], root: Path) -> list[str]:
         require(errors, key in overhead, f"overhead.{key} required")
     require(errors, bool(data.get("resource_overhead")), "resource_overhead required")
     require(errors, bool(data.get("baseline_comparison")), "baseline_comparison required")
+    benign_control = data.get("benign_control_summary")
+    require(errors, bool(benign_control), "benign_control_summary required")
+    if benign_control:
+        benign_path = repo_path(root, Path(str(benign_control)))
+        require(errors, benign_path.is_file(), f"benign_control_summary missing: {benign_control}")
+        if benign_path.is_file():
+            try:
+                benign_data = load_json(benign_path)
+            except Exception as exc:
+                errors.append(f"benign_control_summary invalid JSON: {exc}")
+            else:
+                require(errors, benign_data.get("schema") == "rvmt.genesys2.benign_control_summary.v1", "benign control schema mismatch")
+                require(errors, benign_data.get("status") == "PASS", "benign control status must be PASS")
+                aggregate = benign_data.get("aggregate", {}) if isinstance(benign_data.get("aggregate"), dict) else {}
+                require(errors, num(aggregate.get("sample_count")) >= 5, "benign control must cover at least five samples")
+                require(errors, num(aggregate.get("unexpected_false_positive_count")) == 0, "benign control unexpected false positives must be zero")
+                require(
+                    errors,
+                    num(aggregate.get("benign_false_positive_rate")) == num(metrics.get("benign_false_positive_rate")),
+                    "benign control false-positive rate must match behavior metrics",
+                )
+    non_claims = " ".join(str(item).lower() for item in as_list(data.get("non_claims")))
+    require(errors, "not real-malware detection accuracy" in non_claims or "not real malware detection accuracy" in non_claims, "behavior metrics must not claim real-malware detection accuracy")
+    rows = sample_metric_rows(data)
+    missing_safe = [sample for sample in SAFE_SURROGATE_SAMPLES if sample not in rows]
+    require(errors, not missing_safe, f"missing safe surrogate metric rows: {', '.join(missing_safe)}")
+    artifact_root = repo_path(root, Path(str(data.get("sample_artifact_root") or "results/evaluation/genesys2-cva6/current/samples")))
+    required_artifacts = [
+        "semantic_events.json",
+        "behavior_graph.json",
+        "behavior_mapping.json",
+        "integrated_validation.json",
+        "behavior_audit_metrics.json",
+    ]
+    for sample_id in SAFE_SURROGATE_SAMPLES:
+        row = rows.get(sample_id, {})
+        for key, threshold in thresholds.items():
+            require(errors, num(row.get(key)) >= threshold, f"{sample_id}: {key} below threshold {threshold}")
+        require(errors, num(row.get("unaccounted_drop")) == 0, f"{sample_id}: unaccounted_drop must be 0")
+        for artifact_name in required_artifacts:
+            artifact_path = artifact_root / sample_id / artifact_name
+            require(errors, artifact_path.is_file(), f"{sample_id}: missing audit artifact {artifact_path.as_posix()}")
+            if not artifact_path.is_file():
+                continue
+            try:
+                artifact = load_json(artifact_path)
+            except Exception as exc:
+                errors.append(f"{sample_id}: invalid audit artifact {artifact_path.as_posix()}: {exc}")
+                continue
+            require(errors, artifact.get("sample_id") == sample_id, f"{sample_id}: {artifact_name} sample_id mismatch")
+            require(errors, artifact.get("real_malware") is False, f"{sample_id}: {artifact_name} must set real_malware=false")
+            sample_class = str(artifact.get("sample_class") or "")
+            require(errors, "malware_like" in sample_class and "synthetic" in sample_class, f"{sample_id}: {artifact_name} must be malware-like synthetic scope")
+            artifact_non_claims = " ".join(str(item).lower() for item in as_list(artifact.get("non_claims")))
+            require(errors, "not real malware" in artifact_non_claims or "not real-malware" in artifact_non_claims, f"{sample_id}: {artifact_name} must carry real-malware non-claim")
     return errors
 
 
@@ -590,6 +684,9 @@ def check_real_malware_containment(data: dict[str, Any], root: Path) -> list[str
 
 
 def good_sample(sample_id: str) -> dict[str, Any]:
+    has_openat = sample_id in {"file_open_read_write", "file_scan", "batch_open_read_write", "self_copy_sim", "abnormal_syscall_sequence", "anti_debug_like"}
+    has_execve = sample_id in {"fork_exec", "process_chain"}
+    has_write = True
     return {
         "sample_id": sample_id,
         "total_events": 10,
@@ -598,12 +695,15 @@ def good_sample(sample_id: str) -> dict[str, Any]:
         "expected_syscall_recall": 1.0,
         "syscall_precision": 1.0,
         "argument_reconstruction_accuracy": 1.0,
-        "has_openat": sample_id in {"file_open_read_write", "file_scan", "batch_open_read_write", "self_copy_sim", "abnormal_syscall_sequence", "anti_debug_like"},
+        "has_openat": has_openat,
         "openat_pathname_accuracy": 1.0,
-        "has_execve": sample_id in {"fork_exec", "process_chain"},
+        "openat_path_source": "qemu_guest_strace" if has_openat else "NOT_OBSERVED",
+        "has_execve": has_execve,
         "execve_filename_accuracy": 1.0,
-        "has_write": True,
+        "execve_path_source": "qemu_guest_strace" if has_execve else "NOT_OBSERVED",
+        "has_write": has_write,
         "write_buffer_prefix_recovered": True,
+        "write_buffer_prefix_source": "host_or_control_strace" if has_write else "NOT_OBSERVED",
         "mmap_mprotect_behavior_node": sample_id == "dynamic_executable_memory",
         "anti_analysis_behavior_node": sample_id == "anti_debug_like",
         "ground_truth_alignment": {"strace": True, "qemu_strace": True},
@@ -639,6 +739,9 @@ def good_sample(sample_id: str) -> dict[str, Any]:
         "trace": f"{sample_id}/trace.jsonl",
         "semantic_events": f"{sample_id}/semantic_events.json",
         "behavior_graph": f"{sample_id}/behavior_graph.json",
+        "behavior_mapping": f"{sample_id}/behavior_mapping.json",
+        "integrated_validation": f"{sample_id}/integrated_validation.json",
+        "behavior_audit_metrics": f"{sample_id}/behavior_audit_metrics.json",
         "baseline_logs": f"{sample_id}/baseline.log",
         "metric_summary": f"{sample_id}/metrics.json",
         "continuous_trace": True,
@@ -753,6 +856,8 @@ def fixture_safe_surrogate_bram_trace(path: Path) -> None:
                     "binary_sha256": "0" * 64,
                     "uart_log": uart_log.as_posix(),
                     "capture_log": capture_log.as_posix(),
+                    "ila_trace": "NOT_CAPTURED",
+                    "upload_log": "NOT_CAPTURED",
                 },
             }
         )
@@ -995,6 +1100,20 @@ def fixture_summary(path: Path, schema: str) -> None:
             },
         )
     elif schema == "rvmt.ccfa_evaluation_matrix.v1":
+        for sample in ALL_CCFA_SAMPLES:
+            sample_dir = path.parent / sample
+            sample_dir.mkdir(parents=True, exist_ok=True)
+            for artifact_name in [
+                "trace.jsonl",
+                "semantic_events.json",
+                "behavior_graph.json",
+                "behavior_mapping.json",
+                "integrated_validation.json",
+                "behavior_audit_metrics.json",
+                "baseline.log",
+                "metrics.json",
+            ]:
+                (sample_dir / artifact_name).write_text("{}\n", encoding="utf-8", newline="\n")
         write_json(
             path,
             {
@@ -1023,6 +1142,29 @@ def fixture_summary(path: Path, schema: str) -> None:
             },
         )
     elif schema == "rvmt.behavior_audit_metrics.v1":
+        artifact_root = path.parent / "samples"
+        benign_control = path.parent / "benign_control_summary.json"
+        required_artifacts = [
+            "semantic_events.json",
+            "behavior_graph.json",
+            "behavior_mapping.json",
+            "integrated_validation.json",
+            "behavior_audit_metrics.json",
+        ]
+        for sample in SAFE_SURROGATE_SAMPLES:
+            sample_dir = artifact_root / sample
+            sample_dir.mkdir(parents=True, exist_ok=True)
+            for artifact_name in required_artifacts:
+                write_json(
+                    sample_dir / artifact_name,
+                    {
+                        "schema": f"rvmt.sample.{artifact_name.removesuffix('.json')}.v1",
+                        "sample_id": sample,
+                        "sample_class": "malware_like_synthetic_syscall_only",
+                        "real_malware": False,
+                        "non_claims": ["This safe surrogate audit artifact is not real malware validation."],
+                    },
+                )
         write_json(
             path,
             {
@@ -1034,12 +1176,36 @@ def fixture_summary(path: Path, schema: str) -> None:
                     "argument_reconstruction_accuracy": 0.96,
                     "behavior_rule_recall": 0.91,
                     "anti_analysis_visibility": 1.0,
-                    "benign_false_positive_rate": 0.04,
+                    "benign_false_positive_rate": 0.0,
                     "unaccounted_drop": 0,
                 },
                 "overhead": {"median": 1.0, "p95": 1.2, "variance": 0.01},
                 "resource_overhead": {"lut_delta_pct": 1.0},
                 "baseline_comparison": {"strace": "fixture"},
+                "sample_artifact_root": artifact_root.as_posix(),
+                "samples": {
+                    sample: {
+                        "expected_syscall_recall": 0.96,
+                        "syscall_precision": 0.96,
+                        "argument_reconstruction_accuracy": 0.96,
+                        "behavior_rule_recall": 0.91,
+                        "anti_analysis_visibility": 1.0,
+                        "benign_false_positive_rate": 0.0,
+                        "unaccounted_drop": 0,
+                    }
+                    for sample in SAFE_SURROGATE_SAMPLES
+                },
+                "benign_control_summary": benign_control.as_posix(),
+                "non_claims": ["Behavior audit metrics are controlled safe-workload metrics, not real-malware detection accuracy."],
+            },
+        )
+        write_json(
+            benign_control,
+            {
+                "schema": "rvmt.genesys2.benign_control_summary.v1",
+                "status": "PASS",
+                "aggregate": {"sample_count": 5, "unexpected_false_positive_count": 0, "benign_false_positive_rate": 0.0},
+                "samples": [{"sample_id": f"benign_{index}", "sample_class": "benign"} for index in range(5)],
             },
         )
     elif schema == "rvmt.real_malware_containment.v1":

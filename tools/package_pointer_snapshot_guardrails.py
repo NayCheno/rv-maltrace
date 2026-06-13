@@ -14,6 +14,7 @@ DEFAULT_SAFE_RUN_ROOT = Path("results/board/genesys2_cva6_safe_surrogate/genesys
 DEFAULT_SAFE_BRAM_RUN_ROOT = Path("results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait")
 DEFAULT_OUT = Path("results/evaluation/genesys2-cva6/current/pointer_snapshot_guardrails.json")
 USER_POINTER_MAX = 0x0000_4000_0000_0000
+MULTIPLE_REPETITION_TRACES = "MULTIPLE_REPETITION_TRACES_SEE_TRACES"
 
 PRIORITY_SYSCALLS = [
     "openat",
@@ -194,7 +195,7 @@ def summarize_sample_events(
     row: dict[str, Any] = {
         "sample_id": sample_id,
         "sample_class": sample_class,
-        "trace": traces[0] if len(traces) == 1 else None,
+        "trace": traces[0] if len(traces) == 1 else MULTIPLE_REPETITION_TRACES,
         "traces": traces,
         "guardrails_pass": (not missing_trace) and total_bytes <= byte_budget and kernel_address_count == 0,
         "snapshot_mode": "disabled" if not snapshots else "bounded_prefix",

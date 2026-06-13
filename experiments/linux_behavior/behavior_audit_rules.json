@@ -1,6 +1,6 @@
 {
   "phase": "6.5",
-  "status": "TODO(EXPERIMENT)",
+  "status": "PASS_CONTROLLED_CASE_STUDY",
   "policy_ref": "experiments/linux_behavior/policy.json",
   "dataset_ref": "experiments/linux_behavior/malware_like/manifest.json",
   "input_artifacts": [

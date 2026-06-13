@@ -1,0 +1,118 @@
+{
+  "aggregate": {
+    "companion_derived_strings_as_hardware": 0,
+    "contiguous_from_offset_zero": true,
+    "full_memory_dump_count": 0,
+    "full_string_claimed": true,
+    "kernel_fragment_count": 0,
+    "mem_last_observed": true
+  },
+  "claim_boundary": {
+    "companion_strings_substituted_as_hardware": false,
+    "hardware_full_pointer_strings_claimed": true,
+    "kernel_or_full_memory_dump_claimed": false,
+    "real_malware_validation_claimed": false
+  },
+  "evidence_artifacts": [
+    {
+      "id": "companion_substitution_audit",
+      "kind": "companion_substitution_audit",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/full_hardware_pointer_strings/companion_substitution_audit.txt",
+      "sha256": "<64 lowercase hex sha256 of artifact file>"
+    },
+    {
+      "id": "kernel_space_filter_report",
+      "kind": "kernel_space_filter_report",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/full_hardware_pointer_strings/kernel_space_filter_report.txt",
+      "sha256": "<64 lowercase hex sha256 of artifact file>"
+    },
+    {
+      "id": "mem_last_or_terminator_report",
+      "kind": "mem_last_or_terminator_report",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/full_hardware_pointer_strings/mem_last_or_terminator_report.txt",
+      "sha256": "<64 lowercase hex sha256 of artifact file>"
+    },
+    {
+      "id": "pointer_capture_manifest",
+      "kind": "pointer_capture_manifest",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/full_hardware_pointer_strings/pointer_capture_manifest.txt",
+      "sha256": "<64 lowercase hex sha256 of artifact file>"
+    },
+    {
+      "id": "pointer_group_reconstruction",
+      "kind": "pointer_group_reconstruction",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/full_hardware_pointer_strings/pointer_group_reconstruction.txt",
+      "sha256": "<64 lowercase hex sha256 of artifact file>"
+    },
+    {
+      "id": "redaction_policy",
+      "kind": "redaction_policy",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/full_hardware_pointer_strings/redaction_policy.txt",
+      "sha256": "<64 lowercase hex sha256 of artifact file>"
+    },
+    {
+      "id": "resource_timing_report",
+      "kind": "resource_timing_report",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/full_hardware_pointer_strings/resource_timing_report.txt",
+      "sha256": "<64 lowercase hex sha256 of artifact file>"
+    },
+    {
+      "id": "rtl_design_manifest",
+      "kind": "rtl_design_manifest",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/full_hardware_pointer_strings/rtl_design_manifest.txt",
+      "sha256": "<64 lowercase hex sha256 of artifact file>"
+    }
+  ],
+  "failed_attempts": [],
+  "full_string_group_count": ">0",
+  "pointer_groups": [
+    {
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "kernel_fragment_count": 0,
+      "mem_last_observed": true,
+      "syscall_name": "openat"
+    },
+    {
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "kernel_fragment_count": 0,
+      "mem_last_observed": true,
+      "syscall_name": "write"
+    },
+    {
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "kernel_fragment_count": 0,
+      "mem_last_observed": true,
+      "syscall_name": "execve"
+    }
+  ],
+  "redaction_policy": "<artifact-backed raw pointer payload redaction and release policy>",
+  "schema": "rvmt.genesys2.hardware_pointer_strings.v1",
+  "status": "TEMPLATE_NOT_EVIDENCE",
+  "syscall_coverage": {
+    "execve": {
+      "companion_derived_strings_as_hardware": false,
+      "full_string_group_count": ">0",
+      "gap_free": true,
+      "mem_last_observed": true
+    },
+    "openat": {
+      "companion_derived_strings_as_hardware": false,
+      "full_string_group_count": ">0",
+      "gap_free": true,
+      "mem_last_observed": true
+    },
+    "write": {
+      "companion_derived_strings_as_hardware": false,
+      "full_string_group_count": ">0",
+      "gap_free": true,
+      "mem_last_observed": true
+    }
+  },
+  "template_only": true
+}

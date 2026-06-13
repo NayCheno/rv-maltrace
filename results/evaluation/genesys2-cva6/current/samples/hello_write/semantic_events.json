@@ -1,0 +1,51 @@
+{
+  "non_claims": [
+    "This artifact is a controlled safe-workload semantic audit artifact, not real malware validation.",
+    "Companion-derived strings are not hardware-derived pointer strings."
+  ],
+  "real_malware": false,
+  "row": {
+    "anti_analysis_behavior_node": false,
+    "argument_reconstruction_accuracy": 1.0,
+    "execve_filename_accuracy": 1.0,
+    "execve_path_source": "NOT_OBSERVED",
+    "execve_paths": [],
+    "expected_syscall_recall": 1.0,
+    "expected_syscalls": [
+      "write"
+    ],
+    "ground_truth_alignment": {
+      "host_or_control_strace": "results/demo/ccfa-p0-20260611/hello_write/01_ground_truth/host_control.strace.log",
+      "qemu_guest_strace": "results/demo/ccfa-p0-20260611/hello_write/01_ground_truth/qemu-riscv64.strace.log",
+      "qemu_strace": true,
+      "strace": true
+    },
+    "has_execve": false,
+    "has_openat": false,
+    "has_write": true,
+    "mmap_mprotect_behavior_node": false,
+    "non_claims": [
+      "Hardware ARG_MEM records expose bounded compact address/data prefixes only; full pointer strings remain companion-aligned when bytes are absent from the compact payload.",
+      "Host/control string fallback is used only when qemu-riscv64 strace reports pointer addresses without dereferenced bytes."
+    ],
+    "openat_path_source": "NOT_OBSERVED",
+    "openat_pathname_accuracy": 1.0,
+    "openat_paths": [],
+    "pointer_snapshot_route": "Path A bounded hardware ARG_MEM prefix snapshots plus Path B trusted companion alignment",
+    "primary_semantic_source": "qemu_guest_strace",
+    "sample_id": "hello_write",
+    "semantic_source": "trusted_qemu_guest_strace_companion",
+    "syscall_precision": 1.0,
+    "trace_source": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/01_hello_write/trace.jsonl",
+    "write_buffer_prefix_recovered": true,
+    "write_buffer_prefix_source": "host_or_control_strace",
+    "write_buffer_prefixes": [
+      "rv-maltrace hello\n"
+    ]
+  },
+  "sample_class": "p0_safe_synthetic",
+  "sample_id": "hello_write",
+  "schema": "rvmt.sample.semantic_events.v1",
+  "source_artifact": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/01_hello_write/semantic_events.json",
+  "trace_source": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/01_hello_write/trace.jsonl"
+}

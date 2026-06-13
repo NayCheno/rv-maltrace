@@ -1,3 +1,5 @@
+`timescale 1ns/1ps
+
 module arg_shadow #(
     parameter int WB_PORTS = 1
 ) (

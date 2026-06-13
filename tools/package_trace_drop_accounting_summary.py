@@ -15,6 +15,7 @@ DEFAULT_P0_BRAM_RUN_ROOT = Path("results/board/genesys2_trace_validation/2026061
 DEFAULT_SAFE_RUN_ROOT = Path("results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610")
 DEFAULT_SAFE_BRAM_RUN_ROOT = Path("results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait")
 DEFAULT_OUT = Path("results/evaluation/genesys2-cva6/current/drop_accounting_summary.json")
+BRAM_SUMMARY_RECORD_INDEX_NOT_AVAILABLE = "BRAM_SUMMARY_RECORD_INDEX_NOT_AVAILABLE"
 
 P0_TRACE_PATHS = {
     "hello_write": Path("01_hello_write/trace.jsonl"),
@@ -240,7 +241,7 @@ def package_bram_sample(sample_id: str, bram_run_root: Path, *, sample_class: st
                 rep["impact_analysis"] = "BRAM summary reports dropped or wrapped records; this attempt is retained as a failed attempt and is not counted as accepted no-drop evidence."
                 rep["drop_locations"] = rep.get("drop_locations") or [
                     {
-                        "record_index": None,
+                        "record_index": BRAM_SUMMARY_RECORD_INDEX_NOT_AVAILABLE,
                         "cycle": bram.get("start_timestamp"),
                         "amount": bram_drop,
                         "wrap_count": bram_wrap,

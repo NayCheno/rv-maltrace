@@ -1,0 +1,31 @@
+{
+  "evidence": {
+    "behavior_graph": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/01_hello_write/behavior_graph.json",
+    "behavior_mapping": "DERIVED_CURRENT_SAMPLE_ARTIFACT",
+    "code_map": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/01_hello_write/trace_code_map/code_map.json",
+    "integrated_validation": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/01_hello_write/integrated_validation.json",
+    "runtime_process_map": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/01_hello_write/runtime_process_map.json",
+    "semantic_events": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/01_hello_write/semantic_events.json",
+    "source_attribution": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/01_hello_write/trace_code_map/source_attribution_summary.json",
+    "trace": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/01_hello_write/trace.jsonl"
+  },
+  "metrics": {
+    "anti_analysis_visibility": 1.0,
+    "argument_reconstruction_accuracy": 1.0,
+    "behavior_rule_recall": 1.0,
+    "benign_false_positive_rate": 0.0,
+    "expected_syscall_recall": 1.0,
+    "syscall_precision": 1.0,
+    "unaccounted_drop": 0
+  },
+  "non_claims": [
+    "Integrated validation is limited to controlled safe workloads and safe malware-like surrogates.",
+    "This integrated validation artifact is not real malware validation."
+  ],
+  "real_malware": false,
+  "sample_class": "p0_safe_synthetic",
+  "sample_id": "hello_write",
+  "schema": "rvmt.sample.integrated_validation.v1",
+  "source_artifact": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/01_hello_write/integrated_validation.json",
+  "status": "PASS_CONTROLLED_SAFE_WORKLOAD_AUDIT"
+}

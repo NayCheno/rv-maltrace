@@ -35,18 +35,26 @@ EXPECTED_POLICY_KEYS = {
     "required_outputs",
 }
 REQUIRED_DOC_TEXT = (
-    "These rules are a plan, not board or Linux experiment evidence.",
+    "The current Genesys2/CVA6 package now has controlled P0",
+    "not real-malware validation or malware detection accuracy",
     "experiments/linux_behavior/policy.json",
     "results/linux_behavior/<run-id>/",
-    "Do not run real malware in early experiments.",
-    "Reject unknown-provenance binaries and payloads.",
-    "Use only benign programs and malware-like synthetic programs.",
+    "results/evaluation/genesys2-cva6/current/case_study_manifest.json",
+    "Do not run real malware in the current artifact.",
+    "Reject unknown-provenance binaries and payloads",
+    "benign programs, P0 controlled programs, and malware-like safe-surrogate programs",
     "Keep network behavior disabled by default",
+    "PASS_POLICY_NONCLAIM",
+    "PASS_REPOSITORY_AUTHORED_SAMPLES",
+    "PASS_BENIGN_AND_SAFE_SURROGATE_ONLY",
+    "PASS_DEFAULT_DISABLED",
+    "PASS_CURRENT_CONTROLLED_GATE",
     "trace semantic recovery",
     "`trace.jsonl`",
     "`semantic_events.json`",
     "`behavior_graph.json`",
     "`recovery_report.md`",
+    "`case_study_summary.json`",
     "must stay split into `benign` and `malware_like_synthetic`",
 )
 FORBIDDEN_DOC_PATTERNS = (
@@ -105,8 +113,8 @@ def check_policy(path: Path) -> list[str]:
         errors.append(f"{path}: missing required policy keys: {sorted(missing_keys)}")
     if policy.get("phase") != "6.1":
         errors.append(f"{path}: phase must be 6.1")
-    if policy.get("status") != "TODO(EXPERIMENT)":
-        errors.append(f"{path}: status must remain TODO(EXPERIMENT)")
+    if policy.get("status") != "PASS_CURRENT_CONTROLLED_POLICY":
+        errors.append(f"{path}: status must be PASS_CURRENT_CONTROLLED_POLICY")
     if policy.get("real_malware_policy") != "FORBIDDEN_EARLY":
         errors.append(f"{path}: real_malware_policy must be FORBIDDEN_EARLY")
     if policy.get("allowed_sample_classes") != EXPECTED_ALLOWED:
@@ -184,12 +192,13 @@ def run_checks(root: Path, policy: Path, doc: Path, uv_doc: Path, risk_log: Path
 
 def write_fixture(root: Path) -> None:
     (root / "experiments/linux_behavior").mkdir(parents=True)
-    (root / "docs").mkdir(parents=True)
+    (root / DEFAULT_DOC).parent.mkdir(parents=True, exist_ok=True)
+    (root / DEFAULT_UV_DOC).parent.mkdir(parents=True, exist_ok=True)
     (root / DEFAULT_POLICY).write_text(
         json.dumps(
             {
                 "phase": "6.1",
-                "status": "TODO(EXPERIMENT)",
+                "status": "PASS_CURRENT_CONTROLLED_POLICY",
                 "real_malware_policy": "FORBIDDEN_EARLY",
                 "allowed_sample_classes": EXPECTED_ALLOWED,
                 "blocked_sample_classes": EXPECTED_BLOCKED,
@@ -205,14 +214,20 @@ def write_fixture(root: Path) -> None:
     (root / DEFAULT_DOC).write_text(
         """# Linux Behavior Experiment Principles
 
-These rules are a plan, not board or Linux experiment evidence.
+The current Genesys2/CVA6 package now has controlled P0 evidence.
+not real-malware validation or malware detection accuracy
 experiments/linux_behavior/policy.json
 results/linux_behavior/<run-id>/
-Do not run real malware in early experiments.
+results/evaluation/genesys2-cva6/current/case_study_manifest.json
+Do not run real malware in the current artifact.
 Reject unknown-provenance binaries and payloads.
-Use only benign programs and malware-like synthetic programs.
+benign programs, P0 controlled programs, and malware-like safe-surrogate programs
 Keep network behavior disabled by default
-TODO(EXPERIMENT)
+PASS_POLICY_NONCLAIM
+PASS_REPOSITORY_AUTHORED_SAMPLES
+PASS_BENIGN_AND_SAFE_SURROGATE_ONLY
+PASS_DEFAULT_DISABLED
+PASS_CURRENT_CONTROLLED_GATE
 trace semantic recovery
 syscall sequence
 control-flow segment
@@ -223,6 +238,7 @@ basic behavior graph
 `semantic_events.json`
 `behavior_graph.json`
 `recovery_report.md`
+`case_study_summary.json`
 must stay split into `benign` and `malware_like_synthetic`
 """,
         encoding="utf-8",
@@ -399,7 +415,7 @@ def self_test() -> int:
         root = Path(tmp)
         write_fixture(root)
         doc = root / DEFAULT_DOC
-        doc.write_text(doc.read_text(encoding="utf-8").replace("TODO(EXPERIMENT)", "PASS"), encoding="utf-8")
+        doc.write_text(doc.read_text(encoding="utf-8") + "\nPASS\n", encoding="utf-8")
         if not expect_error(root, "must not claim Phase 6.1"):
             print("[FAIL] self-test missed premature doc PASS", file=sys.stderr)
             return 1

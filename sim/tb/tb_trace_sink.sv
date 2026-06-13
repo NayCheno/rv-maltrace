@@ -1,3 +1,5 @@
+`timescale 1ns/1ps
+
 module tb_trace_sink
   import trace_pkg::*;
 (

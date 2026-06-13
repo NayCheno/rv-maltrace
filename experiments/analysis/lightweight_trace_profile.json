@@ -1,6 +1,6 @@
 {
   "phase": "9.1",
-  "status": "TODO(EXPERIMENT)",
+  "status": "PASS_SCOPED_CURRENT_EVIDENCE",
   "scope": "selective_committed_semantic_trace_analysis",
   "input_artifacts": [
     "trace.jsonl"
@@ -24,7 +24,7 @@
       "accounting_events": ["DROP"],
       "allowed_other_events": [],
       "forbidden_behavior_events": ["MARKER"],
-      "status": "TODO(EXPERIMENT)"
+      "status": "PASS_SCOPED_GENESYS2_CURRENT"
     }
   ],
   "gates": [
@@ -42,6 +42,16 @@
       "id": "filter_regression",
       "status": "CHECKED(SIM)",
       "command": "uv run rvmt sim:trace-unit"
+    },
+    {
+      "id": "current_arg_mem_pointer_prefix",
+      "status": "PASS_SCOPED_GENESYS2_CURRENT",
+      "command": "uv run python tools/check_hardware_pointer_prefixes.py --root ."
+    },
+    {
+      "id": "current_trace_export_boundary",
+      "status": "PASS_SCOPED_GENESYS2_CURRENT",
+      "command": "uv run python tools/check_trace_export_decision.py --root ."
     }
   ],
   "non_goals": [

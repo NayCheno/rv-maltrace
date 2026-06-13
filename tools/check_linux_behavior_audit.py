@@ -16,6 +16,7 @@ DEFAULT_TOOL = Path("tools/audit_behavior.py")
 DEFAULT_MANIFEST = Path("experiments/linux_behavior/malware_like/manifest.json")
 DEFAULT_POLICY = Path("experiments/linux_behavior/policy.json")
 DEFAULT_UV_DOC = Path("docs/10-process/uv_workflow.md")
+CONTROLLED_AUDIT_STATUS = "PASS_CONTROLLED_CASE_STUDY"
 
 SPEC_KEYS = {
     "phase",
@@ -92,7 +93,8 @@ EXPECTED_RULES: dict[str, dict[str, Any]] = {
 }
 REQUIRED_DOC_TEXT = (
     "Phase 6.5 defines the rule-based synthetic behavior audit",
-    "synthetic case-study gate, not board evidence, Linux experiment evidence, or malware detection quality evidence",
+    "current Genesys2/CVA6 package contains controlled safe-surrogate audit artifacts",
+    "not real-malware validation or malware detection quality evidence",
     "experiments/linux_behavior/behavior_audit_rules.json",
     "semantic_events.json",
     "behavior_graph.json",
@@ -101,6 +103,8 @@ REQUIRED_DOC_TEXT = (
     "tools/audit_behavior.py",
     "experiments/linux_behavior/malware_like/manifest.json",
     "must not be used to claim malware detection quality",
+    "uv run python tools/check_behavior_audit_metrics.py --root .",
+    "uv run python tools/check_ccfa_case_study_manifest.py --root .",
 )
 FORBIDDEN_DOC_PATTERNS = (
     re.compile(r"\bPASS\b", re.IGNORECASE),
@@ -167,8 +171,8 @@ def check_spec(path: Path) -> list[str]:
         errors.append(f"{path}: missing required spec keys: {sorted(missing_keys)}")
     if spec.get("phase") != "6.5":
         errors.append(f"{path}: phase must be 6.5")
-    if spec.get("status") != "TODO(EXPERIMENT)":
-        errors.append(f"{path}: status must remain TODO(EXPERIMENT)")
+    if spec.get("status") != CONTROLLED_AUDIT_STATUS:
+        errors.append(f"{path}: status must be {CONTROLLED_AUDIT_STATUS}")
     if spec.get("policy_ref") != "experiments/linux_behavior/policy.json":
         errors.append(f"{path}: policy_ref must point at the Phase 6.1 policy")
     if spec.get("dataset_ref") != "experiments/linux_behavior/malware_like/manifest.json":
@@ -240,8 +244,8 @@ def check_doc(path: Path) -> list[str]:
             continue
         if row[0] != str(index):
             errors.append(f"{path}: {rule_id} order must be {index}")
-        if row[4] != "TODO(EXPERIMENT)":
-            errors.append(f"{path}: {rule_id} status must remain TODO(EXPERIMENT)")
+        if row[4] != CONTROLLED_AUDIT_STATUS:
+            errors.append(f"{path}: {rule_id} status must be {CONTROLLED_AUDIT_STATUS}")
     return errors
 
 
@@ -356,7 +360,7 @@ def write_fixture(root: Path) -> None:
         json.dumps(
             {
                 "phase": "6.5",
-                "status": "TODO(EXPERIMENT)",
+                "status": CONTROLLED_AUDIT_STATUS,
                 "policy_ref": "experiments/linux_behavior/policy.json",
                 "dataset_ref": "experiments/linux_behavior/malware_like/manifest.json",
                 "input_artifacts": ["semantic_events.json", "behavior_graph.json"],
@@ -370,7 +374,7 @@ def write_fixture(root: Path) -> None:
     (root / DEFAULT_DOC).write_text(
         """# Linux Behavior Audit
 
-Phase 6.5 defines the rule-based synthetic behavior audit. This is a synthetic case-study gate, not board evidence, Linux experiment evidence, or malware detection quality evidence.
+Phase 6.5 defines the rule-based synthetic behavior audit. The current Genesys2/CVA6 package contains controlled safe-surrogate audit artifacts. This is not real-malware validation or malware detection quality evidence.
 experiments/linux_behavior/behavior_audit_rules.json
 semantic_events.json
 behavior_graph.json
@@ -381,16 +385,18 @@ experiments/linux_behavior/malware_like/manifest.json
 
 | Order | Rule | Behavior family | Required evidence | Status |
 | ---: | --- | --- | --- | --- |
-| 1 | many_file_scan | file_discovery | openat/getdents64/close | TODO(EXPERIMENT) |
-| 2 | batch_file_read_write | collection_staging | openat/read/write/close | TODO(EXPERIMENT) |
-| 3 | self_copy_simulation | dropper_like | copy shape | TODO(EXPERIMENT) |
-| 4 | abnormal_syscall_sequence | abnormal_sequence | failed syscall | TODO(EXPERIMENT) |
-| 5 | illegal_instruction_trap | trap_behavior | illegal trap | TODO(EXPERIMENT) |
-| 6 | process_creation_chain | process_chain | clone/execve/waitid | TODO(EXPERIMENT) |
-| 7 | dynamic_executable_memory | memory_permission | mmap/mprotect | TODO(EXPERIMENT) |
-| 8 | anti_analysis_indicator | anti_analysis | ptrace/timing | TODO(EXPERIMENT) |
+| 1 | many_file_scan | file_discovery | openat/getdents64/close | PASS_CONTROLLED_CASE_STUDY |
+| 2 | batch_file_read_write | collection_staging | openat/read/write/close | PASS_CONTROLLED_CASE_STUDY |
+| 3 | self_copy_simulation | dropper_like | copy shape | PASS_CONTROLLED_CASE_STUDY |
+| 4 | abnormal_syscall_sequence | abnormal_sequence | failed syscall | PASS_CONTROLLED_CASE_STUDY |
+| 5 | illegal_instruction_trap | trap_behavior | illegal trap | PASS_CONTROLLED_CASE_STUDY |
+| 6 | process_creation_chain | process_chain | clone/execve/waitid | PASS_CONTROLLED_CASE_STUDY |
+| 7 | dynamic_executable_memory | memory_permission | mmap/mprotect | PASS_CONTROLLED_CASE_STUDY |
+| 8 | anti_analysis_indicator | anti_analysis | ptrace/timing | PASS_CONTROLLED_CASE_STUDY |
 
 must not be used to claim malware detection quality
+uv run python tools/check_behavior_audit_metrics.py --root .
+uv run python tools/check_ccfa_case_study_manifest.py --root .
 """,
         encoding="utf-8",
     )
@@ -464,10 +470,10 @@ def self_test() -> int:
         root = Path(tmp)
         write_fixture(root)
         spec = load_json(root / DEFAULT_SPEC)
-        spec["status"] = "PASS"
+        spec["status"] = "TODO(EXPERIMENT)"
         (root / DEFAULT_SPEC).write_text(json.dumps(spec), encoding="utf-8")
-        if not expect_error(root, "status must remain TODO"):
-            print("[FAIL] self-test missed premature audit PASS", file=sys.stderr)
+        if not expect_error(root, "status must be PASS_CONTROLLED_CASE_STUDY"):
+            print("[FAIL] self-test missed stale audit TODO status", file=sys.stderr)
             return 1
 
     with tempfile.TemporaryDirectory() as tmp:

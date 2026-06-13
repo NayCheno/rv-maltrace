@@ -1,0 +1,747 @@
+{
+  "accepted_external_blocker_count": 0,
+  "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",
+  "claim_boundary": {
+    "all_non_real_external_blockers_closed": false,
+    "external_execution_completed": false,
+    "plan_only": true,
+    "real_malware_validation_claimed": false
+  },
+  "interpretation": [
+    "This plan makes the remaining non-real-malware external work executable and template-driven.",
+    "Embedded summary templates are not evidence and must not be copied into the intake path without real board, RTL, or reviewer artifacts.",
+    "The plan does not close any external blocker while external_closure_intake.json remains OPEN_EXTERNAL_ARTIFACTS_REQUIRED."
+  ],
+  "invalid_external_blocker_count": 0,
+  "objective_exclusions": [
+    "real_malware_validation"
+  ],
+  "open_external_blocker_count": 4,
+  "records": [
+    {
+      "acceptance_criteria": [
+        "every accepted board trace references an exact captured_elf_sha256 that matches the debug ELF manifest",
+        "every sample has board_trace_source_line_available=true and source_line_attribution_available=true",
+        "source-line attribution rate is at least 0.95 across key syscall/trap events",
+        "marker windows, syscall entry/return pairing, wrap count, and unaccounted DROP criteria still pass",
+        "current sidecar-only source lines are not substituted for DWARF-derived board trace source lines"
+      ],
+      "acceptance_gate": "uv run python tools/check_genesys2_external_closure_intake.py --root .",
+      "collection_commands": [
+        "uv run python tools/run_genesys2_p0_bram_repetitions.py --run-root <debug-p0-board-run-root> --repetitions 10",
+        "uv run python tools/run_genesys2_safe_surrogate_bram_repetitions.py --run-root <debug-safe-board-run-root> --repetitions 10",
+        "collect debug_elf_readiness_summary.json as the candidate debug ELF manifest and require captured_elf_sha256 exact matches after board rerun",
+        "uv run python tools/build_code_map.py --elf <captured-debug-elf> --addr2line --out <code-map.json>",
+        "uv run python tools/join_trace_code_map.py --trace <trace.jsonl> --code-map <code-map.json> --out <joined.json>"
+      ],
+      "current_blocker": true,
+      "exit_criteria": [
+        "external_summary_exists=true in external_closure_intake.json",
+        "completion_status=EXTERNAL_SUMMARY_ACCEPTED for this record",
+        "completion_evidence_valid=true for this record",
+        "no validation_errors for this record"
+      ],
+      "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/board_native_source_lines_summary.json",
+      "id": "board_native_dwarf_source_lines",
+      "intake_completion_status": "OPEN_NO_EXTERNAL_SUMMARY",
+      "no_substitution_rule": "Toolchain probes and source-equivalent sidecars must not be substituted for board-native DWARF source-line attribution.",
+      "operator_inputs": [
+        "Genesys2/CVA6 board access with the current trace bitstream or a recorded equivalent bitstream hash",
+        "debug/no-PIE RISC-V Linux workload ELFs built from the exact listed sources with retained .debug_line",
+        "readelf -S and addr2line transcripts for each captured ELF",
+        "board capture roots produced from those exact debug ELFs"
+      ],
+      "packaging_commands": [
+        "uv run python tools/prepare_genesys2_external_summary.py --record-id board_native_dwarf_source_lines --write-template results/evaluation/genesys2-cva6/current/external_closure_templates/board_native_source_lines_summary.template.json",
+        "uv run python tools/prepare_genesys2_external_summary.py --record-id board_native_dwarf_source_lines --summary <candidate-board-native-dwarf-source-lines-summary.json>",
+        "write results/evaluation/genesys2-cva6/current/external_closure/board_native_source_lines_summary.json from the accepted board run roots",
+        "uv run python tools/package_genesys2_external_closure_intake.py"
+      ],
+      "plan_status": "READY_TO_EXECUTE_WITH_EXTERNAL_STATE",
+      "preflight_commands": [
+        "uv run python tools/package_source_line_toolchain_probe.py",
+        "uv run python tools/check_source_line_toolchain_probe.py --root .",
+        "uv run python tools/package_genesys2_debug_elf_readiness.py",
+        "uv run python tools/check_genesys2_debug_elf_readiness.py --root .",
+        "uv run python tools/build_genesys2_p0_marker_elf.py --code-map",
+        "uv run python tools/build_genesys2_safe_syscall_elf.py --code-map"
+      ],
+      "readiness_status": "EXTERNAL_BOARD_RERUN_READY_NOT_EXECUTED",
+      "required_raw_artifacts": [
+        "debug/no-PIE board workload ELFs for every sample with retained .debug_line sections",
+        "readelf -S transcripts proving .debug_line for each captured ELF",
+        "board capture roots generated from those exact debug ELFs",
+        "per-run manifest linking captured_elf_sha256 to the debug ELF sha256",
+        "trace/code-map joins produced with addr2line source locations from the captured ELF"
+      ],
+      "required_summary_schema": "rvmt.genesys2.board_native_source_lines.v1",
+      "summary_template": {
+        "aggregate": {
+          "marker_windows_passed": true,
+          "sample_count": 12,
+          "source_line_rate": ">=0.95",
+          "unaccounted_drop": 0,
+          "unknown_key_events": 0
+        },
+        "claim_boundary": {
+          "board_native_source_line_attribution_claimed": true,
+          "captured_elf_sha256_exact_match": true,
+          "real_malware_validation_claimed": false,
+          "sidecar_source_lines_substituted": false
+        },
+        "evidence_artifacts": [
+          {
+            "id": "board_capture_manifest",
+            "kind": "board_capture_manifest",
+            "path": "results/evaluation/genesys2-cva6/current/external_closure/board_native_dwarf_source_lines/board_capture_manifest.txt",
+            "sha256": "<64 lowercase hex sha256 of artifact file>"
+          },
+          {
+            "id": "debug_elf_manifest",
+            "kind": "debug_elf_manifest",
+            "path": "results/evaluation/genesys2-cva6/current/external_closure/board_native_dwarf_source_lines/debug_elf_manifest.txt",
+            "sha256": "<64 lowercase hex sha256 of artifact file>"
+          },
+          {
+            "id": "joined_trace_code_map_manifest",
+            "kind": "joined_trace_code_map_manifest",
+            "path": "results/evaluation/genesys2-cva6/current/external_closure/board_native_dwarf_source_lines/joined_trace_code_map_manifest.txt",
+            "sha256": "<64 lowercase hex sha256 of artifact file>"
+          },
+          {
+            "id": "readelf_debug_line_transcript",
+            "kind": "readelf_debug_line_transcript",
+            "path": "results/evaluation/genesys2-cva6/current/external_closure/board_native_dwarf_source_lines/readelf_debug_line_transcript.txt",
+            "sha256": "<64 lowercase hex sha256 of artifact file>"
+          }
+        ],
+        "samples": [
+          {
+            "board_trace_source_line_available": true,
+            "captured_elf_sha256": "<64 lowercase hex sha256 of exact board ELF>",
+            "captured_elf_sha256_exact_match": true,
+            "debug_sections_present": true,
+            "genesys2_cva6_board_claimed": true,
+            "id": "hello_write",
+            "readelf_debug_line_proven": true,
+            "source_line_attribution_available": true,
+            "source_line_rate": ">=0.95",
+            "unaccounted_drop": 0
+          },
+          {
+            "board_trace_source_line_available": true,
+            "captured_elf_sha256": "<64 lowercase hex sha256 of exact board ELF>",
+            "captured_elf_sha256_exact_match": true,
+            "debug_sections_present": true,
+            "genesys2_cva6_board_claimed": true,
+            "id": "file_open_read_write",
+            "readelf_debug_line_proven": true,
+            "source_line_attribution_available": true,
+            "source_line_rate": ">=0.95",
+            "unaccounted_drop": 0
+          },
+          {
+            "board_trace_source_line_available": true,
+            "captured_elf_sha256": "<64 lowercase hex sha256 of exact board ELF>",
+            "captured_elf_sha256_exact_match": true,
+            "debug_sections_present": true,
+            "genesys2_cva6_board_claimed": true,
+            "id": "fork_exec",
+            "readelf_debug_line_proven": true,
+            "source_line_attribution_available": true,
+            "source_line_rate": ">=0.95",
+            "unaccounted_drop": 0
+          },
+          {
+            "board_trace_source_line_available": true,
+            "captured_elf_sha256": "<64 lowercase hex sha256 of exact board ELF>",
+            "captured_elf_sha256_exact_match": true,
+            "debug_sections_present": true,
+            "genesys2_cva6_board_claimed": true,
+            "id": "illegal_instruction",
+            "readelf_debug_line_proven": true,
+            "source_line_attribution_available": true,
+            "source_line_rate": ">=0.95",
+            "unaccounted_drop": 0
+          },
+          {
+            "board_trace_source_line_available": true,
+            "captured_elf_sha256": "<64 lowercase hex sha256 of exact board ELF>",
+            "captured_elf_sha256_exact_match": true,
+            "debug_sections_present": true,
+            "genesys2_cva6_board_claimed": true,
+            "id": "file_scan",
+            "readelf_debug_line_proven": true,
+            "source_line_attribution_available": true,
+            "source_line_rate": ">=0.95",
+            "unaccounted_drop": 0
+          },
+          {
+            "board_trace_source_line_available": true,
+            "captured_elf_sha256": "<64 lowercase hex sha256 of exact board ELF>",
+            "captured_elf_sha256_exact_match": true,
+            "debug_sections_present": true,
+            "genesys2_cva6_board_claimed": true,
+            "id": "batch_open_read_write",
+            "readelf_debug_line_proven": true,
+            "source_line_attribution_available": true,
+            "source_line_rate": ">=0.95",
+            "unaccounted_drop": 0
+          },
+          {
+            "board_trace_source_line_available": true,
+            "captured_elf_sha256": "<64 lowercase hex sha256 of exact board ELF>",
+            "captured_elf_sha256_exact_match": true,
+            "debug_sections_present": true,
+            "genesys2_cva6_board_claimed": true,
+            "id": "self_copy_sim",
+            "readelf_debug_line_proven": true,
+            "source_line_attribution_available": true,
+            "source_line_rate": ">=0.95",
+            "unaccounted_drop": 0
+          },
+          {
+            "board_trace_source_line_available": true,
+            "captured_elf_sha256": "<64 lowercase hex sha256 of exact board ELF>",
+            "captured_elf_sha256_exact_match": true,
+            "debug_sections_present": true,
+            "genesys2_cva6_board_claimed": true,
+            "id": "abnormal_syscall_sequence",
+            "readelf_debug_line_proven": true,
+            "source_line_attribution_available": true,
+            "source_line_rate": ">=0.95",
+            "unaccounted_drop": 0
+          },
+          {
+            "board_trace_source_line_available": true,
+            "captured_elf_sha256": "<64 lowercase hex sha256 of exact board ELF>",
+            "captured_elf_sha256_exact_match": true,
+            "debug_sections_present": true,
+            "genesys2_cva6_board_claimed": true,
+            "id": "illegal_trap",
+            "readelf_debug_line_proven": true,
+            "source_line_attribution_available": true,
+            "source_line_rate": ">=0.95",
+            "unaccounted_drop": 0
+          },
+          {
+            "board_trace_source_line_available": true,
+            "captured_elf_sha256": "<64 lowercase hex sha256 of exact board ELF>",
+            "captured_elf_sha256_exact_match": true,
+            "debug_sections_present": true,
+            "genesys2_cva6_board_claimed": true,
+            "id": "process_chain",
+            "readelf_debug_line_proven": true,
+            "source_line_attribution_available": true,
+            "source_line_rate": ">=0.95",
+            "unaccounted_drop": 0
+          },
+          {
+            "board_trace_source_line_available": true,
+            "captured_elf_sha256": "<64 lowercase hex sha256 of exact board ELF>",
+            "captured_elf_sha256_exact_match": true,
+            "debug_sections_present": true,
+            "genesys2_cva6_board_claimed": true,
+            "id": "dynamic_executable_memory",
+            "readelf_debug_line_proven": true,
+            "source_line_attribution_available": true,
+            "source_line_rate": ">=0.95",
+            "unaccounted_drop": 0
+          },
+          {
+            "board_trace_source_line_available": true,
+            "captured_elf_sha256": "<64 lowercase hex sha256 of exact board ELF>",
+            "captured_elf_sha256_exact_match": true,
+            "debug_sections_present": true,
+            "genesys2_cva6_board_claimed": true,
+            "id": "anti_debug_like",
+            "readelf_debug_line_proven": true,
+            "source_line_attribution_available": true,
+            "source_line_rate": ">=0.95",
+            "unaccounted_drop": 0
+          }
+        ],
+        "schema": "rvmt.genesys2.board_native_source_lines.v1",
+        "status": "TEMPLATE_NOT_EVIDENCE",
+        "template_only": true
+      },
+      "validation_commands": [
+        "uv run python tools/package_genesys2_external_closure_intake.py",
+        "uv run python tools/check_genesys2_external_closure_intake.py --root ."
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "full_string_claimed may become true only for pointer groups with contiguous bytes from offset 0 through terminator or documented bounded truncation",
+        "fragmented or gapped ARG_MEM groups remain fragments and are not promoted to strings",
+        "companion-derived strings are never counted as hardware-derived pointer strings",
+        "kernel-space addresses and full memory dumps remain absent",
+        "openat/write/execve hardware string coverage is reported with per-sample counts and negative cases"
+      ],
+      "acceptance_gate": "uv run python tools/check_genesys2_external_closure_intake.py --root .",
+      "collection_commands": [
+        "uv run python tools/run_genesys2_pointer_snapshot_bram_capture.py --run-root <full-string-board-run-root> --repetitions 10",
+        "collect full-string ARG_MEM groups with mem_last=true and contiguous offsets from zero",
+        "retain negative kernel-range and gapped-fragment cases as non-promoted fragments"
+      ],
+      "current_blocker": true,
+      "exit_criteria": [
+        "external_summary_exists=true in external_closure_intake.json",
+        "completion_status=EXTERNAL_SUMMARY_ACCEPTED for this record",
+        "completion_evidence_valid=true for this record",
+        "no validation_errors for this record"
+      ],
+      "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/hardware_pointer_strings_summary.json",
+      "id": "full_hardware_pointer_strings",
+      "intake_completion_status": "OPEN_NO_EXTERNAL_SUMMARY",
+      "no_substitution_rule": "Bounded prefixes, fragments, qemu/strace strings, and trusted companion strings must not be substituted for full hardware-derived pointer strings.",
+      "operator_inputs": [
+        "RTL change or equivalent CVA6 LSU/user-copy hook that observes contiguous user-pointer bytes",
+        "Trace format extension preserving mem_last and pointer-group boundaries",
+        "Genesys2/CVA6 board recapture roots for openat, write, and execve full-string cases",
+        "Raw byte redaction policy for any releasable summaries"
+      ],
+      "packaging_commands": [
+        "uv run python tools/package_genesys2_pointer_string_readiness.py",
+        "uv run python tools/check_genesys2_pointer_string_readiness.py --root .",
+        "uv run python tools/prepare_genesys2_external_summary.py --record-id full_hardware_pointer_strings --write-template results/evaluation/genesys2-cva6/current/external_closure_templates/hardware_pointer_strings_summary.template.json",
+        "uv run python tools/prepare_genesys2_external_summary.py --record-id full_hardware_pointer_strings --summary <candidate-full-hardware-pointer-strings-summary.json>",
+        "write results/evaluation/genesys2-cva6/current/external_closure/hardware_pointer_strings_summary.json from the full-string board run",
+        "uv run python tools/package_genesys2_external_closure_intake.py"
+      ],
+      "plan_status": "READY_TO_EXECUTE_WITH_EXTERNAL_STATE",
+      "preflight_commands": [
+        "uv run python tools/check_pointer_snapshot_guardrails.py --root .",
+        "uv run python tools/check_hardware_pointer_prefixes.py --root .",
+        "uv run python tools/check_genesys2_pointer_string_readiness.py --root .",
+        "uv run python tools/run_genesys2_pointer_snapshot_bram_capture.py --dry-run"
+      ],
+      "readiness_status": "RTL_EXTENSION_REQUIRED_NOT_EXECUTED",
+      "required_raw_artifacts": [
+        "CVA6 LSU/user-copy hook or equivalent RTL path that observes contiguous user-pointer bytes",
+        "full-string ARG_MEM records with mem_last=true for null-terminated path/string arguments",
+        "gap-free pointer-group reconstruction for openat, write, and execve where a full string is claimed",
+        "board recapture roots proving the new RTL path on Genesys2/CVA6",
+        "redaction/release policy for raw payload bytes and sanitized public summaries"
+      ],
+      "required_summary_schema": "rvmt.genesys2.hardware_pointer_strings.v1",
+      "summary_template": {
+        "aggregate": {
+          "companion_derived_strings_as_hardware": 0,
+          "contiguous_from_offset_zero": true,
+          "full_memory_dump_count": 0,
+          "full_string_claimed": true,
+          "kernel_fragment_count": 0,
+          "mem_last_observed": true
+        },
+        "claim_boundary": {
+          "companion_strings_substituted_as_hardware": false,
+          "hardware_full_pointer_strings_claimed": true,
+          "kernel_or_full_memory_dump_claimed": false,
+          "real_malware_validation_claimed": false
+        },
+        "evidence_artifacts": [
+          {
+            "id": "companion_substitution_audit",
+            "kind": "companion_substitution_audit",
+            "path": "results/evaluation/genesys2-cva6/current/external_closure/full_hardware_pointer_strings/companion_substitution_audit.txt",
+            "sha256": "<64 lowercase hex sha256 of artifact file>"
+          },
+          {
+            "id": "kernel_space_filter_report",
+            "kind": "kernel_space_filter_report",
+            "path": "results/evaluation/genesys2-cva6/current/external_closure/full_hardware_pointer_strings/kernel_space_filter_report.txt",
+            "sha256": "<64 lowercase hex sha256 of artifact file>"
+          },
+          {
+            "id": "mem_last_or_terminator_report",
+            "kind": "mem_last_or_terminator_report",
+            "path": "results/evaluation/genesys2-cva6/current/external_closure/full_hardware_pointer_strings/mem_last_or_terminator_report.txt",
+            "sha256": "<64 lowercase hex sha256 of artifact file>"
+          },
+          {
+            "id": "pointer_capture_manifest",
+            "kind": "pointer_capture_manifest",
+            "path": "results/evaluation/genesys2-cva6/current/external_closure/full_hardware_pointer_strings/pointer_capture_manifest.txt",
+            "sha256": "<64 lowercase hex sha256 of artifact file>"
+          },
+          {
+            "id": "pointer_group_reconstruction",
+            "kind": "pointer_group_reconstruction",
+            "path": "results/evaluation/genesys2-cva6/current/external_closure/full_hardware_pointer_strings/pointer_group_reconstruction.txt",
+            "sha256": "<64 lowercase hex sha256 of artifact file>"
+          },
+          {
+            "id": "redaction_policy",
+            "kind": "redaction_policy",
+            "path": "results/evaluation/genesys2-cva6/current/external_closure/full_hardware_pointer_strings/redaction_policy.txt",
+            "sha256": "<64 lowercase hex sha256 of artifact file>"
+          },
+          {
+            "id": "resource_timing_report",
+            "kind": "resource_timing_report",
+            "path": "results/evaluation/genesys2-cva6/current/external_closure/full_hardware_pointer_strings/resource_timing_report.txt",
+            "sha256": "<64 lowercase hex sha256 of artifact file>"
+          },
+          {
+            "id": "rtl_design_manifest",
+            "kind": "rtl_design_manifest",
+            "path": "results/evaluation/genesys2-cva6/current/external_closure/full_hardware_pointer_strings/rtl_design_manifest.txt",
+            "sha256": "<64 lowercase hex sha256 of artifact file>"
+          }
+        ],
+        "failed_attempts": [],
+        "full_string_group_count": ">0",
+        "pointer_groups": [
+          {
+            "companion_derived_strings_as_hardware": false,
+            "contiguous_from_offset_zero": true,
+            "full_string_claimed": true,
+            "kernel_fragment_count": 0,
+            "mem_last_observed": true,
+            "syscall_name": "openat"
+          },
+          {
+            "companion_derived_strings_as_hardware": false,
+            "contiguous_from_offset_zero": true,
+            "full_string_claimed": true,
+            "kernel_fragment_count": 0,
+            "mem_last_observed": true,
+            "syscall_name": "write"
+          },
+          {
+            "companion_derived_strings_as_hardware": false,
+            "contiguous_from_offset_zero": true,
+            "full_string_claimed": true,
+            "kernel_fragment_count": 0,
+            "mem_last_observed": true,
+            "syscall_name": "execve"
+          }
+        ],
+        "redaction_policy": "<artifact-backed raw pointer payload redaction and release policy>",
+        "schema": "rvmt.genesys2.hardware_pointer_strings.v1",
+        "status": "TEMPLATE_NOT_EVIDENCE",
+        "syscall_coverage": {
+          "execve": {
+            "companion_derived_strings_as_hardware": false,
+            "full_string_group_count": ">0",
+            "gap_free": true,
+            "mem_last_observed": true
+          },
+          "openat": {
+            "companion_derived_strings_as_hardware": false,
+            "full_string_group_count": ">0",
+            "gap_free": true,
+            "mem_last_observed": true
+          },
+          "write": {
+            "companion_derived_strings_as_hardware": false,
+            "full_string_group_count": ">0",
+            "gap_free": true,
+            "mem_last_observed": true
+          }
+        },
+        "template_only": true
+      },
+      "validation_commands": [
+        "uv run python tools/package_genesys2_external_closure_intake.py",
+        "uv run python tools/check_genesys2_external_closure_intake.py --root ."
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "transport is not reported as BRAM ring plus ILA/JTAG when claiming production streaming/DMA throughput",
+        "sustained throughput exceeds the measured p95 event byte production rate recorded in streaming_dma_target_summary.json for the selected workload set",
+        "unaccounted DROP is 0 for accepted throughput runs and every failed attempt is retained with impact analysis",
+        "trace_on versus trace_off behavior remains equivalent for the workload pass/fail result",
+        "timing closure and resource deltas are reported for the exact bitstream used in the throughput run"
+      ],
+      "acceptance_gate": "uv run python tools/check_genesys2_external_closure_intake.py --root .",
+      "collection_commands": [
+        "external: build and program the selected non-BRAM streaming trace bitstream",
+        "external: run host receiver during the selected workload set and retain byte/event/elapsed/parser logs; compare sustained bytes/sec against streaming_dma_target_summary.json converted with the exact streaming bitstream clock report",
+        "uv run python tools/run_genesys2_runtime_benchmark.py --run-root <streaming-runtime-run-root> --mode trace_off --mode event_only --mode bram_ring"
+      ],
+      "current_blocker": true,
+      "exit_criteria": [
+        "external_summary_exists=true in external_closure_intake.json",
+        "completion_status=EXTERNAL_SUMMARY_ACCEPTED for this record",
+        "completion_evidence_valid=true for this record",
+        "no validation_errors for this record"
+      ],
+      "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/streaming_dma_throughput_summary.json",
+      "id": "production_streaming_dma_trace_sink",
+      "intake_completion_status": "OPEN_NO_EXTERNAL_SUMMARY",
+      "no_substitution_rule": "BRAM ring captures, ILA/JTAG dumps, and local runtime benchmarks must not be substituted for production streaming or DMA throughput evidence.",
+      "operator_inputs": [
+        "Non-BRAM transport implementation such as AXI DMA, Ethernet streaming, or an equivalent production streaming path",
+        "Host receiver logs with byte count, event count, elapsed time, and parser success",
+        "Resource, timing, and route reports for the exact streaming bitstream",
+        "Trace-off versus trace-on workload result comparison"
+      ],
+      "packaging_commands": [
+        "uv run python tools/package_genesys2_streaming_dma_readiness.py",
+        "uv run python tools/check_genesys2_streaming_dma_readiness.py --root .",
+        "uv run python tools/prepare_genesys2_external_summary.py --record-id production_streaming_dma_trace_sink --write-template results/evaluation/genesys2-cva6/current/external_closure_templates/streaming_dma_throughput_summary.template.json",
+        "uv run python tools/prepare_genesys2_external_summary.py --record-id production_streaming_dma_trace_sink --summary <candidate-production-streaming-dma-trace-sink-summary.json>",
+        "write results/evaluation/genesys2-cva6/current/external_closure/streaming_dma_throughput_summary.json from transport, host receiver, timing, resource, and noninterference artifacts",
+        "uv run python tools/package_genesys2_external_closure_intake.py"
+      ],
+      "plan_status": "READY_TO_EXECUTE_WITH_EXTERNAL_STATE",
+      "preflight_commands": [
+        "uv run python tools/check_trace_export_decision.py --root .",
+        "uv run python tools/check_genesys2_streaming_dma_target.py --root .",
+        "uv run python tools/check_genesys2_streaming_dma_readiness.py --root .",
+        "uv run python tools/run_genesys2_runtime_benchmark.py --dry-run",
+        "uv run python tools/check_genesys2_bitstream_artifacts.py --root ."
+      ],
+      "readiness_status": "STREAMING_DMA_EXPERIMENT_REQUIRED_NOT_EXECUTED",
+      "required_raw_artifacts": [
+        "selected non-BRAM production transport design, such as AXI DMA or Ethernet streaming",
+        "host receiver logs with byte counts, event counts, elapsed time, and parser success",
+        "throughput benchmark showing sustained transport capacity against trace event production rate",
+        "drop/wrap/backpressure accounting under stress and normal workloads",
+        "resource, timing, and noninterference reports for trace_off versus streaming trace modes"
+      ],
+      "required_summary_schema": "rvmt.genesys2.streaming_dma_throughput.v1",
+      "summary_template": {
+        "claim_boundary": {
+          "bram_jtag_substituted_for_streaming": false,
+          "production_streaming_dma_throughput_claimed": true,
+          "real_malware_validation_claimed": false
+        },
+        "evidence_artifacts": [
+          {
+            "id": "host_receiver_log",
+            "kind": "host_receiver_log",
+            "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/host_receiver_log.txt",
+            "sha256": "<64 lowercase hex sha256 of artifact file>"
+          },
+          {
+            "id": "noninterference_report",
+            "kind": "noninterference_report",
+            "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/noninterference_report.txt",
+            "sha256": "<64 lowercase hex sha256 of artifact file>"
+          },
+          {
+            "id": "resource_report",
+            "kind": "resource_report",
+            "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/resource_report.txt",
+            "sha256": "<64 lowercase hex sha256 of artifact file>"
+          },
+          {
+            "id": "timing_report",
+            "kind": "timing_report",
+            "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/timing_report.txt",
+            "sha256": "<64 lowercase hex sha256 of artifact file>"
+          },
+          {
+            "id": "transport_design_manifest",
+            "kind": "transport_design_manifest",
+            "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/transport_design_manifest.txt",
+            "sha256": "<64 lowercase hex sha256 of artifact file>"
+          }
+        ],
+        "failed_attempts_retained": true,
+        "host_receiver_log_present": true,
+        "noninterference_passed": true,
+        "p95_event_bytes_per_second": "> 0",
+        "resource_report_present": true,
+        "schema": "rvmt.genesys2.streaming_dma_throughput.v1",
+        "status": "TEMPLATE_NOT_EVIDENCE",
+        "sustained_bytes_per_second": "> p95_event_bytes_per_second",
+        "template_only": true,
+        "timing_passed": true,
+        "transport": "<axi_dma|ethernet_streaming|pcie_dma|uart_streaming_dma>",
+        "unaccounted_drop": 0
+      },
+      "validation_commands": [
+        "uv run python tools/package_genesys2_external_closure_intake.py",
+        "uv run python tools/check_genesys2_external_closure_intake.py --root ."
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "at least five non-network benign workloads execute on Genesys2/CVA6 under the current trace route",
+        "unexpected false-positive rate is reported and is 0.0 for the accepted board benign control set",
+        "allowed rule overlaps are explicitly listed and do not count as unexpected false positives",
+        "board benign evidence is kept distinct from local Linux strace control evidence"
+      ],
+      "acceptance_gate": "uv run python tools/check_genesys2_external_closure_intake.py --root .",
+      "collection_commands": [
+        "external: execute hello, ls, cat, cp, and sha256sum or equivalent non-network benign workloads on Genesys2/CVA6",
+        "external: capture per-benign-workload BRAM marker windows and UART logs",
+        "uv run python tools/audit_behavior.py --help"
+      ],
+      "current_blocker": true,
+      "exit_criteria": [
+        "external_summary_exists=true in external_closure_intake.json",
+        "completion_status=EXTERNAL_SUMMARY_ACCEPTED for this record",
+        "completion_evidence_valid=true for this record",
+        "no validation_errors for this record"
+      ],
+      "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/board_benign_control_summary.json",
+      "id": "genesys2_board_benign_control",
+      "intake_completion_status": "OPEN_NO_EXTERNAL_SUMMARY",
+      "no_substitution_rule": "Local Linux benign strace/control evidence must not be substituted for Genesys2 board benign false-positive evidence.",
+      "operator_inputs": [
+        "At least five non-network benign workloads staged on the Genesys2/CVA6 target",
+        "Board trace captures for each benign workload under the current trace route",
+        "Per-workload semantic events, behavior graph, and behavior audit generated from board traces",
+        "Documented allowed benign overlaps separated from unexpected false positives"
+      ],
+      "packaging_commands": [
+        "uv run python tools/package_genesys2_board_benign_readiness.py",
+        "uv run python tools/check_genesys2_board_benign_readiness.py --root .",
+        "uv run python tools/prepare_genesys2_external_summary.py --record-id genesys2_board_benign_control --write-template results/evaluation/genesys2-cva6/current/external_closure_templates/board_benign_control_summary.template.json",
+        "uv run python tools/prepare_genesys2_external_summary.py --record-id genesys2_board_benign_control --summary <candidate-genesys2-board-benign-control-summary.json>",
+        "write results/evaluation/genesys2-cva6/current/external_closure/board_benign_control_summary.json from board-derived benign artifacts",
+        "uv run python tools/package_genesys2_external_closure_intake.py"
+      ],
+      "plan_status": "READY_TO_EXECUTE_WITH_EXTERNAL_STATE",
+      "preflight_commands": [
+        "uv run python tools/check_benign_control_summary.py --root .",
+        "uv run python tools/check_genesys2_board_benign_readiness.py --root .",
+        "uv run python tools/check_behavior_audit_metrics.py --root .",
+        "uv run python tools/run_genesys2_safe_surrogate_bram_repetitions.py --dry-run"
+      ],
+      "readiness_status": "BOARD_BENIGN_CONTROL_RUN_REQUIRED_NOT_EXECUTED",
+      "required_raw_artifacts": [
+        "Genesys2/CVA6 board traces for representative non-network benign workloads",
+        "per-benign-sample semantic_events, behavior_graph, and behavior_audit artifacts from board traces",
+        "documented allowed benign overlaps versus unexpected behavior-rule matches",
+        "board-run false-positive summary with sample count and unexpected false-positive rate"
+      ],
+      "required_summary_schema": "rvmt.genesys2.board_benign_control.v1",
+      "summary_template": {
+        "aggregate": {
+          "benign_false_positive_rate": 0.0,
+          "genesys2_board_trace_claimed": true,
+          "sample_count": ">=5",
+          "unexpected_false_positive_count": 0
+        },
+        "claim_boundary": {
+          "genesys2_board_benign_control_claimed": true,
+          "local_linux_benign_substituted": false,
+          "real_malware_validation_claimed": false
+        },
+        "evidence_artifacts": [
+          {
+            "id": "behavior_audit_manifest",
+            "kind": "behavior_audit_manifest",
+            "path": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/behavior_audit_manifest.txt",
+            "sha256": "<64 lowercase hex sha256 of artifact file>"
+          },
+          {
+            "id": "behavior_graph_manifest",
+            "kind": "behavior_graph_manifest",
+            "path": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/behavior_graph_manifest.txt",
+            "sha256": "<64 lowercase hex sha256 of artifact file>"
+          },
+          {
+            "id": "board_capture_manifest",
+            "kind": "board_capture_manifest",
+            "path": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/board_capture_manifest.txt",
+            "sha256": "<64 lowercase hex sha256 of artifact file>"
+          },
+          {
+            "id": "false_positive_report",
+            "kind": "false_positive_report",
+            "path": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/false_positive_report.txt",
+            "sha256": "<64 lowercase hex sha256 of artifact file>"
+          },
+          {
+            "id": "semantic_events_manifest",
+            "kind": "semantic_events_manifest",
+            "path": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/semantic_events_manifest.txt",
+            "sha256": "<64 lowercase hex sha256 of artifact file>"
+          }
+        ],
+        "samples": [
+          {
+            "behavior_audit": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/hello/behavior_audit.json",
+            "behavior_graph": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/hello/behavior_graph.json",
+            "genesys2_cva6_board_trace_claimed": true,
+            "id": "hello",
+            "non_network": true,
+            "semantic_events": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/hello/semantic_events.json",
+            "unexpected_false_positive": false
+          },
+          {
+            "behavior_audit": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/ls/behavior_audit.json",
+            "behavior_graph": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/ls/behavior_graph.json",
+            "genesys2_cva6_board_trace_claimed": true,
+            "id": "ls",
+            "non_network": true,
+            "semantic_events": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/ls/semantic_events.json",
+            "unexpected_false_positive": false
+          },
+          {
+            "behavior_audit": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/cat/behavior_audit.json",
+            "behavior_graph": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/cat/behavior_graph.json",
+            "genesys2_cva6_board_trace_claimed": true,
+            "id": "cat",
+            "non_network": true,
+            "semantic_events": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/cat/semantic_events.json",
+            "unexpected_false_positive": false
+          },
+          {
+            "behavior_audit": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/cp/behavior_audit.json",
+            "behavior_graph": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/cp/behavior_graph.json",
+            "genesys2_cva6_board_trace_claimed": true,
+            "id": "cp",
+            "non_network": true,
+            "semantic_events": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/cp/semantic_events.json",
+            "unexpected_false_positive": false
+          },
+          {
+            "behavior_audit": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/sha256sum/behavior_audit.json",
+            "behavior_graph": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/sha256sum/behavior_graph.json",
+            "genesys2_cva6_board_trace_claimed": true,
+            "id": "sha256sum",
+            "non_network": true,
+            "semantic_events": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/sha256sum/semantic_events.json",
+            "unexpected_false_positive": false
+          }
+        ],
+        "schema": "rvmt.genesys2.board_benign_control.v1",
+        "status": "TEMPLATE_NOT_EVIDENCE",
+        "template_only": true
+      },
+      "validation_commands": [
+        "uv run python tools/package_genesys2_external_closure_intake.py",
+        "uv run python tools/check_genesys2_external_closure_intake.py --root ."
+      ]
+    }
+  ],
+  "schema": "rvmt.genesys2.external_closure_plan.v1",
+  "scope": "executable plan and summary templates for remaining non-real-malware Genesys2/CVA6 external blockers",
+  "source_artifacts": [
+    {
+      "exists": true,
+      "expected_schema": "rvmt.genesys2.external_closure_readiness.v1",
+      "id": "external_closure_readiness",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure_readiness.json",
+      "schema": "rvmt.genesys2.external_closure_readiness.v1",
+      "sha256": "d62cfd241d9cad20e2b1d5d2f0de095e1db5b6933eeaf884a35d83b6c9217ff0",
+      "status": "PASS"
+    },
+    {
+      "closure_status": "OPEN_EXTERNAL_ARTIFACTS_REQUIRED",
+      "exists": true,
+      "expected_schema": "rvmt.genesys2.external_closure_intake.v1",
+      "id": "external_closure_intake",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure_intake.json",
+      "schema": "rvmt.genesys2.external_closure_intake.v1",
+      "sha256": "287b54a90ccf235723c41ef59b66c4cf7a5b59b29f2e5570708fc7bf352c2e60",
+      "status": "PASS"
+    }
+  ],
+  "status": "PASS",
+  "validation_commands": [
+    "uv run python tools/package_genesys2_external_closure_plan.py",
+    "uv run python tools/check_genesys2_external_closure_plan.py --root .",
+    "uv run python tools/prepare_genesys2_external_summary.py --self-test",
+    "uv run python tools/check_genesys2_external_closure_intake.py --root ."
+  ]
+}

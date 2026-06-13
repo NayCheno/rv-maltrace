@@ -40,6 +40,7 @@ DEFAULT_OUT = Path("results/evaluation/genesys2-cva6/current/p0_bram_trace_summa
 DEFAULT_BITSTREAM = Path("build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.bit")
 DEFAULT_LTX = Path("build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.ltx")
 EXIT_SYSCALL_NR = 93
+MARKER_NOT_OBSERVED = "MARKER_NOT_OBSERVED"
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -122,8 +123,8 @@ def marker_positions(records: list[dict[str, Any]], begin_marker: int, end_marke
         "markers_seen": markers,
         "begin_count": len(begin),
         "end_count": len(end),
-        "begin_sequence": begin[0].get("sequence_number") if begin else None,
-        "end_sequence": end[-1].get("sequence_number") if end else None,
+        "begin_sequence": begin[0].get("sequence_number") if begin else MARKER_NOT_OBSERVED,
+        "end_sequence": end[-1].get("sequence_number") if end else MARKER_NOT_OBSERVED,
         "post_end_tail_event_count": post_end_tail,
     }
 

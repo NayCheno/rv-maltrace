@@ -1,0 +1,4 @@
+{"cycle":1,"evt":"BRANCH","pc":"0x0000000080006000","instr":"0xfe051ce3","taken":true,"target":"0x0000000080006000"}
+{"cycle":2,"evt":"DROP","value":"0x0000000000000001"}
+{"cycle":3,"evt":"DROP","value":"0x0000000000000002"}
+{"cycle":4,"evt":"DROP","value":"0x0000000000000003"}

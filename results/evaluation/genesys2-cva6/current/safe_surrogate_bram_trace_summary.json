@@ -50,7 +50,7 @@
         "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_01/capture.csv",
         "ila_trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_01/trace.jsonl",
         "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_01/uart.log",
-        "upload_log": null
+        "upload_log": "NOT_CAPTURED"
       },
       "bram_ring": {
         "captured_count": 40,
@@ -114,7 +114,7 @@
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_01/capture.csv",
             "ila_trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_01/trace.jsonl",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_01/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 40,
@@ -179,9 +179,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_02/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_02/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_02/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 40,
@@ -246,9 +246,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_03/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_03/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_03/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 40,
@@ -313,9 +313,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_04/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_04/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_04/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 40,
@@ -380,9 +380,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_05/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_05/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_05/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 40,
@@ -447,9 +447,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_06/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_06/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_06/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 40,
@@ -514,9 +514,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_07/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_07/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_07/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 40,
@@ -581,9 +581,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_08/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_08/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_08/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 40,
@@ -648,9 +648,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_09/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_09/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_09/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 65,
@@ -715,9 +715,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_10/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_10/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_10/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 40,
@@ -827,7 +827,7 @@
         "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_01/capture.csv",
         "ila_trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_01/trace.jsonl",
         "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_01/uart.log",
-        "upload_log": null
+        "upload_log": "NOT_CAPTURED"
       },
       "bram_ring": {
         "captured_count": 40,
@@ -891,7 +891,7 @@
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_01/capture.csv",
             "ila_trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_01/trace.jsonl",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_01/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 40,
@@ -956,9 +956,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_02/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_02/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_02/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 40,
@@ -1023,9 +1023,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_03/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_03/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_03/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 40,
@@ -1090,9 +1090,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_04/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_04/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_04/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 40,
@@ -1157,9 +1157,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_05/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_05/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_05/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 40,
@@ -1224,9 +1224,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_06/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_06/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_06/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 40,
@@ -1291,9 +1291,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_07/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_07/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_07/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 40,
@@ -1358,9 +1358,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_08/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_08/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_08/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 40,
@@ -1425,9 +1425,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_09/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_09/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_09/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 40,
@@ -1492,9 +1492,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_10/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_10/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_10/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 65,
@@ -1604,7 +1604,7 @@
         "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_01/capture.csv",
         "ila_trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_01/trace.jsonl",
         "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_01/uart.log",
-        "upload_log": null
+        "upload_log": "NOT_CAPTURED"
       },
       "bram_ring": {
         "captured_count": 66,
@@ -1668,7 +1668,7 @@
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_01/capture.csv",
             "ila_trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_01/trace.jsonl",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_01/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 66,
@@ -1733,9 +1733,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_02/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_02/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_02/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 41,
@@ -1800,9 +1800,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_03/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_03/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_03/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 69,
@@ -1867,9 +1867,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_04/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_04/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_04/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 41,
@@ -1934,9 +1934,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_05/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_05/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_05/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 41,
@@ -2001,9 +2001,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_06/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_06/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_06/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 41,
@@ -2068,9 +2068,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_07/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_07/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_07/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 66,
@@ -2135,9 +2135,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_08/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_08/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_08/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 41,
@@ -2202,9 +2202,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_09/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_09/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_09/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 41,
@@ -2269,9 +2269,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_10/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_10/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_10/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 41,
@@ -2381,7 +2381,7 @@
         "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_01/capture.csv",
         "ila_trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_01/trace.jsonl",
         "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_01/uart.log",
-        "upload_log": null
+        "upload_log": "NOT_CAPTURED"
       },
       "bram_ring": {
         "captured_count": 40,
@@ -2445,7 +2445,7 @@
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_01/capture.csv",
             "ila_trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_01/trace.jsonl",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_01/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 40,
@@ -2510,9 +2510,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_02/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_02/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_02/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 40,
@@ -2577,9 +2577,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_03/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_03/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_03/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 40,
@@ -2644,9 +2644,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_04/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_04/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_04/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 40,
@@ -2711,9 +2711,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_05/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_05/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_05/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 40,
@@ -2778,9 +2778,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_06/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_06/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_06/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 68,
@@ -2845,9 +2845,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_07/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_07/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_07/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 40,
@@ -2912,9 +2912,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_08/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_08/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_08/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 40,
@@ -2979,9 +2979,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_09/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_09/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_09/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 40,
@@ -3046,9 +3046,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_10/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_10/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_10/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 40,
@@ -3158,7 +3158,7 @@
         "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_01/capture.csv",
         "ila_trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_01/trace.jsonl",
         "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_01/uart.log",
-        "upload_log": null
+        "upload_log": "NOT_CAPTURED"
       },
       "bram_ring": {
         "captured_count": 105,
@@ -3222,7 +3222,7 @@
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_01/capture.csv",
             "ila_trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_01/trace.jsonl",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_01/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 105,
@@ -3287,9 +3287,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_02/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_02/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_02/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 77,
@@ -3354,9 +3354,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_03/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_03/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_03/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 77,
@@ -3421,9 +3421,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_04/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_04/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_04/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 102,
@@ -3488,9 +3488,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_05/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_05/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_05/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 105,
@@ -3555,9 +3555,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_06/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_06/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_06/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 77,
@@ -3622,9 +3622,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_07/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_07/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_07/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 80,
@@ -3689,9 +3689,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_08/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_08/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_08/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 105,
@@ -3756,9 +3756,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_09/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_09/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_09/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 77,
@@ -3823,9 +3823,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_10/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_10/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_10/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 78,
@@ -3935,7 +3935,7 @@
         "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_01/capture.csv",
         "ila_trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_01/trace.jsonl",
         "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_01/uart.log",
-        "upload_log": null
+        "upload_log": "NOT_CAPTURED"
       },
       "bram_ring": {
         "captured_count": 38,
@@ -3999,7 +3999,7 @@
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_01/capture.csv",
             "ila_trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_01/trace.jsonl",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_01/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 38,
@@ -4064,9 +4064,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_02/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_02/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_02/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 83,
@@ -4131,9 +4131,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_03/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_03/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_03/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 77,
@@ -4198,9 +4198,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_04/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_04/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_04/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 38,
@@ -4265,9 +4265,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_05/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_05/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_05/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 69,
@@ -4332,9 +4332,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_06/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_06/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_06/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 38,
@@ -4399,9 +4399,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_07/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_07/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_07/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 38,
@@ -4466,9 +4466,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_08/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_08/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_08/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 66,
@@ -4533,9 +4533,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_09/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_09/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_09/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 63,
@@ -4600,9 +4600,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_10/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_10/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_10/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 83,
@@ -4712,7 +4712,7 @@
         "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_01/capture.csv",
         "ila_trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_01/trace.jsonl",
         "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_01/uart.log",
-        "upload_log": null
+        "upload_log": "NOT_CAPTURED"
       },
       "bram_ring": {
         "captured_count": 25,
@@ -4776,7 +4776,7 @@
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_01/capture.csv",
             "ila_trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_01/trace.jsonl",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_01/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 25,
@@ -4841,9 +4841,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_02/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_02/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_02/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 25,
@@ -4908,9 +4908,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_03/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_03/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_03/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 25,
@@ -4975,9 +4975,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_04/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_04/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_04/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 25,
@@ -5042,9 +5042,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_05/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_05/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_05/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 25,
@@ -5109,9 +5109,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_06/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_06/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_06/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 25,
@@ -5176,9 +5176,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_07/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_07/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_07/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 25,
@@ -5243,9 +5243,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_08/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_08/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_08/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 25,
@@ -5310,9 +5310,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_09/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_09/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_09/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 25,
@@ -5377,9 +5377,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_10/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_10/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_10/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 25,
@@ -5489,7 +5489,7 @@
         "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_01/capture.csv",
         "ila_trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_01/trace.jsonl",
         "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_01/uart.log",
-        "upload_log": null
+        "upload_log": "NOT_CAPTURED"
       },
       "bram_ring": {
         "captured_count": 67,
@@ -5553,7 +5553,7 @@
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_01/capture.csv",
             "ila_trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_01/trace.jsonl",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_01/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 67,
@@ -5618,9 +5618,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_02/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_02/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_02/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 67,
@@ -5685,9 +5685,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_03/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_03/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_03/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 39,
@@ -5752,9 +5752,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_04/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_04/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_04/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 39,
@@ -5819,9 +5819,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_05/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_05/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_05/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 39,
@@ -5886,9 +5886,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_06/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_06/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_06/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 64,
@@ -5953,9 +5953,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_07/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_07/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_07/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 39,
@@ -6020,9 +6020,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_08/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_08/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_08/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 67,
@@ -6087,9 +6087,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_09/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_09/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_09/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 39,
@@ -6154,9 +6154,9 @@
             "build_manifest": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/00_build_syscall_only/build_manifest.json",
             "capture_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_10/capture.log",
             "csv": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_10/capture.csv",
-            "ila_trace": null,
+            "ila_trace": "NOT_CAPTURED",
             "uart_log": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_10/uart.log",
-            "upload_log": null
+            "upload_log": "NOT_CAPTURED"
           },
           "bram_ring": {
             "captured_count": 70,

@@ -1,3 +1,5 @@
+`timescale 1ns/1ps
+
 package trace_pkg;
 
   typedef enum logic [3:0] {
@@ -58,9 +60,10 @@ package trace_pkg;
     logic [63:0] syscall_id;
     logic [63:0] duration;
     logic [ 2:0] arg_index;
+    logic [63:0] mem_base;
     logic [63:0] mem_addr;
     logic [63:0] mem_data;
-    logic [ 2:0] mem_size;
+    logic [ 3:0] mem_size;
     logic        mem_last;
     logic [63:0] a0;
     logic [63:0] a1;
@@ -73,6 +76,13 @@ package trace_pkg;
   } trace_packet_t;
 
   typedef struct packed {
+    logic [63:0] mem_base_full;
+    logic [63:0] mem_addr_full;
+    logic [63:0] mem_data_full;
+    logic [31:0] syscall_id;
+    logic [ 2:0] arg_index;
+    logic [ 3:0] mem_size;
+    logic        mem_last;
     logic [31:0] seq;
     logic [31:0] aux;
     logic [31:0] primary;
@@ -164,6 +174,15 @@ package trace_pkg;
       input logic [31:0] seq
   );
     trace_compact_record = '0;
+    if (packet.evt == EVT_ARG_MEM) begin
+      trace_compact_record.mem_base_full = packet.mem_base;
+      trace_compact_record.mem_addr_full = packet.mem_addr;
+      trace_compact_record.mem_data_full = packet.mem_data;
+      trace_compact_record.syscall_id = packet.syscall_id[31:0];
+      trace_compact_record.arg_index = packet.arg_index;
+      trace_compact_record.mem_size = packet.mem_size;
+      trace_compact_record.mem_last = packet.mem_last;
+    end
     trace_compact_record.seq = seq;
     trace_compact_record.aux = trace_packet_aux32(packet);
     trace_compact_record.primary = trace_packet_primary32(packet);

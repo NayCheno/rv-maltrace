@@ -1,13 +1,15 @@
 {
   "phase": "5.3",
-  "status": "TODO(BOARD)",
-  "evidence_root": "results/board/genesys2_trace_validation/<run-id>",
+  "status": "SPEC_READY_BOARD_EVIDENCE_PASS",
+  "evidence_root": "results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix",
+  "evidence_checker": "uv run python tools/check_board_trace_evidence.py --root . --run-root results/board/genesys2_trace_validation/20260609-2345-phase6-syscall-ret-fix",
   "programs": [
     {
       "id": "hello_write",
       "source": "board/trace_validation/programs/hello_write.c",
       "expected": "board/trace_validation/expected/hello_write.expected.json",
       "evidence_dir": "01_hello_write",
+      "evidence_status": "BOARD_EVIDENCE_PASS",
       "expected_summary": "write syscall"
     },
     {
@@ -15,6 +17,7 @@
       "source": "board/trace_validation/programs/file_open_read_write.c",
       "expected": "board/trace_validation/expected/file_open_read_write.expected.json",
       "evidence_dir": "02_file_open_read_write",
+      "evidence_status": "BOARD_EVIDENCE_PASS",
       "expected_summary": "create fixture, then openat/read/write/close syscalls"
     },
     {
@@ -22,6 +25,7 @@
       "source": "board/trace_validation/programs/fork_exec.c",
       "expected": "board/trace_validation/expected/fork_exec.expected.json",
       "evidence_dir": "03_fork_exec",
+      "evidence_status": "BOARD_EVIDENCE_PASS",
       "expected_summary": "clone/execve/wait4 syscalls"
     },
     {
@@ -29,6 +33,7 @@
       "source": "board/trace_validation/programs/illegal_instruction.c",
       "expected": "board/trace_validation/expected/illegal_instruction.expected.json",
       "evidence_dir": "04_illegal_instruction",
+      "evidence_status": "BOARD_EVIDENCE_PASS",
       "expected_summary": "trap event"
     }
   ]

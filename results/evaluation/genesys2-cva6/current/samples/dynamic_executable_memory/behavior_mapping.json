@@ -1,0 +1,25 @@
+{
+  "expected_syscalls": [
+    "mmap",
+    "mprotect",
+    "munmap"
+  ],
+  "metrics": {
+    "anti_analysis_visibility": 1.0,
+    "argument_reconstruction_accuracy": 1.0,
+    "behavior_rule_recall": 1.0,
+    "benign_false_positive_rate": 0.0,
+    "expected_syscall_recall": 1.0,
+    "syscall_precision": 1.0,
+    "unaccounted_drop": 0
+  },
+  "non_claims": [
+    "The mapping covers declared safe workload behavior only; it is not a malware-family validation claim.",
+    "This behavior mapping is not real malware validation."
+  ],
+  "real_malware": false,
+  "sample_class": "malware_like_synthetic_syscall_only",
+  "sample_id": "dynamic_executable_memory",
+  "schema": "rvmt.sample.behavior_mapping.v1",
+  "source_artifact": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/malware_analysis/behavior_mapping.json"
+}

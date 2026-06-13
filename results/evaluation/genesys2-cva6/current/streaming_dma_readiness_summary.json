@@ -1,0 +1,174 @@
+{
+  "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",
+  "claim_boundary": {
+    "bram_jtag_substituted_for_streaming": false,
+    "external_execution_required_for_closure": true,
+    "external_streaming_dma_experiment_completed": false,
+    "host_receiver_losslessness_claimed": false,
+    "production_streaming_dma_throughput_claimed": false,
+    "real_malware_validation_claimed": false,
+    "streaming_dma_readiness_claimed": true,
+    "streaming_dma_target_baseline_available": true,
+    "timing_closure_for_streaming_claimed": false
+  },
+  "failures": [],
+  "future_transport_contract": {
+    "acceptance_criteria": [
+      "transport is one of the allowed non-BRAM production transport kinds",
+      "sustained_bytes_per_second exceeds p95_event_bytes_per_cycle times the exact streaming bitstream trace clock Hz",
+      "accepted runs have parser_success=true and unaccounted_drop=0",
+      "timing, resource, and trace_off versus trace_on noninterference reports are artifact-backed",
+      "failed throughput attempts are retained with impact analysis and are not counted as accepted evidence"
+    ],
+    "allowed_transport_kinds": [
+      "axi_dma",
+      "ethernet_streaming",
+      "pcie_dma",
+      "uart_streaming_dma"
+    ],
+    "disallowed_transport_kinds": [
+      "bram_ring",
+      "ila_jtag_dump",
+      "local_runtime_benchmark_only"
+    ],
+    "host_receiver_log_required_fields": [
+      "bytes_received",
+      "events_received",
+      "elapsed_seconds",
+      "parser_success",
+      "parse_error_count",
+      "sequence_gap_count",
+      "dropped_event_count",
+      "backpressure_count"
+    ],
+    "minimum_requirements": {
+      "exact_streaming_bitstream_clock_hz_required": true,
+      "failed_attempt_retention_required": true,
+      "noninterference_passed_required": true,
+      "parser_success_required": true,
+      "resource_delta_report_required": true,
+      "sustained_bytes_per_second_must_exceed_target": true,
+      "timing_passed_required": true,
+      "transport_must_be_non_bram": true,
+      "unaccounted_drop_must_be_zero": true
+    },
+    "required_evidence_artifact_kinds": [
+      "transport_design_manifest",
+      "streaming_bitstream_clock_report",
+      "host_receiver_log",
+      "parser_output_log",
+      "drop_accounting_report",
+      "timing_report",
+      "resource_report",
+      "noninterference_report"
+    ],
+    "required_summary_fields": [
+      "evidence_artifacts",
+      "transport",
+      "sustained_bytes_per_second",
+      "p95_event_bytes_per_second",
+      "trace_clock_hz",
+      "unaccounted_drop",
+      "timing_passed",
+      "noninterference_passed",
+      "resource_delta",
+      "host_receiver",
+      "accepted_runs",
+      "failed_attempts"
+    ]
+  },
+  "non_claims": [
+    "This is a readiness package and does not claim production streaming/DMA throughput evidence is complete.",
+    "BRAM ring captures, ILA/JTAG dumps, and local runtime benchmarks must not be substituted for non-BRAM streaming/DMA transport evidence.",
+    "Host receiver losslessness, timing closure, resource deltas, and noninterference remain unclaimed until accepted external artifacts are present.",
+    "The future production streaming/DMA closure gate remains OPEN_EXTERNAL_ARTIFACTS_REQUIRED until external transport artifacts are accepted."
+  ],
+  "schema": "rvmt.genesys2.streaming_dma_readiness.v1",
+  "scope": "readiness package for future non-BRAM production streaming/DMA trace-sink throughput evidence",
+  "source_evidence": [
+    {
+      "exists": true,
+      "id": "streaming_dma_target",
+      "path": "results/evaluation/genesys2-cva6/current/streaming_dma_target_summary.json",
+      "schema": "rvmt.genesys2.streaming_dma_target.v1",
+      "sha256": "2435bf54229623cbbaf3248cec1cb8f5c0ec1ac3cc170107a0fe70fd16c40f55",
+      "status": "PASS"
+    },
+    {
+      "exists": true,
+      "id": "trace_export_decision",
+      "path": "docs/02-trace-architecture/trace_export_decision.md",
+      "sha256": "0efef4981643d1e094e0b3bbcc38cf3ca5b917eca5a29f8099c2fe3b1807f8f1"
+    },
+    {
+      "exists": true,
+      "id": "trace_format",
+      "path": "docs/02-trace-architecture/trace_format.md",
+      "sha256": "242758450413b00a57cc1bb24d81a64d96e8923f406b2af1c3b379fe106beda9"
+    },
+    {
+      "exists": true,
+      "id": "signal_map",
+      "path": "docs/02-trace-architecture/signal_map.md",
+      "sha256": "25cd91ca2f506b9be20ee2642e860ce9405ca79385b1886798d59545c094d5f4"
+    },
+    {
+      "exists": true,
+      "id": "trace_sink_summary",
+      "path": "results/evaluation/genesys2-cva6/current/trace_sink_summary.json",
+      "schema": "rvmt.genesys2.bram_trace_sink.v1",
+      "sha256": "71342c84315955f94ab789157a5d9b68c94508754d4ec9b9f70d3b6983cc27f1",
+      "status": "PASS"
+    },
+    {
+      "exists": true,
+      "id": "drop_accounting_summary",
+      "path": "results/evaluation/genesys2-cva6/current/drop_accounting_summary.json",
+      "schema": "rvmt.trace_drop_accounting.v1",
+      "sha256": "8192977caa1adef849b53a47d09dbc4dfa7a0c503ffd1d3158a6ca6baade3150",
+      "status": "PASS"
+    },
+    {
+      "exists": true,
+      "id": "p0_bram_trace",
+      "path": "results/evaluation/genesys2-cva6/current/p0_bram_trace_summary.json",
+      "schema": "rvmt.genesys2.p0_bram_trace.v1",
+      "sha256": "74beec191ba45c19acf962323a7e48af5d8d9aa0ba827f1d51b7262f0bef3095",
+      "status": "PASS"
+    },
+    {
+      "exists": true,
+      "id": "safe_surrogate_bram_trace",
+      "path": "results/evaluation/genesys2-cva6/current/safe_surrogate_bram_trace_summary.json",
+      "schema": "rvmt.genesys2.safe_surrogate_bram_trace.v1",
+      "sha256": "4bdf85988cb9cd6cd6ec869aa91ddc0b121e3104c17a6d781ad36c5f7867f25a",
+      "status": "PASS"
+    },
+    {
+      "exists": true,
+      "id": "production_runtime_benchmark",
+      "path": "results/evaluation/genesys2-cva6/current/production_runtime_benchmark.json",
+      "schema": "rvmt.genesys2.production_runtime_benchmark.v1",
+      "sha256": "c433123bd5e6a2d10c3158a4f67335e3a84f06554e8dc014dab08ac2c5c15f25",
+      "status": "PASS"
+    }
+  ],
+  "status": "PASS",
+  "target_baseline": {
+    "accepted_repetition_count": 120,
+    "board_sample_count": 12,
+    "bytes_per_second_formula": "p95_event_bytes_per_cycle * exact_streaming_bitstream_trace_clock_hz",
+    "exact_clock_hz_required": true,
+    "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/streaming_dma_throughput_summary.json",
+    "max_observed_event_bytes_per_cycle": 0.02031063321385902,
+    "metric": "compact_trace_event_bytes_per_marker_window_cycle",
+    "p95_event_bytes_per_cycle": 0.01981178801386825,
+    "record_width_bits": 136,
+    "record_width_bytes": 17,
+    "required_external_summary_schema": "rvmt.genesys2.streaming_dma_throughput.v1"
+  },
+  "validation_commands": [
+    "uv run python tools/package_genesys2_streaming_dma_readiness.py",
+    "uv run python tools/check_genesys2_streaming_dma_readiness.py --root ."
+  ]
+}

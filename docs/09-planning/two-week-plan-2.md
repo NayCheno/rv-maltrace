@@ -6,10 +6,10 @@
 
 | 问题 | 判断 |
 | --- | --- |
-| two-week-plan 是否做完 | 仿真 MVP 基本完成；论文级/上板/Linux/malware 评估没有完成。计划中“软件模拟可验证的 RISC-V/CVA6 malware behavior tracing MVP”已经有较完整证据链，但 board、Linux workload、真实 malware、安全隔离、baseline 对比仍是后续 gate。 |
-| 目前模拟的 SoC 是否正确 | 局部正确，不可外推为完整 SoC 正确。direct-core CVA6 和 trace-unit 回归很强；full SoC 已有 breakpoint smoke 与 UART/MMIO store-path observation PASS。但 normal full-SoC multi-instruction tohost completion、Linux boot、physical board 都还不能声称正确。 |
-| 没有板子测试时能否声称硬件正确 | 不能。当前 board 文档明确说 clock/reset、UART hello、bare-metal runtime 都是 `TODO(BOARD)`；现有 bitstream、route/timing、preflight 只能算 repository-local Vivado evidence。 |
-| malware 是否检测准确 | 目前不能声称检测准确率。仓库已有 synthetic malware-like manifest、semantic recovery、rule-based audit，但这些都显式保持 `TODO(EXPERIMENT)` 或标明不是 malware detection quality evidence。 |
+| two-week-plan 是否做完 | 仿真 MVP 和当前受控 Genesys2/CVA6 evidence chain 已基本完成；论文级泛化、Linux board-native 外部闭环和真实 malware 评估没有完成。 |
+| 目前模拟的 SoC 是否正确 | repository-local simulation evidence 较强：direct-core CVA6、trace-unit、full-SoC breakpoint smoke、UART/MMIO store-path 和 normal tohost/MMIO completion gate 均有 PASS 记录。但不能外推为 Linux、production board workload 或真实 malware 已验证。 |
+| 早期没有板子测试时能否声称硬件正确 | 不能。当前状态已不再是早期“无板证据”阶段：baseline board bring-up 和 minimal trace validation evidence 已存在；但这些只支撑受限 baseline/controlled trace claim，不能替代 board-native DWARF/source-line、full hardware strings、production streaming/DMA、board benign-control 或 Linux boot claim。 |
+| malware 是否检测准确 | 目前不能声称检测准确率。仓库已有 synthetic malware-like manifest、semantic recovery、rule-based audit 和 Genesys2/CVA6 受控 case-study/benign-control 证据，但这些仍明确不是 malware detection quality evidence，也不是真实 malware 验证。 |
 | 下一步主线 | 先做“可视化可审计 demo + Linux/QEMU/strace ground truth + board bring-up”，再做 QEMU/Spike/strace/eBPF/QEMU-plugin 对比，最后做 RISC-V vs x86 行为语义对比。 |
 
 ## 1. `docs/` 当前状态
@@ -27,29 +27,33 @@
 | `docs/02-trace-architecture/trace_format.md` | 完整 | Event schema 覆盖 `RETIRE`、`BRANCH`、`JUMP`、`SYSCALL_ENTRY`、`SYSCALL_RET`、`TRAP`、`CSR`、`SATP`、`PRIV`、`ARG_MEM`、`DROP`、`MARKER`，并有 filter、compression、`ARG_MEM` 默认关闭策略。 |
 | `docs/02-trace-architecture/signal_map.md` | 较完整，但有 production gap | RVFI/direct-core signal path 写得清楚；但 CVA6 LSU hook、非 RVFI production plumbing 仍是后续工作。 |
 | `docs/07-evaluation-evidence/reports/sim_results.md` | 当前最关键证据 | `trace-unit`、RVFI adapter、direct-core CVA6、full-SoC smoke、full-SoC UART/MMIO store-path 均有 PASS 记录。 |
-| `docs/03-platform-architecture/genesys2/board_bringup.md` | 口径正确 | 明确区分 repository-local Vivado evidence 与 physical board evidence；board runtime 仍 TODO。 |
+| `docs/03-platform-architecture/genesys2/board_bringup.md` | 口径正确 | 明确区分 baseline board/controlled trace evidence 与仍未完成的 Linux boot、production streaming/DMA、board-native DWARF/source-line、full hardware strings 和 board benign-control evidence。 |
 | `docs/07-evaluation-evidence/reports/resource_report.md` | 已有 trace-enabled delta | 已记录 Genesys 2 baseline vs trace-enabled routed utilization/timing delta。 |
 | `docs/07-evaluation-evidence/evaluation_plan.md` | 规划完整，但不是证据 | RQ1-RQ6、baselines、datasets、artifact gates 仍为 TODO；这是 research design，不是 evaluation result。 |
-| `docs/06-validation-gates/fuzz_trace_validation.md` | 计划和工具链有，实验未完成 | fuzz/stress 是 deterministic trace-invariant gate，不是 processor fuzzing claim；各 case 仍是 `TODO(SIM)` / `TODO(HARNESS)`。 |
-| `docs/09-planning/diff-22.md` | 有价值，但需要同步 | 对 NCScope 差异分析有用；但里面有些“store-path TODO / resource delta missing”的陈述已经落后于 `sim_results.md` 和 `resource_report.md`。 |
+| `docs/06-validation-gates/fuzz_trace_validation.md` | bounded fixtures 和工具链已纳入当前门禁 | fuzz/stress 是 deterministic trace-invariant gate，不是 processor fuzzing 或 bug-discovery claim；当前 golden fixtures/checker 已覆盖 bounded cf/trap/syscall/context/overflow invariant。 |
+| `docs/09-planning/diff-22.md` | 已同步 | 对 NCScope 差异分析有用；当前已同步 full-SoC/store-path/resource、baseline board、Phase 5.3 controlled trace 和剩余 external closure 边界。 |
 
-### 1.2 文档里最大的问题
+### 1.2 文档同步状态
 
-`docs/09-planning/diff-22.md` 有局部过期内容。
+`docs/09-planning/diff-22.md` 已同步到当前 evidence-scoped 状态。
 
-现在 `docs/07-evaluation-evidence/reports/sim_results.md` 已经记录 full-SoC UART/MMIO store-path observation PASS，`docs/07-evaluation-evidence/reports/resource_report.md` 也记录 trace-enabled FPGA delta；但 `docs/09-planning/diff-22.md` 的“当前仍缺什么”部分仍保留了旧的 TODO 说法。建议把 `docs/09-planning/diff-22.md` 改成：
+当前口径是：
 
 已更新：
 
 - full-SoC breakpoint smoke: PASS
 - full-SoC UART/MMIO store-path observation: PASS
 - trace-enabled Genesys 2 resource/timing delta: recorded
+- baseline board bring-up: evidence-scoped PASS
+- Phase 5.3 minimal trace validation: controlled board evidence PASS
 
 仍未完成：
 
-- normal full-SoC multi-instruction tohost completion
-- physical board clock/reset/UART/bare-metal runtime
-- Linux workload trace
+- board-native DWARF/source-line attribution
+- full hardware pointer strings
+- production streaming/DMA trace sink
+- Genesys2 board benign-control evidence
+- Linux/paper-level 泛化评估
 - real malware / paper-level evaluation
 
 ## 2. two-week-plan 完成度判断
@@ -71,13 +75,13 @@
 
 | 缺口 | 为什么重要 |
 | --- | --- |
-| normal full-SoC multi-instruction tohost completion | 现在 full-SoC 有 breakpoint smoke 和两指令 UART/MMIO store-path observation，但还不是普通较长程序完整跑完。risk log 明确把这点列为 open。 |
+| normal full-SoC multi-instruction tohost completion | 当前已有 repository-local normal tohost/MMIO completion gate，可作为 simulation evidence；仍不能外推为 Linux 或 production board workload 完成。 |
 | production CVA6 raw signal plumbing | 当前大量证据来自 RVFI/direct-core/synthetic path；非 RVFI production integration 还不能强 claim。 |
 | CVA6 LSU real hook for `ARG_MEM` | pointer snapshot 目前是 synthetic；Linux syscall pointer recovery 还未在真实 CVA6 LSU/Linux 上证明。 |
-| physical board evidence | clock/reset、UART、bare-metal runtime 均为 `TODO(BOARD)`。 |
-| Linux workload trace | evaluation plan 中 Linux syscall trace、semantic reconstruction、case studies 仍 TODO。 |
-| malware detection accuracy | synthetic manifest/audit rule 存在，但 status 是 `TODO(EXPERIMENT)`，工具也明确不是 malware detection quality evidence。 |
-| fuzz/stress 实验本体 | fuzz plan 和工具存在，但 case 仍是 TODO。 |
+| board/external evidence | baseline board bring-up 和 controlled minimal trace evidence 已存在；board-native DWARF/source-line、full hardware pointer strings、production streaming/DMA 和 board benign-control 仍需外部板卡/RTL/transport 证据。 |
+| Linux workload trace | 受控 P0/safe-surrogate case-study 已进入当前 Genesys2/CVA6 证据包；仍缺 board-native benign-control Linux trace、外部复核包和真实 malware containment 后验证。 |
+| malware detection accuracy | synthetic manifest/audit rule 和受控 case-study 已闭合为安全替身证据，但工具和报告仍明确不是 malware detection quality evidence。 |
+| fuzz/stress 实验本体 | bounded invariant fixtures 和 checker 已进入当前门禁；仍不能把它写成 processor fuzzing campaign 或 bug-discovery coverage。 |
 
 判断：two-week-plan 的“仿真闭环 MVP”可以说基本达成；但如果把 two-week-plan 理解成“上板 + Linux + malware 检测准确率 + paper-level evaluation”，则还远未完成。
 
@@ -112,9 +116,9 @@ Malware behavior detection is validated.
 
 原因是：
 
-- board physical clock/reset/UART/bare-metal 均未做。
-- evaluation plan 明确所有 paper-level gates 仍是 TODO。
-- risk log 仍把 normal full-SoC multi-instruction tohost completion、production RTL integration、memory semantics、real malware 等列为 open。
+- baseline board bring-up 和 controlled minimal trace evidence 已存在，但 Linux boot、board-native DWARF/source-line、full hardware pointer strings、production streaming/DMA 和 board benign-control 仍未闭合。
+- evaluation plan 中的 paper-level 泛化、真实 malware 和外部闭环 gates 仍不能被当前受控证据替代。
+- current external closure intake 仍把 board-native DWARF/source-line、full hardware pointer strings、production streaming/DMA trace sink 和 Genesys2 board benign-control 列为 open；真实 malware validation 按当前目标排除。
 
 ### 3.3 建议补的 SoC correctness gates
 
@@ -140,7 +144,7 @@ RV-MalTrace currently supports synthetic behavior recovery and rule-based behavi
 It does not yet provide validated malware detection accuracy.
 ```
 
-仓库已有 malware-like synthetic manifest，包含 file scan、batch open/read/write、self-copy simulation、abnormal syscall sequence、illegal trap、process chain、dynamic executable memory、anti-debug-like 等样例；但它们都标记为 `TODO(EXPERIMENT)`，并且 `real_malware=false`。
+仓库已有 malware-like synthetic manifest，包含 file scan、batch open/read/write、self-copy simulation、abnormal syscall sequence、illegal trap、process chain、dynamic executable memory、anti-debug-like 等样例；这些样例已经作为受控 safe-surrogate case-study 进入当前 Genesys2/CVA6 证据包，并且仍保持 `real_malware=false`。
 
 `behavior_audit_rules.json` 定义了 rule-based audit，例如 file discovery、collection/staging、dropper-like、anti-analysis、memory permission 等，但同时把 “real malware execution”、“malware detection quality claim”、“classifier accuracy claim” 列为 non-goals。
 

@@ -1,6 +1,6 @@
 {
   "phase": "6.2",
-  "status": "TODO(EXPERIMENT)",
+  "status": "PASS_LOCAL_LINUX_CONTROL",
   "sample_class": "benign",
   "policy_ref": "experiments/linux_behavior/policy.json",
   "evidence_root": "results/linux_behavior/<run-id>/benign",
@@ -11,7 +11,7 @@
     {
       "id": "hello",
       "class": "benign",
-      "status": "TODO(EXPERIMENT)",
+      "status": "PASS_LOCAL_LINUX_CONTROL",
       "provenance": "known_benign_rootfs",
       "network_required": false,
       "default_enabled": true,
@@ -24,7 +24,7 @@
     {
       "id": "ls",
       "class": "benign",
-      "status": "TODO(EXPERIMENT)",
+      "status": "PASS_LOCAL_LINUX_CONTROL",
       "provenance": "known_benign_rootfs",
       "network_required": false,
       "default_enabled": true,
@@ -37,7 +37,7 @@
     {
       "id": "cat",
       "class": "benign",
-      "status": "TODO(EXPERIMENT)",
+      "status": "PASS_LOCAL_LINUX_CONTROL",
       "provenance": "known_benign_rootfs",
       "network_required": false,
       "default_enabled": true,
@@ -50,7 +50,7 @@
     {
       "id": "cp",
       "class": "benign",
-      "status": "TODO(EXPERIMENT)",
+      "status": "PASS_LOCAL_LINUX_CONTROL",
       "provenance": "known_benign_rootfs",
       "network_required": false,
       "default_enabled": true,
@@ -66,7 +66,7 @@
     {
       "id": "sha256sum",
       "class": "benign",
-      "status": "TODO(EXPERIMENT)",
+      "status": "PASS_LOCAL_LINUX_CONTROL",
       "provenance": "known_benign_rootfs",
       "network_required": false,
       "default_enabled": true,

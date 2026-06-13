@@ -1,3 +1,5 @@
+`timescale 1ns/1ps
+
 module arg_mem_tap
   import trace_pkg::*;
 #(
@@ -16,7 +18,7 @@ module arg_mem_tap
     input  logic [63:0]     mem_load_pc_i,
     input  logic [63:0]     mem_load_addr_i,
     input  logic [63:0]     mem_load_data_i,
-    input  logic [ 2:0]     mem_load_size_i,
+    input  logic [ 3:0]     mem_load_size_i,
     input  logic [ 1:0]     priv_lvl_i,
     input  logic [63:0]     satp_i,
 
@@ -46,12 +48,12 @@ module arg_mem_tap
   logic [63:0] entry_base;
   logic [63:0] entry_len;
   logic [2:0]  entry_arg_index;
-  logic [2:0]  capture_size;
+  logic [3:0]  capture_size;
   logic [63:0] remaining_bytes;
   logic [63:0] capture_end;
   logic [63:0] capture_data;
 
-  function automatic logic data_has_zero_byte(input logic [63:0] data, input logic [2:0] size);
+  function automatic logic data_has_zero_byte(input logic [63:0] data, input logic [3:0] size);
     data_has_zero_byte = 1'b0;
     for (int unsigned i = 0; i < 8; i++) begin
       if (i < size && data[i*8+:8] == 8'd0) begin
@@ -60,7 +62,7 @@ module arg_mem_tap
     end
   endfunction
 
-  function automatic logic [63:0] mask_data_to_size(input logic [63:0] data, input logic [2:0] size);
+  function automatic logic [63:0] mask_data_to_size(input logic [63:0] data, input logic [3:0] size);
     mask_data_to_size = 64'd0;
     for (int unsigned i = 0; i < 8; i++) begin
       if (i < size) begin
@@ -113,18 +115,18 @@ module arg_mem_tap
 
   assign remaining_bytes = watch_limit_q - mem_load_addr_i;
   always_comb begin
-    if (remaining_bytes > 64'd7 || mem_load_size_i <= remaining_bytes[2:0]) begin
+    if (remaining_bytes > 64'd7 || mem_load_size_i <= remaining_bytes[3:0]) begin
       capture_size = mem_load_size_i;
     end else begin
-      capture_size = remaining_bytes[2:0];
+      capture_size = remaining_bytes[3:0];
     end
   end
-  assign capture_end = mem_load_addr_i + {61'd0, capture_size};
+  assign capture_end = mem_load_addr_i + {60'd0, capture_size};
   assign capture_data = mask_data_to_size(mem_load_data_i, capture_size);
   assign capture_valid = mem_mode_i != TRACE_MEM_MODE_NONE &&
                          watch_active_q &&
                          mem_load_valid_i &&
-                         mem_load_size_i != 3'd0 &&
+                         mem_load_size_i != 4'd0 &&
                          priv_lvl_i == TRACE_PRIV_S &&
                          mem_load_addr_i >= watch_base_q &&
                          mem_load_addr_i < watch_limit_q;
@@ -175,6 +177,7 @@ module arg_mem_tap
     trace_packet_o.satp = satp_i;
     trace_packet_o.syscall_id = watch_syscall_id_q;
     trace_packet_o.arg_index = watch_arg_index_q;
+    trace_packet_o.mem_base = watch_base_q;
     trace_packet_o.mem_addr = mem_load_addr_i;
     trace_packet_o.mem_data = mem_mode_i == TRACE_MEM_MODE_RANGE ? capture_data : 64'd0;
     trace_packet_o.mem_size = capture_size;
