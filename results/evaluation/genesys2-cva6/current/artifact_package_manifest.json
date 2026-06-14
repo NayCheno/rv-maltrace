@@ -84,8 +84,8 @@
       "git_publishable": true,
       "path": "tools/analyze_single_riscv_binary_trace.py",
       "role": "core_reproduction_file",
-      "sha256": "fe651dd5201ed7ecc81938d37c5dc593db2de7099b284f2e319163a5880f5351",
-      "size_bytes": 22141
+      "sha256": "5303144bc72b34683882d493e2f8e0f6415c45c98335473fc82dbe44dd7d245a",
+      "size_bytes": 23414
     },
     {
       "exists": true,

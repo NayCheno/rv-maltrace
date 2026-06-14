@@ -220,31 +220,68 @@ def summary_from_analysis(
     }
 
 
-def render_top_counter(title: str, counter: Counter[str], *, color: bool, color_evt: str | None = None, limit: int = 10) -> list[str]:
-    lines = [title]
+def render_top_counter(
+    title: str,
+    counter: Counter[str],
+    *,
+    color: bool,
+    width: int,
+    color_evt: str | None = None,
+    limit: int = 10,
+) -> list[str]:
+    lines = [section(title, width)]
     if not counter:
         return [*lines, "  <none>"]
     max_count = max(counter.values())
     for name, count in counter.most_common(limit):
         label = colorize(name, color_evt, color)
-        lines.append(f"  {cell(label, 36)} {str(count).rjust(6)} | {bar(count, max_count)}")
+        pct = (count / sum(counter.values())) if counter else 0.0
+        lines.append(f"  {cell(label, 36)} {str(count).rjust(6)} {pct:6.1%} | {bar(count, max_count)}")
     return lines
 
 
-def render_binary_header(summary: dict[str, Any]) -> list[str]:
+def line(width: int, char: str = "-") -> str:
+    return char * max(24, width)
+
+
+def section(title: str, width: int = 72) -> str:
+    prefix = f"-- {title} "
+    return prefix + "-" * max(0, width - len(prefix))
+
+
+def fmt_rate(value: Any) -> str:
+    try:
+        return f"{float(value):.1%}"
+    except (TypeError, ValueError):
+        return "n/a"
+
+
+def status_text(status: str, color: bool) -> str:
+    evt = "SYSCALL_ENTRY" if status == "PASS" else "TRAP"
+    return colorize(status, evt, color)
+
+
+def render_metric_row(left_name: str, left_value: Any, right_name: str, right_value: Any) -> str:
+    return f"  {cell(left_name, 22)} {cell(left_value, 16)}  {cell(right_name, 22)} {right_value}"
+
+
+def render_binary_header(summary: dict[str, Any], *, width: int, color: bool) -> list[str]:
     header = summary.get("elf_header") if isinstance(summary.get("elf_header"), dict) else {}
+    status = str(summary.get("status") or "UNKNOWN")
     return [
+        line(width, "="),
         "RV-MalTrace Single Binary Trace Analysis",
-        f"ELF: {summary.get('elf')}",
-        f"Trace: {summary.get('trace')}",
-        f"ELF identity: {header.get('class')} {summary.get('elf_type')} machine={header.get('machine')} sha256={summary.get('elf_sha256')}",
-        f"Entry: {header.get('entry')}  Runtime base: {summary.get('runtime_load_base') or 'not applied'}",
-        f"Load-base assumption: {summary.get('load_base_assumption')}",
-        f"Status: {summary.get('status')}",
+        line(width, "="),
+        f"Status : {status_text(status, color)}",
+        f"ELF    : {summary.get('elf')}",
+        f"Trace  : {summary.get('trace')}",
+        f"ID     : {header.get('class')} {summary.get('elf_type')} machine={header.get('machine')} sha256={summary.get('elf_sha256')}",
+        f"Entry  : {header.get('entry')}  runtime_base={summary.get('runtime_load_base') or 'not applied'}",
+        f"Assume : {summary.get('load_base_assumption')}",
     ]
 
 
-def render_key_events(rows: list[dict[str, Any]], limit: int, color: bool) -> list[str]:
+def render_key_events(rows: list[dict[str, Any]], limit: int, color: bool, width: int) -> list[str]:
     interesting = [
         row
         for row in rows
@@ -252,7 +289,7 @@ def render_key_events(rows: list[dict[str, Any]], limit: int, color: bool) -> li
         or row.get("pc_owner") == "target_sample"
     ]
     lines = [
-        f"Key Events (showing {min(limit, len(interesting))} of {len(interesting)})",
+        section(f"Key Events ({min(limit, len(interesting))}/{len(interesting)})", width),
         "  "
         + " ".join(
             [
@@ -307,31 +344,35 @@ def render_console(
 ) -> str:
     functions = function_counter(annotated)
     warnings = summary.get("warnings") if isinstance(summary.get("warnings"), list) else []
+    width = max(72, width)
     lines = [
-        *render_binary_header(summary),
+        *render_binary_header(summary, width=width, color=color),
         "",
-        "Trace Match",
-        f"  events={summary.get('events')} pc_events={summary.get('pc_events')} target_pc_events={summary.get('target_pc_events')} target_pc_rate={summary.get('target_pc_rate'):.3f}",
-        f"  function_events={summary.get('function_events')} function_rate={summary.get('function_rate'):.3f} source_line_events={summary.get('source_line_events')} source_line_rate={summary.get('source_line_rate'):.3f}",
+        section("Trace Match", width),
+        render_metric_row("events", summary.get("events"), "pc events", summary.get("pc_events")),
+        render_metric_row("target pc events", summary.get("target_pc_events"), "target pc rate", fmt_rate(summary.get("target_pc_rate"))),
+        render_metric_row("function events", summary.get("function_events"), "function rate", fmt_rate(summary.get("function_rate"))),
+        render_metric_row("source-line events", summary.get("source_line_events"), "source-line rate", fmt_rate(summary.get("source_line_rate"))),
         "",
         *render_timeline(annotated, width, color),
         "",
-        *render_top_counter("PC Owner Mix", count_by(annotated, "pc_owner"), color=color),
+        *render_top_counter("PC Owner Mix", count_by(annotated, "pc_owner"), color=color, width=width),
         "",
-        *render_top_counter("Callsite Mix", count_by(annotated, "callsite_kind"), color=color),
+        *render_top_counter("Callsite Mix", count_by(annotated, "callsite_kind"), color=color, width=width),
         "",
-        *render_top_counter("Target Function Hotspots", functions, color=color, color_evt="SYSCALL_ENTRY"),
+        *render_top_counter("Target Function Hotspots", functions, color=color, width=width, color_evt="SYSCALL_ENTRY"),
         "",
-        *render_key_events(annotated, limit, color),
+        *render_key_events(annotated, limit, color, width),
     ]
     if warnings:
-        lines.extend(["", "Warnings", *[f"  - {warning}" for warning in warnings]])
+        lines.extend(["", section("Warnings", width), *[f"  ! {warning}" for warning in warnings]])
     lines.extend(
         [
             "",
-            "Claim Boundary",
+            section("Claim Boundary", width),
             "  Static PC-in-ELF matching is single-binary attribution, not process ownership by itself.",
             "  Strong process ownership still needs marker/runtime process map context.",
+            line(width, "="),
         ]
     )
     return "\n".join(lines) + "\n"

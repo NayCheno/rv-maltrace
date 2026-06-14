@@ -46,8 +46,8 @@ does not rebuild the bitstream or rerun the board; it performs local ELF/code
 attribution over an existing JSONL trace:
 
 ```powershell
-uv run rvmt binary:analyze --elf build\debug_elf_readiness\file_open_read_write\file_open_read_write.debug.riscv64 --trace results\board\genesys2_trace_validation\20260612-p0-bram-repetitions\file_open_read_write\rep_01\bram_records.jsonl
-uv run rvmt binary:analyze --elf path\to\program.riscv64 --trace path\to\bram_records.jsonl --out-dir results\analysis\single-binary
+uv run rvmt binary:analyze --elf build\debug_elf_readiness\file_open_read_write\file_open_read_write.debug.riscv64 --trace results\board\genesys2_trace_validation\20260612-p0-bram-repetitions\file_open_read_write\rep_01\bram_records.jsonl --limit 16 --width 88
+uv run rvmt binary:analyze --elf path\to\program.riscv64 --trace path\to\bram_records.jsonl --limit 16 --width 88 --out-dir results\analysis\single-binary
 ```
 
 If the ELF is PIE/ET_DYN and trace PCs are runtime relocated, pass the runtime
