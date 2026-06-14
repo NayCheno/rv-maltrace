@@ -23,6 +23,7 @@ CORE_FILES = [
     "tools/run_check_suite.py",
     "tools/reproduce_genesys2_current.py",
     "tools/view_trace_terminal.py",
+    "tools/analyze_single_riscv_binary_trace.py",
     "src/rv_maltrace/cli.py",
     "tools/check_baseline_pass_criteria.py",
     "tools/check_board_trace_programs.py",

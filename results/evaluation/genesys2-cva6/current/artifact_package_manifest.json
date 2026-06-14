@@ -82,10 +82,18 @@
     {
       "exists": true,
       "git_publishable": true,
+      "path": "tools/analyze_single_riscv_binary_trace.py",
+      "role": "core_reproduction_file",
+      "sha256": "fe651dd5201ed7ecc81938d37c5dc593db2de7099b284f2e319163a5880f5351",
+      "size_bytes": 22141
+    },
+    {
+      "exists": true,
+      "git_publishable": true,
       "path": "src/rv_maltrace/cli.py",
       "role": "core_reproduction_file",
-      "sha256": "83a136930bc5c9c2ec4fe2a2210880238347ef4a4f61fc965d106cfe6c5118a8",
-      "size_bytes": 152719
+      "sha256": "2f41dc11aeefd60fe4954ba529737c97bfc2623bac7c895c948cd4eb955ff272",
+      "size_bytes": 154667
     },
     {
       "exists": true,
@@ -172,16 +180,16 @@
       "git_publishable": true,
       "path": "tools/package_genesys2_artifact_package.py",
       "role": "core_reproduction_file",
-      "sha256": "84be96572ce040ed0000f160892b87deb364f797d3d7a2ada36f623281da58a1",
-      "size_bytes": 13964
+      "sha256": "d6c84cc6150696d4745bfcad400dd855ad132ecefe526be511c85b191a98f453",
+      "size_bytes": 14014
     },
     {
       "exists": true,
       "git_publishable": true,
       "path": "tools/check_genesys2_artifact_package.py",
       "role": "core_reproduction_file",
-      "sha256": "67344dae330714e2a30ef89f244f2dcecd09ec1f1969b8a90074c28ec087e51f",
-      "size_bytes": 19875
+      "sha256": "262ed291fc382a3a6472099f442e95fcf22c22a4f3d0d611a513f51d12158e56",
+      "size_bytes": 19925
     },
     {
       "exists": true,
@@ -884,7 +892,7 @@
       "git_publishable": true,
       "path": "results/evaluation/genesys2-cva6/current/review_closure_audit.json",
       "role": "summary_artifact",
-      "sha256": "882b702028e254babff796994a51cea547a490e3b47b06de0904f07259fb76cc",
+      "sha256": "a19fe3cc013f8717cc2c8e0354e164e4d260d9b1104da19082524ae0a6a4745b",
       "size_bytes": 37524
     },
     {
@@ -940,7 +948,7 @@
       "git_publishable": true,
       "path": "results/evaluation/genesys2-cva6/current/reproducibility_manifest.json",
       "role": "referenced_file",
-      "sha256": "e6e58bf38ee22ea333dd38095fcd5f3116b2211103301ac0dbb2c1b08a450c07",
+      "sha256": "f6d7ed62ce3fea48398d0de9265e32c34240ce74d3ca82ebc945d220299da4af",
       "size_bytes": 31483
     }
   ],

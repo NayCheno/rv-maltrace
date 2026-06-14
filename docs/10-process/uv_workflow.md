@@ -41,6 +41,22 @@ uv run rvmt trace:view --trace results\board\genesys2_trace_validation\20260612-
 uv run rvmt trace:view --trace results\board\genesys2_trace_validation\20260612-p0-bram-repetitions\file_open_read_write\rep_01\bram_records.jsonl --event SYSCALL_ENTRY --event ARG_MEM --limit 20
 ```
 
+For single-binary analysis, join a trace with one specified RISC-V ELF. This
+does not rebuild the bitstream or rerun the board; it performs local ELF/code
+attribution over an existing JSONL trace:
+
+```powershell
+uv run rvmt binary:analyze --elf build\debug_elf_readiness\file_open_read_write\file_open_read_write.debug.riscv64 --trace results\board\genesys2_trace_validation\20260612-p0-bram-repetitions\file_open_read_write\rep_01\bram_records.jsonl
+uv run rvmt binary:analyze --elf path\to\program.riscv64 --trace path\to\bram_records.jsonl --out-dir results\analysis\single-binary
+```
+
+If the ELF is PIE/ET_DYN and trace PCs are runtime relocated, pass the runtime
+base explicitly:
+
+```powershell
+uv run rvmt binary:analyze --elf path\to\program.riscv64 --trace path\to\trace.jsonl --load-base 0x555555554000
+```
+
 Run Vivado bitstream builds only as explicit long tasks:
 
 ```powershell
@@ -77,6 +93,7 @@ uv run rvmt repro:quick
 uv run rvmt repro:local
 uv run rvmt repro:full
 uv run rvmt trace:view --trace path\to\bram_records.jsonl
+uv run rvmt binary:analyze --elf path\to\program.riscv64 --trace path\to\bram_records.jsonl
 uv run rvmt docker:build
 uv run rvmt toolchain:build
 uv run rvmt bootrom:build

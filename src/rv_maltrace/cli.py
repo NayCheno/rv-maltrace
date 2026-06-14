@@ -159,6 +159,9 @@ TASK_ALIASES = {
     "trace:view": "trace:view",
     "trace:show": "trace:view",
     "view:trace": "trace:view",
+    "binary:analyze": "binary:analyze",
+    "trace:analyze": "binary:analyze",
+    "analyze:binary": "binary:analyze",
     "baremetal": "baremetal:build",
     "baremetal:build": "baremetal:build",
     "programs": "baremetal:build",
@@ -226,6 +229,7 @@ DISPLAY_TASKS = [
     "sim:cva6-run",
     "sim:summary",
     "trace:view",
+    "binary:analyze",
     "baremetal:build",
     "demo:behavior",
     "demo:groundtruth",
@@ -268,6 +272,9 @@ COMPLETION_CANDIDATES = sorted(
         "--tool-mode",
         "--tool-prefix",
         "--trace",
+        "--load-base",
+        "--runtime-process-map",
+        "--addr2line",
         "--limit",
         "--width",
         "--summary-only",
@@ -3585,7 +3592,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
             "repro:quick, repro:local, repro:full, "
             "vivado:check, bitstream:build, bitstream:build-trace, bitstream:build-trace-marker, "
             "bitstream:build-trace-source-lines, sim:trace-unit, sim:cva6-smoke, "
-            "sim:cva6-full-soc, sim:cva6-full-soc-tohost, sim:cva6-full-soc-rv64gc, sim:cva6-run, trace:view, baremetal:build, "
+            "sim:cva6-full-soc, sim:cva6-full-soc-tohost, sim:cva6-full-soc-rv64gc, sim:cva6-run, trace:view, binary:analyze, baremetal:build, "
             "board:artix7:jtag-scan, board:artix7:litex-build, exp:35t, run:35t, explain:35t, config:show, completion:powershell. Slash groups such as "
             "tool/bootrom are expanded."
         ),
@@ -3629,6 +3636,9 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         help="For demo:behavior, use a checked-in fixture trace or a user-provided trace.",
     )
     parser.add_argument("--trace", type=Path, help="For demo:behavior --backend trace or trace:view, input RV-MalTrace JSONL trace.")
+    parser.add_argument("--load-base", help="For binary:analyze, runtime load base for PIE/ET_DYN traces, for example 0x555555554000.")
+    parser.add_argument("--runtime-process-map", type=Path, help="For binary:analyze, optional runtime process map JSON.")
+    parser.add_argument("--addr2line", help="For binary:analyze, addr2line-compatible executable for source-line enrichment.")
     parser.add_argument("--limit", type=int, default=40, help="For trace:view, maximum event rows to print.")
     parser.add_argument("--width", type=int, help="For trace:view, terminal timeline width.")
     parser.add_argument("--event", action="append", default=[], help="For trace:view, only show matching event types. May repeat.")
@@ -3829,6 +3839,34 @@ def main(argv: list[str] | None = None) -> int:
                     command.extend(["--event", evt])
                 if args.summary_only:
                     command.append("--summary-only")
+                run(command, cwd=root, env=env, dry_run=args.dry_run)
+            elif task == "binary:analyze":
+                if args.trace is None or args.elf is None:
+                    raise TaskError("binary:analyze requires --elf <riscv-elf> and --trace <path>")
+                command = [
+                    sys.executable,
+                    "tools/analyze_single_riscv_binary_trace.py",
+                    "--trace",
+                    str(args.trace),
+                    "--elf",
+                    str(args.elf),
+                    "--format",
+                    args.format,
+                    "--limit",
+                    str(args.limit),
+                    "--color",
+                    args.color,
+                ]
+                if args.width is not None:
+                    command.extend(["--width", str(args.width)])
+                if args.load_base:
+                    command.extend(["--load-base", args.load_base])
+                if args.runtime_process_map is not None:
+                    command.extend(["--runtime-process-map", str(args.runtime_process_map)])
+                if args.addr2line:
+                    command.extend(["--addr2line", args.addr2line])
+                if args.out_dir is not None:
+                    command.extend(["--out-dir", str(args.out_dir)])
                 run(command, cwd=root, env=env, dry_run=args.dry_run)
             elif task == "baremetal:build":
                 task_baremetal_build(root, config, env, args.dry_run)

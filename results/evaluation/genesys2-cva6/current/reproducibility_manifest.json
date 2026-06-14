@@ -653,7 +653,7 @@
       "id": "review_closure_audit",
       "path": "results/evaluation/genesys2-cva6/current/review_closure_audit.json",
       "schema": "rvmt.genesys2.review_closure_audit.v1",
-      "sha256": "882b702028e254babff796994a51cea547a490e3b47b06de0904f07259fb76cc",
+      "sha256": "a19fe3cc013f8717cc2c8e0354e164e4d260d9b1104da19082524ae0a6a4745b",
       "status": "PASS"
     },
     {
