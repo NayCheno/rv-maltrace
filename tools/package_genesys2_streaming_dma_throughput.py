@@ -84,12 +84,19 @@ def package_summary(
         failures.append("UART crc_error_count is nonzero")
     if host_log.get("accepted_count_matches_data_frames") is not True:
         failures.append("UART accepted_count does not match received data frames")
+    if host_log.get("stream_baud_accepted") is False:
+        failures.append(
+            "receiver backend rejected stream_baud "
+            f"{host_log.get('stream_baud')}: {host_log.get('stream_baud_set_status')}"
+        )
+    if host_log.get("capture_aborted_reason"):
+        failures.append(f"host capture aborted: {host_log.get('capture_aborted_reason')}")
 
     p95_bps, p95_per_cycle = p95_bytes_per_second(root, target_arg, trace_clock_hz, p95_override)
     sustained = as_float(host_log.get("sustained_bytes_per_second"))
     if sustained <= p95_bps:
         failures.append(f"sustained_bytes_per_second {sustained:.3f} <= p95 target {p95_bps:.3f}")
-    timing_passed = report_passed(timing_report, ("timing_passed=true", "timing passed", "timing closure passed"))
+    timing_passed = report_passed(timing_report, ("timing_passed=true", "timing passed", "timing closure passed", "slack (met)"))
     noninterference_passed = report_passed(noninterference_report, ("noninterference_passed=true", "noninterference passed"))
     if not timing_passed:
         failures.append("timing report does not prove timing_passed=true")
@@ -107,6 +114,8 @@ def package_summary(
                 "transport": "uart_streaming_dma",
                 "console_control_baud": 115200,
                 "stream_baud": int(host_log.get("stream_baud") or 12_000_000),
+                "receiver_backend": host_log.get("receiver_backend", "pyserial"),
+                "ftdi_serial": host_log.get("ftdi_serial"),
                 "compact_trace_record_bytes": 17,
                 "status_frame_required": True,
                 "rtl_source": "rtl/trace/trace_uart_stream_sink.sv",
@@ -158,6 +167,7 @@ def package_summary(
         "record_root": repo_relative(root, record_root),
         "validation_commands": [
             "uv run python tools/run_genesys2_uart_streaming_capture.py --port COM7 --stream-baud 12000000 --command <marker-window-command>",
+            "uv run python tools/run_genesys2_uart_streaming_capture.py --receiver-backend d2xx --ftdi-serial AU05XHWM --stream-baud 12000000 --command <marker-window-command>",
             "uv run python tools/package_genesys2_streaming_dma_throughput.py --host-receiver-log <host_receiver_log.json> --trace-clock-hz <exact-hz> --timing-report <timing> --resource-report <resource> --noninterference-report <noninterference>",
             "uv run python tools/check_genesys2_streaming_dma_throughput.py --root .",
         ],

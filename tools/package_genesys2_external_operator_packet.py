@@ -243,10 +243,10 @@ def package_packet(root: Path, current_root: Path) -> dict[str, Any]:
             "uv run python tools/reproduce_genesys2_current.py --full --dry-run",
         ],
         "non_claims": [
-            "This packet does not complete board-native DWARF source-line attribution.",
-            "This packet does not complete full hardware pointer-string reconstruction.",
+            "This packet does not itself create board-native DWARF source-line attribution evidence; only accepted intake summaries close that item.",
+            "This packet does not itself create full hardware pointer-string reconstruction evidence; only accepted intake summaries close that item.",
             "This packet does not complete production streaming/DMA throughput evidence.",
-            "This packet does not complete Genesys2 board benign-control evidence.",
+            "This packet does not itself create Genesys2 board benign-control evidence; only accepted intake summaries close that item.",
             "This packet does not add real-malware validation.",
         ],
     }

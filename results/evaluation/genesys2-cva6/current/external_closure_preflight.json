@@ -1,5 +1,5 @@
 {
-  "accepted_external_blocker_count": 0,
+  "accepted_external_blocker_count": 3,
   "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",
   "claim_boundary": {
     "all_non_real_external_blockers_closed": false,
@@ -16,11 +16,11 @@
     "It does not execute board, RTL, host receiver, or reviewer work and must not close external blockers by itself.",
     "The intake gate remains authoritative for accepting any future external summaries."
   ],
-  "invalid_external_blocker_count": 0,
+  "invalid_external_blocker_count": 1,
   "objective_exclusions": [
     "real_malware_validation"
   ],
-  "open_external_blocker_count": 4,
+  "open_external_blocker_count": 0,
   "records": [
     {
       "acceptance_criteria_count": 5,
@@ -86,10 +86,10 @@
           "script_exists": true
         }
       ],
-      "completion_status": "OPEN_NO_EXTERNAL_SUMMARY",
-      "current_blocker": true,
-      "external_execution_still_required": true,
-      "external_summary_exists": false,
+      "completion_status": "EXTERNAL_SUMMARY_ACCEPTED",
+      "current_blocker": false,
+      "external_execution_still_required": false,
+      "external_summary_exists": true,
       "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/board_native_source_lines_summary.json",
       "id": "board_native_dwarf_source_lines",
       "local_preflight_ready": true,
@@ -265,10 +265,10 @@
           "script_exists": false
         }
       ],
-      "completion_status": "OPEN_NO_EXTERNAL_SUMMARY",
-      "current_blocker": true,
-      "external_execution_still_required": true,
-      "external_summary_exists": false,
+      "completion_status": "EXTERNAL_SUMMARY_ACCEPTED",
+      "current_blocker": false,
+      "external_execution_still_required": false,
+      "external_summary_exists": true,
       "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/hardware_pointer_strings_summary.json",
       "id": "full_hardware_pointer_strings",
       "local_preflight_ready": true,
@@ -444,10 +444,10 @@
           "script_exists": true
         }
       ],
-      "completion_status": "OPEN_NO_EXTERNAL_SUMMARY",
+      "completion_status": "EXTERNAL_SUMMARY_PRESENT_INVALID",
       "current_blocker": true,
       "external_execution_still_required": true,
-      "external_summary_exists": false,
+      "external_summary_exists": true,
       "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/streaming_dma_throughput_summary.json",
       "id": "production_streaming_dma_trace_sink",
       "local_preflight_ready": true,
@@ -635,10 +635,10 @@
           "script_exists": true
         }
       ],
-      "completion_status": "OPEN_NO_EXTERNAL_SUMMARY",
-      "current_blocker": true,
-      "external_execution_still_required": true,
-      "external_summary_exists": false,
+      "completion_status": "EXTERNAL_SUMMARY_ACCEPTED",
+      "current_blocker": false,
+      "external_execution_still_required": false,
+      "external_summary_exists": true,
       "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/board_benign_control_summary.json",
       "id": "genesys2_board_benign_control",
       "local_preflight_ready": true,
@@ -783,7 +783,7 @@
       "expected_schema": "rvmt.genesys2.external_closure_plan.v1",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_plan.json",
       "schema": "rvmt.genesys2.external_closure_plan.v1",
-      "sha256": "97bc15b28ff09d5b1f1ac8a4fa3ba3a89ccde895910e4933a7cd64a32e536596",
+      "sha256": "afc62e04df773b0f9f5e69bd35a410d89cc74443b45621610d929ce930a2a341",
       "status": "PASS"
     },
     {
@@ -791,8 +791,8 @@
       "expected_schema": "rvmt.genesys2.external_closure_intake.v1",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_intake.json",
       "schema": "rvmt.genesys2.external_closure_intake.v1",
-      "sha256": "287b54a90ccf235723c41ef59b66c4cf7a5b59b29f2e5570708fc7bf352c2e60",
-      "status": "PASS"
+      "sha256": "b1658baf075311a17d591ffce8bd47a3102b7b1ca19db7f90ba3a5d533e4784b",
+      "status": "FAIL"
     }
   ],
   "status": "PASS",

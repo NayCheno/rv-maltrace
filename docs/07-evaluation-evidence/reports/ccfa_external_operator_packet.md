@@ -10,7 +10,7 @@ This packet is an operator handoff for the remaining non-real-malware external w
 | Artifact | Status | Closure status |
 | --- | --- | --- |
 | `external_closure_readiness` | `PASS` | `NOT_APPLICABLE` |
-| `external_closure_intake` | `PASS` | `OPEN_EXTERNAL_ARTIFACTS_REQUIRED` |
+| `external_closure_intake` | `FAIL` | `OPEN_EXTERNAL_ARTIFACTS_REQUIRED` |
 | `external_closure_plan` | `PASS` | `NOT_APPLICABLE` |
 | `external_closure_preflight` | `PASS` | `NOT_APPLICABLE` |
 
@@ -26,15 +26,15 @@ This packet is an operator handoff for the remaining non-real-malware external w
 
 | Order | External id | Intake status | Expected summary | Required artifact kinds |
 | ---: | --- | --- | --- | --- |
-| 1 | `board_native_dwarf_source_lines` | `OPEN_NO_EXTERNAL_SUMMARY` | `results/evaluation/genesys2-cva6/current/external_closure/board_native_source_lines_summary.json` | `board_capture_manifest`, `debug_elf_manifest`, `joined_trace_code_map_manifest`, `readelf_debug_line_transcript` |
-| 2 | `full_hardware_pointer_strings` | `OPEN_NO_EXTERNAL_SUMMARY` | `results/evaluation/genesys2-cva6/current/external_closure/hardware_pointer_strings_summary.json` | `companion_substitution_audit`, `kernel_space_filter_report`, `mem_last_or_terminator_report`, `pointer_capture_manifest`, `pointer_group_reconstruction`, `redaction_policy`, `resource_timing_report`, `rtl_design_manifest` |
-| 3 | `production_streaming_dma_trace_sink` | `OPEN_NO_EXTERNAL_SUMMARY` | `results/evaluation/genesys2-cva6/current/external_closure/streaming_dma_throughput_summary.json` | `host_receiver_log`, `noninterference_report`, `resource_report`, `timing_report`, `transport_design_manifest` |
-| 4 | `genesys2_board_benign_control` | `OPEN_NO_EXTERNAL_SUMMARY` | `results/evaluation/genesys2-cva6/current/external_closure/board_benign_control_summary.json` | `behavior_audit_manifest`, `behavior_graph_manifest`, `board_capture_manifest`, `false_positive_report`, `semantic_events_manifest` |
+| 1 | `board_native_dwarf_source_lines` | `EXTERNAL_SUMMARY_ACCEPTED` | `results/evaluation/genesys2-cva6/current/external_closure/board_native_source_lines_summary.json` | `board_capture_manifest`, `debug_elf_manifest`, `joined_trace_code_map_manifest`, `readelf_debug_line_transcript` |
+| 2 | `full_hardware_pointer_strings` | `EXTERNAL_SUMMARY_ACCEPTED` | `results/evaluation/genesys2-cva6/current/external_closure/hardware_pointer_strings_summary.json` | `companion_substitution_audit`, `kernel_space_filter_report`, `mem_last_or_terminator_report`, `pointer_capture_manifest`, `pointer_group_reconstruction`, `redaction_policy`, `resource_timing_report`, `rtl_design_manifest` |
+| 3 | `production_streaming_dma_trace_sink` | `EXTERNAL_SUMMARY_PRESENT_INVALID` | `results/evaluation/genesys2-cva6/current/external_closure/streaming_dma_throughput_summary.json` | `host_receiver_log`, `noninterference_report`, `resource_report`, `timing_report`, `transport_design_manifest` |
+| 4 | `genesys2_board_benign_control` | `EXTERNAL_SUMMARY_ACCEPTED` | `results/evaluation/genesys2-cva6/current/external_closure/board_benign_control_summary.json` | `behavior_audit_manifest`, `behavior_graph_manifest`, `board_capture_manifest`, `false_positive_report`, `semantic_events_manifest` |
 
 ## Non-Claims
 
-- This packet does not complete board-native DWARF source-line attribution.
-- This packet does not complete full hardware pointer-string reconstruction.
+- This packet does not itself create board-native DWARF source-line attribution evidence; only accepted intake summaries close that item.
+- This packet does not itself create full hardware pointer-string reconstruction evidence; only accepted intake summaries close that item.
 - This packet does not complete production streaming/DMA throughput evidence.
-- This packet does not complete Genesys2 board benign-control evidence.
+- This packet does not itself create Genesys2 board benign-control evidence; only accepted intake summaries close that item.
 - This packet does not add real-malware validation.

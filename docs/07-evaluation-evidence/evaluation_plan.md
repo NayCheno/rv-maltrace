@@ -138,10 +138,10 @@ kinds and pass path/sha256 validation.
 
 | Item | Current Status | Closure Gate |
 | --- | --- | --- |
-| `board_native_dwarf_source_lines` | OPEN_EXTERNAL_ARTIFACTS_REQUIRED | `results/evaluation/genesys2-cva6/current/external_closure/board_native_source_lines_summary.json` |
-| `full_hardware_pointer_strings` | OPEN_EXTERNAL_ARTIFACTS_REQUIRED | `results/evaluation/genesys2-cva6/current/external_closure/hardware_pointer_strings_summary.json` |
-| `production_streaming_dma_trace_sink` | OPEN_EXTERNAL_ARTIFACTS_REQUIRED | `results/evaluation/genesys2-cva6/current/external_closure/streaming_dma_throughput_summary.json` |
-| `genesys2_board_benign_control` | OPEN_EXTERNAL_ARTIFACTS_REQUIRED | `results/evaluation/genesys2-cva6/current/external_closure/board_benign_control_summary.json` |
+| `board_native_dwarf_source_lines` | EXTERNAL_SUMMARY_ACCEPTED | `results/evaluation/genesys2-cva6/current/external_closure/board_native_source_lines_summary.json` |
+| `full_hardware_pointer_strings` | EXTERNAL_SUMMARY_ACCEPTED | `results/evaluation/genesys2-cva6/current/external_closure/hardware_pointer_strings_summary.json` |
+| `production_streaming_dma_trace_sink` | EXTERNAL_SUMMARY_PRESENT_INVALID | `results/evaluation/genesys2-cva6/current/external_closure/streaming_dma_throughput_summary.json` |
+| `genesys2_board_benign_control` | EXTERNAL_SUMMARY_ACCEPTED | `results/evaluation/genesys2-cva6/current/external_closure/board_benign_control_summary.json` |
 
 ## Non-Goals
 

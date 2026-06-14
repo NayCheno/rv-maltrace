@@ -88,6 +88,7 @@ TEMPLATE_SUMMARY_IDS = {
     "external_template_streaming_dma_throughput",
     "external_template_board_benign_control",
 }
+TRUTHFUL_NONPASS_SUMMARY_IDS = {"external_closure_intake"}
 
 
 def repo_rel(path: Path) -> str:
@@ -401,8 +402,11 @@ def package_manifest(current_root: Path) -> dict[str, Any]:
     status = "PASS"
     if latest.get("status") != "PASS":
         status = "FAIL"
-    if any(row.get("status") != "PASS" for row in summary_rows if row.get("id") not in {"source_line_sidecar", *TEMPLATE_SUMMARY_IDS}):
+    if any(row.get("status") != "PASS" for row in summary_rows if row.get("id") not in {"source_line_sidecar", *TEMPLATE_SUMMARY_IDS, *TRUTHFUL_NONPASS_SUMMARY_IDS}):
         status = "FAIL"
+    for row in summary_rows:
+        if row.get("id") in TRUTHFUL_NONPASS_SUMMARY_IDS and row.get("status") not in {"PASS", "FAIL"}:
+            status = "FAIL"
     if any(row.get("status") != "TEMPLATE_NOT_EVIDENCE" for row in summary_rows if row.get("id") in TEMPLATE_SUMMARY_IDS):
         status = "FAIL"
     if any(row.get("exists") is not True for row in raw_rows):

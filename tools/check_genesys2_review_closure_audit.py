@@ -22,6 +22,8 @@ EXPECTED_EXTERNAL_IDS = {
     "genesys2_board_benign_control",
 }
 EVIDENCE_STATUS_NOT_APPLICABLE = "NOT_APPLICABLE"
+ACCEPTED_EXTERNAL_STATUS = "EXTERNAL_SUMMARY_ACCEPTED"
+OPEN_EXTERNAL_STATUS = "OPEN_EXTERNAL_ARTIFACTS_REQUIRED"
 EXPECTED_ITEM_IDS = {
     "phase_a_claim_boundary_convergence",
     "phase_a_baseline_board_acceptance",
@@ -113,10 +115,14 @@ def check_summary(data: dict[str, Any], root: Path, report: Path) -> list[str]:
 
     summary = as_dict(data.get("summary"))
     require(errors, summary.get("local_items_evidence_present") is True, "local evidence coverage must be true")
-    require(errors, set(as_list(summary.get("open_external_ids"))) == EXPECTED_EXTERNAL_IDS, "open external ids mismatch")
+    accepted_external_ids = set(as_list(summary.get("accepted_external_ids")))
+    open_external_ids = set(as_list(summary.get("open_external_ids")))
+    require(errors, accepted_external_ids | open_external_ids == EXPECTED_EXTERNAL_IDS, "external ids coverage mismatch")
+    require(errors, accepted_external_ids.isdisjoint(open_external_ids), "accepted/open external ids overlap")
     require(errors, "real_malware_validation" in as_list(summary.get("objective_exclusions")), "real malware exclusion missing")
     require(errors, summary.get("local_item_count") == 11, "local item count mismatch")
-    require(errors, summary.get("open_external_item_count") == len(EXPECTED_EXTERNAL_IDS), "open external item count mismatch")
+    require(errors, int(summary.get("accepted_external_item_count") or 0) == len(accepted_external_ids), "accepted external item count mismatch")
+    require(errors, int(summary.get("open_external_item_count") or 0) == len(open_external_ids), "open external item count mismatch")
     require(errors, summary.get("excluded_item_count") == 1, "excluded item count mismatch")
 
     items = row_map(as_list(data.get("items")))
@@ -140,7 +146,7 @@ def check_summary(data: dict[str, Any], root: Path, report: Path) -> list[str]:
             evidence_status = evidence.get("status")
             if status.startswith("PASS"):
                 require(errors, evidence_status in {EVIDENCE_STATUS_NOT_APPLICABLE, "PASS"}, f"{item_id}: local evidence status is not PASS: {evidence.get('id')}")
-        if status == "OPEN_EXTERNAL_ARTIFACTS_REQUIRED":
+        if status in {OPEN_EXTERNAL_STATUS, ACCEPTED_EXTERNAL_STATUS}:
             external_items.append(item)
         elif status == "EXCLUDED_BY_OBJECTIVE":
             excluded_items.append(item)
@@ -154,17 +160,22 @@ def check_summary(data: dict[str, Any], root: Path, report: Path) -> list[str]:
         require(errors, external_id in EXPECTED_EXTERNAL_IDS, f"{item.get('id')}: unexpected external id")
         item_state = as_dict(item.get("external_state"))
         live_state = live_external.get(str(external_id), {})
-        require(errors, item_state.get("completion_status") == "OPEN_NO_EXTERNAL_SUMMARY", f"{external_id}: audit must remain open")
         require(errors, live_state.get("completion_status") == item_state.get("completion_status"), f"{external_id}: live intake status mismatch")
         require(errors, live_state.get("external_summary_path") == item_state.get("external_summary_path"), f"{external_id}: live intake path mismatch")
-        require(errors, item_state.get("current_blocker") is True, f"{external_id}: audit current_blocker must be true")
-        require(errors, live_state.get("current_blocker") is True, f"{external_id}: live current_blocker must be true")
-        require(errors, item_state.get("external_summary_exists") is False, f"{external_id}: external summary must be absent while open")
-        require(errors, live_state.get("external_summary_exists") is False, f"{external_id}: live external summary must be absent while open")
-        require(errors, item_state.get("completion_evidence_valid") is False, f"{external_id}: external evidence validity must be false while open")
-        summary_path = item_state.get("external_summary_path")
-        if summary_path:
-            require(errors, not repo_path(root, summary_path).exists(), f"{external_id}: open external summary path must not exist")
+        if item.get("status") == ACCEPTED_EXTERNAL_STATUS:
+            require(errors, item_state.get("completion_status") == "EXTERNAL_SUMMARY_ACCEPTED", f"{external_id}: accepted audit status mismatch")
+            require(errors, item_state.get("current_blocker") is False, f"{external_id}: accepted summary should clear blocker")
+            require(errors, item_state.get("external_summary_exists") is True, f"{external_id}: accepted external summary must exist")
+            require(errors, item_state.get("completion_evidence_valid") is True, f"{external_id}: accepted evidence validity must be true")
+        else:
+            require(errors, item_state.get("completion_status") in {"OPEN_NO_EXTERNAL_SUMMARY", "EXTERNAL_SUMMARY_PRESENT_INVALID"}, f"{external_id}: audit must remain blocked")
+            require(errors, item_state.get("current_blocker") is True, f"{external_id}: audit current_blocker must be true")
+            require(errors, live_state.get("current_blocker") is True, f"{external_id}: live current_blocker must be true")
+            require(errors, item_state.get("completion_evidence_valid") is False, f"{external_id}: blocked external evidence validity must be false")
+            if item_state.get("completion_status") == "OPEN_NO_EXTERNAL_SUMMARY":
+                require(errors, item_state.get("external_summary_exists") is False, f"{external_id}: missing external summary must be absent")
+            else:
+                require(errors, item_state.get("external_summary_exists") is True, f"{external_id}: invalid external summary must be retained")
 
     require(errors, len(excluded_items) == 1, "exactly one objective-excluded item expected")
     require(errors, excluded_items and excluded_items[0].get("id") == "phase_g_real_malware_validation", "real malware item must be the only exclusion")

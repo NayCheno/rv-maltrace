@@ -224,7 +224,6 @@ def capture_attempt(root: Path, sample_dir: Path, sample_id: str, end_marker: st
         str(args.timeout_seconds),
         "--trigger-position",
         "0",
-        "--event-only-capture",
         "--ltx",
         str(args.ltx),
         "--hw-server-url",
@@ -475,7 +474,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--transfer-final-read", type=float, default=20.0)
     parser.add_argument("--transfer-line-delay", type=float, default=0.005)
     parser.add_argument("--timeout-seconds", type=int, default=300)
-    parser.add_argument("--pre-read", type=float, default=0.1)
+    parser.add_argument("--pre-read", type=float, default=2.0)
     parser.add_argument("--post-read", type=float, default=60.0)
     parser.add_argument("--arm-timeout", type=float, default=60.0)
     parser.add_argument("--process-wait-timeout", type=float, default=300.0)

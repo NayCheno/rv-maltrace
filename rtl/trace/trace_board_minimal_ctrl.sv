@@ -23,18 +23,18 @@ module trace_board_minimal_ctrl #(
 );
 
 `ifdef RV_MALTRACE_FPGA_TRACE_SOURCE_LINES
-  assign trace_enable_retire_o = 1'b0;
+  assign trace_enable_retire_o = 1'b1;
   assign trace_enable_branch_o = 1'b0;
   assign trace_enable_jump_o = 1'b0;
-  assign trace_enable_syscall_o = 1'b1;
-  assign trace_enable_trap_o = 1'b1;
-  assign trace_enable_context_o = 1'b1;
+  assign trace_enable_syscall_o = 1'b0;
+  assign trace_enable_trap_o = 1'b0;
+  assign trace_enable_context_o = 1'b0;
   assign trace_enable_marker_o = 1'b1;
   assign trace_enable_drop_o = 1'b1;
 
   assign trace_pc_filter_enable_o = 1'b1;
-  assign trace_pc_start_o = 64'h0000_0000_0001_0500;
-  assign trace_pc_end_o = 64'h0000_0000_0001_0700;
+  assign trace_pc_start_o = 64'h0000_0000_0001_0574;
+  assign trace_pc_end_o = 64'h0000_0000_0001_05ae;
 `else
   assign trace_enable_retire_o = 1'b0;
 `ifdef RV_MALTRACE_FPGA_TRACE_MARKER_SCOPE

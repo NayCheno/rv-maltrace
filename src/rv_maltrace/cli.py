@@ -504,19 +504,19 @@ def write_trace_marker_build_manifest(
         "ila_expected": XLNX_ILA_EXPECTED,
         "marker_scope_policy": {
             "enable_marker": True,
-            "enable_retire": False,
+            "enable_retire": "RV_MALTRACE_FPGA_TRACE_SOURCE_LINES" in verilog_defines,
             "enable_branch": False,
             "enable_jump": False,
-            "enable_syscall": True,
-            "enable_trap": True,
-            "enable_context": True,
+            "enable_syscall": "RV_MALTRACE_FPGA_TRACE_SOURCE_LINES" not in verilog_defines,
+            "enable_trap": "RV_MALTRACE_FPGA_TRACE_SOURCE_LINES" not in verilog_defines,
+            "enable_context": "RV_MALTRACE_FPGA_TRACE_SOURCE_LINES" not in verilog_defines,
             "pc_filter": (
-                "0x0000000000010500..0x0000000000010700"
+                "0x0000000000010574..0x00000000000105ae"
                 if "RV_MALTRACE_FPGA_TRACE_SOURCE_LINES" in verilog_defines
                 else "disabled"
             ),
             "reason": (
-                "source-line profile keeps marker control and filters syscall/trap/context events to no-PIE target source PCs"
+                "source-line profile keeps marker control and filters retire events to the common debug/no-PIE source-bearing function window"
                 if "RV_MALTRACE_FPGA_TRACE_SOURCE_LINES" in verilog_defines
                 else "keep event-limited ILA windows focused on marker/syscall/trap evidence"
             ),

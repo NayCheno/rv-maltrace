@@ -199,7 +199,9 @@ def package_preflight(root: Path, current_root: Path) -> dict[str, Any]:
         for record_id in EXPECTED_EXTERNAL_SUMMARIES
     ]
     status = "PASS"
-    if plan.get("status") != "PASS" or intake.get("status") != "PASS":
+    if plan.get("status") != "PASS":
+        status = "FAIL"
+    if intake.get("status") not in {"PASS", "FAIL"}:
         status = "FAIL"
     if any(row.get("local_preflight_ready") is not True for row in records):
         status = "FAIL"

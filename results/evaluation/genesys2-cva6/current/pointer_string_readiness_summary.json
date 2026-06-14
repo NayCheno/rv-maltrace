@@ -143,7 +143,7 @@
       "id": "pointer_snapshot_guardrails",
       "path": "results/evaluation/genesys2-cva6/current/pointer_snapshot_guardrails.json",
       "schema": "rvmt.pointer_snapshot_guardrails.v1",
-      "sha256": "a01c91c047ceb434263f95c48db4d93dcd6344b7a4df299a8c479d853e2ad237",
+      "sha256": "974aecb8df4ed9cb23f02fe9d404061ee4cc8f2a919fcd29761a4d6830e59a90",
       "status": "PASS"
     },
     {
@@ -186,7 +186,7 @@
       "exists": true,
       "id": "rv_maltrace_cli_trace_parser",
       "path": "src/rv_maltrace/cli.py",
-      "sha256": "2e06715ece0441dea4be01778a35c37c82320737db930ced9967b3ae9d31ca65"
+      "sha256": "27dfbff3aa3b8cb7c8b591261d7648c4c703a03543d44fe851b0454d2fc35f28"
     },
     {
       "exists": true,

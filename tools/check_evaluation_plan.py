@@ -175,6 +175,12 @@ EXPECTED_EXTERNAL_ITEMS = {
     "production_streaming_dma_trace_sink": "results/evaluation/genesys2-cva6/current/external_closure/streaming_dma_throughput_summary.json",
     "genesys2_board_benign_control": "results/evaluation/genesys2-cva6/current/external_closure/board_benign_control_summary.json",
 }
+EXPECTED_EXTERNAL_STATUSES = {
+    "board_native_dwarf_source_lines": "EXTERNAL_SUMMARY_ACCEPTED",
+    "full_hardware_pointer_strings": "EXTERNAL_SUMMARY_ACCEPTED",
+    "production_streaming_dma_trace_sink": "EXTERNAL_SUMMARY_PRESENT_INVALID",
+    "genesys2_board_benign_control": "EXTERNAL_SUMMARY_ACCEPTED",
+}
 
 
 def normalized_text(text: str) -> str:
@@ -292,8 +298,8 @@ def check_doc(path: Path) -> list[str]:
         if len(row) < 3:
             errors.append(f"{path}: external closure row {item_id} is malformed")
             continue
-        if row[1] != "OPEN_EXTERNAL_ARTIFACTS_REQUIRED":
-            errors.append(f"{path}: {item_id} must remain OPEN_EXTERNAL_ARTIFACTS_REQUIRED")
+        if row[1] != EXPECTED_EXTERNAL_STATUSES[item_id]:
+            errors.append(f"{path}: {item_id} must be {EXPECTED_EXTERNAL_STATUSES[item_id]}")
         if row[2] != closure_path:
             errors.append(f"{path}: {item_id} closure gate path mismatch")
 
@@ -331,7 +337,17 @@ def check_current_artifacts(root: Path) -> list[str]:
             continue
         if data.get("schema") != schema:
             errors.append(f"{artifact}: schema must be {schema}")
-        if data.get("status") != "PASS":
+        if artifact.endswith("external_closure_intake.json"):
+            boundary = data.get("claim_boundary") if isinstance(data.get("claim_boundary"), dict) else {}
+            truthful_fail = (
+                data.get("status") == "FAIL"
+                and int(data.get("invalid_external_blocker_count") or 0) > 0
+                and boundary.get("unvalidated_external_summary_accepted") is False
+                and boundary.get("all_non_real_external_blockers_closed") is False
+            )
+            if data.get("status") != "PASS" and not truthful_fail:
+                errors.append(f"{artifact}: status must be PASS or a truthful external-intake FAIL")
+        elif data.get("status") != "PASS":
             errors.append(f"{artifact}: status must be PASS")
         boundary = data.get("claim_boundary")
         if isinstance(boundary, dict) and boundary.get("real_malware_validation_claimed") is not False:
@@ -340,13 +356,13 @@ def check_current_artifacts(root: Path) -> list[str]:
     if intake.is_file():
         data = load_json(intake)
         if data.get("closure_status") != "OPEN_EXTERNAL_ARTIFACTS_REQUIRED":
-            errors.append("external_closure_intake.json: closure_status must remain OPEN_EXTERNAL_ARTIFACTS_REQUIRED until external summaries exist")
+            errors.append("external_closure_intake.json: closure_status must remain OPEN_EXTERNAL_ARTIFACTS_REQUIRED until all external summaries are accepted")
         records = data.get("records")
         if isinstance(records, list):
             statuses = {str(row.get("id")): row.get("completion_status") for row in records if isinstance(row, dict)}
             for item_id in EXPECTED_EXTERNAL_ITEMS:
-                if statuses.get(item_id) != "OPEN_NO_EXTERNAL_SUMMARY":
-                    errors.append(f"external_closure_intake.json: {item_id} must remain OPEN_NO_EXTERNAL_SUMMARY")
+                if statuses.get(item_id) != EXPECTED_EXTERNAL_STATUSES[item_id]:
+                    errors.append(f"external_closure_intake.json: {item_id} must be {EXPECTED_EXTERNAL_STATUSES[item_id]}")
     return errors
 
 
@@ -368,9 +384,18 @@ def write_artifact_fixtures(root: Path) -> None:
     for artifact, (schema, _) in EXPECTED_EVIDENCE_ARTIFACTS.items():
         payload: dict[str, Any] = {"schema": schema, "status": "PASS", "claim_boundary": {"real_malware_validation_claimed": False}}
         if artifact.endswith("external_closure_intake.json"):
+            payload["status"] = "FAIL"
             payload["closure_status"] = "OPEN_EXTERNAL_ARTIFACTS_REQUIRED"
+            payload["accepted_external_blocker_count"] = 3
+            payload["open_external_blocker_count"] = 0
+            payload["invalid_external_blocker_count"] = 1
+            payload["claim_boundary"] = {
+                "real_malware_validation_claimed": False,
+                "all_non_real_external_blockers_closed": False,
+                "unvalidated_external_summary_accepted": False,
+            }
             payload["records"] = [
-                {"id": item_id, "completion_status": "OPEN_NO_EXTERNAL_SUMMARY"}
+                {"id": item_id, "completion_status": EXPECTED_EXTERNAL_STATUSES[item_id]}
                 for item_id in EXPECTED_EXTERNAL_ITEMS
             ]
         write_json(root / artifact, payload)
@@ -404,8 +429,8 @@ def self_test() -> int:
             print("[FAIL] self-test missed stale TODO status", file=sys.stderr)
             return 1
 
-        doc.write_text(source_doc.replace("OPEN_EXTERNAL_ARTIFACTS_REQUIRED", "PASS", 1), encoding="utf-8")
-        if not any("OPEN_EXTERNAL_ARTIFACTS_REQUIRED" in error for error in check_doc(doc)):
+        doc.write_text(source_doc.replace("EXTERNAL_SUMMARY_PRESENT_INVALID", "EXTERNAL_SUMMARY_ACCEPTED", 1), encoding="utf-8")
+        if not any("EXTERNAL_SUMMARY_PRESENT_INVALID" in error for error in check_doc(doc)):
             print("[FAIL] self-test missed external blocker overclosure", file=sys.stderr)
             return 1
 

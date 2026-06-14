@@ -115,6 +115,24 @@ def require(errors: list[str], condition: bool, message: str) -> None:
         errors.append(message)
 
 
+def external_intake_failure_is_truthful(data: dict[str, Any]) -> bool:
+    if data.get("schema") != "rvmt.genesys2.external_closure_intake.v1":
+        return False
+    boundary = data.get("claim_boundary") if isinstance(data.get("claim_boundary"), dict) else {}
+    return (
+        data.get("status") == "FAIL"
+        and int(data.get("invalid_external_blocker_count") or 0) > 0
+        and boundary.get("unvalidated_external_summary_accepted") is False
+        and boundary.get("all_non_real_external_blockers_closed") is False
+    )
+
+
+def status_allowed(filename: str, data: dict[str, Any]) -> bool:
+    if data.get("status") == "PASS":
+        return True
+    return filename == "external_closure_intake.json" and external_intake_failure_is_truthful(data)
+
+
 def sha256_file(path: Path) -> str:
     import hashlib
 
@@ -163,7 +181,12 @@ def check_source_artifact_row(
     require(errors, row.get("exists") is True, f"{context}: exists flag must be true")
     require(errors, row.get("expected_schema") == expected_schema, f"{context}: expected schema mismatch")
     require(errors, row.get("schema") == expected_schema, f"{context}: source schema mismatch")
-    require(errors, row.get("status") == "PASS", f"{context}: source status must be PASS")
+    row_status = row.get("status")
+    allowed_status = row_status == "PASS"
+    if expected_schema == "rvmt.genesys2.external_closure_intake.v1" and row_status == "FAIL":
+        source_data = require_json_file(errors, root, row.get("path"), f"{context}.source_status") if row.get("path") else None
+        allowed_status = source_data is not None and external_intake_failure_is_truthful(source_data)
+    require(errors, allowed_status, f"{context}: source status mismatch")
     if expected_path is not None:
         require(errors, path_value == expected_path, f"{context}: source path mismatch")
     path = require_file(errors, root, path_value, context) if path_value else None
@@ -191,7 +214,7 @@ def load_summaries(errors: list[str], root: Path, current_root: Path) -> dict[st
             errors.append(f"{filename}: JSON load failed: {exc}")
             continue
         require(errors, data.get("schema") == schema, f"{filename}: schema must be {schema}")
-        require(errors, data.get("status") == "PASS", f"{filename}: status must be PASS")
+        require(errors, status_allowed(filename, data), f"{filename}: status must be PASS or a truthful external-intake FAIL")
         summaries[filename] = data
     return summaries
 
@@ -686,8 +709,9 @@ def check_external_closure_intake(errors: list[str], intake: dict[str, Any]) -> 
     require(errors, intake.get("accepted_external_blocker_count") == accepted, "external closure intake accepted count mismatch")
     require(errors, intake.get("open_external_blocker_count") == open_count, "external closure intake open count mismatch")
     require(errors, intake.get("invalid_external_blocker_count") == invalid, "external closure intake invalid count mismatch")
-    require(errors, invalid == 0, "external closure intake must not carry invalid external summaries")
-    if open_count:
+    expected_status = "FAIL" if invalid else "PASS"
+    require(errors, intake.get("status") == expected_status, "external closure intake status/count mismatch")
+    if open_count or invalid:
         require(errors, intake.get("closure_status") == "OPEN_EXTERNAL_ARTIFACTS_REQUIRED", "external closure intake must remain open while summaries are absent")
     commands = " ".join(str(item) for item in as_list(intake.get("validation_commands")))
     require(errors, "tools/check_genesys2_external_closure_intake.py --root ." in commands, "external closure intake validation command missing")
@@ -813,6 +837,7 @@ def check_external_closure_preflight(errors: list[str], root: Path, preflight: d
     extra = sorted(set(records) - set(expected_paths))
     require(errors, not missing, f"external closure preflight missing records: {', '.join(missing)}")
     require(errors, not extra, f"external closure preflight unexpected records: {', '.join(extra)}")
+    preflight_open = preflight_accepted = preflight_invalid = 0
     for record_id, path_value in expected_paths.items():
         record = records.get(record_id, {})
         require(errors, record.get("status") == "PASS_LOCAL_PREFLIGHT_EXTERNAL_OPEN", f"{record_id}: preflight status mismatch")
@@ -820,10 +845,23 @@ def check_external_closure_preflight(errors: list[str], root: Path, preflight: d
         require(errors, record.get("local_preflight_ready") is True, f"{record_id}: local preflight must be ready")
         require(errors, record.get("tool_entrypoints_ready") is True, f"{record_id}: tool entrypoints must be ready")
         require(errors, record.get("schema_path_ready") is True, f"{record_id}: schema path must be ready")
-        require(errors, record.get("external_execution_still_required") is True, f"{record_id}: external execution requirement missing")
-        require(errors, record.get("completion_status") == "OPEN_NO_EXTERNAL_SUMMARY", f"{record_id}: preflight completion status mismatch")
-        require(errors, record.get("external_summary_exists") is False, f"{record_id}: preflight must not have an external summary")
-        require(errors, record.get("current_blocker") is True, f"{record_id}: preflight blocker must remain open")
+        completion_status = record.get("completion_status")
+        if completion_status == "EXTERNAL_SUMMARY_ACCEPTED":
+            preflight_accepted += 1
+            require(errors, record.get("external_execution_still_required") is False, f"{record_id}: accepted summary should not require external execution")
+            require(errors, record.get("external_summary_exists") is True, f"{record_id}: accepted summary must exist")
+            require(errors, record.get("current_blocker") is False, f"{record_id}: accepted summary should clear blocker")
+        elif completion_status == "EXTERNAL_SUMMARY_PRESENT_INVALID":
+            preflight_invalid += 1
+            require(errors, record.get("external_execution_still_required") is True, f"{record_id}: invalid summary requires external correction")
+            require(errors, record.get("external_summary_exists") is True, f"{record_id}: invalid summary must be retained")
+            require(errors, record.get("current_blocker") is True, f"{record_id}: invalid summary remains blocked")
+        else:
+            preflight_open += 1
+            require(errors, completion_status == "OPEN_NO_EXTERNAL_SUMMARY", f"{record_id}: preflight completion status mismatch")
+            require(errors, record.get("external_execution_still_required") is True, f"{record_id}: external execution requirement missing")
+            require(errors, record.get("external_summary_exists") is False, f"{record_id}: preflight missing summary must be absent")
+            require(errors, record.get("current_blocker") is True, f"{record_id}: preflight blocker must remain open")
         require(errors, record.get("no_substitution_rule_present") is True, f"{record_id}: no-substitution rule missing")
         require(errors, int(record.get("operator_input_count") or 0) >= 3, f"{record_id}: operator inputs under-specified")
         require(errors, int(record.get("required_raw_artifact_count") or 0) >= 4, f"{record_id}: raw artifacts under-specified")
@@ -860,9 +898,9 @@ def check_external_closure_preflight(errors: list[str], root: Path, preflight: d
                     require(errors, command.get("script_exists") is False, f"{record_id}: {command_group}.{index} operator script_exists marker mismatch")
                     require(errors, command.get("dry_run_supported") == "NOT_REQUESTED", f"{record_id}: {command_group}.{index} operator dry-run marker mismatch")
                     require(errors, command.get("code_map_supported") == "NOT_REQUESTED", f"{record_id}: {command_group}.{index} operator code-map marker mismatch")
-    require(errors, preflight.get("open_external_blocker_count") == 4, "external closure preflight open count mismatch")
-    require(errors, preflight.get("accepted_external_blocker_count") == 0, "external closure preflight accepted count mismatch")
-    require(errors, preflight.get("invalid_external_blocker_count") == 0, "external closure preflight invalid count mismatch")
+    require(errors, preflight.get("open_external_blocker_count") == preflight_open, "external closure preflight open count mismatch")
+    require(errors, preflight.get("accepted_external_blocker_count") == preflight_accepted, "external closure preflight accepted count mismatch")
+    require(errors, preflight.get("invalid_external_blocker_count") == preflight_invalid, "external closure preflight invalid count mismatch")
     commands = " ".join(str(item) for item in as_list(preflight.get("validation_commands")))
     require(errors, "tools/package_genesys2_external_closure_preflight.py" in commands, "external closure preflight packager command missing")
     require(errors, "tools/check_genesys2_external_closure_preflight.py --root ." in commands, "external closure preflight validation command missing")
@@ -915,8 +953,7 @@ def check_external_operator_packet(errors: list[str], root: Path, packet: dict[s
     open_count = int(packet.get("open_external_blocker_count") or 0)
     invalid = int(packet.get("invalid_external_blocker_count") or 0)
     require(errors, accepted + open_count + invalid == len(expected), "external operator packet count mismatch")
-    require(errors, invalid == 0, "external operator packet must not carry invalid external summaries")
-    if open_count:
+    if open_count or invalid:
         require(errors, packet.get("closure_status") == "OPEN_EXTERNAL_ARTIFACTS_REQUIRED", "external operator packet must remain open while summaries are absent")
         require(errors, boundary.get("all_non_real_external_blockers_closed") is False, "external operator packet boundary must keep blockers open")
     sources = packet.get("source_artifacts") if isinstance(packet.get("source_artifacts"), dict) else {}
@@ -933,7 +970,11 @@ def check_external_operator_packet(errors: list[str], root: Path, packet: dict[s
         require(errors, row.get("exists") is True, f"external operator packet source must exist: {source_id}")
         require(errors, row.get("expected_schema") == expected_schema, f"external operator packet source expected schema mismatch: {source_id}")
         require(errors, row.get("schema") == expected_schema, f"external operator packet source schema mismatch: {source_id}")
-        require(errors, row.get("status") == "PASS", f"external operator packet source status mismatch: {source_id}")
+        allowed_status = row.get("status") == "PASS"
+        if source_id == "external_closure_intake" and row.get("status") == "FAIL":
+            source_data = require_json_file(errors, root, row.get("path"), f"external_operator_packet.{source_id}.source_status") if row.get("path") else None
+            allowed_status = source_data is not None and external_intake_failure_is_truthful(source_data)
+        require(errors, allowed_status, f"external operator packet source status mismatch: {source_id}")
         path_value = row.get("path")
         path = require_file(errors, root, path_value, f"external_operator_packet.{source_id}") if path_value else None
         if path is not None:
@@ -958,7 +999,7 @@ def check_external_operator_packet(errors: list[str], root: Path, packet: dict[s
     extra = sorted(set(records) - set(expected))
     require(errors, not missing, f"external operator packet missing records: {', '.join(missing)}")
     require(errors, not extra, f"external operator packet unexpected records: {', '.join(extra)}")
-    open_records = accepted_records = 0
+    open_records = accepted_records = invalid_records = 0
     for index, (record_id, expected_row) in enumerate(expected.items(), start=1):
         record = records.get(record_id, {})
         require(errors, record.get("order") == index, f"{record_id}: operator order mismatch")
@@ -975,6 +1016,10 @@ def check_external_operator_packet(errors: list[str], root: Path, packet: dict[s
         elif status == "EXTERNAL_SUMMARY_ACCEPTED":
             accepted_records += 1
             require(errors, record.get("completion_evidence_valid") is True, f"{record_id}: accepted record must be valid completion evidence")
+        elif status == "EXTERNAL_SUMMARY_PRESENT_INVALID":
+            invalid_records += 1
+            require(errors, record.get("completion_requires_external_state") is True, f"{record_id}: invalid record must require external correction")
+            require(errors, record.get("completion_evidence_valid") is False, f"{record_id}: invalid record must not be valid completion evidence")
         else:
             errors.append(f"{record_id}: unexpected operator intake status {status!r}")
         require(errors, record.get("plan_status") in {"READY_TO_EXECUTE_WITH_EXTERNAL_STATE", "EXTERNAL_SUMMARY_ACCEPTED", "NEEDS_EXTERNAL_SUMMARY_CORRECTION"}, f"{record_id}: operator plan status mismatch")
@@ -995,6 +1040,7 @@ def check_external_operator_packet(errors: list[str], root: Path, packet: dict[s
         require(errors, "completion_evidence_valid=true" in exits, f"{record_id}: operator exit criteria incomplete")
     require(errors, open_records == open_count, "external operator packet open record count mismatch")
     require(errors, accepted_records == accepted, "external operator packet accepted record count mismatch")
+    require(errors, invalid_records == invalid, "external operator packet invalid record count mismatch")
     commands = " ".join(str(item) for item in as_list(packet.get("validation_commands")))
     require(errors, "tools/check_genesys2_external_operator_packet.py --root ." in commands, "external operator packet validation command missing")
     require(errors, "tools/check_genesys2_external_closure_intake.py --root ." in commands, "external operator packet intake validation command missing")
@@ -1056,9 +1102,13 @@ def check_review_closure_audit(errors: list[str], root: Path, audit: dict[str, A
     summary = audit.get("summary") if isinstance(audit.get("summary"), dict) else {}
     require(errors, summary.get("local_items_evidence_present") is True, "review closure audit local evidence coverage missing")
     require(errors, summary.get("local_item_count") == 11, "review closure audit local item count mismatch")
-    require(errors, summary.get("open_external_item_count") == len(expected_external_ids), "review closure audit open external count mismatch")
+    accepted_ids = set(as_list(summary.get("accepted_external_ids")))
+    open_ids = set(as_list(summary.get("open_external_ids")))
+    require(errors, accepted_ids | open_ids == expected_external_ids, "review closure audit external ids coverage mismatch")
+    require(errors, accepted_ids.isdisjoint(open_ids), "review closure audit accepted/open ids overlap")
+    require(errors, int(summary.get("accepted_external_item_count") or 0) == len(accepted_ids), "review closure audit accepted external count mismatch")
+    require(errors, int(summary.get("open_external_item_count") or 0) == len(open_ids), "review closure audit open external count mismatch")
     require(errors, summary.get("excluded_item_count") == 1, "review closure audit excluded item count mismatch")
-    require(errors, set(as_list(summary.get("open_external_ids"))) == expected_external_ids, "review closure audit open external ids mismatch")
     require(errors, "real_malware_validation" in as_list(summary.get("objective_exclusions")), "review closure audit real-malware exclusion missing")
     boundary = audit.get("claim_boundary") if isinstance(audit.get("claim_boundary"), dict) else {}
     for key in (
@@ -1082,7 +1132,7 @@ def check_review_closure_audit(errors: list[str], root: Path, audit: dict[str, A
         if isinstance(row, dict) and row.get("id")
     }
     require(errors, len(items) == 16, "review closure audit item count mismatch")
-    external_items = [row for row in items.values() if row.get("status") == "OPEN_EXTERNAL_ARTIFACTS_REQUIRED"]
+    external_items = [row for row in items.values() if row.get("status") in {"OPEN_EXTERNAL_ARTIFACTS_REQUIRED", "EXTERNAL_SUMMARY_ACCEPTED"}]
     require(errors, len(external_items) == len(expected_external_ids), "review closure audit external item count mismatch")
     excluded = [row for row in items.values() if row.get("status") == "EXCLUDED_BY_OBJECTIVE"]
     require(errors, len(excluded) == 1 and excluded[0].get("id") == "phase_g_real_malware_validation", "review closure audit excluded item mismatch")
@@ -1103,20 +1153,22 @@ def check_review_closure_audit(errors: list[str], root: Path, audit: dict[str, A
             require(errors, isinstance(evidence.get("status"), str) and bool(evidence.get("status")), f"{item_id}: review closure audit evidence status marker missing: {evidence.get('id')}")
             if str(item.get("status") or "").startswith("PASS"):
                 require(errors, evidence.get("status") in {"NOT_APPLICABLE", "PASS"}, f"{item_id}: review closure audit evidence status mismatch: {evidence.get('id')}")
-        if item.get("status") != "OPEN_EXTERNAL_ARTIFACTS_REQUIRED":
+        if item.get("status") not in {"OPEN_EXTERNAL_ARTIFACTS_REQUIRED", "EXTERNAL_SUMMARY_ACCEPTED"}:
             continue
         external_id = str(item.get("external_id") or "")
         require(errors, external_id in expected_external_ids, f"{item_id}: review closure audit unexpected external id")
         state = item.get("external_state") if isinstance(item.get("external_state"), dict) else {}
         live = intake_records.get(external_id, {})
-        require(errors, state.get("completion_status") == "OPEN_NO_EXTERNAL_SUMMARY", f"{external_id}: review closure audit state must remain open")
         require(errors, live.get("completion_status") == state.get("completion_status"), f"{external_id}: review closure audit live intake status mismatch")
-        require(errors, state.get("external_summary_exists") is False, f"{external_id}: review closure audit summary must be absent")
-        require(errors, live.get("external_summary_exists") is False, f"{external_id}: review closure audit live summary must be absent")
-        require(errors, state.get("completion_evidence_valid") is False, f"{external_id}: review closure audit evidence validity must be false while open")
-        summary_path = state.get("external_summary_path")
-        if summary_path:
-            require(errors, not rel_or_abs(root, summary_path).exists(), f"{external_id}: review closure audit open summary path must not exist")
+        if item.get("status") == "EXTERNAL_SUMMARY_ACCEPTED":
+            require(errors, state.get("completion_status") == "EXTERNAL_SUMMARY_ACCEPTED", f"{external_id}: review closure audit accepted status mismatch")
+            require(errors, state.get("external_summary_exists") is True, f"{external_id}: review closure audit accepted summary must exist")
+            require(errors, state.get("completion_evidence_valid") is True, f"{external_id}: review closure audit accepted evidence validity mismatch")
+            require(errors, state.get("current_blocker") is False, f"{external_id}: review closure audit accepted blocker mismatch")
+        else:
+            require(errors, state.get("completion_status") in {"OPEN_NO_EXTERNAL_SUMMARY", "EXTERNAL_SUMMARY_PRESENT_INVALID"}, f"{external_id}: review closure audit state must remain blocked")
+            require(errors, state.get("completion_evidence_valid") is False, f"{external_id}: review closure audit evidence validity must be false while blocked")
+            require(errors, state.get("current_blocker") is True, f"{external_id}: review closure audit blocked item must remain blocker")
     commands = " ".join(str(item) for item in as_list(audit.get("validation_commands")))
     require(errors, "tools/check_genesys2_review_closure_audit.py --root ." in commands, "review closure audit checker command missing")
     report = root / "docs/07-evaluation-evidence/reports/ccfa_review_closure_audit.md"

@@ -53,7 +53,7 @@
     "network_default": "disabled",
     "redaction_policy": "raw pointer payloads are either absent or retained only in local BRAM/ILA artifacts; published summaries expose bounded byte counts and sanitized metadata"
   },
-  "safe_surrogate_bram_run_root": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings",
+  "safe_surrogate_bram_run_root": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram",
   "safe_surrogate_run_root": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610",
   "samples": [
     {

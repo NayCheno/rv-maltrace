@@ -9,6 +9,9 @@ module rvmt_genesys2_oled_status #(
     input  wire       rst_n,
     input  wire [2:0] phase,
     input  wire       manual_mode,
+    input  wire [9:0] temperature_celsius,
+    input  wire       temperature_valid,
+    input  wire [3:0] fan_pwm_setting,
     output logic      oled_dc,
     output logic      oled_res,
     output wire       oled_sclk,
@@ -27,7 +30,6 @@ module rvmt_genesys2_oled_status #(
     localparam logic [127:0] HEADER_TEXT = "RVMT GENESYS2   ";
     localparam logic [127:0] MODE_AUTO_TEXT = "AUTO HW STATUS  ";
     localparam logic [127:0] MODE_MANUAL_TEXT = "MANUAL SW2:0    ";
-    localparam logic [127:0] FOOTER_TEXT = "CVA6 TRACE      ";
     localparam logic [127:0] PHASE_RESET_TEXT = "RESET           ";
     localparam logic [127:0] PHASE_BOOTING_TEXT = "BOOTING         ";
     localparam logic [127:0] PHASE_LINUX_BOOT_TEXT = "LINUX BOOT      ";
@@ -60,8 +62,14 @@ module rvmt_genesys2_oled_status #(
     logic        frame_clear;
     logic [2:0]  frame_phase;
     logic        frame_manual;
+    logic [9:0]  frame_temperature_celsius;
+    logic        frame_temperature_valid;
+    logic [3:0]  frame_fan_pwm_setting;
     logic [2:0]  rendered_phase;
     logic        rendered_manual;
+    logic [9:0]  rendered_temperature_celsius;
+    logic        rendered_temperature_valid;
+    logic [3:0]  rendered_fan_pwm_setting;
 
     logic        spi_start;
     logic [7:0]  spi_data;
@@ -165,11 +173,51 @@ module rvmt_genesys2_oled_status #(
         end
     endfunction
 
+    function automatic [7:0] digit_char(input logic [3:0] digit);
+        begin
+            digit_char = 8'h30 + {4'd0, digit};
+        end
+    endfunction
+
+    function automatic [7:0] temperature_status_char(
+        input [4:0] pos,
+        input logic [9:0] temp_c_i,
+        input logic temp_valid_i,
+        input logic [3:0] fan_i
+    );
+        logic [9:0] temp_clamped;
+        begin
+            temp_clamped = temp_c_i > 10'd999 ? 10'd999 : temp_c_i;
+            temperature_status_char = " ";
+            unique case (pos)
+                5'd0:  temperature_status_char = "T";
+                5'd1:  temperature_status_char = "M";
+                5'd2:  temperature_status_char = "P";
+                5'd3:  temperature_status_char = " ";
+                5'd4:  temperature_status_char = temp_valid_i ? digit_char((temp_clamped / 10'd100) % 10'd10) : "-";
+                5'd5:  temperature_status_char = temp_valid_i ? digit_char((temp_clamped / 10'd10) % 10'd10) : "-";
+                5'd6:  temperature_status_char = temp_valid_i ? digit_char(temp_clamped % 10'd10) : "-";
+                5'd7:  temperature_status_char = "C";
+                5'd8:  temperature_status_char = " ";
+                5'd9:  temperature_status_char = "F";
+                5'd10: temperature_status_char = "A";
+                5'd11: temperature_status_char = "N";
+                5'd12: temperature_status_char = " ";
+                5'd13: temperature_status_char = digit_char(({6'd0, fan_i} / 10'd10) % 10'd10);
+                5'd14: temperature_status_char = digit_char({6'd0, fan_i} % 10'd10);
+                default: temperature_status_char = " ";
+            endcase
+        end
+    endfunction
+
     function automatic [7:0] line_char(
         input [1:0] row,
         input [4:0] pos,
         input [2:0] phase_i,
-        input manual_i
+        input manual_i,
+        input [9:0] temp_c_i,
+        input temp_valid_i,
+        input [3:0] fan_i
     );
         begin
             line_char = " ";
@@ -183,8 +231,8 @@ module rvmt_genesys2_oled_status #(
                         default: line_char = text16_char(phase_text(phase_i), pos - 5'd3);
                     endcase
                 end
-                2'd2: line_char = text16_char(manual_i ? MODE_MANUAL_TEXT : MODE_AUTO_TEXT, pos);
-                2'd3: line_char = text16_char(FOOTER_TEXT, pos);
+                2'd2: line_char = temperature_status_char(pos, temp_c_i, temp_valid_i, fan_i);
+                2'd3: line_char = text16_char(manual_i ? MODE_MANUAL_TEXT : MODE_AUTO_TEXT, pos);
             endcase
         end
     endfunction
@@ -193,6 +241,9 @@ module rvmt_genesys2_oled_status #(
         input [8:0] index,
         input [2:0] phase_i,
         input manual_i,
+        input [9:0] temp_c_i,
+        input temp_valid_i,
+        input [3:0] fan_i,
         input clear_i
     );
         logic [1:0] row;
@@ -211,7 +262,7 @@ module rvmt_genesys2_oled_status #(
                 end else begin
                     char_pos = col / 7'd6;
                     glyph_col = col % 7'd6;
-                    ch = line_char(row, char_pos, phase_i, manual_i);
+                    ch = line_char(row, char_pos, phase_i, manual_i, temp_c_i, temp_valid_i, fan_i);
                     frame_data = (glyph_col == 3'd5) ? 8'h00 : font5x7(ch, glyph_col);
                 end
             end
@@ -278,8 +329,14 @@ module rvmt_genesys2_oled_status #(
             frame_clear <= 1'b1;
             frame_phase <= 3'd0;
             frame_manual <= 1'b0;
+            frame_temperature_celsius <= 10'd0;
+            frame_temperature_valid <= 1'b0;
+            frame_fan_pwm_setting <= 4'd0;
             rendered_phase <= 3'd7;
             rendered_manual <= 1'b1;
+            rendered_temperature_celsius <= 10'd0;
+            rendered_temperature_valid <= 1'b0;
+            rendered_fan_pwm_setting <= 4'd0;
             oled_dc <= 1'b0;
             oled_res <= 1'b1;
             oled_vbat <= 1'b1;
@@ -351,6 +408,9 @@ module rvmt_genesys2_oled_status #(
                         frame_clear <= 1'b1;
                         frame_phase <= phase;
                         frame_manual <= manual_mode;
+                        frame_temperature_celsius <= temperature_celsius;
+                        frame_temperature_valid <= temperature_valid;
+                        frame_fan_pwm_setting <= fan_pwm_setting;
                         addr_index <= 3'd0;
                         state <= S_ADDR_START;
                     end else begin
@@ -382,7 +442,15 @@ module rvmt_genesys2_oled_status #(
                 S_DATA_START: begin
                     if (!spi_busy) begin
                         oled_dc <= 1'b1;
-                        spi_data <= frame_data(frame_index, frame_phase, frame_manual, frame_clear);
+                        spi_data <= frame_data(
+                            frame_index,
+                            frame_phase,
+                            frame_manual,
+                            frame_temperature_celsius,
+                            frame_temperature_valid,
+                            frame_fan_pwm_setting,
+                            frame_clear
+                        );
                         spi_start <= 1'b1;
                         state <= S_DATA_WAIT;
                     end
@@ -396,6 +464,9 @@ module rvmt_genesys2_oled_status #(
                             end else begin
                                 rendered_phase <= frame_phase;
                                 rendered_manual <= frame_manual;
+                                rendered_temperature_celsius <= frame_temperature_celsius;
+                                rendered_temperature_valid <= frame_temperature_valid;
+                                rendered_fan_pwm_setting <= frame_fan_pwm_setting;
                                 refresh_count <= 32'd0;
                                 ready <= 1'b1;
                                 state <= S_REFRESH_WAIT;
@@ -421,6 +492,9 @@ module rvmt_genesys2_oled_status #(
                         frame_clear <= 1'b0;
                         frame_phase <= phase;
                         frame_manual <= manual_mode;
+                        frame_temperature_celsius <= temperature_celsius;
+                        frame_temperature_valid <= temperature_valid;
+                        frame_fan_pwm_setting <= fan_pwm_setting;
                         addr_index <= 3'd0;
                         state <= S_ADDR_START;
                     end
@@ -429,11 +503,17 @@ module rvmt_genesys2_oled_status #(
                 S_REFRESH_WAIT: begin
                     if ((phase != rendered_phase) ||
                         (manual_mode != rendered_manual) ||
+                        (temperature_celsius != rendered_temperature_celsius) ||
+                        (temperature_valid != rendered_temperature_valid) ||
+                        (fan_pwm_setting != rendered_fan_pwm_setting) ||
                         (refresh_count == REFRESH_CYCLES - 1)) begin
                         refresh_count <= 32'd0;
                         frame_clear <= 1'b0;
                         frame_phase <= phase;
                         frame_manual <= manual_mode;
+                        frame_temperature_celsius <= temperature_celsius;
+                        frame_temperature_valid <= temperature_valid;
+                        frame_fan_pwm_setting <= fan_pwm_setting;
                         addr_index <= 3'd0;
                         state <= S_ADDR_START;
                     end else begin

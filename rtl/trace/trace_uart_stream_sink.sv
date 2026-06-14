@@ -21,15 +21,18 @@ module trace_uart_stream_sink
 
   localparam int unsigned RECORD_BITS = 136;
   localparam int unsigned RECORD_BYTES = 17;
+  localparam int unsigned DATA_RECORDS_PER_FRAME = 15;
+  localparam int unsigned DATA_PAYLOAD_BYTES = DATA_RECORDS_PER_FRAME * RECORD_BYTES;
   localparam int unsigned STATUS_BITS = 192;
   localparam int unsigned STATUS_BYTES = 24;
   localparam int unsigned HEADER_BYTES = 10;
   localparam int unsigned CRC_BYTES = 2;
-  localparam int unsigned MAX_PAYLOAD_BYTES = STATUS_BYTES;
+  localparam int unsigned MAX_PAYLOAD_BYTES = DATA_PAYLOAD_BYTES;
   localparam int unsigned FRAME_BYTES = HEADER_BYTES + MAX_PAYLOAD_BYTES + CRC_BYTES;
   localparam logic [32:0] BAUD_STEP = BAUD;
   localparam logic [32:0] CLK_HZ_LIMIT = CLK_HZ;
   localparam logic [FIFO_ADDR_WIDTH:0] FIFO_DEPTH_COUNT = FIFO_DEPTH;
+  localparam logic [FIFO_ADDR_WIDTH:0] DATA_RECORDS_PER_FRAME_COUNT = DATA_RECORDS_PER_FRAME;
 
   typedef enum logic [2:0] {
     ST_IDLE,
@@ -51,16 +54,18 @@ module trace_uart_stream_sink
   logic done_q;
 
   stream_state_e stream_state_q;
-  trace_compact_record_t current_record_q;
   logic [31:0] current_seq_q;
   logic current_status_frame_q;
   logic [7:0] current_frame_type_q;
   logic [7:0] current_payload_len_q;
   logic [STATUS_BITS-1:0] current_status_payload_q;
+  logic start_pending_q;
   logic status_pending_q;
-  logic [7:0] byte_q;
   logic [7:0] header_index_q;
   logic [7:0] payload_index_q;
+  logic [3:0] payload_record_index_q;
+  logic [4:0] payload_record_byte_index_q;
+  logic [3:0] current_record_count_q;
   logic [15:0] crc_q;
 
   logic uart_busy_q;
@@ -75,11 +80,14 @@ module trace_uart_stream_sink
   logic marker_begin;
   logic marker_end;
   logic accept_trace;
-  logic fifo_full;
+  logic push_trace;
+  logic fifo_full_after_pop;
   logic fifo_empty;
-  logic pop_record;
+  logic [FIFO_ADDR_WIDTH:0] fifo_count_after_pop;
+  logic [FIFO_ADDR_WIDTH:0] pop_count;
   logic byte_valid;
   logic [7:0] byte_next;
+  logic [FIFO_ADDR_WIDTH-1:0] payload_rd_ptr;
 
   assign marker_begin = trace_valid_i &&
                         trace_packet_i.valid &&
@@ -90,9 +98,12 @@ module trace_uart_stream_sink
                       trace_packet_i.evt == EVT_MARKER &&
                       trace_packet_i.value[31:28] == 4'he;
   assign accept_trace = trace_valid_i && trace_packet_i.valid && in_window_q;
-  assign fifo_full = fifo_count_q == FIFO_DEPTH_COUNT;
+  assign fifo_count_after_pop = (fifo_count_q >= pop_count) ? (fifo_count_q - pop_count) : '0;
+  assign fifo_full_after_pop = fifo_count_after_pop == FIFO_DEPTH_COUNT;
+  assign push_trace = accept_trace && !fifo_full_after_pop;
   assign fifo_empty = fifo_count_q == '0;
-  assign active_o = in_window_q || drain_q || status_pending_q || !fifo_empty || stream_state_q != ST_IDLE || uart_busy_q;
+  assign active_o = in_window_q || drain_q || start_pending_q || status_pending_q || !fifo_empty ||
+                    stream_state_q != ST_IDLE || uart_busy_q;
   assign done_o = done_q;
   assign tx_o = uart_busy_q ? uart_shift_q[0] : 1'b1;
   assign accepted_count_o = accepted_count_q;
@@ -101,6 +112,7 @@ module trace_uart_stream_sink
   assign baud_tick = baud_sum >= CLK_HZ_LIMIT;
   assign baud_sub = baud_sum - CLK_HZ_LIMIT;
   assign baud_accum_next = baud_tick ? baud_sub[31:0] : baud_sum[31:0];
+  assign payload_rd_ptr = rd_ptr_q + payload_record_index_q;
 
   function automatic logic [31:0] compact_primary(input trace_packet_t packet);
     compact_primary = trace_packet_primary32(packet);
@@ -175,8 +187,11 @@ module trace_uart_stream_sink
       end
       ST_PAYLOAD: begin
         byte_valid = 1'b1;
-        byte_next = current_status_frame_q ? status_byte(current_status_payload_q, payload_index_q) :
-                                            record_byte(current_record_q, payload_index_q);
+        if (current_status_frame_q) begin
+          byte_next = status_byte(current_status_payload_q, payload_index_q);
+        end else begin
+          byte_next = record_byte(fifo_q[payload_rd_ptr], payload_record_byte_index_q);
+        end
       end
       ST_CRC0: begin
         byte_valid = 1'b1;
@@ -214,28 +229,28 @@ module trace_uart_stream_sink
         wr_ptr_q <= '0;
         rd_ptr_q <= '0;
         fifo_count_q <= '0;
-      end
-
-      if (accept_trace) begin
-        if (!fifo_full) begin
-          fifo_q[wr_ptr_q] <= trace_compact_record(trace_packet_i, seq_q);
-          wr_ptr_q <= wr_ptr_q + 1'b1;
-          fifo_count_q <= fifo_count_q + 1'b1;
-          accepted_count_q <= accepted_count_q + 64'd1;
-        end else begin
-          dropped_count_q <= dropped_count_q + 64'd1;
+      end else begin
+        if (accept_trace) begin
+          if (push_trace) begin
+            fifo_q[wr_ptr_q] <= trace_compact_record(trace_packet_i, seq_q);
+            wr_ptr_q <= wr_ptr_q + 1'b1;
+            accepted_count_q <= accepted_count_q + 64'd1;
+          end else begin
+            dropped_count_q <= dropped_count_q + 64'd1;
+          end
+          seq_q <= seq_q + 32'd1;
         end
-        seq_q <= seq_q + 32'd1;
-      end
 
-      if (marker_end) begin
-        in_window_q <= 1'b0;
-        drain_q <= 1'b1;
-      end
+        if (marker_end) begin
+          in_window_q <= 1'b0;
+          drain_q <= 1'b1;
+        end
 
-      if (pop_record && !fifo_empty) begin
-        rd_ptr_q <= rd_ptr_q + 1'b1;
-        fifo_count_q <= fifo_count_q - 1'b1;
+        if (pop_count != '0) begin
+          rd_ptr_q <= rd_ptr_q + pop_count[FIFO_ADDR_WIDTH-1:0];
+        end
+
+        fifo_count_q <= fifo_count_after_pop + {{FIFO_ADDR_WIDTH{1'b0}}, push_trace};
       end
 
       if (drain_q && fifo_empty && !status_pending_q && stream_state_q == ST_IDLE && !uart_busy_q) begin
@@ -248,20 +263,24 @@ module trace_uart_stream_sink
   always_ff @(posedge clk_i or negedge rst_ni) begin
     if (!rst_ni) begin
       stream_state_q <= ST_IDLE;
-      current_record_q <= '0;
       current_seq_q <= 32'd0;
       current_status_frame_q <= 1'b0;
       current_frame_type_q <= 8'h01;
       current_payload_len_q <= RECORD_BYTES[7:0];
       current_status_payload_q <= '0;
+      start_pending_q <= 1'b0;
       status_pending_q <= 1'b0;
       header_index_q <= 8'd0;
       payload_index_q <= 8'd0;
+      payload_record_index_q <= 4'd0;
+      payload_record_byte_index_q <= 5'd0;
+      current_record_count_q <= 4'd0;
       crc_q <= 16'hffff;
-      pop_record <= 1'b0;
+      pop_count <= '0;
     end else begin
-      pop_record <= 1'b0;
+      pop_count <= '0;
       if (marker_begin) begin
+        start_pending_q <= 1'b1;
         status_pending_q <= 1'b0;
       end else if (marker_end) begin
         status_pending_q <= 1'b1;
@@ -269,19 +288,38 @@ module trace_uart_stream_sink
       if (!uart_busy_q) begin
         unique case (stream_state_q)
           ST_IDLE: begin
-            if (!fifo_empty) begin
-              current_record_q <= fifo_q[rd_ptr_q];
+            if (start_pending_q) begin
+              current_seq_q <= 32'd0;
+              current_status_frame_q <= 1'b0;
+              current_frame_type_q <= 8'h7e;
+              current_payload_len_q <= 8'd0;
+              current_record_count_q <= 4'd0;
+              header_index_q <= 8'd0;
+              payload_index_q <= 8'd0;
+              payload_record_index_q <= 4'd0;
+              payload_record_byte_index_q <= 5'd0;
+              crc_q <= 16'hffff;
+              start_pending_q <= 1'b0;
+              stream_state_q <= ST_HEADER;
+            end else if (!fifo_empty &&
+                         (fifo_count_q >= DATA_RECORDS_PER_FRAME_COUNT || drain_q)) begin
               current_seq_q <= fifo_q[rd_ptr_q].seq;
               current_status_frame_q <= 1'b0;
               current_frame_type_q <= 8'h01;
-              current_payload_len_q <= RECORD_BYTES[7:0];
+              if (fifo_count_q >= DATA_RECORDS_PER_FRAME_COUNT) begin
+                current_record_count_q <= DATA_RECORDS_PER_FRAME;
+                current_payload_len_q <= DATA_PAYLOAD_BYTES;
+              end else begin
+                current_record_count_q <= fifo_count_q[3:0];
+                current_payload_len_q <= fifo_count_q * RECORD_BYTES;
+              end
               header_index_q <= 8'd0;
               payload_index_q <= 8'd0;
+              payload_record_index_q <= 4'd0;
+              payload_record_byte_index_q <= 5'd0;
               crc_q <= 16'hffff;
               stream_state_q <= ST_HEADER;
-              pop_record <= 1'b1;
             end else if (status_pending_q && drain_q) begin
-              current_record_q <= '0;
               current_seq_q <= seq_q;
               current_status_frame_q <= 1'b1;
               current_frame_type_q <= 8'h7f;
@@ -295,6 +333,9 @@ module trace_uart_stream_sink
               };
               header_index_q <= 8'd0;
               payload_index_q <= 8'd0;
+              payload_record_index_q <= 4'd0;
+              payload_record_byte_index_q <= 5'd0;
+              current_record_count_q <= 4'd0;
               crc_q <= 16'hffff;
               status_pending_q <= 1'b0;
               stream_state_q <= ST_HEADER;
@@ -304,7 +345,11 @@ module trace_uart_stream_sink
             crc_q <= crc16_update(crc_q, byte_next);
             if (header_index_q == HEADER_BYTES - 1) begin
               header_index_q <= 8'd0;
-              stream_state_q <= ST_PAYLOAD;
+              if (current_payload_len_q == 8'd0) begin
+                stream_state_q <= ST_CRC0;
+              end else begin
+                stream_state_q <= ST_PAYLOAD;
+              end
             end else begin
               header_index_q <= header_index_q + 8'd1;
             end
@@ -313,9 +358,20 @@ module trace_uart_stream_sink
             crc_q <= crc16_update(crc_q, byte_next);
             if (payload_index_q == current_payload_len_q - 1) begin
               payload_index_q <= 8'd0;
+              if (!current_status_frame_q && current_frame_type_q == 8'h01) begin
+                pop_count <= current_record_count_q;
+              end
               stream_state_q <= ST_CRC0;
             end else begin
               payload_index_q <= payload_index_q + 8'd1;
+              if (!current_status_frame_q && current_frame_type_q == 8'h01) begin
+                if (payload_record_byte_index_q == RECORD_BYTES - 1) begin
+                  payload_record_byte_index_q <= 5'd0;
+                  payload_record_index_q <= payload_record_index_q + 4'd1;
+                end else begin
+                  payload_record_byte_index_q <= payload_record_byte_index_q + 5'd1;
+                end
+              end
             end
           end
           ST_CRC0: begin

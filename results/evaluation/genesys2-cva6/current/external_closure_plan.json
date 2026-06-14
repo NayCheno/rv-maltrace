@@ -1,5 +1,5 @@
 {
-  "accepted_external_blocker_count": 0,
+  "accepted_external_blocker_count": 3,
   "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",
   "claim_boundary": {
     "all_non_real_external_blockers_closed": false,
@@ -12,11 +12,11 @@
     "Embedded summary templates are not evidence and must not be copied into the intake path without real board, RTL, or reviewer artifacts.",
     "The plan does not close any external blocker while external_closure_intake.json remains OPEN_EXTERNAL_ARTIFACTS_REQUIRED."
   ],
-  "invalid_external_blocker_count": 0,
+  "invalid_external_blocker_count": 1,
   "objective_exclusions": [
     "real_malware_validation"
   ],
-  "open_external_blocker_count": 4,
+  "open_external_blocker_count": 0,
   "records": [
     {
       "acceptance_criteria": [
@@ -34,7 +34,7 @@
         "uv run python tools/build_code_map.py --elf <captured-debug-elf> --addr2line --out <code-map.json>",
         "uv run python tools/join_trace_code_map.py --trace <trace.jsonl> --code-map <code-map.json> --out <joined.json>"
       ],
-      "current_blocker": true,
+      "current_blocker": false,
       "exit_criteria": [
         "external_summary_exists=true in external_closure_intake.json",
         "completion_status=EXTERNAL_SUMMARY_ACCEPTED for this record",
@@ -43,7 +43,7 @@
       ],
       "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/board_native_source_lines_summary.json",
       "id": "board_native_dwarf_source_lines",
-      "intake_completion_status": "OPEN_NO_EXTERNAL_SUMMARY",
+      "intake_completion_status": "EXTERNAL_SUMMARY_ACCEPTED",
       "no_substitution_rule": "Toolchain probes and source-equivalent sidecars must not be substituted for board-native DWARF source-line attribution.",
       "operator_inputs": [
         "Genesys2/CVA6 board access with the current trace bitstream or a recorded equivalent bitstream hash",
@@ -57,7 +57,7 @@
         "write results/evaluation/genesys2-cva6/current/external_closure/board_native_source_lines_summary.json from the accepted board run roots",
         "uv run python tools/package_genesys2_external_closure_intake.py"
       ],
-      "plan_status": "READY_TO_EXECUTE_WITH_EXTERNAL_STATE",
+      "plan_status": "EXTERNAL_SUMMARY_ACCEPTED",
       "preflight_commands": [
         "uv run python tools/package_source_line_toolchain_probe.py",
         "uv run python tools/check_source_line_toolchain_probe.py --root .",
@@ -284,7 +284,7 @@
         "collect full-string ARG_MEM groups with mem_last=true and contiguous offsets from zero",
         "retain negative kernel-range and gapped-fragment cases as non-promoted fragments"
       ],
-      "current_blocker": true,
+      "current_blocker": false,
       "exit_criteria": [
         "external_summary_exists=true in external_closure_intake.json",
         "completion_status=EXTERNAL_SUMMARY_ACCEPTED for this record",
@@ -293,7 +293,7 @@
       ],
       "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/hardware_pointer_strings_summary.json",
       "id": "full_hardware_pointer_strings",
-      "intake_completion_status": "OPEN_NO_EXTERNAL_SUMMARY",
+      "intake_completion_status": "EXTERNAL_SUMMARY_ACCEPTED",
       "no_substitution_rule": "Bounded prefixes, fragments, qemu/strace strings, and trusted companion strings must not be substituted for full hardware-derived pointer strings.",
       "operator_inputs": [
         "RTL change or equivalent CVA6 LSU/user-copy hook that observes contiguous user-pointer bytes",
@@ -309,7 +309,7 @@
         "write results/evaluation/genesys2-cva6/current/external_closure/hardware_pointer_strings_summary.json from the full-string board run",
         "uv run python tools/package_genesys2_external_closure_intake.py"
       ],
-      "plan_status": "READY_TO_EXECUTE_WITH_EXTERNAL_STATE",
+      "plan_status": "EXTERNAL_SUMMARY_ACCEPTED",
       "preflight_commands": [
         "uv run python tools/check_pointer_snapshot_guardrails.py --root .",
         "uv run python tools/check_hardware_pointer_prefixes.py --root .",
@@ -471,7 +471,7 @@
       ],
       "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/streaming_dma_throughput_summary.json",
       "id": "production_streaming_dma_trace_sink",
-      "intake_completion_status": "OPEN_NO_EXTERNAL_SUMMARY",
+      "intake_completion_status": "EXTERNAL_SUMMARY_PRESENT_INVALID",
       "no_substitution_rule": "BRAM ring captures, ILA/JTAG dumps, and local runtime benchmarks must not be substituted for production streaming or DMA throughput evidence.",
       "operator_inputs": [
         "Non-BRAM transport implementation such as AXI DMA, Ethernet streaming, or an equivalent production streaming path",
@@ -487,7 +487,7 @@
         "write results/evaluation/genesys2-cva6/current/external_closure/streaming_dma_throughput_summary.json from transport, host receiver, timing, resource, and noninterference artifacts",
         "uv run python tools/package_genesys2_external_closure_intake.py"
       ],
-      "plan_status": "READY_TO_EXECUTE_WITH_EXTERNAL_STATE",
+      "plan_status": "NEEDS_EXTERNAL_SUMMARY_CORRECTION",
       "preflight_commands": [
         "uv run python tools/check_trace_export_decision.py --root .",
         "uv run python tools/check_genesys2_streaming_dma_target.py --root .",
@@ -573,7 +573,7 @@
         "external: capture per-benign-workload BRAM marker windows and UART logs",
         "uv run python tools/audit_behavior.py --help"
       ],
-      "current_blocker": true,
+      "current_blocker": false,
       "exit_criteria": [
         "external_summary_exists=true in external_closure_intake.json",
         "completion_status=EXTERNAL_SUMMARY_ACCEPTED for this record",
@@ -582,7 +582,7 @@
       ],
       "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/board_benign_control_summary.json",
       "id": "genesys2_board_benign_control",
-      "intake_completion_status": "OPEN_NO_EXTERNAL_SUMMARY",
+      "intake_completion_status": "EXTERNAL_SUMMARY_ACCEPTED",
       "no_substitution_rule": "Local Linux benign strace/control evidence must not be substituted for Genesys2 board benign false-positive evidence.",
       "operator_inputs": [
         "At least five non-network benign workloads staged on the Genesys2/CVA6 target",
@@ -598,7 +598,7 @@
         "write results/evaluation/genesys2-cva6/current/external_closure/board_benign_control_summary.json from board-derived benign artifacts",
         "uv run python tools/package_genesys2_external_closure_intake.py"
       ],
-      "plan_status": "READY_TO_EXECUTE_WITH_EXTERNAL_STATE",
+      "plan_status": "EXTERNAL_SUMMARY_ACCEPTED",
       "preflight_commands": [
         "uv run python tools/check_benign_control_summary.py --root .",
         "uv run python tools/check_genesys2_board_benign_readiness.py --root .",
@@ -733,8 +733,8 @@
       "id": "external_closure_intake",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_intake.json",
       "schema": "rvmt.genesys2.external_closure_intake.v1",
-      "sha256": "287b54a90ccf235723c41ef59b66c4cf7a5b59b29f2e5570708fc7bf352c2e60",
-      "status": "PASS"
+      "sha256": "b1658baf075311a17d591ffce8bd47a3102b7b1ca19db7f90ba3a5d533e4784b",
+      "status": "FAIL"
     }
   ],
   "status": "PASS",

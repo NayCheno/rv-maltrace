@@ -29,12 +29,18 @@ if {$argc >= 8} {
 
 set payload_width 136
 set payload_nibbles [expr {$payload_width / 4}]
+if {$evt_hex eq "x"} {
+  set evt_compare "X"
+} else {
+  scan $evt_hex "%x" evt_value
+  set evt_compare [format "%01x" [expr {$evt_value & 0xf}]]
+}
 if {$primary_arg eq "x"} {
-  set compare "eq${payload_width}'h[string repeat X [expr {$payload_nibbles - 1}]]${evt_hex}"
+  set compare "eq${payload_width}'h[string repeat X [expr {$payload_nibbles - 1}]]${evt_compare}"
 } else {
   scan $primary_arg "%x" primary_value
   set primary_hex [format "%08x" $primary_value]
-  set compare "eq${payload_width}'h[string repeat X 9]${primary_hex}[string repeat X 16]${evt_hex}"
+  set compare "eq${payload_width}'h[string repeat X 9]${primary_hex}[string repeat X 16]${evt_compare}"
 }
 
 puts "RVMT_LTX_FILE=$ltx_file"
@@ -75,6 +81,9 @@ set_property CONTROL.WINDOW_COUNT 1 $ila
 set_property CONTROL.TRIGGER_POSITION $trigger_position $ila
 set_property TRIGGER_COMPARE_VALUE eq1'b1 $fire_probe
 set_property TRIGGER_COMPARE_VALUE $compare $payload_probe
+set trigger_condition_rc [catch {set_property CONTROL.TRIGGER_CONDITION AND $ila} trigger_condition_err]
+puts "RVMT_TRIGGER_CONDITION_RC=$trigger_condition_rc"
+puts "RVMT_TRIGGER_CONDITION_ERR=$trigger_condition_err"
 
 if {$event_only_capture} {
   set cap_rc [catch {
@@ -91,6 +100,7 @@ if {$event_only_capture} {
 }
 
 puts "RVMT_TRIGGER_PAYLOAD_COMPARE=[get_property TRIGGER_COMPARE_VALUE $payload_probe]"
+puts "RVMT_TRIGGER_CONDITION=[get_property CONTROL.TRIGGER_CONDITION $ila]"
 puts "RVMT_CAPTURE_MODE=[get_property CONTROL.CAPTURE_MODE $ila]"
 puts "RVMT_CAPTURE_CONDITION=[get_property CONTROL.CAPTURE_CONDITION $ila]"
 puts "RVMT_FIRE_CAPTURE_COMPARE=[get_property CAPTURE_COMPARE_VALUE $fire_probe]"
@@ -106,6 +116,7 @@ if {$event_only_capture} {
     exit 8
   }
 }
+catch {stop_hw_ila $ila}
 run_hw_ila $ila
 puts "RVMT_ILA_ARMED"
 flush stdout

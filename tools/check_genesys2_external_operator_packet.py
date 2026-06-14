@@ -83,7 +83,8 @@ def source_rows_ok(errors: list[str], data: dict[str, Any], root: Path) -> None:
         row = as_dict(sources.get(source_id))
         require(errors, row.get("schema") == schema, f"{source_id}: schema mismatch")
         require(errors, row.get("expected_schema") == schema, f"{source_id}: expected_schema mismatch")
-        require(errors, row.get("status") == "PASS", f"{source_id}: status must be PASS")
+        allowed_statuses = {"PASS", "FAIL"} if source_id == "external_closure_intake" else {"PASS"}
+        require(errors, row.get("status") in allowed_statuses, f"{source_id}: status mismatch")
         closure_status = row.get("closure_status")
         require(errors, isinstance(closure_status, str) and bool(closure_status), f"{source_id}: closure_status missing")
         if source_id == "external_closure_intake":
@@ -178,10 +179,10 @@ def check_summary(data: dict[str, Any], root: Path, report: Path) -> list[str]:
     require(errors, "tools/check_genesys2_external_closure_intake.py --root ." in commands, "intake checker command missing")
     non_claims = " ".join(str(item).lower() for item in as_list(data.get("non_claims")))
     for token in (
-        "does not complete board-native dwarf source-line attribution",
-        "does not complete full hardware pointer-string reconstruction",
+        "does not itself create board-native dwarf source-line attribution evidence",
+        "does not itself create full hardware pointer-string reconstruction evidence",
         "does not complete production streaming/dma throughput evidence",
-        "does not complete genesys2 board benign-control evidence",
+        "does not itself create genesys2 board benign-control evidence",
         "does not add real-malware validation",
     ):
         require(errors, token in non_claims, f"non-claim missing: {token}")

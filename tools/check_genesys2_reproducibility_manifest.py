@@ -55,6 +55,7 @@ TEMPLATE_SUMMARY_IDS = {
     "external_template_streaming_dma_throughput",
     "external_template_board_benign_control",
 }
+TRUTHFUL_NONPASS_SUMMARY_IDS = {"external_closure_intake"}
 REQUIRED_RAW_ROOT_IDS = {
     "p0_bram_repetitions",
     "safe_surrogate_bram_repetitions",
@@ -109,6 +110,19 @@ def require(errors: list[str], condition: bool, message: str) -> None:
         errors.append(message)
 
 
+def truthful_nonpass_summary(artifact_id: str, artifact: dict[str, Any]) -> bool:
+    if artifact_id != "external_closure_intake":
+        return False
+    boundary = as_dict(artifact.get("claim_boundary"))
+    return (
+        artifact.get("schema") == "rvmt.genesys2.external_closure_intake.v1"
+        and artifact.get("status") == "FAIL"
+        and int(artifact.get("invalid_external_blocker_count") or 0) > 0
+        and boundary.get("unvalidated_external_summary_accepted") is False
+        and boundary.get("all_non_real_external_blockers_closed") is False
+    )
+
+
 def row_map(rows: list[Any]) -> dict[str, dict[str, Any]]:
     return {
         str(row.get("id")): row
@@ -155,6 +169,12 @@ def check_summary(data: dict[str, Any], root: Path) -> list[str]:
             require(errors, row.get("schema") == artifact.get("schema"), f"{artifact_id}: schema mismatch")
             if artifact_id in TEMPLATE_SUMMARY_IDS:
                 require(errors, row.get("status") == "TEMPLATE_NOT_EVIDENCE" and artifact.get("status") == "TEMPLATE_NOT_EVIDENCE", f"{artifact_id}: status must be TEMPLATE_NOT_EVIDENCE")
+            elif artifact_id in TRUTHFUL_NONPASS_SUMMARY_IDS:
+                require(
+                    errors,
+                    (row.get("status") == "PASS" and artifact.get("status") == "PASS") or (row.get("status") == "FAIL" and truthful_nonpass_summary(artifact_id, artifact)),
+                    f"{artifact_id}: status must be PASS or a truthful external-intake FAIL",
+                )
             elif artifact_id != "source_line_sidecar":
                 require(errors, row.get("status") == "PASS" and artifact.get("status") == "PASS", f"{artifact_id}: status must be PASS")
         require(errors, "uv run python" in str(row.get("checker_command") or ""), f"{artifact_id}: checker_command required")

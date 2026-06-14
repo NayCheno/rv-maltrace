@@ -22,6 +22,8 @@ EXTERNAL_IDS = {
     "production_streaming_dma_trace_sink",
     "genesys2_board_benign_control",
 }
+ACCEPTED_EXTERNAL_STATUS = "EXTERNAL_SUMMARY_ACCEPTED"
+OPEN_EXTERNAL_STATUS = "OPEN_EXTERNAL_ARTIFACTS_REQUIRED"
 
 EVIDENCE_FILES: dict[str, str] = {
     "baseline_pass_criteria": "docs/03-platform-architecture/genesys2/baseline_pass_criteria.md",
@@ -350,17 +352,26 @@ def external_state(current_root: Path) -> dict[str, dict[str, Any]]:
     return result
 
 
+def external_item_status(default_status: str, external_id: str | None, external: dict[str, dict[str, Any]]) -> str:
+    if default_status != OPEN_EXTERNAL_STATUS or not external_id:
+        return default_status
+    state = external.get(external_id, {})
+    if state.get("completion_status") == "EXTERNAL_SUMMARY_ACCEPTED":
+        return ACCEPTED_EXTERNAL_STATUS
+    return OPEN_EXTERNAL_STATUS
+
+
 def item_row(item: dict[str, Any], external: dict[str, dict[str, Any]]) -> dict[str, Any]:
     evidence = [evidence_row(evidence_id) for evidence_id in item["evidence_ids"]]
+    external_id = item.get("external_id")
     row = {
         "id": item["id"],
         "review_section": item["review_section"],
         "requirement": item["requirement"],
-        "status": item["status"],
+        "status": external_item_status(item["status"], external_id, external),
         "evidence": evidence,
         "checker_commands": item["checker_commands"],
     }
-    external_id = item.get("external_id")
     if external_id:
         row["external_id"] = external_id
         row["external_state"] = external.get(external_id, {})
@@ -369,7 +380,8 @@ def item_row(item: dict[str, Any], external: dict[str, dict[str, Any]]) -> dict[
 
 def summarize(items: list[dict[str, Any]], external: dict[str, dict[str, Any]]) -> dict[str, Any]:
     local = [item for item in items if str(item["status"]).startswith("PASS")]
-    open_external = [item for item in items if item["status"] == "OPEN_EXTERNAL_ARTIFACTS_REQUIRED"]
+    accepted_external = [item for item in items if item["status"] == ACCEPTED_EXTERNAL_STATUS]
+    open_external = [item for item in items if item["status"] == OPEN_EXTERNAL_STATUS]
     excluded = [item for item in items if item["status"] == "EXCLUDED_BY_OBJECTIVE"]
     all_local_evidence_present = all(
         evidence["exists"] and (evidence["status"] in {NOT_APPLICABLE, "PASS"})
@@ -379,13 +391,25 @@ def summarize(items: list[dict[str, Any]], external: dict[str, dict[str, Any]]) 
     external_open_ids = {
         item.get("external_id")
         for item in open_external
-        if item.get("external_state", {}).get("completion_status") == "OPEN_NO_EXTERNAL_SUMMARY"
+        if item.get("external_state", {}).get("current_blocker") is True
     }
-    closure_status = "PASS_LOCAL_SCOPE_EXTERNAL_OPEN" if all_local_evidence_present and external_open_ids == EXTERNAL_IDS else "FAIL"
+    accepted_external_ids = {
+        item.get("external_id")
+        for item in accepted_external
+        if item.get("external_state", {}).get("completion_evidence_valid") is True
+    }
+    known_external_ids = {item.get("external_id") for item in open_external + accepted_external}
+    closure_status = (
+        "PASS_LOCAL_SCOPE_EXTERNAL_OPEN"
+        if all_local_evidence_present and known_external_ids == EXTERNAL_IDS and accepted_external_ids | external_open_ids == EXTERNAL_IDS
+        else "FAIL"
+    )
     return {
         "closure_status": closure_status,
         "local_item_count": len(local),
         "local_items_evidence_present": all_local_evidence_present,
+        "accepted_external_item_count": len(accepted_external),
+        "accepted_external_ids": sorted(accepted_external_ids),
         "open_external_item_count": len(open_external),
         "open_external_ids": sorted(external_open_ids),
         "excluded_item_count": len(excluded),
@@ -405,7 +429,8 @@ def markdown_report(audit: dict[str, Any]) -> str:
         "## Summary",
         "",
         f"- Local/current items closed: {audit['summary']['local_item_count']}",
-        f"- Non-real external items still open: {audit['summary']['open_external_item_count']}",
+        f"- Non-real external items accepted: {audit['summary'].get('accepted_external_item_count', 0)}",
+        f"- Non-real external items still blocked: {audit['summary']['open_external_item_count']}",
         f"- Objective exclusions: {', '.join(audit['summary']['objective_exclusions'])}",
         "",
         "## Requirement Rows",
@@ -439,7 +464,7 @@ def markdown_report(audit: dict[str, Any]) -> str:
             "## Non-Claims",
             "",
             "- Real malware validation is excluded from the current objective.",
-            "- Full hardware pointer strings, board-native DWARF source lines, production streaming/DMA throughput, and Genesys2 board benign-control evidence remain open until accepted external summaries exist.",
+            "- External items are closed only when their live intake record is EXTERNAL_SUMMARY_ACCEPTED; invalid external summaries remain blockers.",
             "- Local Linux benign controls, source-equivalent sidecars, bounded hardware prefixes, and BRAM/JTAG marker-window traces are not substitutes for the open external evidence.",
             "",
         ]

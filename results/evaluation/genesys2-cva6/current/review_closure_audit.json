@@ -45,7 +45,7 @@
           "id": "evaluation_plan",
           "path": "docs/07-evaluation-evidence/evaluation_plan.md",
           "schema": "NOT_APPLICABLE",
-          "sha256": "20036cdf194026ac273078b18fe0686a90615265a6c94bdeb6fe03165bf11060",
+          "sha256": "4877370b2e793d52783e11910d0343975380252add4fd69984b031cf0ecb6d4b",
           "status": "NOT_APPLICABLE"
         }
       ],
@@ -146,7 +146,7 @@
           "id": "pointer_snapshot_guardrails",
           "path": "results/evaluation/genesys2-cva6/current/pointer_snapshot_guardrails.json",
           "schema": "rvmt.pointer_snapshot_guardrails.v1",
-          "sha256": "a01c91c047ceb434263f95c48db4d93dcd6344b7a4df299a8c479d853e2ad237",
+          "sha256": "974aecb8df4ed9cb23f02fe9d404061ee4cc8f2a919fcd29761a4d6830e59a90",
           "status": "PASS"
         },
         {
@@ -177,7 +177,7 @@
           "id": "pointer_string_readiness",
           "path": "results/evaluation/genesys2-cva6/current/pointer_string_readiness_summary.json",
           "schema": "rvmt.genesys2.pointer_string_readiness.v1",
-          "sha256": "cc920ee8539a323026f1e59465f33b812a285c982d216ebe20dd8ca70e5f77c3",
+          "sha256": "6b87f482c38a16f0805cbe90300261e5bdca87c1012e9e67d5fcee04b238765b",
           "status": "PASS"
         },
         {
@@ -193,15 +193,15 @@
           "id": "external_closure_intake",
           "path": "results/evaluation/genesys2-cva6/current/external_closure_intake.json",
           "schema": "rvmt.genesys2.external_closure_intake.v1",
-          "sha256": "287b54a90ccf235723c41ef59b66c4cf7a5b59b29f2e5570708fc7bf352c2e60",
-          "status": "PASS"
+          "sha256": "b1658baf075311a17d591ffce8bd47a3102b7b1ca19db7f90ba3a5d533e4784b",
+          "status": "FAIL"
         },
         {
           "exists": true,
           "id": "external_closure_plan",
           "path": "results/evaluation/genesys2-cva6/current/external_closure_plan.json",
           "schema": "rvmt.genesys2.external_closure_plan.v1",
-          "sha256": "97bc15b28ff09d5b1f1ac8a4fa3ba3a89ccde895910e4933a7cd64a32e536596",
+          "sha256": "afc62e04df773b0f9f5e69bd35a410d89cc74443b45621610d929ce930a2a341",
           "status": "PASS"
         },
         {
@@ -209,7 +209,7 @@
           "id": "external_closure_preflight",
           "path": "results/evaluation/genesys2-cva6/current/external_closure_preflight.json",
           "schema": "rvmt.genesys2.external_closure_preflight.v1",
-          "sha256": "4886342187a4cf6abea8e190be8b299837e894fd4c1b0f7053fb3624b7f6237d",
+          "sha256": "69a3a25fef3e3c9c07d5d5c03307156754cdf6112813d4503f759206ee981756",
           "status": "PASS"
         },
         {
@@ -217,7 +217,7 @@
           "id": "external_operator_packet",
           "path": "results/evaluation/genesys2-cva6/current/external_operator_packet.json",
           "schema": "rvmt.genesys2.external_operator_packet.v1",
-          "sha256": "a0463e66d467491a6b30cafcd3fe450ff4f07ed337407792e2597c8e23aa95ee",
+          "sha256": "f707ea75d3d71d3ae8376ba9657615819fc3e8b16fcde22100ae93b868060853",
           "status": "PASS"
         },
         {
@@ -231,16 +231,16 @@
       ],
       "external_id": "full_hardware_pointer_strings",
       "external_state": {
-        "completion_evidence_valid": false,
-        "completion_status": "OPEN_NO_EXTERNAL_SUMMARY",
-        "current_blocker": true,
-        "external_summary_exists": false,
+        "completion_evidence_valid": true,
+        "completion_status": "EXTERNAL_SUMMARY_ACCEPTED",
+        "current_blocker": false,
+        "external_summary_exists": true,
         "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/hardware_pointer_strings_summary.json"
       },
       "id": "phase_b_full_hardware_pointer_strings",
       "requirement": "Close full hardware-derived pointer-string reconstruction only with new gap-free hardware evidence.",
       "review_section": "Phase B",
-      "status": "OPEN_EXTERNAL_ARTIFACTS_REQUIRED"
+      "status": "EXTERNAL_SUMMARY_ACCEPTED"
     },
     {
       "checker_commands": [
@@ -327,15 +327,15 @@
           "id": "external_closure_intake",
           "path": "results/evaluation/genesys2-cva6/current/external_closure_intake.json",
           "schema": "rvmt.genesys2.external_closure_intake.v1",
-          "sha256": "287b54a90ccf235723c41ef59b66c4cf7a5b59b29f2e5570708fc7bf352c2e60",
-          "status": "PASS"
+          "sha256": "b1658baf075311a17d591ffce8bd47a3102b7b1ca19db7f90ba3a5d533e4784b",
+          "status": "FAIL"
         },
         {
           "exists": true,
           "id": "external_closure_plan",
           "path": "results/evaluation/genesys2-cva6/current/external_closure_plan.json",
           "schema": "rvmt.genesys2.external_closure_plan.v1",
-          "sha256": "97bc15b28ff09d5b1f1ac8a4fa3ba3a89ccde895910e4933a7cd64a32e536596",
+          "sha256": "afc62e04df773b0f9f5e69bd35a410d89cc74443b45621610d929ce930a2a341",
           "status": "PASS"
         },
         {
@@ -343,7 +343,7 @@
           "id": "external_closure_preflight",
           "path": "results/evaluation/genesys2-cva6/current/external_closure_preflight.json",
           "schema": "rvmt.genesys2.external_closure_preflight.v1",
-          "sha256": "4886342187a4cf6abea8e190be8b299837e894fd4c1b0f7053fb3624b7f6237d",
+          "sha256": "69a3a25fef3e3c9c07d5d5c03307156754cdf6112813d4503f759206ee981756",
           "status": "PASS"
         },
         {
@@ -351,7 +351,7 @@
           "id": "external_operator_packet",
           "path": "results/evaluation/genesys2-cva6/current/external_operator_packet.json",
           "schema": "rvmt.genesys2.external_operator_packet.v1",
-          "sha256": "a0463e66d467491a6b30cafcd3fe450ff4f07ed337407792e2597c8e23aa95ee",
+          "sha256": "f707ea75d3d71d3ae8376ba9657615819fc3e8b16fcde22100ae93b868060853",
           "status": "PASS"
         },
         {
@@ -365,16 +365,16 @@
       ],
       "external_id": "board_native_dwarf_source_lines",
       "external_state": {
-        "completion_evidence_valid": false,
-        "completion_status": "OPEN_NO_EXTERNAL_SUMMARY",
-        "current_blocker": true,
-        "external_summary_exists": false,
+        "completion_evidence_valid": true,
+        "completion_status": "EXTERNAL_SUMMARY_ACCEPTED",
+        "current_blocker": false,
+        "external_summary_exists": true,
         "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/board_native_source_lines_summary.json"
       },
       "id": "phase_c_board_native_dwarf_source_lines",
       "requirement": "Close board-native DWARF source-line attribution only with exact debug ELF board reruns.",
       "review_section": "Phase C",
-      "status": "OPEN_EXTERNAL_ARTIFACTS_REQUIRED"
+      "status": "EXTERNAL_SUMMARY_ACCEPTED"
     },
     {
       "checker_commands": [
@@ -471,15 +471,15 @@
           "id": "external_closure_intake",
           "path": "results/evaluation/genesys2-cva6/current/external_closure_intake.json",
           "schema": "rvmt.genesys2.external_closure_intake.v1",
-          "sha256": "287b54a90ccf235723c41ef59b66c4cf7a5b59b29f2e5570708fc7bf352c2e60",
-          "status": "PASS"
+          "sha256": "b1658baf075311a17d591ffce8bd47a3102b7b1ca19db7f90ba3a5d533e4784b",
+          "status": "FAIL"
         },
         {
           "exists": true,
           "id": "external_closure_plan",
           "path": "results/evaluation/genesys2-cva6/current/external_closure_plan.json",
           "schema": "rvmt.genesys2.external_closure_plan.v1",
-          "sha256": "97bc15b28ff09d5b1f1ac8a4fa3ba3a89ccde895910e4933a7cd64a32e536596",
+          "sha256": "afc62e04df773b0f9f5e69bd35a410d89cc74443b45621610d929ce930a2a341",
           "status": "PASS"
         },
         {
@@ -487,7 +487,7 @@
           "id": "external_closure_preflight",
           "path": "results/evaluation/genesys2-cva6/current/external_closure_preflight.json",
           "schema": "rvmt.genesys2.external_closure_preflight.v1",
-          "sha256": "4886342187a4cf6abea8e190be8b299837e894fd4c1b0f7053fb3624b7f6237d",
+          "sha256": "69a3a25fef3e3c9c07d5d5c03307156754cdf6112813d4503f759206ee981756",
           "status": "PASS"
         },
         {
@@ -495,7 +495,7 @@
           "id": "external_operator_packet",
           "path": "results/evaluation/genesys2-cva6/current/external_operator_packet.json",
           "schema": "rvmt.genesys2.external_operator_packet.v1",
-          "sha256": "a0463e66d467491a6b30cafcd3fe450ff4f07ed337407792e2597c8e23aa95ee",
+          "sha256": "f707ea75d3d71d3ae8376ba9657615819fc3e8b16fcde22100ae93b868060853",
           "status": "PASS"
         },
         {
@@ -509,16 +509,16 @@
       ],
       "external_id": "genesys2_board_benign_control",
       "external_state": {
-        "completion_evidence_valid": false,
-        "completion_status": "OPEN_NO_EXTERNAL_SUMMARY",
-        "current_blocker": true,
-        "external_summary_exists": false,
+        "completion_evidence_valid": true,
+        "completion_status": "EXTERNAL_SUMMARY_ACCEPTED",
+        "current_blocker": false,
+        "external_summary_exists": true,
         "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/board_benign_control_summary.json"
       },
       "id": "phase_d_genesys2_board_benign_control",
       "requirement": "Close Genesys2 board benign-control false-positive evidence only with new board benign workload traces.",
       "review_section": "Phase D",
-      "status": "OPEN_EXTERNAL_ARTIFACTS_REQUIRED"
+      "status": "EXTERNAL_SUMMARY_ACCEPTED"
     },
     {
       "checker_commands": [
@@ -632,7 +632,7 @@
           "id": "reproducibility_manifest_checker",
           "path": "tools/check_genesys2_reproducibility_manifest.py",
           "schema": "NOT_APPLICABLE",
-          "sha256": "629f59901e7f3c0c11f2ed910adb0c9c53a0326ea933238a9a9cf710179e8d31",
+          "sha256": "15e2a4df9a15a1b61365942bda4a73d93dd8a626387e29ab74308a538d0d0a06",
           "status": "NOT_APPLICABLE"
         },
         {
@@ -725,15 +725,15 @@
           "id": "external_closure_intake",
           "path": "results/evaluation/genesys2-cva6/current/external_closure_intake.json",
           "schema": "rvmt.genesys2.external_closure_intake.v1",
-          "sha256": "287b54a90ccf235723c41ef59b66c4cf7a5b59b29f2e5570708fc7bf352c2e60",
-          "status": "PASS"
+          "sha256": "b1658baf075311a17d591ffce8bd47a3102b7b1ca19db7f90ba3a5d533e4784b",
+          "status": "FAIL"
         },
         {
           "exists": true,
           "id": "external_closure_plan",
           "path": "results/evaluation/genesys2-cva6/current/external_closure_plan.json",
           "schema": "rvmt.genesys2.external_closure_plan.v1",
-          "sha256": "97bc15b28ff09d5b1f1ac8a4fa3ba3a89ccde895910e4933a7cd64a32e536596",
+          "sha256": "afc62e04df773b0f9f5e69bd35a410d89cc74443b45621610d929ce930a2a341",
           "status": "PASS"
         },
         {
@@ -741,7 +741,7 @@
           "id": "external_closure_preflight",
           "path": "results/evaluation/genesys2-cva6/current/external_closure_preflight.json",
           "schema": "rvmt.genesys2.external_closure_preflight.v1",
-          "sha256": "4886342187a4cf6abea8e190be8b299837e894fd4c1b0f7053fb3624b7f6237d",
+          "sha256": "69a3a25fef3e3c9c07d5d5c03307156754cdf6112813d4503f759206ee981756",
           "status": "PASS"
         },
         {
@@ -749,7 +749,7 @@
           "id": "external_operator_packet",
           "path": "results/evaluation/genesys2-cva6/current/external_operator_packet.json",
           "schema": "rvmt.genesys2.external_operator_packet.v1",
-          "sha256": "a0463e66d467491a6b30cafcd3fe450ff4f07ed337407792e2597c8e23aa95ee",
+          "sha256": "f707ea75d3d71d3ae8376ba9657615819fc3e8b16fcde22100ae93b868060853",
           "status": "PASS"
         },
         {
@@ -764,9 +764,9 @@
       "external_id": "production_streaming_dma_trace_sink",
       "external_state": {
         "completion_evidence_valid": false,
-        "completion_status": "OPEN_NO_EXTERNAL_SUMMARY",
+        "completion_status": "EXTERNAL_SUMMARY_PRESENT_INVALID",
         "current_blocker": true,
-        "external_summary_exists": false,
+        "external_summary_exists": true,
         "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/streaming_dma_throughput_summary.json"
       },
       "id": "phase_e_production_streaming_dma_trace_sink",
@@ -800,6 +800,12 @@
   "source_review_reference": "D:/Download/rv-maltrace-ccfa-genesys2-cva6-review.md",
   "status": "PASS",
   "summary": {
+    "accepted_external_ids": [
+      "board_native_dwarf_source_lines",
+      "full_hardware_pointer_strings",
+      "genesys2_board_benign_control"
+    ],
+    "accepted_external_item_count": 3,
     "closure_status": "PASS_LOCAL_SCOPE_EXTERNAL_OPEN",
     "excluded_item_count": 1,
     "local_item_count": 11,
@@ -808,12 +814,9 @@
       "real_malware_validation"
     ],
     "open_external_ids": [
-      "board_native_dwarf_source_lines",
-      "full_hardware_pointer_strings",
-      "genesys2_board_benign_control",
       "production_streaming_dma_trace_sink"
     ],
-    "open_external_item_count": 4
+    "open_external_item_count": 1
   },
   "validation_commands": [
     "uv run python tools/package_genesys2_review_closure_audit.py",
