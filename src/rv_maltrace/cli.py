@@ -156,6 +156,9 @@ TASK_ALIASES = {
     "sim:run": "sim:cva6-run",
     "sim:summary": "sim:summary",
     "summary": "sim:summary",
+    "trace:view": "trace:view",
+    "trace:show": "trace:view",
+    "view:trace": "trace:view",
     "baremetal": "baremetal:build",
     "baremetal:build": "baremetal:build",
     "programs": "baremetal:build",
@@ -222,6 +225,7 @@ DISPLAY_TASKS = [
     "sim:cva6-full-soc-rv64gc",
     "sim:cva6-run",
     "sim:summary",
+    "trace:view",
     "baremetal:build",
     "demo:behavior",
     "demo:groundtruth",
@@ -259,10 +263,15 @@ COMPLETION_CANDIDATES = sorted(
         "--baud",
         "--board-step",
         "--duration",
+        "--event",
         "--send",
         "--tool-mode",
         "--tool-prefix",
         "--trace",
+        "--limit",
+        "--width",
+        "--summary-only",
+        "--color",
         "--trace-profile",
         "--format",
         "--out",
@@ -3576,7 +3585,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
             "repro:quick, repro:local, repro:full, "
             "vivado:check, bitstream:build, bitstream:build-trace, bitstream:build-trace-marker, "
             "bitstream:build-trace-source-lines, sim:trace-unit, sim:cva6-smoke, "
-            "sim:cva6-full-soc, sim:cva6-full-soc-tohost, sim:cva6-full-soc-rv64gc, sim:cva6-run, baremetal:build, "
+            "sim:cva6-full-soc, sim:cva6-full-soc-tohost, sim:cva6-full-soc-rv64gc, sim:cva6-run, trace:view, baremetal:build, "
             "board:artix7:jtag-scan, board:artix7:litex-build, exp:35t, run:35t, explain:35t, config:show, completion:powershell. Slash groups such as "
             "tool/bootrom are expanded."
         ),
@@ -3619,7 +3628,12 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         default="fixture",
         help="For demo:behavior, use a checked-in fixture trace or a user-provided trace.",
     )
-    parser.add_argument("--trace", type=Path, help="For demo:behavior --backend trace, input RV-MalTrace JSONL trace.")
+    parser.add_argument("--trace", type=Path, help="For demo:behavior --backend trace or trace:view, input RV-MalTrace JSONL trace.")
+    parser.add_argument("--limit", type=int, default=40, help="For trace:view, maximum event rows to print.")
+    parser.add_argument("--width", type=int, help="For trace:view, terminal timeline width.")
+    parser.add_argument("--event", action="append", default=[], help="For trace:view, only show matching event types. May repeat.")
+    parser.add_argument("--summary-only", action="store_true", help="For trace:view, omit the event table.")
+    parser.add_argument("--color", choices=("auto", "always", "never"), default="auto", help="For trace:view, ANSI color mode.")
     parser.add_argument("--run-id", default="manual", help="For demo tasks, run directory under the output root.")
     parser.add_argument("--out-dir", type=Path, help="For demo tasks, output root. Defaults to results/demo.")
     parser.add_argument("--port", default="COM5", help="For Artix-7 board tasks, serial port. Defaults to COM5.")
@@ -3797,6 +3811,25 @@ def main(argv: list[str] | None = None) -> int:
                 task_sim_cva6_smoke(root, config, env, args.dry_run, custom_cva6_runner_args(args, config))
             elif task == "sim:summary":
                 task_sim_summary(root, env, args.dry_run)
+            elif task == "trace:view":
+                if args.trace is None:
+                    raise TaskError("trace:view requires --trace <path>")
+                command = [
+                    sys.executable,
+                    "tools/view_trace_terminal.py",
+                    str(args.trace),
+                    "--limit",
+                    str(args.limit),
+                    "--color",
+                    args.color,
+                ]
+                if args.width is not None:
+                    command.extend(["--width", str(args.width)])
+                for evt in args.event:
+                    command.extend(["--event", evt])
+                if args.summary_only:
+                    command.append("--summary-only")
+                run(command, cwd=root, env=env, dry_run=args.dry_run)
             elif task == "baremetal:build":
                 task_baremetal_build(root, config, env, args.dry_run)
             elif task == "demo:behavior":

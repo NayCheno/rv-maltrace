@@ -33,6 +33,14 @@ uv run python tools/check_genesys2_current.py
 These commands check existing evidence, local policy, and artifact inventory;
 they do not run Vivado synthesis, implementation, or bitstream generation.
 
+To inspect a captured trace in the terminal without rebuilding the bitstream,
+render any `trace.jsonl` or Genesys2 `bram_records.jsonl` file:
+
+```powershell
+uv run rvmt trace:view --trace results\board\genesys2_trace_validation\20260612-p0-bram-repetitions\file_open_read_write\rep_01\bram_records.jsonl
+uv run rvmt trace:view --trace results\board\genesys2_trace_validation\20260612-p0-bram-repetitions\file_open_read_write\rep_01\bram_records.jsonl --event SYSCALL_ENTRY --event ARG_MEM --limit 20
+```
+
 Run Vivado bitstream builds only as explicit long tasks:
 
 ```powershell
@@ -68,6 +76,7 @@ uv run rvmt config:show
 uv run rvmt repro:quick
 uv run rvmt repro:local
 uv run rvmt repro:full
+uv run rvmt trace:view --trace path\to\bram_records.jsonl
 uv run rvmt docker:build
 uv run rvmt toolchain:build
 uv run rvmt bootrom:build
