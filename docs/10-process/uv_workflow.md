@@ -5,7 +5,23 @@ Use `uv` as the single entry for local build tasks.
 ## Current Genesys2/CVA6 Gate
 
 The current hardware route is Digilent Genesys2 + CVA6. Use this aggregate gate
-for the active repository checks:
+for the active repository checks through the short `rvmt` entrypoints:
+
+```powershell
+uv run rvmt repro:quick
+uv run rvmt repro:local
+uv run rvmt repro:full
+```
+
+`repro:quick` checks the lightweight reproducibility and artifact package
+manifests. `repro:local` adds the local CCF-A evidence-package, current-quality,
+case-study, and bitstream-artifact checks without requiring a new board or Vivado
+run. `repro:full` runs the strict aggregate suites, including
+`genesys2-current`; while `production_streaming_dma_trace_sink` remains open,
+this command is expected to fail at the external closure intake gate rather than
+silently downgrade the claim.
+
+The equivalent lower-level commands are:
 
 ```powershell
 uv run python tools/run_check_suite.py --list-suites
@@ -14,9 +30,8 @@ uv run python tools/run_check_suite.py --suite genesys2-artifacts
 uv run python tools/check_genesys2_current.py
 ```
 
-This is the fast default loop. It checks existing evidence, local policy, and
-artifact inventory; it does not run Vivado synthesis, implementation, or
-bitstream generation.
+These commands check existing evidence, local policy, and artifact inventory;
+they do not run Vivado synthesis, implementation, or bitstream generation.
 
 Run Vivado bitstream builds only as explicit long tasks:
 
@@ -50,6 +65,9 @@ Representative commands:
 
 ```powershell
 uv run rvmt config:show
+uv run rvmt repro:quick
+uv run rvmt repro:local
+uv run rvmt repro:full
 uv run rvmt docker:build
 uv run rvmt toolchain:build
 uv run rvmt bootrom:build

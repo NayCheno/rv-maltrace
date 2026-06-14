@@ -55,6 +55,18 @@ TRACE_MARKER_SOURCE_HASH_FILES = {
 
 TASK_ALIASES = {
     "help": "help",
+    "repro": "repro:quick",
+    "repro:quick": "repro:quick",
+    "repro:local": "repro:local",
+    "repro:full": "repro:full",
+    "repro:genesys2": "repro:local",
+    "repro:genesys2-quick": "repro:quick",
+    "repro:genesys2-local": "repro:local",
+    "repro:genesys2-full": "repro:full",
+    "ccfa": "repro:local",
+    "ccfa:quick": "repro:quick",
+    "ccfa:local": "repro:local",
+    "ccfa:full": "repro:full",
     "docker": "docker:build",
     "docker:build": "docker:build",
     "image": "docker:build",
@@ -171,6 +183,9 @@ TASK_ALIASES = {
 }
 
 DISPLAY_TASKS = [
+    "repro:quick",
+    "repro:local",
+    "repro:full",
     "docker:build",
     "toolchain:build",
     "bootrom:build",
@@ -3558,6 +3573,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         nargs="*",
         help=(
             "Tasks to run. Supports docker:build, toolchain:build, bootrom:build, "
+            "repro:quick, repro:local, repro:full, "
             "vivado:check, bitstream:build, bitstream:build-trace, bitstream:build-trace-marker, "
             "bitstream:build-trace-source-lines, sim:trace-unit, sim:cva6-smoke, "
             "sim:cva6-full-soc, sim:cva6-full-soc-tohost, sim:cva6-full-soc-rv64gc, sim:cva6-run, baremetal:build, "
@@ -3695,6 +3711,12 @@ def main(argv: list[str] | None = None) -> int:
                 print_completion("bash")
             elif task == "completion:zsh":
                 print_completion("zsh")
+            elif task == "repro:quick":
+                run([sys.executable, "tools/reproduce_genesys2_current.py", "--quick"], cwd=root, env=env, dry_run=args.dry_run)
+            elif task == "repro:local":
+                run([sys.executable, "tools/reproduce_genesys2_current.py", "--local"], cwd=root, env=env, dry_run=args.dry_run)
+            elif task == "repro:full":
+                run([sys.executable, "tools/reproduce_genesys2_current.py", "--full"], cwd=root, env=env, dry_run=args.dry_run)
             elif task == "docker:build":
                 task_docker_build(root, config, env, args.dry_run)
             elif task == "toolchain:build":

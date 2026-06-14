@@ -12,9 +12,13 @@
   "fresh_clone_reproduction": {
     "dry_run_command": "uv run python tools/reproduce_genesys2_current.py --full --dry-run",
     "full_command": "uv run python tools/reproduce_genesys2_current.py --full",
+    "local_command": "uv run python tools/reproduce_genesys2_current.py --local",
     "quick_command": "uv run python tools/reproduce_genesys2_current.py --quick",
     "requires_board_or_vivado": false,
     "requires_network": false,
+    "rvmt_full_command": "uv run rvmt repro:full",
+    "rvmt_local_command": "uv run rvmt repro:local",
+    "rvmt_quick_command": "uv run rvmt repro:quick",
     "script": "tools/reproduce_genesys2_current.py"
   },
   "generated_from": "results/evaluation/genesys2-cva6/current/reproducibility_manifest.json",
@@ -64,8 +68,16 @@
       "git_publishable": true,
       "path": "tools/reproduce_genesys2_current.py",
       "role": "core_reproduction_file",
-      "sha256": "4c4e773f52939fe28e8ac40c2631d3a7957b5116ad56473eb6be14b878ed0c73",
-      "size_bytes": 4272
+      "sha256": "0d5a3069e91e2674b13d5b7088763e1a078be47e9da0eac6381f2012073bae95",
+      "size_bytes": 5407
+    },
+    {
+      "exists": true,
+      "git_publishable": true,
+      "path": "src/rv_maltrace/cli.py",
+      "role": "core_reproduction_file",
+      "sha256": "220a611ad1d3494f35cb1b9d7af39281884ecd819b869f190d92a4a654515fd7",
+      "size_bytes": 151088
     },
     {
       "exists": true,
@@ -152,16 +164,16 @@
       "git_publishable": true,
       "path": "tools/package_genesys2_artifact_package.py",
       "role": "core_reproduction_file",
-      "sha256": "5a8db3b73a80c2a38d7ea3af75d10fe5b1d9fde7f0b21911cc318837af9b7f2c",
-      "size_bytes": 13454
+      "sha256": "8c11d5d5dcc39f95d29a5fcd674df040f7e2064c13854806d856990b8731332e",
+      "size_bytes": 13928
     },
     {
       "exists": true,
       "git_publishable": true,
       "path": "tools/check_genesys2_artifact_package.py",
       "role": "core_reproduction_file",
-      "sha256": "9b3514f7ad3b58fc67a24ac55ebced0ea23fb1d5dfb29a93e2b2fa9189f6ab97",
-      "size_bytes": 18462
+      "sha256": "0538ff26b5f13931ee6cb8d9f0dc60e25e4295d6df31efd60689f29f64e0e757",
+      "size_bytes": 19839
     },
     {
       "exists": true,
@@ -390,6 +402,14 @@
     {
       "exists": true,
       "git_publishable": true,
+      "path": "tools/check_genesys2_bitstream_artifacts.py",
+      "role": "core_reproduction_file",
+      "sha256": "7b73c07cfee6d553ba758c15780b395857a920cc43b65a85a424d0a78c35b853",
+      "size_bytes": 20599
+    },
+    {
+      "exists": true,
+      "git_publishable": true,
       "path": "docs/03-platform-architecture/genesys2/baseline_pass_criteria.md",
       "role": "core_reproduction_file",
       "sha256": "170071578545c277a30315ab73876faa3ea46abf4402e687ea19f5f244f2773e",
@@ -560,8 +580,8 @@
       "git_publishable": true,
       "path": "docs/10-process/check_suites.md",
       "role": "core_reproduction_file",
-      "sha256": "4dfce2ec537be579c6c36a283173d87a4fd59a0321a12b5076011aae7d389536",
-      "size_bytes": 20893
+      "sha256": "5cbce6c1daa4fae216d867372b4eb3c1c9b293c58442fc0fb95861d0a91b3bdf",
+      "size_bytes": 21486
     },
     {
       "exists": true,
@@ -856,7 +876,7 @@
       "git_publishable": true,
       "path": "results/evaluation/genesys2-cva6/current/review_closure_audit.json",
       "role": "summary_artifact",
-      "sha256": "eeea7bb52244e7f471cf199104673578dca02eb54ffe49d51fa018aa7498e565",
+      "sha256": "b8d725e9588e105e73e65dc5c3e0498f513eaea0352816e3966a6222e3118304",
       "size_bytes": 37524
     },
     {
@@ -912,7 +932,7 @@
       "git_publishable": true,
       "path": "results/evaluation/genesys2-cva6/current/reproducibility_manifest.json",
       "role": "referenced_file",
-      "sha256": "5e5b4755544459e1dd700b2ef06642016637f8245cf9132fdf69ef0d1f16cc88",
+      "sha256": "9b9c9f32195c7e2b74b92860b7da1b95303c66c0414107e09db53f5806d9c5d1",
       "size_bytes": 31483
     }
   ],
@@ -993,6 +1013,8 @@
     "uv run python tools/package_genesys2_artifact_package.py",
     "uv run python tools/check_genesys2_artifact_package.py --root .",
     "uv run python tools/reproduce_genesys2_current.py --quick",
-    "uv run python tools/reproduce_genesys2_current.py --full --dry-run"
+    "uv run python tools/reproduce_genesys2_current.py --local",
+    "uv run python tools/reproduce_genesys2_current.py --full --dry-run",
+    "uv run rvmt repro:local --dry-run"
   ]
 }

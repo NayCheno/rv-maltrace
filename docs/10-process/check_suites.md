@@ -7,6 +7,22 @@ The suite manifest is `tools/check_suites.json`, and the runner is:
 uv run python tools/run_check_suite.py --list-suites
 ```
 
+## Reviewer Shortcuts
+
+Use these short commands before reaching for the long suite catalog:
+
+```powershell
+uv run rvmt repro:quick
+uv run rvmt repro:local
+uv run rvmt repro:full
+```
+
+`repro:quick` is the lightweight manifest/package check. `repro:local` is the
+recommended local CCF-A evidence-package reproduction pass: it adds current
+quality, case-study, and bitstream-artifact checks while avoiding board/Vivado
+reruns. `repro:full` is the strict closure suite and is allowed to fail while
+the external UART streaming evidence remains unresolved.
+
 ## Current Route
 
 Current Digilent Genesys2 + CVA6 gate:
@@ -218,7 +234,8 @@ hashes, manifest-selected raw board roots, and checker commands.
 `artifact_package_manifest.json`, a lightweight package manifest that hashes the
 current reports, checker entrypoints, summary artifacts, and reproduction
 tools, references raw board roots without copying them, and points fresh-clone
-reviewers to `tools/reproduce_genesys2_current.py --quick` or `--full`.
+reviewers to `uv run rvmt repro:quick`, `uv run rvmt repro:local`, or the
+strict `uv run rvmt repro:full` route.
 `tools/check_genesys2_external_closure_readiness.py` verifies
 `external_closure_readiness.json`, which records the remaining non-real-malware
 external blockers, required artifacts, acceptance criteria, future checker

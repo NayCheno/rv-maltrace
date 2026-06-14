@@ -18,6 +18,7 @@ REQUIRED_INCLUDED_PATHS = {
     "tools/check_suites.json",
     "tools/run_check_suite.py",
     "tools/reproduce_genesys2_current.py",
+    "src/rv_maltrace/cli.py",
     "tools/check_baseline_pass_criteria.py",
     "tools/check_board_trace_programs.py",
     "tools/check_board_trace_evidence.py",
@@ -58,6 +59,7 @@ REQUIRED_INCLUDED_PATHS = {
     "tools/check_genesys2_external_operator_packet.py",
     "tools/prepare_genesys2_external_summary.py",
     "tools/check_ccfa_current_quality.py",
+    "tools/check_genesys2_bitstream_artifacts.py",
     "docs/03-platform-architecture/genesys2/baseline_pass_criteria.md",
     "docs/03-platform-architecture/genesys2/board_bringup.md",
     "docs/03-platform-architecture/genesys2/board_trace_validation.md",
@@ -200,11 +202,19 @@ def check_summary(data: dict[str, Any], root: Path) -> list[str]:
     require(errors, fresh.get("requires_board_or_vivado") is False, "fresh clone checks must not require board/Vivado")
     require(errors, fresh.get("requires_network") is False, "fresh clone checks must not require network")
     quick = str(fresh.get("quick_command") or "")
+    local = str(fresh.get("local_command") or "")
     full = str(fresh.get("full_command") or "")
     dry = str(fresh.get("dry_run_command") or "")
+    rvmt_quick = str(fresh.get("rvmt_quick_command") or "")
+    rvmt_local = str(fresh.get("rvmt_local_command") or "")
+    rvmt_full = str(fresh.get("rvmt_full_command") or "")
     require(errors, "tools/reproduce_genesys2_current.py --quick" in quick, "quick reproduction command missing")
+    require(errors, "tools/reproduce_genesys2_current.py --local" in local, "local reproduction command missing")
     require(errors, "tools/reproduce_genesys2_current.py --full" in full, "full reproduction command missing")
     require(errors, "tools/reproduce_genesys2_current.py --full --dry-run" in dry, "dry-run reproduction command missing")
+    require(errors, "rvmt repro:quick" in rvmt_quick, "rvmt quick reproduction command missing")
+    require(errors, "rvmt repro:local" in rvmt_local, "rvmt local reproduction command missing")
+    require(errors, "rvmt repro:full" in rvmt_full, "rvmt full reproduction command missing")
 
     included = row_map(as_list(data.get("included_files")), "path")
     missing_paths = sorted(REQUIRED_INCLUDED_PATHS - set(included))
@@ -240,6 +250,8 @@ def check_summary(data: dict[str, Any], root: Path) -> list[str]:
     require(errors, "tools/package_genesys2_artifact_package.py" in commands, "validation command must include packager")
     require(errors, "tools/check_genesys2_artifact_package.py --root ." in commands, "validation command must include checker")
     require(errors, "tools/reproduce_genesys2_current.py --quick" in commands, "validation command must include quick reproduction")
+    require(errors, "tools/reproduce_genesys2_current.py --local" in commands, "validation command must include local reproduction")
+    require(errors, "rvmt repro:local" in commands, "validation command must include simplified rvmt reproduction")
 
     boundary = as_dict(data.get("claim_boundary"))
     require(errors, boundary.get("fresh_clone_reproduction_script_available") is True, "fresh clone boundary missing")
@@ -283,8 +295,12 @@ def self_test() -> int:
             "fresh_clone_reproduction": {
                 "script": "tools/reproduce_genesys2_current.py",
                 "quick_command": "uv run python tools/reproduce_genesys2_current.py --quick",
+                "local_command": "uv run python tools/reproduce_genesys2_current.py --local",
                 "full_command": "uv run python tools/reproduce_genesys2_current.py --full",
                 "dry_run_command": "uv run python tools/reproduce_genesys2_current.py --full --dry-run",
+                "rvmt_quick_command": "uv run rvmt repro:quick",
+                "rvmt_local_command": "uv run rvmt repro:local",
+                "rvmt_full_command": "uv run rvmt repro:full",
                 "requires_board_or_vivado": False,
                 "requires_network": False,
             },
@@ -297,6 +313,8 @@ def self_test() -> int:
                 "uv run python tools/package_genesys2_artifact_package.py",
                 "uv run python tools/check_genesys2_artifact_package.py --root .",
                 "uv run python tools/reproduce_genesys2_current.py --quick",
+                "uv run python tools/reproduce_genesys2_current.py --local",
+                "uv run rvmt repro:local --dry-run",
             ],
             "claim_boundary": {
                 "fresh_clone_reproduction_script_available": True,
