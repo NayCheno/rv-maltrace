@@ -117,8 +117,22 @@ def check_record_specific(errors: list[str], record_id: str, record: dict[str, A
     elif record_id == "production_streaming_dma_trace_sink":
         require(errors, "streaming_dma_readiness" in evidence_ids, "streaming record must include readiness summary evidence")
         require(errors, text_has_all(artifacts, ["non-BRAM", "throughput", "host receiver", "resource"]), "streaming artifacts must require non-BRAM throughput evidence")
-        require(errors, text_has_all(criteria, ["not reported as BRAM", "p95", "unaccounted DROP", "timing closure"]), "streaming criteria incomplete")
-        require(errors, text_has_all(contract_fields, ["transport", "sustained_bytes_per_second", "p95_event_bytes_per_second"]), "streaming future checker fields incomplete")
+        require(errors, text_has_all(criteria, ["not reported as BRAM", "p99", "1.5", "unaccounted DROP", "timing closure"]), "streaming criteria incomplete")
+        require(
+            errors,
+            text_has_all(
+                contract_fields,
+                [
+                    "transport",
+                    "sustained_bytes_per_second",
+                    "p95_event_bytes_per_second",
+                    "p99_event_bytes_per_second",
+                    "required_sustained_bytes_per_second",
+                    "minimum_sustained_throughput_multiplier",
+                ],
+            ),
+            "streaming future checker fields incomplete",
+        )
     elif record_id == "genesys2_board_benign_control":
         require(errors, "board_benign_readiness" in evidence_ids, "board benign record must include readiness summary evidence")
         require(errors, "Genesys2/CVA6 board traces" in artifacts, "board benign artifacts must require board traces")
@@ -228,12 +242,15 @@ def self_test() -> int:
                     {"id": "streaming_dma_readiness", "path": "evidence.txt", "exists": True, "sha256": "c" * 64},
                 ]
                 record["required_external_artifacts"] = ["non-BRAM throughput host receiver resource", "two", "three", "four"]
-                record["acceptance_criteria"] = ["not reported as BRAM p95 unaccounted DROP timing closure", "two", "three", "four"]
+                record["acceptance_criteria"] = ["not reported as BRAM p99 1.5 unaccounted DROP timing closure", "two", "three", "four"]
                 record["future_checker_contract"]["required_fields"] = [
                     "transport",
                     "evidence_artifacts",
                     "sustained_bytes_per_second",
                     "p95_event_bytes_per_second",
+                    "p99_event_bytes_per_second",
+                    "required_sustained_bytes_per_second",
+                    "minimum_sustained_throughput_multiplier",
                     "four",
                 ]
             elif record_id == "genesys2_board_benign_control":

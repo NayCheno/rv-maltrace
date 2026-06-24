@@ -1,0 +1,1907 @@
+{
+  "claim_boundary": {
+    "cycle_level_overhead_claimed": false,
+    "genesys2_board_run_performed": false,
+    "local_directed_trace_corpus": true,
+    "processor_bug_discovery_claimed": false,
+    "real_malware_validation_claimed": false,
+    "vivado_run_performed": false
+  },
+  "corpus_digest": "d7b8b02c557b7795815c057bc858dd141cdd48428f63981888f1b98246dfd19d",
+  "coverage": {
+    "category_counts": {
+      "dual_commit_control_flow": 10,
+      "same_cycle_event_order": 15,
+      "seeded_random_event_sequence": 10,
+      "syscall_entry_return_pairing": 15,
+      "trap_privilege_context": 10
+    },
+    "directed_case_count": 50,
+    "event_counts": {
+      "ARG_MEM": 55,
+      "BRANCH": 35,
+      "CSR": 25,
+      "DROP": 60,
+      "JUMP": 20,
+      "MARKER": 40,
+      "PRIV": 35,
+      "RETIRE": 95,
+      "SATP": 20,
+      "SYSCALL_ENTRY": 50,
+      "SYSCALL_RET": 50,
+      "TRAP": 35
+    },
+    "negative_category_counts": {
+      "control_flow_targets_aligned": 1,
+      "drop_count_monotonic": 1,
+      "dual_commit_order": 1,
+      "same_cycle_event_order": 1,
+      "strict_sret_qualification": 1,
+      "syscall_pairing": 3,
+      "trap_not_retire": 1
+    },
+    "negative_sensitivity_case_count": 9,
+    "random_seed": "0x52564d54",
+    "requirements": {
+      "drop_accounting": true,
+      "dual_commit_order": true,
+      "pointer_argument_fragment": true,
+      "same_cycle_event_order": true,
+      "seeded_random_event_sequences": true,
+      "strict_sret_negative_sensitivity": true,
+      "syscall_entry_return_pairing": true,
+      "trap_and_privilege_transition": true
+    },
+    "seeded_random_case_count": 10
+  },
+  "directed_case_count": 50,
+  "invariant_catalog": [
+    "context_events_well_formed",
+    "control_flow_targets_aligned",
+    "drop_count_monotonic",
+    "dual_commit_order",
+    "known_event_types",
+    "same_cycle_event_order",
+    "sret_return_qualified",
+    "syscall_pairing",
+    "trace_schema_required_fields",
+    "trap_not_retire"
+  ],
+  "negative_cases": [
+    {
+      "category": "syscall_pairing",
+      "errors": [
+        "event 0: SYSCALL_RET has no matching entry"
+      ],
+      "event_count": 1,
+      "event_counts": {
+        "SYSCALL_RET": 1
+      },
+      "id": "negative_unmatched_syscall_ret",
+      "status": "EXPECTED_FAIL"
+    },
+    {
+      "category": "syscall_pairing",
+      "errors": [
+        "syscall_id 8: missing SYSCALL_RET"
+      ],
+      "event_count": 1,
+      "event_counts": {
+        "SYSCALL_ENTRY": 1
+      },
+      "id": "negative_missing_syscall_ret",
+      "status": "EXPECTED_FAIL"
+    },
+    {
+      "category": "same_cycle_event_order",
+      "errors": [
+        "event 1: same-cycle order violation at cycle 3: TRAP appeared after RETIRE from event 0"
+      ],
+      "event_count": 2,
+      "event_counts": {
+        "RETIRE": 1,
+        "TRAP": 1
+      },
+      "id": "negative_same_cycle_order",
+      "status": "EXPECTED_FAIL"
+    },
+    {
+      "category": "dual_commit_order",
+      "errors": [
+        "event 1: dual-retire commit_port order violation at cycle 4: 0 after 1"
+      ],
+      "event_count": 2,
+      "event_counts": {
+        "RETIRE": 2
+      },
+      "id": "negative_dual_commit_reverse",
+      "status": "EXPECTED_FAIL"
+    },
+    {
+      "category": "trap_not_retire",
+      "errors": [
+        "event 0: TRAP pc/instr also appeared as RETIRE"
+      ],
+      "event_count": 2,
+      "event_counts": {
+        "RETIRE": 1,
+        "TRAP": 1
+      },
+      "id": "negative_trap_retire_overlap",
+      "status": "EXPECTED_FAIL"
+    },
+    {
+      "category": "drop_count_monotonic",
+      "errors": [
+        "event 1: DROP value must be strictly increasing"
+      ],
+      "event_count": 2,
+      "event_counts": {
+        "DROP": 2
+      },
+      "id": "negative_drop_nonmonotonic",
+      "status": "EXPECTED_FAIL"
+    },
+    {
+      "category": "syscall_pairing",
+      "errors": [
+        "event 1: SYSCALL_RET pid does not match entry",
+        "event 1: SYSCALL_RET tgid does not match entry"
+      ],
+      "event_count": 2,
+      "event_counts": {
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1
+      },
+      "id": "negative_cross_pid_return",
+      "status": "EXPECTED_FAIL"
+    },
+    {
+      "category": "strict_sret_qualification",
+      "errors": [
+        "event 1: SYSCALL_RET must carry sret_qualified=true"
+      ],
+      "event_count": 2,
+      "event_counts": {
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1
+      },
+      "id": "negative_unqualified_sret_return",
+      "status": "EXPECTED_FAIL"
+    },
+    {
+      "category": "control_flow_targets_aligned",
+      "errors": [
+        "event 0: BRANCH target is not 2-byte aligned: 0xc003"
+      ],
+      "event_count": 1,
+      "event_counts": {
+        "BRANCH": 1
+      },
+      "id": "negative_unaligned_branch_target",
+      "status": "EXPECTED_FAIL"
+    }
+  ],
+  "negative_sensitivity_case_count": 9,
+  "non_claims": [
+    "This corpus validates RV-MalTrace trace event invariant handling and directed edge cases; it is not a new Vivado or Genesys2 board run.",
+    "The seeded random event sequences are deterministic checker fixtures, not a RISCV-DV processor bug-discovery campaign.",
+    "The corpus does not add malware validation, production streaming/DMA throughput, or cycle-level overhead evidence."
+  ],
+  "positive_case_count": 60,
+  "positive_cases": [
+    {
+      "category": "syscall_entry_return_pairing",
+      "errors": [],
+      "event_count": 6,
+      "event_counts": {
+        "ARG_MEM": 1,
+        "DROP": 1,
+        "MARKER": 1,
+        "RETIRE": 1,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1
+      },
+      "id": "directed_syscall_pair_00",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "syscall_entry_return_pairing",
+      "errors": [],
+      "event_count": 6,
+      "event_counts": {
+        "ARG_MEM": 1,
+        "DROP": 1,
+        "MARKER": 1,
+        "RETIRE": 1,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1
+      },
+      "id": "directed_syscall_pair_01",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "syscall_entry_return_pairing",
+      "errors": [],
+      "event_count": 6,
+      "event_counts": {
+        "ARG_MEM": 1,
+        "DROP": 1,
+        "MARKER": 1,
+        "RETIRE": 1,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1
+      },
+      "id": "directed_syscall_pair_02",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "syscall_entry_return_pairing",
+      "errors": [],
+      "event_count": 6,
+      "event_counts": {
+        "ARG_MEM": 1,
+        "DROP": 1,
+        "MARKER": 1,
+        "RETIRE": 1,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1
+      },
+      "id": "directed_syscall_pair_03",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "syscall_entry_return_pairing",
+      "errors": [],
+      "event_count": 6,
+      "event_counts": {
+        "ARG_MEM": 1,
+        "DROP": 1,
+        "MARKER": 1,
+        "RETIRE": 1,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1
+      },
+      "id": "directed_syscall_pair_04",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "syscall_entry_return_pairing",
+      "errors": [],
+      "event_count": 6,
+      "event_counts": {
+        "ARG_MEM": 1,
+        "DROP": 1,
+        "MARKER": 1,
+        "RETIRE": 1,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1
+      },
+      "id": "directed_syscall_pair_05",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "syscall_entry_return_pairing",
+      "errors": [],
+      "event_count": 6,
+      "event_counts": {
+        "ARG_MEM": 1,
+        "DROP": 1,
+        "MARKER": 1,
+        "RETIRE": 1,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1
+      },
+      "id": "directed_syscall_pair_06",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "syscall_entry_return_pairing",
+      "errors": [],
+      "event_count": 6,
+      "event_counts": {
+        "ARG_MEM": 1,
+        "DROP": 1,
+        "MARKER": 1,
+        "RETIRE": 1,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1
+      },
+      "id": "directed_syscall_pair_07",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "syscall_entry_return_pairing",
+      "errors": [],
+      "event_count": 6,
+      "event_counts": {
+        "ARG_MEM": 1,
+        "DROP": 1,
+        "MARKER": 1,
+        "RETIRE": 1,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1
+      },
+      "id": "directed_syscall_pair_08",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "syscall_entry_return_pairing",
+      "errors": [],
+      "event_count": 6,
+      "event_counts": {
+        "ARG_MEM": 1,
+        "DROP": 1,
+        "MARKER": 1,
+        "RETIRE": 1,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1
+      },
+      "id": "directed_syscall_pair_09",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "syscall_entry_return_pairing",
+      "errors": [],
+      "event_count": 6,
+      "event_counts": {
+        "ARG_MEM": 1,
+        "DROP": 1,
+        "MARKER": 1,
+        "RETIRE": 1,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1
+      },
+      "id": "directed_syscall_pair_10",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "syscall_entry_return_pairing",
+      "errors": [],
+      "event_count": 6,
+      "event_counts": {
+        "ARG_MEM": 1,
+        "DROP": 1,
+        "MARKER": 1,
+        "RETIRE": 1,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1
+      },
+      "id": "directed_syscall_pair_11",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "syscall_entry_return_pairing",
+      "errors": [],
+      "event_count": 6,
+      "event_counts": {
+        "ARG_MEM": 1,
+        "DROP": 1,
+        "MARKER": 1,
+        "RETIRE": 1,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1
+      },
+      "id": "directed_syscall_pair_12",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "syscall_entry_return_pairing",
+      "errors": [],
+      "event_count": 6,
+      "event_counts": {
+        "ARG_MEM": 1,
+        "DROP": 1,
+        "MARKER": 1,
+        "RETIRE": 1,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1
+      },
+      "id": "directed_syscall_pair_13",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "syscall_entry_return_pairing",
+      "errors": [],
+      "event_count": 6,
+      "event_counts": {
+        "ARG_MEM": 1,
+        "DROP": 1,
+        "MARKER": 1,
+        "RETIRE": 1,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1
+      },
+      "id": "directed_syscall_pair_14",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "trap_privilege_context",
+      "errors": [],
+      "event_count": 6,
+      "event_counts": {
+        "CSR": 1,
+        "DROP": 1,
+        "PRIV": 1,
+        "RETIRE": 1,
+        "SATP": 1,
+        "TRAP": 1
+      },
+      "id": "directed_trap_context_00",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "trap_privilege_context",
+      "errors": [],
+      "event_count": 6,
+      "event_counts": {
+        "CSR": 1,
+        "DROP": 1,
+        "PRIV": 1,
+        "RETIRE": 1,
+        "SATP": 1,
+        "TRAP": 1
+      },
+      "id": "directed_trap_context_01",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "trap_privilege_context",
+      "errors": [],
+      "event_count": 6,
+      "event_counts": {
+        "CSR": 1,
+        "DROP": 1,
+        "PRIV": 1,
+        "RETIRE": 1,
+        "SATP": 1,
+        "TRAP": 1
+      },
+      "id": "directed_trap_context_02",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "trap_privilege_context",
+      "errors": [],
+      "event_count": 6,
+      "event_counts": {
+        "CSR": 1,
+        "DROP": 1,
+        "PRIV": 1,
+        "RETIRE": 1,
+        "SATP": 1,
+        "TRAP": 1
+      },
+      "id": "directed_trap_context_03",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "trap_privilege_context",
+      "errors": [],
+      "event_count": 6,
+      "event_counts": {
+        "CSR": 1,
+        "DROP": 1,
+        "PRIV": 1,
+        "RETIRE": 1,
+        "SATP": 1,
+        "TRAP": 1
+      },
+      "id": "directed_trap_context_04",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "trap_privilege_context",
+      "errors": [],
+      "event_count": 6,
+      "event_counts": {
+        "CSR": 1,
+        "DROP": 1,
+        "PRIV": 1,
+        "RETIRE": 1,
+        "SATP": 1,
+        "TRAP": 1
+      },
+      "id": "directed_trap_context_05",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "trap_privilege_context",
+      "errors": [],
+      "event_count": 6,
+      "event_counts": {
+        "CSR": 1,
+        "DROP": 1,
+        "PRIV": 1,
+        "RETIRE": 1,
+        "SATP": 1,
+        "TRAP": 1
+      },
+      "id": "directed_trap_context_06",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "trap_privilege_context",
+      "errors": [],
+      "event_count": 6,
+      "event_counts": {
+        "CSR": 1,
+        "DROP": 1,
+        "PRIV": 1,
+        "RETIRE": 1,
+        "SATP": 1,
+        "TRAP": 1
+      },
+      "id": "directed_trap_context_07",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "trap_privilege_context",
+      "errors": [],
+      "event_count": 6,
+      "event_counts": {
+        "CSR": 1,
+        "DROP": 1,
+        "PRIV": 1,
+        "RETIRE": 1,
+        "SATP": 1,
+        "TRAP": 1
+      },
+      "id": "directed_trap_context_08",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "trap_privilege_context",
+      "errors": [],
+      "event_count": 6,
+      "event_counts": {
+        "CSR": 1,
+        "DROP": 1,
+        "PRIV": 1,
+        "RETIRE": 1,
+        "SATP": 1,
+        "TRAP": 1
+      },
+      "id": "directed_trap_context_09",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "dual_commit_control_flow",
+      "errors": [],
+      "event_count": 5,
+      "event_counts": {
+        "BRANCH": 1,
+        "DROP": 1,
+        "JUMP": 1,
+        "RETIRE": 2
+      },
+      "id": "directed_dual_commit_cf_00",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "dual_commit_control_flow",
+      "errors": [],
+      "event_count": 5,
+      "event_counts": {
+        "BRANCH": 1,
+        "DROP": 1,
+        "JUMP": 1,
+        "RETIRE": 2
+      },
+      "id": "directed_dual_commit_cf_01",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "dual_commit_control_flow",
+      "errors": [],
+      "event_count": 5,
+      "event_counts": {
+        "BRANCH": 1,
+        "DROP": 1,
+        "JUMP": 1,
+        "RETIRE": 2
+      },
+      "id": "directed_dual_commit_cf_02",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "dual_commit_control_flow",
+      "errors": [],
+      "event_count": 5,
+      "event_counts": {
+        "BRANCH": 1,
+        "DROP": 1,
+        "JUMP": 1,
+        "RETIRE": 2
+      },
+      "id": "directed_dual_commit_cf_03",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "dual_commit_control_flow",
+      "errors": [],
+      "event_count": 5,
+      "event_counts": {
+        "BRANCH": 1,
+        "DROP": 1,
+        "JUMP": 1,
+        "RETIRE": 2
+      },
+      "id": "directed_dual_commit_cf_04",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "dual_commit_control_flow",
+      "errors": [],
+      "event_count": 5,
+      "event_counts": {
+        "BRANCH": 1,
+        "DROP": 1,
+        "JUMP": 1,
+        "RETIRE": 2
+      },
+      "id": "directed_dual_commit_cf_05",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "dual_commit_control_flow",
+      "errors": [],
+      "event_count": 5,
+      "event_counts": {
+        "BRANCH": 1,
+        "DROP": 1,
+        "JUMP": 1,
+        "RETIRE": 2
+      },
+      "id": "directed_dual_commit_cf_06",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "dual_commit_control_flow",
+      "errors": [],
+      "event_count": 5,
+      "event_counts": {
+        "BRANCH": 1,
+        "DROP": 1,
+        "JUMP": 1,
+        "RETIRE": 2
+      },
+      "id": "directed_dual_commit_cf_07",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "dual_commit_control_flow",
+      "errors": [],
+      "event_count": 5,
+      "event_counts": {
+        "BRANCH": 1,
+        "DROP": 1,
+        "JUMP": 1,
+        "RETIRE": 2
+      },
+      "id": "directed_dual_commit_cf_08",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "dual_commit_control_flow",
+      "errors": [],
+      "event_count": 5,
+      "event_counts": {
+        "BRANCH": 1,
+        "DROP": 1,
+        "JUMP": 1,
+        "RETIRE": 2
+      },
+      "id": "directed_dual_commit_cf_09",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "same_cycle_event_order",
+      "errors": [],
+      "event_count": 12,
+      "event_counts": {
+        "ARG_MEM": 2,
+        "BRANCH": 1,
+        "CSR": 1,
+        "DROP": 1,
+        "MARKER": 1,
+        "PRIV": 1,
+        "RETIRE": 2,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1,
+        "TRAP": 1
+      },
+      "id": "directed_same_cycle_mixed_00",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "same_cycle_event_order",
+      "errors": [],
+      "event_count": 12,
+      "event_counts": {
+        "ARG_MEM": 2,
+        "BRANCH": 1,
+        "CSR": 1,
+        "DROP": 1,
+        "MARKER": 1,
+        "PRIV": 1,
+        "RETIRE": 2,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1,
+        "TRAP": 1
+      },
+      "id": "directed_same_cycle_mixed_01",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "same_cycle_event_order",
+      "errors": [],
+      "event_count": 12,
+      "event_counts": {
+        "ARG_MEM": 2,
+        "BRANCH": 1,
+        "CSR": 1,
+        "DROP": 1,
+        "MARKER": 1,
+        "PRIV": 1,
+        "RETIRE": 2,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1,
+        "TRAP": 1
+      },
+      "id": "directed_same_cycle_mixed_02",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "same_cycle_event_order",
+      "errors": [],
+      "event_count": 12,
+      "event_counts": {
+        "ARG_MEM": 2,
+        "BRANCH": 1,
+        "CSR": 1,
+        "DROP": 1,
+        "MARKER": 1,
+        "PRIV": 1,
+        "RETIRE": 2,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1,
+        "TRAP": 1
+      },
+      "id": "directed_same_cycle_mixed_03",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "same_cycle_event_order",
+      "errors": [],
+      "event_count": 12,
+      "event_counts": {
+        "ARG_MEM": 2,
+        "BRANCH": 1,
+        "CSR": 1,
+        "DROP": 1,
+        "MARKER": 1,
+        "PRIV": 1,
+        "RETIRE": 2,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1,
+        "TRAP": 1
+      },
+      "id": "directed_same_cycle_mixed_04",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "same_cycle_event_order",
+      "errors": [],
+      "event_count": 12,
+      "event_counts": {
+        "ARG_MEM": 2,
+        "BRANCH": 1,
+        "CSR": 1,
+        "DROP": 1,
+        "MARKER": 1,
+        "PRIV": 1,
+        "RETIRE": 2,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1,
+        "TRAP": 1
+      },
+      "id": "directed_same_cycle_mixed_05",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "same_cycle_event_order",
+      "errors": [],
+      "event_count": 12,
+      "event_counts": {
+        "ARG_MEM": 2,
+        "BRANCH": 1,
+        "CSR": 1,
+        "DROP": 1,
+        "MARKER": 1,
+        "PRIV": 1,
+        "RETIRE": 2,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1,
+        "TRAP": 1
+      },
+      "id": "directed_same_cycle_mixed_06",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "same_cycle_event_order",
+      "errors": [],
+      "event_count": 12,
+      "event_counts": {
+        "ARG_MEM": 2,
+        "BRANCH": 1,
+        "CSR": 1,
+        "DROP": 1,
+        "MARKER": 1,
+        "PRIV": 1,
+        "RETIRE": 2,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1,
+        "TRAP": 1
+      },
+      "id": "directed_same_cycle_mixed_07",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "same_cycle_event_order",
+      "errors": [],
+      "event_count": 12,
+      "event_counts": {
+        "ARG_MEM": 2,
+        "BRANCH": 1,
+        "CSR": 1,
+        "DROP": 1,
+        "MARKER": 1,
+        "PRIV": 1,
+        "RETIRE": 2,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1,
+        "TRAP": 1
+      },
+      "id": "directed_same_cycle_mixed_08",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "same_cycle_event_order",
+      "errors": [],
+      "event_count": 12,
+      "event_counts": {
+        "ARG_MEM": 2,
+        "BRANCH": 1,
+        "CSR": 1,
+        "DROP": 1,
+        "MARKER": 1,
+        "PRIV": 1,
+        "RETIRE": 2,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1,
+        "TRAP": 1
+      },
+      "id": "directed_same_cycle_mixed_09",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "same_cycle_event_order",
+      "errors": [],
+      "event_count": 12,
+      "event_counts": {
+        "ARG_MEM": 2,
+        "BRANCH": 1,
+        "CSR": 1,
+        "DROP": 1,
+        "MARKER": 1,
+        "PRIV": 1,
+        "RETIRE": 2,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1,
+        "TRAP": 1
+      },
+      "id": "directed_same_cycle_mixed_10",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "same_cycle_event_order",
+      "errors": [],
+      "event_count": 12,
+      "event_counts": {
+        "ARG_MEM": 2,
+        "BRANCH": 1,
+        "CSR": 1,
+        "DROP": 1,
+        "MARKER": 1,
+        "PRIV": 1,
+        "RETIRE": 2,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1,
+        "TRAP": 1
+      },
+      "id": "directed_same_cycle_mixed_11",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "same_cycle_event_order",
+      "errors": [],
+      "event_count": 12,
+      "event_counts": {
+        "ARG_MEM": 2,
+        "BRANCH": 1,
+        "CSR": 1,
+        "DROP": 1,
+        "MARKER": 1,
+        "PRIV": 1,
+        "RETIRE": 2,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1,
+        "TRAP": 1
+      },
+      "id": "directed_same_cycle_mixed_12",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "same_cycle_event_order",
+      "errors": [],
+      "event_count": 12,
+      "event_counts": {
+        "ARG_MEM": 2,
+        "BRANCH": 1,
+        "CSR": 1,
+        "DROP": 1,
+        "MARKER": 1,
+        "PRIV": 1,
+        "RETIRE": 2,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1,
+        "TRAP": 1
+      },
+      "id": "directed_same_cycle_mixed_13",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "same_cycle_event_order",
+      "errors": [],
+      "event_count": 12,
+      "event_counts": {
+        "ARG_MEM": 2,
+        "BRANCH": 1,
+        "CSR": 1,
+        "DROP": 1,
+        "MARKER": 1,
+        "PRIV": 1,
+        "RETIRE": 2,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1,
+        "TRAP": 1
+      },
+      "id": "directed_same_cycle_mixed_14",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "seeded_random_event_sequence",
+      "errors": [],
+      "event_count": 14,
+      "event_counts": {
+        "ARG_MEM": 1,
+        "BRANCH": 1,
+        "DROP": 1,
+        "JUMP": 1,
+        "MARKER": 1,
+        "PRIV": 1,
+        "RETIRE": 2,
+        "SATP": 1,
+        "SYSCALL_ENTRY": 2,
+        "SYSCALL_RET": 2,
+        "TRAP": 1
+      },
+      "id": "random_event_sequence_00",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "seeded_random_event_sequence",
+      "errors": [],
+      "event_count": 14,
+      "event_counts": {
+        "ARG_MEM": 1,
+        "BRANCH": 1,
+        "DROP": 1,
+        "JUMP": 1,
+        "MARKER": 1,
+        "PRIV": 1,
+        "RETIRE": 2,
+        "SATP": 1,
+        "SYSCALL_ENTRY": 2,
+        "SYSCALL_RET": 2,
+        "TRAP": 1
+      },
+      "id": "random_event_sequence_01",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "seeded_random_event_sequence",
+      "errors": [],
+      "event_count": 14,
+      "event_counts": {
+        "ARG_MEM": 1,
+        "BRANCH": 1,
+        "DROP": 1,
+        "JUMP": 1,
+        "MARKER": 1,
+        "PRIV": 1,
+        "RETIRE": 2,
+        "SATP": 1,
+        "SYSCALL_ENTRY": 2,
+        "SYSCALL_RET": 2,
+        "TRAP": 1
+      },
+      "id": "random_event_sequence_02",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "seeded_random_event_sequence",
+      "errors": [],
+      "event_count": 14,
+      "event_counts": {
+        "ARG_MEM": 1,
+        "BRANCH": 1,
+        "DROP": 1,
+        "JUMP": 1,
+        "MARKER": 1,
+        "PRIV": 1,
+        "RETIRE": 2,
+        "SATP": 1,
+        "SYSCALL_ENTRY": 2,
+        "SYSCALL_RET": 2,
+        "TRAP": 1
+      },
+      "id": "random_event_sequence_03",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "seeded_random_event_sequence",
+      "errors": [],
+      "event_count": 14,
+      "event_counts": {
+        "ARG_MEM": 1,
+        "BRANCH": 1,
+        "DROP": 1,
+        "JUMP": 1,
+        "MARKER": 1,
+        "PRIV": 1,
+        "RETIRE": 2,
+        "SATP": 1,
+        "SYSCALL_ENTRY": 2,
+        "SYSCALL_RET": 2,
+        "TRAP": 1
+      },
+      "id": "random_event_sequence_04",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "seeded_random_event_sequence",
+      "errors": [],
+      "event_count": 14,
+      "event_counts": {
+        "ARG_MEM": 1,
+        "BRANCH": 1,
+        "DROP": 1,
+        "JUMP": 1,
+        "MARKER": 1,
+        "PRIV": 1,
+        "RETIRE": 2,
+        "SATP": 1,
+        "SYSCALL_ENTRY": 2,
+        "SYSCALL_RET": 2,
+        "TRAP": 1
+      },
+      "id": "random_event_sequence_05",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "seeded_random_event_sequence",
+      "errors": [],
+      "event_count": 14,
+      "event_counts": {
+        "ARG_MEM": 1,
+        "BRANCH": 1,
+        "DROP": 1,
+        "JUMP": 1,
+        "MARKER": 1,
+        "PRIV": 1,
+        "RETIRE": 2,
+        "SATP": 1,
+        "SYSCALL_ENTRY": 2,
+        "SYSCALL_RET": 2,
+        "TRAP": 1
+      },
+      "id": "random_event_sequence_06",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "seeded_random_event_sequence",
+      "errors": [],
+      "event_count": 14,
+      "event_counts": {
+        "ARG_MEM": 1,
+        "BRANCH": 1,
+        "DROP": 1,
+        "JUMP": 1,
+        "MARKER": 1,
+        "PRIV": 1,
+        "RETIRE": 2,
+        "SATP": 1,
+        "SYSCALL_ENTRY": 2,
+        "SYSCALL_RET": 2,
+        "TRAP": 1
+      },
+      "id": "random_event_sequence_07",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "seeded_random_event_sequence",
+      "errors": [],
+      "event_count": 14,
+      "event_counts": {
+        "ARG_MEM": 1,
+        "BRANCH": 1,
+        "DROP": 1,
+        "JUMP": 1,
+        "MARKER": 1,
+        "PRIV": 1,
+        "RETIRE": 2,
+        "SATP": 1,
+        "SYSCALL_ENTRY": 2,
+        "SYSCALL_RET": 2,
+        "TRAP": 1
+      },
+      "id": "random_event_sequence_08",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    },
+    {
+      "category": "seeded_random_event_sequence",
+      "errors": [],
+      "event_count": 14,
+      "event_counts": {
+        "ARG_MEM": 1,
+        "BRANCH": 1,
+        "DROP": 1,
+        "JUMP": 1,
+        "MARKER": 1,
+        "PRIV": 1,
+        "RETIRE": 2,
+        "SATP": 1,
+        "SYSCALL_ENTRY": 2,
+        "SYSCALL_RET": 2,
+        "TRAP": 1
+      },
+      "id": "random_event_sequence_09",
+      "invariants": [
+        "context_events_well_formed",
+        "control_flow_targets_aligned",
+        "drop_count_monotonic",
+        "dual_commit_order",
+        "known_event_types",
+        "same_cycle_event_order",
+        "sret_return_qualified",
+        "syscall_pairing",
+        "trace_schema_required_fields",
+        "trap_not_retire"
+      ],
+      "status": "PASS"
+    }
+  ],
+  "schema": "rvmt.trace_correctness.directed_corpus.v1",
+  "seeded_random_case_count": 10,
+  "status": "PASS"
+}

@@ -19,7 +19,7 @@ REQUIRED_TEXT = (
     "they do not make the project CCF-A paper-ready.",
     "PASS_CURRENT_GENESYS2_CONTROLLED",
     "PASS_CURRENT_BOUNDED_SEMANTICS",
-    "PASS_CURRENT_RUNTIME_BENCHMARK",
+    "PASS_CURRENT_RUNTIME_SMOKE_OPEN_CYCLE_OVERHEAD",
     "PASS_CONTROLLED_SAFE_SURROGATE",
     "PASS_CURRENT_BRAM_COST_OPEN_STREAMING_DMA",
     "PASS_SAFE_CASE_STUDIES_NON_REAL",
@@ -49,8 +49,8 @@ FORBIDDEN_PATTERNS = (
 
 EXPECTED_RQ_STATUSES = {
     "RQ1": "PASS_CURRENT_GENESYS2_CONTROLLED",
-    "RQ2": "PASS_CURRENT_BOUNDED_SEMANTICS",
-    "RQ3": "PASS_CURRENT_RUNTIME_BENCHMARK",
+    "RQ2": "PASS_CURRENT_BOUNDED_SEMANTICS_PLUS_ACCEPTED_POINTER_STRINGS",
+    "RQ3": "PASS_CURRENT_RUNTIME_SMOKE_OPEN_CYCLE_OVERHEAD",
     "RQ4": "PASS_CONTROLLED_SAFE_SURROGATE",
     "RQ5": "PASS_CURRENT_BRAM_COST_OPEN_STREAMING_DMA",
     "RQ6": "PASS_SAFE_CASE_STUDIES_NON_REAL",
@@ -123,6 +123,10 @@ EXPECTED_EVIDENCE_ARTIFACTS = {
     "results/evaluation/genesys2-cva6/current/pointer_string_readiness_summary.json": (
         "rvmt.genesys2.pointer_string_readiness.v1",
         "tools/check_genesys2_pointer_string_readiness.py",
+    ),
+    "results/evaluation/genesys2-cva6/current/external_closure/hardware_pointer_strings_summary.json": (
+        "rvmt.genesys2.hardware_pointer_strings.v1",
+        "tools/check_genesys2_hardware_pointer_strings.py",
     ),
     "results/evaluation/genesys2-cva6/current/debug_elf_readiness_summary.json": (
         "rvmt.genesys2.debug_elf_readiness.v1",
@@ -339,14 +343,14 @@ def check_current_artifacts(root: Path) -> list[str]:
             errors.append(f"{artifact}: schema must be {schema}")
         if artifact.endswith("external_closure_intake.json"):
             boundary = data.get("claim_boundary") if isinstance(data.get("claim_boundary"), dict) else {}
-            truthful_fail = (
-                data.get("status") == "FAIL"
-                and int(data.get("invalid_external_blocker_count") or 0) > 0
+            truthful_blocked = (
+                data.get("status") == "BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED"
+                and int(data.get("accepted_external_blocker_count") or 0) < len(EXPECTED_EXTERNAL_ITEMS)
                 and boundary.get("unvalidated_external_summary_accepted") is False
                 and boundary.get("all_non_real_external_blockers_closed") is False
             )
-            if data.get("status") != "PASS" and not truthful_fail:
-                errors.append(f"{artifact}: status must be PASS or a truthful external-intake FAIL")
+            if data.get("status") != "PASS" and not truthful_blocked:
+                errors.append(f"{artifact}: status must be PASS or a truthful external-intake BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED")
         elif data.get("status") != "PASS":
             errors.append(f"{artifact}: status must be PASS")
         boundary = data.get("claim_boundary")
@@ -384,7 +388,7 @@ def write_artifact_fixtures(root: Path) -> None:
     for artifact, (schema, _) in EXPECTED_EVIDENCE_ARTIFACTS.items():
         payload: dict[str, Any] = {"schema": schema, "status": "PASS", "claim_boundary": {"real_malware_validation_claimed": False}}
         if artifact.endswith("external_closure_intake.json"):
-            payload["status"] = "FAIL"
+            payload["status"] = "BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED"
             payload["closure_status"] = "OPEN_EXTERNAL_ARTIFACTS_REQUIRED"
             payload["accepted_external_blocker_count"] = 3
             payload["open_external_blocker_count"] = 0

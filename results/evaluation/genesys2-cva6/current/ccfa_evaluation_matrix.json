@@ -16,7 +16,7 @@
     "Safe surrogate malware-like behavior audit is not real malware validation.",
     "Hardware pointer snapshot evidence is bounded-prefix compact ARG_MEM; companion alignment remains the full semantic string source where needed.",
     "ILA remains a debug path; BRAM ring is the current board trace-sink evidence.",
-    "Production runtime slowdown is measured in production_runtime_benchmark.json."
+    "production_runtime_benchmark.json is board runtime smoke only; cycle-level production slowdown remains external/open."
   ],
   "resource_timing_summary": "results/evaluation/genesys2-cva6/current/resource_timing_summary.json",
   "samples": [
@@ -92,7 +92,7 @@
       "semantic_events": "results/evaluation/genesys2-cva6/current/samples/file_scan/semantic_events.json",
       "source_behavior_graph": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/behavior/behavior_graph.json",
       "source_semantic_events": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/behavior/semantic_events.json",
-      "trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/file_scan/rep_01/bram_records.jsonl",
+      "trace": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort/file_scan/rep_01/bram_records.jsonl",
       "unaccounted_drop": 0
     },
     {
@@ -107,7 +107,7 @@
       "semantic_events": "results/evaluation/genesys2-cva6/current/samples/batch_open_read_write/semantic_events.json",
       "source_behavior_graph": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/behavior/behavior_graph.json",
       "source_semantic_events": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/behavior/semantic_events.json",
-      "trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/batch_open_read_write/rep_01/bram_records.jsonl",
+      "trace": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort/batch_open_read_write/rep_01/bram_records.jsonl",
       "unaccounted_drop": 0
     },
     {
@@ -122,7 +122,7 @@
       "semantic_events": "results/evaluation/genesys2-cva6/current/samples/self_copy_sim/semantic_events.json",
       "source_behavior_graph": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/behavior/behavior_graph.json",
       "source_semantic_events": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/behavior/semantic_events.json",
-      "trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_01/bram_records.jsonl",
+      "trace": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort/self_copy_sim/rep_01/bram_records.jsonl",
       "unaccounted_drop": 0
     },
     {
@@ -137,7 +137,7 @@
       "semantic_events": "results/evaluation/genesys2-cva6/current/samples/abnormal_syscall_sequence/semantic_events.json",
       "source_behavior_graph": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/behavior/behavior_graph.json",
       "source_semantic_events": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/behavior/semantic_events.json",
-      "trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_01/bram_records.jsonl",
+      "trace": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort/abnormal_syscall_sequence/rep_01/bram_records.jsonl",
       "unaccounted_drop": 0
     },
     {
@@ -152,7 +152,7 @@
       "semantic_events": "results/evaluation/genesys2-cva6/current/samples/illegal_trap/semantic_events.json",
       "source_behavior_graph": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/behavior/behavior_graph.json",
       "source_semantic_events": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/behavior/semantic_events.json",
-      "trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/illegal_trap/rep_01/bram_records.jsonl",
+      "trace": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort/illegal_trap/rep_01/bram_records.jsonl",
       "unaccounted_drop": 0
     },
     {
@@ -167,7 +167,7 @@
       "semantic_events": "results/evaluation/genesys2-cva6/current/samples/process_chain/semantic_events.json",
       "source_behavior_graph": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/behavior/behavior_graph.json",
       "source_semantic_events": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/behavior/semantic_events.json",
-      "trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/process_chain/rep_01/bram_records.jsonl",
+      "trace": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort/process_chain/rep_01/bram_records.jsonl",
       "unaccounted_drop": 0
     },
     {
@@ -182,7 +182,7 @@
       "semantic_events": "results/evaluation/genesys2-cva6/current/samples/dynamic_executable_memory/semantic_events.json",
       "source_behavior_graph": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/behavior/behavior_graph.json",
       "source_semantic_events": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/behavior/semantic_events.json",
-      "trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/dynamic_executable_memory/rep_01/bram_records.jsonl",
+      "trace": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort/dynamic_executable_memory/rep_01/bram_records.jsonl",
       "unaccounted_drop": 0
     },
     {
@@ -197,7 +197,7 @@
       "semantic_events": "results/evaluation/genesys2-cva6/current/samples/anti_debug_like/semantic_events.json",
       "source_behavior_graph": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/behavior/behavior_graph.json",
       "source_semantic_events": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/anti_debug_like/behavior/semantic_events.json",
-      "trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/anti_debug_like/rep_01/bram_records.jsonl",
+      "trace": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort/anti_debug_like/rep_01/bram_records.jsonl",
       "unaccounted_drop": 0
     }
   ],

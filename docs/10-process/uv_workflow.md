@@ -17,9 +17,10 @@ uv run rvmt repro:full
 manifests. `repro:local` adds the local CCF-A evidence-package, current-quality,
 case-study, and bitstream-artifact checks without requiring a new board or Vivado
 run. `repro:full` runs the strict aggregate suites, including
-`genesys2-current`; while `production_streaming_dma_trace_sink` remains open,
-this command is expected to fail at the external closure intake gate rather than
-silently downgrade the claim.
+`genesys2-current`. Open external items such as production streaming/DMA and
+the Genesys2/CVA6 Linux counter path are accepted only as explicit
+artifact-backed BLOCKED/open states; they do not upgrade the corresponding
+paper claims to PASS.
 
 The equivalent lower-level commands are:
 
@@ -37,8 +38,8 @@ To inspect a captured trace in the terminal without rebuilding the bitstream,
 render any `trace.jsonl` or Genesys2 `bram_records.jsonl` file:
 
 ```powershell
-uv run rvmt trace:view --trace results\board\genesys2_trace_validation\20260612-p0-bram-repetitions\file_open_read_write\rep_01\bram_records.jsonl
-uv run rvmt trace:view --trace results\board\genesys2_trace_validation\20260612-p0-bram-repetitions\file_open_read_write\rep_01\bram_records.jsonl --event SYSCALL_ENTRY --event ARG_MEM --limit 20
+uv run rvmt trace:view --trace results\board\genesys2_trace_validation\20260624-current-p0-cohort\file_open_read_write\rep_01\bram_records.jsonl
+uv run rvmt trace:view --trace results\board\genesys2_trace_validation\20260624-current-p0-cohort\file_open_read_write\rep_01\bram_records.jsonl --event SYSCALL_ENTRY --event ARG_MEM --limit 20
 ```
 
 For single-binary analysis, join a trace with one specified RISC-V ELF. This
@@ -46,7 +47,7 @@ does not rebuild the bitstream or rerun the board; it performs local ELF/code
 attribution over an existing JSONL trace:
 
 ```powershell
-uv run rvmt binary:analyze --elf build\debug_elf_readiness\file_open_read_write\file_open_read_write.debug.riscv64 --trace results\board\genesys2_trace_validation\20260612-p0-bram-repetitions\file_open_read_write\rep_01\bram_records.jsonl --limit 16 --width 88
+uv run rvmt binary:analyze --elf build\debug_elf_readiness\file_open_read_write\file_open_read_write.debug.riscv64 --trace results\board\genesys2_trace_validation\20260624-current-p0-cohort\file_open_read_write\rep_01\bram_records.jsonl --limit 16 --width 88
 uv run rvmt binary:analyze --elf path\to\program.riscv64 --trace path\to\bram_records.jsonl --limit 16 --width 88 --out-dir results\analysis\single-binary
 ```
 

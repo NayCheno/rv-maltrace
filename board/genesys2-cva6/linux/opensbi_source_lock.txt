@@ -1,0 +1,10 @@
+OpenSBI source lock for the next Genesys2/CVA6 SD-card Linux rebuild.
+
+Repository: https://github.com/riscv-software-src/opensbi.git
+Tag: v1.7
+Commit: 242542438402e2b310a82b131c5cabfc2e2f027a
+Platform target: generic
+
+Boundary: this locks the intended OpenSBI source revision for a future rebuild.
+It does not prove the currently booted SD card, firmware payload, or live board
+counter/PMU behavior.

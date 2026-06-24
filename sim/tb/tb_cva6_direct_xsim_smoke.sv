@@ -151,6 +151,7 @@ module tb_cva6_direct_xsim_smoke #(
     .rvfi_probes_i(rvfi_probes),
     .rvfi_instr_o(rvfi_instr),
     .rvfi_to_iti_o(rvfi_to_iti),
+    .rvfi_sret_to_user_o(rvmt_rvfi_sret_to_user),
     .rvfi_csr_o(rvfi_csr)
   );
 
@@ -164,7 +165,6 @@ module tb_cva6_direct_xsim_smoke #(
     assign rvmt_rvfi_compressed[port] = rvfi_to_iti.is_compressed[port];
     assign rvmt_rvfi_pc[port] = rvfi_instr[port].pc_rdata[CVA6Cfg.VLEN-1:0];
     assign rvmt_rvfi_pc_wdata[port] = rvfi_instr[port].pc_wdata[CVA6Cfg.VLEN-1:0];
-    assign rvmt_rvfi_sret_to_user[port] = 1'b0;
     assign rvmt_rvfi_rs1[port] = rvfi_instr[port].rs1_rdata[CVA6Cfg.XLEN-1:0];
     assign rvmt_rvfi_rs2[port] = rvfi_instr[port].rs2_rdata[CVA6Cfg.XLEN-1:0];
     assign rvmt_rvfi_rd[port] = rvfi_instr[port].rd_addr[4:0];
@@ -180,7 +180,7 @@ module tb_cva6_direct_xsim_smoke #(
       .XLEN(CVA6Cfg.XLEN),
       .ILEN(config_pkg::ILEN),
       .VLEN(CVA6Cfg.VLEN),
-      .RELAX_SRET_TO_USER_CHECK(1'b1),
+      .RELAX_SRET_TO_USER_CHECK(1'b0),
       .ENABLE_USER_POINTER_SNAPSHOT(1'b1),
       .MAX_POINTER_SNAPSHOT_BYTES(64),
       .MAX_POINTER_WATCH_CYCLES(262144)

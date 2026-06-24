@@ -1,0 +1,126 @@
+{
+  "blocked_reason": "No enumerated host disk satisfies the read-only SD-card target safety preflight",
+  "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",
+  "claim_boundary": {
+    "board_cycle_source_claimed": false,
+    "destructive_write_performed": false,
+    "disk_inventory_read_only": true,
+    "genesys2_board_booted_written_image": false,
+    "live_kernel_config_export_claimed": false,
+    "physical_sd_card_written": false,
+    "sdcard_write_target_preflight_ready": false
+  },
+  "generated_utc": "2026-06-24T01:31:53+00:00",
+  "host_disk_inventory": {
+    "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -Command $ErrorActionPreference = 'Stop'; Get-Disk | Sort-Object Number | Select-Object Number,FriendlyName,SerialNumber,OperationalStatus,Size,BusType,PartitionStyle,IsBoot,IsSystem,IsOffline,IsReadOnly | ConvertTo-Json -Depth 4",
+    "disk_count": 3,
+    "disks": [
+      {
+        "bus_type": "NVMe",
+        "friendly_name": "ZHITAI TiPlus7100 2TB",
+        "is_boot": true,
+        "is_offline": false,
+        "is_read_only": false,
+        "is_system": true,
+        "number": 0,
+        "operational_status": "Online",
+        "partition_style": "GPT",
+        "preflight": {
+          "blocking_reasons": [
+            "disk 0 is never accepted as an SD-card write target",
+            "disk is marked as boot",
+            "disk is marked as system",
+            "disk bus type is NVMe, not an accepted SD/USB removable class",
+            "disk is larger than the configured SD-card safety limit"
+          ],
+          "safe_preflight_candidate": false,
+          "warnings": []
+        },
+        "serial_number_present": true,
+        "size_bytes": 2048408248320,
+        "size_gib": 1907.729
+      },
+      {
+        "bus_type": "USB",
+        "friendly_name": "HIKSEMI PSSD",
+        "is_boot": false,
+        "is_offline": false,
+        "is_read_only": false,
+        "is_system": false,
+        "number": 1,
+        "operational_status": "Online",
+        "partition_style": "GPT",
+        "preflight": {
+          "blocking_reasons": [
+            "disk is larger than the configured SD-card safety limit"
+          ],
+          "safe_preflight_candidate": false,
+          "warnings": []
+        },
+        "serial_number_present": true,
+        "size_bytes": 1024209543168,
+        "size_gib": 953.869
+      },
+      {
+        "bus_type": "USB",
+        "friendly_name": "FIKWOT FP80",
+        "is_boot": false,
+        "is_offline": false,
+        "is_read_only": false,
+        "is_system": false,
+        "number": 2,
+        "operational_status": "Online",
+        "partition_style": "MBR",
+        "preflight": {
+          "blocking_reasons": [
+            "disk is larger than the configured SD-card safety limit"
+          ],
+          "safe_preflight_candidate": false,
+          "warnings": []
+        },
+        "serial_number_present": true,
+        "size_bytes": 1000204886016,
+        "size_gib": 931.513
+      }
+    ],
+    "error": null,
+    "method": "PowerShell Get-Disk read-only inventory",
+    "safe_candidate_count": 0
+  },
+  "image": {
+    "exists": true,
+    "expected_sha256": "be3bf82f7c0fea386e3d1748e8c5bf72c5849ffc1344b9820f60772d39c87c79",
+    "path": "build/linux/genesys2-cva6/sdcard.img",
+    "sha256": "be3bf82f7c0fea386e3d1748e8c5bf72c5849ffc1344b9820f60772d39c87c79",
+    "size_bytes": 558907904
+  },
+  "non_claims": [
+    "This preflight performs no physical SD-card write and runs only read-only host disk inventory.",
+    "A PASS preflight only means a target disk is safe enough to proceed manually; it is not a board boot claim.",
+    "Genesys2 boot, live kernel config, and cycle-source evidence require separate UART/JTAG captures after a real SD-card write."
+  ],
+  "schema": "rvmt.genesys2.sdcard_write_preflight.v1",
+  "scope": "read-only host preflight for selecting a physical SD-card target for the Genesys2/CVA6 image",
+  "selected_disk": null,
+  "status": "BLOCKED_NO_SAFE_SDCARD_TARGET",
+  "target_policy": {
+    "accepted_bus_types": [
+      "MMC",
+      "SD",
+      "SecureDigital",
+      "USB"
+    ],
+    "allow_large_target": false,
+    "explicit_target_required_for_pass": true,
+    "max_target_size_gib": 128,
+    "target_disk_number": null
+  },
+  "validation_commands": [
+    "uv run rvmt ndss:boot-sdcard-image --payload build/linux/genesys2-cva6/images/fw_payload.bin",
+    "uv run rvmt ndss:sdcard-write-preflight --image build/linux/genesys2-cva6/sdcard.img",
+    "uv run python tools/check_genesys2_sdcard_write_preflight.py --root .",
+    "uv run python tools/check_genesys2_sdcard_write_preflight.py --root . --require-pass",
+    "uv run rvmt ndss:sdcard-linux-manifest --port COM7 --baud 115200",
+    "uv run rvmt ndss:live-kernel-config-export --port COM7 --baud 115200"
+  ]
+}

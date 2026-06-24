@@ -25,11 +25,16 @@ TRACE_MARKER_ILA_EXPECTED = {
     "C_ADV_TRIGGER": "TRUE",
 }
 TRACE_MARKER_SOURCE_HASH_FILES = [
+    "rtl/cva6/core/cva6_rvfi.sv",
     "rtl/cva6/corev_apu/fpga/src/ariane_xilinx.sv",
+    "rtl/cva6/corev_apu/fpga/src/bootrom/bootrom_64.sv",
+    "rtl/cva6/corev_apu/fpga/src/bootrom/src/main.c",
     "rtl/cva6/corev_apu/fpga/xilinx/xlnx_ila/tcl/run.tcl",
     "rtl/trace/trace_pkg.sv",
+    "rtl/trace/trace_filter.sv",
     "rtl/trace/trace_bram_ring.sv",
     "rtl/trace/trace_uart_stream_sink.sv",
+    "rtl/trace/rvmt_genesys2_oled_status.sv",
     "rtl/trace/cva6_rvfi_trace_adapter.sv",
     "tools/capture_genesys2_ila_event.tcl",
     "tools/decode_genesys2_ila_trace.py",
@@ -146,7 +151,7 @@ def check_trace_marker_source_hashes(root: Path, manifest_path: Path, data: dict
     if hashes is None:
         return Check(
             "Trace-marker source hashes",
-            "WARN",
+            "BLOCKED_HOST_VIVADO_REBUILD_REQUIRED",
             f"{display(manifest_path, root)}: source_hashes missing; rebuild trace-marker bitstream to bind artifact to current RTL/decoder sources",
         )
     if not isinstance(hashes, dict):
@@ -158,19 +163,33 @@ def check_trace_marker_source_hashes(root: Path, manifest_path: Path, data: dict
         return Check("Trace-marker source hashes", "FAIL", f"{display(manifest_path, root)}: source_hashes.files missing")
     missing = [path for path in TRACE_MARKER_SOURCE_HASH_FILES if path not in files]
     if missing:
-        return Check("Trace-marker source hashes", "FAIL", f"{display(manifest_path, root)}: missing source hashes {', '.join(missing)}")
+        return Check(
+            "Trace-marker source hashes",
+            "BLOCKED_HOST_VIVADO_REBUILD_REQUIRED",
+            f"{display(manifest_path, root)}: missing source hashes {', '.join(missing)}; "
+            "rebuild trace-marker bitstream on host Vivado before claiming current-source PASS",
+        )
+    missing_sources: list[str] = []
     mismatches: list[str] = []
     for path in TRACE_MARKER_SOURCE_HASH_FILES:
         full_path = root / path
         if not full_path.is_file():
-            mismatches.append(f"{path}=missing")
+            missing_sources.append(path)
             continue
         expected = str(files[path]).lower()
         actual = sha256_file(full_path)
         if actual.lower() != expected:
             mismatches.append(f"{path}=current {actual[:12]}... manifest {expected[:12]}...")
+    if missing_sources:
+        return Check("Trace-marker source hashes", "FAIL", f"{display(manifest_path, root)}: source files missing {', '.join(missing_sources)}")
     if mismatches:
-        return Check("Trace-marker source hashes", "FAIL", f"{display(manifest_path, root)}: " + "; ".join(mismatches))
+        return Check(
+            "Trace-marker source hashes",
+            "BLOCKED_HOST_VIVADO_REBUILD_REQUIRED",
+            f"{display(manifest_path, root)}: "
+            + "; ".join(mismatches)
+            + "; rebuild trace-marker bitstream on host Vivado before claiming current-source PASS",
+        )
     return Check("Trace-marker source hashes", "PASS", f"{display(manifest_path, root)} source hashes match current sources")
 
 
@@ -260,7 +279,7 @@ def print_checks(checks: list[Check]) -> None:
 def exit_code(checks: list[Check], *, strict: bool) -> int:
     if any(check.level == "FAIL" for check in checks):
         return 1
-    if strict and any(check.level == "WARN" for check in checks):
+    if strict and any(check.level != "PASS" for check in checks):
         return 1
     return 0
 
@@ -285,6 +304,7 @@ def self_test() -> int:
         ):
             directory.mkdir(parents=True, exist_ok=True)
         for source in TRACE_MARKER_SOURCE_HASH_FILES:
+            (root / source).parent.mkdir(parents=True, exist_ok=True)
             (root / source).write_text(f"{source}\n", encoding="utf-8")
         for path in (
             baseline / "work-fpga/ariane_xilinx.bit",
@@ -407,8 +427,55 @@ def self_test() -> int:
             + "\n",
             encoding="utf-8",
         )
+        incomplete_files = {
+            path: sha256_file(root / path)
+            for path in TRACE_MARKER_SOURCE_HASH_FILES
+            if path != "rtl/cva6/core/cva6_rvfi.sv"
+        }
+        (trace_marker / TRACE_MARKER_MANIFEST).write_text(
+            json.dumps(
+                {
+                    "schema": "rvmt.trace_marker_build_manifest.v1",
+                    "trace_marker_scope": True,
+                    "verilog_defines": ["RV_MALTRACE_FPGA_TRACE", "RV_MALTRACE_FPGA_TRACE_MARKER_SCOPE"],
+                    "marker_scope_policy": {"enable_marker": True, "enable_branch": False},
+                    "source_hashes": {"hash_algorithm": "sha256", "files": incomplete_files},
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        checks = collect_checks(root, DEFAULT_BASELINE_DIR, DEFAULT_TRACE_DIR, DEFAULT_TRACE_MARKER_DIR)
+        if not any(check.level == "BLOCKED_HOST_VIVADO_REBUILD_REQUIRED" for check in checks):
+            print("[FAIL] incomplete source hashes must produce a host-Vivado BLOCKED state", file=sys.stderr)
+            return 1
+        if exit_code(checks, strict=False) != 0:
+            print("[FAIL] default inventory must accept incomplete source hashes as BLOCKED, not PASS", file=sys.stderr)
+            return 1
+        (trace_marker / TRACE_MARKER_MANIFEST).write_text(
+            json.dumps(
+                {
+                    "schema": "rvmt.trace_marker_build_manifest.v1",
+                    "trace_marker_scope": True,
+                    "verilog_defines": ["RV_MALTRACE_FPGA_TRACE", "RV_MALTRACE_FPGA_TRACE_MARKER_SCOPE"],
+                    "marker_scope_policy": {"enable_marker": True, "enable_branch": False},
+                    "source_hashes": {
+                        "hash_algorithm": "sha256",
+                        "files": {path: sha256_file(root / path) for path in TRACE_MARKER_SOURCE_HASH_FILES},
+                    },
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
         (root / "tools/decode_genesys2_ila_trace.py").write_text("modified\n", encoding="utf-8")
         checks = collect_checks(root, DEFAULT_BASELINE_DIR, DEFAULT_TRACE_DIR, DEFAULT_TRACE_MARKER_DIR)
+        if not any(check.level == "BLOCKED_HOST_VIVADO_REBUILD_REQUIRED" for check in checks):
+            print("[FAIL] stale source hashes must produce a host-Vivado BLOCKED state", file=sys.stderr)
+            return 1
+        if exit_code(checks, strict=False) != 0:
+            print("[FAIL] default inventory must accept stale source hashes as BLOCKED, not PASS", file=sys.stderr)
+            return 1
         if exit_code(checks, strict=True) == 0:
             print("[FAIL] strict inventory must fail when source hashes are stale", file=sys.stderr)
             return 1
@@ -437,7 +504,9 @@ def main(argv: list[str] | None = None) -> int:
         mode = "strict artifact gate" if args.strict else "artifact inventory"
         print(f"[FAIL] Genesys2/CVA6 {mode}", file=sys.stderr)
         return code
-    if any(check.level == "WARN" for check in checks):
+    if any(check.level.startswith("BLOCKED_") for check in checks):
+        print("[BLOCKED_HOST_VIVADO_REBUILD_REQUIRED] Genesys2/CVA6 artifact inventory needs host Vivado rebuild; no Vivado command was run")
+    elif any(check.level == "WARN" for check in checks):
         print("[WARN] Genesys2/CVA6 artifact inventory has reuse warnings; no Vivado command was run")
     else:
         print("[PASS] Genesys2/CVA6 artifact inventory")

@@ -7,10 +7,11 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
-from ccfa_gate_common import ALL_CCFA_SAMPLES, P0_SAMPLES, SAFE_SURROGATE_SAMPLES
+from ccfa_gate_common import ALL_CCFA_SAMPLES, P0_SAMPLES, SAFE_SURROGATE_SAMPLES, check_dynamic_mapping_attribution
 
 
 DEFAULT_CURRENT_ROOT = Path("results/evaluation/genesys2-cva6/current")
+UART_WALL_CLOCK_RUNTIME_METRIC = "wall_clock_ns_from_board_uart_date_markers"
 
 SUMMARY_SCHEMAS = {
     "trace_sink_summary.json": "rvmt.genesys2.bram_trace_sink.v1",
@@ -120,17 +121,28 @@ def external_intake_failure_is_truthful(data: dict[str, Any]) -> bool:
         return False
     boundary = data.get("claim_boundary") if isinstance(data.get("claim_boundary"), dict) else {}
     return (
-        data.get("status") == "FAIL"
-        and int(data.get("invalid_external_blocker_count") or 0) > 0
+        data.get("status") == "BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED"
+        and int(data.get("accepted_external_blocker_count") or 0) < 4
         and boundary.get("unvalidated_external_summary_accepted") is False
         and boundary.get("all_non_real_external_blockers_closed") is False
+    )
+
+
+def dynamic_mapping_blocked_is_truthful(data: dict[str, Any]) -> bool:
+    return (
+        data.get("status") == "BLOCKED_BOARD_DYNAMIC_MAPPING_CASES"
+        and not check_dynamic_mapping_attribution(data, Path("."))
     )
 
 
 def status_allowed(filename: str, data: dict[str, Any]) -> bool:
     if data.get("status") == "PASS":
         return True
-    return filename == "external_closure_intake.json" and external_intake_failure_is_truthful(data)
+    if filename == "external_closure_intake.json":
+        return external_intake_failure_is_truthful(data)
+    if filename == "dynamic_mapping_attribution_summary.json":
+        return dynamic_mapping_blocked_is_truthful(data)
+    return False
 
 
 def sha256_file(path: Path) -> str:
@@ -183,9 +195,12 @@ def check_source_artifact_row(
     require(errors, row.get("schema") == expected_schema, f"{context}: source schema mismatch")
     row_status = row.get("status")
     allowed_status = row_status == "PASS"
-    if expected_schema == "rvmt.genesys2.external_closure_intake.v1" and row_status == "FAIL":
+    if expected_schema == "rvmt.genesys2.external_closure_intake.v1" and row_status == "BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED":
         source_data = require_json_file(errors, root, row.get("path"), f"{context}.source_status") if row.get("path") else None
         allowed_status = source_data is not None and external_intake_failure_is_truthful(source_data)
+    if expected_schema == "rvmt.dynamic_mapping_attribution.v1" and row_status == "BLOCKED_BOARD_DYNAMIC_MAPPING_CASES":
+        source_data = require_json_file(errors, root, row.get("path"), f"{context}.source_status") if row.get("path") else None
+        allowed_status = source_data is not None and dynamic_mapping_blocked_is_truthful(source_data)
     require(errors, allowed_status, f"{context}: source status mismatch")
     if expected_path is not None:
         require(errors, path_value == expected_path, f"{context}: source path mismatch")
@@ -214,7 +229,11 @@ def load_summaries(errors: list[str], root: Path, current_root: Path) -> dict[st
             errors.append(f"{filename}: JSON load failed: {exc}")
             continue
         require(errors, data.get("schema") == schema, f"{filename}: schema must be {schema}")
-        require(errors, status_allowed(filename, data), f"{filename}: status must be PASS or a truthful external-intake FAIL")
+        require(
+            errors,
+            status_allowed(filename, data),
+            f"{filename}: status must be PASS or a truthful blocked status",
+        )
         summaries[filename] = data
     return summaries
 
@@ -432,6 +451,54 @@ def check_runtime_benchmark(errors: list[str], root: Path, runtime: dict[str, An
                 require(errors, row.get("slowdown_vs_trace_off_median") is not None, f"{sample_id}/{mode}: median slowdown missing")
 
 
+def check_resource_timing(errors: list[str], root: Path, resource: dict[str, Any], runtime: dict[str, Any]) -> None:
+    require(errors, resource.get("status") == "PASS", "resource timing status must be PASS")
+    bitstream = require_file(errors, root, resource.get("trace_bitstream"), "resource_timing.trace_bitstream")
+    if bitstream is not None:
+        require(
+            errors,
+            resource.get("trace_bitstream_sha256") == sha256_file(bitstream),
+            "resource_timing.trace_bitstream_sha256 mismatch",
+        )
+    ltx = require_file(errors, root, resource.get("ltx"), "resource_timing.ltx")
+    if ltx is not None:
+        require(errors, resource.get("ltx_sha256") == sha256_file(ltx), "resource_timing.ltx_sha256 mismatch")
+    marker = resource.get("marker_window_cycle_summary") if isinstance(resource.get("marker_window_cycle_summary"), dict) else {}
+    require(errors, marker.get("unit") == "trace-cycle-or-index-delta", "resource timing marker unit mismatch")
+    require(errors, marker.get("median") is not None, "resource timing marker median missing")
+    require(errors, marker.get("p95") is not None, "resource timing marker p95 missing")
+    slowdown = resource.get("production_runtime_slowdown") if isinstance(resource.get("production_runtime_slowdown"), dict) else {}
+    require(
+        errors,
+        resource.get("production_runtime_benchmark") == "results/evaluation/genesys2-cva6/current/production_runtime_benchmark.json",
+        "resource timing must reference current production_runtime_benchmark",
+    )
+    require(
+        errors,
+        slowdown.get("benchmark") == "results/evaluation/genesys2-cva6/current/production_runtime_benchmark.json",
+        "runtime slowdown rollup must reference current production_runtime_benchmark",
+    )
+    require(errors, slowdown.get("board_execution_smoke_claimed") is True, "runtime benchmark should remain a board execution smoke claim")
+    metric = str(runtime.get("metric") or "")
+    require(errors, slowdown.get("metric") == metric, "runtime slowdown metric must match production benchmark metric")
+    if metric == UART_WALL_CLOCK_RUNTIME_METRIC:
+        require(errors, slowdown.get("claimed") is False, "UART wall-clock markers must not be claimed as runtime slowdown")
+        require(errors, slowdown.get("cycle_level_overhead_claimed") is False, "UART wall-clock markers must not be cycle-level overhead")
+        require(errors, slowdown.get("production_runtime_slowdown_claimed") is False, "UART wall-clock markers must not claim production slowdown")
+        boundary = slowdown.get("claim_boundary") if isinstance(slowdown.get("claim_boundary"), dict) else {}
+        require(errors, boundary.get("wall_clock_uart_marker_metric") is True, "runtime claim boundary must identify UART wall-clock metric")
+        require(errors, boundary.get("uart_wall_clock_promoted_to_overhead_claim") is False, "UART metric must not be promoted to overhead")
+        require(
+            errors,
+            boundary.get("requires_native_cycle_or_hardware_counter_artifact") is True,
+            "runtime claim boundary must require cycle/native counter evidence",
+        )
+        non_claims = " ".join(str(item).lower() for item in as_list(slowdown.get("non_claims")))
+        require(errors, "not a cycle-level" in non_claims, "runtime slowdown non-claims must reject cycle-level promotion")
+        scope = str(resource.get("runtime_overhead_scope") or "").lower()
+        require(errors, "smoke" in scope and "not claimed" in scope, "runtime overhead scope must be smoke-only/non-claim")
+
+
 def check_hardware_pointer_prefixes(errors: list[str], latest: dict[str, Any], pointer_prefix: dict[str, Any]) -> None:
     active_roots = latest.get("active_run_roots") if isinstance(latest.get("active_run_roots"), dict) else {}
     require(
@@ -502,7 +569,14 @@ def check_reproducibility_manifest(errors: list[str], repro: dict[str, Any]) -> 
     boundary = repro.get("claim_boundary") if isinstance(repro.get("claim_boundary"), dict) else {}
     require(errors, boundary.get("controlled_safe_surrogate_evidence") is True, "reproducibility manifest must mark controlled safe/surrogate evidence")
     require(errors, boundary.get("real_malware_validation_claimed") is False, "reproducibility manifest must not claim real malware validation")
-    require(errors, boundary.get("hardware_full_pointer_strings_claimed") is False, "reproducibility manifest must not claim full hardware pointer strings")
+    if boundary.get("hardware_full_pointer_strings_claimed") is True:
+        require(
+            errors,
+            boundary.get("external_full_hardware_pointer_strings_summary_accepted") is True,
+            "reproducibility manifest may claim full hardware pointer strings only after accepted external intake",
+        )
+    else:
+        require(errors, boundary.get("hardware_full_pointer_strings_claimed") is False, "reproducibility manifest full pointer-string claim must be boolean false or accepted true")
     require(errors, boundary.get("production_streaming_dma_throughput_claimed") is False, "reproducibility manifest must not claim production streaming/DMA throughput")
     summary_ids = {
         str(row.get("id"))
@@ -709,7 +783,7 @@ def check_external_closure_intake(errors: list[str], intake: dict[str, Any]) -> 
     require(errors, intake.get("accepted_external_blocker_count") == accepted, "external closure intake accepted count mismatch")
     require(errors, intake.get("open_external_blocker_count") == open_count, "external closure intake open count mismatch")
     require(errors, intake.get("invalid_external_blocker_count") == invalid, "external closure intake invalid count mismatch")
-    expected_status = "FAIL" if invalid else "PASS"
+    expected_status = "PASS" if accepted == len(expected_paths) and open_count == 0 and invalid == 0 else "BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED"
     require(errors, intake.get("status") == expected_status, "external closure intake status/count mismatch")
     if open_count or invalid:
         require(errors, intake.get("closure_status") == "OPEN_EXTERNAL_ARTIFACTS_REQUIRED", "external closure intake must remain open while summaries are absent")
@@ -940,18 +1014,22 @@ def check_external_operator_packet(errors: list[str], root: Path, packet: dict[s
         },
     }
     boundary = packet.get("claim_boundary") if isinstance(packet.get("claim_boundary"), dict) else {}
+    accepted = int(packet.get("accepted_external_blocker_count") or 0)
+    open_count = int(packet.get("open_external_blocker_count") or 0)
+    invalid = int(packet.get("invalid_external_blocker_count") or 0)
     require(errors, packet.get("closure_status") in {"OPEN_EXTERNAL_ARTIFACTS_REQUIRED", "ALL_NON_REAL_EXTERNAL_SUMMARIES_ACCEPTED"}, "external operator packet closure status mismatch")
     require(errors, "real_malware_validation" in as_list(packet.get("objective_exclusions")), "external operator packet real-malware exclusion missing")
     require(errors, boundary.get("operator_packet_only") is True, "external operator packet must be packet-only")
     require(errors, boundary.get("external_execution_completed") is False, "external operator packet must not claim external execution")
+    require(errors, boundary.get("external_execution_completed_by_packet") is False, "external operator packet must not claim it created external execution")
+    require(errors, boundary.get("accepted_external_summaries_present") is (accepted > 0), "external operator packet accepted-summary boundary mismatch")
+    require(errors, boundary.get("accepted_external_summaries_hash_validated_by_intake") is (accepted > 0), "external operator packet accepted-summary hash boundary mismatch")
+    require(errors, boundary.get("open_or_invalid_external_blockers_remain") is bool(open_count or invalid), "external operator packet open/invalid boundary mismatch")
     require(errors, boundary.get("external_readiness_substituted_for_completion") is False, "external operator packet must reject readiness substitution")
     require(errors, boundary.get("real_malware_validation_claimed") is False, "external operator packet must not claim real malware validation")
     require(errors, boundary.get("templates_treated_as_evidence") is False, "external operator packet must not treat templates as evidence")
     require(errors, boundary.get("external_artifact_paths_scoped_to_external_closure") is True, "external operator packet must scope evidence artifacts to external_closure")
     require(errors, boundary.get("placeholder_values_treated_as_invalid") is True, "external operator packet must reject placeholder values")
-    accepted = int(packet.get("accepted_external_blocker_count") or 0)
-    open_count = int(packet.get("open_external_blocker_count") or 0)
-    invalid = int(packet.get("invalid_external_blocker_count") or 0)
     require(errors, accepted + open_count + invalid == len(expected), "external operator packet count mismatch")
     if open_count or invalid:
         require(errors, packet.get("closure_status") == "OPEN_EXTERNAL_ARTIFACTS_REQUIRED", "external operator packet must remain open while summaries are absent")
@@ -971,7 +1049,7 @@ def check_external_operator_packet(errors: list[str], root: Path, packet: dict[s
         require(errors, row.get("expected_schema") == expected_schema, f"external operator packet source expected schema mismatch: {source_id}")
         require(errors, row.get("schema") == expected_schema, f"external operator packet source schema mismatch: {source_id}")
         allowed_status = row.get("status") == "PASS"
-        if source_id == "external_closure_intake" and row.get("status") == "FAIL":
+        if source_id == "external_closure_intake" and row.get("status") == "BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED":
             source_data = require_json_file(errors, root, row.get("path"), f"external_operator_packet.{source_id}.source_status") if row.get("path") else None
             allowed_status = source_data is not None and external_intake_failure_is_truthful(source_data)
         require(errors, allowed_status, f"external operator packet source status mismatch: {source_id}")
@@ -1005,23 +1083,39 @@ def check_external_operator_packet(errors: list[str], root: Path, packet: dict[s
         require(errors, record.get("order") == index, f"{record_id}: operator order mismatch")
         require(errors, record.get("external_summary_path") == expected_row["path"], f"{record_id}: operator summary path mismatch")
         require(errors, record.get("template_path") == expected_row["template"], f"{record_id}: operator template path mismatch")
-        require(errors, record.get("readiness_status") == expected_row["readiness"], f"{record_id}: operator readiness mismatch")
+        require(errors, record.get("plan_readiness_status") == expected_row["readiness"], f"{record_id}: operator plan readiness mismatch")
         require(errors, record.get("required_summary_schema") == expected_row["schema"], f"{record_id}: operator summary schema mismatch")
         require_file(errors, root, expected_row["template"], f"{record_id}.operator_template")
         status = record.get("intake_completion_status")
         if status == "OPEN_NO_EXTERNAL_SUMMARY":
             open_records += 1
+            expected_record_status = "OPEN_NO_EXTERNAL_SUMMARY_REQUIRES_EXTERNAL_COLLECTION"
             require(errors, record.get("completion_requires_external_state") is True, f"{record_id}: open record must require external state")
             require(errors, record.get("completion_evidence_valid") is False, f"{record_id}: open record must not be valid completion evidence")
+            require(errors, record.get("execution_steps_required_to_close_record") is True, f"{record_id}: open record must require closure steps")
+            require(errors, record.get("accepted_summary_supersedes_plan_readiness") is False, f"{record_id}: open record must not supersede plan readiness")
+            require(errors, record.get("accepted_summary_must_remain_hash_valid") is False, f"{record_id}: open record must not claim accepted hash validity")
         elif status == "EXTERNAL_SUMMARY_ACCEPTED":
             accepted_records += 1
+            expected_record_status = "EXTERNAL_SUMMARY_ACCEPTED_ARTIFACT_BACKED"
             require(errors, record.get("completion_evidence_valid") is True, f"{record_id}: accepted record must be valid completion evidence")
+            require(errors, record.get("execution_steps_required_to_close_record") is False, f"{record_id}: accepted record must not require closure steps")
+            require(errors, record.get("accepted_summary_supersedes_plan_readiness") is True, f"{record_id}: accepted record must supersede plan readiness")
+            require(errors, record.get("accepted_summary_must_remain_hash_valid") is True, f"{record_id}: accepted record hash validity boundary missing")
         elif status == "EXTERNAL_SUMMARY_PRESENT_INVALID":
             invalid_records += 1
+            expected_record_status = "EXTERNAL_SUMMARY_PRESENT_INVALID_REQUIRES_RERUN_OR_REPAIR"
             require(errors, record.get("completion_requires_external_state") is True, f"{record_id}: invalid record must require external correction")
             require(errors, record.get("completion_evidence_valid") is False, f"{record_id}: invalid record must not be valid completion evidence")
+            require(errors, record.get("execution_steps_required_to_close_record") is True, f"{record_id}: invalid record must require closure steps")
+            require(errors, record.get("accepted_summary_supersedes_plan_readiness") is False, f"{record_id}: invalid record must not supersede plan readiness")
+            require(errors, record.get("accepted_summary_must_remain_hash_valid") is False, f"{record_id}: invalid record must not claim accepted hash validity")
         else:
             errors.append(f"{record_id}: unexpected operator intake status {status!r}")
+            expected_record_status = None
+        if expected_record_status is not None:
+            require(errors, record.get("record_status") == expected_record_status, f"{record_id}: operator effective status mismatch")
+            require(errors, record.get("readiness_status") == expected_record_status, f"{record_id}: operator effective readiness mismatch")
         require(errors, record.get("plan_status") in {"READY_TO_EXECUTE_WITH_EXTERNAL_STATE", "EXTERNAL_SUMMARY_ACCEPTED", "NEEDS_EXTERNAL_SUMMARY_CORRECTION"}, f"{record_id}: operator plan status mismatch")
         require(errors, len(as_list(record.get("operator_inputs"))) >= 3, f"{record_id}: operator inputs under-specified")
         require(errors, len(as_list(record.get("required_raw_artifacts"))) >= 4, f"{record_id}: required raw artifacts under-specified")
@@ -1098,10 +1192,13 @@ def check_review_closure_audit(errors: list[str], root: Path, audit: dict[str, A
         "production_streaming_dma_trace_sink",
         "genesys2_board_benign_control",
     }
-    require(errors, audit.get("closure_status") == "PASS_LOCAL_SCOPE_EXTERNAL_OPEN", "review closure audit closure status mismatch")
+    require(errors, audit.get("closure_status") == "PASS_LOCAL_SCOPE_EXTERNAL_AND_BOARD_DYNAMIC_OPEN", "review closure audit closure status mismatch")
     summary = audit.get("summary") if isinstance(audit.get("summary"), dict) else {}
     require(errors, summary.get("local_items_evidence_present") is True, "review closure audit local evidence coverage missing")
-    require(errors, summary.get("local_item_count") == 11, "review closure audit local item count mismatch")
+    require(errors, summary.get("local_item_count") == 10, "review closure audit local item count mismatch")
+    require(errors, summary.get("blocked_item_count") == 1, "review closure audit blocked item count mismatch")
+    require(errors, summary.get("blocked_items_evidence_present") is True, "review closure audit blocked evidence coverage missing")
+    require(errors, set(as_list(summary.get("blocked_item_ids"))) == {"phase_c_function_process_elf_attribution"}, "review closure audit blocked ids mismatch")
     accepted_ids = set(as_list(summary.get("accepted_external_ids")))
     open_ids = set(as_list(summary.get("open_external_ids")))
     require(errors, accepted_ids | open_ids == expected_external_ids, "review closure audit external ids coverage mismatch")
@@ -1175,7 +1272,7 @@ def check_review_closure_audit(errors: list[str], root: Path, audit: dict[str, A
     require(errors, report.is_file(), "review closure audit markdown report missing")
     if report.is_file():
         report_text = report.read_text(encoding="utf-8", errors="replace")
-        for token in ("PASS_LOCAL_SCOPE_EXTERNAL_OPEN", "Remaining Non-Real External Items", "real malware validation", *sorted(expected_external_ids)):
+        for token in ("PASS_LOCAL_SCOPE_EXTERNAL_AND_BOARD_DYNAMIC_OPEN", "Remaining Non-Real External Items", "real malware validation", *sorted(expected_external_ids)):
             require(errors, token in report_text, f"review closure audit markdown report missing token: {token}")
 
 
@@ -1235,6 +1332,7 @@ def check_current_quality(root: Path, current_root: Path) -> list[str]:
         summaries["drop_accounting_summary.json"],
     )
     check_runtime_benchmark(errors, root, summaries["production_runtime_benchmark.json"])
+    check_resource_timing(errors, root, summaries["resource_timing_summary.json"], summaries["production_runtime_benchmark.json"])
     check_hardware_pointer_prefixes(errors, summaries["latest_manifest.json"], summaries["hardware_pointer_prefix_summary.json"])
     check_benign_control(errors, root, summaries["benign_control_summary.json"], summaries["behavior_audit_metrics.json"])
     check_case_study_manifest(errors, root, summaries["case_study_manifest.json"])
@@ -1476,7 +1574,7 @@ def write_fixture(root: Path) -> Path:
     latest_roots = {
         "p0_continuous_trace": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit",
         "p0_bram_repetitions": "results/board/genesys2_trace_validation/20260612-p0-bram-repetitions",
-        "safe_surrogate_bram_repetitions": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait",
+        "safe_surrogate_bram_repetitions": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort",
         "safe_surrogate_runtime_map": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map",
         "pointer_snapshot_bram": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram",
         "production_runtime_benchmark": "fixture_artifacts/runtime_benchmark",
@@ -1753,7 +1851,7 @@ def write_fixture(root: Path) -> Path:
         current / "external_closure_intake.json",
         {
             "schema": SUMMARY_SCHEMAS["external_closure_intake.json"],
-            "status": "PASS",
+            "status": "BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED",
             "canonical_evaluation_root": DEFAULT_CURRENT_ROOT.as_posix(),
             "external_summary_root": "results/evaluation/genesys2-cva6/current/external_closure",
             "scope": "optional external evidence intake for remaining non-real-malware Genesys2/CVA6 blockers",
@@ -2076,10 +2174,15 @@ def write_fixture(root: Path) -> Path:
                 "id": record_id,
                 "order": index,
                 "plan_status": "READY_TO_EXECUTE_WITH_EXTERNAL_STATE",
-                "readiness_status": operator_readiness_statuses[record_id],
+                "plan_readiness_status": operator_readiness_statuses[record_id],
+                "record_status": "OPEN_NO_EXTERNAL_SUMMARY_REQUIRES_EXTERNAL_COLLECTION",
+                "readiness_status": "OPEN_NO_EXTERNAL_SUMMARY_REQUIRES_EXTERNAL_COLLECTION",
                 "intake_completion_status": "OPEN_NO_EXTERNAL_SUMMARY",
                 "completion_requires_external_state": True,
                 "completion_evidence_valid": False,
+                "execution_steps_required_to_close_record": True,
+                "accepted_summary_supersedes_plan_readiness": False,
+                "accepted_summary_must_remain_hash_valid": False,
                 "external_summary_path": record["external_summary_path"],
                 "template_path": operator_template_paths[record_id],
                 "required_summary_schema": record["required_summary_schema"],
@@ -2119,6 +2222,10 @@ def write_fixture(root: Path) -> Path:
             "claim_boundary": {
                 "operator_packet_only": True,
                 "external_execution_completed": False,
+                "external_execution_completed_by_packet": False,
+                "accepted_external_summaries_present": False,
+                "accepted_external_summaries_hash_validated_by_intake": False,
+                "open_or_invalid_external_blockers_remain": True,
                 "external_readiness_substituted_for_completion": False,
                 "all_non_real_external_blockers_closed": False,
                 "real_malware_validation_claimed": False,
@@ -2204,6 +2311,7 @@ def write_fixture(root: Path) -> Path:
             "schema": SUMMARY_SCHEMAS["production_runtime_benchmark.json"],
             "status": "PASS",
             "run_root": runtime_root.relative_to(root).as_posix(),
+            "metric": UART_WALL_CLOCK_RUNTIME_METRIC,
             "minimum_repetitions_per_mode_sample": 3,
             "mode_stats": {
                 mode: {"count": len(SAFE_SURROGATE_SAMPLES) * 3, "median_ns": 1000, "p95_ns": 1000, "variance_ns2": 0.0}
@@ -2227,7 +2335,37 @@ def write_fixture(root: Path) -> Path:
     write_json(current / "process_elf_ownership_summary.json", {"schema": SUMMARY_SCHEMAS["process_elf_ownership_summary.json"], "status": "PASS", "samples": process_rows})
     write_json(current / "dynamic_mapping_attribution_summary.json", {"schema": SUMMARY_SCHEMAS["dynamic_mapping_attribution_summary.json"], "status": "PASS"})
     write_json(current / "workload_manifest.json", {"schema": SUMMARY_SCHEMAS["workload_manifest.json"], "status": "PASS", "samples": []})
-    write_json(current / "resource_timing_summary.json", {"schema": SUMMARY_SCHEMAS["resource_timing_summary.json"], "status": "PASS"})
+    write_json(
+        current / "resource_timing_summary.json",
+        {
+            "schema": SUMMARY_SCHEMAS["resource_timing_summary.json"],
+            "status": "PASS",
+            "trace_bitstream": bit.relative_to(root).as_posix(),
+            "trace_bitstream_sha256": sha256_file(bit),
+            "ltx": ltx.relative_to(root).as_posix(),
+            "ltx_sha256": sha256_file(ltx),
+            "marker_window_cycle_summary": {"median": 1, "p95": 1, "variance": 0.0, "unit": "trace-cycle-or-index-delta"},
+            "production_runtime_benchmark": (current / "production_runtime_benchmark.json").relative_to(root).as_posix(),
+            "production_runtime_slowdown": {
+                "claimed": False,
+                "board_execution_smoke_claimed": True,
+                "cycle_level_overhead_claimed": False,
+                "production_runtime_slowdown_claimed": False,
+                "benchmark": (current / "production_runtime_benchmark.json").relative_to(root).as_posix(),
+                "metric": UART_WALL_CLOCK_RUNTIME_METRIC,
+                "claim_boundary": {
+                    "metric_is_cycle_level": False,
+                    "wall_clock_uart_marker_metric": True,
+                    "uart_wall_clock_promoted_to_overhead_claim": False,
+                    "requires_native_cycle_or_hardware_counter_artifact": True,
+                },
+                "non_claims": [
+                    "UART shell date markers are not a cycle-level perturbation or production slowdown claim.",
+                ],
+            },
+            "runtime_overhead_scope": "board UART START/DONE markers are reported as runtime smoke only; cycle-level production slowdown is not claimed",
+        },
+    )
     write_json(
         current / "ccfa_evaluation_matrix.json",
         {
@@ -2292,7 +2430,6 @@ def write_fixture(root: Path) -> Path:
         "phase_a_baseline_board_acceptance",
         "phase_b_p0_and_safe_surrogate_hardware_trace",
         "phase_b_bounded_pointer_semantics",
-        "phase_c_function_process_elf_attribution",
         "phase_d_safe_surrogate_behavior_case_studies",
         "phase_d_local_benign_control",
         "phase_e_evaluation_matrix_and_baselines",
@@ -2359,6 +2496,21 @@ def write_fixture(root: Path) -> Path:
         }
         for item_id in review_local_item_ids
     ]
+    review_items.append(
+        {
+            "id": "phase_c_function_process_elf_attribution",
+            "review_section": "fixture",
+            "requirement": "fixture dynamic mapping review requirement",
+            "status": "BLOCKED_BOARD_DYNAMIC_MAPPING_CASES",
+            "evidence": [
+                review_evidence(
+                    "phase_c_function_process_elf_attribution",
+                    "results/evaluation/genesys2-cva6/current/dynamic_mapping_attribution_summary.json",
+                )
+            ],
+            "checker_commands": ["uv run python fixture.py --root ."],
+        }
+    )
     for item_id, external_id in review_external_pairs.items():
         state = intake_by_id[external_id]
         review_items.append(
@@ -2394,11 +2546,14 @@ def write_fixture(root: Path) -> Path:
         {
             "schema": SUMMARY_SCHEMAS["review_closure_audit.json"],
             "status": "PASS",
-            "closure_status": "PASS_LOCAL_SCOPE_EXTERNAL_OPEN",
+            "closure_status": "PASS_LOCAL_SCOPE_EXTERNAL_AND_BOARD_DYNAMIC_OPEN",
             "canonical_evaluation_root": DEFAULT_CURRENT_ROOT.as_posix(),
             "summary": {
-                "local_item_count": 11,
+                "local_item_count": 10,
                 "local_items_evidence_present": True,
+                "blocked_item_count": 1,
+                "blocked_item_ids": ["phase_c_function_process_elf_attribution"],
+                "blocked_items_evidence_present": True,
                 "open_external_item_count": 4,
                 "open_external_ids": sorted(review_external_pairs.values()),
                 "excluded_item_count": 1,
@@ -2419,7 +2574,7 @@ def write_fixture(root: Path) -> Path:
     touch(
         root / "docs/07-evaluation-evidence/reports/ccfa_review_closure_audit.md",
         (
-            "Status: `PASS_LOCAL_SCOPE_EXTERNAL_OPEN`\n"
+            "Status: `PASS_LOCAL_SCOPE_EXTERNAL_AND_BOARD_DYNAMIC_OPEN`\n"
             "## Remaining Non-Real External Items\n"
             "board_native_dwarf_source_lines\n"
             "full_hardware_pointer_strings\n"

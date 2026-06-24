@@ -143,7 +143,7 @@
       "id": "pointer_snapshot_guardrails",
       "path": "results/evaluation/genesys2-cva6/current/pointer_snapshot_guardrails.json",
       "schema": "rvmt.pointer_snapshot_guardrails.v1",
-      "sha256": "974aecb8df4ed9cb23f02fe9d404061ee4cc8f2a919fcd29761a4d6830e59a90",
+      "sha256": "a01c91c047ceb434263f95c48db4d93dcd6344b7a4df299a8c479d853e2ad237",
       "status": "PASS"
     },
     {
@@ -151,7 +151,7 @@
       "id": "semantic_reconstruction_summary",
       "path": "results/evaluation/genesys2-cva6/current/semantic_reconstruction_summary.json",
       "schema": "rvmt.syscall_semantic_reconstruction.v1",
-      "sha256": "eb5532bcd2790d93a2af666267d249031f48db8550915b49c8d8daba21b7f266",
+      "sha256": "bc9df3dc901957f44b3f5c56e0741dfd6f46300dd14a1f3d8c3a390c1544e850",
       "status": "PASS"
     },
     {
@@ -186,7 +186,7 @@
       "exists": true,
       "id": "rv_maltrace_cli_trace_parser",
       "path": "src/rv_maltrace/cli.py",
-      "sha256": "27dfbff3aa3b8cb7c8b591261d7648c4c703a03543d44fe851b0454d2fc35f28"
+      "sha256": "844e84c147eb637be0ff3a59dcc7cfaf3145d3a18a4196508e23dc702a02e5e7"
     },
     {
       "exists": true,

@@ -1,4 +1,35 @@
 {
+  "claim_boundary": {
+    "board_trace_source_is_hardware": true,
+    "qemu_strace_host_control_are_oracles_only": true,
+    "real_malware_validation_claimed": false,
+    "sidecar_not_board_native_dwarf": true
+  },
+  "field_provenance": {
+    "real_malware": [
+      "validation_oracle"
+    ],
+    "row": [
+      "hardware",
+      "validation_oracle"
+    ],
+    "sample_class": [
+      "validation_oracle"
+    ],
+    "sample_id": [
+      "validation_oracle"
+    ],
+    "schema": [
+      "validation_oracle"
+    ],
+    "source_artifact": [
+      "hardware"
+    ],
+    "trace_source": [
+      "hardware"
+    ]
+  },
+  "field_provenance_schema": "rvmt.semantic_field_provenance.v1",
   "non_claims": [
     "This artifact is a controlled safe-workload semantic audit artifact, not real malware validation.",
     "Companion-derived strings are not hardware-derived pointer strings."
@@ -7,6 +38,11 @@
   "row": {
     "anti_analysis_behavior_node": false,
     "argument_reconstruction_accuracy": 1.0,
+    "claim_boundary": {
+      "full_pointer_strings_claimed_from_hardware": false,
+      "oracle_fields_not_reported_as_hardware": true,
+      "qemu_strace_host_control_are_oracles_only": true
+    },
     "execve_filename_accuracy": 1.0,
     "execve_path_source": "NOT_OBSERVED",
     "execve_paths": [],
@@ -19,6 +55,82 @@
       "read",
       "write"
     ],
+    "field_provenance": {
+      "anti_analysis_behavior_node": [
+        "validation_oracle"
+      ],
+      "argument_reconstruction_accuracy": [
+        "validation_oracle"
+      ],
+      "execve_filename_accuracy": [
+        "validation_oracle"
+      ],
+      "execve_path_source": [
+        "validation_oracle"
+      ],
+      "execve_paths": [
+        "validation_oracle"
+      ],
+      "expected_syscall_recall": [
+        "validation_oracle"
+      ],
+      "expected_syscalls": [
+        "validation_oracle"
+      ],
+      "ground_truth_alignment": [
+        "validation_oracle"
+      ],
+      "has_execve": [
+        "validation_oracle"
+      ],
+      "has_openat": [
+        "validation_oracle"
+      ],
+      "has_write": [
+        "validation_oracle"
+      ],
+      "mmap_mprotect_behavior_node": [
+        "validation_oracle"
+      ],
+      "openat_path_source": [
+        "validation_oracle"
+      ],
+      "openat_pathname_accuracy": [
+        "validation_oracle"
+      ],
+      "openat_paths": [
+        "validation_oracle"
+      ],
+      "pointer_snapshot_route": [
+        "hardware",
+        "validation_oracle"
+      ],
+      "primary_semantic_source": [
+        "validation_oracle"
+      ],
+      "sample_id": [
+        "validation_oracle"
+      ],
+      "semantic_source": [
+        "validation_oracle"
+      ],
+      "syscall_precision": [
+        "validation_oracle"
+      ],
+      "trace_source": [
+        "hardware"
+      ],
+      "write_buffer_prefix_recovered": [
+        "validation_oracle"
+      ],
+      "write_buffer_prefix_source": [
+        "validation_oracle"
+      ],
+      "write_buffer_prefixes": [
+        "validation_oracle"
+      ]
+    },
+    "field_provenance_schema": "rvmt.semantic_field_provenance.v1",
     "ground_truth_alignment": {
       "host_or_control_strace": "results/demo/ccfa-safe-20260611/abnormal_syscall_sequence/01_ground_truth/host.strace.log",
       "qemu_guest_strace": "results/demo/ccfa-safe-20260611/abnormal_syscall_sequence/01_ground_truth/qemu-riscv64.strace.log",
@@ -38,12 +150,36 @@
     "openat_paths": [
       "/path/that/does/not/exist"
     ],
+    "oracle_fields": [
+      "anti_analysis_behavior_node",
+      "argument_reconstruction_accuracy",
+      "execve_filename_accuracy",
+      "execve_path_source",
+      "execve_paths",
+      "expected_syscall_recall",
+      "expected_syscalls",
+      "ground_truth_alignment",
+      "has_execve",
+      "has_openat",
+      "has_write",
+      "mmap_mprotect_behavior_node",
+      "openat_path_source",
+      "openat_pathname_accuracy",
+      "openat_paths",
+      "primary_semantic_source",
+      "sample_id",
+      "semantic_source",
+      "syscall_precision",
+      "write_buffer_prefix_recovered",
+      "write_buffer_prefix_source",
+      "write_buffer_prefixes"
+    ],
     "pointer_snapshot_route": "Path A bounded hardware ARG_MEM prefix snapshots plus Path B trusted companion alignment",
     "primary_semantic_source": "qemu_guest_strace",
     "sample_id": "abnormal_syscall_sequence",
     "semantic_source": "trusted_qemu_guest_strace_companion",
     "syscall_precision": 1.0,
-    "trace_source": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_01/bram_records.jsonl",
+    "trace_source": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort/abnormal_syscall_sequence/rep_01/bram_records.jsonl",
     "write_buffer_prefix_recovered": true,
     "write_buffer_prefix_source": "host_or_control_strace",
     "write_buffer_prefixes": [
@@ -54,5 +190,5 @@
   "sample_id": "abnormal_syscall_sequence",
   "schema": "rvmt.sample.semantic_events.v1",
   "source_artifact": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/abnormal_syscall_sequence/behavior/semantic_events.json",
-  "trace_source": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/abnormal_syscall_sequence/rep_01/bram_records.jsonl"
+  "trace_source": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort/abnormal_syscall_sequence/rep_01/bram_records.jsonl"
 }

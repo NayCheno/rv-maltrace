@@ -1,0 +1,6 @@
+{
+  "bytes_per_second_formula": "event_bytes_per_cycle * trace_clock_hz",
+  "clock_source": "external timing report argument",
+  "exact_clock_required": true,
+  "trace_clock_hz": 50000000.0
+}

@@ -1,0 +1,14 @@
+
+****** Vivado v2025.2 (64-bit)
+  **** SW Build 6299465 on Fri Nov 14 19:35:11 GMT 2025
+  **** IP Build 6300035 on Fri Nov 14 10:48:45 MST 2025
+  **** SharedData Build 6298862 on Thu Nov 13 04:50:51 MST 2025
+  **** Start of session at: Wed Jun 24 09:26:45 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source {C:\Users\Nya\AppData\Local\Temp\tmpg5p1z7jq.tcl} -notrace
+RVMT_VIVADO_VERSION=2025.2
+RVMT_PART_OK=xc7k325tffg900-2
+RVMT_BOARD_OK=digilentinc.com:genesys2:part0:1.1
+INFO: [Common 17-206] Exiting Vivado at Wed Jun 24 09:26:51 2026...

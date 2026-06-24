@@ -1,0 +1,29 @@
+{
+  "samples": [
+    {
+      "copied": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/hello/behavior_audit.json",
+      "id": "hello",
+      "source": "results/board/genesys2_trace_validation/20260624-current-benign-mini-cohort/hello/behavior_audit.json"
+    },
+    {
+      "copied": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/cat/behavior_audit.json",
+      "id": "cat",
+      "source": "results/board/genesys2_trace_validation/20260624-current-benign-mini-cohort/cat/behavior_audit.json"
+    },
+    {
+      "copied": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/clock_status/behavior_audit.json",
+      "id": "clock_status",
+      "source": "results/board/genesys2_trace_validation/20260624-current-benign-mini-cohort/clock_status/behavior_audit.json"
+    },
+    {
+      "copied": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/getdents_only/behavior_audit.json",
+      "id": "getdents_only",
+      "source": "results/board/genesys2_trace_validation/20260624-current-benign-mini-cohort/getdents_only/behavior_audit.json"
+    },
+    {
+      "copied": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/mmap_rw/behavior_audit.json",
+      "id": "mmap_rw",
+      "source": "results/board/genesys2_trace_validation/20260624-current-benign-mini-cohort/mmap_rw/behavior_audit.json"
+    }
+  ]
+}

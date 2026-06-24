@@ -9,6 +9,14 @@ from pathlib import Path
 QUICK_COMMANDS = [
     ["tools/check_genesys2_reproducibility_manifest.py", "--root", "{root}"],
     ["tools/check_genesys2_artifact_package.py", "--root", "{root}"],
+    ["tools/check_genesys2_raw_artifact_release.py", "--root", "{root}"],
+    ["tools/check_genesys2_semantic_provenance.py", "--root", "{root}"],
+    ["tools/check_genesys2_local_code_analysis_fixtures.py", "--root", "{root}"],
+    ["tools/check_trace_correctness_directed.py", "--root", "{root}"],
+    ["tools/check_genesys2_tracer_visibility_baseline.py", "--root", "{root}"],
+    ["tools/check_genesys2_cycle_diagnostics.py", "--root", "{root}"],
+    ["tools/check_genesys2_jtag_ram_boot_probe.py", "--root", "{root}"],
+    ["tools/check_genesys2_artifact_integrity.py", "--root", "{root}"],
 ]
 
 LOCAL_COMMANDS = [
@@ -19,6 +27,7 @@ LOCAL_COMMANDS = [
 ]
 
 FULL_COMMANDS = [
+    ["-m", "compileall", "tools", "src/rv_maltrace"],
     ["tools/run_check_suite.py", "--suite", "genesys2-current"],
     ["tools/run_check_suite.py", "--suite", "genesys2-artifacts"],
     ["tools/run_check_suite.py", "--suite", "genesys2-self-test"],
@@ -73,9 +82,18 @@ def self_test() -> int:
     required = [
         "tools/check_genesys2_reproducibility_manifest.py --root .",
         "tools/check_genesys2_artifact_package.py --root .",
+        "tools/check_genesys2_raw_artifact_release.py --root .",
+        "tools/check_genesys2_semantic_provenance.py --root .",
+        "tools/check_genesys2_local_code_analysis_fixtures.py --root .",
+        "tools/check_trace_correctness_directed.py --root .",
+        "tools/check_genesys2_tracer_visibility_baseline.py --root .",
+        "tools/check_genesys2_cycle_diagnostics.py --root .",
+        "tools/check_genesys2_jtag_ram_boot_probe.py --root .",
+        "tools/check_genesys2_artifact_integrity.py --root .",
         "tools/check_ccfa_case_study_manifest.py --root .",
         "tools/check_ccfa_current_quality.py --root .",
         "tools/check_genesys2_bitstream_artifacts.py --root .",
+        "-m compileall tools src/rv_maltrace",
         "tools/run_check_suite.py --suite genesys2-current",
         "tools/run_check_suite.py --suite genesys2-artifacts",
         "tools/run_check_suite.py --suite genesys2-self-test",

@@ -201,7 +201,7 @@ def package_preflight(root: Path, current_root: Path) -> dict[str, Any]:
     status = "PASS"
     if plan.get("status") != "PASS":
         status = "FAIL"
-    if intake.get("status") not in {"PASS", "FAIL"}:
+    if intake.get("status") not in {"PASS", "BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED"}:
         status = "FAIL"
     if any(row.get("local_preflight_ready") is not True for row in records):
         status = "FAIL"

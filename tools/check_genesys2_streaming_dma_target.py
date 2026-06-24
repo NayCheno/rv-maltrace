@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import sys
 import tempfile
 from pathlib import Path
@@ -57,6 +58,20 @@ def row_map(rows: list[Any], key: str = "id") -> dict[str, dict[str, Any]]:
     return result
 
 
+def check_stat_order(errors: list[str], stats: dict[str, Any], label: str) -> None:
+    min_ = float(stats.get("min") or 0.0)
+    p50 = float(stats.get("p50") or 0.0)
+    median = float(stats.get("median") or 0.0)
+    p95 = float(stats.get("p95") or 0.0)
+    p99 = float(stats.get("p99") or 0.0)
+    max_ = float(stats.get("max") or 0.0)
+    require(errors, p50 == median, f"{label}: p50 must match median")
+    require(errors, p50 > 0.0, f"{label}: p50 must be positive")
+    require(errors, p95 > 0.0, f"{label}: p95 must be positive")
+    require(errors, p99 > 0.0, f"{label}: p99 must be positive")
+    require(errors, min_ <= p50 <= p95 <= p99 <= max_, f"{label}: expected min <= p50 <= p95 <= p99 <= max")
+
+
 def check_summary(data: dict[str, Any], root: Path, current_root: Path) -> list[str]:
     errors: list[str] = []
     require(errors, data.get("schema") == EXPECTED_SCHEMA, "schema mismatch")
@@ -83,25 +98,34 @@ def check_summary(data: dict[str, Any], root: Path, current_root: Path) -> list[
 
     aggregate = as_dict(data.get("aggregate"))
     require(errors, aggregate.get("board_sample_count") == 12, "expected 12 board samples")
-    require(errors, aggregate.get("accepted_repetition_count") == 120, "expected 120 accepted repetitions")
-    require(errors, aggregate.get("p0_accepted_repetition_count") == 40, "expected 40 P0 accepted repetitions")
-    require(errors, aggregate.get("safe_surrogate_accepted_repetition_count") == 80, "expected 80 safe-surrogate accepted repetitions")
+    require(errors, int(aggregate.get("accepted_repetition_count") or 0) >= 120, "expected at least 120 accepted repetitions")
+    require(errors, int(aggregate.get("p0_accepted_repetition_count") or 0) >= 40, "expected at least 40 P0 accepted repetitions")
+    require(errors, int(aggregate.get("safe_surrogate_accepted_repetition_count") or 0) >= 80, "expected at least 80 safe-surrogate accepted repetitions")
     require(errors, aggregate.get("max_unaccounted_drop") == 0, "accepted repetitions must have zero unaccounted DROP")
     require(errors, aggregate.get("max_bram_dropped_count") == 0, "accepted repetitions must have zero BRAM dropped count")
     require(errors, aggregate.get("max_bram_wrap_count") == 0, "accepted repetitions must have zero BRAM wrap")
     rates = as_dict(aggregate.get("event_bytes_per_cycle"))
-    require(errors, float(rates.get("p95") or 0.0) > 0.0, "p95 event bytes/cycle must be positive")
-    require(errors, float(rates.get("max") or 0.0) >= float(rates.get("p95") or 0.0), "max bytes/cycle must be >= p95")
+    captured_rates = as_dict(aggregate.get("captured_events_per_cycle"))
+    window_rates = as_dict(aggregate.get("marker_window_events_per_cycle"))
+    check_stat_order(errors, rates, "aggregate event bytes/cycle")
+    check_stat_order(errors, captured_rates, "aggregate captured events/cycle")
+    check_stat_order(errors, window_rates, "aggregate marker-window events/cycle")
 
     cohorts = row_map(as_list(data.get("cohorts")))
     require(errors, set(cohorts) == {"p0_bram_repetitions", "safe_surrogate_bram_repetitions"}, "cohort ids mismatch")
     if "p0_bram_repetitions" in cohorts:
-        require(errors, cohorts["p0_bram_repetitions"].get("accepted_repetition_count") == 40, "P0 cohort count mismatch")
+        require(errors, int(cohorts["p0_bram_repetitions"].get("accepted_repetition_count") or 0) >= 40, "P0 cohort count below 40")
+        check_stat_order(errors, as_dict(cohorts["p0_bram_repetitions"].get("event_bytes_per_cycle")), "P0 event bytes/cycle")
+        check_stat_order(errors, as_dict(cohorts["p0_bram_repetitions"].get("captured_events_per_cycle")), "P0 captured events/cycle")
+        check_stat_order(errors, as_dict(cohorts["p0_bram_repetitions"].get("marker_window_events_per_cycle")), "P0 marker-window events/cycle")
     if "safe_surrogate_bram_repetitions" in cohorts:
-        require(errors, cohorts["safe_surrogate_bram_repetitions"].get("accepted_repetition_count") == 80, "safe cohort count mismatch")
+        require(errors, int(cohorts["safe_surrogate_bram_repetitions"].get("accepted_repetition_count") or 0) >= 80, "safe cohort count below 80")
+        check_stat_order(errors, as_dict(cohorts["safe_surrogate_bram_repetitions"].get("event_bytes_per_cycle")), "safe event bytes/cycle")
+        check_stat_order(errors, as_dict(cohorts["safe_surrogate_bram_repetitions"].get("captured_events_per_cycle")), "safe captured events/cycle")
+        check_stat_order(errors, as_dict(cohorts["safe_surrogate_bram_repetitions"].get("marker_window_events_per_cycle")), "safe marker-window events/cycle")
 
     rows = as_list(data.get("workload_repetition_rows"))
-    require(errors, len(rows) == 120, "expected 120 repetition rows")
+    require(errors, len(rows) >= 120, "expected at least 120 repetition rows")
     for row in rows:
         if not isinstance(row, dict):
             errors.append("repetition rows must be objects")
@@ -119,6 +143,17 @@ def check_summary(data: dict[str, Any], root: Path, current_root: Path) -> list[
         require(errors, int(row.get("trace_record_width_bytes") or 0) == 17, f"{label}: record width mismatch")
         require(errors, bytes_ == events * 17, f"{label}: trace byte calculation mismatch")
         require(errors, cycles > 0, f"{label}: marker window cycles must be positive")
+        if cycles > 0:
+            require(
+                errors,
+                float(row.get("captured_events_per_cycle") or 0.0) == events / cycles,
+                f"{label}: captured events/cycle calculation mismatch",
+            )
+            require(
+                errors,
+                float(row.get("marker_window_events_per_cycle") or 0.0) == int(row.get("marker_window_event_count") or 0) / cycles,
+                f"{label}: marker-window events/cycle calculation mismatch",
+            )
         require(errors, float(row.get("event_bytes_per_cycle") or 0.0) > 0.0, f"{label}: bytes/cycle must be positive")
         require(errors, int(row.get("unaccounted_drop") or 0) == 0, f"{label}: unaccounted DROP must be zero")
         require(errors, int(row.get("bram_dropped_count") or 0) == 0, f"{label}: BRAM dropped count must be zero")
@@ -127,10 +162,29 @@ def check_summary(data: dict[str, Any], root: Path, current_root: Path) -> list[
 
     target = as_dict(data.get("throughput_target"))
     require(errors, target.get("metric") == "compact_trace_event_bytes_per_marker_window_cycle", "throughput target metric mismatch")
+    require(errors, target.get("p50_event_bytes_per_cycle") == rates.get("p50"), "target p50 must match aggregate p50")
     require(errors, target.get("p95_event_bytes_per_cycle") == rates.get("p95"), "target p95 must match aggregate p95")
+    require(errors, target.get("p99_event_bytes_per_cycle") == rates.get("p99"), "target p99 must match aggregate p99")
+    require(errors, target.get("p50_captured_events_per_cycle") == captured_rates.get("p50"), "target captured-event p50 mismatch")
+    require(errors, target.get("p95_captured_events_per_cycle") == captured_rates.get("p95"), "target captured-event p95 mismatch")
+    require(errors, target.get("p99_captured_events_per_cycle") == captured_rates.get("p99"), "target captured-event p99 mismatch")
+    require(errors, target.get("p50_marker_window_events_per_cycle") == window_rates.get("p50"), "target window-event p50 mismatch")
+    require(errors, target.get("p95_marker_window_events_per_cycle") == window_rates.get("p95"), "target window-event p95 mismatch")
+    require(errors, target.get("p99_marker_window_events_per_cycle") == window_rates.get("p99"), "target window-event p99 mismatch")
     require(errors, target.get("max_observed_event_bytes_per_cycle") == rates.get("max"), "target max must match aggregate max")
     require(errors, target.get("record_width_bits") == 136, "target record width bits mismatch")
     require(errors, target.get("record_width_bytes") == 17, "target record width bytes mismatch")
+    require(errors, target.get("minimum_sustained_throughput_multiplier") == 1.5, "target throughput multiplier must be 1.5")
+    require(
+        errors,
+        math.isclose(
+            float(target.get("required_sustained_event_bytes_per_cycle") or 0.0),
+            float(rates.get("p99") or 0.0) * 1.5,
+            rel_tol=1e-12,
+            abs_tol=0.0,
+        ),
+        "target sustained bytes/cycle must be 1.5x aggregate p99",
+    )
     require(errors, target.get("external_summary_path") == packager.EXTERNAL_SUMMARY_PATH, "external summary path mismatch")
     require(errors, target.get("required_external_summary_schema") == "rvmt.genesys2.streaming_dma_throughput.v1", "external schema mismatch")
     require(
@@ -138,8 +192,20 @@ def check_summary(data: dict[str, Any], root: Path, current_root: Path) -> list[
         target.get("p95_event_bytes_per_second") == packager.BYTES_PER_SECOND_REQUIRES_CLOCK,
         "bytes/sec must remain deferred without exact external clock",
     )
+    require(
+        errors,
+        target.get("p99_event_bytes_per_second") == packager.BYTES_PER_SECOND_REQUIRES_CLOCK,
+        "p99 bytes/sec must remain deferred without exact external clock",
+    )
+    require(
+        errors,
+        target.get("required_sustained_bytes_per_second") == packager.BYTES_PER_SECOND_REQUIRES_CLOCK,
+        "required sustained bytes/sec must remain deferred without exact external clock",
+    )
     require(errors, target.get("clock_hz_required_for_bytes_per_second") is True, "clock requirement missing")
-    require(errors, "exact streaming bitstream clock" in str(target.get("future_acceptance_rule") or ""), "future acceptance rule missing exact clock requirement")
+    future_rule = str(target.get("future_acceptance_rule") or "")
+    require(errors, "exact trace clock" in future_rule, "future acceptance rule missing exact clock requirement")
+    require(errors, "1.5 * p99_event_bytes_per_cycle" in future_rule, "future acceptance rule missing p99 1.5x requirement")
 
     source_rows = row_map(as_list(data.get("source_summaries")))
     require(errors, {"p0_bram_trace", "safe_surrogate_bram_trace", "external_closure_plan"} <= set(source_rows), "source summaries missing")
@@ -207,6 +273,12 @@ def self_test() -> int:
         errors = check_summary(summary, root, current)
         if not any("bytes/sec" in error for error in errors):
             print("[FAIL] streaming/DMA target clock fixture passed", file=sys.stderr)
+            return 1
+        summary = packager.package_summary(root, current)
+        summary["throughput_target"]["minimum_sustained_throughput_multiplier"] = 1.0
+        errors = check_summary(summary, root, current)
+        if not any("multiplier" in error for error in errors):
+            print("[FAIL] streaming/DMA target multiplier fixture passed", file=sys.stderr)
             return 1
         summary = packager.package_summary(root, current)
         summary["workload_repetition_rows"][40]["sample_class"] = None

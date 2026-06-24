@@ -1,0 +1,890 @@
+{
+  "anchors": [
+    {
+      "candidate_paths": [
+        "tools/prepare_genesys2_cva6_linux_rebuild.py",
+        "tools/build_genesys2_cva6_linux_image.py",
+        "docker/genesys2-cva6-linux/Dockerfile",
+        "docker/genesys2-cva6-linux/build.sh",
+        "board/genesys2-cva6/linux/build.sh",
+        "board/genesys2_cva6/linux/build.sh"
+      ],
+      "candidate_results": [
+        {
+          "build_entrypoint_analysis": {
+            "required_terms": {
+              "buildroot": true,
+              "cva6": true,
+              "genesys2": true,
+              "opensbi": true,
+              "sdcard": true
+            },
+            "satisfies_build_entrypoint": true
+          },
+          "candidate": "tools/prepare_genesys2_cva6_linux_rebuild.py",
+          "exists": true,
+          "kind": "file",
+          "path": "tools/prepare_genesys2_cva6_linux_rebuild.py",
+          "sha256": "56e2d01985b3aff037276d10c1fc2d950ed8fcadd7c9dbe6864e0ba5cf3b583f",
+          "size_bytes": 19420
+        },
+        {
+          "build_entrypoint_analysis": {
+            "required_terms": {
+              "buildroot": true,
+              "cva6": true,
+              "genesys2": true,
+              "opensbi": true,
+              "sdcard": true
+            },
+            "satisfies_build_entrypoint": true
+          },
+          "candidate": "tools/build_genesys2_cva6_linux_image.py",
+          "exists": true,
+          "kind": "file",
+          "path": "tools/build_genesys2_cva6_linux_image.py",
+          "sha256": "17710d80ce001425132a4ca16bb04319ed570bc3383a75ecbeeb03408dc99587",
+          "size_bytes": 9680
+        },
+        {
+          "candidate": "docker/genesys2-cva6-linux/Dockerfile",
+          "exists": false,
+          "kind": "missing"
+        },
+        {
+          "candidate": "docker/genesys2-cva6-linux/build.sh",
+          "exists": false,
+          "kind": "missing"
+        },
+        {
+          "candidate": "board/genesys2-cva6/linux/build.sh",
+          "exists": false,
+          "kind": "missing"
+        },
+        {
+          "candidate": "board/genesys2_cva6/linux/build.sh",
+          "exists": false,
+          "kind": "missing"
+        }
+      ],
+      "id": "genesys2_cva6_linux_build_entrypoint",
+      "missing_reason": null,
+      "mode": "build_entrypoint",
+      "present_candidates": [
+        {
+          "build_entrypoint_analysis": {
+            "required_terms": {
+              "buildroot": true,
+              "cva6": true,
+              "genesys2": true,
+              "opensbi": true,
+              "sdcard": true
+            },
+            "satisfies_build_entrypoint": true
+          },
+          "candidate": "tools/prepare_genesys2_cva6_linux_rebuild.py",
+          "exists": true,
+          "kind": "file",
+          "path": "tools/prepare_genesys2_cva6_linux_rebuild.py",
+          "sha256": "56e2d01985b3aff037276d10c1fc2d950ed8fcadd7c9dbe6864e0ba5cf3b583f",
+          "size_bytes": 19420
+        },
+        {
+          "build_entrypoint_analysis": {
+            "required_terms": {
+              "buildroot": true,
+              "cva6": true,
+              "genesys2": true,
+              "opensbi": true,
+              "sdcard": true
+            },
+            "satisfies_build_entrypoint": true
+          },
+          "candidate": "tools/build_genesys2_cva6_linux_image.py",
+          "exists": true,
+          "kind": "file",
+          "path": "tools/build_genesys2_cva6_linux_image.py",
+          "sha256": "17710d80ce001425132a4ca16bb04319ed570bc3383a75ecbeeb03408dc99587",
+          "size_bytes": 9680
+        }
+      ],
+      "required": true,
+      "role": "repo-owned command or Docker entrypoint for rebuilding the Genesys2/CVA6 SD-card Linux payload",
+      "satisfied": true
+    },
+    {
+      "candidate_paths": [
+        "buildroot",
+        "vendor/buildroot",
+        "external/buildroot",
+        "board/genesys2-cva6/linux/buildroot_defconfig",
+        "board/genesys2_cva6/linux/buildroot_defconfig",
+        "configs/genesys2_cva6_buildroot_defconfig"
+      ],
+      "candidate_results": [
+        {
+          "candidate": "buildroot",
+          "exists": false,
+          "kind": "missing"
+        },
+        {
+          "candidate": "vendor/buildroot",
+          "exists": false,
+          "kind": "missing"
+        },
+        {
+          "candidate": "external/buildroot",
+          "exists": false,
+          "kind": "missing"
+        },
+        {
+          "buildroot_analysis": {
+            "kind": "defconfig_file",
+            "required_terms": {
+              "genesys2_cva6_identity": true,
+              "linux_kernel": true,
+              "opensbi": true,
+              "riscv_target": true
+            },
+            "satisfies_buildroot_anchor": true
+          },
+          "candidate": "board/genesys2-cva6/linux/buildroot_defconfig",
+          "exists": true,
+          "kind": "file",
+          "path": "board/genesys2-cva6/linux/buildroot_defconfig",
+          "sha256": "45ee8394aee9ffc4f35b9da484b5179a9595021914af66da59daac6727891bfe",
+          "size_bytes": 1595
+        },
+        {
+          "candidate": "board/genesys2_cva6/linux/buildroot_defconfig",
+          "exists": false,
+          "kind": "missing"
+        },
+        {
+          "candidate": "configs/genesys2_cva6_buildroot_defconfig",
+          "exists": false,
+          "kind": "missing"
+        }
+      ],
+      "id": "buildroot_source_or_defconfig",
+      "missing_reason": null,
+      "mode": "buildroot_defconfig",
+      "present_candidates": [
+        {
+          "buildroot_analysis": {
+            "kind": "defconfig_file",
+            "required_terms": {
+              "genesys2_cva6_identity": true,
+              "linux_kernel": true,
+              "opensbi": true,
+              "riscv_target": true
+            },
+            "satisfies_buildroot_anchor": true
+          },
+          "candidate": "board/genesys2-cva6/linux/buildroot_defconfig",
+          "exists": true,
+          "kind": "file",
+          "path": "board/genesys2-cva6/linux/buildroot_defconfig",
+          "sha256": "45ee8394aee9ffc4f35b9da484b5179a9595021914af66da59daac6727891bfe",
+          "size_bytes": 1595
+        }
+      ],
+      "required": true,
+      "role": "Buildroot source, external tree, or board defconfig for the live Genesys2/CVA6 image",
+      "satisfied": true
+    },
+    {
+      "candidate_paths": [
+        "board/genesys2-cva6/linux/linux.config",
+        "board/genesys2_cva6/linux/linux.config",
+        "configs/genesys2_cva6_linux.config",
+        "build/linux/genesys2-cva6/.config",
+        "results/evaluation/genesys2-cva6/current/live_kernel_config.txt"
+      ],
+      "candidate_results": [
+        {
+          "candidate": "board/genesys2-cva6/linux/linux.config",
+          "config_analysis": {
+            "pmu_symbol_ok": true,
+            "pmu_symbol_options": {
+              "CONFIG_HW_PERF_EVENTS": "y",
+              "CONFIG_RISCV_PMU": "y",
+              "CONFIG_RISCV_PMU_SBI": "y"
+            },
+            "required_symbols": {
+              "CONFIG_IKCONFIG": "y",
+              "CONFIG_IKCONFIG_PROC": "y",
+              "CONFIG_PERF_EVENTS": "y"
+            },
+            "required_symbols_ok": true,
+            "satisfies_counter_config": true
+          },
+          "exists": true,
+          "kind": "file",
+          "path": "board/genesys2-cva6/linux/linux.config",
+          "sha256": "d171029c4aba5d875036edce20a505f3795382e578b5ff5e001f2e0b4ebbf5bd",
+          "size_bytes": 826
+        },
+        {
+          "candidate": "board/genesys2_cva6/linux/linux.config",
+          "exists": false,
+          "kind": "missing"
+        },
+        {
+          "candidate": "configs/genesys2_cva6_linux.config",
+          "exists": false,
+          "kind": "missing"
+        },
+        {
+          "candidate": "build/linux/genesys2-cva6/.config",
+          "exists": false,
+          "kind": "missing"
+        },
+        {
+          "candidate": "results/evaluation/genesys2-cva6/current/live_kernel_config.txt",
+          "exists": false,
+          "kind": "missing"
+        }
+      ],
+      "id": "linux_kernel_counter_config",
+      "missing_reason": null,
+      "mode": "kernel_config",
+      "present_candidates": [
+        {
+          "candidate": "board/genesys2-cva6/linux/linux.config",
+          "config_analysis": {
+            "pmu_symbol_ok": true,
+            "pmu_symbol_options": {
+              "CONFIG_HW_PERF_EVENTS": "y",
+              "CONFIG_RISCV_PMU": "y",
+              "CONFIG_RISCV_PMU_SBI": "y"
+            },
+            "required_symbols": {
+              "CONFIG_IKCONFIG": "y",
+              "CONFIG_IKCONFIG_PROC": "y",
+              "CONFIG_PERF_EVENTS": "y"
+            },
+            "required_symbols_ok": true,
+            "satisfies_counter_config": true
+          },
+          "exists": true,
+          "kind": "file",
+          "path": "board/genesys2-cva6/linux/linux.config",
+          "sha256": "d171029c4aba5d875036edce20a505f3795382e578b5ff5e001f2e0b4ebbf5bd",
+          "size_bytes": 826
+        }
+      ],
+      "required": true,
+      "role": "Linux kernel config proving perf, PMU, and readable-config support for the board image",
+      "satisfied": true
+    },
+    {
+      "candidate_paths": [
+        "opensbi",
+        "vendor/opensbi",
+        "external/opensbi",
+        "board/genesys2-cva6/linux/opensbi_manifest.json",
+        "board/genesys2_cva6/linux/opensbi_manifest.json",
+        "build/opensbi/genesys2-cva6/build_manifest.json"
+      ],
+      "candidate_results": [
+        {
+          "candidate": "opensbi",
+          "exists": false,
+          "kind": "missing"
+        },
+        {
+          "candidate": "vendor/opensbi",
+          "exists": false,
+          "kind": "missing"
+        },
+        {
+          "candidate": "external/opensbi",
+          "exists": false,
+          "kind": "missing"
+        },
+        {
+          "candidate": "board/genesys2-cva6/linux/opensbi_manifest.json",
+          "exists": true,
+          "kind": "file",
+          "opensbi_analysis": {
+            "has_artifact_hash": true,
+            "has_source_lock": true,
+            "kind": "opensbi_manifest_file",
+            "satisfies_opensbi_anchor": true,
+            "schema_ok": true
+          },
+          "path": "board/genesys2-cva6/linux/opensbi_manifest.json",
+          "sha256": "86a7f271d1f625507da148449199f9c4b5a1e13f0936103c9fceba142789582e",
+          "size_bytes": 703
+        },
+        {
+          "candidate": "board/genesys2_cva6/linux/opensbi_manifest.json",
+          "exists": false,
+          "kind": "missing"
+        },
+        {
+          "candidate": "build/opensbi/genesys2-cva6/build_manifest.json",
+          "exists": false,
+          "kind": "missing"
+        }
+      ],
+      "id": "opensbi_source_or_manifest",
+      "missing_reason": null,
+      "mode": "opensbi_manifest",
+      "present_candidates": [
+        {
+          "candidate": "board/genesys2-cva6/linux/opensbi_manifest.json",
+          "exists": true,
+          "kind": "file",
+          "opensbi_analysis": {
+            "has_artifact_hash": true,
+            "has_source_lock": true,
+            "kind": "opensbi_manifest_file",
+            "satisfies_opensbi_anchor": true,
+            "schema_ok": true
+          },
+          "path": "board/genesys2-cva6/linux/opensbi_manifest.json",
+          "sha256": "86a7f271d1f625507da148449199f9c4b5a1e13f0936103c9fceba142789582e",
+          "size_bytes": 703
+        }
+      ],
+      "required": true,
+      "role": "OpenSBI source/build manifest for the firmware layer that owns counter delegation and SBI PMU exposure",
+      "satisfied": true
+    },
+    {
+      "candidate_paths": [
+        "results/evaluation/genesys2-cva6/current/sdcard_image_manifest.json",
+        "board/genesys2-cva6/linux/sdcard_manifest.json",
+        "board/genesys2_cva6/linux/sdcard_manifest.json",
+        "build/board/genesys2-cva6/linux/sdcard_manifest.json",
+        "build/linux/genesys2-cva6/sdcard_image_manifest.json",
+        "results/evaluation/genesys2-cva6/current/sdcard_linux_manifest.json"
+      ],
+      "candidate_results": [
+        {
+          "candidate": "results/evaluation/genesys2-cva6/current/sdcard_image_manifest.json",
+          "exists": true,
+          "kind": "file",
+          "path": "results/evaluation/genesys2-cva6/current/sdcard_image_manifest.json",
+          "sha256": "5756fc9303b62203f51f71c9e2a110659f67661d080b5e2ee904aceb1908ccd2",
+          "size_bytes": 2482
+        },
+        {
+          "candidate": "board/genesys2-cva6/linux/sdcard_manifest.json",
+          "exists": false,
+          "kind": "missing"
+        },
+        {
+          "candidate": "board/genesys2_cva6/linux/sdcard_manifest.json",
+          "exists": false,
+          "kind": "missing"
+        },
+        {
+          "candidate": "build/board/genesys2-cva6/linux/sdcard_manifest.json",
+          "exists": false,
+          "kind": "missing"
+        },
+        {
+          "candidate": "build/linux/genesys2-cva6/sdcard_image_manifest.json",
+          "exists": true,
+          "kind": "file",
+          "path": "build/linux/genesys2-cva6/sdcard_image_manifest.json",
+          "sha256": "7e8779a6e61710361904a2ddfb4ac1da21abcb9364f65c9064900d209768729c",
+          "size_bytes": 2122
+        },
+        {
+          "candidate": "results/evaluation/genesys2-cva6/current/sdcard_linux_manifest.json",
+          "exists": true,
+          "kind": "file",
+          "path": "results/evaluation/genesys2-cva6/current/sdcard_linux_manifest.json",
+          "sha256": "0cdc91ef385678b56a9b6994116392ae5dc008dee8eb8b3bf4f5b87db506ee22",
+          "size_bytes": 10439
+        }
+      ],
+      "id": "sd_card_image_manifest",
+      "missing_reason": null,
+      "mode": "path",
+      "present_candidates": [
+        {
+          "candidate": "results/evaluation/genesys2-cva6/current/sdcard_image_manifest.json",
+          "exists": true,
+          "kind": "file",
+          "path": "results/evaluation/genesys2-cva6/current/sdcard_image_manifest.json",
+          "sha256": "5756fc9303b62203f51f71c9e2a110659f67661d080b5e2ee904aceb1908ccd2",
+          "size_bytes": 2482
+        },
+        {
+          "candidate": "build/linux/genesys2-cva6/sdcard_image_manifest.json",
+          "exists": true,
+          "kind": "file",
+          "path": "build/linux/genesys2-cva6/sdcard_image_manifest.json",
+          "sha256": "7e8779a6e61710361904a2ddfb4ac1da21abcb9364f65c9064900d209768729c",
+          "size_bytes": 2122
+        },
+        {
+          "candidate": "results/evaluation/genesys2-cva6/current/sdcard_linux_manifest.json",
+          "exists": true,
+          "kind": "file",
+          "path": "results/evaluation/genesys2-cva6/current/sdcard_linux_manifest.json",
+          "sha256": "0cdc91ef385678b56a9b6994116392ae5dc008dee8eb8b3bf4f5b87db506ee22",
+          "size_bytes": 10439
+        }
+      ],
+      "required": true,
+      "role": "manifest for the exact SD-card payload booted by the board, including kernel/rootfs/DTB/OpenSBI hashes",
+      "satisfied": true
+    },
+    {
+      "candidate_paths": [
+        "board/genesys2-cva6/linux/genesys2-cva6.dts",
+        "board/genesys2_cva6/linux/genesys2-cva6.dts",
+        "rtl/cva6/corev_apu/fpga/src/bootrom/cv64a6.dts.in",
+        "rtl/cva6/corev_apu/bootrom/ariane.dts",
+        "rtl/cva6/corev_apu/openpiton/bootrom/linux/ariane.dts",
+        "rtl/cva6/verif/tb/core/bootrom/cva6.dts",
+        "build/bootrom/genesys2-cva6/cv64a6.dtb"
+      ],
+      "candidate_results": [
+        {
+          "candidate": "board/genesys2-cva6/linux/genesys2-cva6.dts",
+          "exists": false,
+          "kind": "missing"
+        },
+        {
+          "candidate": "board/genesys2_cva6/linux/genesys2-cva6.dts",
+          "exists": false,
+          "kind": "missing"
+        },
+        {
+          "candidate": "rtl/cva6/corev_apu/fpga/src/bootrom/cv64a6.dts.in",
+          "dtb_pmu_analysis": {
+            "contains_compatible_token": true,
+            "contains_pmu_token": true,
+            "contains_sbi_token": false,
+            "satisfies_pmu_node": true
+          },
+          "exists": true,
+          "kind": "file",
+          "path": "rtl/cva6/corev_apu/fpga/src/bootrom/cv64a6.dts.in",
+          "sha256": "646176ff6bbb1fbf6a18334f08e5b5736ed5ec2eaa50979a770985c69dbe44cf",
+          "size_bytes": 4703
+        },
+        {
+          "candidate": "rtl/cva6/corev_apu/bootrom/ariane.dts",
+          "dtb_pmu_analysis": {
+            "contains_compatible_token": true,
+            "contains_pmu_token": false,
+            "contains_sbi_token": false,
+            "satisfies_pmu_node": false
+          },
+          "exists": true,
+          "kind": "file",
+          "path": "rtl/cva6/corev_apu/bootrom/ariane.dts",
+          "sha256": "01242273b73135a0cbeac7429624a12f7551fc5358499689dd5085d69ae96323",
+          "size_bytes": 2655
+        },
+        {
+          "candidate": "rtl/cva6/corev_apu/openpiton/bootrom/linux/ariane.dts",
+          "dtb_pmu_analysis": {
+            "contains_compatible_token": false,
+            "contains_pmu_token": false,
+            "contains_sbi_token": false,
+            "satisfies_pmu_node": false
+          },
+          "exists": true,
+          "kind": "file",
+          "path": "rtl/cva6/corev_apu/openpiton/bootrom/linux/ariane.dts",
+          "sha256": "20a649c7f8f3176e9cde3904a5629a5497eafbe26a770136b666fa37be552e71",
+          "size_bytes": 13
+        },
+        {
+          "candidate": "rtl/cva6/verif/tb/core/bootrom/cva6.dts",
+          "dtb_pmu_analysis": {
+            "contains_compatible_token": true,
+            "contains_pmu_token": false,
+            "contains_sbi_token": false,
+            "satisfies_pmu_node": false
+          },
+          "exists": true,
+          "kind": "file",
+          "path": "rtl/cva6/verif/tb/core/bootrom/cva6.dts",
+          "sha256": "54b886a702d898bf786ba0479a340c0b5104b29aca4e2f2d9f87f1589da2a5b3",
+          "size_bytes": 1962
+        },
+        {
+          "candidate": "build/bootrom/genesys2-cva6/cv64a6.dtb",
+          "dtb_pmu_analysis": {
+            "contains_compatible_token": true,
+            "contains_pmu_token": false,
+            "contains_sbi_token": false,
+            "satisfies_pmu_node": false
+          },
+          "exists": true,
+          "kind": "file",
+          "path": "build/bootrom/genesys2-cva6/cv64a6.dtb",
+          "sha256": "189061df02f847d11bf53c083e69cea456300dea02595ce1f8b4af246bff02b3",
+          "size_bytes": 3058
+        }
+      ],
+      "id": "device_tree_pmu_node_source",
+      "missing_reason": null,
+      "mode": "dtb_pmu",
+      "present_candidates": [
+        {
+          "candidate": "rtl/cva6/corev_apu/fpga/src/bootrom/cv64a6.dts.in",
+          "dtb_pmu_analysis": {
+            "contains_compatible_token": true,
+            "contains_pmu_token": true,
+            "contains_sbi_token": false,
+            "satisfies_pmu_node": true
+          },
+          "exists": true,
+          "kind": "file",
+          "path": "rtl/cva6/corev_apu/fpga/src/bootrom/cv64a6.dts.in",
+          "sha256": "646176ff6bbb1fbf6a18334f08e5b5736ed5ec2eaa50979a770985c69dbe44cf",
+          "size_bytes": 4703
+        },
+        {
+          "candidate": "rtl/cva6/corev_apu/bootrom/ariane.dts",
+          "dtb_pmu_analysis": {
+            "contains_compatible_token": true,
+            "contains_pmu_token": false,
+            "contains_sbi_token": false,
+            "satisfies_pmu_node": false
+          },
+          "exists": true,
+          "kind": "file",
+          "path": "rtl/cva6/corev_apu/bootrom/ariane.dts",
+          "sha256": "01242273b73135a0cbeac7429624a12f7551fc5358499689dd5085d69ae96323",
+          "size_bytes": 2655
+        },
+        {
+          "candidate": "rtl/cva6/corev_apu/openpiton/bootrom/linux/ariane.dts",
+          "dtb_pmu_analysis": {
+            "contains_compatible_token": false,
+            "contains_pmu_token": false,
+            "contains_sbi_token": false,
+            "satisfies_pmu_node": false
+          },
+          "exists": true,
+          "kind": "file",
+          "path": "rtl/cva6/corev_apu/openpiton/bootrom/linux/ariane.dts",
+          "sha256": "20a649c7f8f3176e9cde3904a5629a5497eafbe26a770136b666fa37be552e71",
+          "size_bytes": 13
+        },
+        {
+          "candidate": "rtl/cva6/verif/tb/core/bootrom/cva6.dts",
+          "dtb_pmu_analysis": {
+            "contains_compatible_token": true,
+            "contains_pmu_token": false,
+            "contains_sbi_token": false,
+            "satisfies_pmu_node": false
+          },
+          "exists": true,
+          "kind": "file",
+          "path": "rtl/cva6/verif/tb/core/bootrom/cva6.dts",
+          "sha256": "54b886a702d898bf786ba0479a340c0b5104b29aca4e2f2d9f87f1589da2a5b3",
+          "size_bytes": 1962
+        },
+        {
+          "candidate": "build/bootrom/genesys2-cva6/cv64a6.dtb",
+          "dtb_pmu_analysis": {
+            "contains_compatible_token": true,
+            "contains_pmu_token": false,
+            "contains_sbi_token": false,
+            "satisfies_pmu_node": false
+          },
+          "exists": true,
+          "kind": "file",
+          "path": "build/bootrom/genesys2-cva6/cv64a6.dtb",
+          "sha256": "189061df02f847d11bf53c083e69cea456300dea02595ce1f8b4af246bff02b3",
+          "size_bytes": 3058
+        }
+      ],
+      "required": true,
+      "role": "device-tree source or exported DTB evidence with a PMU/perf node usable by Linux",
+      "satisfied": true
+    },
+    {
+      "candidate_paths": [
+        "results/board/genesys2_trace_validation/20260623-cycle-source-diagnostics/proc_config.txt",
+        "results/board/genesys2_trace_validation/20260623-cycle-source-diagnostics/kernel_config.txt",
+        "results/evaluation/genesys2-cva6/current/live_kernel_config.txt"
+      ],
+      "candidate_results": [
+        {
+          "candidate": "results/board/genesys2_trace_validation/20260623-cycle-source-diagnostics/proc_config.txt",
+          "exists": false,
+          "kind": "missing"
+        },
+        {
+          "candidate": "results/board/genesys2_trace_validation/20260623-cycle-source-diagnostics/kernel_config.txt",
+          "exists": false,
+          "kind": "missing"
+        },
+        {
+          "candidate": "results/evaluation/genesys2-cva6/current/live_kernel_config.txt",
+          "exists": false,
+          "kind": "missing"
+        }
+      ],
+      "id": "live_kernel_config_export",
+      "missing_reason": "no acceptable live_kernel_config_export candidate is present",
+      "mode": "kernel_config",
+      "present_candidates": [],
+      "required": true,
+      "role": "exported readable kernel config from the same live SD-card image used for board cycle probes",
+      "satisfied": false
+    }
+  ],
+  "blocked_reason": "repo-local source anchors are present, but the live Genesys2/CVA6 SD-card Linux image still lacks a readable exported kernel config",
+  "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",
+  "claim_boundary": {
+    "artix7_or_vexriscv_substitution_allowed": false,
+    "board_cycle_source_claimed": false,
+    "cycle_level_overhead_claimed": false,
+    "linux_counter_path_preflight_only": true,
+    "production_runtime_slowdown_claimed": false,
+    "qemu_or_strace_substitution_allowed": false,
+    "requires_host_board_rerun_after_fix": true,
+    "sd_card_linux_rebuild_path_claimed": false
+  },
+  "documentary_references": [
+    {
+      "exists": true,
+      "path": "README.md",
+      "sha256": "cfe55e9d0cdf397c20117a8b3b5a2e3f6cfe180784a1763cd8cc249fceebc311",
+      "size_bytes": 8110
+    },
+    {
+      "exists": true,
+      "path": "docs/10-process/version_lock.md",
+      "sha256": "7ae5fc9a96fb7653ab7b3189ae47e2d8034ae74392a5ab3241d5fe5949a00108",
+      "size_bytes": 5511
+    },
+    {
+      "exists": true,
+      "path": "docs/07-evaluation-evidence/ndss_host_runbook.md",
+      "sha256": "fd72884f87fda932beb86b86804df9b22f05d29423c6c970abfd425cd6ba07e6",
+      "size_bytes": 17956
+    },
+    {
+      "exists": true,
+      "path": "rtl/cva6/tutorials/fpga.md",
+      "sha256": "4eed8542b6cd83c68ca87d81755463e4fe49e74bc7714147fb792389663f78b5",
+      "size_bytes": 14039
+    },
+    {
+      "exists": true,
+      "path": "rtl/cva6/RESOURCES.md",
+      "sha256": "59e9210e1fd6517368e6343c4f23392bc8f516a80d8837d06f10a304847c5aeb",
+      "size_bytes": 8380
+    },
+    {
+      "exists": true,
+      "path": "rtl/cva6/corev_apu/fpga/src/bootrom/README.md",
+      "sha256": "cccb5dde5fa0565d1e91cd88c32dab15f735d13d1892748274243611572419be",
+      "size_bytes": 1169
+    }
+  ],
+  "missing_required_anchor_ids": [
+    "live_kernel_config_export"
+  ],
+  "non_claims": [
+    "This preflight does not build a new SD-card image and does not run Vivado or the Genesys2 board.",
+    "A live SD-card manifest documents the booted image identity only; it is not a Buildroot, OpenSBI, kernel, or SD-card rebuild source path.",
+    "A repo DTS template with a PMU node is source-level readiness only until the rebuilt DTB, OpenSBI, Linux kernel, SD-card payload, and live board diagnostics prove PMU visibility.",
+    "Existing Artix-7/LiteX/VexRiscv Linux assets are rejected as substitutes for Genesys2/CVA6 counter-source evidence.",
+    "QEMU, strace, and local Linux checks remain validation oracles and cannot replace board cycle-source probes.",
+    "A local preflight PASS would not claim runtime overhead; the board cycle-source require-pass checkers must pass first."
+  ],
+  "rejected_non_genesys2_linux_paths": [
+    {
+      "accepted_as_counter_path_anchor": false,
+      "id": "artix7_litex_linux_builder",
+      "path": "docker/litex/build-artix7-linux-images.sh",
+      "rejection_reason": "Artix-7 LiteX/VexRiscv image builder; not a Genesys2/CVA6 Linux source path",
+      "source_worktree_exists": true,
+      "source_worktree_kind": "file"
+    },
+    {
+      "accepted_as_counter_path_anchor": false,
+      "id": "artix7_linux_user_programs",
+      "path": "board/artix7_35t/linux",
+      "rejection_reason": "Artix-7 35T Linux user programs; not the Genesys2/CVA6 SD-card image source",
+      "source_worktree_exists": true,
+      "source_worktree_kind": "directory"
+    },
+    {
+      "accepted_as_counter_path_anchor": false,
+      "id": "vexriscv_sdcard_image",
+      "path": "vendor/litex/linux-on-litex-vexriscv/images/sdcard.img",
+      "rejection_reason": "LiteX/VexRiscv prebuilt image; not acceptable for Genesys2/CVA6 cycle-source evidence",
+      "source_worktree_exists": true,
+      "source_worktree_kind": "file"
+    },
+    {
+      "accepted_as_counter_path_anchor": false,
+      "id": "artix7_litex_linux_soc",
+      "path": "fpga/artix7_35t/litex/linux_nosd.py",
+      "rejection_reason": "Artix-7 LiteX Linux SoC path; not a CVA6 Genesys2 SD-card rebuild path",
+      "source_worktree_exists": true,
+      "source_worktree_kind": "file"
+    }
+  ],
+  "required_anchor_count": 7,
+  "required_device_tree_or_firmware": [
+    "Expose a PMU/perf device-tree node or equivalent RISC-V SBI PMU path visible to Linux.",
+    "The repo-owned CVA6/Genesys2 bootrom DTS template must carry the PMU node before any rebuilt SD-card image can satisfy the live counter path.",
+    "Lock OpenSBI source/build artifacts that prove SBI PMU or counter delegation behavior.",
+    "Record exact kernel, rootfs, DTB, firmware, and SD-card image hashes in a repo artifact manifest."
+  ],
+  "required_kernel_options": {
+    "notes": [
+      "CONFIG_PERF_EVENTS must be enabled before kernel perf hardware-cycle probes can pass.",
+      "At least one RISC-V PMU/SBI PMU or equivalent hardware perf option must be present.",
+      "IKCONFIG/IKCONFIG_PROC are required so future board diagnostics can prove the live kernel config."
+    ],
+    "required_exact": {
+      "CONFIG_IKCONFIG": "y",
+      "CONFIG_IKCONFIG_PROC": "y",
+      "CONFIG_PERF_EVENTS": "y"
+    },
+    "required_one_of": [
+      "CONFIG_RISCV_PMU",
+      "CONFIG_RISCV_PMU_SBI",
+      "CONFIG_HW_PERF_EVENTS"
+    ]
+  },
+  "satisfied_required_anchor_count": 6,
+  "schema": "rvmt.genesys2.linux_counter_path_preflight.v1",
+  "scope": "repo-local preflight for replacing or rebuilding the Genesys2/CVA6 SD-card Linux counter path",
+  "status": "BLOCKED_SD_CARD_LINUX_SOURCE_MISSING",
+  "supporting_summaries": [
+    {
+      "claim_boundary": {},
+      "exists": true,
+      "expected_schema": "rvmt.genesys2.bootrom_build.v1",
+      "id": "bootrom_counter_delegation",
+      "path": "build/bootrom/genesys2-cva6/build_manifest.json",
+      "schema": "rvmt.genesys2.bootrom_build.v1",
+      "sha256": "17e4b559dcd32859e68b9966ae3b230f88eb96eda47539fbb7b3e5d141f92cc1",
+      "size_bytes": 1916,
+      "status": "PASS"
+    },
+    {
+      "claim_boundary": {
+        "board_cycle_source_claimed": false,
+        "cycle_level_overhead_claimed": false
+      },
+      "exists": true,
+      "expected_schema": "rvmt.genesys2.sdcard_linux_manifest.v1",
+      "id": "sdcard_linux_manifest",
+      "path": "results/evaluation/genesys2-cva6/current/sdcard_linux_manifest.json",
+      "schema": "rvmt.genesys2.sdcard_linux_manifest.v1",
+      "sha256": "0cdc91ef385678b56a9b6994116392ae5dc008dee8eb8b3bf4f5b87db506ee22",
+      "size_bytes": 10439,
+      "status": "PASS"
+    },
+    {
+      "claim_boundary": {
+        "board_rdcycle_smoke_claimed": false,
+        "cycle_level_overhead_claimed": false,
+        "paper_runtime_overhead_claimed": false,
+        "production_runtime_slowdown_claimed": false
+      },
+      "exists": true,
+      "expected_schema": "rvmt.genesys2.cycle_counter_smoke.v1",
+      "id": "cycle_counter_smoke",
+      "path": "results/evaluation/genesys2-cva6/current/cycle_counter_smoke_summary.json",
+      "schema": "rvmt.genesys2.cycle_counter_smoke.v1",
+      "sha256": "6bdd69e98dec65f81b39fd1543f4f0d65a228b0a1115dc4d5389bb9c01b52ff9",
+      "size_bytes": 1950,
+      "status": "BLOCKED_BOARD_RDCYCLE_UNAVAILABLE"
+    },
+    {
+      "claim_boundary": {
+        "board_kernel_perf_cycle_source_claimed": false,
+        "board_rdcycle_smoke_claimed": false,
+        "cycle_level_overhead_claimed": false,
+        "paper_runtime_overhead_claimed": false,
+        "production_runtime_slowdown_claimed": false
+      },
+      "exists": true,
+      "expected_schema": "rvmt.genesys2.cycle_source_probe.v1",
+      "id": "cycle_source_probe",
+      "path": "results/evaluation/genesys2-cva6/current/cycle_source_probe_summary.json",
+      "schema": "rvmt.genesys2.cycle_source_probe.v1",
+      "sha256": "b0c5fc4c4e789ecff318878801ccf6cefa2d12c16d80c067c8a358fe4edae09d",
+      "size_bytes": 2147,
+      "status": "BLOCKED_BOARD_KERNEL_PERF_CYCLES_UNAVAILABLE"
+    },
+    {
+      "claim_boundary": {
+        "board_cycle_source_claimed": false,
+        "cycle_level_overhead_claimed": false,
+        "diagnostic_only": true,
+        "production_runtime_slowdown_claimed": false
+      },
+      "exists": true,
+      "expected_schema": "rvmt.genesys2.cycle_source_diagnostics.v1",
+      "id": "cycle_source_diagnostics",
+      "path": "results/evaluation/genesys2-cva6/current/cycle_source_diagnostics_summary.json",
+      "schema": "rvmt.genesys2.cycle_source_diagnostics.v1",
+      "sha256": "83d7cc84959d1e5ba8d5c31e1b84f6dc3afbd4655f15ccc0d32b2236711e4c90",
+      "size_bytes": 9388,
+      "status": "BLOCKED_BOARD_KERNEL_PMU_AND_USER_CYCLE_UNAVAILABLE"
+    },
+    {
+      "claim_boundary": {
+        "board_cycle_source_claimed": false,
+        "cycle_level_overhead_claimed": false
+      },
+      "exists": true,
+      "expected_schema": "rvmt.genesys2.live_kernel_config_export.v1",
+      "id": "live_kernel_config_export",
+      "path": "results/evaluation/genesys2-cva6/current/live_kernel_config_export_summary.json",
+      "schema": "rvmt.genesys2.live_kernel_config_export.v1",
+      "sha256": "0bd5c480cce0342c989d3f3595b8920ed501d35f2811ca01b8b1b85cf73ebfa7",
+      "size_bytes": 2465,
+      "status": "BLOCKED_LIVE_KERNEL_CONFIG_UNAVAILABLE"
+    },
+    {
+      "claim_boundary": {
+        "board_cycle_counter_claimed": false,
+        "cycle_level_overhead_claimed": false,
+        "paper_runtime_overhead_claimed": false,
+        "production_runtime_slowdown_claimed": false
+      },
+      "exists": true,
+      "expected_schema": "rvmt.genesys2.counter_access_matrix.v1",
+      "id": "counter_access_matrix",
+      "path": "results/evaluation/genesys2-cva6/current/counter_access_matrix_summary.json",
+      "schema": "rvmt.genesys2.counter_access_matrix.v1",
+      "sha256": "40a34e994007c9324bd2ae1ab5ceeb07d7cf4399b879c80590f5687f7cb4391c",
+      "size_bytes": 6141,
+      "status": "BLOCKED_BOARD_CYCLE_COUNTER_UNAVAILABLE_NONCYCLE_TIME_AVAILABLE"
+    }
+  ],
+  "validation_commands": [
+    "uv run rvmt ndss:linux-rebuild-prep --fetch --configure",
+    "uv run python tools/check_genesys2_linux_rebuild_manifest.py --root .",
+    "uv run rvmt ndss:sdcard-linux-manifest --port COM7 --baud 115200",
+    "uv run python tools/check_genesys2_sdcard_linux_manifest.py --root .",
+    "uv run rvmt ndss:live-kernel-config-export --port COM7 --baud 115200",
+    "uv run python tools/check_genesys2_live_kernel_config_export.py --root .",
+    "uv run python tools/check_genesys2_live_kernel_config_export.py --root . --require-pass",
+    "uv run rvmt ndss:linux-counter-preflight",
+    "uv run python tools/check_genesys2_linux_counter_path_preflight.py --root .",
+    "uv run python tools/check_genesys2_linux_counter_path_preflight.py --root . --require-pass",
+    "uv run rvmt ndss:cycle-smoke --port COM7 --baud 115200 --reps 5",
+    "uv run python tools/check_genesys2_cycle_counter_smoke.py --root . --require-pass",
+    "uv run rvmt ndss:cycle-source-probe --port COM7 --baud 115200 --reps 5",
+    "uv run python tools/check_genesys2_cycle_source_probe.py --root . --require-pass",
+    "uv run rvmt ndss:cycle-diagnostics --port COM7 --baud 115200",
+    "uv run rvmt ndss:counter-access-matrix --port COM7 --baud 115200 --reps 5",
+    "uv run python tools/check_genesys2_counter_access_matrix.py --root . --require-pass"
+  ]
+}

@@ -39,6 +39,7 @@ The trace checker is:
 
 ```text
 tools/check_fuzz_trace.py
+dual_commit_order
 ```
 
 When `--out-dir` is provided, the checker writes:
@@ -57,6 +58,11 @@ fuzz_trace_report.md
 | 3 | fuzz_syscall | syscall entry/return argument and id shape | U-mode entry, monotonic ids, paired returns; existing trace-unit and RVFI adapter syscall evidence | PASS_GOLDEN_TRACE_FIXTURE_WITH_SYSCALL_EVIDENCE |
 | 4 | fuzz_context | SATP and watched-CSR context event shape | context event payloads and drop accounting | PASS_GOLDEN_TRACE_FIXTURE |
 | 5 | fuzz_overflow | high event burst and queue overflow pressure | branch evidence, visible `DROP`, and monotonic drop count | PASS_GOLDEN_TRACE_FIXTURE |
+
+The checker also includes `dual_commit_order`, which requires explicit
+`commit_port` ordering whenever a fixture contains multiple `RETIRE` events in
+the same cycle. Existing fixtures without dual-retire cycles are not promoted
+to dual-commit evidence.
 
 The first implementation uses deterministic seed programs so failures remain
 reproducible and easy to triage. Later RISCV-DV integration may feed additional

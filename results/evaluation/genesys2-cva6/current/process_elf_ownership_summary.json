@@ -57,7 +57,7 @@
       "runtime_process_attribution_proven": true,
       "runtime_process_map": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map/file_scan/runtime_process_map.json",
       "sample_id": "file_scan",
-      "target_elf_attributed_events": 7,
+      "target_elf_attributed_events": 6,
       "tgid": 1346
     },
     {
@@ -69,7 +69,7 @@
       "runtime_process_attribution_proven": true,
       "runtime_process_map": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map/batch_open_read_write/runtime_process_map.json",
       "sample_id": "batch_open_read_write",
-      "target_elf_attributed_events": 7,
+      "target_elf_attributed_events": 6,
       "tgid": 1416
     },
     {
@@ -81,7 +81,7 @@
       "runtime_process_attribution_proven": true,
       "runtime_process_map": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map/self_copy_sim/runtime_process_map.json",
       "sample_id": "self_copy_sim",
-      "target_elf_attributed_events": 7,
+      "target_elf_attributed_events": 6,
       "tgid": 1486
     },
     {
@@ -93,7 +93,7 @@
       "runtime_process_attribution_proven": true,
       "runtime_process_map": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map/abnormal_syscall_sequence/runtime_process_map.json",
       "sample_id": "abnormal_syscall_sequence",
-      "target_elf_attributed_events": 7,
+      "target_elf_attributed_events": 6,
       "tgid": 1556
     },
     {
@@ -105,7 +105,7 @@
       "runtime_process_attribution_proven": true,
       "runtime_process_map": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map/illegal_trap/runtime_process_map.json",
       "sample_id": "illegal_trap",
-      "target_elf_attributed_events": 3,
+      "target_elf_attributed_events": 2,
       "tgid": 1626
     },
     {
@@ -117,7 +117,7 @@
       "runtime_process_attribution_proven": true,
       "runtime_process_map": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map/process_chain/runtime_process_map.json",
       "sample_id": "process_chain",
-      "target_elf_attributed_events": 4,
+      "target_elf_attributed_events": 3,
       "tgid": 1696
     },
     {
@@ -129,7 +129,7 @@
       "runtime_process_attribution_proven": true,
       "runtime_process_map": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map/dynamic_executable_memory/runtime_process_map.json",
       "sample_id": "dynamic_executable_memory",
-      "target_elf_attributed_events": 4,
+      "target_elf_attributed_events": 3,
       "tgid": 1767
     },
     {
@@ -141,7 +141,7 @@
       "runtime_process_attribution_proven": true,
       "runtime_process_map": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map/anti_debug_like/runtime_process_map.json",
       "sample_id": "anti_debug_like",
-      "target_elf_attributed_events": 6,
+      "target_elf_attributed_events": 5,
       "tgid": 1838
     }
   ],

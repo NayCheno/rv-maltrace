@@ -152,6 +152,10 @@ def check_streaming_template(errors: list[str], record_id: str, template: dict[s
     for key in ("timing_passed", "noninterference_passed", "host_receiver_log_present", "resource_report_present", "failed_attempts_retained"):
         require(errors, template.get(key) is True, f"{record_id}: {key} required")
     require(errors, template.get("unaccounted_drop") == 0, f"{record_id}: unaccounted_drop must be 0")
+    require(errors, template.get("sustained_bytes_per_second") == "> required_sustained_bytes_per_second", f"{record_id}: sustained throughput must use required target")
+    require(errors, template.get("minimum_sustained_throughput_multiplier") == 1.5, f"{record_id}: 1.5x multiplier required")
+    require(errors, "p99_event_bytes_per_second" in template, f"{record_id}: p99 bytes/sec target required")
+    require(errors, "required_sustained_bytes_per_second" in template, f"{record_id}: required sustained bytes/sec target required")
 
 
 def check_benign_template(errors: list[str], record_id: str, template: dict[str, Any]) -> None:
@@ -194,6 +198,7 @@ def check_record_specific(errors: list[str], record_id: str, record: dict[str, A
         check_streaming_template(errors, record_id, template)
         commands = " ".join(as_list(record.get("collection_commands"))).lower()
         require(errors, "non-bram" in commands and "host receiver" in commands, f"{record_id}: non-BRAM host receiver collection required")
+        require(errors, "1.5 * p99_event_bytes_per_cycle" in commands, f"{record_id}: p99 1.5x collection comparison required")
     elif record_id == "genesys2_board_benign_control":
         check_benign_template(errors, record_id, template)
         commands = " ".join(as_list(record.get("collection_commands"))).lower()

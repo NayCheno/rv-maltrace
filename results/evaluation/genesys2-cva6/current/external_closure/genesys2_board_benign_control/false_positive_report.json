@@ -1,0 +1,32 @@
+{
+  "benign_false_positive_rate": 0.0,
+  "failures": [],
+  "samples": [
+    {
+      "id": "hello",
+      "unexpected_false_positive": false,
+      "unexpected_matched_rules": []
+    },
+    {
+      "id": "cat",
+      "unexpected_false_positive": false,
+      "unexpected_matched_rules": []
+    },
+    {
+      "id": "clock_status",
+      "unexpected_false_positive": false,
+      "unexpected_matched_rules": []
+    },
+    {
+      "id": "getdents_only",
+      "unexpected_false_positive": false,
+      "unexpected_matched_rules": []
+    },
+    {
+      "id": "mmap_rw",
+      "unexpected_false_positive": false,
+      "unexpected_matched_rules": []
+    }
+  ],
+  "unexpected_false_positive_count": 0
+}

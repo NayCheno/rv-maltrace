@@ -124,8 +124,8 @@ def write_fixture(root: Path, hardcoded_suite_path: bool) -> Path:
     current = root / "results/evaluation/genesys2-cva6/current"
     active_roots = {
         "p0_continuous_trace": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit",
-        "p0_bram_repetitions": "results/board/genesys2_trace_validation/20260612-p0-bram-repetitions",
-        "safe_surrogate_bram_repetitions": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait",
+        "p0_bram_repetitions": "results/board/genesys2_trace_validation/20260624-current-p0-cohort",
+        "safe_surrogate_bram_repetitions": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort",
         "safe_surrogate_runtime_map": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map",
         "pointer_snapshot_bram": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram",
         "production_runtime_benchmark": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark",

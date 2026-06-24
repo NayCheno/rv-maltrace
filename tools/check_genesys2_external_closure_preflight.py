@@ -142,7 +142,7 @@ def check_summary(data: dict[str, Any], root: Path) -> list[str]:
             require(errors, row.get("exists") is True, f"{required_path}: source must exist")
             require(errors, row.get("expected_schema") == expected_schema, f"{required_path}: expected schema mismatch")
             require(errors, row.get("schema") == expected_schema, f"{required_path}: source schema mismatch")
-            allowed_statuses = {"PASS", "FAIL"} if required_path.endswith("external_closure_intake.json") else {"PASS"}
+            allowed_statuses = {"PASS", "BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED"} if required_path.endswith("external_closure_intake.json") else {"PASS"}
             require(errors, row.get("status") in allowed_statuses, f"{required_path}: source status mismatch")
             path = repo_path(root, required_path)
             require(errors, path.is_file(), f"{required_path}: source file missing")

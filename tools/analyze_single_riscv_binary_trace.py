@@ -168,6 +168,8 @@ def summary_from_analysis(
     annotated: list[dict[str, Any]],
     join_summary: dict[str, Any],
     load_base: int | None,
+    runtime_process_map: Path | None,
+    exact_elf_sha256: str | None,
 ) -> dict[str, Any]:
     pc_events = [row for row in annotated if parse_address(row.get("pc")) is not None]
     target_events = [row for row in pc_events if row.get("pc_owner") == "target_sample"]
@@ -185,17 +187,37 @@ def summary_from_analysis(
         warnings.append("No source-line hits in the trace; function-level attribution is available for matched functions only.")
     elif not source_events:
         warnings.append("No source-line hits in the trace; verify exact runtime ELF identity and retained DWARF/debug info.")
+    source_attr = code_map.get("source_attribution") if isinstance(code_map.get("source_attribution"), dict) else {}
+    function_count = int(source_attr.get("function_count") or 0)
+    source_line_level = str(source_attr.get("source_line_level") or "unavailable")
+    stripped_elf = function_count == 0
+    if stripped_elf:
+        warnings.append("No function symbols were found; stripped ELF attribution is limited to load ranges/sections and raw offsets.")
+    exact_match = None
+    if exact_elf_sha256 is not None:
+        exact_match = exact_elf_sha256.lower() == str(code_map.get("sha256") or "").lower()
     status = "PASS" if target_events else "WARN_NO_TARGET_PC_MATCH"
+    if code_map.get("elf_type") == "DYN" and load_base is None:
+        status = "WARN_LOAD_BASE_REQUIRED"
     return {
         "schema": "rvmt.single_binary_trace_analysis.v1",
         "status": status,
         "trace": str(trace),
         "elf": str(elf),
         "elf_sha256": code_map.get("sha256"),
+        "exact_elf_sha256_expected": exact_elf_sha256,
+        "exact_elf_sha256_checked": exact_elf_sha256 is not None,
+        "exact_elf_sha256_match": exact_match,
         "elf_header": code_map.get("elf_header"),
         "elf_type": code_map.get("elf_type"),
+        "stripped_elf": stripped_elf,
+        "function_symbol_count": function_count,
+        "source_line_level": source_line_level,
+        "debug_line_available": source_line_level == "available",
         "load_base_assumption": code_map.get("load_base_assumption"),
         "runtime_load_base": hex_addr(load_base) if load_base is not None else None,
+        "runtime_process_map": str(runtime_process_map) if runtime_process_map is not None else None,
+        "runtime_process_map_applied": runtime_process_map is not None,
         "events": len(annotated),
         "pc_events": len(pc_events),
         "target_pc_events": len(target_events),
@@ -211,9 +233,24 @@ def summary_from_analysis(
         "marker_scope": join_summary.get("marker_scope"),
         "source_attribution": join_summary.get("source_attribution"),
         "warnings": warnings,
+        "attribution_modes": {
+            "exact_elf": "checked" if exact_elf_sha256 is not None else "available_but_not_user_asserted",
+            "pie_aslr_load_bias": "applied" if load_base is not None else ("required" if code_map.get("elf_type") == "DYN" else "not_required_for_exec"),
+            "runtime_os_map": "applied" if runtime_process_map is not None else "not_provided",
+            "stripped_elf": "section_or_offset_only" if stripped_elf else "function_symbols_available",
+            "dynamic_libraries": "requires_runtime_os_map",
+            "fork_exec": "requires_runtime_os_map",
+        },
         "claim_boundary": {
             "single_binary_static_attribution": True,
             "riscv_elf_machine_required": True,
+            "exact_board_elf_required_for_board_native_claims": True,
+            "exact_elf_sha256_checked": exact_elf_sha256 is not None,
+            "pie_aslr_requires_runtime_load_base": code_map.get("elf_type") == "DYN",
+            "dynamic_libraries_require_runtime_os_map": True,
+            "fork_exec_requires_runtime_os_map": True,
+            "stripped_elf_degrades_to_section_or_offset_only": stripped_elf,
+            "sidecar_is_not_board_native_dwarf": True,
             "process_ownership_claimed_without_runtime_map": False,
             "real_malware_validation_claimed": False,
         },
@@ -413,12 +450,18 @@ def analyze(
     load_base: int | None,
     runtime_process_map: Path | None,
     addr2line: str | None,
+    exact_elf_sha256: str | None,
     out_dir: Path | None,
 ) -> tuple[list[dict[str, Any]], dict[str, Any], dict[str, Path]]:
     code_map = build_code_map(elf, sample_id, binary_role="single_riscv_binary", addr2line_tool=addr2line)
     errors = validate_riscv_code_map(code_map)
     if errors:
         raise ValueError("; ".join(errors))
+    if exact_elf_sha256 is not None and str(code_map.get("sha256") or "").lower() != exact_elf_sha256.lower():
+        raise ValueError(
+            "exact ELF sha256 mismatch: "
+            f"expected {exact_elf_sha256.lower()}, got {str(code_map.get('sha256') or '').lower()}"
+        )
     code_map = apply_runtime_load_base(code_map, load_base)
     events = load_jsonl(trace)
     runtime_map = load_json(runtime_process_map) if runtime_process_map is not None else None
@@ -431,6 +474,8 @@ def analyze(
         annotated=annotated,
         join_summary=join_summary,
         load_base=load_base,
+        runtime_process_map=runtime_process_map,
+        exact_elf_sha256=exact_elf_sha256,
     )
     outputs: dict[str, Path] = {}
     if out_dir is not None:
@@ -480,10 +525,15 @@ def self_test() -> int:
             annotated=annotated,
             join_summary=join_summary,
             load_base=None,
+            runtime_process_map=None,
+            exact_elf_sha256=None,
         )
         text = render_console(trace, annotated, summary, limit=8, width=32, color=False)
     if summary["status"] != "PASS" or summary["target_pc_events"] != 4:
         print("[FAIL] single-binary analysis self-test summary mismatch", file=sys.stderr)
+        return 1
+    if summary.get("claim_boundary", {}).get("exact_board_elf_required_for_board_native_claims") is not True:
+        print("[FAIL] single-binary analysis self-test missed exact ELF claim boundary", file=sys.stderr)
         return 1
     for required in ("Single Binary Trace Analysis", "Target Function Hotspots", "main", "SYSCALL_ENTRY"):
         if required not in text:
@@ -500,6 +550,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--sample-id", help="Analysis sample id. Defaults to ELF stem.")
     parser.add_argument("--load-base", help="Runtime load base for PIE/ET_DYN traces, for example 0x555555554000.")
     parser.add_argument("--runtime-process-map", type=Path, help="Optional runtime process map for stronger process ownership.")
+    parser.add_argument("--exact-elf-sha256", help="Expected SHA256 for the exact board/runtime ELF. Mismatch fails the analysis.")
     parser.add_argument("--addr2line", help="addr2line-compatible executable for source-line enrichment.")
     parser.add_argument("--out-dir", type=Path, help="Write code map, annotated trace, and summary artifacts.")
     parser.add_argument("--format", choices=("console", "json", "markdown"), default="console")
@@ -521,6 +572,7 @@ def main(argv: list[str] | None = None) -> int:
             load_base=load_base,
             runtime_process_map=args.runtime_process_map,
             addr2line=args.addr2line,
+            exact_elf_sha256=args.exact_elf_sha256,
             out_dir=args.out_dir,
         )
         if args.format == "json":

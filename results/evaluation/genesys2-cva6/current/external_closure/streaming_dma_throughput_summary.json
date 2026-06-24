@@ -1,0 +1,88 @@
+{
+  "claim_boundary": {
+    "bram_jtag_substituted_for_streaming": false,
+    "production_streaming_dma_throughput_claimed": false,
+    "real_malware_validation_claimed": false
+  },
+  "evidence_artifacts": [
+    {
+      "id": "drop_accounting_report",
+      "kind": "drop_accounting_report",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/drop_accounting_report.json",
+      "sha256": "274924d55f0c43680359e47d267b927f7c505675f836e2aba5a6ca2e34ef9f18"
+    },
+    {
+      "id": "host_receiver_log",
+      "kind": "host_receiver_log",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/host_receiver_log.json",
+      "sha256": "f9047ca909394d5360fd7a6db11811bfa9ebd184db601bac55173d5248174554"
+    },
+    {
+      "id": "noninterference_report",
+      "kind": "noninterference_report",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/noninterference_report.txt",
+      "sha256": "4cc97a997ef1f6fa0b2808fd628752b60e60f7835b9833052cdb0f074f5e366c"
+    },
+    {
+      "id": "parser_output_log",
+      "kind": "parser_output_log",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/parser_output_log.json",
+      "sha256": "0f55f234440602cfc4de6c556075799a1aeb5a2e54c8ad4fca40404d3cd960fd"
+    },
+    {
+      "id": "resource_report",
+      "kind": "resource_report",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/resource_report.txt",
+      "sha256": "1e11fc550b4f241646147e5ef1183220986eece4e79763c26692ca171e85f243"
+    },
+    {
+      "id": "streaming_bitstream_clock_report",
+      "kind": "streaming_bitstream_clock_report",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/streaming_bitstream_clock_report.json",
+      "sha256": "8dafcc5045ef482dbb664c6618b41bf63273f67e75dffe49a162da3932bcc04c"
+    },
+    {
+      "id": "timing_report",
+      "kind": "timing_report",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/timing_report.txt",
+      "sha256": "929b280d41f3ae39ecd4e741b336bda44a1cdc11fff52822e4026384b9e0273a"
+    },
+    {
+      "id": "transport_design_manifest",
+      "kind": "transport_design_manifest",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/transport_design_manifest.json",
+      "sha256": "f71a2b513277c954ba1866b4cf207a3317e890fb17820c4ce9e091f2603b9a93"
+    }
+  ],
+  "failed_attempts": [
+    "host receiver parser_success is not true",
+    "UART status/end frame was not observed",
+    "sustained_bytes_per_second 0.000 <= required 1.5x p99 target 1618163.573",
+    "noninterference report does not prove noninterference_passed=true"
+  ],
+  "failed_attempts_retained": true,
+  "host_receiver_log_present": true,
+  "minimum_sustained_throughput_multiplier": 1.5,
+  "noninterference_passed": false,
+  "p95_event_bytes_per_cycle": 0.019884233572264043,
+  "p95_event_bytes_per_second": 994211.6786132022,
+  "p99_event_bytes_per_cycle": 0.021575514300050176,
+  "p99_event_bytes_per_second": 1078775.7150025088,
+  "record_root": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink",
+  "required_sustained_bytes_per_second": 1618163.5725037633,
+  "required_sustained_event_bytes_per_cycle": 0.03236327145007527,
+  "resource_report_present": true,
+  "schema": "rvmt.genesys2.streaming_dma_throughput.v1",
+  "status": "FAIL",
+  "sustained_bytes_per_second": 0.0,
+  "timing_passed": true,
+  "trace_clock_hz": 50000000.0,
+  "transport": "uart_streaming_dma",
+  "unaccounted_drop": 0,
+  "validation_commands": [
+    "uv run python tools/run_genesys2_uart_streaming_capture.py --port COM7 --stream-baud 12000000 --command RVMT_MARKER_WINDOW_COMMAND",
+    "uv run python tools/run_genesys2_uart_streaming_capture.py --receiver-backend d2xx --ftdi-serial AU05XHWM --stream-baud 12000000 --command RVMT_MARKER_WINDOW_COMMAND",
+    "uv run python tools/package_genesys2_streaming_dma_throughput.py --host-receiver-log HOST_RECEIVER_LOG_JSON --trace-clock-hz EXACT_HZ --timing-report TIMING_REPORT --resource-report RESOURCE_REPORT --noninterference-report NONINTERFERENCE_REPORT",
+    "uv run python tools/check_genesys2_streaming_dma_throughput.py --root ."
+  ]
+}

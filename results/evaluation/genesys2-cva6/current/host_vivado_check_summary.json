@@ -1,0 +1,48 @@
+{
+  "blocked_reason": null,
+  "board": "genesys2",
+  "board_repo_paths": [
+    {
+      "exists": true,
+      "path": "vendor/vivado-boards/new/board_files"
+    }
+  ],
+  "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",
+  "claim_boundary": {
+    "bitstream_rebuilt": false,
+    "board_runtime_evidence_claimed": false,
+    "genesys2_programmed": false,
+    "host_vivado_preflight_executed": true,
+    "vivado_synthesis_or_implementation_run": false
+  },
+  "command": "uv run rvmt ndss:host-vivado-check",
+  "expected_board_part": "digilentinc.com:genesys2:part0:1.1",
+  "expected_part": "xc7k325tffg900-2",
+  "generated_utc": "2026-06-24T01:26:44+00:00",
+  "log": "results/evaluation/genesys2-cva6/current/host_vivado_check.log",
+  "log_sha256": "d00f0887f408bd17f81508a648681bda8655809571cc387b99e0c1f9d1550dda",
+  "log_size_bytes": 640,
+  "markers": {
+    "RVMT_BOARD_OK": "digilentinc.com:genesys2:part0:1.1",
+    "RVMT_PART_OK": "xc7k325tffg900-2",
+    "RVMT_VIVADO_VERSION": "2025.2"
+  },
+  "non_claims": [
+    "This host Vivado preflight checks tool availability, device part, and board part only.",
+    "It does not run synthesis, implementation, bitstream generation, board programming, or board runtime capture."
+  ],
+  "returncode": 0,
+  "schema": "rvmt.ndss.host_vivado_check.v1",
+  "status": "PASS_HOST_VIVADO_PREFLIGHT",
+  "validation_commands": [
+    "uv run rvmt ndss:host-vivado-check",
+    "uv run python tools/check_ndss_host_vivado_check.py --root .",
+    "uv run rvmt bitstream:build-trace-marker",
+    "uv run python tools/check_genesys2_bitstream_artifacts.py --root ."
+  ],
+  "vivado": {
+    "exists": true,
+    "path": "D:/Application/vivado/2025.2/Vivado/bin/vivado.bat"
+  },
+  "vivado_version": "2025.2"
+}

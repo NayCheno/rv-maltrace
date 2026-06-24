@@ -15,7 +15,7 @@
   "failures": [],
   "interpretation": [
     "This artifact fixes the closure contract for remaining non-real-malware blockers.",
-    "It does not upgrade current evidence to board-native DWARF source lines, full hardware pointer strings, production streaming/DMA throughput, or board benign-control evidence.",
+    "This readiness contract itself does not upgrade current evidence to board-native DWARF source-line, full hardware pointer-string, production streaming/DMA, or board benign-control evidence; only accepted external summaries can close those items.",
     "Each remaining blocker still requires new board, RTL, or external reviewer execution before it can move from readiness to completed evidence."
   ],
   "objective_exclusions": [
@@ -55,7 +55,7 @@
           "id": "source_line_attribution_summary",
           "path": "results/evaluation/genesys2-cva6/current/source_line_attribution_summary.json",
           "schema": "rvmt.source_line_attribution.v1",
-          "sha256": "88e3ddda02ac5dbfe5106f126896aa3b4f7859ae9372a3dbf267fdd89791fa68",
+          "sha256": "717fa1bb7f372048f00a51278ed174a3cc70f568cde15519ccedf2796abfe18b",
           "status": "PASS"
         },
         {
@@ -76,7 +76,7 @@
           "exists": true,
           "id": "join_trace_code_map_source_support",
           "path": "tools/join_trace_code_map.py",
-          "sha256": "dbf11902a84267b929b3abc8c4342c34bc2baae45d60fed62db9896dc7d7cc41"
+          "sha256": "ce7e3c91ed150cfd1359dbeb23bb19ed615621e5d4a1509808444ffb053ecdb2"
         },
         {
           "exists": true,
@@ -214,7 +214,7 @@
           "id": "pointer_string_readiness",
           "path": "results/evaluation/genesys2-cva6/current/pointer_string_readiness_summary.json",
           "schema": "rvmt.genesys2.pointer_string_readiness.v1",
-          "sha256": "cc920ee8539a323026f1e59465f33b812a285c982d216ebe20dd8ca70e5f77c3",
+          "sha256": "d1a4eda3fa749309f771cb719816e0a2da924d67ee061fc8694fd9a0d0d5eefd",
           "status": "PASS"
         },
         {
@@ -241,7 +241,7 @@
           "exists": true,
           "id": "trace_top_arg_mem_parameters",
           "path": "rtl/trace/trace_top.sv",
-          "sha256": "0c180c4b2382ea2386491aff9230912192d651afa2a90b812450271b96e58475"
+          "sha256": "1a0c8626124c4b45d31a18f0117c0cc529d2c12618999df6564da556016e3d86"
         },
         {
           "exists": true,
@@ -292,7 +292,7 @@
     {
       "acceptance_criteria": [
         "transport is not reported as BRAM ring plus ILA/JTAG when claiming production streaming/DMA throughput",
-        "sustained throughput exceeds the measured p95 event byte production rate recorded in streaming_dma_target_summary.json for the selected workload set",
+        "sustained throughput exceeds 1.5 * the measured p99 event byte production rate recorded in streaming_dma_target_summary.json for the selected workload set",
         "unaccounted DROP is 0 for accepted throughput runs and every failed attempt is retained with impact analysis",
         "trace_on versus trace_off behavior remains equivalent for the workload pass/fail result",
         "timing closure and resource deltas are reported for the exact bitstream used in the throughput run"
@@ -312,7 +312,7 @@
           "id": "trace_sink_summary",
           "path": "results/evaluation/genesys2-cva6/current/trace_sink_summary.json",
           "schema": "rvmt.genesys2.bram_trace_sink.v1",
-          "sha256": "71342c84315955f94ab789157a5d9b68c94508754d4ec9b9f70d3b6983cc27f1",
+          "sha256": "ecf226cbac00400c423dd636b6acaae3b5995b70bdd094ef4e76b5886f15359b",
           "status": "PASS"
         },
         {
@@ -320,7 +320,7 @@
           "id": "drop_accounting_summary",
           "path": "results/evaluation/genesys2-cva6/current/drop_accounting_summary.json",
           "schema": "rvmt.trace_drop_accounting.v1",
-          "sha256": "8192977caa1adef849b53a47d09dbc4dfa7a0c503ffd1d3158a6ca6baade3150",
+          "sha256": "34f52238f8fa442750dc9e019568687118b0a41f338352e4c621f674b2278ba4",
           "status": "PASS"
         },
         {
@@ -328,7 +328,7 @@
           "id": "streaming_dma_target_summary",
           "path": "results/evaluation/genesys2-cva6/current/streaming_dma_target_summary.json",
           "schema": "rvmt.genesys2.streaming_dma_target.v1",
-          "sha256": "2435bf54229623cbbaf3248cec1cb8f5c0ec1ac3cc170107a0fe70fd16c40f55",
+          "sha256": "068cce61ea6c5413a24c6ae0c52c616dcedb22305e56d15e125d00084bda8f0c",
           "status": "PASS"
         },
         {
@@ -336,7 +336,7 @@
           "id": "streaming_dma_readiness",
           "path": "results/evaluation/genesys2-cva6/current/streaming_dma_readiness_summary.json",
           "schema": "rvmt.genesys2.streaming_dma_readiness.v1",
-          "sha256": "88e9f63fb531bba1a69d508a9c7542218277bf918da6db922d67fd4e423b0908",
+          "sha256": "6e449b82930d43e435e32954159fa6a0b9e689bf1bd2c6b577282d3b2828fe57",
           "status": "PASS"
         },
         {
@@ -351,13 +351,13 @@
           "exists": true,
           "id": "package_streaming_dma_readiness",
           "path": "tools/package_genesys2_streaming_dma_readiness.py",
-          "sha256": "681226fc2b71d63a7d18db4de87008b2536f51b553649ac2fc1266a62718b9bc"
+          "sha256": "8d78731894c906dda7f7c804104998305f29918200a4ef592fb855e9b5d84551"
         },
         {
           "exists": true,
           "id": "check_streaming_dma_readiness",
           "path": "tools/check_genesys2_streaming_dma_readiness.py",
-          "sha256": "ec81340cc5554c03bed4617771563ebc78914320fe2f6b4befcd99ed72b3fa2c"
+          "sha256": "25998a0747aabb43f51fb3e23963ce6a569c5de207186308b90f88e4a384479e"
         }
       ],
       "external_evidence_claimed": false,
@@ -368,6 +368,9 @@
           "transport",
           "sustained_bytes_per_second",
           "p95_event_bytes_per_second",
+          "p99_event_bytes_per_second",
+          "required_sustained_bytes_per_second",
+          "minimum_sustained_throughput_multiplier",
           "unaccounted_drop",
           "timing_passed",
           "noninterference_passed"
@@ -409,7 +412,7 @@
           "id": "board_benign_readiness",
           "path": "results/evaluation/genesys2-cva6/current/board_benign_readiness_summary.json",
           "schema": "rvmt.genesys2.board_benign_readiness.v1",
-          "sha256": "9dff7393238f206623c341429ec135dd35a2a31500f2732fafcf09d153db0b4d",
+          "sha256": "ca8afc3c50089562b0cbe0185346bb1a0a332ed1d01e309fb4c0a6d3c3311246",
           "status": "PASS"
         },
         {
@@ -417,7 +420,7 @@
           "id": "behavior_audit_metrics",
           "path": "results/evaluation/genesys2-cva6/current/behavior_audit_metrics.json",
           "schema": "rvmt.behavior_audit_metrics.v1",
-          "sha256": "c0b82cd2dcfe7d3bf67b77c44120e23ed8ce5d14601bf76f3807d5d57a7f7ea6",
+          "sha256": "b77dd561037330cf25893ed1438e4de2d0a4003edaa313d7ef309229d84bb1fc",
           "status": "PASS"
         },
         {

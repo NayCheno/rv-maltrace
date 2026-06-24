@@ -40,7 +40,7 @@ module tb_cva6_rvfi_trace_adapter
       .ILEN(32),
       .VLEN(64),
       .EVENT_QUEUE_DEPTH(32),
-      .RELAX_SRET_TO_USER_CHECK(1'b1),
+      .RELAX_SRET_TO_USER_CHECK(1'b0),
       .ENABLE_USER_POINTER_SNAPSHOT(1'b1),
       .MAX_POINTER_SNAPSHOT_BYTES(16),
       .MAX_POINTER_WATCH_CYCLES(64)
@@ -198,6 +198,15 @@ module tb_cva6_rvfi_trace_adapter
     rvfi_pc[1] = 64'h0000_0000_8000_0054;
     rvfi_pc_wdata[1] = 64'h0000_0000_8000_0008;
     rvfi_sret_to_user[1] = 1'b0;
+    @(posedge clk);
+
+    clear_inputs();
+    rvfi_valid[0] = 1'b1;
+    rvfi_insn[0] = 32'h1020_0073;  // qualified sret closes the outstanding user ecall
+    rvfi_mode[0] = TRACE_PRIV_S;
+    rvfi_pc[0] = 64'h0000_0000_8000_0058;
+    rvfi_pc_wdata[0] = 64'h0000_0000_8000_0008;
+    rvfi_sret_to_user[0] = 1'b1;
     @(posedge clk);
 
     clear_inputs();

@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import sys
 import tempfile
 from pathlib import Path
@@ -38,6 +39,9 @@ REQUIRED_SUMMARY_FIELDS = {
     "transport",
     "sustained_bytes_per_second",
     "p95_event_bytes_per_second",
+    "p99_event_bytes_per_second",
+    "required_sustained_bytes_per_second",
+    "minimum_sustained_throughput_multiplier",
     "trace_clock_hz",
     "unaccounted_drop",
     "timing_passed",
@@ -158,11 +162,31 @@ def check_summary(data: dict[str, Any], root: Path) -> list[str]:
 
     baseline = as_dict(data.get("target_baseline"))
     require(errors, baseline.get("metric") == "compact_trace_event_bytes_per_marker_window_cycle", "baseline metric mismatch")
+    require(errors, as_float(baseline.get("p50_event_bytes_per_cycle")) > 0.0, "p50 event bytes/cycle must be positive")
     require(errors, as_float(baseline.get("p95_event_bytes_per_cycle")) > 0.0, "p95 event bytes/cycle must be positive")
-    require(errors, as_float(baseline.get("max_observed_event_bytes_per_cycle")) >= as_float(baseline.get("p95_event_bytes_per_cycle")), "max target must be >= p95")
+    require(errors, as_float(baseline.get("p99_event_bytes_per_cycle")) > 0.0, "p99 event bytes/cycle must be positive")
+    require(
+        errors,
+        as_float(baseline.get("p50_event_bytes_per_cycle"))
+        <= as_float(baseline.get("p95_event_bytes_per_cycle"))
+        <= as_float(baseline.get("p99_event_bytes_per_cycle"))
+        <= as_float(baseline.get("max_observed_event_bytes_per_cycle")),
+        "target percentiles must satisfy p50 <= p95 <= p99 <= max",
+    )
+    require(errors, baseline.get("minimum_sustained_throughput_multiplier") == 1.5, "target multiplier must be 1.5")
+    require(
+        errors,
+        math.isclose(
+            as_float(baseline.get("required_sustained_event_bytes_per_cycle")),
+            as_float(baseline.get("p99_event_bytes_per_cycle")) * 1.5,
+            rel_tol=1e-12,
+            abs_tol=0.0,
+        ),
+        "required sustained bytes/cycle must be 1.5x p99",
+    )
     require(errors, as_int(baseline.get("record_width_bits")) == 136, "record width bits must be 136")
     require(errors, as_int(baseline.get("record_width_bytes")) == 17, "record width bytes must be 17")
-    require(errors, as_int(baseline.get("accepted_repetition_count")) == 120, "baseline accepted repetition count must be 120")
+    require(errors, as_int(baseline.get("accepted_repetition_count")) >= 120, "baseline accepted repetition count must be at least 120")
     require(errors, as_int(baseline.get("board_sample_count")) == 12, "baseline board sample count must be 12")
     require(
         errors,
@@ -171,7 +195,9 @@ def check_summary(data: dict[str, Any], root: Path) -> list[str]:
     )
     require(errors, baseline.get("required_external_summary_schema") == "rvmt.genesys2.streaming_dma_throughput.v1", "external summary schema mismatch")
     require(errors, baseline.get("exact_clock_hz_required") is True, "exact clock requirement missing")
-    require(errors, "exact_streaming_bitstream_trace_clock_hz" in str(baseline.get("bytes_per_second_formula") or ""), "bytes/sec formula must require exact streaming clock")
+    formula = str(baseline.get("bytes_per_second_formula") or "")
+    require(errors, "exact_streaming_bitstream_trace_clock_hz" in formula, "bytes/sec formula must require exact streaming clock")
+    require(errors, "1.5 * p99_event_bytes_per_cycle" in formula, "bytes/sec formula must require p99 1.5x target")
 
     contract = as_dict(data.get("future_transport_contract"))
     require(errors, set(as_list(contract.get("allowed_transport_kinds"))) == EXPECTED_TRANSPORTS, "allowed transport kinds mismatch")
@@ -193,7 +219,7 @@ def check_summary(data: dict[str, Any], root: Path) -> list[str]:
     require(errors, set(as_list(contract.get("required_summary_fields"))) >= REQUIRED_SUMMARY_FIELDS, "required summary fields incomplete")
     require(errors, set(as_list(contract.get("host_receiver_log_required_fields"))) >= HOST_RECEIVER_FIELDS, "host receiver fields incomplete")
     criteria_text = " ".join(str(item).lower() for item in as_list(contract.get("acceptance_criteria")))
-    for needle in ("non-bram", "sustained_bytes_per_second", "parser_success=true", "unaccounted_drop=0", "timing", "failed"):
+    for needle in ("non-bram", "sustained_bytes_per_second", "1.5 * p99_event_bytes_per_cycle", "parser_success=true", "unaccounted_drop=0", "timing", "failed"):
         require(errors, needle in criteria_text, f"acceptance criteria must mention {needle}")
 
     boundary = as_dict(data.get("claim_boundary"))
@@ -252,7 +278,11 @@ def self_test() -> int:
             "source_evidence": sources,
             "target_baseline": {
                 "metric": "compact_trace_event_bytes_per_marker_window_cycle",
+                "p50_event_bytes_per_cycle": 0.005,
                 "p95_event_bytes_per_cycle": 0.01,
+                "p99_event_bytes_per_cycle": 0.015,
+                "minimum_sustained_throughput_multiplier": 1.5,
+                "required_sustained_event_bytes_per_cycle": 0.0225,
                 "max_observed_event_bytes_per_cycle": 0.02,
                 "record_width_bits": 136,
                 "record_width_bytes": 17,
@@ -260,7 +290,7 @@ def self_test() -> int:
                 "board_sample_count": 12,
                 "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/streaming_dma_throughput_summary.json",
                 "required_external_summary_schema": "rvmt.genesys2.streaming_dma_throughput.v1",
-                "bytes_per_second_formula": "p95_event_bytes_per_cycle * exact_streaming_bitstream_trace_clock_hz",
+                "bytes_per_second_formula": "1.5 * p99_event_bytes_per_cycle * exact_streaming_bitstream_trace_clock_hz",
                 "exact_clock_hz_required": True,
             },
             "future_transport_contract": {
@@ -281,7 +311,7 @@ def self_test() -> int:
                 "required_summary_fields": sorted(REQUIRED_SUMMARY_FIELDS),
                 "host_receiver_log_required_fields": sorted(HOST_RECEIVER_FIELDS),
                 "acceptance_criteria": [
-                    "non-BRAM transport with sustained_bytes_per_second target, parser_success=true, unaccounted_drop=0, timing evidence, failed attempts retained",
+                    "non-BRAM transport with sustained_bytes_per_second above 1.5 * p99_event_bytes_per_cycle target, parser_success=true, unaccounted_drop=0, timing evidence, failed attempts retained",
                 ],
             },
             "claim_boundary": {

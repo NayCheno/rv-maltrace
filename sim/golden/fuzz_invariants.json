@@ -8,6 +8,8 @@
     "control_flow_targets_aligned",
     "trap_not_retire",
     "syscall_pairing",
+    "same_cycle_event_order",
+    "dual_commit_order",
     "context_events_well_formed",
     "drop_count_monotonic"
   ],
@@ -41,6 +43,8 @@
         "control_flow_targets_aligned",
         "trap_not_retire",
         "syscall_pairing",
+        "same_cycle_event_order",
+        "dual_commit_order",
         "context_events_well_formed",
         "drop_count_monotonic"
       ]
@@ -112,6 +116,7 @@
         "known_event_types",
         "trace_schema_required_fields",
         "syscall_pairing",
+        "same_cycle_event_order",
         "trap_not_retire",
         "drop_count_monotonic"
       ]

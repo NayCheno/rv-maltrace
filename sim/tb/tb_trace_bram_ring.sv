@@ -210,6 +210,22 @@ module tb_trace_bram_ring
     @(negedge clk);
     expect_true(event_count == 64'd10, "freeze prevents capture");
 
+    push_packet_with_clear(make_packet(EVT_MARKER, 64'd210, 64'h6000, 64'hb0000003));
+    @(negedge clk);
+    expect_true(event_count == 64'd1, "clear plus marker restarts while frozen");
+    expect_true(captured_count == 64'd1, "clear plus marker captures while frozen");
+    expect_true(dropped_count == 64'd0, "clear plus marker resets drops while frozen");
+    expect_true(wrap_count == 64'd0, "clear plus marker resets wraps while frozen");
+    expect_true(write_index == 2'd1, "clear plus marker advances write pointer while frozen");
+    expect_true(start_timestamp == 64'd210, "clear plus marker frozen start timestamp");
+    expect_true(end_timestamp == 64'd210, "clear plus marker frozen end timestamp");
+
+    load_dump(2'd0);
+    expect_true(dump_valid, "dump index 0 valid after frozen clear plus marker");
+    expect_true(dump_record.seq == 32'd0, "frozen clear plus marker sequence");
+    expect_true(dump_record.evt == EVT_MARKER, "frozen clear plus marker event");
+    expect_true(dump_record.primary == 32'hb0000003, "frozen clear plus marker primary");
+
     $display("[PASS] trace_bram_ring synthetic test finished");
     $finish;
   end

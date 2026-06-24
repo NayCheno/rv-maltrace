@@ -215,11 +215,13 @@ def source_manifest(root: Path) -> dict[str, Any]:
 
 def package_summary(root: Path, run_root_arg: Path, resource_timing_report: Path | None = None) -> dict[str, Any]:
     run_root = repo_path(root, run_root_arg)
+    run_root_for_command = repo_relative(root, run_root)
     record_root = external_record_root(root, RECORD_ID)
     sample_rows, pointer_groups, failures = collect_pointer_evidence(root, run_root)
     resource_source = repo_path(root, resource_timing_report) if resource_timing_report else None
     if resource_source is None or not resource_source.is_file():
         failures.append("resource_timing_report: missing production bitstream resource/timing report")
+    resource_for_command = repo_relative(root, resource_source) if resource_source is not None else "<missing-resource-timing-report>"
 
     coverage: dict[str, dict[str, Any]] = {}
     for syscall_name in REQUIRED_SYSCALLS:
@@ -333,7 +335,13 @@ def package_summary(root: Path, run_root_arg: Path, resource_timing_report: Path
         "syscall_coverage": coverage,
         "record_root": repo_relative(root, record_root),
         "validation_commands": [
-            "uv run python tools/package_genesys2_hardware_pointer_strings.py --run-root <v3-board-run-root> --resource-timing-report <timing-resource-report>",
+            " ".join(
+                [
+                    "uv run python tools/package_genesys2_hardware_pointer_strings.py",
+                    f"--run-root {run_root_for_command}",
+                    f"--resource-timing-report {resource_for_command}",
+                ]
+            ),
             "uv run python tools/check_genesys2_hardware_pointer_strings.py --root .",
             "uv run python tools/package_genesys2_external_closure_intake.py",
             "uv run python tools/check_genesys2_external_closure_intake.py --root .",

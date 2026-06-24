@@ -43,6 +43,7 @@ EVIDENCE_FILES: dict[str, str] = {
     "hardware_pointer_prefixes": "results/evaluation/genesys2-cva6/current/hardware_pointer_prefix_summary.json",
     "pointer_string_readiness": "results/evaluation/genesys2-cva6/current/pointer_string_readiness_summary.json",
     "semantic_reconstruction": "results/evaluation/genesys2-cva6/current/semantic_reconstruction_summary.json",
+    "semantic_provenance": "results/evaluation/genesys2-cva6/current/semantic_provenance_summary.json",
     "fd_path_graph": "results/evaluation/genesys2-cva6/current/fd_path_graph_summary.json",
     "source_line_attribution": "results/evaluation/genesys2-cva6/current/source_line_attribution_summary.json",
     "source_line_toolchain_probe": "results/evaluation/genesys2-cva6/current/source_line_toolchain_probe.json",
@@ -133,7 +134,7 @@ REVIEW_ITEMS: list[dict[str, Any]] = [
         "id": "phase_c_function_process_elf_attribution",
         "review_section": "Phase C",
         "requirement": "Provide runtime process, ELF/function, dynamic mapping, and source-attribution boundary evidence.",
-        "status": "PASS_CURRENT_FUNCTION_LEVEL",
+        "status": "BLOCKED_BOARD_DYNAMIC_MAPPING_CASES",
         "evidence_ids": [
             "source_line_attribution",
             "source_line_toolchain_probe",
@@ -169,7 +170,7 @@ REVIEW_ITEMS: list[dict[str, Any]] = [
         "review_section": "Phase D",
         "requirement": "Package malware-like safe-surrogate behavior graphs, semantic events, baseline comparison, audit decisions, and per-sample case studies.",
         "status": "PASS_CURRENT_SAFE_SURROGATE",
-        "evidence_ids": ["semantic_reconstruction", "fd_path_graph", "behavior_audit_metrics", "case_study_manifest"],
+        "evidence_ids": ["semantic_reconstruction", "semantic_provenance", "fd_path_graph", "behavior_audit_metrics", "case_study_manifest"],
         "checker_commands": [
             "uv run python tools/check_syscall_semantic_reconstruction.py --root .",
             "uv run python tools/check_fd_path_graph.py --root .",
@@ -241,7 +242,7 @@ REVIEW_ITEMS: list[dict[str, Any]] = [
     {
         "id": "phase_e_streaming_dma_target_baseline",
         "review_section": "Phase E",
-        "requirement": "Quantify the p95 compact event-byte production target that future production streaming/DMA transport evidence must exceed.",
+        "requirement": "Quantify p50/p95/p99 compact event-byte production targets, with future production streaming/DMA transport required to exceed 1.5x the p99 target.",
         "status": "PASS_CURRENT_TARGET_BASELINE",
         "evidence_ids": ["streaming_dma_target", "p0_bram_trace", "safe_surrogate_bram_trace"],
         "checker_commands": [
@@ -380,12 +381,18 @@ def item_row(item: dict[str, Any], external: dict[str, dict[str, Any]]) -> dict[
 
 def summarize(items: list[dict[str, Any]], external: dict[str, dict[str, Any]]) -> dict[str, Any]:
     local = [item for item in items if str(item["status"]).startswith("PASS")]
+    blocked = [item for item in items if str(item["status"]).startswith("BLOCKED")]
     accepted_external = [item for item in items if item["status"] == ACCEPTED_EXTERNAL_STATUS]
     open_external = [item for item in items if item["status"] == OPEN_EXTERNAL_STATUS]
     excluded = [item for item in items if item["status"] == "EXCLUDED_BY_OBJECTIVE"]
     all_local_evidence_present = all(
         evidence["exists"] and (evidence["status"] in {NOT_APPLICABLE, "PASS"})
         for item in local
+        for evidence in item["evidence"]
+    )
+    blocked_evidence_present = all(
+        evidence["exists"] and (evidence["status"] in {NOT_APPLICABLE, "PASS"} or str(evidence["status"]).startswith("BLOCKED"))
+        for item in blocked
         for evidence in item["evidence"]
     )
     external_open_ids = {
@@ -400,14 +407,17 @@ def summarize(items: list[dict[str, Any]], external: dict[str, dict[str, Any]]) 
     }
     known_external_ids = {item.get("external_id") for item in open_external + accepted_external}
     closure_status = (
-        "PASS_LOCAL_SCOPE_EXTERNAL_OPEN"
-        if all_local_evidence_present and known_external_ids == EXTERNAL_IDS and accepted_external_ids | external_open_ids == EXTERNAL_IDS
+        "PASS_LOCAL_SCOPE_EXTERNAL_AND_BOARD_DYNAMIC_OPEN"
+        if all_local_evidence_present and blocked_evidence_present and known_external_ids == EXTERNAL_IDS and accepted_external_ids | external_open_ids == EXTERNAL_IDS
         else "FAIL"
     )
     return {
         "closure_status": closure_status,
         "local_item_count": len(local),
         "local_items_evidence_present": all_local_evidence_present,
+        "blocked_item_count": len(blocked),
+        "blocked_item_ids": sorted(str(item.get("id")) for item in blocked),
+        "blocked_items_evidence_present": blocked_evidence_present,
         "accepted_external_item_count": len(accepted_external),
         "accepted_external_ids": sorted(accepted_external_ids),
         "open_external_item_count": len(open_external),
@@ -478,7 +488,7 @@ def package_audit(current_root: Path) -> dict[str, Any]:
     summary = summarize(items, external)
     return {
         "schema": "rvmt.genesys2.review_closure_audit.v1",
-        "status": "PASS" if summary["closure_status"] == "PASS_LOCAL_SCOPE_EXTERNAL_OPEN" else "FAIL",
+        "status": "PASS" if summary["closure_status"] == "PASS_LOCAL_SCOPE_EXTERNAL_AND_BOARD_DYNAMIC_OPEN" else "FAIL",
         "closure_status": summary["closure_status"],
         "scope": "Digilent Genesys2 + CVA6 CCF-A review closure audit",
         "source_review_reference": "D:/Download/rv-maltrace-ccfa-genesys2-cva6-review.md",
@@ -541,7 +551,7 @@ def self_test() -> int:
             audit = package_audit(DEFAULT_CURRENT_ROOT)
         finally:
             globals()["ROOT"] = old_root
-    if audit["status"] != "PASS" or audit["closure_status"] != "PASS_LOCAL_SCOPE_EXTERNAL_OPEN":
+    if audit["status"] != "PASS" or audit["closure_status"] != "PASS_LOCAL_SCOPE_EXTERNAL_AND_BOARD_DYNAMIC_OPEN":
         print("[FAIL] review closure audit fixture did not pass", file=sys.stderr)
         return 1
     if set(audit["summary"]["open_external_ids"]) != EXTERNAL_IDS:

@@ -116,16 +116,26 @@ def package_summary(current_root: Path) -> dict[str, Any]:
         failures.append("streaming_dma_target_summary status is not PASS")
     if target.get("schema") != "rvmt.genesys2.streaming_dma_target.v1":
         failures.append("streaming_dma_target_summary schema mismatch")
-    if as_int(aggregate.get("accepted_repetition_count")) != 120:
-        failures.append("streaming_dma_target_summary must cover 120 accepted repetitions")
+    if as_int(aggregate.get("accepted_repetition_count")) < 120:
+        failures.append("streaming_dma_target_summary must cover at least 120 accepted repetitions")
     if as_int(aggregate.get("board_sample_count")) != 12:
         failures.append("streaming_dma_target_summary must cover 12 board samples")
     if as_int(aggregate.get("trace_record_width_bits")) != 136 or as_int(aggregate.get("trace_record_width_bytes")) != 17:
         failures.append("compact trace record width must be 136 bits / 17 bytes")
     if as_float(throughput_target.get("p95_event_bytes_per_cycle")) <= 0.0:
         failures.append("p95 event-byte target must be positive")
+    if as_float(throughput_target.get("p99_event_bytes_per_cycle")) <= 0.0:
+        failures.append("p99 event-byte target must be positive")
+    if as_float(throughput_target.get("p99_event_bytes_per_cycle")) < as_float(throughput_target.get("p95_event_bytes_per_cycle")):
+        failures.append("p99 event-byte target must be >= p95")
+    if throughput_target.get("minimum_sustained_throughput_multiplier") != 1.5:
+        failures.append("future sustained throughput multiplier must be 1.5")
     if throughput_target.get("p95_event_bytes_per_second") != BYTES_PER_SECOND_REQUIRES_CLOCK:
         failures.append("bytes/sec target must remain deferred until exact external streaming clock is supplied")
+    if throughput_target.get("p99_event_bytes_per_second") != BYTES_PER_SECOND_REQUIRES_CLOCK:
+        failures.append("p99 bytes/sec target must remain deferred until exact external streaming clock is supplied")
+    if throughput_target.get("required_sustained_bytes_per_second") != BYTES_PER_SECOND_REQUIRES_CLOCK:
+        failures.append("required sustained bytes/sec target must remain deferred until exact external streaming clock is supplied")
     if throughput_target.get("clock_hz_required_for_bytes_per_second") is not True:
         failures.append("exact streaming clock requirement missing")
     if throughput_target.get("external_summary_path") != EXTERNAL_SUMMARY_PATH:
@@ -138,7 +148,9 @@ def package_summary(current_root: Path) -> dict[str, Any]:
         if row.get("exists") is not True:
             failures.append(f"missing source evidence {row.get('path')}")
 
+    p50_per_cycle = as_float(throughput_target.get("p50_event_bytes_per_cycle"))
     p95_per_cycle = as_float(throughput_target.get("p95_event_bytes_per_cycle"))
+    p99_per_cycle = as_float(throughput_target.get("p99_event_bytes_per_cycle"))
     return {
         "schema": "rvmt.genesys2.streaming_dma_readiness.v1",
         "status": "PASS" if not failures else "FAIL",
@@ -147,7 +159,11 @@ def package_summary(current_root: Path) -> dict[str, Any]:
         "source_evidence": source_rows,
         "target_baseline": {
             "metric": throughput_target.get("metric"),
+            "p50_event_bytes_per_cycle": p50_per_cycle,
             "p95_event_bytes_per_cycle": p95_per_cycle,
+            "p99_event_bytes_per_cycle": p99_per_cycle,
+            "minimum_sustained_throughput_multiplier": throughput_target.get("minimum_sustained_throughput_multiplier"),
+            "required_sustained_event_bytes_per_cycle": throughput_target.get("required_sustained_event_bytes_per_cycle"),
             "max_observed_event_bytes_per_cycle": throughput_target.get("max_observed_event_bytes_per_cycle"),
             "record_width_bits": throughput_target.get("record_width_bits"),
             "record_width_bytes": throughput_target.get("record_width_bytes"),
@@ -155,7 +171,7 @@ def package_summary(current_root: Path) -> dict[str, Any]:
             "board_sample_count": aggregate.get("board_sample_count"),
             "external_summary_path": EXTERNAL_SUMMARY_PATH,
             "required_external_summary_schema": "rvmt.genesys2.streaming_dma_throughput.v1",
-            "bytes_per_second_formula": "p95_event_bytes_per_cycle * exact_streaming_bitstream_trace_clock_hz",
+            "bytes_per_second_formula": "1.5 * p99_event_bytes_per_cycle * exact_streaming_bitstream_trace_clock_hz",
             "exact_clock_hz_required": True,
         },
         "future_transport_contract": {
@@ -187,6 +203,9 @@ def package_summary(current_root: Path) -> dict[str, Any]:
                 "transport",
                 "sustained_bytes_per_second",
                 "p95_event_bytes_per_second",
+                "p99_event_bytes_per_second",
+                "required_sustained_bytes_per_second",
+                "minimum_sustained_throughput_multiplier",
                 "trace_clock_hz",
                 "unaccounted_drop",
                 "timing_passed",
@@ -208,7 +227,7 @@ def package_summary(current_root: Path) -> dict[str, Any]:
             ],
             "acceptance_criteria": [
                 "transport is one of the allowed non-BRAM production transport kinds",
-                "sustained_bytes_per_second exceeds p95_event_bytes_per_cycle times the exact streaming bitstream trace clock Hz",
+                "sustained_bytes_per_second exceeds 1.5 * p99_event_bytes_per_cycle times the exact streaming bitstream trace clock Hz",
                 "accepted runs have parser_success=true and unaccounted_drop=0",
                 "timing, resource, and trace_off versus trace_on noninterference reports are artifact-backed",
                 "failed throughput attempts are retained with impact analysis and are not counted as accepted evidence",

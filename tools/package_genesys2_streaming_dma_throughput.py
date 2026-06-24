@@ -41,14 +41,33 @@ def report_passed(path: Path, positive_tokens: tuple[str, ...]) -> bool:
     return any(token in text for token in positive_tokens) and not any(token in text for token in negative)
 
 
-def p95_bytes_per_second(root: Path, target_path_arg: Path, trace_clock_hz: float, override: float | None) -> tuple[float, float]:
-    if override is not None:
-        return override, 0.0
+def throughput_targets(
+    root: Path,
+    target_path_arg: Path,
+    trace_clock_hz: float,
+    p95_override: float | None,
+    p99_override: float | None,
+    required_override: float | None,
+) -> dict[str, float]:
     target_path = repo_path(root, target_path_arg)
     target = load_json(target_path)
     throughput_target = target.get("throughput_target") if isinstance(target.get("throughput_target"), dict) else {}
     p95_per_cycle = as_float(throughput_target.get("p95_event_bytes_per_cycle"))
-    return p95_per_cycle * trace_clock_hz, p95_per_cycle
+    p99_per_cycle = as_float(throughput_target.get("p99_event_bytes_per_cycle"))
+    multiplier = as_float(throughput_target.get("minimum_sustained_throughput_multiplier"), 1.5)
+    required_per_cycle = as_float(throughput_target.get("required_sustained_event_bytes_per_cycle"))
+    p95_bps = p95_override if p95_override is not None else p95_per_cycle * trace_clock_hz
+    p99_bps = p99_override if p99_override is not None else p99_per_cycle * trace_clock_hz
+    required_bps = required_override if required_override is not None else p99_bps * multiplier
+    return {
+        "p95_event_bytes_per_second": p95_bps,
+        "p95_event_bytes_per_cycle": p95_per_cycle,
+        "p99_event_bytes_per_second": p99_bps,
+        "p99_event_bytes_per_cycle": p99_per_cycle,
+        "minimum_sustained_throughput_multiplier": multiplier,
+        "required_sustained_bytes_per_second": required_bps,
+        "required_sustained_event_bytes_per_cycle": required_per_cycle,
+    }
 
 
 def package_summary(
@@ -60,6 +79,8 @@ def package_summary(
     trace_clock_hz: float,
     target_arg: Path,
     p95_override: float | None,
+    p99_override: float | None,
+    required_override: float | None,
 ) -> dict[str, Any]:
     record_root = external_record_root(root, RECORD_ID)
     host_log_path = repo_path(root, host_log_arg)
@@ -92,10 +113,23 @@ def package_summary(
     if host_log.get("capture_aborted_reason"):
         failures.append(f"host capture aborted: {host_log.get('capture_aborted_reason')}")
 
-    p95_bps, p95_per_cycle = p95_bytes_per_second(root, target_arg, trace_clock_hz, p95_override)
+    targets = throughput_targets(root, target_arg, trace_clock_hz, p95_override, p99_override, required_override)
     sustained = as_float(host_log.get("sustained_bytes_per_second"))
-    if sustained <= p95_bps:
-        failures.append(f"sustained_bytes_per_second {sustained:.3f} <= p95 target {p95_bps:.3f}")
+    if targets["p95_event_bytes_per_second"] <= 0.0:
+        failures.append("p95_event_bytes_per_second target is not positive")
+    if targets["p99_event_bytes_per_second"] <= 0.0:
+        failures.append("p99_event_bytes_per_second target is not positive")
+    if targets["p99_event_bytes_per_second"] < targets["p95_event_bytes_per_second"]:
+        failures.append("p99_event_bytes_per_second target is below p95")
+    if targets["minimum_sustained_throughput_multiplier"] != 1.5:
+        failures.append("minimum_sustained_throughput_multiplier is not 1.5")
+    if targets["required_sustained_bytes_per_second"] <= 0.0:
+        failures.append("required_sustained_bytes_per_second target is not positive")
+    if sustained <= targets["required_sustained_bytes_per_second"]:
+        failures.append(
+            "sustained_bytes_per_second "
+            f"{sustained:.3f} <= required 1.5x p99 target {targets['required_sustained_bytes_per_second']:.3f}"
+        )
     timing_passed = report_passed(timing_report, ("timing_passed=true", "timing passed", "timing closure passed", "slack (met)"))
     noninterference_passed = report_passed(noninterference_report, ("noninterference_passed=true", "noninterference passed"))
     if not timing_passed:
@@ -104,6 +138,7 @@ def package_summary(
         failures.append("resource report missing")
     if not noninterference_passed:
         failures.append("noninterference report does not prove noninterference_passed=true")
+    unaccounted_drop = int(as_float(host_log.get("dropped_count"), 0)) + int(as_float(host_log.get("sequence_error_count"), 0)) + int(as_float(host_log.get("crc_error_count"), 0))
 
     artifacts = {
         "transport_design_manifest": write_json_artifact(
@@ -121,7 +156,43 @@ def package_summary(
                 "rtl_source": "rtl/trace/trace_uart_stream_sink.sv",
             },
         ),
+        "streaming_bitstream_clock_report": write_json_artifact(
+            root,
+            RECORD_ID,
+            "streaming_bitstream_clock_report",
+            {
+                "trace_clock_hz": trace_clock_hz,
+                "clock_source": "external timing report argument",
+                "exact_clock_required": True,
+                "bytes_per_second_formula": "event_bytes_per_cycle * trace_clock_hz",
+            },
+        ),
         "host_receiver_log": write_json_artifact(root, RECORD_ID, "host_receiver_log", host_log or {"missing": str(host_log_arg)}),
+        "parser_output_log": write_json_artifact(
+            root,
+            RECORD_ID,
+            "parser_output_log",
+            {
+                "parser_success": host_log.get("parser_success") is True,
+                "accepted_count_matches_data_frames": host_log.get("accepted_count_matches_data_frames"),
+                "status_frame_seen": host_log.get("status_frame_seen"),
+                "sequence_error_count": host_log.get("sequence_error_count"),
+                "crc_error_count": host_log.get("crc_error_count"),
+                "dropped_count": host_log.get("dropped_count"),
+            },
+        ),
+        "drop_accounting_report": write_json_artifact(
+            root,
+            RECORD_ID,
+            "drop_accounting_report",
+            {
+                "unaccounted_drop": unaccounted_drop,
+                "dropped_count": int(as_float(host_log.get("dropped_count"), 0)),
+                "sequence_error_count": int(as_float(host_log.get("sequence_error_count"), 0)),
+                "crc_error_count": int(as_float(host_log.get("crc_error_count"), 0)),
+                "accepted_runs_require_zero_unaccounted_drop": True,
+            },
+        ),
         "timing_report": write_text_artifact(
             root,
             RECORD_ID,
@@ -141,7 +212,6 @@ def package_summary(
             noninterference_report.read_text(encoding="utf-8", errors="replace") if noninterference_report.is_file() else "MISSING noninterference report",
         ),
     }
-    unaccounted_drop = int(as_float(host_log.get("dropped_count"), 0)) + int(as_float(host_log.get("sequence_error_count"), 0)) + int(as_float(host_log.get("crc_error_count"), 0))
     status = "PASS" if not failures else "FAIL"
     return {
         "schema": "rvmt.genesys2.streaming_dma_throughput.v1",
@@ -154,8 +224,13 @@ def package_summary(
         },
         "transport": "uart_streaming_dma",
         "sustained_bytes_per_second": sustained,
-        "p95_event_bytes_per_second": p95_bps,
-        "p95_event_bytes_per_cycle": p95_per_cycle,
+        "p95_event_bytes_per_second": targets["p95_event_bytes_per_second"],
+        "p95_event_bytes_per_cycle": targets["p95_event_bytes_per_cycle"],
+        "p99_event_bytes_per_second": targets["p99_event_bytes_per_second"],
+        "p99_event_bytes_per_cycle": targets["p99_event_bytes_per_cycle"],
+        "minimum_sustained_throughput_multiplier": targets["minimum_sustained_throughput_multiplier"],
+        "required_sustained_bytes_per_second": targets["required_sustained_bytes_per_second"],
+        "required_sustained_event_bytes_per_cycle": targets["required_sustained_event_bytes_per_cycle"],
         "trace_clock_hz": trace_clock_hz,
         "unaccounted_drop": unaccounted_drop,
         "timing_passed": timing_passed,
@@ -166,9 +241,9 @@ def package_summary(
         "failed_attempts": failures,
         "record_root": repo_relative(root, record_root),
         "validation_commands": [
-            "uv run python tools/run_genesys2_uart_streaming_capture.py --port COM7 --stream-baud 12000000 --command <marker-window-command>",
-            "uv run python tools/run_genesys2_uart_streaming_capture.py --receiver-backend d2xx --ftdi-serial AU05XHWM --stream-baud 12000000 --command <marker-window-command>",
-            "uv run python tools/package_genesys2_streaming_dma_throughput.py --host-receiver-log <host_receiver_log.json> --trace-clock-hz <exact-hz> --timing-report <timing> --resource-report <resource> --noninterference-report <noninterference>",
+            "uv run python tools/run_genesys2_uart_streaming_capture.py --port COM7 --stream-baud 12000000 --command RVMT_MARKER_WINDOW_COMMAND",
+            "uv run python tools/run_genesys2_uart_streaming_capture.py --receiver-backend d2xx --ftdi-serial AU05XHWM --stream-baud 12000000 --command RVMT_MARKER_WINDOW_COMMAND",
+            "uv run python tools/package_genesys2_streaming_dma_throughput.py --host-receiver-log HOST_RECEIVER_LOG_JSON --trace-clock-hz EXACT_HZ --timing-report TIMING_REPORT --resource-report RESOURCE_REPORT --noninterference-report NONINTERFERENCE_REPORT",
             "uv run python tools/check_genesys2_streaming_dma_throughput.py --root .",
         ],
     }
@@ -200,15 +275,19 @@ def self_test() -> int:
         noninterference = root / "noninterference.txt"
         noninterference.write_text("noninterference_passed=true\n", encoding="utf-8")
         target = root / "target.json"
-        target.write_text('{"throughput_target":{"p95_event_bytes_per_cycle":0.01}}\n', encoding="utf-8")
-        summary = package_summary(root, host, timing, resource, noninterference, 50_000_000, target, None)
+        target.write_text(
+            '{"throughput_target":{"p95_event_bytes_per_cycle":0.01,"p99_event_bytes_per_cycle":0.015,'
+            '"minimum_sustained_throughput_multiplier":1.5,"required_sustained_event_bytes_per_cycle":0.0225}}\n',
+            encoding="utf-8",
+        )
+        summary = package_summary(root, host, timing, resource, noninterference, 50_000_000, target, None, None, None)
         errors = validate_external_summary(RECORD_ID, summary, root)
         if errors:
             print("[FAIL] streaming throughput PASS fixture rejected", file=sys.stderr)
             for error in errors:
                 print(error, file=sys.stderr)
             return 1
-        bad = package_summary(root, host, timing, resource, noninterference, 200_000_000, target, None)
+        bad = package_summary(root, host, timing, resource, noninterference, 100_000_000, target, None, None, None)
         if not validate_external_summary(RECORD_ID, bad, root):
             print("[FAIL] insufficient throughput fixture accepted", file=sys.stderr)
             return 1
@@ -226,6 +305,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--trace-clock-hz", type=float)
     parser.add_argument("--target", type=Path, default=DEFAULT_TARGET)
     parser.add_argument("--p95-event-bytes-per-second", type=float)
+    parser.add_argument("--p99-event-bytes-per-second", type=float)
+    parser.add_argument("--required-sustained-bytes-per-second", type=float)
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
     parser.add_argument("--self-test", action="store_true")
     args = parser.parse_args(argv)
@@ -248,6 +329,8 @@ def main(argv: list[str] | None = None) -> int:
         args.trace_clock_hz,
         args.target,
         args.p95_event_bytes_per_second,
+        args.p99_event_bytes_per_second,
+        args.required_sustained_bytes_per_second,
     )
     out = write_summary(root, args.out, summary)
     errors = validate_external_summary(RECORD_ID, summary, root)

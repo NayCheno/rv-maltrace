@@ -1,0 +1,220 @@
+{
+  "artifacts": {
+    "binary": {
+      "path": "build/board/genesys2_counter_access_matrix/counter_access_matrix.riscv64",
+      "sha256": "979ab06cac0a0ed1693da3682deaea5bae2488f9d6c36cdc6daba0340f0a22e4",
+      "size_bytes": 540464
+    },
+    "build_manifest": {
+      "path": "build/board/genesys2_counter_access_matrix/build_manifest.json",
+      "sha256": "9858f8dc65a2c6fab3ae9248d578b5d36317ca67f4b153a6dd92d6d75e677573",
+      "size_bytes": 1143
+    },
+    "run_log": {
+      "path": "results/board/genesys2_trace_validation/20260623-counter-access-matrix/uart.log",
+      "sha256": "08f7d048216798f07d3dcd4441cff1ae463005a3575a32d629c1b937701887fe",
+      "size_bytes": 3104
+    },
+    "source": {
+      "path": "board/trace_validation/programs/counter_access_matrix.c",
+      "sha256": "0bc5ea1815f7873b79d884ed261136712b4db6ab609ea23b6b12da0cf19b903a",
+      "size_bytes": 6094
+    },
+    "transfer_log": {
+      "path": "results/board/genesys2_trace_validation/20260623-counter-access-matrix/transfer.log",
+      "sha256": "3bffc457047a8d70c4e74a59eb62d89a4b2e407e8f1c96a42eb6018cbf62026e",
+      "size_bytes": 25836
+    }
+  },
+  "blocked_reason": "user rdcycle is unavailable or incomplete; rdtime and/or clock_gettime remain available as non-cycle time sources",
+  "claim_boundary": {
+    "board_clock_gettime_source_observed": true,
+    "board_cycle_counter_claimed": false,
+    "board_rdtime_source_observed": true,
+    "cycle_level_overhead_claimed": false,
+    "paper_runtime_overhead_claimed": false,
+    "production_runtime_slowdown_claimed": false
+  },
+  "clock_access": {
+    "clock_monotonic": {
+      "immediate_delta_ns": 43440,
+      "name": "clock_monotonic",
+      "res_ns": 10000000,
+      "status": "AVAILABLE"
+    },
+    "clock_monotonic_raw": {
+      "immediate_delta_ns": 39200,
+      "name": "clock_monotonic_raw",
+      "res_ns": 10000000,
+      "status": "AVAILABLE"
+    }
+  },
+  "clock_rows": [
+    {
+      "loop_delta_ns": 2242880,
+      "name": "clock_monotonic",
+      "pid": 7965,
+      "rep": 1,
+      "sink": 12030911620147184437,
+      "syscall_delta_ns": 68560,
+      "total_delta_ns": 2311440
+    },
+    {
+      "loop_delta_ns": 2603560,
+      "name": "clock_monotonic",
+      "pid": 7965,
+      "rep": 2,
+      "sink": 12030911620147184437,
+      "syscall_delta_ns": 62120,
+      "total_delta_ns": 2665680
+    },
+    {
+      "loop_delta_ns": 2608200,
+      "name": "clock_monotonic",
+      "pid": 7965,
+      "rep": 3,
+      "sink": 12030911620147184437,
+      "syscall_delta_ns": 70400,
+      "total_delta_ns": 2678600
+    },
+    {
+      "loop_delta_ns": 2237760,
+      "name": "clock_monotonic",
+      "pid": 7965,
+      "rep": 4,
+      "sink": 12030911620147184437,
+      "syscall_delta_ns": 60600,
+      "total_delta_ns": 2298360
+    },
+    {
+      "loop_delta_ns": 3208040,
+      "name": "clock_monotonic",
+      "pid": 7965,
+      "rep": 5,
+      "sink": 12030911620147184437,
+      "syscall_delta_ns": 64360,
+      "total_delta_ns": 3272400
+    },
+    {
+      "loop_delta_ns": 2611880,
+      "name": "clock_monotonic_raw",
+      "pid": 7965,
+      "rep": 1,
+      "sink": 12030911620147184437,
+      "syscall_delta_ns": 63960,
+      "total_delta_ns": 2675840
+    },
+    {
+      "loop_delta_ns": 3172920,
+      "name": "clock_monotonic_raw",
+      "pid": 7965,
+      "rep": 2,
+      "sink": 12030911620147184437,
+      "syscall_delta_ns": 66080,
+      "total_delta_ns": 3239000
+    },
+    {
+      "loop_delta_ns": 2239520,
+      "name": "clock_monotonic_raw",
+      "pid": 7965,
+      "rep": 3,
+      "sink": 12030911620147184437,
+      "syscall_delta_ns": 58040,
+      "total_delta_ns": 2297560
+    },
+    {
+      "loop_delta_ns": 2242320,
+      "name": "clock_monotonic_raw",
+      "pid": 7965,
+      "rep": 4,
+      "sink": 12030911620147184437,
+      "syscall_delta_ns": 57520,
+      "total_delta_ns": 2299840
+    },
+    {
+      "loop_delta_ns": 3182080,
+      "name": "clock_monotonic_raw",
+      "pid": 7965,
+      "rep": 5,
+      "sink": 12030911620147184437,
+      "syscall_delta_ns": 63160,
+      "total_delta_ns": 3245240
+    }
+  ],
+  "counter_access": {
+    "cycle": {
+      "name": "cycle",
+      "status": "ILLEGAL_INSTRUCTION"
+    },
+    "instret": {
+      "name": "instret",
+      "status": "ILLEGAL_INSTRUCTION"
+    },
+    "time": {
+      "first": 1004471232906,
+      "immediate_delta": 881,
+      "name": "time",
+      "second": 1004471233787,
+      "status": "AVAILABLE"
+    }
+  },
+  "counter_rows": [
+    {
+      "loop_delta": 82875,
+      "name": "time",
+      "pid": 7965,
+      "rep": 1,
+      "sink": 12030911620147184437,
+      "syscall_delta": 1742,
+      "total_delta": 84617
+    },
+    {
+      "loop_delta": 65489,
+      "name": "time",
+      "pid": 7965,
+      "rep": 2,
+      "sink": 12030911620147184437,
+      "syscall_delta": 1418,
+      "total_delta": 66907
+    },
+    {
+      "loop_delta": 55791,
+      "name": "time",
+      "pid": 7965,
+      "rep": 3,
+      "sink": 12030911620147184437,
+      "syscall_delta": 1322,
+      "total_delta": 57113
+    },
+    {
+      "loop_delta": 55857,
+      "name": "time",
+      "pid": 7965,
+      "rep": 4,
+      "sink": 12030911620147184437,
+      "syscall_delta": 1496,
+      "total_delta": 57353
+    },
+    {
+      "loop_delta": 64542,
+      "name": "time",
+      "pid": 7965,
+      "rep": 5,
+      "sink": 12030911620147184437,
+      "syscall_delta": 1397,
+      "total_delta": 65939
+    }
+  ],
+  "iters": 10000,
+  "minimum_repetitions": 5,
+  "non_claims": [
+    "This probe tests user-visible counter CSR and Linux clock source accessibility on the live board.",
+    "rdtime and clock_gettime are non-cycle time sources and do not close the cycle-level overhead claim.",
+    "A PASS here only means user rdcycle produced monotonic-positive rows; it is not a trace-on/trace-off slowdown measurement."
+  ],
+  "requested_repetitions": 5,
+  "run_root": "results/board/genesys2_trace_validation/20260623-counter-access-matrix",
+  "schema": "rvmt.genesys2.counter_access_matrix.v1",
+  "status": "BLOCKED_BOARD_CYCLE_COUNTER_UNAVAILABLE_NONCYCLE_TIME_AVAILABLE",
+  "target": "/tmp/rvmt_cycle/counter_access_matrix"
+}

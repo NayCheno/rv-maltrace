@@ -1,0 +1,1 @@
+Summaries expose byte counts and short redacted ASCII previews only; raw board trace records remain in the run root and are not companion-derived.

@@ -14,7 +14,7 @@ SAMPLES = {
     "illegal_instruction": "e0000a04",
 }
 
-DEFAULT_RUN_ROOT = Path("results/board/genesys2_trace_validation/20260612-p0-bram-repetitions")
+DEFAULT_RUN_ROOT = Path("results/board/genesys2_trace_validation/20260624-current-p0-cohort")
 DEFAULT_LTX = Path("build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.ltx")
 
 

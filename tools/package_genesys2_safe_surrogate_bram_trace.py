@@ -23,7 +23,7 @@ SAMPLES = [
 
 BEGIN_MARKER = 0xB0000A11
 END_MARKER = 0xE0000A11
-DEFAULT_RUN_ROOT = Path("results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring")
+DEFAULT_RUN_ROOT = Path("results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort")
 DEFAULT_BUILD_ROOT = Path("results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610")
 DEFAULT_OUT = Path("results/evaluation/genesys2-cva6/current/safe_surrogate_bram_trace_summary.json")
 DEFAULT_BITSTREAM = Path("build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.bit")
@@ -125,7 +125,7 @@ def expected_syscall_entries(manifest: dict[str, Any]) -> int:
     sequence = manifest.get("syscall_sequence")
     if not isinstance(sequence, list):
         return 0
-    return sum(1 for item in sequence if str(item) != "rvmt_marker")
+    return sum(1 for item in sequence if str(item) not in {"rvmt_marker", "exit"})
 
 
 def rep_sort_key(path: Path) -> tuple[int, str]:

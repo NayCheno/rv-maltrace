@@ -1,0 +1,264 @@
+{
+  "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",
+  "capture_status": "PASS_LIVE_SDCARD_MANIFEST_CAPTURED",
+  "claim_boundary": {
+    "board_cycle_source_claimed": false,
+    "buildroot_source_claimed": false,
+    "buildroot_version_observed_from_live_image": true,
+    "cycle_level_overhead_claimed": false,
+    "hardware_live_image_identity_only": true,
+    "live_kernel_config_export_claimed": false,
+    "live_sd_card_manifest_captured": true,
+    "manifest_only": true,
+    "opensbi_source_claimed": false,
+    "qemu_or_strace_substitution_allowed": false,
+    "sd_card_image_rebuild_path_claimed": false,
+    "source_locked_rebuild_artifacts_available": false
+  },
+  "markers": {
+    "begin_seen": true,
+    "done_seen": true
+  },
+  "missing_required_sections": [],
+  "non_claims": [
+    "This manifest records live SD-card Linux identity observed through Genesys2 UART; it does not build or replace the SD-card image.",
+    "A Buildroot version observed from /etc/os-release or /proc/version is live image identity evidence, not Buildroot source, defconfig, OpenSBI source, or kernel config provenance.",
+    "Missing /boot files, kernel config, OpenSBI source, Buildroot source, or PMU device-tree support remain blockers when absent.",
+    "This manifest does not claim user rdcycle, kernel perf cycles, cycle-level overhead, production runtime overhead, or malware validation.",
+    "QEMU and strace cannot substitute for this live board manifest or for board cycle-source probes."
+  ],
+  "observed_identity": {
+    "boot_directory_missing": true,
+    "buildroot_version": "2026.02",
+    "cmdline": "earlycon console=ttyS0,115200n8",
+    "dtb_compatible": [
+      "eth,cva6-bare-dev"
+    ],
+    "dtb_identity_hash_line_count": 3,
+    "id": "uid=0(root) gid=0(root) groups=0(root),10(wheel)",
+    "kernel_config_export_missing": true,
+    "kernel_release": "6.19.6",
+    "proc_version": "Linux version 6.19.6 (root@buildkitsandbox) (riscv64-buildroot-linux-gnu-gcc.br_real (Buildroot 2026.02) 14.3.0, GNU ld (GNU Binutils) 2.44) #1 Tue Jun  9 06:02:04 UTC 2026",
+    "rootfs_identity_hash_line_count": 7,
+    "sbi_extensions_observed": [
+      "DBCN",
+      "FWFT",
+      "IPI",
+      "RFENCE",
+      "TIME"
+    ],
+    "uname_a": "Linux buildroot 6.19.6 #1 Tue Jun  9 06:02:04 UTC 2026 riscv64 GNU/Linux"
+  },
+  "raw_uart_log": {
+    "exists": true,
+    "path": "results/board/genesys2_trace_validation/20260623-sdcard-linux-manifest/uart.log",
+    "sha256": "0a1ad3c1be361cc6a617c71f9d1d55609b265b50dfe0f4e5da89beaccd406d0e",
+    "size_bytes": 16996
+  },
+  "schema": "rvmt.genesys2.sdcard_linux_manifest.v1",
+  "scope": "live Genesys2/CVA6 SD-card Linux identity manifest captured over UART",
+  "section_count": 16,
+  "sections": [
+    {
+      "first_nonempty_line": "Filesystem           Type       1K-blocks      Used Available Use% Mounted on",
+      "id": "block_inventory",
+      "line_count": 16,
+      "sha256": "085c5a09e194baf89b3f185ce445224779b90025aa4daa9696616cdba4a2f8c6"
+    },
+    {
+      "first_nonempty_line": "RVMT_BOOT_DIR_MISSING /boot",
+      "id": "boot_file_hashes",
+      "line_count": 1,
+      "sha256": "12a07ac67a83436b7c20ce0b19beaa3d8f4fdfc58e98c67378c8318d5c337984"
+    },
+    {
+      "first_nonempty_line": "RVMT_DTB_FILE 4b70cf601f7b2b772e125c0f76a9d1d53e15764d97fce8f8e33437087bcec1ad 18 /proc/device-tree/compatible",
+      "id": "dtb_identity_hashes",
+      "line_count": 9,
+      "sha256": "3c59610af2032789d8b7bb3494cf0ab8c77af24b914d7bf33b3a84765b71a92a"
+    },
+    {
+      "first_nonempty_line": "RVMT_DTB_VALUE_FILE /proc/device-tree/compatible",
+      "id": "dtb_readable_identity",
+      "line_count": 22,
+      "sha256": "f1dfc45d6337a4db43d11eeefebee99f87a47e9b5754fa96c3d66e8f708992c1"
+    },
+    {
+      "first_nonempty_line": "NAME=Buildroot",
+      "id": "etc_os_release",
+      "line_count": 5,
+      "sha256": "fd3a10bc56f7c2e7a633e822d95bd7e74672bfc44ebeb566b8bef219c6ea9a3c"
+    },
+    {
+      "first_nonempty_line": "uid=0(root) gid=0(root) groups=0(root),10(wheel)",
+      "id": "id",
+      "line_count": 1,
+      "sha256": "63631e3c8b8a4c348f5b1bf19488f0ff7833bea9bfedb4c80018385f93400819"
+    },
+    {
+      "first_nonempty_line": "RVMT_KERNEL_CONFIG_MISSING /proc/config.gz",
+      "id": "kernel_config_probe",
+      "line_count": 3,
+      "sha256": "a9a3486b805440b3cd1a8eeb98c9fbb3d84a8dbfdbfaf176ce52c034a54c30a2"
+    },
+    {
+      "first_nonempty_line": "earlycon console=ttyS0,115200n8",
+      "id": "proc_cmdline",
+      "line_count": 1,
+      "sha256": "46321b7a7ab5a47be8dfd4d2ff3876e24166170087ea6d76e4f5b46926f5cf07"
+    },
+    {
+      "first_nonempty_line": "processor\t: 0",
+      "id": "proc_cpuinfo",
+      "line_count": 9,
+      "sha256": "324675c12111045781bf680d5a1aebfee65536806e7a283cd32fa252d1ba8733"
+    },
+    {
+      "first_nonempty_line": "rootfs / rootfs rw,size=503164k,nr_inodes=125791 0 0",
+      "id": "proc_mounts",
+      "line_count": 8,
+      "sha256": "1f504b72f69106aa16d5491b736c292b329249321bac538ea5c3b22fd89ead42"
+    },
+    {
+      "first_nonempty_line": null,
+      "id": "proc_partitions",
+      "line_count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "first_nonempty_line": "Linux version 6.19.6 (root@buildkitsandbox) (riscv64-buildroot-linux-gnu-gcc.br_real (Buildroot 2026.02) 14.3.0, GNU ld (GNU Binutils) 2.44) #1 Tue Jun  9 06:02:04 UTC 2026",
+      "id": "proc_version",
+      "line_count": 1,
+      "sha256": "57755faa4919b2a0adfe67f348a4e59afdbf3d7c5540c73b1b2a4f4299d0c1bb"
+    },
+    {
+      "first_nonempty_line": "3d045aecebcb734c730fb6f7f41f3d17767112ab44372b0e80a8bc16ae3d1c4f  /bin/busybox",
+      "id": "rootfs_identity_hashes",
+      "line_count": 13,
+      "sha256": "d1343d2564fb62012de30b1b54c1930d49c67a5479c1f6ea110319bb62f38baf"
+    },
+    {
+      "first_nonempty_line": "[    0.000000] Linux version 6.19.6 (root@buildkitsandbox) (riscv64-buildroot-linux-gnu-gcc.br_real (Buildroot 2026.02) 14.3.0, GNU ld (GNU Binutils) 2.44) #1 Tue Jun  9 06:02:04 UTC 2026",
+      "id": "sbi_pmu_dmesg_probe",
+      "line_count": 20,
+      "sha256": "3d796b25a994340e1a648e0e6aa27320bdc55a5abf5e1445e63a612b961df587"
+    },
+    {
+      "first_nonempty_line": "Linux buildroot 6.19.6 #1 Tue Jun  9 06:02:04 UTC 2026 riscv64 GNU/Linux",
+      "id": "uname_a",
+      "line_count": 1,
+      "sha256": "eb708a76574f3559020c02db064a838a1481d2dd9e1892e8b89afd4eaac3d094"
+    },
+    {
+      "first_nonempty_line": "6.19.6",
+      "id": "uname_r",
+      "line_count": 1,
+      "sha256": "dbf96518dc5c050c9eb5020c34b6ac523879dc8085c39072243d0db6170f79b9"
+    }
+  ],
+  "source_provenance_observations": {
+    "block_devices_observed": [],
+    "boot_directory_missing": true,
+    "buildroot_os_release": {
+      "ID": "buildroot",
+      "NAME": "Buildroot",
+      "PRETTY_NAME": "Buildroot 2026.02",
+      "VERSION": "2026.02",
+      "VERSION_ID": "2026.02"
+    },
+    "buildroot_release_file_missing": true,
+    "buildroot_version_observed_from_live_image": true,
+    "dev_mmc_or_sd_nodes_missing": true,
+    "dtb_compatible": [
+      "eth,cva6-bare-dev"
+    ],
+    "dtb_cpu_isa_file_missing": true,
+    "dtb_files_hashed": {
+      "/proc/device-tree/compatible": {
+        "sha256": "4b70cf601f7b2b772e125c0f76a9d1d53e15764d97fce8f8e33437087bcec1ad",
+        "size_bytes": 18
+      },
+      "/proc/device-tree/cpus/timebase-frequency": {
+        "sha256": "af1128b0abda33d68771bf4d63aca5901c01609a317ab0f15c77f4b1e0d02f66",
+        "size_bytes": 4
+      },
+      "/proc/device-tree/model": {
+        "sha256": "d73c22a29e5c7c3e756860787b484d5425fcb8174093bfb5af6e5ee4ab338e7a",
+        "size_bytes": 14
+      }
+    },
+    "dtb_files_missing": [
+      "/proc/device-tree/cpus/cpu@0/riscv,isa"
+    ],
+    "dtb_model": "eth,cva6-bare",
+    "dtb_readable_missing": [
+      "/proc/device-tree/cpus/cpu@0/riscv,isa"
+    ],
+    "dtb_readable_values": {
+      "/proc/device-tree/compatible": [
+        "eth,cva6-bare-dev"
+      ],
+      "/proc/device-tree/cpus/timebase-frequency": [
+        "\u0001}x@"
+      ],
+      "/proc/device-tree/model": [
+        "eth,cva6-bare"
+      ]
+    },
+    "kernel_build_timestamp": "Tue Jun  9 06:02:04 UTC 2026",
+    "kernel_config_candidate_paths": [
+      "/boot/config-6.19.6",
+      "/lib/modules/6.19.6/build/.config",
+      "/proc/config.gz"
+    ],
+    "kernel_config_paths_missing": [
+      "/boot/config-6.19.6",
+      "/lib/modules/6.19.6/build/.config",
+      "/proc/config.gz"
+    ],
+    "kernel_config_paths_present": [],
+    "kernel_release": "6.19.6",
+    "live_kernel_config_export_available": false,
+    "pmu_or_perf_dmesg_lines": [],
+    "proc_partitions_empty": true,
+    "proc_version": {
+      "binutils_version": "2.44",
+      "buildroot_version": "2026.02",
+      "gcc_version": "14.3.0",
+      "kernel_build_timestamp": "Tue Jun  9 06:02:04 UTC 2026",
+      "kernel_release": "6.19.6",
+      "raw": "Linux version 6.19.6 (root@buildkitsandbox) (riscv64-buildroot-linux-gnu-gcc.br_real (Buildroot 2026.02) 14.3.0, GNU ld (GNU Binutils) 2.44) #1 Tue Jun  9 06:02:04 UTC 2026"
+    },
+    "root_mount_kind": "rootfs",
+    "root_mount_source": "rootfs",
+    "rootfs_files_hashed": {
+      "/bin/busybox": "3d045aecebcb734c730fb6f7f41f3d17767112ab44372b0e80a8bc16ae3d1c4f",
+      "/etc/inittab": "ad46146b6dd32b47213e5327f1bb2f962ef838a4b707ef7445fa2dbc9019b44f",
+      "/etc/os-release": "a8dd3a4588ebace9427e705b612510d0a4046342ee509b6887eef20fc18765e7",
+      "/init": "b2b964a5b67f90fece2c83dad0986ae44189fc1b7128c5ed9a38c0ca38e89c90",
+      "/linuxrc": "3d045aecebcb734c730fb6f7f41f3d17767112ab44372b0e80a8bc16ae3d1c4f",
+      "/sbin/init": "3d045aecebcb734c730fb6f7f41f3d17767112ab44372b0e80a8bc16ae3d1c4f"
+    },
+    "rootfs_files_missing": [
+      "/etc/buildroot-release"
+    ],
+    "sbi_extensions_observed": [
+      "DBCN",
+      "FWFT",
+      "IPI",
+      "RFENCE",
+      "TIME"
+    ],
+    "sbi_implementation": "ID=0x1 Version=0x10007",
+    "sbi_pmu_extension_observed": false,
+    "sbi_spec_detected": "v3.0",
+    "sd_or_mmc_block_device_observed": false,
+    "source_locked_rebuild_artifacts_available_on_live_image": false
+  },
+  "status": "PASS",
+  "validation_commands": [
+    "uv run rvmt ndss:sdcard-linux-manifest --port COM7 --baud 115200",
+    "uv run python tools/check_genesys2_sdcard_linux_manifest.py --root .",
+    "uv run rvmt ndss:linux-counter-preflight"
+  ]
+}

@@ -18,7 +18,7 @@ SAMPLES = [
     "anti_debug_like",
 ]
 
-DEFAULT_RUN_ROOT = Path("results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait")
+DEFAULT_RUN_ROOT = Path("results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort")
 DEFAULT_LTX = Path("build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.ltx")
 END_MARKER = "e0000a11"
 

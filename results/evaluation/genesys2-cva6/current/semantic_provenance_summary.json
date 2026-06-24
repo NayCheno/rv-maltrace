@@ -1,0 +1,399 @@
+{
+  "allowed_provenance": [
+    "hardware",
+    "exact_elf",
+    "runtime_os_map",
+    "validation_oracle"
+  ],
+  "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",
+  "claim_boundary": {
+    "oracle_fields_not_reported_as_hardware": true,
+    "qemu_strace_host_control_are_oracles_only": true,
+    "real_malware_validation_claimed": false,
+    "sidecar_not_board_native_dwarf": true
+  },
+  "hardware_trace_field_count": 12,
+  "oracle_field_count": 276,
+  "sample_artifact_count": 12,
+  "sample_artifacts": [
+    {
+      "oracle_fields": [
+        "anti_analysis_behavior_node",
+        "argument_reconstruction_accuracy",
+        "execve_filename_accuracy",
+        "execve_path_source",
+        "execve_paths",
+        "expected_syscall_recall",
+        "expected_syscalls",
+        "ground_truth_alignment",
+        "has_execve",
+        "has_openat",
+        "has_write",
+        "mmap_mprotect_behavior_node",
+        "openat_path_source",
+        "openat_pathname_accuracy",
+        "openat_paths",
+        "primary_semantic_source",
+        "sample_id",
+        "semantic_source",
+        "syscall_precision",
+        "write_buffer_prefix_recovered",
+        "write_buffer_prefix_source",
+        "write_buffer_prefixes"
+      ],
+      "path": "results/evaluation/genesys2-cva6/current/samples/abnormal_syscall_sequence/semantic_events.json",
+      "sample_id": "abnormal_syscall_sequence",
+      "trace_source_provenance": [
+        "hardware"
+      ]
+    },
+    {
+      "oracle_fields": [
+        "anti_analysis_behavior_node",
+        "argument_reconstruction_accuracy",
+        "execve_filename_accuracy",
+        "execve_path_source",
+        "execve_paths",
+        "expected_syscall_recall",
+        "expected_syscalls",
+        "ground_truth_alignment",
+        "has_execve",
+        "has_openat",
+        "has_write",
+        "mmap_mprotect_behavior_node",
+        "openat_path_source",
+        "openat_pathname_accuracy",
+        "openat_paths",
+        "primary_semantic_source",
+        "sample_id",
+        "semantic_source",
+        "syscall_precision",
+        "write_buffer_prefix_recovered",
+        "write_buffer_prefix_source",
+        "write_buffer_prefixes"
+      ],
+      "path": "results/evaluation/genesys2-cva6/current/samples/anti_debug_like/semantic_events.json",
+      "sample_id": "anti_debug_like",
+      "trace_source_provenance": [
+        "hardware"
+      ]
+    },
+    {
+      "oracle_fields": [
+        "anti_analysis_behavior_node",
+        "argument_reconstruction_accuracy",
+        "execve_filename_accuracy",
+        "execve_path_source",
+        "execve_paths",
+        "expected_syscall_recall",
+        "expected_syscalls",
+        "ground_truth_alignment",
+        "has_execve",
+        "has_openat",
+        "has_write",
+        "mmap_mprotect_behavior_node",
+        "openat_path_source",
+        "openat_pathname_accuracy",
+        "openat_paths",
+        "primary_semantic_source",
+        "sample_id",
+        "semantic_source",
+        "syscall_precision",
+        "write_buffer_prefix_recovered",
+        "write_buffer_prefix_source",
+        "write_buffer_prefixes"
+      ],
+      "path": "results/evaluation/genesys2-cva6/current/samples/batch_open_read_write/semantic_events.json",
+      "sample_id": "batch_open_read_write",
+      "trace_source_provenance": [
+        "hardware"
+      ]
+    },
+    {
+      "oracle_fields": [
+        "anti_analysis_behavior_node",
+        "argument_reconstruction_accuracy",
+        "execve_filename_accuracy",
+        "execve_path_source",
+        "execve_paths",
+        "expected_syscall_recall",
+        "expected_syscalls",
+        "ground_truth_alignment",
+        "has_execve",
+        "has_openat",
+        "has_write",
+        "mmap_mprotect_behavior_node",
+        "openat_path_source",
+        "openat_pathname_accuracy",
+        "openat_paths",
+        "primary_semantic_source",
+        "sample_id",
+        "semantic_source",
+        "syscall_precision",
+        "write_buffer_prefix_recovered",
+        "write_buffer_prefix_source",
+        "write_buffer_prefixes"
+      ],
+      "path": "results/evaluation/genesys2-cva6/current/samples/dynamic_executable_memory/semantic_events.json",
+      "sample_id": "dynamic_executable_memory",
+      "trace_source_provenance": [
+        "hardware"
+      ]
+    },
+    {
+      "oracle_fields": [
+        "anti_analysis_behavior_node",
+        "argument_reconstruction_accuracy",
+        "execve_filename_accuracy",
+        "execve_path_source",
+        "execve_paths",
+        "expected_syscall_recall",
+        "expected_syscalls",
+        "ground_truth_alignment",
+        "has_execve",
+        "has_openat",
+        "has_write",
+        "mmap_mprotect_behavior_node",
+        "openat_path_source",
+        "openat_pathname_accuracy",
+        "openat_paths",
+        "primary_semantic_source",
+        "sample_id",
+        "semantic_source",
+        "syscall_precision",
+        "write_buffer_prefix_recovered",
+        "write_buffer_prefix_source",
+        "write_buffer_prefixes"
+      ],
+      "path": "results/evaluation/genesys2-cva6/current/samples/file_open_read_write/semantic_events.json",
+      "sample_id": "file_open_read_write",
+      "trace_source_provenance": [
+        "hardware"
+      ]
+    },
+    {
+      "oracle_fields": [
+        "anti_analysis_behavior_node",
+        "argument_reconstruction_accuracy",
+        "execve_filename_accuracy",
+        "execve_path_source",
+        "execve_paths",
+        "expected_syscall_recall",
+        "expected_syscalls",
+        "ground_truth_alignment",
+        "has_execve",
+        "has_openat",
+        "has_write",
+        "mmap_mprotect_behavior_node",
+        "openat_path_source",
+        "openat_pathname_accuracy",
+        "openat_paths",
+        "primary_semantic_source",
+        "sample_id",
+        "semantic_source",
+        "syscall_precision",
+        "write_buffer_prefix_recovered",
+        "write_buffer_prefix_source",
+        "write_buffer_prefixes"
+      ],
+      "path": "results/evaluation/genesys2-cva6/current/samples/file_scan/semantic_events.json",
+      "sample_id": "file_scan",
+      "trace_source_provenance": [
+        "hardware"
+      ]
+    },
+    {
+      "oracle_fields": [
+        "anti_analysis_behavior_node",
+        "argument_reconstruction_accuracy",
+        "execve_filename_accuracy",
+        "execve_path_source",
+        "execve_paths",
+        "expected_syscall_recall",
+        "expected_syscalls",
+        "ground_truth_alignment",
+        "has_execve",
+        "has_openat",
+        "has_write",
+        "mmap_mprotect_behavior_node",
+        "openat_path_source",
+        "openat_pathname_accuracy",
+        "openat_paths",
+        "primary_semantic_source",
+        "sample_id",
+        "semantic_source",
+        "syscall_precision",
+        "write_buffer_prefix_recovered",
+        "write_buffer_prefix_source",
+        "write_buffer_prefixes"
+      ],
+      "path": "results/evaluation/genesys2-cva6/current/samples/fork_exec/semantic_events.json",
+      "sample_id": "fork_exec",
+      "trace_source_provenance": [
+        "hardware"
+      ]
+    },
+    {
+      "oracle_fields": [
+        "anti_analysis_behavior_node",
+        "argument_reconstruction_accuracy",
+        "execve_filename_accuracy",
+        "execve_path_source",
+        "execve_paths",
+        "expected_syscall_recall",
+        "expected_syscalls",
+        "ground_truth_alignment",
+        "has_execve",
+        "has_openat",
+        "has_write",
+        "mmap_mprotect_behavior_node",
+        "openat_path_source",
+        "openat_pathname_accuracy",
+        "openat_paths",
+        "primary_semantic_source",
+        "sample_id",
+        "semantic_source",
+        "syscall_precision",
+        "write_buffer_prefix_recovered",
+        "write_buffer_prefix_source",
+        "write_buffer_prefixes"
+      ],
+      "path": "results/evaluation/genesys2-cva6/current/samples/hello_write/semantic_events.json",
+      "sample_id": "hello_write",
+      "trace_source_provenance": [
+        "hardware"
+      ]
+    },
+    {
+      "oracle_fields": [
+        "anti_analysis_behavior_node",
+        "argument_reconstruction_accuracy",
+        "execve_filename_accuracy",
+        "execve_path_source",
+        "execve_paths",
+        "expected_syscall_recall",
+        "expected_syscalls",
+        "ground_truth_alignment",
+        "has_execve",
+        "has_openat",
+        "has_write",
+        "mmap_mprotect_behavior_node",
+        "openat_path_source",
+        "openat_pathname_accuracy",
+        "openat_paths",
+        "primary_semantic_source",
+        "sample_id",
+        "semantic_source",
+        "syscall_precision",
+        "write_buffer_prefix_recovered",
+        "write_buffer_prefix_source",
+        "write_buffer_prefixes"
+      ],
+      "path": "results/evaluation/genesys2-cva6/current/samples/illegal_instruction/semantic_events.json",
+      "sample_id": "illegal_instruction",
+      "trace_source_provenance": [
+        "hardware"
+      ]
+    },
+    {
+      "oracle_fields": [
+        "anti_analysis_behavior_node",
+        "argument_reconstruction_accuracy",
+        "execve_filename_accuracy",
+        "execve_path_source",
+        "execve_paths",
+        "expected_syscall_recall",
+        "expected_syscalls",
+        "ground_truth_alignment",
+        "has_execve",
+        "has_openat",
+        "has_write",
+        "mmap_mprotect_behavior_node",
+        "openat_path_source",
+        "openat_pathname_accuracy",
+        "openat_paths",
+        "primary_semantic_source",
+        "sample_id",
+        "semantic_source",
+        "syscall_precision",
+        "write_buffer_prefix_recovered",
+        "write_buffer_prefix_source",
+        "write_buffer_prefixes"
+      ],
+      "path": "results/evaluation/genesys2-cva6/current/samples/illegal_trap/semantic_events.json",
+      "sample_id": "illegal_trap",
+      "trace_source_provenance": [
+        "hardware"
+      ]
+    },
+    {
+      "oracle_fields": [
+        "anti_analysis_behavior_node",
+        "argument_reconstruction_accuracy",
+        "execve_filename_accuracy",
+        "execve_path_source",
+        "execve_paths",
+        "expected_syscall_recall",
+        "expected_syscalls",
+        "ground_truth_alignment",
+        "has_execve",
+        "has_openat",
+        "has_write",
+        "mmap_mprotect_behavior_node",
+        "openat_path_source",
+        "openat_pathname_accuracy",
+        "openat_paths",
+        "primary_semantic_source",
+        "sample_id",
+        "semantic_source",
+        "syscall_precision",
+        "write_buffer_prefix_recovered",
+        "write_buffer_prefix_source",
+        "write_buffer_prefixes"
+      ],
+      "path": "results/evaluation/genesys2-cva6/current/samples/process_chain/semantic_events.json",
+      "sample_id": "process_chain",
+      "trace_source_provenance": [
+        "hardware"
+      ]
+    },
+    {
+      "oracle_fields": [
+        "anti_analysis_behavior_node",
+        "argument_reconstruction_accuracy",
+        "execve_filename_accuracy",
+        "execve_path_source",
+        "execve_paths",
+        "expected_syscall_recall",
+        "expected_syscalls",
+        "ground_truth_alignment",
+        "has_execve",
+        "has_openat",
+        "has_write",
+        "mmap_mprotect_behavior_node",
+        "openat_path_source",
+        "openat_pathname_accuracy",
+        "openat_paths",
+        "primary_semantic_source",
+        "sample_id",
+        "semantic_source",
+        "syscall_precision",
+        "write_buffer_prefix_recovered",
+        "write_buffer_prefix_source",
+        "write_buffer_prefixes"
+      ],
+      "path": "results/evaluation/genesys2-cva6/current/samples/self_copy_sim/semantic_events.json",
+      "sample_id": "self_copy_sim",
+      "trace_source_provenance": [
+        "hardware"
+      ]
+    }
+  ],
+  "schema": "rvmt.semantic_field_provenance.v1",
+  "semantic_summary": "results/evaluation/genesys2-cva6/current/semantic_reconstruction_summary.json",
+  "status": "PASS",
+  "validation_commands": [
+    "uv run python tools/package_genesys2_semantic_provenance.py",
+    "uv run python tools/check_genesys2_semantic_provenance.py --root ."
+  ]
+}

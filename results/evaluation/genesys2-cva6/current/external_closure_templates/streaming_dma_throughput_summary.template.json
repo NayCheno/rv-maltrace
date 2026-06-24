@@ -6,6 +6,12 @@
   },
   "evidence_artifacts": [
     {
+      "id": "drop_accounting_report",
+      "kind": "drop_accounting_report",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/drop_accounting_report.txt",
+      "sha256": "<64 lowercase hex sha256 of artifact file>"
+    },
+    {
       "id": "host_receiver_log",
       "kind": "host_receiver_log",
       "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/host_receiver_log.txt",
@@ -18,9 +24,21 @@
       "sha256": "<64 lowercase hex sha256 of artifact file>"
     },
     {
+      "id": "parser_output_log",
+      "kind": "parser_output_log",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/parser_output_log.txt",
+      "sha256": "<64 lowercase hex sha256 of artifact file>"
+    },
+    {
       "id": "resource_report",
       "kind": "resource_report",
       "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/resource_report.txt",
+      "sha256": "<64 lowercase hex sha256 of artifact file>"
+    },
+    {
+      "id": "streaming_bitstream_clock_report",
+      "kind": "streaming_bitstream_clock_report",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/streaming_bitstream_clock_report.txt",
       "sha256": "<64 lowercase hex sha256 of artifact file>"
     },
     {
@@ -38,12 +56,15 @@
   ],
   "failed_attempts_retained": true,
   "host_receiver_log_present": true,
+  "minimum_sustained_throughput_multiplier": 1.5,
   "noninterference_passed": true,
   "p95_event_bytes_per_second": "> 0",
+  "p99_event_bytes_per_second": "> 0",
+  "required_sustained_bytes_per_second": "1.5 * p99_event_bytes_per_second",
   "resource_report_present": true,
   "schema": "rvmt.genesys2.streaming_dma_throughput.v1",
   "status": "TEMPLATE_NOT_EVIDENCE",
-  "sustained_bytes_per_second": "> p95_event_bytes_per_second",
+  "sustained_bytes_per_second": "> required_sustained_bytes_per_second",
   "template_only": true,
   "timing_passed": true,
   "transport": "<axi_dma|ethernet_streaming|pcie_dma|uart_streaming_dma>",

@@ -265,6 +265,7 @@
         "status": "TEMPLATE_NOT_EVIDENCE",
         "template_only": true
       },
+      "template_path": "results/evaluation/genesys2-cva6/current/external_closure_templates/board_native_source_lines_summary.template.json",
       "validation_commands": [
         "uv run python tools/package_genesys2_external_closure_intake.py",
         "uv run python tools/check_genesys2_external_closure_intake.py --root ."
@@ -443,6 +444,7 @@
         },
         "template_only": true
       },
+      "template_path": "results/evaluation/genesys2-cva6/current/external_closure_templates/hardware_pointer_strings_summary.template.json",
       "validation_commands": [
         "uv run python tools/package_genesys2_external_closure_intake.py",
         "uv run python tools/check_genesys2_external_closure_intake.py --root ."
@@ -451,7 +453,7 @@
     {
       "acceptance_criteria": [
         "transport is not reported as BRAM ring plus ILA/JTAG when claiming production streaming/DMA throughput",
-        "sustained throughput exceeds the measured p95 event byte production rate recorded in streaming_dma_target_summary.json for the selected workload set",
+        "sustained throughput exceeds 1.5 * the measured p99 event byte production rate recorded in streaming_dma_target_summary.json for the selected workload set",
         "unaccounted DROP is 0 for accepted throughput runs and every failed attempt is retained with impact analysis",
         "trace_on versus trace_off behavior remains equivalent for the workload pass/fail result",
         "timing closure and resource deltas are reported for the exact bitstream used in the throughput run"
@@ -459,7 +461,7 @@
       "acceptance_gate": "uv run python tools/check_genesys2_external_closure_intake.py --root .",
       "collection_commands": [
         "external: build and program the selected non-BRAM streaming trace bitstream",
-        "external: run host receiver during the selected workload set and retain byte/event/elapsed/parser logs; compare sustained bytes/sec against streaming_dma_target_summary.json converted with the exact streaming bitstream clock report",
+        "external: run host receiver during the selected workload set and retain byte/event/elapsed/parser logs; compare sustained bytes/sec against 1.5 * p99_event_bytes_per_cycle from streaming_dma_target_summary.json converted with the exact streaming bitstream clock report",
         "uv run python tools/run_genesys2_runtime_benchmark.py --run-root <streaming-runtime-run-root> --mode trace_off --mode event_only --mode bram_ring"
       ],
       "current_blocker": true,
@@ -512,6 +514,12 @@
         },
         "evidence_artifacts": [
           {
+            "id": "drop_accounting_report",
+            "kind": "drop_accounting_report",
+            "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/drop_accounting_report.txt",
+            "sha256": "<64 lowercase hex sha256 of artifact file>"
+          },
+          {
             "id": "host_receiver_log",
             "kind": "host_receiver_log",
             "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/host_receiver_log.txt",
@@ -524,9 +532,21 @@
             "sha256": "<64 lowercase hex sha256 of artifact file>"
           },
           {
+            "id": "parser_output_log",
+            "kind": "parser_output_log",
+            "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/parser_output_log.txt",
+            "sha256": "<64 lowercase hex sha256 of artifact file>"
+          },
+          {
             "id": "resource_report",
             "kind": "resource_report",
             "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/resource_report.txt",
+            "sha256": "<64 lowercase hex sha256 of artifact file>"
+          },
+          {
+            "id": "streaming_bitstream_clock_report",
+            "kind": "streaming_bitstream_clock_report",
+            "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/streaming_bitstream_clock_report.txt",
             "sha256": "<64 lowercase hex sha256 of artifact file>"
           },
           {
@@ -544,17 +564,21 @@
         ],
         "failed_attempts_retained": true,
         "host_receiver_log_present": true,
+        "minimum_sustained_throughput_multiplier": 1.5,
         "noninterference_passed": true,
         "p95_event_bytes_per_second": "> 0",
+        "p99_event_bytes_per_second": "> 0",
+        "required_sustained_bytes_per_second": "1.5 * p99_event_bytes_per_second",
         "resource_report_present": true,
         "schema": "rvmt.genesys2.streaming_dma_throughput.v1",
         "status": "TEMPLATE_NOT_EVIDENCE",
-        "sustained_bytes_per_second": "> p95_event_bytes_per_second",
+        "sustained_bytes_per_second": "> required_sustained_bytes_per_second",
         "template_only": true,
         "timing_passed": true,
         "transport": "<axi_dma|ethernet_streaming|pcie_dma|uart_streaming_dma>",
         "unaccounted_drop": 0
       },
+      "template_path": "results/evaluation/genesys2-cva6/current/external_closure_templates/streaming_dma_throughput_summary.template.json",
       "validation_commands": [
         "uv run python tools/package_genesys2_external_closure_intake.py",
         "uv run python tools/check_genesys2_external_closure_intake.py --root ."
@@ -708,6 +732,7 @@
         "status": "TEMPLATE_NOT_EVIDENCE",
         "template_only": true
       },
+      "template_path": "results/evaluation/genesys2-cva6/current/external_closure_templates/board_benign_control_summary.template.json",
       "validation_commands": [
         "uv run python tools/package_genesys2_external_closure_intake.py",
         "uv run python tools/check_genesys2_external_closure_intake.py --root ."
@@ -723,7 +748,7 @@
       "id": "external_closure_readiness",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_readiness.json",
       "schema": "rvmt.genesys2.external_closure_readiness.v1",
-      "sha256": "d62cfd241d9cad20e2b1d5d2f0de095e1db5b6933eeaf884a35d83b6c9217ff0",
+      "sha256": "eecf2992c3fed3658943ef444a9c07d8bebd2371e0756d200109d5b3f2932e38",
       "status": "PASS"
     },
     {
@@ -733,8 +758,8 @@
       "id": "external_closure_intake",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_intake.json",
       "schema": "rvmt.genesys2.external_closure_intake.v1",
-      "sha256": "b1658baf075311a17d591ffce8bd47a3102b7b1ca19db7f90ba3a5d533e4784b",
-      "status": "FAIL"
+      "sha256": "b5142b834d24be56ec97517c8b208255f1bfef1677c9aac48a282dff9772027a",
+      "status": "BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED"
     }
   ],
   "status": "PASS",

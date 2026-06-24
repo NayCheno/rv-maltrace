@@ -2,11 +2,15 @@
   "accepted_external_blocker_count": 3,
   "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",
   "claim_boundary": {
+    "accepted_external_summaries_hash_validated_by_intake": true,
+    "accepted_external_summaries_present": true,
     "all_non_real_external_blockers_closed": false,
     "external_artifact_paths_record_scoped": true,
     "external_artifact_paths_scoped_to_external_closure": true,
     "external_execution_completed": false,
+    "external_execution_completed_by_packet": false,
     "external_readiness_substituted_for_completion": false,
+    "open_or_invalid_external_blockers_remain": true,
     "operator_packet_only": true,
     "placeholder_values_treated_as_invalid": true,
     "real_malware_validation_claimed": false,
@@ -15,10 +19,10 @@
   "closure_status": "OPEN_EXTERNAL_ARTIFACTS_REQUIRED",
   "invalid_external_blocker_count": 1,
   "non_claims": [
-    "This packet does not itself create board-native DWARF source-line attribution evidence; only accepted intake summaries close that item.",
+    "This packet does not itself create board-native DWARF source-line attribution evidence; only the accepted intake summary closes that item.",
     "This packet does not itself create full hardware pointer-string reconstruction evidence; only accepted intake summaries close that item.",
     "This packet does not complete production streaming/DMA throughput evidence.",
-    "This packet does not itself create Genesys2 board benign-control evidence; only accepted intake summaries close that item.",
+    "This packet does not itself create Genesys2 board benign-control evidence; only the accepted intake summary closes that item.",
     "This packet does not add real-malware validation."
   ],
   "objective_exclusions": [
@@ -26,8 +30,9 @@
   ],
   "open_external_blocker_count": 0,
   "operator_sequence": [
-    "Run the local preflight commands recorded for each external id.",
-    "Execute the required board, RTL, or host-transport experiment outside the repository-only checker path.",
+    "For records already marked EXTERNAL_SUMMARY_ACCEPTED_ARTIFACT_BACKED, preserve the accepted summary and evidence artifact hashes.",
+    "For open or invalid records, run the local preflight commands recorded for each external id.",
+    "Execute the required board, RTL, or host-transport experiment outside the repository-only checker path for open or invalid records.",
     "Write candidate summaries only from real record-specific external_closure artifacts with matching sha256-backed evidence rows and no template placeholders.",
     "Validate each candidate with tools/prepare_genesys2_external_summary.py before moving it into the intake path.",
     "Regenerate external_closure_intake.json, then run the intake, operator packet, current-suite, and full reproduction checks."
@@ -41,6 +46,8 @@
         "marker windows, syscall entry/return pairing, wrap count, and unaccounted DROP criteria still pass",
         "current sidecar-only source lines are not substituted for DWARF-derived board trace source lines"
       ],
+      "accepted_summary_must_remain_hash_valid": true,
+      "accepted_summary_supersedes_plan_readiness": true,
       "completion_evidence_valid": true,
       "completion_requires_external_state": false,
       "execution_steps": [
@@ -86,6 +93,7 @@
           "phase": "intake_acceptance"
         }
       ],
+      "execution_steps_required_to_close_record": false,
       "exit_criteria": [
         "external_summary_exists=true in external_closure_intake.json",
         "completion_status=EXTERNAL_SUMMARY_ACCEPTED for this record",
@@ -103,14 +111,17 @@
         "board capture roots produced from those exact debug ELFs"
       ],
       "operator_notes": [
+        "If record_status is EXTERNAL_SUMMARY_ACCEPTED_ARTIFACT_BACKED, preserve the accepted summary and its sha256-backed evidence artifacts instead of treating the plan readiness text as current execution state.",
         "Do not copy template-only JSON into the intake directory as evidence.",
         "Do not replace board, RTL, or host receiver artifacts with local sidecars or companion-derived fields.",
         "Every evidence_artifacts row must point to a real nonempty record-specific file under results/evaluation/genesys2-cva6/current/external_closure/board_native_dwarf_source_lines/ with matching sha256 and no template placeholders.",
         "Run the intake checker after writing any candidate external summary."
       ],
       "order": 1,
+      "plan_readiness_status": "EXTERNAL_BOARD_RERUN_READY_NOT_EXECUTED",
       "plan_status": "EXTERNAL_SUMMARY_ACCEPTED",
-      "readiness_status": "EXTERNAL_BOARD_RERUN_READY_NOT_EXECUTED",
+      "readiness_status": "EXTERNAL_SUMMARY_ACCEPTED_ARTIFACT_BACKED",
+      "record_status": "EXTERNAL_SUMMARY_ACCEPTED_ARTIFACT_BACKED",
       "required_evidence_artifact_kinds": [
         "board_capture_manifest",
         "debug_elf_manifest",
@@ -135,6 +146,8 @@
         "kernel-space addresses and full memory dumps remain absent",
         "openat/write/execve hardware string coverage is reported with per-sample counts and negative cases"
       ],
+      "accepted_summary_must_remain_hash_valid": true,
+      "accepted_summary_supersedes_plan_readiness": true,
       "completion_evidence_valid": true,
       "completion_requires_external_state": false,
       "execution_steps": [
@@ -178,6 +191,7 @@
           "phase": "intake_acceptance"
         }
       ],
+      "execution_steps_required_to_close_record": false,
       "exit_criteria": [
         "external_summary_exists=true in external_closure_intake.json",
         "completion_status=EXTERNAL_SUMMARY_ACCEPTED for this record",
@@ -195,14 +209,17 @@
         "Raw byte redaction policy for any releasable summaries"
       ],
       "operator_notes": [
+        "If record_status is EXTERNAL_SUMMARY_ACCEPTED_ARTIFACT_BACKED, preserve the accepted summary and its sha256-backed evidence artifacts instead of treating the plan readiness text as current execution state.",
         "Do not copy template-only JSON into the intake directory as evidence.",
         "Do not replace board, RTL, or host receiver artifacts with local sidecars or companion-derived fields.",
         "Every evidence_artifacts row must point to a real nonempty record-specific file under results/evaluation/genesys2-cva6/current/external_closure/full_hardware_pointer_strings/ with matching sha256 and no template placeholders.",
         "Run the intake checker after writing any candidate external summary."
       ],
       "order": 2,
+      "plan_readiness_status": "RTL_EXTENSION_REQUIRED_NOT_EXECUTED",
       "plan_status": "EXTERNAL_SUMMARY_ACCEPTED",
-      "readiness_status": "RTL_EXTENSION_REQUIRED_NOT_EXECUTED",
+      "readiness_status": "EXTERNAL_SUMMARY_ACCEPTED_ARTIFACT_BACKED",
+      "record_status": "EXTERNAL_SUMMARY_ACCEPTED_ARTIFACT_BACKED",
       "required_evidence_artifact_kinds": [
         "companion_substitution_audit",
         "kernel_space_filter_report",
@@ -226,11 +243,13 @@
     {
       "acceptance_criteria": [
         "transport is not reported as BRAM ring plus ILA/JTAG when claiming production streaming/DMA throughput",
-        "sustained throughput exceeds the measured p95 event byte production rate recorded in streaming_dma_target_summary.json for the selected workload set",
+        "sustained throughput exceeds 1.5 * the measured p99 event byte production rate recorded in streaming_dma_target_summary.json for the selected workload set",
         "unaccounted DROP is 0 for accepted throughput runs and every failed attempt is retained with impact analysis",
         "trace_on versus trace_off behavior remains equivalent for the workload pass/fail result",
         "timing closure and resource deltas are reported for the exact bitstream used in the throughput run"
       ],
+      "accepted_summary_must_remain_hash_valid": false,
+      "accepted_summary_supersedes_plan_readiness": false,
       "completion_evidence_valid": false,
       "completion_requires_external_state": true,
       "execution_steps": [
@@ -248,7 +267,7 @@
         {
           "commands": [
             "external: build and program the selected non-BRAM streaming trace bitstream",
-            "external: run host receiver during the selected workload set and retain byte/event/elapsed/parser logs; compare sustained bytes/sec against streaming_dma_target_summary.json converted with the exact streaming bitstream clock report",
+            "external: run host receiver during the selected workload set and retain byte/event/elapsed/parser logs; compare sustained bytes/sec against 1.5 * p99_event_bytes_per_cycle from streaming_dma_target_summary.json converted with the exact streaming bitstream clock report",
             "uv run python tools/run_genesys2_runtime_benchmark.py --run-root <streaming-runtime-run-root> --mode trace_off --mode event_only --mode bram_ring"
           ],
           "phase": "external_collection",
@@ -275,6 +294,7 @@
           "phase": "intake_acceptance"
         }
       ],
+      "execution_steps_required_to_close_record": true,
       "exit_criteria": [
         "external_summary_exists=true in external_closure_intake.json",
         "completion_status=EXTERNAL_SUMMARY_ACCEPTED for this record",
@@ -292,18 +312,24 @@
         "Trace-off versus trace-on workload result comparison"
       ],
       "operator_notes": [
+        "If record_status is EXTERNAL_SUMMARY_ACCEPTED_ARTIFACT_BACKED, preserve the accepted summary and its sha256-backed evidence artifacts instead of treating the plan readiness text as current execution state.",
         "Do not copy template-only JSON into the intake directory as evidence.",
         "Do not replace board, RTL, or host receiver artifacts with local sidecars or companion-derived fields.",
         "Every evidence_artifacts row must point to a real nonempty record-specific file under results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/ with matching sha256 and no template placeholders.",
         "Run the intake checker after writing any candidate external summary."
       ],
       "order": 3,
+      "plan_readiness_status": "STREAMING_DMA_EXPERIMENT_REQUIRED_NOT_EXECUTED",
       "plan_status": "NEEDS_EXTERNAL_SUMMARY_CORRECTION",
-      "readiness_status": "STREAMING_DMA_EXPERIMENT_REQUIRED_NOT_EXECUTED",
+      "readiness_status": "EXTERNAL_SUMMARY_PRESENT_INVALID_REQUIRES_RERUN_OR_REPAIR",
+      "record_status": "EXTERNAL_SUMMARY_PRESENT_INVALID_REQUIRES_RERUN_OR_REPAIR",
       "required_evidence_artifact_kinds": [
+        "drop_accounting_report",
         "host_receiver_log",
         "noninterference_report",
+        "parser_output_log",
         "resource_report",
+        "streaming_bitstream_clock_report",
         "timing_report",
         "transport_design_manifest"
       ],
@@ -324,6 +350,8 @@
         "allowed rule overlaps are explicitly listed and do not count as unexpected false positives",
         "board benign evidence is kept distinct from local Linux strace control evidence"
       ],
+      "accepted_summary_must_remain_hash_valid": true,
+      "accepted_summary_supersedes_plan_readiness": true,
       "completion_evidence_valid": true,
       "completion_requires_external_state": false,
       "execution_steps": [
@@ -367,6 +395,7 @@
           "phase": "intake_acceptance"
         }
       ],
+      "execution_steps_required_to_close_record": false,
       "exit_criteria": [
         "external_summary_exists=true in external_closure_intake.json",
         "completion_status=EXTERNAL_SUMMARY_ACCEPTED for this record",
@@ -384,14 +413,17 @@
         "Documented allowed benign overlaps separated from unexpected false positives"
       ],
       "operator_notes": [
+        "If record_status is EXTERNAL_SUMMARY_ACCEPTED_ARTIFACT_BACKED, preserve the accepted summary and its sha256-backed evidence artifacts instead of treating the plan readiness text as current execution state.",
         "Do not copy template-only JSON into the intake directory as evidence.",
         "Do not replace board, RTL, or host receiver artifacts with local sidecars or companion-derived fields.",
         "Every evidence_artifacts row must point to a real nonempty record-specific file under results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/ with matching sha256 and no template placeholders.",
         "Run the intake checker after writing any candidate external summary."
       ],
       "order": 4,
+      "plan_readiness_status": "BOARD_BENIGN_CONTROL_RUN_REQUIRED_NOT_EXECUTED",
       "plan_status": "EXTERNAL_SUMMARY_ACCEPTED",
-      "readiness_status": "BOARD_BENIGN_CONTROL_RUN_REQUIRED_NOT_EXECUTED",
+      "readiness_status": "EXTERNAL_SUMMARY_ACCEPTED_ARTIFACT_BACKED",
+      "record_status": "EXTERNAL_SUMMARY_ACCEPTED_ARTIFACT_BACKED",
       "required_evidence_artifact_kinds": [
         "behavior_audit_manifest",
         "behavior_graph_manifest",
@@ -410,7 +442,7 @@
     }
   ],
   "schema": "rvmt.genesys2.external_operator_packet.v1",
-  "scope": "operator handoff for remaining non-real-malware Genesys2/CVA6 external closure items",
+  "scope": "status and operator handoff for non-real-malware Genesys2/CVA6 external closure items",
   "source_artifacts": {
     "external_closure_intake": {
       "closure_status": "OPEN_EXTERNAL_ARTIFACTS_REQUIRED",
@@ -418,8 +450,8 @@
       "expected_schema": "rvmt.genesys2.external_closure_intake.v1",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_intake.json",
       "schema": "rvmt.genesys2.external_closure_intake.v1",
-      "sha256": "b1658baf075311a17d591ffce8bd47a3102b7b1ca19db7f90ba3a5d533e4784b",
-      "status": "FAIL"
+      "sha256": "b5142b834d24be56ec97517c8b208255f1bfef1677c9aac48a282dff9772027a",
+      "status": "BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED"
     },
     "external_closure_plan": {
       "closure_status": "NOT_APPLICABLE",
@@ -427,7 +459,7 @@
       "expected_schema": "rvmt.genesys2.external_closure_plan.v1",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_plan.json",
       "schema": "rvmt.genesys2.external_closure_plan.v1",
-      "sha256": "afc62e04df773b0f9f5e69bd35a410d89cc74443b45621610d929ce930a2a341",
+      "sha256": "d0768119e020be185ecbebf776f0da70ab8904fa361c38397d080390b8c96f28",
       "status": "PASS"
     },
     "external_closure_preflight": {
@@ -436,7 +468,7 @@
       "expected_schema": "rvmt.genesys2.external_closure_preflight.v1",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_preflight.json",
       "schema": "rvmt.genesys2.external_closure_preflight.v1",
-      "sha256": "69a3a25fef3e3c9c07d5d5c03307156754cdf6112813d4503f759206ee981756",
+      "sha256": "495f9f332b0f6dbe061c8e694b5749b7ee663cba5abf2936c9f3d651431e942c",
       "status": "PASS"
     },
     "external_closure_readiness": {
@@ -445,7 +477,7 @@
       "expected_schema": "rvmt.genesys2.external_closure_readiness.v1",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_readiness.json",
       "schema": "rvmt.genesys2.external_closure_readiness.v1",
-      "sha256": "d62cfd241d9cad20e2b1d5d2f0de095e1db5b6933eeaf884a35d83b6c9217ff0",
+      "sha256": "eecf2992c3fed3658943ef444a9c07d8bebd2371e0756d200109d5b3f2932e38",
       "status": "PASS"
     }
   },

@@ -1,0 +1,100 @@
+{
+  "samples": [
+    {
+      "id": "hello_write",
+      "joined_trace_code_map": "results/board/genesys2_trace_validation/20260613-board-native-dwarf-source-lines/hello_write/joined_trace_code_map_manifest.json",
+      "marker_window_passed": true,
+      "source_line_rate": 1.0,
+      "unaccounted_drop": 0,
+      "unknown_key_events": 0
+    },
+    {
+      "id": "file_open_read_write",
+      "joined_trace_code_map": "results/board/genesys2_trace_validation/20260613-board-native-dwarf-source-lines/file_open_read_write/joined_trace_code_map_manifest.json",
+      "marker_window_passed": true,
+      "source_line_rate": 1.0,
+      "unaccounted_drop": 0,
+      "unknown_key_events": 0
+    },
+    {
+      "id": "fork_exec",
+      "joined_trace_code_map": "results/board/genesys2_trace_validation/20260613-board-native-dwarf-source-lines/fork_exec/joined_trace_code_map_manifest.json",
+      "marker_window_passed": true,
+      "source_line_rate": 1.0,
+      "unaccounted_drop": 0,
+      "unknown_key_events": 0
+    },
+    {
+      "id": "illegal_instruction",
+      "joined_trace_code_map": "results/board/genesys2_trace_validation/20260613-board-native-dwarf-source-lines/illegal_instruction/joined_trace_code_map_manifest.json",
+      "marker_window_passed": true,
+      "source_line_rate": 1.0,
+      "unaccounted_drop": 0,
+      "unknown_key_events": 0
+    },
+    {
+      "id": "file_scan",
+      "joined_trace_code_map": "results/board/genesys2_trace_validation/20260613-board-native-dwarf-source-lines/file_scan/joined_trace_code_map_manifest.json",
+      "marker_window_passed": true,
+      "source_line_rate": 1.0,
+      "unaccounted_drop": 0,
+      "unknown_key_events": 0
+    },
+    {
+      "id": "batch_open_read_write",
+      "joined_trace_code_map": "results/board/genesys2_trace_validation/20260613-board-native-dwarf-source-lines/batch_open_read_write/joined_trace_code_map_manifest.json",
+      "marker_window_passed": true,
+      "source_line_rate": 1.0,
+      "unaccounted_drop": 0,
+      "unknown_key_events": 0
+    },
+    {
+      "id": "self_copy_sim",
+      "joined_trace_code_map": "results/board/genesys2_trace_validation/20260613-board-native-dwarf-source-lines/self_copy_sim/joined_trace_code_map_manifest.json",
+      "marker_window_passed": true,
+      "source_line_rate": 1.0,
+      "unaccounted_drop": 0,
+      "unknown_key_events": 0
+    },
+    {
+      "id": "abnormal_syscall_sequence",
+      "joined_trace_code_map": "results/board/genesys2_trace_validation/20260613-board-native-dwarf-source-lines/abnormal_syscall_sequence/joined_trace_code_map_manifest.json",
+      "marker_window_passed": true,
+      "source_line_rate": 1.0,
+      "unaccounted_drop": 0,
+      "unknown_key_events": 0
+    },
+    {
+      "id": "illegal_trap",
+      "joined_trace_code_map": "results/board/genesys2_trace_validation/20260613-board-native-dwarf-source-lines/illegal_trap/joined_trace_code_map_manifest.json",
+      "marker_window_passed": true,
+      "source_line_rate": 1.0,
+      "unaccounted_drop": 0,
+      "unknown_key_events": 0
+    },
+    {
+      "id": "process_chain",
+      "joined_trace_code_map": "results/board/genesys2_trace_validation/20260613-board-native-dwarf-source-lines/process_chain/joined_trace_code_map_manifest.json",
+      "marker_window_passed": true,
+      "source_line_rate": 1.0,
+      "unaccounted_drop": 0,
+      "unknown_key_events": 0
+    },
+    {
+      "id": "dynamic_executable_memory",
+      "joined_trace_code_map": "results/board/genesys2_trace_validation/20260613-board-native-dwarf-source-lines/dynamic_executable_memory/joined_trace_code_map_manifest.json",
+      "marker_window_passed": true,
+      "source_line_rate": 1.0,
+      "unaccounted_drop": 0,
+      "unknown_key_events": 0
+    },
+    {
+      "id": "anti_debug_like",
+      "joined_trace_code_map": "results/board/genesys2_trace_validation/20260613-board-native-dwarf-source-lines/anti_debug_like/joined_trace_code_map_manifest.json",
+      "marker_window_passed": true,
+      "source_line_rate": 1.0,
+      "unaccounted_drop": 0,
+      "unknown_key_events": 0
+    }
+  ]
+}

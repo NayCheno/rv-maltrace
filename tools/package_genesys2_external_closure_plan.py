@@ -209,8 +209,11 @@ def streaming_template() -> dict[str, Any]:
         {
             "evidence_artifacts": template_evidence_artifacts("production_streaming_dma_trace_sink"),
             "transport": "<axi_dma|ethernet_streaming|pcie_dma|uart_streaming_dma>",
-            "sustained_bytes_per_second": "> p95_event_bytes_per_second",
+            "sustained_bytes_per_second": "> required_sustained_bytes_per_second",
             "p95_event_bytes_per_second": "> 0",
+            "p99_event_bytes_per_second": "> 0",
+            "minimum_sustained_throughput_multiplier": 1.5,
+            "required_sustained_bytes_per_second": "1.5 * p99_event_bytes_per_second",
             "unaccounted_drop": 0,
             "timing_passed": True,
             "noninterference_passed": True,
@@ -267,6 +270,7 @@ def record_plan(record_id: str, readiness: dict[str, Any], intake: dict[str, Any
         "plan_status": plan_status(str(intake.get("completion_status") or "")),
         "current_blocker": intake.get("current_blocker"),
         "external_summary_path": intake.get("external_summary_path"),
+        "template_path": external_template_path(record_id),
         "required_summary_schema": spec["schema"],
         "acceptance_gate": "uv run python tools/check_genesys2_external_closure_intake.py --root .",
         "required_raw_artifacts": readiness_artifacts,
@@ -363,7 +367,7 @@ def record_plan(record_id: str, readiness: dict[str, Any], intake: dict[str, Any
                 ],
                 "collection_commands": [
                     "external: build and program the selected non-BRAM streaming trace bitstream",
-                    "external: run host receiver during the selected workload set and retain byte/event/elapsed/parser logs; compare sustained bytes/sec against streaming_dma_target_summary.json converted with the exact streaming bitstream clock report",
+                    "external: run host receiver during the selected workload set and retain byte/event/elapsed/parser logs; compare sustained bytes/sec against 1.5 * p99_event_bytes_per_cycle from streaming_dma_target_summary.json converted with the exact streaming bitstream clock report",
                     "uv run python tools/run_genesys2_runtime_benchmark.py --run-root <streaming-runtime-run-root> --mode trace_off --mode event_only --mode bram_ring",
                 ],
                 "packaging_commands": [
@@ -473,6 +477,16 @@ def package_plan(root: Path, current_root: Path) -> dict[str, Any]:
     }
 
 
+def write_template_files(root: Path, package: dict[str, Any]) -> None:
+    for record in package.get("records", []):
+        if not isinstance(record, dict):
+            continue
+        template_path = record.get("template_path")
+        template = record.get("summary_template")
+        if isinstance(template_path, str) and isinstance(template, dict):
+            write_json(repo_path(root, Path(template_path)), template)
+
+
 def self_test() -> int:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
@@ -540,6 +554,7 @@ def main(argv: list[str] | None = None) -> int:
     try:
         package = package_plan(root, args.current_root)
         write_json(out, package)
+        write_template_files(root, package)
     except Exception as exc:
         print(f"package_genesys2_external_closure_plan: error: {exc}", file=sys.stderr)
         return 2

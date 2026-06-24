@@ -1,0 +1,204 @@
+{
+  "accepted_capture": {
+    "bram_records": {
+      "path": "results/board/genesys2_trace_validation/20260624-strict-sret-current-bitstream/hello_write/rep_02/bram_records.jsonl",
+      "sha256": "b79b90f9efa5f65d95e16f0f55164354343efb6df26badbfe21bb19b62e8d479",
+      "size_bytes": 85247
+    },
+    "bram_summary": {
+      "captured_count": 116,
+      "dropped_count": 0,
+      "event_count": 116,
+      "event_counts": {
+        "ARG_MEM": 20,
+        "MARKER": 2,
+        "PRIV": 60,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1,
+        "TRAP": 32
+      },
+      "sequence_first": 0,
+      "sequence_last": 115,
+      "trigger_marker_seen": true,
+      "wrap_count": 0
+    },
+    "capture_csv": {
+      "path": "results/board/genesys2_trace_validation/20260624-strict-sret-current-bitstream/hello_write/rep_02/capture.csv",
+      "sha256": "dfdd27733de1c1ef671b7d4e376fdcf661f49365289b8464f2703e2983bca481",
+      "size_bytes": 2095924
+    },
+    "capture_err_log": {
+      "path": "results/board/genesys2_trace_validation/20260624-strict-sret-current-bitstream/hello_write/rep_02/capture.err.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "capture_log": {
+      "path": "results/board/genesys2_trace_validation/20260624-strict-sret-current-bitstream/hello_write/rep_02/capture.log",
+      "sha256": "87889cb288b940510d21e2a6536e3eeb04229f2b9cd77c8aea96b1d77b8b298b",
+      "size_bytes": 9179
+    },
+    "marker_window": {
+      "begin_count": 1,
+      "begin_marker": "0xb0000a01",
+      "begin_sequence": 0,
+      "end_count": 1,
+      "end_marker": "0xe0000a01",
+      "end_sequence": 115,
+      "markers_seen": [
+        {
+          "cycle": 965110001,
+          "pc": "0x00010128",
+          "primary": "0xb0000a01",
+          "sequence_number": 0
+        },
+        {
+          "cycle": 965341851,
+          "pc": "0x0001015c",
+          "primary": "0xe0000a01",
+          "sequence_number": 115
+        }
+      ],
+      "post_end_tail_event_count": 0
+    },
+    "sequence_gaps": [],
+    "status": "PASS",
+    "strict_syscall_id_pairs": [
+      {
+        "entry_index": 4,
+        "entry_sequence": 4,
+        "number": 64,
+        "return_index": 66,
+        "return_sequence": 66,
+        "syscall_id": "0x00009efc"
+      }
+    ],
+    "summary": {
+      "path": "results/board/genesys2_trace_validation/20260624-strict-sret-current-bitstream/hello_write/rep_02/bram_summary.json",
+      "sha256": "d483e5d4eae893c167e5d732840e891b1f64be23d88c54eb595f406a59aa2495",
+      "size_bytes": 1035
+    },
+    "uart_log": {
+      "path": "results/board/genesys2_trace_validation/20260624-strict-sret-current-bitstream/hello_write/rep_02/uart.log",
+      "sha256": "85c44224e04f0074f6327f3c917dd36713492903bc20184741a6cbe0c140f64d",
+      "size_bytes": 608
+    }
+  },
+  "allowed_claims": [
+    "A current trace-marker Genesys2/CVA6 bitstream produced one hardware BRAM marker-window trace for hello_write with strict syscall entry/return pairing, trap and privilege-transition evidence, sequence continuity, wrap=0, and drop=0."
+  ],
+  "bitstream": {
+    "bitstream": {
+      "path": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.bit",
+      "sha256": "3b30e5ceda81f44a8c9e9b062557035adf66b6746b91559389437cf47cffd7fd",
+      "size_bytes": 11443738
+    },
+    "ltx": {
+      "path": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.ltx",
+      "sha256": "16360c1f20031509b61dafb4847ba638b85d1a758a1c10b96d2faacdb4ce7ee3",
+      "size_bytes": 180130
+    },
+    "manifest": {
+      "path": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/rvmt_trace_marker_build_manifest.json",
+      "sha256": "22a6ec09c87a1fd912cd3b61bf67d5ecaa8ab3807a2dcc9a02477474b8ea599c",
+      "size_bytes": 2886
+    },
+    "source_hash_status": "PASS",
+    "status": "PASS",
+    "trace_marker_scope": true,
+    "verilog_defines": [
+      "RV_MALTRACE_FPGA_TRACE",
+      "RV_MALTRACE_FPGA_TRACE_MARKER_SCOPE"
+    ]
+  },
+  "board": "Digilent Genesys2",
+  "claim_boundary": {
+    "cycle_level_overhead_claimed": false,
+    "full_p0_repetition_cohort_claimed": false,
+    "genesys2_booted_written_sdcard_image": false,
+    "production_streaming_claimed": false,
+    "real_malware_claimed": false,
+    "strict_sret_board_smoke_claimed": true
+  },
+  "commands": [
+    "uv run python tools/serial_base64_transfer.py --port COM7 --baud 115200 --source build/board/genesys2_cva6_p0_marker/hello_write/hello_write.riscv64 --target /tmp/rvmt_p0/hello_write",
+    "uv run python tools/run_genesys2_ila_command_capture.py --root . --evt-hex c --primary e0000a01 --event-only-capture --program-command-b64 <base64-board-command>",
+    "uv run python tools/package_genesys2_strict_sret_board_smoke.py --root .",
+    "uv run python tools/check_genesys2_strict_sret_board_smoke.py --root ."
+  ],
+  "cpu": "CVA6 rv64gc sv39",
+  "failed_attempts": [
+    {
+      "capture_log": "results/board/genesys2_trace_validation/20260624-strict-sret-current-bitstream/hello_write/rep_01/capture.log",
+      "claim_boundary": "not counted as board trace evidence; retained only as a failed attempt transcript",
+      "rep": "rep_01",
+      "status": "FAIL_HOST_COMMAND_QUOTING_ERROR",
+      "uart_log": "results/board/genesys2_trace_validation/20260624-strict-sret-current-bitstream/hello_write/rep_01/uart.log"
+    }
+  ],
+  "generated_utc": "2026-06-24T03:23:15.738818+00:00",
+  "non_claims": [
+    "This is one strict-SRET smoke sample and does not replace the full 40/40 P0 repetition cohort.",
+    "This does not claim boot from the newly generated SD-card image.",
+    "This does not claim cycle-source availability, runtime overhead, production streaming/DMA throughput, or real-malware validation."
+  ],
+  "programming_evidence": {
+    "device": "xc7k325t_0",
+    "ila_core_count": 1,
+    "status": "PASS_TRACE_MARKER_PROGRAMMED",
+    "summary": {
+      "path": "results/evaluation/genesys2-cva6/current/trace_marker_programming_summary.json",
+      "sha256": "fe1a50281b944486b4c39b9e03cd870e92cd81915061b35a0151ea6273511d03",
+      "size_bytes": 3725
+    },
+    "target": "localhost:3121/xilinx_tcf/Digilent/200300B81858B"
+  },
+  "run_root": "results/board/genesys2_trace_validation/20260624-strict-sret-current-bitstream",
+  "sample": {
+    "board_sha256_verified": true,
+    "rep": "rep_02",
+    "runtime_binary": {
+      "path": "build/board/genesys2_cva6_p0_marker/hello_write/hello_write.riscv64",
+      "sha256": "bbce854f41d23cdb32543b757041d301c459ca5613d7fcc3d7bb0801de7b1a5e",
+      "size_bytes": 12944
+    },
+    "sample_id": "hello_write",
+    "sample_manifest": {
+      "path": "build/board/genesys2_cva6_p0_marker/hello_write/build_manifest.json",
+      "sha256": "58bb434887f63ecd4f4ac9ddb9853feec4a2e81d86dac5c0a67adff83a0b4897",
+      "size_bytes": 1140
+    },
+    "setup_log": {
+      "path": "results/board/genesys2_trace_validation/20260624-strict-sret-current-bitstream/uart_login_probe_3.log",
+      "sha256": "760d0764083fe4b99cd7b51a65acea60ac34b04c110557c0bbdaee44f62c8fc3",
+      "size_bytes": 860
+    },
+    "transfer_log": {
+      "path": "results/board/genesys2_trace_validation/20260624-strict-sret-current-bitstream/hello_write_transfer.log",
+      "sha256": "e589d42dbca2df5c0425f68f993db76a320dd62583e5a26099f0502dc61c5696",
+      "size_bytes": 1899
+    }
+  },
+  "schema": "rvmt.genesys2.strict_sret_board_smoke.v1",
+  "scope": "single-sample strict-SRET Genesys2 smoke rerun on the current trace-marker bitstream; this does not replace the full P0 repetition cohort",
+  "status": "PASS",
+  "validation": {
+    "begin_marker_count": 1,
+    "bram_summary_pass": true,
+    "captured_count": 116,
+    "dropped_count": 0,
+    "end_marker_count": 1,
+    "event_count": 116,
+    "ila_capture_done": true,
+    "ila_device_seen": true,
+    "ila_target_seen": true,
+    "priv_transition_count": 60,
+    "programming_summary_pass": true,
+    "runtime_binary_sha256_seen_on_board": true,
+    "sequence_gap_count": 0,
+    "strict_pairable_syscall_entries": 1,
+    "trace_marker_scope": true,
+    "trap_event_count": 32,
+    "uart_rc_zero": true,
+    "wrap_count": 0
+  }
+}

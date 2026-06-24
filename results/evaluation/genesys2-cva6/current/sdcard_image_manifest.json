@@ -1,0 +1,62 @@
+{
+  "bootrom_contract": {
+    "first_partition_must_be_boot_payload_only": true,
+    "loader": "rtl/cva6/corev_apu/fpga/src/bootrom/src/gpt.c",
+    "loads_first_gpt_entry_to": "0x80000000",
+    "rootfs_partition_optional_and_not_loaded_by_bootrom": true
+  },
+  "claim_boundary": {
+    "board_cycle_source_claimed": false,
+    "buildroot_or_opensbi_compiled": false,
+    "genesys2_board_booted_from_this_image": false,
+    "genesys2_sd_card_written": false,
+    "live_kernel_config_export_claimed": false,
+    "local_sdcard_image_created": true
+  },
+  "image": {
+    "path": "build/linux/genesys2-cva6/sdcard.img",
+    "sector_size": 512,
+    "sha256": "be3bf82f7c0fea386e3d1748e8c5bf72c5849ffc1344b9820f60772d39c87c79",
+    "size_bytes": 558907904,
+    "total_lbas": 1091617
+  },
+  "non_claims": [
+    "This manifest records a local image file only; it is not a physical SD-card write.",
+    "A board boot claim requires a separate COM7/JTAG capture from the written image.",
+    "Cycle-source and live-kernel-config claims require the dedicated board checkers."
+  ],
+  "partitions": [
+    {
+      "bootrom_load_address": "0x80000000",
+      "bootrom_reads_entire_partition": true,
+      "first_lba": 2048,
+      "id": "boot_payload",
+      "last_lba": 41264,
+      "partition_bytes": 20079104,
+      "source_path": "build/linux/genesys2-cva6/images/fw_payload.bin",
+      "source_sha256": "93c96238bce483d6f8ac624d7521f74bb1728216a31deb66e9c5703973f9b08f",
+      "source_size_bytes": 20078600
+    },
+    {
+      "bootrom_load_address": null,
+      "bootrom_reads_entire_partition": false,
+      "first_lba": 43008,
+      "id": "rootfs_optional",
+      "last_lba": 1091583,
+      "partition_bytes": 536870912,
+      "source_path": "build/linux/genesys2-cva6/images/rootfs.ext2",
+      "source_sha256": "9ebe04aa2077a212949db35553a2fc571cd3b3935de5cdafac404771fa94d796",
+      "source_size_bytes": 536870912
+    }
+  ],
+  "schema": "rvmt.genesys2.boot_sdcard_image.v1",
+  "status": "PASS_LOCAL_SDCARD_IMAGE_CREATED",
+  "validation_commands": [
+    "uv run python tools/create_genesys2_boot_sdcard_image.py --self-test",
+    "uv run python tools/create_genesys2_boot_sdcard_image.py --payload <fw_payload.bin>",
+    "uv run python tools/check_genesys2_boot_sdcard_image.py --root .",
+    "uv run rvmt ndss:sdcard-linux-manifest --port COM7 --baud 115200",
+    "uv run rvmt ndss:live-kernel-config-export --port COM7 --baud 115200",
+    "uv run rvmt ndss:linux-counter-preflight"
+  ]
+}

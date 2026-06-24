@@ -222,7 +222,7 @@ def streaming_dma_record(root: Path, current_root: Path) -> dict[str, Any]:
         ],
         "acceptance_criteria": [
             "transport is not reported as BRAM ring plus ILA/JTAG when claiming production streaming/DMA throughput",
-            "sustained throughput exceeds the measured p95 event byte production rate recorded in streaming_dma_target_summary.json for the selected workload set",
+            "sustained throughput exceeds 1.5 * the measured p99 event byte production rate recorded in streaming_dma_target_summary.json for the selected workload set",
             "unaccounted DROP is 0 for accepted throughput runs and every failed attempt is retained with impact analysis",
             "trace_on versus trace_off behavior remains equivalent for the workload pass/fail result",
             "timing closure and resource deltas are reported for the exact bitstream used in the throughput run",
@@ -235,6 +235,9 @@ def streaming_dma_record(root: Path, current_root: Path) -> dict[str, Any]:
                 "transport",
                 "sustained_bytes_per_second",
                 "p95_event_bytes_per_second",
+                "p99_event_bytes_per_second",
+                "required_sustained_bytes_per_second",
+                "minimum_sustained_throughput_multiplier",
                 "unaccounted_drop",
                 "timing_passed",
                 "noninterference_passed",
@@ -328,7 +331,7 @@ def package_readiness(root: Path, current_root: Path) -> dict[str, Any]:
         ],
         "interpretation": [
             "This artifact fixes the closure contract for remaining non-real-malware blockers.",
-            "It does not upgrade current evidence to board-native DWARF source lines, full hardware pointer strings, production streaming/DMA throughput, or board benign-control evidence.",
+            "This readiness contract itself does not upgrade current evidence to board-native DWARF source-line, full hardware pointer-string, production streaming/DMA, or board benign-control evidence; only accepted external summaries can close those items.",
             "Each remaining blocker still requires new board, RTL, or external reviewer execution before it can move from readiness to completed evidence.",
         ],
         "failures": failures,

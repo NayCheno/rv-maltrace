@@ -70,12 +70,18 @@ def check_summary(data: dict[str, Any], root: Path, current_root: Path) -> list[
         require(errors, data.get(key) == expected.get(key), f"{key} does not match source summaries")
 
     aggregate = as_dict(data.get("aggregate"))
+    failures = as_list(data.get("retained_failed_attempts"))
+    failure_count = len(failures)
     require(errors, aggregate.get("board_sample_count") == 12, "expected 12 board samples")
     require(errors, aggregate.get("p0_sample_count") == 4, "expected 4 P0 samples")
     require(errors, aggregate.get("safe_surrogate_sample_count") == 8, "expected 8 safe-surrogate samples")
-    require(errors, aggregate.get("accepted_board_repetitions") == 120, "expected 120 accepted board repetitions")
-    require(errors, aggregate.get("board_attempt_count") == 121, "expected 121 board attempts including retained failure")
-    require(errors, aggregate.get("retained_failed_attempt_count") == 1, "expected one retained failed board attempt")
+    require(errors, int(aggregate.get("accepted_board_repetitions") or 0) >= 120, "expected at least 120 accepted board repetitions")
+    require(
+        errors,
+        aggregate.get("board_attempt_count") == aggregate.get("accepted_board_repetitions", 0) + failure_count,
+        "board attempt count must equal accepted repetitions plus retained failures",
+    )
+    require(errors, aggregate.get("retained_failed_attempt_count") == failure_count, "retained failed attempt count mismatch")
     require(errors, aggregate.get("min_accepted_repetitions_per_board_sample") == 10, "expected at least 10 accepted repetitions per board sample")
     require(errors, aggregate.get("max_accepted_unaccounted_drop") == 0, "accepted repetitions must have zero unaccounted DROP")
     require(errors, aggregate.get("max_accepted_wrap_count") == 0, "accepted repetitions must have zero BRAM wrap")
@@ -91,13 +97,15 @@ def check_summary(data: dict[str, Any], root: Path, current_root: Path) -> list[
     if "p0_bram_repetitions" in cohorts:
         p0 = cohorts["p0_bram_repetitions"]
         require(errors, p0.get("sample_count") == 4, "P0 cohort sample count mismatch")
-        require(errors, p0.get("accepted_repetitions") == 40, "P0 cohort accepted repetition count mismatch")
-        require(errors, p0.get("failed_attempt_count") == 1, "P0 cohort failed attempt count mismatch")
+        require(errors, int(p0.get("accepted_repetitions") or 0) >= 40, "P0 cohort accepted repetition count below 40")
+        p0_failures = [row for row in failures if isinstance(row, dict) and row.get("cohort_id") == "p0_bram_repetitions"]
+        require(errors, p0.get("failed_attempt_count") == len(p0_failures), "P0 cohort failed attempt count mismatch")
     if "safe_surrogate_bram_repetitions" in cohorts:
         safe = cohorts["safe_surrogate_bram_repetitions"]
         require(errors, safe.get("sample_count") == 8, "safe-surrogate cohort sample count mismatch")
-        require(errors, safe.get("accepted_repetitions") == 80, "safe-surrogate accepted repetition count mismatch")
-        require(errors, safe.get("failed_attempt_count") == 0, "safe-surrogate failed attempt count mismatch")
+        require(errors, int(safe.get("accepted_repetitions") or 0) >= 80, "safe-surrogate accepted repetition count below 80")
+        safe_failures = [row for row in failures if isinstance(row, dict) and row.get("cohort_id") == "safe_surrogate_bram_repetitions"]
+        require(errors, safe.get("failed_attempt_count") == len(safe_failures), "safe-surrogate failed attempt count mismatch")
 
     sample_rows = as_list(data.get("sample_repetition_rows"))
     require(errors, len(sample_rows) == 12, "expected one repetition row per board sample")
@@ -105,7 +113,7 @@ def check_summary(data: dict[str, Any], root: Path, current_root: Path) -> list[
         if not isinstance(row, dict):
             errors.append("sample repetition rows must be objects")
             continue
-        require(errors, row.get("accepted_repetitions") == 10, f"{row.get('sample_id')}: expected 10 accepted repetitions")
+        require(errors, int(row.get("accepted_repetitions") or 0) >= 10, f"{row.get('sample_id')}: expected at least 10 accepted repetitions")
         require(errors, row.get("max_accepted_unaccounted_drop") == 0, f"{row.get('sample_id')}: accepted unaccounted DROP must be zero")
         require(errors, row.get("max_accepted_wrap_count") == 0, f"{row.get('sample_id')}: accepted wrap count must be zero")
         require(errors, row.get("sequence_gap_repetition_count") == 0, f"{row.get('sample_id')}: sequence gaps must be zero")
@@ -114,16 +122,34 @@ def check_summary(data: dict[str, Any], root: Path, current_root: Path) -> list[
         if expected_class:
             require(errors, row.get("sample_class") == expected_class, f"{row.get('sample_id')}: sample_class/cohort mismatch")
 
-    failures = as_list(data.get("retained_failed_attempts"))
-    require(errors, len(failures) == 1, "expected exactly one retained failed attempt")
-    if failures:
-        failure = as_dict(failures[0])
-        require(errors, failure.get("sample_id") == "fork_exec", "retained failed attempt must be fork_exec")
-        require(errors, failure.get("repetition") == "rep_03", "retained failed attempt id mismatch")
+    require(errors, failure_count == aggregate.get("retained_failed_attempt_count"), "retained failed attempts list/count mismatch")
+    for index, raw_failure in enumerate(failures, start=1):
+        failure = as_dict(raw_failure)
+        sample_id = str(failure.get("sample_id") or f"failure_{index}")
+        repetition = str(failure.get("repetition") or "")
         reasons = set(as_list(failure.get("reason")))
-        require(errors, {"begin_marker_count_not_one", "bram_ring_full", "bram_wrap_count_nonzero"} <= reasons, "retained failure reasons are incomplete")
+        require(errors, bool(sample_id), f"retained failure {index}: sample_id missing")
+        require(errors, bool(repetition), f"{sample_id}: retained failure repetition missing")
+        require(errors, bool(reasons), f"{sample_id}/{repetition}: retained failure reasons missing")
         for key in ("bram_records", "bram_summary", "capture_log", "uart_log"):
-            require(errors, bool(failure.get(key)), f"retained failure missing artifact path: {key}")
+            require(errors, bool(failure.get(key)), f"{sample_id}/{repetition}: retained failure missing artifact path: {key}")
+        require(
+            errors,
+            bool(
+                reasons
+                & {
+                    "parse_success_false",
+                    "begin_marker_count_not_one",
+                    "end_marker_count_not_one",
+                    "bram_ring_full",
+                    "bram_wrap_count_nonzero",
+                    "bram_dropped_count_nonzero",
+                    "unaccounted_drop_nonzero",
+                    "sequence_gaps_present",
+                }
+            ),
+            f"{sample_id}/{repetition}: retained failure lacks an actionable reason",
+        )
 
     source_rows = row_map(as_list(data.get("source_summaries")))
     require(errors, {"p0_bram_trace", "safe_surrogate_bram_trace", "drop_accounting", "case_study_manifest", "benign_control"} <= set(source_rows), "source summary coverage mismatch")

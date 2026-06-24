@@ -14,10 +14,10 @@
     "Behavior audit metrics are controlled safe-workload metrics, not real-malware detection accuracy."
   ],
   "overhead": {
-    "median": 58003.0,
-    "p95": 265498,
+    "median": 65671.5,
+    "p95": 281199,
     "unit": "trace-window cycle/index delta, not normalized production slowdown",
-    "variance": 11862775956.07639
+    "variance": 67884391954.416664
   },
   "resource_overhead": "results/evaluation/genesys2-cva6/current/resource_timing_summary.json",
   "sample_artifact_root": "results/evaluation/genesys2-cva6/current/samples",

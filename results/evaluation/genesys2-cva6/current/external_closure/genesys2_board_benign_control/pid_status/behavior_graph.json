@@ -1,0 +1,4699 @@
+{
+  "edges": [
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "syscall:1"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "syscall:2"
+    },
+    {
+      "kind": "next_syscall",
+      "source": "syscall:1",
+      "target": "syscall:2"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "syscall:3"
+    },
+    {
+      "kind": "next_syscall",
+      "source": "syscall:2",
+      "target": "syscall:3"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:4"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:5"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:6"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:7"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:8"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:9"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:10"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:11"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:12"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:13"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:14"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:15"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:16"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:17"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:18"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:19"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:20"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:21"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:22"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:23"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:24"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:25"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:26"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:27"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:28"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:29"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:30"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:31"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:32"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:33"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:34"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:35"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:36"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:37"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:38"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:39"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:40"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:41"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:42"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:43"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:44"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:45"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:46"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:47"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:48"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:49"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:50"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:51"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:52"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:53"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:54"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:55"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:56"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:57"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:58"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:59"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:60"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:61"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:62"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:63"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:64"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:65"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:66"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:67"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:68"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:69"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:70"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:71"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:72"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:73"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:74"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:75"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:76"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:77"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:78"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:79"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:80"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "context:81"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:82"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:83"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:84"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:85"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:86"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:87"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:88"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:89"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:90"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:91"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:92"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:93"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:94"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:95"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:96"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:97"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:98"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:99"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:100"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:101"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:102"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:103"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:104"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:105"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:106"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:107"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:108"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:109"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:110"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:111"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:112"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:113"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:114"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:115"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:116"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:117"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:118"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:119"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:120"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:121"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:122"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:123"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:124"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:125"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:126"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:127"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:128"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:129"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:130"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:131"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:132"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:133"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:134"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:135"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:136"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:137"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:138"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:139"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:140"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:141"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:142"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:143"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:144"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:145"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:146"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:147"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:148"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:149"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:150"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:151"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:152"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:153"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:154"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:155"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:156"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:157"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:158"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:159"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:160"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:161"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:162"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:163"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:164"
+    },
+    {
+      "kind": "contains",
+      "source": "trace",
+      "target": "privilege_boundary:165"
+    }
+  ],
+  "network_required": false,
+  "nodes": [
+    {
+      "id": "trace",
+      "kind": "trace",
+      "label": "trace"
+    },
+    {
+      "id": "syscall:1",
+      "kind": "syscall",
+      "label": "getpid",
+      "payload": {
+        "a7": "0x00000000000000ac",
+        "args": {
+          "a0": null,
+          "a1": null,
+          "a2": null,
+          "a3": null,
+          "a4": null,
+          "a5": null,
+          "a6": null,
+          "a7": "0x00000000000000ac"
+        },
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "syscall_site",
+        "code_attribution_basis": "static_elf_vaddr_range",
+        "code_confidence": "pc_in_target_elf",
+        "confidence": "paired_target_ecall_return",
+        "cycle": 4022774329,
+        "drop_after": 0,
+        "drop_before": 0,
+        "duration": null,
+        "elf": "results/board/genesys2_trace_validation/20260613-board-benign-control-direct/pid_status/00_benign_syscall_elf/pid_status.riscv64",
+        "entry_pc": "0x000000000001013c",
+        "evt": "SYSCALL_ENTRY",
+        "index": 4,
+        "load_base_assumption": "fixed_vaddr_exec",
+        "name": "getpid",
+        "nr": 172,
+        "number": 172,
+        "number_source": "target_boundary_nr",
+        "pc": "0x0001013c",
+        "pc_owner": "target_sample",
+        "pc_owner_static": "target_sample",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "return": {
+          "a7": null,
+          "args": {
+            "a0": "0x000000000000051d",
+            "a1": null,
+            "a2": null,
+            "a3": null,
+            "a4": null,
+            "a5": null,
+            "a6": null,
+            "a7": null
+          },
+          "attribution_confidence": "runtime_process_map_missing",
+          "callsite_kind": "unknown",
+          "code_confidence": "pc_not_in_target_elf",
+          "cycle": 4022775835,
+          "duration": null,
+          "evt": "SYSCALL_RET",
+          "index": 6,
+          "pc": "0x803d3226",
+          "pc_owner": "unknown",
+          "pc_owner_static": "unknown",
+          "process_attribution": "not_proven",
+          "process_confidence": "runtime_process_map_missing",
+          "process_owner": "unknown",
+          "return_attribution_confidence": "missing_pc",
+          "return_code_confidence": "missing_pc",
+          "return_pc": null,
+          "return_pc_owner": "unknown",
+          "return_pc_owner_static": "unknown",
+          "return_process_confidence": "missing_pc",
+          "return_process_owner": "unknown",
+          "return_value": "0x000000000000051d"
+        },
+        "return_pc": null,
+        "return_value": "0x000000000000051d",
+        "section": ".text",
+        "seq": 0,
+        "source_evt": "SYSCALL_ENTRY",
+        "symbol": "_start",
+        "symbol_offset": "0x3c",
+        "syscall_id": "0x0000000000026dcf"
+      }
+    },
+    {
+      "id": "syscall:2",
+      "kind": "syscall",
+      "label": "sys_173",
+      "payload": {
+        "a7": "0x00000000000000ad",
+        "args": {
+          "a0": null,
+          "a1": null,
+          "a2": null,
+          "a3": null,
+          "a4": null,
+          "a5": null,
+          "a6": null,
+          "a7": "0x00000000000000ad"
+        },
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "syscall_site",
+        "code_attribution_basis": "static_elf_vaddr_range",
+        "code_confidence": "pc_in_target_elf",
+        "confidence": "paired_target_ecall_return",
+        "cycle": 4022775869,
+        "drop_after": 0,
+        "drop_before": 0,
+        "duration": null,
+        "elf": "results/board/genesys2_trace_validation/20260613-board-benign-control-direct/pid_status/00_benign_syscall_elf/pid_status.riscv64",
+        "entry_pc": "0x0000000000010144",
+        "evt": "SYSCALL_ENTRY",
+        "index": 9,
+        "load_base_assumption": "fixed_vaddr_exec",
+        "name": "sys_173",
+        "nr": 173,
+        "number": 173,
+        "number_source": "target_boundary_nr",
+        "pc": "0x00010144",
+        "pc_owner": "target_sample",
+        "pc_owner_static": "target_sample",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "return": {
+          "a7": null,
+          "args": {
+            "a0": "0x000000000000005f",
+            "a1": null,
+            "a2": null,
+            "a3": null,
+            "a4": null,
+            "a5": null,
+            "a6": null,
+            "a7": null
+          },
+          "attribution_confidence": "runtime_process_map_missing",
+          "callsite_kind": "unknown",
+          "code_confidence": "pc_not_in_target_elf",
+          "cycle": 4022776988,
+          "duration": null,
+          "evt": "SYSCALL_RET",
+          "index": 11,
+          "pc": "0x803d3226",
+          "pc_owner": "unknown",
+          "pc_owner_static": "unknown",
+          "process_attribution": "not_proven",
+          "process_confidence": "runtime_process_map_missing",
+          "process_owner": "unknown",
+          "return_attribution_confidence": "missing_pc",
+          "return_code_confidence": "missing_pc",
+          "return_pc": null,
+          "return_pc_owner": "unknown",
+          "return_pc_owner_static": "unknown",
+          "return_process_confidence": "missing_pc",
+          "return_process_owner": "unknown",
+          "return_value": "0x000000000000005f"
+        },
+        "return_pc": null,
+        "return_value": "0x000000000000005f",
+        "section": ".text",
+        "seq": 1,
+        "source_evt": "SYSCALL_ENTRY",
+        "symbol": "_start",
+        "symbol_offset": "0x44",
+        "syscall_id": "0x0000000000026dd0"
+      }
+    },
+    {
+      "id": "syscall:3",
+      "kind": "syscall",
+      "label": "write",
+      "payload": {
+        "a7": "0x0000000000000040",
+        "args": {
+          "a0": null,
+          "a1": null,
+          "a2": null,
+          "a3": null,
+          "a4": null,
+          "a5": null,
+          "a6": null,
+          "a7": "0x0000000000000040"
+        },
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "syscall_site",
+        "code_attribution_basis": "static_elf_vaddr_range",
+        "code_confidence": "pc_in_target_elf",
+        "confidence": "paired_target_ecall_return",
+        "cycle": 4022777028,
+        "drop_after": 0,
+        "drop_before": 0,
+        "duration": null,
+        "elf": "results/board/genesys2_trace_validation/20260613-board-benign-control-direct/pid_status/00_benign_syscall_elf/pid_status.riscv64",
+        "entry_pc": "0x000000000001015c",
+        "evt": "SYSCALL_ENTRY",
+        "index": 14,
+        "load_base_assumption": "fixed_vaddr_exec",
+        "name": "write",
+        "nr": 64,
+        "number": 64,
+        "number_source": "target_boundary_nr",
+        "pc": "0x0001015c",
+        "pc_owner": "target_sample",
+        "pc_owner_static": "target_sample",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "return": {
+          "a7": null,
+          "args": {
+            "a0": "0x0000000080c92880",
+            "a1": null,
+            "a2": null,
+            "a3": null,
+            "a4": null,
+            "a5": null,
+            "a6": null,
+            "a7": null
+          },
+          "attribution_confidence": "runtime_process_map_missing",
+          "callsite_kind": "unknown",
+          "code_confidence": "pc_not_in_target_elf",
+          "cycle": 4022821592,
+          "duration": null,
+          "evt": "SYSCALL_RET",
+          "index": 55,
+          "pc": "0x803d3226",
+          "pc_owner": "unknown",
+          "pc_owner_static": "unknown",
+          "process_attribution": "not_proven",
+          "process_confidence": "runtime_process_map_missing",
+          "process_owner": "unknown",
+          "return_attribution_confidence": "missing_pc",
+          "return_code_confidence": "missing_pc",
+          "return_pc": null,
+          "return_pc_owner": "unknown",
+          "return_pc_owner_static": "unknown",
+          "return_process_confidence": "missing_pc",
+          "return_process_owner": "unknown",
+          "return_value": "0x0000000080c92880"
+        },
+        "return_pc": null,
+        "return_value": "0x0000000080c92880",
+        "section": ".text",
+        "seq": 2,
+        "source_evt": "SYSCALL_ENTRY",
+        "symbol": "_start",
+        "symbol_offset": "0x5c",
+        "syscall_id": "0x0000000000026dd1"
+      }
+    },
+    {
+      "id": "context:4",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022773450,
+        "evt": "PRIV",
+        "index": 1,
+        "new_priv": 1,
+        "old_priv": 0,
+        "pc": "0x803d3074",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:5",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "normal_code",
+        "code_attribution_basis": "static_elf_vaddr_range",
+        "code_confidence": "pc_in_target_elf",
+        "cycle": 4022774328,
+        "elf": "results/board/genesys2_trace_validation/20260613-board-benign-control-direct/pid_status/00_benign_syscall_elf/pid_status.riscv64",
+        "evt": "PRIV",
+        "index": 2,
+        "load_base_assumption": "fixed_vaddr_exec",
+        "new_priv": 0,
+        "old_priv": 1,
+        "pc": "0x00010138",
+        "pc_owner": "target_sample",
+        "pc_owner_static": "target_sample",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "section": ".text",
+        "symbol": "_start",
+        "symbol_offset": "0x38"
+      }
+    },
+    {
+      "id": "context:6",
+      "kind": "context",
+      "label": "trap",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "syscall_site",
+        "cause": "0x0000000000000008",
+        "code_attribution_basis": "static_elf_vaddr_range",
+        "code_confidence": "pc_in_target_elf",
+        "cycle": 4022774329,
+        "elf": "results/board/genesys2_trace_validation/20260613-board-benign-control-direct/pid_status/00_benign_syscall_elf/pid_status.riscv64",
+        "evt": "TRAP",
+        "index": 3,
+        "load_base_assumption": "fixed_vaddr_exec",
+        "pc": "0x0001013c",
+        "pc_owner": "target_sample",
+        "pc_owner_static": "target_sample",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "section": ".text",
+        "symbol": "_start",
+        "symbol_offset": "0x3c",
+        "tval": "0x0000000000000000"
+      }
+    },
+    {
+      "id": "context:7",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022774369,
+        "evt": "PRIV",
+        "index": 5,
+        "new_priv": 1,
+        "old_priv": 0,
+        "pc": "0x803d3074",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:8",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "normal_code",
+        "code_attribution_basis": "static_elf_vaddr_range",
+        "code_confidence": "pc_in_target_elf",
+        "cycle": 4022775868,
+        "elf": "results/board/genesys2_trace_validation/20260613-board-benign-control-direct/pid_status/00_benign_syscall_elf/pid_status.riscv64",
+        "evt": "PRIV",
+        "index": 7,
+        "load_base_assumption": "fixed_vaddr_exec",
+        "new_priv": 0,
+        "old_priv": 1,
+        "pc": "0x00010140",
+        "pc_owner": "target_sample",
+        "pc_owner_static": "target_sample",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "section": ".text",
+        "symbol": "_start",
+        "symbol_offset": "0x40"
+      }
+    },
+    {
+      "id": "context:9",
+      "kind": "context",
+      "label": "trap",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "syscall_site",
+        "cause": "0x0000000000000008",
+        "code_attribution_basis": "static_elf_vaddr_range",
+        "code_confidence": "pc_in_target_elf",
+        "cycle": 4022775869,
+        "elf": "results/board/genesys2_trace_validation/20260613-board-benign-control-direct/pid_status/00_benign_syscall_elf/pid_status.riscv64",
+        "evt": "TRAP",
+        "index": 8,
+        "load_base_assumption": "fixed_vaddr_exec",
+        "pc": "0x00010144",
+        "pc_owner": "target_sample",
+        "pc_owner_static": "target_sample",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "section": ".text",
+        "symbol": "_start",
+        "symbol_offset": "0x44",
+        "tval": "0x0000000000000000"
+      }
+    },
+    {
+      "id": "context:10",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022775901,
+        "evt": "PRIV",
+        "index": 10,
+        "new_priv": 1,
+        "old_priv": 0,
+        "pc": "0x803d3074",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:11",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "normal_code",
+        "code_attribution_basis": "static_elf_vaddr_range",
+        "code_confidence": "pc_in_target_elf",
+        "cycle": 4022776995,
+        "elf": "results/board/genesys2_trace_validation/20260613-board-benign-control-direct/pid_status/00_benign_syscall_elf/pid_status.riscv64",
+        "evt": "PRIV",
+        "index": 12,
+        "load_base_assumption": "fixed_vaddr_exec",
+        "new_priv": 0,
+        "old_priv": 1,
+        "pc": "0x00010148",
+        "pc_owner": "target_sample",
+        "pc_owner_static": "target_sample",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "section": ".text",
+        "symbol": "_start",
+        "symbol_offset": "0x48"
+      }
+    },
+    {
+      "id": "context:12",
+      "kind": "context",
+      "label": "trap",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "syscall_site",
+        "cause": "0x0000000000000008",
+        "code_attribution_basis": "static_elf_vaddr_range",
+        "code_confidence": "pc_in_target_elf",
+        "cycle": 4022777028,
+        "elf": "results/board/genesys2_trace_validation/20260613-board-benign-control-direct/pid_status/00_benign_syscall_elf/pid_status.riscv64",
+        "evt": "TRAP",
+        "index": 13,
+        "load_base_assumption": "fixed_vaddr_exec",
+        "pc": "0x0001015c",
+        "pc_owner": "target_sample",
+        "pc_owner_static": "target_sample",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "section": ".text",
+        "symbol": "_start",
+        "symbol_offset": "0x5c",
+        "tval": "0x0000000000000000"
+      }
+    },
+    {
+      "id": "context:13",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022777057,
+        "evt": "PRIV",
+        "index": 15,
+        "new_priv": 1,
+        "old_priv": 0,
+        "pc": "0x803d3074",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:14",
+      "kind": "context",
+      "label": "trap",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022791498,
+        "evt": "TRAP",
+        "index": 39,
+        "pc": "0x8025aef8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "tval": "0x00000000c0102573"
+      }
+    },
+    {
+      "id": "context:15",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022791553,
+        "evt": "PRIV",
+        "index": 40,
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:16",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022795975,
+        "evt": "PRIV",
+        "index": 41,
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x8025aefc",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:17",
+      "kind": "context",
+      "label": "trap",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022796291,
+        "evt": "TRAP",
+        "index": 42,
+        "pc": "0x8025aef8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "tval": "0x00000000c0102573"
+      }
+    },
+    {
+      "id": "context:18",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022796298,
+        "evt": "PRIV",
+        "index": 43,
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:19",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022797988,
+        "evt": "PRIV",
+        "index": 44,
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x8025aefc",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:20",
+      "kind": "context",
+      "label": "trap",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022799299,
+        "evt": "TRAP",
+        "index": 45,
+        "pc": "0x8025aef8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "tval": "0x00000000c0102573"
+      }
+    },
+    {
+      "id": "context:21",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022799306,
+        "evt": "PRIV",
+        "index": 46,
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:22",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022800947,
+        "evt": "PRIV",
+        "index": 47,
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x8025aefc",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:23",
+      "kind": "context",
+      "label": "trap",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000009",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022801660,
+        "evt": "TRAP",
+        "index": 48,
+        "pc": "0x8020e1c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "tval": "0x000000000c893783"
+      }
+    },
+    {
+      "id": "context:24",
+      "kind": "context",
+      "label": "trap",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000007",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022803505,
+        "evt": "TRAP",
+        "index": 49,
+        "pc": "0x803bedb6",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "tval": "0x0000000000004e09"
+      }
+    },
+    {
+      "id": "context:25",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022803535,
+        "evt": "PRIV",
+        "index": 50,
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:26",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022804764,
+        "evt": "PRIV",
+        "index": 51,
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x803bedb6",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:27",
+      "kind": "context",
+      "label": "trap",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022816599,
+        "evt": "TRAP",
+        "index": 52,
+        "pc": "0x80219aca",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "tval": "0x00000000c0102573"
+      }
+    },
+    {
+      "id": "context:28",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022816627,
+        "evt": "PRIV",
+        "index": 53,
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:29",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022818373,
+        "evt": "PRIV",
+        "index": 54,
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x80219ace",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:30",
+      "kind": "context",
+      "label": "trap",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000005",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022821624,
+        "evt": "TRAP",
+        "index": 56,
+        "pc": "0x8020e1c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "tval": "0x000000000c893783"
+      }
+    },
+    {
+      "id": "context:31",
+      "kind": "context",
+      "label": "trap",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000009",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022823742,
+        "evt": "TRAP",
+        "index": 57,
+        "pc": "0x800145f8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "tval": "0x0000000000000000"
+      }
+    },
+    {
+      "id": "context:32",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022823773,
+        "evt": "PRIV",
+        "index": 58,
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:33",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022825900,
+        "evt": "PRIV",
+        "index": 59,
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x800145fc",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:34",
+      "kind": "context",
+      "label": "trap",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022826905,
+        "evt": "TRAP",
+        "index": 60,
+        "pc": "0x8025aef8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "tval": "0x00000000c0102573"
+      }
+    },
+    {
+      "id": "context:35",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022826935,
+        "evt": "PRIV",
+        "index": 61,
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:36",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022828622,
+        "evt": "PRIV",
+        "index": 62,
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x8025aefc",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:37",
+      "kind": "context",
+      "label": "trap",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022835552,
+        "evt": "TRAP",
+        "index": 63,
+        "pc": "0x8025aef8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "tval": "0x00000000c0102573"
+      }
+    },
+    {
+      "id": "context:38",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022835583,
+        "evt": "PRIV",
+        "index": 64,
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:39",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022837345,
+        "evt": "PRIV",
+        "index": 65,
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x8025aefc",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:40",
+      "kind": "context",
+      "label": "trap",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022840411,
+        "evt": "TRAP",
+        "index": 66,
+        "pc": "0x8025af0c",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "tval": "0x00000000c0102573"
+      }
+    },
+    {
+      "id": "context:41",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022840438,
+        "evt": "PRIV",
+        "index": 67,
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:42",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022842109,
+        "evt": "PRIV",
+        "index": 68,
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x8025af10",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:43",
+      "kind": "context",
+      "label": "trap",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022847954,
+        "evt": "TRAP",
+        "index": 69,
+        "pc": "0x8025aef8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "tval": "0x00000000c0102573"
+      }
+    },
+    {
+      "id": "context:44",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022847984,
+        "evt": "PRIV",
+        "index": 70,
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:45",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022849901,
+        "evt": "PRIV",
+        "index": 71,
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x8025aefc",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:46",
+      "kind": "context",
+      "label": "trap",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022850308,
+        "evt": "TRAP",
+        "index": 72,
+        "pc": "0x8025af38",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "tval": "0x00000000c0102773"
+      }
+    },
+    {
+      "id": "context:47",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022850339,
+        "evt": "PRIV",
+        "index": 73,
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:48",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022851898,
+        "evt": "PRIV",
+        "index": 74,
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x8025af3c",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:49",
+      "kind": "context",
+      "label": "trap",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000009",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022852051,
+        "evt": "TRAP",
+        "index": 75,
+        "pc": "0x800145f8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "tval": "0x0000000000000000"
+      }
+    },
+    {
+      "id": "context:50",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022852083,
+        "evt": "PRIV",
+        "index": 76,
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:51",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022853634,
+        "evt": "PRIV",
+        "index": 77,
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x800145fc",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:52",
+      "kind": "context",
+      "label": "trap",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022858839,
+        "evt": "TRAP",
+        "index": 78,
+        "pc": "0x8025aef8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "tval": "0x00000000c0102573"
+      }
+    },
+    {
+      "id": "context:53",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022858846,
+        "evt": "PRIV",
+        "index": 79,
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:54",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022860572,
+        "evt": "PRIV",
+        "index": 80,
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x8025aefc",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:55",
+      "kind": "context",
+      "label": "trap",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022860779,
+        "evt": "TRAP",
+        "index": 81,
+        "pc": "0x8025aef8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "tval": "0x00000000c0102573"
+      }
+    },
+    {
+      "id": "context:56",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022860786,
+        "evt": "PRIV",
+        "index": 82,
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:57",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022862380,
+        "evt": "PRIV",
+        "index": 83,
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x8025aefc",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:58",
+      "kind": "context",
+      "label": "trap",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022863109,
+        "evt": "TRAP",
+        "index": 84,
+        "pc": "0x8025aef8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "tval": "0x00000000c0102573"
+      }
+    },
+    {
+      "id": "context:59",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022863116,
+        "evt": "PRIV",
+        "index": 85,
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:60",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022864751,
+        "evt": "PRIV",
+        "index": 86,
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x8025aefc",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:61",
+      "kind": "context",
+      "label": "trap",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022866685,
+        "evt": "TRAP",
+        "index": 87,
+        "pc": "0x8025aef8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "tval": "0x00000000c0102573"
+      }
+    },
+    {
+      "id": "context:62",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022866692,
+        "evt": "PRIV",
+        "index": 88,
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:63",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022868387,
+        "evt": "PRIV",
+        "index": 89,
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x8025aefc",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:64",
+      "kind": "context",
+      "label": "trap",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022868489,
+        "evt": "TRAP",
+        "index": 90,
+        "pc": "0x8025aef8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "tval": "0x00000000c0102573"
+      }
+    },
+    {
+      "id": "context:65",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022868496,
+        "evt": "PRIV",
+        "index": 91,
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:66",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022870144,
+        "evt": "PRIV",
+        "index": 92,
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x8025aefc",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:67",
+      "kind": "context",
+      "label": "trap",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022870703,
+        "evt": "TRAP",
+        "index": 93,
+        "pc": "0x8025aef8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "tval": "0x00000000c0102573"
+      }
+    },
+    {
+      "id": "context:68",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022870710,
+        "evt": "PRIV",
+        "index": 94,
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:69",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022872347,
+        "evt": "PRIV",
+        "index": 95,
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x8025aefc",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:70",
+      "kind": "context",
+      "label": "trap",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022878955,
+        "evt": "TRAP",
+        "index": 96,
+        "pc": "0x8025af0c",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "tval": "0x00000000c0102573"
+      }
+    },
+    {
+      "id": "context:71",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022879029,
+        "evt": "PRIV",
+        "index": 97,
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:72",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022880882,
+        "evt": "PRIV",
+        "index": 98,
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x8025af10",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:73",
+      "kind": "context",
+      "label": "trap",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000009",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022899727,
+        "evt": "TRAP",
+        "index": 99,
+        "pc": "0x800df430",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "tval": "0x00000000034a2683"
+      }
+    },
+    {
+      "id": "context:74",
+      "kind": "context",
+      "label": "trap",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022906309,
+        "evt": "TRAP",
+        "index": 100,
+        "pc": "0x80219aca",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "tval": "0x00000000c0102573"
+      }
+    },
+    {
+      "id": "context:75",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022906344,
+        "evt": "PRIV",
+        "index": 101,
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:76",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022908783,
+        "evt": "PRIV",
+        "index": 102,
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x80219ace",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:77",
+      "kind": "context",
+      "label": "trap",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022915006,
+        "evt": "TRAP",
+        "index": 103,
+        "pc": "0x8025af0c",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "tval": "0x00000000c0102573"
+      }
+    },
+    {
+      "id": "context:78",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022915033,
+        "evt": "PRIV",
+        "index": 104,
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:79",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022916832,
+        "evt": "PRIV",
+        "index": 105,
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x8025af10",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "context:80",
+      "kind": "context",
+      "label": "priv",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "normal_code",
+        "code_attribution_basis": "static_elf_vaddr_range",
+        "code_confidence": "pc_in_target_elf",
+        "cycle": 4022928654,
+        "elf": "results/board/genesys2_trace_validation/20260613-board-benign-control-direct/pid_status/00_benign_syscall_elf/pid_status.riscv64",
+        "evt": "PRIV",
+        "index": 106,
+        "load_base_assumption": "fixed_vaddr_exec",
+        "new_priv": 0,
+        "old_priv": 1,
+        "pc": "0x00010160",
+        "pc_owner": "target_sample",
+        "pc_owner_static": "target_sample",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "section": ".text",
+        "symbol": "_start",
+        "symbol_offset": "0x60"
+      }
+    },
+    {
+      "id": "context:81",
+      "kind": "context",
+      "label": "trap",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "syscall_site",
+        "cause": "0x0000000000000008",
+        "code_attribution_basis": "static_elf_vaddr_range",
+        "code_confidence": "pc_in_target_elf",
+        "cycle": 4022928688,
+        "elf": "results/board/genesys2_trace_validation/20260613-board-benign-control-direct/pid_status/00_benign_syscall_elf/pid_status.riscv64",
+        "evt": "TRAP",
+        "index": 107,
+        "load_base_assumption": "fixed_vaddr_exec",
+        "pc": "0x00010178",
+        "pc_owner": "target_sample",
+        "pc_owner_static": "target_sample",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "section": ".text",
+        "symbol": "_start",
+        "symbol_offset": "0x78",
+        "tval": "0x0000000000000000"
+      }
+    },
+    {
+      "id": "privilege_boundary:82",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022773450,
+        "evt": "PRIV",
+        "index": 1,
+        "kind": "privilege_change",
+        "new_priv": 1,
+        "old_priv": 0,
+        "pc": "0x803d3074",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:83",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "normal_code",
+        "code_attribution_basis": "static_elf_vaddr_range",
+        "code_confidence": "pc_in_target_elf",
+        "cycle": 4022774328,
+        "elf": "results/board/genesys2_trace_validation/20260613-board-benign-control-direct/pid_status/00_benign_syscall_elf/pid_status.riscv64",
+        "evt": "PRIV",
+        "index": 2,
+        "kind": "privilege_change",
+        "load_base_assumption": "fixed_vaddr_exec",
+        "new_priv": 0,
+        "old_priv": 1,
+        "pc": "0x00010138",
+        "pc_owner": "target_sample",
+        "pc_owner_static": "target_sample",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "section": ".text",
+        "symbol": "_start",
+        "symbol_offset": "0x38"
+      }
+    },
+    {
+      "id": "privilege_boundary:84",
+      "kind": "privilege_boundary",
+      "label": "trap_entry",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "syscall_site",
+        "cause": "0x0000000000000008",
+        "code_attribution_basis": "static_elf_vaddr_range",
+        "code_confidence": "pc_in_target_elf",
+        "cycle": 4022774329,
+        "elf": "results/board/genesys2_trace_validation/20260613-board-benign-control-direct/pid_status/00_benign_syscall_elf/pid_status.riscv64",
+        "evt": "TRAP",
+        "index": 3,
+        "kind": "trap_entry",
+        "load_base_assumption": "fixed_vaddr_exec",
+        "pc": "0x0001013c",
+        "pc_owner": "target_sample",
+        "pc_owner_static": "target_sample",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "section": ".text",
+        "symbol": "_start",
+        "symbol_offset": "0x3c"
+      }
+    },
+    {
+      "id": "privilege_boundary:85",
+      "kind": "privilege_boundary",
+      "label": "syscall_entry",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "syscall_site",
+        "code_attribution_basis": "static_elf_vaddr_range",
+        "code_confidence": "pc_in_target_elf",
+        "cycle": 4022774329,
+        "elf": "results/board/genesys2_trace_validation/20260613-board-benign-control-direct/pid_status/00_benign_syscall_elf/pid_status.riscv64",
+        "evt": "SYSCALL_ENTRY",
+        "index": 4,
+        "kind": "syscall_entry",
+        "load_base_assumption": "fixed_vaddr_exec",
+        "pc": "0x0001013c",
+        "pc_owner": "target_sample",
+        "pc_owner_static": "target_sample",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "section": ".text",
+        "symbol": "_start",
+        "symbol_offset": "0x3c"
+      }
+    },
+    {
+      "id": "privilege_boundary:86",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022774369,
+        "evt": "PRIV",
+        "index": 5,
+        "kind": "privilege_change",
+        "new_priv": 1,
+        "old_priv": 0,
+        "pc": "0x803d3074",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:87",
+      "kind": "privilege_boundary",
+      "label": "syscall_return",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022775835,
+        "evt": "SYSCALL_RET",
+        "index": 6,
+        "kind": "syscall_return",
+        "pc": "0x803d3226",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:88",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "normal_code",
+        "code_attribution_basis": "static_elf_vaddr_range",
+        "code_confidence": "pc_in_target_elf",
+        "cycle": 4022775868,
+        "elf": "results/board/genesys2_trace_validation/20260613-board-benign-control-direct/pid_status/00_benign_syscall_elf/pid_status.riscv64",
+        "evt": "PRIV",
+        "index": 7,
+        "kind": "privilege_change",
+        "load_base_assumption": "fixed_vaddr_exec",
+        "new_priv": 0,
+        "old_priv": 1,
+        "pc": "0x00010140",
+        "pc_owner": "target_sample",
+        "pc_owner_static": "target_sample",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "section": ".text",
+        "symbol": "_start",
+        "symbol_offset": "0x40"
+      }
+    },
+    {
+      "id": "privilege_boundary:89",
+      "kind": "privilege_boundary",
+      "label": "trap_entry",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "syscall_site",
+        "cause": "0x0000000000000008",
+        "code_attribution_basis": "static_elf_vaddr_range",
+        "code_confidence": "pc_in_target_elf",
+        "cycle": 4022775869,
+        "elf": "results/board/genesys2_trace_validation/20260613-board-benign-control-direct/pid_status/00_benign_syscall_elf/pid_status.riscv64",
+        "evt": "TRAP",
+        "index": 8,
+        "kind": "trap_entry",
+        "load_base_assumption": "fixed_vaddr_exec",
+        "pc": "0x00010144",
+        "pc_owner": "target_sample",
+        "pc_owner_static": "target_sample",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "section": ".text",
+        "symbol": "_start",
+        "symbol_offset": "0x44"
+      }
+    },
+    {
+      "id": "privilege_boundary:90",
+      "kind": "privilege_boundary",
+      "label": "syscall_entry",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "syscall_site",
+        "code_attribution_basis": "static_elf_vaddr_range",
+        "code_confidence": "pc_in_target_elf",
+        "cycle": 4022775869,
+        "elf": "results/board/genesys2_trace_validation/20260613-board-benign-control-direct/pid_status/00_benign_syscall_elf/pid_status.riscv64",
+        "evt": "SYSCALL_ENTRY",
+        "index": 9,
+        "kind": "syscall_entry",
+        "load_base_assumption": "fixed_vaddr_exec",
+        "pc": "0x00010144",
+        "pc_owner": "target_sample",
+        "pc_owner_static": "target_sample",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "section": ".text",
+        "symbol": "_start",
+        "symbol_offset": "0x44"
+      }
+    },
+    {
+      "id": "privilege_boundary:91",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022775901,
+        "evt": "PRIV",
+        "index": 10,
+        "kind": "privilege_change",
+        "new_priv": 1,
+        "old_priv": 0,
+        "pc": "0x803d3074",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:92",
+      "kind": "privilege_boundary",
+      "label": "syscall_return",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022776988,
+        "evt": "SYSCALL_RET",
+        "index": 11,
+        "kind": "syscall_return",
+        "pc": "0x803d3226",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:93",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "normal_code",
+        "code_attribution_basis": "static_elf_vaddr_range",
+        "code_confidence": "pc_in_target_elf",
+        "cycle": 4022776995,
+        "elf": "results/board/genesys2_trace_validation/20260613-board-benign-control-direct/pid_status/00_benign_syscall_elf/pid_status.riscv64",
+        "evt": "PRIV",
+        "index": 12,
+        "kind": "privilege_change",
+        "load_base_assumption": "fixed_vaddr_exec",
+        "new_priv": 0,
+        "old_priv": 1,
+        "pc": "0x00010148",
+        "pc_owner": "target_sample",
+        "pc_owner_static": "target_sample",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "section": ".text",
+        "symbol": "_start",
+        "symbol_offset": "0x48"
+      }
+    },
+    {
+      "id": "privilege_boundary:94",
+      "kind": "privilege_boundary",
+      "label": "trap_entry",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "syscall_site",
+        "cause": "0x0000000000000008",
+        "code_attribution_basis": "static_elf_vaddr_range",
+        "code_confidence": "pc_in_target_elf",
+        "cycle": 4022777028,
+        "elf": "results/board/genesys2_trace_validation/20260613-board-benign-control-direct/pid_status/00_benign_syscall_elf/pid_status.riscv64",
+        "evt": "TRAP",
+        "index": 13,
+        "kind": "trap_entry",
+        "load_base_assumption": "fixed_vaddr_exec",
+        "pc": "0x0001015c",
+        "pc_owner": "target_sample",
+        "pc_owner_static": "target_sample",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "section": ".text",
+        "symbol": "_start",
+        "symbol_offset": "0x5c"
+      }
+    },
+    {
+      "id": "privilege_boundary:95",
+      "kind": "privilege_boundary",
+      "label": "syscall_entry",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "syscall_site",
+        "code_attribution_basis": "static_elf_vaddr_range",
+        "code_confidence": "pc_in_target_elf",
+        "cycle": 4022777028,
+        "elf": "results/board/genesys2_trace_validation/20260613-board-benign-control-direct/pid_status/00_benign_syscall_elf/pid_status.riscv64",
+        "evt": "SYSCALL_ENTRY",
+        "index": 14,
+        "kind": "syscall_entry",
+        "load_base_assumption": "fixed_vaddr_exec",
+        "pc": "0x0001015c",
+        "pc_owner": "target_sample",
+        "pc_owner_static": "target_sample",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "section": ".text",
+        "symbol": "_start",
+        "symbol_offset": "0x5c"
+      }
+    },
+    {
+      "id": "privilege_boundary:96",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022777057,
+        "evt": "PRIV",
+        "index": 15,
+        "kind": "privilege_change",
+        "new_priv": 1,
+        "old_priv": 0,
+        "pc": "0x803d3074",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:97",
+      "kind": "privilege_boundary",
+      "label": "trap_entry",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022791498,
+        "evt": "TRAP",
+        "index": 39,
+        "kind": "trap_entry",
+        "pc": "0x8025aef8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:98",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022791553,
+        "evt": "PRIV",
+        "index": 40,
+        "kind": "privilege_change",
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:99",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022795975,
+        "evt": "PRIV",
+        "index": 41,
+        "kind": "privilege_change",
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x8025aefc",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:100",
+      "kind": "privilege_boundary",
+      "label": "trap_entry",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022796291,
+        "evt": "TRAP",
+        "index": 42,
+        "kind": "trap_entry",
+        "pc": "0x8025aef8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:101",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022796298,
+        "evt": "PRIV",
+        "index": 43,
+        "kind": "privilege_change",
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:102",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022797988,
+        "evt": "PRIV",
+        "index": 44,
+        "kind": "privilege_change",
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x8025aefc",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:103",
+      "kind": "privilege_boundary",
+      "label": "trap_entry",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022799299,
+        "evt": "TRAP",
+        "index": 45,
+        "kind": "trap_entry",
+        "pc": "0x8025aef8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:104",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022799306,
+        "evt": "PRIV",
+        "index": 46,
+        "kind": "privilege_change",
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:105",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022800947,
+        "evt": "PRIV",
+        "index": 47,
+        "kind": "privilege_change",
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x8025aefc",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:106",
+      "kind": "privilege_boundary",
+      "label": "trap_entry",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000009",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022801660,
+        "evt": "TRAP",
+        "index": 48,
+        "kind": "trap_entry",
+        "pc": "0x8020e1c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:107",
+      "kind": "privilege_boundary",
+      "label": "trap_entry",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000007",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022803505,
+        "evt": "TRAP",
+        "index": 49,
+        "kind": "trap_entry",
+        "pc": "0x803bedb6",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:108",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022803535,
+        "evt": "PRIV",
+        "index": 50,
+        "kind": "privilege_change",
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:109",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022804764,
+        "evt": "PRIV",
+        "index": 51,
+        "kind": "privilege_change",
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x803bedb6",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:110",
+      "kind": "privilege_boundary",
+      "label": "trap_entry",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022816599,
+        "evt": "TRAP",
+        "index": 52,
+        "kind": "trap_entry",
+        "pc": "0x80219aca",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:111",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022816627,
+        "evt": "PRIV",
+        "index": 53,
+        "kind": "privilege_change",
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:112",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022818373,
+        "evt": "PRIV",
+        "index": 54,
+        "kind": "privilege_change",
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x80219ace",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:113",
+      "kind": "privilege_boundary",
+      "label": "syscall_return",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022821592,
+        "evt": "SYSCALL_RET",
+        "index": 55,
+        "kind": "syscall_return",
+        "pc": "0x803d3226",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:114",
+      "kind": "privilege_boundary",
+      "label": "trap_entry",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000005",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022821624,
+        "evt": "TRAP",
+        "index": 56,
+        "kind": "trap_entry",
+        "pc": "0x8020e1c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:115",
+      "kind": "privilege_boundary",
+      "label": "trap_entry",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000009",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022823742,
+        "evt": "TRAP",
+        "index": 57,
+        "kind": "trap_entry",
+        "pc": "0x800145f8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:116",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022823773,
+        "evt": "PRIV",
+        "index": 58,
+        "kind": "privilege_change",
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:117",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022825900,
+        "evt": "PRIV",
+        "index": 59,
+        "kind": "privilege_change",
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x800145fc",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:118",
+      "kind": "privilege_boundary",
+      "label": "trap_entry",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022826905,
+        "evt": "TRAP",
+        "index": 60,
+        "kind": "trap_entry",
+        "pc": "0x8025aef8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:119",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022826935,
+        "evt": "PRIV",
+        "index": 61,
+        "kind": "privilege_change",
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:120",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022828622,
+        "evt": "PRIV",
+        "index": 62,
+        "kind": "privilege_change",
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x8025aefc",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:121",
+      "kind": "privilege_boundary",
+      "label": "trap_entry",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022835552,
+        "evt": "TRAP",
+        "index": 63,
+        "kind": "trap_entry",
+        "pc": "0x8025aef8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:122",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022835583,
+        "evt": "PRIV",
+        "index": 64,
+        "kind": "privilege_change",
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:123",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022837345,
+        "evt": "PRIV",
+        "index": 65,
+        "kind": "privilege_change",
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x8025aefc",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:124",
+      "kind": "privilege_boundary",
+      "label": "trap_entry",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022840411,
+        "evt": "TRAP",
+        "index": 66,
+        "kind": "trap_entry",
+        "pc": "0x8025af0c",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:125",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022840438,
+        "evt": "PRIV",
+        "index": 67,
+        "kind": "privilege_change",
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:126",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022842109,
+        "evt": "PRIV",
+        "index": 68,
+        "kind": "privilege_change",
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x8025af10",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:127",
+      "kind": "privilege_boundary",
+      "label": "trap_entry",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022847954,
+        "evt": "TRAP",
+        "index": 69,
+        "kind": "trap_entry",
+        "pc": "0x8025aef8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:128",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022847984,
+        "evt": "PRIV",
+        "index": 70,
+        "kind": "privilege_change",
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:129",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022849901,
+        "evt": "PRIV",
+        "index": 71,
+        "kind": "privilege_change",
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x8025aefc",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:130",
+      "kind": "privilege_boundary",
+      "label": "trap_entry",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022850308,
+        "evt": "TRAP",
+        "index": 72,
+        "kind": "trap_entry",
+        "pc": "0x8025af38",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:131",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022850339,
+        "evt": "PRIV",
+        "index": 73,
+        "kind": "privilege_change",
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:132",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022851898,
+        "evt": "PRIV",
+        "index": 74,
+        "kind": "privilege_change",
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x8025af3c",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:133",
+      "kind": "privilege_boundary",
+      "label": "trap_entry",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000009",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022852051,
+        "evt": "TRAP",
+        "index": 75,
+        "kind": "trap_entry",
+        "pc": "0x800145f8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:134",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022852083,
+        "evt": "PRIV",
+        "index": 76,
+        "kind": "privilege_change",
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:135",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022853634,
+        "evt": "PRIV",
+        "index": 77,
+        "kind": "privilege_change",
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x800145fc",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:136",
+      "kind": "privilege_boundary",
+      "label": "trap_entry",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022858839,
+        "evt": "TRAP",
+        "index": 78,
+        "kind": "trap_entry",
+        "pc": "0x8025aef8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:137",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022858846,
+        "evt": "PRIV",
+        "index": 79,
+        "kind": "privilege_change",
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:138",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022860572,
+        "evt": "PRIV",
+        "index": 80,
+        "kind": "privilege_change",
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x8025aefc",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:139",
+      "kind": "privilege_boundary",
+      "label": "trap_entry",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022860779,
+        "evt": "TRAP",
+        "index": 81,
+        "kind": "trap_entry",
+        "pc": "0x8025aef8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:140",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022860786,
+        "evt": "PRIV",
+        "index": 82,
+        "kind": "privilege_change",
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:141",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022862380,
+        "evt": "PRIV",
+        "index": 83,
+        "kind": "privilege_change",
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x8025aefc",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:142",
+      "kind": "privilege_boundary",
+      "label": "trap_entry",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022863109,
+        "evt": "TRAP",
+        "index": 84,
+        "kind": "trap_entry",
+        "pc": "0x8025aef8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:143",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022863116,
+        "evt": "PRIV",
+        "index": 85,
+        "kind": "privilege_change",
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:144",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022864751,
+        "evt": "PRIV",
+        "index": 86,
+        "kind": "privilege_change",
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x8025aefc",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:145",
+      "kind": "privilege_boundary",
+      "label": "trap_entry",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022866685,
+        "evt": "TRAP",
+        "index": 87,
+        "kind": "trap_entry",
+        "pc": "0x8025aef8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:146",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022866692,
+        "evt": "PRIV",
+        "index": 88,
+        "kind": "privilege_change",
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:147",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022868387,
+        "evt": "PRIV",
+        "index": 89,
+        "kind": "privilege_change",
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x8025aefc",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:148",
+      "kind": "privilege_boundary",
+      "label": "trap_entry",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022868489,
+        "evt": "TRAP",
+        "index": 90,
+        "kind": "trap_entry",
+        "pc": "0x8025aef8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:149",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022868496,
+        "evt": "PRIV",
+        "index": 91,
+        "kind": "privilege_change",
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:150",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022870144,
+        "evt": "PRIV",
+        "index": 92,
+        "kind": "privilege_change",
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x8025aefc",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:151",
+      "kind": "privilege_boundary",
+      "label": "trap_entry",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022870703,
+        "evt": "TRAP",
+        "index": 93,
+        "kind": "trap_entry",
+        "pc": "0x8025aef8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:152",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022870710,
+        "evt": "PRIV",
+        "index": 94,
+        "kind": "privilege_change",
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:153",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022872347,
+        "evt": "PRIV",
+        "index": 95,
+        "kind": "privilege_change",
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x8025aefc",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:154",
+      "kind": "privilege_boundary",
+      "label": "trap_entry",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022878955,
+        "evt": "TRAP",
+        "index": 96,
+        "kind": "trap_entry",
+        "pc": "0x8025af0c",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:155",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022879029,
+        "evt": "PRIV",
+        "index": 97,
+        "kind": "privilege_change",
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:156",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022880882,
+        "evt": "PRIV",
+        "index": 98,
+        "kind": "privilege_change",
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x8025af10",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:157",
+      "kind": "privilege_boundary",
+      "label": "trap_entry",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000009",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022899727,
+        "evt": "TRAP",
+        "index": 99,
+        "kind": "trap_entry",
+        "pc": "0x800df430",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:158",
+      "kind": "privilege_boundary",
+      "label": "trap_entry",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022906309,
+        "evt": "TRAP",
+        "index": 100,
+        "kind": "trap_entry",
+        "pc": "0x80219aca",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:159",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022906344,
+        "evt": "PRIV",
+        "index": 101,
+        "kind": "privilege_change",
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:160",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022908783,
+        "evt": "PRIV",
+        "index": 102,
+        "kind": "privilege_change",
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x80219ace",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:161",
+      "kind": "privilege_boundary",
+      "label": "trap_entry",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "cause": "0x0000000000000002",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022915006,
+        "evt": "TRAP",
+        "index": 103,
+        "kind": "trap_entry",
+        "pc": "0x8025af0c",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:162",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022915033,
+        "evt": "PRIV",
+        "index": 104,
+        "kind": "privilege_change",
+        "new_priv": 3,
+        "old_priv": 1,
+        "pc": "0x800003c8",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:163",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 4022916832,
+        "evt": "PRIV",
+        "index": 105,
+        "kind": "privilege_change",
+        "new_priv": 1,
+        "old_priv": 3,
+        "pc": "0x8025af10",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown"
+      }
+    },
+    {
+      "id": "privilege_boundary:164",
+      "kind": "privilege_boundary",
+      "label": "privilege_change",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "normal_code",
+        "code_attribution_basis": "static_elf_vaddr_range",
+        "code_confidence": "pc_in_target_elf",
+        "cycle": 4022928654,
+        "elf": "results/board/genesys2_trace_validation/20260613-board-benign-control-direct/pid_status/00_benign_syscall_elf/pid_status.riscv64",
+        "evt": "PRIV",
+        "index": 106,
+        "kind": "privilege_change",
+        "load_base_assumption": "fixed_vaddr_exec",
+        "new_priv": 0,
+        "old_priv": 1,
+        "pc": "0x00010160",
+        "pc_owner": "target_sample",
+        "pc_owner_static": "target_sample",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "section": ".text",
+        "symbol": "_start",
+        "symbol_offset": "0x60"
+      }
+    },
+    {
+      "id": "privilege_boundary:165",
+      "kind": "privilege_boundary",
+      "label": "trap_entry",
+      "payload": {
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "syscall_site",
+        "cause": "0x0000000000000008",
+        "code_attribution_basis": "static_elf_vaddr_range",
+        "code_confidence": "pc_in_target_elf",
+        "cycle": 4022928688,
+        "elf": "results/board/genesys2_trace_validation/20260613-board-benign-control-direct/pid_status/00_benign_syscall_elf/pid_status.riscv64",
+        "evt": "TRAP",
+        "index": 107,
+        "kind": "trap_entry",
+        "load_base_assumption": "fixed_vaddr_exec",
+        "pc": "0x00010178",
+        "pc_owner": "target_sample",
+        "pc_owner_static": "target_sample",
+        "priv": null,
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "section": ".text",
+        "symbol": "_start",
+        "symbol_offset": "0x78"
+      }
+    }
+  ],
+  "sample_class": "benign",
+  "sample_id": "pid_status",
+  "schema": "rvmt.behavior.graph.v1"
+}

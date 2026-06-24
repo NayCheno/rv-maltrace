@@ -33,7 +33,38 @@ DEFAULT_MANIFEST = Path("experiments/linux_behavior/benign/manifest.json")
 DEFAULT_OUT_ROOT = Path("results/board/genesys2_trace_validation/20260613-board-benign-control/00_benign_syscall_elves")
 DEFAULT_BEGIN_MARKER = 0xB0000B10
 DEFAULT_END_MARKER = 0xE0000B10
-BENIGN_SAMPLES = ("hello", "ls", "cat", "cp", "sha256sum")
+BENIGN_SAMPLES = (
+    "hello",
+    "ls",
+    "cat",
+    "cp",
+    "sha256sum",
+    "pid_status",
+    "clock_status",
+    "write_twice",
+    "open_tmp_close",
+    "getdents_only",
+    "read_twice",
+    "mmap_rw",
+    "readlink_self",
+    "prctl_get_name",
+    "pid_clock_mix",
+    "cat_small",
+    "getpid_only",
+    "getppid_only",
+    "clock_twice",
+    "prctl_set_name",
+    "prctl_set_get_name",
+    "open_read_close",
+    "open_write_close",
+    "read_zero",
+    "mmap_double",
+    "mmap_munmap_only",
+    "readlink_twice",
+    "open_proc_status",
+    "open_proc_cmdline",
+    "tmpdir_open_close_twice",
+)
 
 
 def parse_marker(value: str) -> int:
@@ -66,6 +97,22 @@ def samples_by_id(manifest: dict[str, Any]) -> dict[str, dict[str, Any]]:
     return {row["id"]: row for row in rows if isinstance(row, dict) and isinstance(row.get("id"), str)}
 
 
+def fallback_sample_row(sample_id: str) -> dict[str, Any]:
+    if sample_id not in BENIGN_SAMPLES:
+        raise ValueError(f"{sample_id}: not present in manifest")
+    return {
+        "id": sample_id,
+        "class": BENIGN_SAMPLE_CLASS,
+        "status": "BOARD_BENIGN_SCALEUP_TEMPLATE",
+        "provenance": "board_benign_scaleup_builtin",
+        "network_required": False,
+        "default_enabled": False,
+        "source": "board/artix7_35t/linux/rvmt_benign_workload.c",
+        "expected_behavior": [],
+        "expected_syscalls": syscall_sequence_for(sample_id)[2:-2],
+    }
+
+
 def rodata_for_sample(sample_id: str) -> dict[str, bytes]:
     values: dict[str, bytes] = {
         "hello_msg": b"rvmt benign hello\n",
@@ -73,10 +120,36 @@ def rodata_for_sample(sample_id: str) -> dict[str, bytes]:
         "input_path": b"/tmp/rvmt_benign_input.txt\x00",
         "copy_path": b"/tmp/rvmt_benign_copy.txt\x00",
         "tmp_dir": b"/tmp\x00",
+        "self_path": b"/proc/self/exe\x00",
+        "proc_status_path": b"/proc/self/status\x00",
+        "proc_cmdline_path": b"/proc/self/cmdline\x00",
+        "tmp_out_path": b"/tmp/rvmt_benign_out.txt\x00",
         "sha_msg": (
             b"376727353c8f4e11d279d4e65573c8b3b7f5be3f7dcc59965bb047a321d6710f  "
             b"/tmp/rvmt_benign_input.txt\n"
         ),
+        "pid_msg": b"rvmt benign pid status\n",
+        "clock_msg": b"rvmt benign clock status\n",
+        "write2_a": b"rvmt benign write twice A\n",
+        "write2_b": b"rvmt benign write twice B\n",
+        "open_msg": b"rvmt benign open tmp close\n",
+        "getdents_msg": b"rvmt benign getdents only\n",
+        "read2_msg": b"rvmt benign read twice\n",
+        "mmap_msg": b"rvmt benign mmap rw\n",
+        "readlink_msg": b"rvmt benign readlink self\n",
+        "prctl_msg": b"rvmt benign prctl get name\n",
+        "pid_clock_msg": b"rvmt benign pid clock mix\n",
+        "cat_small_msg": b"rvmt benign cat small\n",
+        "getpid_only_msg": b"rvmt benign getpid only\n",
+        "getppid_only_msg": b"rvmt benign getppid only\n",
+        "clock_twice_msg": b"rvmt benign clock twice\n",
+        "prctl_set_msg": b"rvmt benign prctl set name\n",
+        "prctl_set_get_msg": b"rvmt benign prctl set get name\n",
+        "open_write_msg": b"rvmt benign open write close\n",
+        "mmap_double_msg": b"rvmt benign mmap double\n",
+        "readlink_twice_msg": b"rvmt benign readlink twice\n",
+        "tmpdir_twice_msg": b"rvmt benign tmpdir open close twice\n",
+        "prctl_name": b"rvmt_benign\x00",
     }
     if sample_id not in BENIGN_SAMPLES:
         raise ValueError(f"unsupported benign sample: {sample_id}")
@@ -126,6 +199,121 @@ def generate_text(sample_id: str, text_vaddr: int, labels: dict[str, int], begin
         b.syscall("read", [("a0", "s0"), ("a1", "buffer"), ("a2", 64)])
         b.syscall("close", [("a0", "s0")])
         b.syscall("write", [("a0", 1), ("a1", "sha_msg"), ("a2", len(rodata_for_sample(sample_id)["sha_msg"]))])
+    elif sample_id == "pid_status":
+        b.syscall("getpid", [])
+        b.syscall("getppid", [])
+        b.syscall("write", [("a0", 1), ("a1", "pid_msg"), ("a2", len(rodata_for_sample(sample_id)["pid_msg"]))])
+    elif sample_id == "clock_status":
+        b.syscall("clock_gettime", [("a0", 1), ("a1", "buffer")])
+        b.syscall("write", [("a0", 1), ("a1", "clock_msg"), ("a2", len(rodata_for_sample(sample_id)["clock_msg"]))])
+    elif sample_id == "write_twice":
+        b.syscall("write", [("a0", 1), ("a1", "write2_a"), ("a2", len(rodata_for_sample(sample_id)["write2_a"]))])
+        b.syscall("write", [("a0", 1), ("a1", "write2_b"), ("a2", len(rodata_for_sample(sample_id)["write2_b"]))])
+    elif sample_id == "open_tmp_close":
+        b.syscall("openat", [("a0", -100), ("a1", "tmp_dir"), ("a2", 0x90000), ("a3", 0)])
+        b.emit_mv("s0", "a0")
+        b.syscall("close", [("a0", "s0")])
+        b.syscall("write", [("a0", 1), ("a1", "open_msg"), ("a2", len(rodata_for_sample(sample_id)["open_msg"]))])
+    elif sample_id == "getdents_only":
+        b.syscall("openat", [("a0", -100), ("a1", "tmp_dir"), ("a2", 0x90000), ("a3", 0)])
+        b.emit_mv("s0", "a0")
+        b.syscall("getdents64", [("a0", "s0"), ("a1", "buffer"), ("a2", 256)])
+        b.syscall("close", [("a0", "s0")])
+        b.syscall("write", [("a0", 1), ("a1", "getdents_msg"), ("a2", len(rodata_for_sample(sample_id)["getdents_msg"]))])
+    elif sample_id == "read_twice":
+        b.syscall("openat", [("a0", -100), ("a1", "input_path"), ("a2", 0x80000), ("a3", 0)])
+        b.emit_mv("s0", "a0")
+        b.syscall("read", [("a0", "s0"), ("a1", "buffer"), ("a2", 8)])
+        b.syscall("read", [("a0", "s0"), ("a1", "buffer"), ("a2", 8)])
+        b.syscall("write", [("a0", 1), ("a1", "read2_msg"), ("a2", len(rodata_for_sample(sample_id)["read2_msg"]))])
+        b.syscall("close", [("a0", "s0")])
+    elif sample_id == "mmap_rw":
+        b.syscall("mmap", [("a0", 0), ("a1", 4096), ("a2", 0x3), ("a3", 0x22), ("a4", -1), ("a5", 0)])
+        b.emit_mv("s0", "a0")
+        b.syscall("write", [("a0", 1), ("a1", "mmap_msg"), ("a2", len(rodata_for_sample(sample_id)["mmap_msg"]))])
+        b.syscall("munmap", [("a0", "s0"), ("a1", 4096)])
+    elif sample_id == "readlink_self":
+        b.syscall("readlinkat", [("a0", -100), ("a1", "self_path"), ("a2", "buffer"), ("a3", 128)])
+        b.syscall("write", [("a0", 1), ("a1", "readlink_msg"), ("a2", len(rodata_for_sample(sample_id)["readlink_msg"]))])
+    elif sample_id == "prctl_get_name":
+        b.syscall("prctl", [("a0", 16), ("a1", "buffer"), ("a2", 0), ("a3", 0), ("a4", 0)])
+        b.syscall("write", [("a0", 1), ("a1", "prctl_msg"), ("a2", len(rodata_for_sample(sample_id)["prctl_msg"]))])
+    elif sample_id == "pid_clock_mix":
+        b.syscall("getpid", [])
+        b.syscall("clock_gettime", [("a0", 1), ("a1", "buffer")])
+        b.syscall("write", [("a0", 1), ("a1", "pid_clock_msg"), ("a2", len(rodata_for_sample(sample_id)["pid_clock_msg"]))])
+    elif sample_id == "cat_small":
+        b.syscall("openat", [("a0", -100), ("a1", "input_path"), ("a2", 0x80000), ("a3", 0)])
+        b.emit_mv("s0", "a0")
+        b.syscall("read", [("a0", "s0"), ("a1", "buffer"), ("a2", 16)])
+        b.syscall("write", [("a0", 1), ("a1", "cat_small_msg"), ("a2", len(rodata_for_sample(sample_id)["cat_small_msg"]))])
+        b.syscall("close", [("a0", "s0")])
+    elif sample_id == "getpid_only":
+        b.syscall("getpid", [])
+        b.syscall("write", [("a0", 1), ("a1", "getpid_only_msg"), ("a2", len(rodata_for_sample(sample_id)["getpid_only_msg"]))])
+    elif sample_id == "getppid_only":
+        b.syscall("getppid", [])
+        b.syscall("write", [("a0", 1), ("a1", "getppid_only_msg"), ("a2", len(rodata_for_sample(sample_id)["getppid_only_msg"]))])
+    elif sample_id == "clock_twice":
+        b.syscall("clock_gettime", [("a0", 1), ("a1", "buffer")])
+        b.syscall("clock_gettime", [("a0", 1), ("a1", "buffer")])
+        b.syscall("write", [("a0", 1), ("a1", "clock_twice_msg"), ("a2", len(rodata_for_sample(sample_id)["clock_twice_msg"]))])
+    elif sample_id == "prctl_set_name":
+        b.syscall("prctl", [("a0", 15), ("a1", "prctl_name"), ("a2", 0), ("a3", 0), ("a4", 0)])
+        b.syscall("write", [("a0", 1), ("a1", "prctl_set_msg"), ("a2", len(rodata_for_sample(sample_id)["prctl_set_msg"]))])
+    elif sample_id == "prctl_set_get_name":
+        b.syscall("prctl", [("a0", 15), ("a1", "prctl_name"), ("a2", 0), ("a3", 0), ("a4", 0)])
+        b.syscall("prctl", [("a0", 16), ("a1", "buffer"), ("a2", 0), ("a3", 0), ("a4", 0)])
+        b.syscall("write", [("a0", 1), ("a1", "prctl_set_get_msg"), ("a2", len(rodata_for_sample(sample_id)["prctl_set_get_msg"]))])
+    elif sample_id == "open_read_close":
+        b.syscall("openat", [("a0", -100), ("a1", "input_path"), ("a2", 0x80000), ("a3", 0)])
+        b.emit_mv("s0", "a0")
+        b.syscall("read", [("a0", "s0"), ("a1", "buffer"), ("a2", 32)])
+        b.syscall("close", [("a0", "s0")])
+    elif sample_id == "open_write_close":
+        b.syscall("openat", [("a0", -100), ("a1", "tmp_out_path"), ("a2", 0x80241), ("a3", 0o600)])
+        b.emit_mv("s0", "a0")
+        b.syscall("write", [("a0", "s0"), ("a1", "open_write_msg"), ("a2", len(rodata_for_sample(sample_id)["open_write_msg"]))])
+        b.syscall("close", [("a0", "s0")])
+    elif sample_id == "read_zero":
+        b.syscall("openat", [("a0", -100), ("a1", "input_path"), ("a2", 0x80000), ("a3", 0)])
+        b.emit_mv("s0", "a0")
+        b.syscall("read", [("a0", "s0"), ("a1", "buffer"), ("a2", 0)])
+        b.syscall("close", [("a0", "s0")])
+    elif sample_id == "mmap_double":
+        b.syscall("mmap", [("a0", 0), ("a1", 4096), ("a2", 0x3), ("a3", 0x22), ("a4", -1), ("a5", 0)])
+        b.emit_mv("s0", "a0")
+        b.syscall("mmap", [("a0", 0), ("a1", 4096), ("a2", 0x1), ("a3", 0x22), ("a4", -1), ("a5", 0)])
+        b.emit_mv("s1", "a0")
+        b.syscall("write", [("a0", 1), ("a1", "mmap_double_msg"), ("a2", len(rodata_for_sample(sample_id)["mmap_double_msg"]))])
+        b.syscall("munmap", [("a0", "s0"), ("a1", 4096)])
+        b.syscall("munmap", [("a0", "s1"), ("a1", 4096)])
+    elif sample_id == "mmap_munmap_only":
+        b.syscall("mmap", [("a0", 0), ("a1", 4096), ("a2", 0x3), ("a3", 0x22), ("a4", -1), ("a5", 0)])
+        b.emit_mv("s0", "a0")
+        b.syscall("munmap", [("a0", "s0"), ("a1", 4096)])
+    elif sample_id == "readlink_twice":
+        b.syscall("readlinkat", [("a0", -100), ("a1", "self_path"), ("a2", "buffer"), ("a3", 128)])
+        b.syscall("readlinkat", [("a0", -100), ("a1", "self_path"), ("a2", "buffer"), ("a3", 128)])
+        b.syscall("write", [("a0", 1), ("a1", "readlink_twice_msg"), ("a2", len(rodata_for_sample(sample_id)["readlink_twice_msg"]))])
+    elif sample_id == "open_proc_status":
+        b.syscall("openat", [("a0", -100), ("a1", "proc_status_path"), ("a2", 0x80000), ("a3", 0)])
+        b.emit_mv("s0", "a0")
+        b.syscall("read", [("a0", "s0"), ("a1", "buffer"), ("a2", 64)])
+        b.syscall("close", [("a0", "s0")])
+    elif sample_id == "open_proc_cmdline":
+        b.syscall("openat", [("a0", -100), ("a1", "proc_cmdline_path"), ("a2", 0x80000), ("a3", 0)])
+        b.emit_mv("s0", "a0")
+        b.syscall("read", [("a0", "s0"), ("a1", "buffer"), ("a2", 64)])
+        b.syscall("close", [("a0", "s0")])
+    elif sample_id == "tmpdir_open_close_twice":
+        b.syscall("openat", [("a0", -100), ("a1", "tmp_dir"), ("a2", 0x90000), ("a3", 0)])
+        b.emit_mv("s0", "a0")
+        b.syscall("close", [("a0", "s0")])
+        b.syscall("openat", [("a0", -100), ("a1", "tmp_dir"), ("a2", 0x90000), ("a3", 0)])
+        b.emit_mv("s1", "a0")
+        b.syscall("close", [("a0", "s1")])
+        b.syscall("write", [("a0", 1), ("a1", "tmpdir_twice_msg"), ("a2", len(rodata_for_sample(sample_id)["tmpdir_twice_msg"]))])
     else:
         raise ValueError(f"unsupported benign sample: {sample_id}")
 
@@ -145,6 +333,56 @@ def syscall_sequence_for(sample_id: str) -> list[str]:
         return ["rvmt_marker", "rvmt_marker", "openat", "read", "openat", "write", "close", "close", "rvmt_marker", "exit"]
     if sample_id == "sha256sum":
         return ["rvmt_marker", "rvmt_marker", "openat", "read", "close", "write", "rvmt_marker", "exit"]
+    if sample_id == "pid_status":
+        return ["rvmt_marker", "rvmt_marker", "getpid", "getppid", "write", "rvmt_marker", "exit"]
+    if sample_id == "clock_status":
+        return ["rvmt_marker", "rvmt_marker", "clock_gettime", "write", "rvmt_marker", "exit"]
+    if sample_id == "write_twice":
+        return ["rvmt_marker", "rvmt_marker", "write", "write", "rvmt_marker", "exit"]
+    if sample_id == "open_tmp_close":
+        return ["rvmt_marker", "rvmt_marker", "openat", "close", "write", "rvmt_marker", "exit"]
+    if sample_id == "getdents_only":
+        return ["rvmt_marker", "rvmt_marker", "openat", "getdents64", "close", "write", "rvmt_marker", "exit"]
+    if sample_id == "read_twice":
+        return ["rvmt_marker", "rvmt_marker", "openat", "read", "read", "write", "close", "rvmt_marker", "exit"]
+    if sample_id == "mmap_rw":
+        return ["rvmt_marker", "rvmt_marker", "mmap", "write", "munmap", "rvmt_marker", "exit"]
+    if sample_id == "readlink_self":
+        return ["rvmt_marker", "rvmt_marker", "readlinkat", "write", "rvmt_marker", "exit"]
+    if sample_id == "prctl_get_name":
+        return ["rvmt_marker", "rvmt_marker", "prctl", "write", "rvmt_marker", "exit"]
+    if sample_id == "pid_clock_mix":
+        return ["rvmt_marker", "rvmt_marker", "getpid", "clock_gettime", "write", "rvmt_marker", "exit"]
+    if sample_id == "cat_small":
+        return ["rvmt_marker", "rvmt_marker", "openat", "read", "write", "close", "rvmt_marker", "exit"]
+    if sample_id == "getpid_only":
+        return ["rvmt_marker", "rvmt_marker", "getpid", "write", "rvmt_marker", "exit"]
+    if sample_id == "getppid_only":
+        return ["rvmt_marker", "rvmt_marker", "getppid", "write", "rvmt_marker", "exit"]
+    if sample_id == "clock_twice":
+        return ["rvmt_marker", "rvmt_marker", "clock_gettime", "clock_gettime", "write", "rvmt_marker", "exit"]
+    if sample_id == "prctl_set_name":
+        return ["rvmt_marker", "rvmt_marker", "prctl", "write", "rvmt_marker", "exit"]
+    if sample_id == "prctl_set_get_name":
+        return ["rvmt_marker", "rvmt_marker", "prctl", "prctl", "write", "rvmt_marker", "exit"]
+    if sample_id == "open_read_close":
+        return ["rvmt_marker", "rvmt_marker", "openat", "read", "close", "rvmt_marker", "exit"]
+    if sample_id == "open_write_close":
+        return ["rvmt_marker", "rvmt_marker", "openat", "write", "close", "rvmt_marker", "exit"]
+    if sample_id == "read_zero":
+        return ["rvmt_marker", "rvmt_marker", "openat", "read", "close", "rvmt_marker", "exit"]
+    if sample_id == "mmap_double":
+        return ["rvmt_marker", "rvmt_marker", "mmap", "mmap", "write", "munmap", "munmap", "rvmt_marker", "exit"]
+    if sample_id == "mmap_munmap_only":
+        return ["rvmt_marker", "rvmt_marker", "mmap", "munmap", "rvmt_marker", "exit"]
+    if sample_id == "readlink_twice":
+        return ["rvmt_marker", "rvmt_marker", "readlinkat", "readlinkat", "write", "rvmt_marker", "exit"]
+    if sample_id == "open_proc_status":
+        return ["rvmt_marker", "rvmt_marker", "openat", "read", "close", "rvmt_marker", "exit"]
+    if sample_id == "open_proc_cmdline":
+        return ["rvmt_marker", "rvmt_marker", "openat", "read", "close", "rvmt_marker", "exit"]
+    if sample_id == "tmpdir_open_close_twice":
+        return ["rvmt_marker", "rvmt_marker", "openat", "close", "openat", "close", "write", "rvmt_marker", "exit"]
     raise ValueError(f"unsupported benign sample: {sample_id}")
 
 
@@ -245,9 +483,7 @@ def build_elf(sample_id: str, begin_marker: int, end_marker: int) -> tuple[bytes
 
 def build_one(root: Path, manifest: dict[str, Any], sample_id: str, out_dir: Path, code_map_dir: Path | None, begin_marker: int, end_marker: int) -> Path:
     samples = samples_by_id(manifest)
-    row = samples.get(sample_id)
-    if row is None:
-        raise ValueError(f"{sample_id}: not present in manifest")
+    row = samples.get(sample_id) or fallback_sample_row(sample_id)
     if row.get("class") != BENIGN_SAMPLE_CLASS:
         raise ValueError(f"{sample_id}: manifest row is not benign")
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -259,6 +495,7 @@ def build_one(root: Path, manifest: dict[str, Any], sample_id: str, out_dir: Pat
     metadata.update(
         {
             "reference_manifest": repo_rel(root / DEFAULT_MANIFEST),
+            "reference_manifest_row_present": sample_id in samples,
             "reference_source": row.get("source"),
             "reference_source_sha256": hashlib.sha256(source_path.read_bytes()).hexdigest() if source_path.is_file() else None,
             "binary": repo_rel(binary),

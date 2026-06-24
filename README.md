@@ -1,14 +1,16 @@
 # RV-MalTrace
 
 RV-MalTrace is a CVA6/RISC-V hardware-assisted behavior tracing project. The
-current repository focus is a reproducible committed-event trace MVP: collect
-sideband trace events from committed execution, compare simulation output with
-golden JSONL traces, and keep board and Linux claims behind explicit evidence
-gates.
+current mainline is centered on the Digilent Genesys2 + CVA6 evidence package
+under `results/evaluation/genesys2-cva6/current/`: committed-event trace RTL,
+Vivado simulation, physical-board BRAM/ILA marker-window captures, local
+ELF/process attribution, semantic provenance, and artifact checkers.
 
-The paper-level direction is described in `docs/09-planning/next-plan.md`: RV-MalScope, a
-low-perturbation RISC-V syscall/control-flow/trap/context tracer with planned
-semantic reconstruction, board validation, and evasion-resistance evaluation.
+The current paper-level direction is a hardware-rooted RISC-V behavior trace and
+semantic reconstruction system. The repository does not claim real-malware
+validation, malware detection accuracy, production streaming/DMA throughput, or
+full hardware-derived pointer strings unless the corresponding artifact-backed
+gate passes.
 
 ## Repository Layout
 
@@ -22,9 +24,11 @@ fpga/         Local FPGA bring-up notes and stable output conventions
 src/          rvmt command-line task runner
 ```
 
-Generated Vivado, simulation, and board evidence should stay under `build/` or
-`results/`. Those directories are intentionally ignored; promote only stable
-summaries, runbooks, scripts, or expected artifacts into version control.
+Generated Vivado, simulation, and board evidence normally stays under `build/`
+or `results/`. The canonical current summaries and selected small evidence
+files are promoted explicitly through `.gitignore` exceptions and checked by the
+artifact package. Large raw board roots remain referenced by manifest and are
+covered by a separate raw artifact ZIP release candidate when present.
 
 ## Quick Start
 
@@ -33,6 +37,9 @@ Use `uv` as the single entry point:
 ```powershell
 uv run rvmt config:show
 uv run rvmt tasks:list
+uv run rvmt repro:quick
+uv run rvmt repro:local
+uv run rvmt ndss:docker-full
 uv run rvmt sim:trace-unit
 uv run rvmt sim:cva6-smoke
 uv run rvmt sim:cva6-full-soc-tohost
@@ -58,6 +65,40 @@ uv run python tools/check_behavior_demo.py
 uv run python tools/check_35t_experiment_bundle.py --self-test
 ```
 
+For the current Genesys2/CVA6 evidence package, the main local gates are:
+
+```powershell
+uv run rvmt repro:quick
+uv run rvmt repro:local
+uv run rvmt repro:full
+uv run rvmt repro:clean-export
+uv run rvmt ndss:docker-full
+```
+
+`repro:quick` checks the reproducibility manifest, lightweight artifact package,
+raw artifact release manifest/ZIP, semantic provenance, and recursive artifact
+path/hash integrity. `repro:local` adds current-quality, case-study, and
+bitstream artifact inventory checks. `repro:clean-export` copies the current
+worktree into an isolated local export, extracts the raw artifact ZIP there,
+and reruns quick/local without claiming a committed release clone.
+Host-only Vivado, Genesys2/JTAG/UART, and LaTeX steps are documented in
+`docs/07-evaluation-evidence/ndss_host_runbook.md`.
+The board-side timing-source probes are exposed as
+`uv run rvmt ndss:cycle-smoke`, `uv run rvmt ndss:cycle-source-probe`, and
+`uv run rvmt ndss:counter-access-matrix`. `uv run rvmt
+ndss:sdcard-linux-manifest` captures the live booted SD-card Linux identity over
+UART, and `uv run rvmt ndss:linux-counter-preflight` records whether the
+repository has the Genesys2/CVA6 Buildroot/OpenSBI/Linux/SD-card source anchors
+needed to repair that path. The counter-path preflight requires semantic
+Genesys2/CVA6 Buildroot/OpenSBI/build-entrypoint evidence, not placeholder
+paths. These commands record BLOCKED summaries unless the live SD-card Linux
+image actually exposes the requested cycle source and the source-locked rebuild
+path is present.
+`uv run rvmt ndss:tracer-visibility-baseline` runs the safe Docker software
+baseline for anti-analysis comparison tables. It records native/no-tracer,
+native/strace, qemu-user, and qemu-user-strace observations and keeps qemu and
+strace as oracle-only software baselines, not hardware evidence.
+
 ## Behavior Demo
 
 The behavior demo evidence bundle is documented in `docs/04-runtime-linux/behavior_demo.md`.
@@ -74,15 +115,17 @@ The demo is synthetic behavior audit evidence, not malware detection quality evi
 Linux-on-board evidence, or physical hardware validation.
 
 The normal full-SoC tohost probe is available as `uv run rvmt sim:cva6-full-soc-tohost`.
-It is repository-local Vivado simulation evidence; the current result is
-BLOCKED on timeout, so it does not upgrade board, Linux, or malware detection
-claims.
+It is repository-local Vivado simulation evidence and remains distinct from
+physical Genesys2 board evidence. Board claims are made only through the current
+Genesys2/CVA6 summaries and their checker suite.
 
 ## Core Artifacts
 
 - `docs/10-process/version_lock.md` records the current CVA6, Vivado, bare-metal
   toolchain, board target, and decoder anchors. Linux kernel, Buildroot, and
-  `riscv64-linux-gnu-gcc` anchors remain TODO until the Linux bring-up gate.
+  SD-card image anchors remain TODO/BLOCKED until
+  `results/evaluation/genesys2-cva6/current/linux_counter_path_preflight.json`
+  no longer reports `BLOCKED_SD_CARD_LINUX_SOURCE_MISSING`.
 - `docs/02-trace-architecture/signal_map.md` maps committed CVA6/RVFI signals into the trace adapter.
 - `docs/02-trace-architecture/trace_format.md` defines the JSONL event schema, packet fields,
   comparison rules, filters, compression prototype, and disabled memory modes.
@@ -95,13 +138,18 @@ claims.
 - `docs/README.md` indexes the categorized documentation tree.
 - `docs/03-platform-architecture/artix7-35t/artix7_35t_bringup.md` records the low-cost Artix-7 35T
   LiteX/VexRiscv prototype path.
+- `docs/07-evaluation-evidence/ndss_artifact_instructions.md` and
+  `docs/09-planning/ndss_execution_status.md` record the current NDSS artifact
+  instructions, validation commands, completed host runs, and open blockers.
 
 ## Evidence Policy
 
 Do not mark board or Linux rows as PASS unless the documented artifact exists
 under the matching `results/board/.../<run-id>/` or `results/linux/.../<run-id>/`
-path. Simulation evidence, bitstream evidence, physical-board observations, and
-paper-level evaluation results are separate gates.
+path and any recorded SHA-256 matches. Simulation evidence, bitstream evidence,
+physical-board observations, and paper-level evaluation results are separate
+gates. QEMU, strace, and host-control logs are validation oracles only; they must
+not be described as hardware-recovered semantics.
 
 Trace logic is sideband-only. A full trace sink must never backpressure CVA6;
 when bandwidth is exceeded, the design must drop trace records and emit/count

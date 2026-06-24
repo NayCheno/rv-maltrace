@@ -14,7 +14,7 @@ DEFAULT_REPORT = Path("docs/07-evaluation-evidence/reports/ccfa_review_closure_a
 
 EXPECTED_SCHEMA = "rvmt.genesys2.review_closure_audit.v1"
 EXPECTED_STATUS = "PASS"
-EXPECTED_CLOSURE_STATUS = "PASS_LOCAL_SCOPE_EXTERNAL_OPEN"
+EXPECTED_CLOSURE_STATUS = "PASS_LOCAL_SCOPE_EXTERNAL_AND_BOARD_DYNAMIC_OPEN"
 EXPECTED_EXTERNAL_IDS = {
     "board_native_dwarf_source_lines",
     "full_hardware_pointer_strings",
@@ -120,7 +120,8 @@ def check_summary(data: dict[str, Any], root: Path, report: Path) -> list[str]:
     require(errors, accepted_external_ids | open_external_ids == EXPECTED_EXTERNAL_IDS, "external ids coverage mismatch")
     require(errors, accepted_external_ids.isdisjoint(open_external_ids), "accepted/open external ids overlap")
     require(errors, "real_malware_validation" in as_list(summary.get("objective_exclusions")), "real malware exclusion missing")
-    require(errors, summary.get("local_item_count") == 11, "local item count mismatch")
+    require(errors, int(summary.get("local_item_count") or 0) >= 1, "local item count must be positive")
+    require(errors, summary.get("blocked_items_evidence_present") is True, "blocked item evidence coverage must be true")
     require(errors, int(summary.get("accepted_external_item_count") or 0) == len(accepted_external_ids), "accepted external item count mismatch")
     require(errors, int(summary.get("open_external_item_count") or 0) == len(open_external_ids), "open external item count mismatch")
     require(errors, summary.get("excluded_item_count") == 1, "excluded item count mismatch")
@@ -128,6 +129,7 @@ def check_summary(data: dict[str, Any], root: Path, report: Path) -> list[str]:
     items = row_map(as_list(data.get("items")))
     require(errors, set(items) == EXPECTED_ITEM_IDS, "review item set mismatch")
     external_items = []
+    blocked_items = []
     excluded_items = []
     for item_id, item in items.items():
         status = str(item.get("status") or "")
@@ -146,14 +148,26 @@ def check_summary(data: dict[str, Any], root: Path, report: Path) -> list[str]:
             evidence_status = evidence.get("status")
             if status.startswith("PASS"):
                 require(errors, evidence_status in {EVIDENCE_STATUS_NOT_APPLICABLE, "PASS"}, f"{item_id}: local evidence status is not PASS: {evidence.get('id')}")
+            elif status.startswith("BLOCKED"):
+                require(
+                    errors,
+                    evidence_status in {EVIDENCE_STATUS_NOT_APPLICABLE, "PASS"} or str(evidence_status).startswith("BLOCKED"),
+                    f"{item_id}: blocked evidence status is invalid: {evidence.get('id')}",
+                )
         if status in {OPEN_EXTERNAL_STATUS, ACCEPTED_EXTERNAL_STATUS}:
             external_items.append(item)
+        elif status.startswith("BLOCKED"):
+            blocked_items.append(item)
         elif status == "EXCLUDED_BY_OBJECTIVE":
             excluded_items.append(item)
         else:
             require(errors, status.startswith("PASS"), f"{item_id}: unexpected status {status}")
 
     require(errors, len(external_items) == len(EXPECTED_EXTERNAL_IDS), "external item count mismatch")
+    pass_items = [item for item in items.values() if str(item.get("status") or "").startswith("PASS")]
+    require(errors, int(summary.get("local_item_count") or 0) == len(pass_items), "local item count mismatch")
+    require(errors, int(summary.get("blocked_item_count") or 0) == len(blocked_items), "blocked item count mismatch")
+    require(errors, set(as_list(summary.get("blocked_item_ids"))) == {str(item.get("id")) for item in blocked_items}, "blocked item id mismatch")
     live_external = current_external_state(root)
     for item in external_items:
         external_id = item.get("external_id")
@@ -194,7 +208,7 @@ def check_summary(data: dict[str, Any], root: Path, report: Path) -> list[str]:
     require(errors, report_path.is_file(), f"review closure audit report missing: {report}")
     if report_path.is_file():
         report_text = report_path.read_text(encoding="utf-8", errors="replace")
-        for token in ("PASS_LOCAL_SCOPE_EXTERNAL_OPEN", "Remaining Non-Real External Items", "real malware validation"):
+        for token in ("PASS_LOCAL_SCOPE_EXTERNAL_AND_BOARD_DYNAMIC_OPEN", "Remaining Non-Real External Items", "real malware validation"):
             require(errors, token in report_text, f"review closure audit report missing token: {token}")
         for external_id in sorted(EXPECTED_EXTERNAL_IDS):
             require(errors, external_id in report_text, f"review closure audit report missing external id: {external_id}")
@@ -208,7 +222,7 @@ def self_test() -> int:
         report.parent.mkdir(parents=True, exist_ok=True)
         report.write_text(
             (
-                "Status: `PASS_LOCAL_SCOPE_EXTERNAL_OPEN`\n\n"
+                "Status: `PASS_LOCAL_SCOPE_EXTERNAL_AND_BOARD_DYNAMIC_OPEN`\n\n"
                 "## Remaining Non-Real External Items\n\n"
                 "board_native_dwarf_source_lines\n"
                 "full_hardware_pointer_strings\n"
@@ -232,7 +246,7 @@ def self_test() -> int:
         ]
         write_json(
             root / "results/evaluation/genesys2-cva6/current/external_closure_intake.json",
-            {"schema": "rvmt.genesys2.external_closure_intake.v1", "status": "PASS", "records": intake_records},
+            {"schema": "rvmt.genesys2.external_closure_intake.v1", "status": "BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED", "records": intake_records},
         )
         items = []
         local_ids = sorted(EXPECTED_ITEM_IDS - {"phase_g_real_malware_validation"} - {
@@ -320,6 +334,9 @@ def self_test() -> int:
             "summary": {
                 "local_item_count": 11,
                 "local_items_evidence_present": True,
+                "blocked_item_count": 0,
+                "blocked_item_ids": [],
+                "blocked_items_evidence_present": True,
                 "open_external_item_count": len(EXPECTED_EXTERNAL_IDS),
                 "open_external_ids": sorted(EXPECTED_EXTERNAL_IDS),
                 "excluded_item_count": 1,

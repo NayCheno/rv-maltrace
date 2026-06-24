@@ -11,7 +11,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_P0_RUN_ROOT = Path("results/board/genesys2_trace_validation/20260611-p0-continuous-136bit")
 DEFAULT_SAFE_RUN_ROOT = Path("results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610")
-DEFAULT_SAFE_BRAM_RUN_ROOT = Path("results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait")
+DEFAULT_SAFE_BRAM_RUN_ROOT = Path("results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram")
 DEFAULT_OUT = Path("results/evaluation/genesys2-cva6/current/pointer_snapshot_guardrails.json")
 USER_POINTER_MAX = 0x0000_4000_0000_0000
 MULTIPLE_REPETITION_TRACES = "MULTIPLE_REPETITION_TRACES_SEE_TRACES"

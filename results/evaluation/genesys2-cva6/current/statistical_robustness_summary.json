@@ -1,9 +1,9 @@
 {
   "aggregate": {
-    "accepted_board_repetitions": 120,
+    "accepted_board_repetitions": 122,
     "benign_control_sample_count": 5,
     "benign_false_positive_rate": 0.0,
-    "board_attempt_count": 121,
+    "board_attempt_count": 126,
     "board_sample_count": 12,
     "case_study_count": 12,
     "max_accepted_bram_dropped_count": 0,
@@ -11,16 +11,16 @@
     "max_accepted_wrap_count": 0,
     "min_accepted_repetitions_per_board_sample": 10,
     "p0_sample_count": 4,
-    "retained_failed_attempt_count": 1,
+    "retained_failed_attempt_count": 4,
     "safe_surrogate_sample_count": 8,
     "sequence_gap_sample_count": 0,
     "unexpected_benign_false_positive_count": 0,
     "workload_class_count": 3
   },
   "allowed_claims": [
-    "The current controlled Genesys2/CVA6 board evidence contains 120 accepted marker-window repetitions across 12 safe/surrogate board samples, with at least 10 accepted repetitions per board sample.",
+    "The current controlled Genesys2/CVA6 board evidence contains 122 accepted marker-window repetitions across 12 safe/surrogate board samples, with at least 10 accepted repetitions per board sample.",
     "Accepted board repetitions have zero unaccounted DROP, zero BRAM wrap, and no sequence-gap samples under the captured-window criteria.",
-    "One failed P0 board attempt is retained as failure evidence and is not counted as an accepted PASS repetition.",
+    "4 failed board attempt(s) are retained as failure evidence and are not counted as accepted PASS repetitions.",
     "The current local benign-control set contains at least five benign workloads with zero unexpected false positives under the controlled local Linux audit."
   ],
   "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",
@@ -36,18 +36,18 @@
   },
   "cohorts": [
     {
-      "accepted_repetitions": 40,
-      "attempt_count": 41,
-      "failed_attempt_count": 1,
+      "accepted_repetitions": 42,
+      "attempt_count": 46,
+      "failed_attempt_count": 4,
       "id": "p0_bram_repetitions",
       "label": "P0 safe synthetic board marker-window repetitions",
       "max_accepted_bram_dropped_count": 0,
-      "max_accepted_repetitions_per_sample": 10,
+      "max_accepted_repetitions_per_sample": 11,
       "max_accepted_unaccounted_drop": 0,
       "max_accepted_wrap_count": 0,
       "min_accepted_repetitions_per_sample": 10,
       "minimum_repetitions_per_sample": 10,
-      "run_root": "results/board/genesys2_trace_validation/20260612-p0-bram-repetitions",
+      "run_root": "results/board/genesys2_trace_validation/20260624-current-p0-cohort",
       "sample_count": 4,
       "sample_ids": [
         "hello_write",
@@ -69,7 +69,7 @@
       "max_accepted_wrap_count": 0,
       "min_accepted_repetitions_per_sample": 10,
       "minimum_repetitions_per_sample": 10,
-      "run_root": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait",
+      "run_root": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort",
       "sample_count": 8,
       "sample_ids": [
         "file_scan",
@@ -93,25 +93,76 @@
   ],
   "retained_failed_attempts": [
     {
-      "bram_dropped_count": 3612,
-      "bram_records": "results/board/genesys2_trace_validation/20260612-p0-bram-repetitions/fork_exec/rep_03/bram_records.jsonl",
-      "bram_summary": "results/board/genesys2_trace_validation/20260612-p0-bram-repetitions/fork_exec/rep_03/bram_summary.json",
-      "capture_log": "results/board/genesys2_trace_validation/20260612-p0-bram-repetitions/fork_exec/rep_03/capture.log",
+      "bram_dropped_count": 0,
+      "bram_records": "results/board/genesys2_trace_validation/20260624-current-p0-cohort/file_open_read_write/rep_09/bram_records.jsonl",
+      "bram_summary": "results/board/genesys2_trace_validation/20260624-current-p0-cohort/file_open_read_write/rep_09/bram_summary.json",
+      "capture_log": "results/board/genesys2_trace_validation/20260624-current-p0-cohort/file_open_read_write/rep_09/capture.log",
       "cohort_id": "p0_bram_repetitions",
       "reason": [
         "parse_success_false",
-        "begin_marker_count_not_one",
-        "bram_ring_full",
-        "bram_wrap_count_nonzero",
-        "bram_dropped_count_nonzero",
-        "unaccounted_drop_nonzero"
+        "unaccounted_drop_nonzero",
+        "sequence_gaps_present"
       ],
-      "repetition": "rep_03",
+      "repetition": "rep_09",
+      "sample_class": "p0_safe_synthetic",
+      "sample_id": "file_open_read_write",
+      "uart_log": "results/board/genesys2_trace_validation/20260624-current-p0-cohort/file_open_read_write/rep_09/uart.log",
+      "unaccounted_drop": 1,
+      "wrap_count": 0
+    },
+    {
+      "bram_dropped_count": 0,
+      "bram_records": "results/board/genesys2_trace_validation/20260624-current-p0-cohort/fork_exec/rep_06/bram_records.jsonl",
+      "bram_summary": "results/board/genesys2_trace_validation/20260624-current-p0-cohort/fork_exec/rep_06/bram_summary.json",
+      "capture_log": "results/board/genesys2_trace_validation/20260624-current-p0-cohort/fork_exec/rep_06/capture.log",
+      "cohort_id": "p0_bram_repetitions",
+      "reason": [
+        "parse_success_false",
+        "unaccounted_drop_nonzero",
+        "sequence_gaps_present"
+      ],
+      "repetition": "rep_06",
       "sample_class": "p0_safe_synthetic",
       "sample_id": "fork_exec",
-      "uart_log": "results/board/genesys2_trace_validation/20260612-p0-bram-repetitions/fork_exec/rep_03/uart.log",
-      "unaccounted_drop": 3612,
-      "wrap_count": 4
+      "uart_log": "results/board/genesys2_trace_validation/20260624-current-p0-cohort/fork_exec/rep_06/uart.log",
+      "unaccounted_drop": 1,
+      "wrap_count": 0
+    },
+    {
+      "bram_dropped_count": 0,
+      "bram_records": "results/board/genesys2_trace_validation/20260624-current-p0-cohort/fork_exec/rep_07/bram_records.jsonl",
+      "bram_summary": "results/board/genesys2_trace_validation/20260624-current-p0-cohort/fork_exec/rep_07/bram_summary.json",
+      "capture_log": "results/board/genesys2_trace_validation/20260624-current-p0-cohort/fork_exec/rep_07/capture.log",
+      "cohort_id": "p0_bram_repetitions",
+      "reason": [
+        "parse_success_false",
+        "unaccounted_drop_nonzero",
+        "sequence_gaps_present"
+      ],
+      "repetition": "rep_07",
+      "sample_class": "p0_safe_synthetic",
+      "sample_id": "fork_exec",
+      "uart_log": "results/board/genesys2_trace_validation/20260624-current-p0-cohort/fork_exec/rep_07/uart.log",
+      "unaccounted_drop": 2,
+      "wrap_count": 0
+    },
+    {
+      "bram_dropped_count": 0,
+      "bram_records": "results/board/genesys2_trace_validation/20260624-current-p0-cohort/illegal_instruction/rep_02/bram_records.jsonl",
+      "bram_summary": "results/board/genesys2_trace_validation/20260624-current-p0-cohort/illegal_instruction/rep_02/bram_summary.json",
+      "capture_log": "results/board/genesys2_trace_validation/20260624-current-p0-cohort/illegal_instruction/rep_02/capture.log",
+      "cohort_id": "p0_bram_repetitions",
+      "reason": [
+        "parse_success_false",
+        "unaccounted_drop_nonzero",
+        "sequence_gaps_present"
+      ],
+      "repetition": "rep_02",
+      "sample_class": "p0_safe_synthetic",
+      "sample_id": "illegal_instruction",
+      "uart_log": "results/board/genesys2_trace_validation/20260624-current-p0-cohort/illegal_instruction/rep_02/uart.log",
+      "unaccounted_drop": 1,
+      "wrap_count": 0
     }
   ],
   "sample_repetition_rows": [
@@ -120,19 +171,19 @@
       "attempt_count": 10,
       "cohort_id": "p0_bram_repetitions",
       "event_count_stats": {
-        "max": 115.0,
-        "median": 87.0,
-        "min": 87.0,
-        "p95": 115.0,
-        "variance": 153.69
+        "max": 113.0,
+        "median": 108.5,
+        "min": 82.0,
+        "p95": 113.0,
+        "variance": 171.24
       },
       "failed_attempt_count": 0,
       "marker_window_cycle_stats": {
-        "max": 220322.0,
-        "median": 170231.5,
-        "min": 127821.0,
-        "p95": 220322.0,
-        "variance": 893866367.81
+        "max": 228133.0,
+        "median": 164036.5,
+        "min": 133588.0,
+        "p95": 228133.0,
+        "variance": 763144598.49
       },
       "max_accepted_bram_dropped_count": 0,
       "max_accepted_unaccounted_drop": 0,
@@ -143,23 +194,23 @@
       "sequence_gap_repetition_count": 0
     },
     {
-      "accepted_repetitions": 10,
-      "attempt_count": 10,
+      "accepted_repetitions": 11,
+      "attempt_count": 12,
       "cohort_id": "p0_bram_repetitions",
       "event_count_stats": {
-        "max": 184.0,
-        "median": 170.0,
-        "min": 125.0,
-        "p95": 184.0,
-        "variance": 344.84
+        "max": 182.0,
+        "median": 176.0,
+        "min": 120.0,
+        "p95": 179.0,
+        "variance": 320.0763888888889
       },
-      "failed_attempt_count": 0,
+      "failed_attempt_count": 1,
       "marker_window_cycle_stats": {
-        "max": 413989.0,
-        "median": 359661.5,
-        "min": 243143.0,
-        "p95": 413989.0,
-        "variance": 2410889017.44
+        "max": 383062.0,
+        "median": 353487.0,
+        "min": 250117.0,
+        "p95": 377743.0,
+        "variance": 1197397972.25
       },
       "max_accepted_bram_dropped_count": 0,
       "max_accepted_unaccounted_drop": 0,
@@ -171,22 +222,22 @@
     },
     {
       "accepted_repetitions": 10,
-      "attempt_count": 11,
+      "attempt_count": 12,
       "cohort_id": "p0_bram_repetitions",
       "event_count_stats": {
-        "max": 4636.0,
-        "median": 652.0,
-        "min": 644.0,
-        "p95": 4636.0,
-        "variance": 1312234.0661157025
+        "max": 906.0,
+        "median": 647.5,
+        "min": 632.0,
+        "p95": 682.0,
+        "variance": 5191.166666666667
       },
-      "failed_attempt_count": 1,
+      "failed_attempt_count": 2,
       "marker_window_cycle_stats": {
-        "max": 5096279.0,
-        "median": 5026504.0,
-        "min": 3382522.0,
-        "p95": 5096279.0,
-        "variance": 228552881089.86777
+        "max": 7292317.0,
+        "median": 5043263.0,
+        "min": 4895480.0,
+        "p95": 5121315.0,
+        "variance": 391869467666.24304
       },
       "max_accepted_bram_dropped_count": 0,
       "max_accepted_unaccounted_drop": 0,
@@ -197,23 +248,23 @@
       "sequence_gap_repetition_count": 0
     },
     {
-      "accepted_repetitions": 10,
-      "attempt_count": 10,
+      "accepted_repetitions": 11,
+      "attempt_count": 12,
       "cohort_id": "p0_bram_repetitions",
       "event_count_stats": {
-        "max": 126.0,
-        "median": 107.0,
-        "min": 94.0,
-        "p95": 126.0,
-        "variance": 183.16
+        "max": 117.0,
+        "median": 93.0,
+        "min": 89.0,
+        "p95": 114.0,
+        "variance": 141.05555555555554
       },
-      "failed_attempt_count": 0,
+      "failed_attempt_count": 1,
       "marker_window_cycle_stats": {
-        "max": 304921.0,
-        "median": 203360.5,
-        "min": 169059.0,
-        "p95": 304921.0,
-        "variance": 1599904146.24
+        "max": 258145.0,
+        "median": 215018.5,
+        "min": 167556.0,
+        "p95": 246172.0,
+        "variance": 558048794.5208334
       },
       "max_accepted_bram_dropped_count": 0,
       "max_accepted_unaccounted_drop": 0,

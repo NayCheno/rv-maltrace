@@ -1,0 +1,150 @@
+{
+  "blocked_reason": "live board exposes zicntr/zihpm in /proc/cpuinfo but has no Linux perf event source, no observed SBI PMU extension, and prior user rdcycle probes trap as illegal instructions",
+  "claim_boundary": {
+    "board_cpu_declares_zicntr": true,
+    "board_cpu_declares_zihpm": true,
+    "board_cycle_source_claimed": false,
+    "cycle_level_overhead_claimed": false,
+    "diagnostic_only": true,
+    "linux_perf_event_source_observed": false,
+    "production_runtime_slowdown_claimed": false,
+    "sbi_pmu_extension_observed": false
+  },
+  "diagnostics": {
+    "config_lines": [],
+    "cpuinfo_has_zicntr": true,
+    "cpuinfo_has_zihpm": true,
+    "cpuinfo_isa": "rv64imafdc_zicntr_zicsr_zifencei_zihpm_zaamo_zalrsc_zca_zcb_zcd_zbc_zbkb_zbkc_zbkx_zknd_zkne_zknh",
+    "dtb_perf_paths": [],
+    "dtb_pmu_compatible_values": [],
+    "dtb_pmu_node_observed": false,
+    "dtb_pmu_paths": [],
+    "kernel": "6.19.6",
+    "kernel_config_accessible": false,
+    "kernel_config_missing_paths": [
+      "/proc/config.gz",
+      "/boot/config-6.19.6",
+      "/lib/modules/6.19.6/build/.config"
+    ],
+    "kernel_config_paths": [],
+    "kernel_config_perf_related": {},
+    "kernel_hw_perf_events_enabled": null,
+    "kernel_module_dirs": [],
+    "kernel_module_dirs_missing": [
+      "/lib/modules/6.19.6"
+    ],
+    "kernel_perf_events_enabled": null,
+    "kernel_perf_pmu_module_paths": [],
+    "kernel_riscv_pmu_enabled": null,
+    "kernel_riscv_pmu_sbi_enabled": null,
+    "linux_perf_event_sources_missing": true,
+    "linux_perf_event_sources_observed": false,
+    "markers": {
+      "begin": true,
+      "done": true
+    },
+    "perf_event_paranoid_path_exists": false,
+    "perf_lines": [
+      "RVMT_SEND 'for p in /proc/config.gz /boot/config-$(uname -r) /lib/modules/$(uname -r)/build/.config; do if [ -e \"$p\" ]; then echo RVMT_KERNEL_CONFIG_PATH $p; if echo \"$p\" | grep -q \\'\\\\.gz$\\'; then zcat \"$p\"; else cat \"$p\"; fi | grep -E \\'^(# )?CONFIG_(PERF|HW_PERF|HAVE_PERF|GENERIC_PERF|RISCV.*PMU|RISCV_PMU|PMU|DEBUG_INFO|KALLSYMS)\\' || true; else echo RVMT_KERNEL_CONFIG_MISSING $p; fi; done'",
+      "PERF|HW_PERF|HAVE_PERF|GENERIC_PERF|RISCV.*PMU|RISCV_PMU|PMU|DEBUG_INFO|KALLSYMS",
+      "RVMT_SEND \"find /proc/device-tree -maxdepth 4 -iname '*perf*' -print 2>/dev/null | sed 's/^/RVMT_DTB_PERF_PATH /' || true\"",
+      "find /proc/device-tree -maxdepth 4 -iname '*perf*' -print 2>/dev/null | sed 's",
+      "RVMT_SEND \"if [ -d /lib/modules/$(uname -r) ]; then echo RVMT_MODULE_DIR /lib/modules/$(uname -r); find /lib/modules/$(uname -r) -maxdepth 4 -type f 2>/dev/null | grep -Ei 'perf|pmu|riscv|counter' | sed 's/^/RVMT_MODULE_PATH /' || true; else echo RVMT_MODULE_DIR_MISSING /lib/modules/$(uname -r); fi\"",
+      "Ei 'perf|pmu|riscv|counter' | sed 's/^/RVMT_MODULE_PATH /' || true; else echo RV",
+      "RVMT_SEND 'dmesg 2>&1 | grep -i perf | tail -40 || true'",
+      "dmesg 2>&1 | grep -i perf | tail -40 || true"
+    ],
+    "pmu_lines": [
+      "RVMT_SEND 'for p in /proc/config.gz /boot/config-$(uname -r) /lib/modules/$(uname -r)/build/.config; do if [ -e \"$p\" ]; then echo RVMT_KERNEL_CONFIG_PATH $p; if echo \"$p\" | grep -q \\'\\\\.gz$\\'; then zcat \"$p\"; else cat \"$p\"; fi | grep -E \\'^(# )?CONFIG_(PERF|HW_PERF|HAVE_PERF|GENERIC_PERF|RISCV.*PMU|RISCV_PMU|PMU|DEBUG_INFO|KALLSYMS)\\' || true; else echo RVMT_KERNEL_CONFIG_MISSING $p; fi; done'",
+      "PERF|HW_PERF|HAVE_PERF|GENERIC_PERF|RISCV.*PMU|RISCV_PMU|PMU|DEBUG_INFO|KALLSYMS",
+      "RVMT_SEND \"find /proc/device-tree -maxdepth 4 -iname '*pmu*' -print 2>/dev/null | sed 's/^/RVMT_DTB_PMU_PATH /' || true\"",
+      "find /proc/device-tree -maxdepth 4 -iname '*pmu*' -print 2>/dev/null | sed 's/",
+      "RVMT_SEND 'for f in /proc/device-tree/pmu/compatible /proc/device-tree/soc/pmu/compatible /proc/device-tree/soc/pmu@0/compatible; do if [ -e \"$f\" ]; then echo RVMT_DTB_PMU_FILE $f; tr \\'\\\\000\\' \\'\\\\n\\' < \"$f\" | sed \\'s/^/RVMT_DTB_PMU_VALUE /\\'; else echo RVMT_DTB_PMU_MISSING $f; fi; done'",
+      "for f in /proc/device-tree/pmu/compatible /proc/device-tree/soc/pmu/compatible",
+      "/proc/device-tree/soc/pmu@0/compatible; do if [ -e \"$f\" ]; then echo RVMT_DTB_P",
+      "RVMT_DTB_PMU_MISSING /proc/device-tree/pmu/compatible",
+      "RVMT_DTB_PMU_MISSING /proc/device-tree/soc/pmu/compatible",
+      "RVMT_DTB_PMU_MISSING /proc/device-tree/soc/pmu@0/compatible",
+      "RVMT_SEND \"if [ -d /lib/modules/$(uname -r) ]; then echo RVMT_MODULE_DIR /lib/modules/$(uname -r); find /lib/modules/$(uname -r) -maxdepth 4 -type f 2>/dev/null | grep -Ei 'perf|pmu|riscv|counter' | sed 's/^/RVMT_MODULE_PATH /' || true; else echo RVMT_MODULE_DIR_MISSING /lib/modules/$(uname -r); fi\"",
+      "Ei 'perf|pmu|riscv|counter' | sed 's/^/RVMT_MODULE_PATH /' || true; else echo RV",
+      "RVMT_SEND 'dmesg 2>&1 | grep -i pmu | tail -40 || true'",
+      "dmesg 2>&1 | grep -i pmu | tail -40 || true"
+    ],
+    "previous_user_rdcycle_illegal_traps": [
+      "[  155.426231] cycle_counter_s[128]: unhandled signal 4 code 0x1 at 0x000000000001015c in cycle_counter_smoke[15c,10000+1000]",
+      "[31687.949820] cycle_counter_s[6137]: unhandled signal 4 code 0x1 at 0x000000000001015c in cycle_counter_smoke[15c,10000+1000]",
+      "[39883.295575] cycle_counter_s[7620]: unhandled signal 4 code 0x1 at 0x000000000001015c in cycle_counter_smoke[15c,10000+1000]"
+    ],
+    "root_shell": true,
+    "sbi_lines": [
+      "RVMT_SEND 'dmesg 2>&1 | grep -i sbi | tail -40 || true'",
+      "dmesg 2>&1 | grep -i sbi | tail -40 || true",
+      "[    0.000000] SBI specification v3.0 detected",
+      "[    0.000000] SBI implementation ID=0x1 Version=0x10007",
+      "[    0.000000] SBI TIME extension detected",
+      "[    0.000000] SBI IPI extension detected",
+      "[    0.000000] SBI RFENCE extension detected",
+      "[    0.000000] SBI DBCN extension detected",
+      "[    0.000000] SBI FWFT extension detected",
+      "[    0.369534] SBI misaligned access exception delegation ok"
+    ],
+    "sbi_pmu_extension_observed": false
+  },
+  "enablement_preflight": {
+    "dtb_pmu_node_observed": false,
+    "kernel_config_accessible": false,
+    "kernel_hw_perf_events_enabled": null,
+    "kernel_perf_events_enabled": null,
+    "kernel_riscv_pmu_enabled": null,
+    "kernel_riscv_pmu_sbi_enabled": null,
+    "linux_perf_event_source_observed": false,
+    "perf_event_open_unavailable_observed": true,
+    "required_for_kernel_perf_cycle_path": [
+      "Kernel must expose perf_event_open and /sys/bus/event_source/devices.",
+      "Firmware/device tree must expose a RISC-V PMU path, typically through SBI PMU plus a PMU DT node or matching kernel driver.",
+      "The board-side cycle-source probe must pass with monotonic-positive PERF_COUNT_HW_CPU_CYCLES rows."
+    ],
+    "required_for_user_rdcycle_path": [
+      "M-mode firmware must delegate cycle counter access to S-mode when needed.",
+      "S-mode kernel policy must enable user cycle CSR access or provide an equivalent controlled export.",
+      "The counter-access matrix must pass with monotonic-positive rdcycle rows."
+    ],
+    "sbi_pmu_extension_observed": false,
+    "user_rdcycle_illegal_trap_observed": true
+  },
+  "next_steps": [
+    "Enable OpenSBI or kernel PMU/counter delegation for cycle counters, or add a board-specific SBI/kernel cycle export.",
+    "If using kernel perf, enable CONFIG_PERF_EVENTS plus the RISC-V PMU/SBI PMU path and verify a PMU event source appears under /sys/bus/event_source/devices.",
+    "If using user rdcycle, enable the M-mode/S-mode counter delegation path and verify rdcycle rows in the counter-access matrix.",
+    "Rerun ndss:counter-access-matrix and require tools/check_genesys2_counter_access_matrix.py --require-pass before any cycle claim.",
+    "Rerun ndss:cycle-source-probe and require tools/check_genesys2_cycle_source_probe.py --require-pass if using kernel perf cycles."
+  ],
+  "non_claims": [
+    "This diagnostic does not measure workload overhead and does not claim a usable board cycle source.",
+    "Linux/QEMU/perf diagnostics are environment evidence only; they are not hardware trace semantics.",
+    "A PASS diagnostic would only mean cycle-source infrastructure was observed, not that trace-on/off overhead was measured."
+  ],
+  "related_summaries": {
+    "counter_access_matrix": {
+      "path": "results/evaluation/genesys2-cva6/current/counter_access_matrix_summary.json",
+      "schema": "rvmt.genesys2.counter_access_matrix.v1",
+      "sha256": "40a34e994007c9324bd2ae1ab5ceeb07d7cf4399b879c80590f5687f7cb4391c",
+      "size_bytes": 6141,
+      "status": "BLOCKED_BOARD_CYCLE_COUNTER_UNAVAILABLE_NONCYCLE_TIME_AVAILABLE"
+    },
+    "cycle_source_probe": {
+      "path": "results/evaluation/genesys2-cva6/current/cycle_source_probe_summary.json",
+      "schema": "rvmt.genesys2.cycle_source_probe.v1",
+      "sha256": "b0c5fc4c4e789ecff318878801ccf6cefa2d12c16d80c067c8a358fe4edae09d",
+      "size_bytes": 2147,
+      "status": "BLOCKED_BOARD_KERNEL_PERF_CYCLES_UNAVAILABLE"
+    }
+  },
+  "run_log": {
+    "path": "results/board/genesys2_trace_validation/20260623-cycle-source-diagnostics/uart.log",
+    "sha256": "453e1978d0c739a157dc18d7b100bfc0159d06d0d2017441c19753c1ec1502d7",
+    "size_bytes": 10083
+  },
+  "schema": "rvmt.genesys2.cycle_source_diagnostics.v1",
+  "status": "BLOCKED_BOARD_KERNEL_PMU_AND_USER_CYCLE_UNAVAILABLE"
+}

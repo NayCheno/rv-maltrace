@@ -15,6 +15,16 @@ BACKPRESSURE_PORT_RE = re.compile(
 )
 PIPELINE_DEFAULT_RE = re.compile(r"parameter\s+int\s+PIPELINE_INPUTS\s*=\s*1\b")
 PIPELINE_DISABLED_RE = re.compile(r"parameter\s+int\s+PIPELINE_INPUTS\s*=\s*0\b")
+RELAXED_SRET_ENABLE_RE = re.compile(r"RELAX_SRET_TO_USER_CHECK\s*\(\s*1'b1\s*\)")
+ZERO_SRET_QUALIFIER_RE = re.compile(r"rvmt_rvfi_sret_to_user\s*\[[^\]]+\]\s*=\s*1'b0")
+
+CVA6_RVFI_SOURCE = Path("rtl/cva6/core/cva6_rvfi.sv")
+CVA6_GENESYS2_SOURCE = Path("rtl/cva6/corev_apu/fpga/src/ariane_xilinx.sv")
+CVA6_TESTHARNESS_SOURCE = Path("rtl/cva6/corev_apu/tb/ariane_testharness.sv")
+CVA6_DIRECT_SMOKE_SOURCE = Path("sim/tb/tb_cva6_direct_xsim_smoke.sv")
+NO_BACKPRESSURE_PORT_EXEMPTIONS = {
+    Path("rtl/trace/rvmt_genesys2_oled_status.sv"),
+}
 
 TRACE_TOP_SNAPSHOTS = (
     ("commit_valid_s", "commit_valid_i"),
@@ -129,6 +139,8 @@ def clean_lines(path: Path) -> list[tuple[int, str]]:
 def check_no_backpressure_ports(entries: list[Path]) -> list[str]:
     errors: list[str] = []
     for entry in entries:
+        if entry in NO_BACKPRESSURE_PORT_EXEMPTIONS:
+            continue
         if not entry.exists():
             errors.append(f"RTL file does not exist: {entry}")
             continue
@@ -184,11 +196,63 @@ def check_pipeline_defaults(entries: list[Path]) -> list[str]:
     return errors
 
 
+def check_strict_cva6_sret_qualification(root: Path) -> list[str]:
+    errors: list[str] = []
+
+    rvfi_path = root / CVA6_RVFI_SOURCE
+    if not rvfi_path.is_file():
+        return [f"missing CVA6 RVFI source for strict SRET qualification: {CVA6_RVFI_SOURCE}"]
+    rvfi_text = rvfi_path.read_text(encoding="utf-8", errors="replace")
+    for token in (
+        "rvfi_sret_to_user_o",
+        "commit_instr_op[i] == SRET",
+        "priv_lvl == riscv::PRIV_LVL_S",
+        "csr.mstatus_extended[8] == 1'b0",
+    ):
+        if token not in rvfi_text:
+            errors.append(f"{CVA6_RVFI_SOURCE}: missing strict SRET-to-U qualifier token {token!r}")
+
+    required_integrations = {
+        CVA6_GENESYS2_SOURCE: (
+            ".RELAX_SRET_TO_USER_CHECK(1'b0)",
+            ".rvfi_sret_to_user_o(rvfi_sret_to_user)",
+            "assign rvmt_rvfi_sret_to_user[rvmt_port] = rvfi_sret_to_user[rvmt_port];",
+            ".rvfi_sret_to_user_i(rvmt_rvfi_sret_to_user)",
+        ),
+        CVA6_TESTHARNESS_SOURCE: (
+            ".rvfi_sret_to_user_o(rvmt_rvfi_sret_to_user)",
+            ".rvfi_sret_to_user_i(rvmt_rvfi_sret_to_user)",
+        ),
+        CVA6_DIRECT_SMOKE_SOURCE: (
+            ".RELAX_SRET_TO_USER_CHECK(1'b0)",
+            ".rvfi_sret_to_user_o(rvmt_rvfi_sret_to_user)",
+            ".rvfi_sret_to_user_i(rvmt_rvfi_sret_to_user)",
+        ),
+    }
+    for rel_path, tokens in required_integrations.items():
+        path = root / rel_path
+        if not path.is_file():
+            errors.append(f"missing CVA6 trace integration source: {rel_path}")
+            continue
+        text = path.read_text(encoding="utf-8", errors="replace")
+        if RELAXED_SRET_ENABLE_RE.search(text):
+            errors.append(f"{rel_path}: paper/board trace integration must not enable RELAX_SRET_TO_USER_CHECK")
+        if ZERO_SRET_QUALIFIER_RE.search(text):
+            errors.append(f"{rel_path}: rvmt_rvfi_sret_to_user must not be hard-wired to 0")
+        for token in tokens:
+            if token not in text:
+                errors.append(f"{rel_path}: missing strict SRET integration token {token!r}")
+
+    return errors
+
+
 def run_checks(rtl_filelist: Path) -> list[str]:
     entries = read_filelist(rtl_filelist)
+    root = Path.cwd()
     errors: list[str] = []
     errors.extend(check_no_backpressure_ports(entries))
     errors.extend(check_pipeline_defaults(entries))
+    errors.extend(check_strict_cva6_sret_qualification(root))
     return errors
 
 
@@ -239,8 +303,16 @@ def self_test() -> int:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
         rtl_dir = root / "rtl" / "trace"
+        cva6_core_dir = root / "rtl" / "cva6" / "core"
+        genesys2_dir = root / "rtl" / "cva6" / "corev_apu" / "fpga" / "src"
+        harness_dir = root / "rtl" / "cva6" / "corev_apu" / "tb"
+        smoke_dir = root / "sim" / "tb"
         list_dir = root / "sim" / "vivado"
         rtl_dir.mkdir(parents=True)
+        cva6_core_dir.mkdir(parents=True)
+        genesys2_dir.mkdir(parents=True)
+        harness_dir.mkdir(parents=True)
+        smoke_dir.mkdir(parents=True)
         list_dir.mkdir(parents=True)
         filelist = list_dir / "trace_rtl.f"
 
@@ -264,6 +336,30 @@ def self_test() -> int:
         )
         filelist.write_text(
             "rtl/trace/trace_top.sv\nrtl/trace/cva6_rvfi_trace_adapter.sv\n",
+            encoding="utf-8",
+        )
+        (root / CVA6_RVFI_SOURCE).write_text(
+            "module cva6_rvfi; logic [1:0] priv_lvl; always_ff @(posedge clk) begin "
+            "rvfi_sret_to_user_o[i] <= valid && commit_instr_op[i] == SRET && "
+            "priv_lvl == riscv::PRIV_LVL_S && csr.mstatus_extended[8] == 1'b0; end endmodule\n",
+            encoding="utf-8",
+        )
+        (root / CVA6_GENESYS2_SOURCE).write_text(
+            "cva6_rvfi i_cva6_rvfi(.rvfi_sret_to_user_o(rvfi_sret_to_user));\n"
+            "assign rvmt_rvfi_sret_to_user[rvmt_port] = rvfi_sret_to_user[rvmt_port];\n"
+            "cva6_rvfi_trace_adapter #(.RELAX_SRET_TO_USER_CHECK(1'b0)) i_trace("
+            ".rvfi_sret_to_user_i(rvmt_rvfi_sret_to_user));\n",
+            encoding="utf-8",
+        )
+        (root / CVA6_TESTHARNESS_SOURCE).write_text(
+            "cva6_rvfi i_cva6_rvfi(.rvfi_sret_to_user_o(rvmt_rvfi_sret_to_user));\n"
+            "cva6_rvfi_trace_adapter i_trace(.rvfi_sret_to_user_i(rvmt_rvfi_sret_to_user));\n",
+            encoding="utf-8",
+        )
+        (root / CVA6_DIRECT_SMOKE_SOURCE).write_text(
+            "cva6_rvfi i_cva6_rvfi(.rvfi_sret_to_user_o(rvmt_rvfi_sret_to_user));\n"
+            "cva6_rvfi_trace_adapter #(.RELAX_SRET_TO_USER_CHECK(1'b0)) i_trace("
+            ".rvfi_sret_to_user_i(rvmt_rvfi_sret_to_user));\n",
             encoding="utf-8",
         )
 
@@ -351,6 +447,21 @@ def self_test() -> int:
             errors = run_checks(filelist)
             if not any("default to 1" in error for error in errors):
                 print("[FAIL] self-test missed disabled pipeline default", file=sys.stderr)
+                return 1
+
+            (root / CVA6_GENESYS2_SOURCE).write_text(
+                "cva6_rvfi i_cva6_rvfi(.rvfi_sret_to_user_o(rvfi_sret_to_user));\n"
+                "assign rvmt_rvfi_sret_to_user[rvmt_port] = 1'b0;\n"
+                "cva6_rvfi_trace_adapter #(.RELAX_SRET_TO_USER_CHECK(1'b1)) i_trace("
+                ".rvfi_sret_to_user_i(rvmt_rvfi_sret_to_user));\n",
+                encoding="utf-8",
+            )
+            errors = run_checks(filelist)
+            if not any("RELAX_SRET_TO_USER_CHECK" in error for error in errors):
+                print("[FAIL] self-test missed relaxed SRET qualifier in Genesys2 integration", file=sys.stderr)
+                return 1
+            if not any("hard-wired to 0" in error for error in errors):
+                print("[FAIL] self-test missed zero SRET qualifier in Genesys2 integration", file=sys.stderr)
                 return 1
         finally:
             os.chdir(cwd)

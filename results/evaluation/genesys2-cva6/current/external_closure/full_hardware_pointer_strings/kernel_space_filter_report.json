@@ -1,0 +1,4 @@
+{
+  "kernel_fragment_count": 0,
+  "policy": "Pointer reconstruction accepts only non-kernel user addresses with mem_base_full and nonnegative offsets."
+}

@@ -14,7 +14,7 @@ hardware behavior tracing MVP.
 
 ## Vivado
 
-- Configured executable: `E:/vivado/2025.2/Vivado/bin/vivado.bat`
+- Configured executable: `D:/Application/vivado/2025.2/Vivado/bin/vivado.bat`
 - Version: `Vivado v2025.2 (64-bit)`
 - SW build: `6299465`
 - IP build: `6300035`
@@ -44,8 +44,8 @@ hardware behavior tracing MVP.
 
 ## Linux and Buildroot
 
-- Status: Linux behavior container locked for the current controlled P0 and
-  safe-surrogate workload claims; Buildroot Linux boot remains not claimed.
+- Status: Linux behavior container locked for Docker analysis; host Genesys2
+  smoke boot reached Buildroot Linux during the 2026-06-23 P0 rerun.
 - Linux behavior container: Docker service `linux-behavior` from
   `docker/linux-behavior/Dockerfile`.
 - Linux userland toolchain: `riscv64-linux-gnu-gcc` 13.3.0, GNU Binutils 2.42,
@@ -53,12 +53,16 @@ hardware behavior tracing MVP.
 - Source-line probe: `results/evaluation/genesys2-cva6/current/source_line_toolchain_probe.json`
   records the debug/no-PIE `addr2line` path and separately records that current
   board ELFs lack DWARF debug sections.
-- Buildroot version/commit: not locked for the current evidence package.
+- Buildroot board observation: `Linux buildroot 6.19.6 #1 Tue Jun 9 06:02:04 UTC 2026 riscv64`
+  from the 2026-06-23 COM7 UART login used for the repaired `hello_write/rep_12`
+  capture.
+- Buildroot source version/commit: not locked in the repository.
 - Rootfs manifest: not present for a Buildroot boot claim.
-- Gate: Buildroot kernel/rootfs anchors must still be fixed before claiming
-  Buildroot Linux boot or a Buildroot-based paper evaluation. Current Linux
-  syscall trace, semantic reconstruction, and source-line sidecar claims are
-  scoped to controlled workloads and the locked `linux-behavior` toolchain.
+- Gate: Buildroot source/rootfs anchors must still be fixed before claiming a
+  reproducible Buildroot distribution baseline. Current Linux syscall trace,
+  semantic reconstruction, and source-line sidecar claims are scoped to
+  controlled workloads and the locked `linux-behavior` toolchain unless a
+  board-run summary explicitly names the Buildroot boot artifact.
 
 ## Bare-metal Runtime
 

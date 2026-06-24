@@ -83,7 +83,7 @@ def source_rows_ok(errors: list[str], data: dict[str, Any], root: Path) -> None:
         row = as_dict(sources.get(source_id))
         require(errors, row.get("schema") == schema, f"{source_id}: schema mismatch")
         require(errors, row.get("expected_schema") == schema, f"{source_id}: expected_schema mismatch")
-        allowed_statuses = {"PASS", "FAIL"} if source_id == "external_closure_intake" else {"PASS"}
+        allowed_statuses = {"PASS", "BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED"} if source_id == "external_closure_intake" else {"PASS"}
         require(errors, row.get("status") in allowed_statuses, f"{source_id}: status mismatch")
         closure_status = row.get("closure_status")
         require(errors, isinstance(closure_status, str) and bool(closure_status), f"{source_id}: closure_status missing")
@@ -109,15 +109,35 @@ def expected_template_path(record_id: str) -> str:
 
 def check_record(errors: list[str], root: Path, record_id: str, record: dict[str, Any]) -> None:
     spec = EXPECTED_EXTERNAL_SUMMARIES[record_id]
+    completion_status = record.get("intake_completion_status")
+    record_status = record.get("record_status")
     require(errors, record.get("required_summary_schema") == spec["schema"], f"{record_id}: required schema mismatch")
     require(errors, record.get("external_summary_path") == spec["path"].as_posix(), f"{record_id}: summary path mismatch")
     template_path = expected_template_path(record_id)
     require(errors, record.get("template_path") == template_path, f"{record_id}: template path mismatch")
     require(errors, repo_path(root, template_path).is_file(), f"{record_id}: template file missing")
-    require(errors, record.get("intake_completion_status") in {"OPEN_NO_EXTERNAL_SUMMARY", "EXTERNAL_SUMMARY_PRESENT_INVALID", "EXTERNAL_SUMMARY_ACCEPTED"}, f"{record_id}: intake status invalid")
-    require(errors, record.get("completion_requires_external_state") is True or record.get("intake_completion_status") == "EXTERNAL_SUMMARY_ACCEPTED", f"{record_id}: external state requirement missing")
-    if record.get("intake_completion_status") != "EXTERNAL_SUMMARY_ACCEPTED":
+    require(errors, completion_status in {"OPEN_NO_EXTERNAL_SUMMARY", "EXTERNAL_SUMMARY_PRESENT_INVALID", "EXTERNAL_SUMMARY_ACCEPTED"}, f"{record_id}: intake status invalid")
+    require(errors, record.get("completion_requires_external_state") is True or completion_status == "EXTERNAL_SUMMARY_ACCEPTED", f"{record_id}: external state requirement missing")
+    expected_record_status = {
+        "EXTERNAL_SUMMARY_ACCEPTED": "EXTERNAL_SUMMARY_ACCEPTED_ARTIFACT_BACKED",
+        "EXTERNAL_SUMMARY_PRESENT_INVALID": "EXTERNAL_SUMMARY_PRESENT_INVALID_REQUIRES_RERUN_OR_REPAIR",
+        "OPEN_NO_EXTERNAL_SUMMARY": "OPEN_NO_EXTERNAL_SUMMARY_REQUIRES_EXTERNAL_COLLECTION",
+    }.get(str(completion_status))
+    if completion_status == "EXTERNAL_SUMMARY_ACCEPTED" and record.get("completion_evidence_valid") is not True:
+        expected_record_status = "EXTERNAL_SUMMARY_ACCEPTED_BUT_EVIDENCE_INVALID"
+    require(errors, record_status == expected_record_status, f"{record_id}: effective record_status mismatch")
+    require(errors, record.get("readiness_status") == record_status, f"{record_id}: readiness_status must be effective status")
+    require(errors, isinstance(record.get("plan_readiness_status"), str) and bool(record.get("plan_readiness_status")), f"{record_id}: plan_readiness_status missing")
+    if completion_status != "EXTERNAL_SUMMARY_ACCEPTED":
         require(errors, record.get("completion_evidence_valid") is False, f"{record_id}: open external evidence must not be valid")
+        require(errors, record.get("execution_steps_required_to_close_record") is True, f"{record_id}: open/invalid record must require execution steps")
+        require(errors, record.get("accepted_summary_supersedes_plan_readiness") is False, f"{record_id}: open/invalid record must not supersede plan readiness")
+        require(errors, record.get("accepted_summary_must_remain_hash_valid") is False, f"{record_id}: open/invalid record cannot claim accepted hash validity")
+    else:
+        require(errors, record.get("completion_evidence_valid") is True, f"{record_id}: accepted record must have valid evidence")
+        require(errors, record.get("execution_steps_required_to_close_record") is False, f"{record_id}: accepted record must not require closure steps")
+        require(errors, record.get("accepted_summary_supersedes_plan_readiness") is True, f"{record_id}: accepted record must supersede plan readiness")
+        require(errors, record.get("accepted_summary_must_remain_hash_valid") is True, f"{record_id}: accepted record hash validity boundary missing")
     required_kinds = set(REQUIRED_EVIDENCE_ARTIFACT_KINDS[record_id])
     kinds = set(str(item) for item in as_list(record.get("required_evidence_artifact_kinds")))
     require(errors, kinds == required_kinds, f"{record_id}: evidence artifact kinds mismatch")
@@ -155,7 +175,8 @@ def check_summary(data: dict[str, Any], root: Path, report: Path) -> list[str]:
     require(errors, "real_malware_validation" in as_list(data.get("objective_exclusions")), "real malware exclusion missing")
     boundary = as_dict(data.get("claim_boundary"))
     require(errors, boundary.get("operator_packet_only") is True, "operator_packet_only boundary required")
-    require(errors, boundary.get("external_execution_completed") is False, "external execution must not be claimed")
+    require(errors, boundary.get("external_execution_completed") is False, "legacy external execution boundary must remain false for packet-only status")
+    require(errors, boundary.get("external_execution_completed_by_packet") is False, "operator packet must not claim it created external execution")
     require(errors, boundary.get("external_readiness_substituted_for_completion") is False, "readiness must not be substituted")
     require(errors, boundary.get("real_malware_validation_claimed") is False, "real malware validation must not be claimed")
     require(errors, boundary.get("templates_treated_as_evidence") is False, "templates must not be evidence")
@@ -166,12 +187,37 @@ def check_summary(data: dict[str, Any], root: Path, report: Path) -> list[str]:
     records = row_map(as_list(data.get("records")))
     expected_ids = set(EXPECTED_EXTERNAL_SUMMARIES)
     require(errors, set(records) == expected_ids, "external record set mismatch")
+    accepted_records = [
+        record
+        for record in records.values()
+        if record.get("record_status") == "EXTERNAL_SUMMARY_ACCEPTED_ARTIFACT_BACKED"
+    ]
+    require(
+        errors,
+        len(accepted_records) == int(data.get("accepted_external_blocker_count") or 0),
+        "accepted record count must match intake accepted_external_blocker_count",
+    )
+    require(
+        errors,
+        boundary.get("accepted_external_summaries_present") is bool(accepted_records),
+        "accepted_external_summaries_present boundary mismatch",
+    )
+    require(
+        errors,
+        boundary.get("accepted_external_summaries_hash_validated_by_intake") is bool(accepted_records),
+        "accepted external summaries hash validation boundary mismatch",
+    )
+    require(
+        errors,
+        boundary.get("open_or_invalid_external_blockers_remain") is (data.get("closure_status") != "ALL_NON_REAL_EXTERNAL_SUMMARIES_ACCEPTED"),
+        "open/invalid external blocker boundary mismatch",
+    )
     orders = [record.get("order") for record in records.values()]
     require(errors, sorted(orders) == list(range(1, len(expected_ids) + 1)), "record order must be dense")
     for record_id, record in records.items():
         check_record(errors, root, record_id, record)
     sequence = " ".join(str(item).lower() for item in as_list(data.get("operator_sequence")))
-    for token in ("local preflight", "board", "candidate summaries", "record-specific external_closure artifacts", "sha256", "template placeholders", "intake", "full reproduction"):
+    for token in ("accepted summary", "local preflight", "board", "candidate summaries", "record-specific external_closure artifacts", "sha256", "template placeholders", "intake", "full reproduction"):
         require(errors, token in sequence, f"operator sequence missing {token}")
     commands = " ".join(str(item) for item in as_list(data.get("validation_commands")))
     require(errors, "tools/package_genesys2_external_operator_packet.py" in commands, "packager command missing")
@@ -190,7 +236,7 @@ def check_summary(data: dict[str, Any], root: Path, report: Path) -> list[str]:
     require(errors, report_path.is_file(), f"operator packet report missing: {report}")
     if report_path.is_file():
         text = report_path.read_text(encoding="utf-8", errors="replace")
-        for token in ("External Closure Operator Packet", "not evidence", "External Records", "external_closure artifacts", "sha256", "template placeholders"):
+        for token in ("External Closure Operator Packet", "does not itself execute", "External Records", "external_closure artifacts", "sha256", "template placeholders"):
             require(errors, token in text, f"operator packet report missing token: {token}")
     return errors
 

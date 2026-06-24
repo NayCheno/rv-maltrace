@@ -1,0 +1,185 @@
+{
+  "artifacts": {
+    "native_binary": {
+      "path": "build/tracer_visibility_baseline/tracer_visibility_probe.native",
+      "role": "native_linux_probe_binary",
+      "sha256": "f8d27c787a7eb69ea217f11737e70996ce3166d81f5bcb3418df0b89c8894214",
+      "size_bytes": 16584
+    },
+    "native_build_log": {
+      "path": "build/tracer_visibility_baseline/native_build.log",
+      "role": "build_log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "native_compiler_version": {
+      "path": "build/tracer_visibility_baseline/native_compiler_version.txt",
+      "role": "compiler_version",
+      "sha256": "66601fa493f0ecf2bb1e0aa8a7c7fca368f2022d38079aacb6352191cea59516",
+      "size_bytes": 44
+    },
+    "riscv64_binary": {
+      "path": "build/tracer_visibility_baseline/tracer_visibility_probe.riscv64",
+      "role": "riscv64_linux_probe_binary",
+      "sha256": "1d305d5e225972630bc637469789793e9be668db3280790ac363d72850fd9005",
+      "size_bytes": 474928
+    },
+    "riscv64_build_log": {
+      "path": "build/tracer_visibility_baseline/riscv64_build.log",
+      "role": "build_log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "riscv64_compiler_version": {
+      "path": "build/tracer_visibility_baseline/riscv64_compiler_version.txt",
+      "role": "compiler_version",
+      "sha256": "878f72f7cdc057c94c110e385b61a85fb02fe187d516c686e800820f184b254e",
+      "size_bytes": 62
+    },
+    "source": {
+      "path": "board/trace_validation/programs/tracer_visibility_probe.c",
+      "role": "safe_probe_source",
+      "sha256": "a8228a2964780cfe2e94c4f3bb92a7b06e58734e3fd3180bb23d214c08fbc068",
+      "size_bytes": 2305
+    }
+  },
+  "canonical_evidence_root": "results/evaluation/genesys2-cva6/current",
+  "claim_boundary": {
+    "anti_analysis_advantage_claimed": false,
+    "genesys2_board_claimed": false,
+    "hardware_trace_claimed": false,
+    "local_software_baseline_only": true,
+    "malware_detection_accuracy_claimed": false,
+    "qemu_and_strace_are_oracles_only": true,
+    "real_malware_claimed": false,
+    "safe_probe_only": true
+  },
+  "modes": {
+    "native_plain": {
+      "mode": "native_plain",
+      "probe": {
+        "parent_comm": "bash",
+        "pid": 24,
+        "ppid": 1,
+        "ptrace_errno": 0,
+        "ptrace_traceme_rc": 0,
+        "self_comm": "tracer_visibili",
+        "tracer_pid": 0,
+        "uname_machine": "x86_64",
+        "uname_sysname": "Linux"
+      },
+      "stderr": {
+        "path": "build/tracer_visibility_baseline/native_plain.stderr",
+        "role": "probe_stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "stdout": {
+        "path": "build/tracer_visibility_baseline/native_plain.stdout",
+        "role": "probe_stdout",
+        "sha256": "3d8a3aadbffb523ae1801b71502d67d2b8acf348f815c13df5237f15acd28f73",
+        "size_bytes": 169
+      }
+    },
+    "native_strace": {
+      "mode": "native_strace",
+      "probe": {
+        "parent_comm": "strace",
+        "pid": 28,
+        "ppid": 25,
+        "ptrace_errno": 1,
+        "ptrace_traceme_rc": -1,
+        "self_comm": "tracer_visibili",
+        "tracer_pid": 25,
+        "uname_machine": "x86_64",
+        "uname_sysname": "Linux"
+      },
+      "stderr": {
+        "path": "build/tracer_visibility_baseline/native_strace.stderr",
+        "role": "probe_stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "stdout": {
+        "path": "build/tracer_visibility_baseline/native_strace.stdout",
+        "role": "probe_stdout",
+        "sha256": "7c892ada9f36df67668f98d1fde6416a7de2a111d9d6e8beed703f4e4452861e",
+        "size_bytes": 174
+      },
+      "strace_log": {
+        "path": "build/tracer_visibility_baseline/native_strace.trace",
+        "role": "software_strace_log",
+        "sha256": "9e7c34e3bf188db5120956d2685d2b75dbf99d644a1a2d60efe04dee3c9bf276",
+        "size_bytes": 3607
+      }
+    },
+    "qemu_user": {
+      "mode": "qemu_user",
+      "probe": {
+        "parent_comm": "bash",
+        "pid": 29,
+        "ppid": 1,
+        "ptrace_errno": 38,
+        "ptrace_traceme_rc": -1,
+        "self_comm": "qemu-riscv64",
+        "tracer_pid": 0,
+        "uname_machine": "riscv64",
+        "uname_sysname": "Linux"
+      },
+      "stderr": {
+        "path": "build/tracer_visibility_baseline/qemu_user.stderr",
+        "role": "probe_stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      "stdout": {
+        "path": "build/tracer_visibility_baseline/qemu_user.stdout",
+        "role": "probe_stdout",
+        "sha256": "dfb9840fb01725bbd22170e2ee182fd3afbe02e90763335b514ea4749a031ca6",
+        "size_bytes": 169
+      }
+    },
+    "qemu_user_strace": {
+      "mode": "qemu_user_strace",
+      "probe": {
+        "parent_comm": "bash",
+        "pid": 31,
+        "ppid": 1,
+        "ptrace_errno": 38,
+        "ptrace_traceme_rc": -1,
+        "self_comm": "qemu-riscv64",
+        "tracer_pid": 0,
+        "uname_machine": "riscv64",
+        "uname_sysname": "Linux"
+      },
+      "stderr": {
+        "path": "build/tracer_visibility_baseline/qemu_user_strace.stderr",
+        "role": "probe_stderr",
+        "sha256": "2d4db5a0ea3c9b3800875b325cc03bf18aae8adecd316ce740880ebdd8f4b637",
+        "size_bytes": 1194
+      },
+      "stdout": {
+        "path": "build/tracer_visibility_baseline/qemu_user_strace.stdout",
+        "role": "probe_stdout",
+        "sha256": "b10909ab3552ce54f43f9e3984ab52b92cac80b046f6d8592133e8854aa89a4b",
+        "size_bytes": 169
+      }
+    }
+  },
+  "non_claims": [
+    "This baseline records software tracer visibility for a safe probe in Docker; it is not Genesys2 hardware evidence.",
+    "qemu-riscv64 and strace outputs are validation/comparison oracles only and must not be reported as hardware-recovered semantics.",
+    "The probe is not malware and does not establish malware detection accuracy or general anti-analysis invisibility."
+  ],
+  "observations": {
+    "native_plain_untraced": true,
+    "native_strace_detected_by_tracerpid_or_ptrace": true,
+    "qemu_user_strace_log_observed": true
+  },
+  "run_root": "build/tracer_visibility_baseline",
+  "schema": "rvmt.genesys2.tracer_visibility_baseline.v1",
+  "scope": "safe local software-tracer visibility baseline for NDSS comparison tables",
+  "source": "board/trace_validation/programs/tracer_visibility_probe.c",
+  "source_sha256": "a8228a2964780cfe2e94c4f3bb92a7b06e58734e3fd3180bb23d214c08fbc068",
+  "status": "PASS_LOCAL_SOFTWARE_TRACER_BASELINE"
+}

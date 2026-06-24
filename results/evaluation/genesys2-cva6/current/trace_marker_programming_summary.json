@@ -1,0 +1,81 @@
+{
+  "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",
+  "claim_boundary": {
+    "board_runtime_boot_claimed": false,
+    "cycle_level_overhead_claimed": false,
+    "cycle_source_claimed": false,
+    "genesys2_booted_written_sdcard_image": false,
+    "genesys2_programmed": true,
+    "production_streaming_claimed": false,
+    "real_malware_claimed": false,
+    "sdcard_image_written": false,
+    "trace_marker_bitstream_rebuilt": true
+  },
+  "command": "vivado -mode batch -source tools/program_genesys2_bitstream.tcl -tclargs build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.bit build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.ltx localhost:3121",
+  "generated_utc": "2026-06-24T02:47:28.011811+00:00",
+  "hardware": {
+    "device": "xc7k325t_0",
+    "hw_server_url": "localhost:3121",
+    "ila_core_count": 1,
+    "target": "localhost:3121/xilinx_tcf/Digilent/200300B81858B"
+  },
+  "logs": {
+    "current": {
+      "path": "results/evaluation/genesys2-cva6/current/trace_marker_programming.log",
+      "sha256": "ad9395078cacd6aae737b0cf5254385628ffff31fd0f9e68925f8661bdb04bb4",
+      "size_bytes": 7384
+    },
+    "source": {
+      "path": "results/board/genesys2_trace_validation/20260624-trace-marker-reprogram/program_trace_marker.log",
+      "sha256": "ad9395078cacd6aae737b0cf5254385628ffff31fd0f9e68925f8661bdb04bb4",
+      "size_bytes": 7384
+    }
+  },
+  "non_claims": [
+    "This evidence records a host Vivado JTAG programming run of the trace-marker bitstream only.",
+    "It does not claim that a generated SD-card image was written or booted on Genesys2.",
+    "It does not claim a usable board cycle source, cycle-level overhead, production streaming/DMA throughput, or real-malware validation."
+  ],
+  "required_log_markers": {
+    "RVMT_PROGRAM_DONE": true,
+    "program_hw_devices": true,
+    "refresh_reports_one_ila": true
+  },
+  "returncode": 0,
+  "schema": "rvmt.genesys2.trace_marker_programming.v1",
+  "session_end": "Wed Jun 24 10:37:10 2026...",
+  "session_start": "Wed Jun 24 10:36:52 2026",
+  "status": "PASS_TRACE_MARKER_PROGRAMMED",
+  "trace_marker_artifacts": {
+    "bitstream": {
+      "logged_path": "D:/Code/research/rv-maltrace/build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.bit",
+      "path": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.bit",
+      "sha256": "3b30e5ceda81f44a8c9e9b062557035adf66b6746b91559389437cf47cffd7fd",
+      "size_bytes": 11443738
+    },
+    "build_manifest": {
+      "path": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/rvmt_trace_marker_build_manifest.json",
+      "sha256": "22a6ec09c87a1fd912cd3b61bf67d5ecaa8ab3807a2dcc9a02477474b8ea599c",
+      "size_bytes": 2886,
+      "trace_marker_scope": true,
+      "verilog_defines": [
+        "RV_MALTRACE_FPGA_TRACE",
+        "RV_MALTRACE_FPGA_TRACE_MARKER_SCOPE"
+      ],
+      "xilinx_board": "digilentinc.com:genesys2:part0:1.1",
+      "xilinx_part": "xc7k325tffg900-2"
+    },
+    "ltx": {
+      "logged_path": "D:/Code/research/rv-maltrace/build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.ltx",
+      "path": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.ltx",
+      "sha256": "16360c1f20031509b61dafb4847ba638b85d1a758a1c10b96d2faacdb4ce7ee3",
+      "size_bytes": 180130
+    }
+  },
+  "validation_commands": [
+    "uv run python tools/package_genesys2_trace_marker_programming.py --root .",
+    "uv run python tools/check_genesys2_trace_marker_programming.py --root .",
+    "uv run python tools/check_genesys2_bitstream_artifacts.py --root ."
+  ],
+  "vivado_version": "2025.2"
+}

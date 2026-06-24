@@ -391,10 +391,14 @@ def check_trace_drop_accounting(data: dict[str, Any], root: Path) -> list[str]:
                 continue
             label = str(failed.get("repetition_id") or failed.get("repetition") or failed_index)
             require(errors, failed.get("status") == "FAIL", f"{sample_id}/{label}: failed attempt must have status FAIL")
+            failure_reasons = as_list(failed.get("failure_reasons"))
             require(
                 errors,
-                num(failed.get("unaccounted_drop")) > 0 or num(failed.get("bram_wrap_count")) > 0,
-                f"{sample_id}/{label}: failed attempt must record DROP or wrap impact",
+                num(failed.get("unaccounted_drop")) > 0
+                or num(failed.get("bram_wrap_count")) > 0
+                or failed.get("marker_window_present") is False
+                or bool(failure_reasons),
+                f"{sample_id}/{label}: failed attempt must record DROP, wrap, marker, or parse impact",
             )
             require(errors, bool(failed.get("impact_analysis")), f"{sample_id}/{label}: failed attempt impact_analysis required")
     return errors
@@ -527,14 +531,36 @@ def check_process_elf_ownership(data: dict[str, Any], root: Path) -> list[str]:
 
 def check_dynamic_mapping_attribution(data: dict[str, Any], root: Path) -> list[str]:
     errors: list[str] = []
-    require_schema_status(errors, data, "rvmt.dynamic_mapping_attribution.v1")
+    require(errors, data.get("schema") == "rvmt.dynamic_mapping_attribution.v1", "schema must be rvmt.dynamic_mapping_attribution.v1")
+    status = data.get("status")
+    require(errors, status in {"PASS", "BLOCKED_BOARD_DYNAMIC_MAPPING_CASES"}, "status must be PASS or BLOCKED_BOARD_DYNAMIC_MAPPING_CASES")
     cases = data.get("cases", {}) if isinstance(data.get("cases"), dict) else {}
     for case in ["static_binary", "no_pie_binary", "pie_binary", "dynamic_loader", "shared_libraries", "fork_exec_child"]:
         row = cases.get(case, {}) if isinstance(cases.get(case), dict) else {}
-        require(errors, row.get("pass") is True, f"{case}: pass must be true")
         require(errors, bool(row.get("evidence")), f"{case}: evidence required")
-    require(errors, data.get("dynamic_library_events_not_target_binary") is True, "dynamic library events must not be attributed to target binary")
-    require(errors, data.get("aslr_load_bias_accounted") is True, "ASLR/PIE load bias must be accounted")
+        row_status = str(row.get("status") or ("PASS" if row.get("pass") is True else ""))
+        evidence = str(row.get("evidence") or "").lower()
+        host_oracle = "host_control" in evidence or "strace" in evidence or "qemu" in evidence
+        if status == "PASS":
+            require(errors, row_status == "PASS" and row.get("pass") is True, f"{case}: pass must be true")
+        else:
+            if host_oracle:
+                require(errors, row.get("pass") is not True, f"{case}: host/control oracle must not be marked pass")
+                require(errors, row_status.startswith(("BLOCKED_", "TODO_", "ORACLE_")), f"{case}: host/control oracle case must be blocked/TODO/oracle-scoped")
+            elif row_status.startswith(("BLOCKED_", "TODO_")):
+                require(errors, row.get("pass") is not True, f"{case}: blocked/TODO case must not be marked pass")
+            else:
+                require(errors, row_status == "PASS" and row.get("pass") is True, f"{case}: resolved case must be PASS")
+    boundary = data.get("claim_boundary", {}) if isinstance(data.get("claim_boundary"), dict) else {}
+    if status == "BLOCKED_BOARD_DYNAMIC_MAPPING_CASES":
+        require(errors, boundary.get("board_dynamic_mapping_claimed") is False, "blocked summary must not claim board dynamic mapping")
+        require(errors, data.get("dynamic_library_events_not_target_binary") in {False, "HOST_CONTROL_ORACLE_ONLY"}, "blocked dynamic library separation must not be claimed as board proof")
+        require(errors, data.get("aslr_load_bias_accounted") in {False, "HOST_CONTROL_ORACLE_ONLY"}, "blocked ASLR/PIE load bias must not be claimed as board proof")
+    else:
+        require(errors, data.get("dynamic_library_events_not_target_binary") is True, "dynamic library events must not be attributed to target binary")
+        require(errors, data.get("aslr_load_bias_accounted") is True, "ASLR/PIE load bias must be accounted")
+    non_claims = " ".join(str(item).lower() for item in as_list(data.get("non_claims")))
+    require(errors, "host/control" in non_claims and "board" in non_claims, "non_claims must distinguish host/control oracle from board evidence")
     return errors
 
 
@@ -1097,6 +1123,9 @@ def fixture_summary(path: Path, schema: str) -> None:
                 },
                 "dynamic_library_events_not_target_binary": True,
                 "aslr_load_bias_accounted": True,
+                "non_claims": [
+                    "Fixture host/control oracle rows are separated from board evidence claims.",
+                ],
             },
         )
     elif schema == "rvmt.ccfa_evaluation_matrix.v1":

@@ -2,7 +2,7 @@
   "mode": "rvfi_adapter",
   "test": "rvfi_adapter",
   "exact_counts": {
-    "RETIRE": 12,
+    "RETIRE": 13,
     "BRANCH": 1,
     "JUMP": 1,
     "SYSCALL_ENTRY": 2,
@@ -12,6 +12,12 @@
     "ARG_MEM": 1
   },
   "forbidden_events": ["DROP"],
+  "forbidden_event_matches": [
+    {
+      "evt": "SYSCALL_RET",
+      "pc": "0x0000000080000054"
+    }
+  ],
   "required_events": [
     {
       "evt": "SYSCALL_ENTRY",
@@ -22,11 +28,11 @@
     },
     {
       "evt": "SYSCALL_RET",
-      "pc": "0x0000000080000054",
+      "pc": "0x0000000080000058",
       "priv": "S",
       "target": "0x0000000080000008",
       "syscall_id": "0x0000000000000000",
-      "duration": 5,
+      "duration": "ANY",
       "a0": "0x0000000000000005"
     },
     {

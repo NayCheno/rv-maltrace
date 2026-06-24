@@ -11,8 +11,8 @@
   "external_summary_root": "results/evaluation/genesys2-cva6/current/external_closure",
   "interpretation": [
     "This intake gate accepts only strict optional external summaries and does not replace board, RTL, or reviewer execution.",
-    "When no external summaries are present, the gate remains PASS with OPEN_EXTERNAL_ARTIFACTS_REQUIRED so current evidence is not overclaimed.",
-    "If an external summary appears but fails the required schema, threshold, or no-substitution checks, the gate fails."
+    "When external summaries are absent or invalid, the gate remains BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED so current evidence is not overclaimed.",
+    "If an external summary appears but fails the required schema, threshold, or no-substitution checks, the invalid record remains blocked and is not accepted."
   ],
   "invalid_external_blocker_count": 1,
   "objective_exclusions": [
@@ -67,7 +67,7 @@
         "status must be PASS",
         "streaming/DMA throughput claim must be explicit",
         "sustained_bytes_per_second must be positive",
-        "sustained throughput must exceed p95 event production",
+        "sustained throughput must exceed required 1.5x p99 event production",
         "noninterference must pass"
       ]
     },
@@ -89,7 +89,7 @@
   ],
   "schema": "rvmt.genesys2.external_closure_intake.v1",
   "scope": "optional external evidence intake for remaining non-real-malware Genesys2/CVA6 blockers",
-  "status": "FAIL",
+  "status": "BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED",
   "validation_commands": [
     "uv run python tools/package_genesys2_external_closure_intake.py",
     "uv run python tools/check_genesys2_external_closure_intake.py --root ."

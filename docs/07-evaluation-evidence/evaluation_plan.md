@@ -20,8 +20,8 @@ and comparisons against software or simulator baselines.
 | ID | Question | Required Evidence | Status |
 | --- | --- | --- | --- |
 | RQ1 | Correctness: can committed syscall/control-flow/trap/context events be captured accurately? | `results/evaluation/genesys2-cva6/current/latest_manifest.json`, P0 continuous traces, BRAM marker-window summaries, golden comparison logs, and `genesys2-current` gates | PASS_CURRENT_GENESYS2_CONTROLLED |
-| RQ2 | Semantic reconstruction: can syscall arguments, return values, paths, fd behavior, and behavior graphs be recovered? | `semantic_reconstruction_summary.json`, `fd_path_graph_summary.json`, bounded hardware `ARG_MEM` prefix summaries, trusted companion alignment, semantic JSON, graph JSON, and reports | PASS_CURRENT_BOUNDED_SEMANTICS |
-| RQ3 | Low perturbation: how much runtime and timing perturbation is introduced compared with software tracing? | `production_runtime_benchmark.json`, `resource_timing_summary.json`, paired trace-off/event-only/BRAM runs, and baseline alignment summaries | PASS_CURRENT_RUNTIME_BENCHMARK |
+| RQ2 | Semantic reconstruction: can syscall arguments, return values, paths, fd behavior, and behavior graphs be recovered? | `semantic_reconstruction_summary.json`, `fd_path_graph_summary.json`, bounded hardware `ARG_MEM` prefix summaries, accepted scoped full hardware pointer-string intake for openat/write/execve, trusted companion alignment, semantic JSON, graph JSON, and reports | PASS_CURRENT_BOUNDED_SEMANTICS_PLUS_ACCEPTED_POINTER_STRINGS |
+| RQ3 | Low perturbation: how much runtime and timing perturbation is introduced compared with software tracing? | `production_runtime_benchmark.json` as board UART runtime smoke, `resource_timing_summary.json` claim boundaries, paired trace-off/event-only/BRAM run logs, and open cycle/native-counter overhead closure | PASS_CURRENT_RUNTIME_SMOKE_OPEN_CYCLE_OVERHEAD |
 | RQ4 | Evasion resistance: are anti-debug, timing, direct-syscall, and packed-code samples less able to detect or bypass tracing? | controlled safe malware-like suite manifests, per-sample traces, expected behaviors, behavior audits, and baseline notes | PASS_CONTROLLED_SAFE_SURROGATE |
 | RQ5 | Hardware cost: what are LUT, FF, BRAM, Fmax, trace bandwidth, and drop-rate costs? | Vivado utilization/timing reports, `docs/07-evaluation-evidence/reports/resource_report.md`, trace bandwidth summaries, drop accounting, and external streaming/DMA readiness | PASS_CURRENT_BRAM_COST_OPEN_STREAMING_DMA |
 | RQ6 | Malware behavior usefulness: are key malware-like behaviors reconstructed clearly enough for audit or rules? | `case_study_manifest.json`, per-sample behavior graph evidence, and manually reviewable semantic summaries | PASS_SAFE_CASE_STUDIES_NON_REAL |
@@ -68,10 +68,10 @@ audit accuracy rather than real malware detection accuracy.
 | --- | --- | --- |
 | syscall precision / recall | match between RV-MalScope syscall sequence and the expected or ground-truth sequence | controlled tests target exact match; Linux workload differences require explanation |
 | argument reconstruction accuracy | recovered scalar arguments and return values compared with expected behavior | controlled tests target exact match |
-| path string reconstruction accuracy | recovered `openat`/`execve`/similar pointer strings compared with expected paths | controlled tests target exact match |
+| path string reconstruction accuracy | recovered `openat`/`execve`/similar pointer strings compared with expected paths | controlled tests target exact match; current full hardware pointer-string claim is limited to the accepted Genesys2/CVA6 external summary for openat/write/execve groups |
 | fd graph accuracy | recovered fd-to-file/socket relationships compared with known program behavior | mismatches require triage notes |
-| runtime overhead | application runtime compared with baseline run | report median, spread, and configuration |
-| cycle-level perturbation | cycle or timestamp delta introduced by trace mode | report method and limitations |
+| runtime overhead | application runtime compared with baseline run | current UART marker benchmark is smoke only; production slowdown needs native cycle or hardware-counter evidence |
+| cycle-level perturbation | cycle or timestamp delta introduced by trace mode | report method and limitations; current CVA6/Genesys2 cycle-level overhead remains open |
 | trace drop rate | dropped event count and bytes per event/run | correctness mode requires zero unaccounted drops |
 | trace bytes per syscall | trace volume normalized by syscall count | report per workload and mode |
 | LUT / FF / BRAM overhead | post-synthesis or post-implementation resource delta | report absolute and percentage deltas |
@@ -105,13 +105,14 @@ machine-checked artifacts:
 | `results/evaluation/genesys2-cva6/current/baseline_alignment_summary.json` | strace, qemu-strace, event-only, bounded pointer snapshot, trusted companion, and sidecar baseline alignment | `uv run python tools/check_baseline_alignment.py --root .` |
 | `results/evaluation/genesys2-cva6/current/behavior_audit_metrics.json` | controlled safe-workload behavior audit metrics and benign false-positive boundary | `uv run python tools/check_behavior_audit_metrics.py --root .` |
 | `results/evaluation/genesys2-cva6/current/statistical_robustness_summary.json` | controlled board repetition counts, retained failed attempt audit, workload class coverage, and non-generalization boundary | `uv run python tools/check_genesys2_statistical_robustness.py --root .` |
-| `results/evaluation/genesys2-cva6/current/streaming_dma_target_summary.json` | cycle-normalized p95 compact event-byte production target for future streaming/DMA throughput evidence | `uv run python tools/check_genesys2_streaming_dma_target.py --root .` |
+| `results/evaluation/genesys2-cva6/current/streaming_dma_target_summary.json` | cycle-normalized p50/p95/p99 compact event-byte production target plus p99 1.5x future streaming/DMA threshold | `uv run python tools/check_genesys2_streaming_dma_target.py --root .` |
 | `results/evaluation/genesys2-cva6/current/streaming_dma_readiness_summary.json` | future non-BRAM production streaming/DMA transport collection readiness and no-substitution boundary | `uv run python tools/check_genesys2_streaming_dma_readiness.py --root .` |
 | `results/evaluation/genesys2-cva6/current/pointer_string_readiness_summary.json` | future gap-free full hardware pointer-string collection readiness and no-substitution boundary | `uv run python tools/check_genesys2_pointer_string_readiness.py --root .` |
+| `results/evaluation/genesys2-cva6/current/external_closure/hardware_pointer_strings_summary.json` | accepted scoped Genesys2/CVA6 full hardware pointer strings for openat/write/execve, with gap-free offset-zero groups, mem_last/terminator evidence, redaction, and no companion substitution | `uv run python tools/check_genesys2_hardware_pointer_strings.py --root .` |
 | `results/evaluation/genesys2-cva6/current/debug_elf_readiness_summary.json` | 12-sample debug/no-PIE ELF, `.debug_line`, and code-map readiness for a future board source-line rerun | `uv run python tools/check_genesys2_debug_elf_readiness.py --root .` |
 | `results/evaluation/genesys2-cva6/current/board_benign_readiness_summary.json` | future Genesys2 board benign-control collection readiness and no-substitution boundary | `uv run python tools/check_genesys2_board_benign_readiness.py --root .` |
 | `results/evaluation/genesys2-cva6/current/case_study_manifest.json` | per-sample controlled case-study package for P0 and safe-surrogate workloads | `uv run python tools/check_ccfa_case_study_manifest.py --root .` |
-| `results/evaluation/genesys2-cva6/current/production_runtime_benchmark.json` | trace-off/event-only/BRAM/pointer-disabled board runtime comparison | `uv run python tools/check_ccfa_current_quality.py --root .` |
+| `results/evaluation/genesys2-cva6/current/production_runtime_benchmark.json` | trace-off/event-only/BRAM/pointer-disabled board UART runtime smoke; not a cycle-level overhead claim | `uv run python tools/check_ccfa_current_quality.py --root .` |
 | `results/evaluation/genesys2-cva6/current/reproducibility_manifest.json` | current report, summary, raw-root, and checker linkage | `uv run python tools/check_genesys2_reproducibility_manifest.py --root .` |
 | `results/evaluation/genesys2-cva6/current/artifact_package_manifest.json` | lightweight fresh-clone artifact-package manifest | `uv run python tools/check_genesys2_artifact_package.py --root .` |
 | `results/evaluation/genesys2-cva6/current/external_closure_readiness.json` | remaining non-real external blocker contracts | `uv run python tools/check_genesys2_external_closure_readiness.py --root .` |
@@ -155,8 +156,9 @@ kinds and pass path/sha256 validation.
 - Do not enable full memory trace or load/store payloads without a separate
   timing, bandwidth, and noninterference gate.
 - Do not treat the scoped PASS_CURRENT/PASS_SAFE statuses above as CCF-A
-  paper-ready acceptance, real malware validation, board-native DWARF source
-  lines, full hardware pointer strings, or production streaming/DMA throughput.
+  paper-ready acceptance, real malware validation, unscoped board-native DWARF source-line coverage,
+  generalized full hardware pointer strings, full memory dumps,
+  kernel-memory capture, or production streaming/DMA throughput.
 
 ## Validation Command
 

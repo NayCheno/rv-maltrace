@@ -1,19 +1,27 @@
 {
   "hardware_user_pointer_snapshot": true,
-  "ltx": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker-pre-pointer-20260612/work-fpga/ariane_xilinx.ltx",
-  "ltx_sha256": "0a647dbd67f4921dc4a449f269b94caf9fa407627e840ab386d168775981467c",
+  "ltx": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.ltx",
+  "ltx_sha256": "16360c1f20031509b61dafb4847ba638b85d1a758a1c10b96d2faacdb4ce7ee3",
   "marker_window_cycle_summary": {
-    "median": 58003.0,
-    "p95": 265498,
+    "median": 65671.5,
+    "p95": 281199,
     "unit": "trace-cycle-or-index-delta",
-    "variance": 11862775956.07639
+    "variance": 67884391954.416664
   },
   "pointer_snapshot_guardrails": "results/evaluation/genesys2-cva6/current/pointer_snapshot_guardrails.json",
   "pointer_snapshot_mode": "bounded_prefix",
   "production_runtime_benchmark": "results/evaluation/genesys2-cva6/current/production_runtime_benchmark.json",
   "production_runtime_slowdown": {
     "benchmark": "results/evaluation/genesys2-cva6/current/production_runtime_benchmark.json",
-    "claimed": true,
+    "board_execution_smoke_claimed": true,
+    "claim_boundary": {
+      "metric_is_cycle_level": false,
+      "requires_native_cycle_or_hardware_counter_artifact": true,
+      "uart_wall_clock_promoted_to_overhead_claim": false,
+      "wall_clock_uart_marker_metric": true
+    },
+    "claimed": false,
+    "cycle_level_overhead_claimed": false,
     "median_slowdown_vs_trace_off_by_mode": {
       "bram_ring": 1.0,
       "event_only": 1.0,
@@ -54,12 +62,19 @@
         "p95_ns": 8000000000.0,
         "variance_ns2": 3.993055555555555e+16
       }
-    }
+    },
+    "non_claims": [
+      "UART shell date markers are retained as board execution smoke and repetition evidence.",
+      "UART shell date markers are not a cycle-level perturbation or production slowdown claim.",
+      "Cycle-level overhead requires a native rdcycle/hardware-counter artifact or equivalent hardware trace counter evidence."
+    ],
+    "production_runtime_slowdown_claimed": false,
+    "reason": "current benchmark is board runtime smoke only; cycle-level production slowdown remains open"
   },
   "resource_report": "docs/07-evaluation-evidence/reports/resource_report.md",
-  "runtime_overhead_scope": "production runtime slowdown is measured by board UART START/DONE markers and summarized with median/p95/variance",
+  "runtime_overhead_scope": "board UART START/DONE markers are reported as runtime smoke only; cycle-level production slowdown is not claimed",
   "schema": "rvmt.resource_timing_summary.v1",
   "status": "PASS",
-  "trace_bitstream": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker-pre-pointer-20260612/work-fpga/ariane_xilinx.bit",
-  "trace_bitstream_sha256": "5ab54e577456532936a117fe89c3e5800758e5e42819d8618db42622ce9447cc"
+  "trace_bitstream": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.bit",
+  "trace_bitstream_sha256": "3b30e5ceda81f44a8c9e9b062557035adf66b6746b91559389437cf47cffd7fd"
 }

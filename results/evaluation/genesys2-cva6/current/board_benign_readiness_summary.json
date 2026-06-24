@@ -448,7 +448,7 @@
       "id": "latest_manifest",
       "path": "results/evaluation/genesys2-cva6/current/latest_manifest.json",
       "schema": "rvmt.genesys2.latest_manifest.v1",
-      "sha256": "3095b5639ac6a02bc0be3e8aa47745763e19cbe848393bc465ad6bb8e574d812",
+      "sha256": "846e88d475daef7742eff39ba309efca793edde488580d36f6a99253c580abe5",
       "status": "PASS"
     },
     {
@@ -456,7 +456,7 @@
       "id": "trace_sink",
       "path": "results/evaluation/genesys2-cva6/current/trace_sink_summary.json",
       "schema": "rvmt.genesys2.bram_trace_sink.v1",
-      "sha256": "71342c84315955f94ab789157a5d9b68c94508754d4ec9b9f70d3b6983cc27f1",
+      "sha256": "ecf226cbac00400c423dd636b6acaae3b5995b70bdd094ef4e76b5886f15359b",
       "status": "PASS"
     },
     {
@@ -464,7 +464,7 @@
       "id": "p0_bram_trace",
       "path": "results/evaluation/genesys2-cva6/current/p0_bram_trace_summary.json",
       "schema": "rvmt.genesys2.p0_bram_trace.v1",
-      "sha256": "74beec191ba45c19acf962323a7e48af5d8d9aa0ba827f1d51b7262f0bef3095",
+      "sha256": "3c1b66e153d9fdf713206a622dcb562c2dec0a47bc711457220deb754eb25ebe",
       "status": "PASS"
     },
     {
@@ -472,7 +472,7 @@
       "id": "safe_surrogate_bram_trace",
       "path": "results/evaluation/genesys2-cva6/current/safe_surrogate_bram_trace_summary.json",
       "schema": "rvmt.genesys2.safe_surrogate_bram_trace.v1",
-      "sha256": "4bdf85988cb9cd6cd6ec869aa91ddc0b121e3104c17a6d781ad36c5f7867f25a",
+      "sha256": "e7d6e50242c60b6a5b2e82af5af2826ac291b3049bc850a1e83a5b66feee7f11",
       "status": "PASS"
     },
     {
@@ -480,7 +480,7 @@
       "id": "drop_accounting",
       "path": "results/evaluation/genesys2-cva6/current/drop_accounting_summary.json",
       "schema": "rvmt.trace_drop_accounting.v1",
-      "sha256": "8192977caa1adef849b53a47d09dbc4dfa7a0c503ffd1d3158a6ca6baade3150",
+      "sha256": "34f52238f8fa442750dc9e019568687118b0a41f338352e4c621f674b2278ba4",
       "status": "PASS"
     },
     {
@@ -488,7 +488,7 @@
       "id": "behavior_audit_metrics",
       "path": "results/evaluation/genesys2-cva6/current/behavior_audit_metrics.json",
       "schema": "rvmt.behavior_audit_metrics.v1",
-      "sha256": "c0b82cd2dcfe7d3bf67b77c44120e23ed8ce5d14601bf76f3807d5d57a7f7ea6",
+      "sha256": "b77dd561037330cf25893ed1438e4de2d0a4003edaa313d7ef309229d84bb1fc",
       "status": "PASS"
     }
   ],

@@ -91,7 +91,7 @@ def check_bram_ring(root: Path) -> list[str]:
     ):
         require(errors, needle in text, f"{BRAM_RING}: missing {needle}")
     for needle in (
-        "assigncapture_fire=capture_enable_i&&!freeze_i&&trace_valid_i&&trace_packet_i.valid;",
+        "assigncapture_fire=capture_enable_i&&(!freeze_i||clear_i)&&trace_valid_i&&trace_packet_i.valid;",
         "assigncapture_write=rst_ni&&capture_fire;",
         "assignwrite_index_d=clear_i?'0:write_index_q;",
         "assignwrite_sequence_d=clear_i?32'd0:next_sequence_q;",
@@ -271,7 +271,7 @@ def write_fixture(root: Path) -> None:
         "  trace_compact_record_t dump_record_q;\n"
         "  logic dump_valid_q;\n"
         "  logic dropped_count_o, wrap_count_o, start_timestamp_o, end_timestamp_o;\n"
-        "  assign capture_fire = capture_enable_i && !freeze_i && trace_valid_i && trace_packet_i.valid;\n"
+        "  assign capture_fire = capture_enable_i && (!freeze_i || clear_i) && trace_valid_i && trace_packet_i.valid;\n"
         "  assign capture_write = rst_ni && capture_fire;\n"
         "  assign write_index_d = clear_i ? '0 : write_index_q;\n"
         "  assign write_sequence_d = clear_i ? 32'd0 : next_sequence_q;\n"

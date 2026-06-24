@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import re
 import sys
 import tempfile
@@ -17,6 +18,7 @@ DEFAULT_EXTERNAL_ROOT = Path("results/evaluation/genesys2-cva6/current/external_
 
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 PLACEHOLDER_VALUE_RE = re.compile(r"^<[^>]+>$")
+EMBEDDED_PLACEHOLDER_RE = re.compile(r"<[^>]+>")
 PLACEHOLDER_THRESHOLD_VALUES = {
     ">0",
     "> 0",
@@ -24,7 +26,8 @@ PLACEHOLDER_THRESHOLD_VALUES = {
     ">= 5",
     ">=0.95",
     ">= 0.95",
-    "> p95_event_bytes_per_second",
+    "> required_sustained_bytes_per_second",
+    "1.5 * p99_event_bytes_per_second",
 }
 NO_EXTERNAL_SUMMARY_FIELD = "NOT_PRESENT"
 UNREADABLE_EXTERNAL_SUMMARY_FIELD = "UNREADABLE_JSON"
@@ -68,7 +71,10 @@ REQUIRED_EVIDENCE_ARTIFACT_KINDS = {
     },
     "production_streaming_dma_trace_sink": {
         "transport_design_manifest",
+        "streaming_bitstream_clock_report",
         "host_receiver_log",
+        "parser_output_log",
+        "drop_accounting_report",
         "timing_report",
         "resource_report",
         "noninterference_report",
@@ -177,7 +183,7 @@ def placeholder_paths(value: Any, path: str = "$") -> list[str]:
             paths.extend(placeholder_paths(nested, f"{path}[{index}]"))
     elif isinstance(value, str):
         stripped = value.strip()
-        if PLACEHOLDER_VALUE_RE.fullmatch(stripped) or stripped in PLACEHOLDER_THRESHOLD_VALUES:
+        if PLACEHOLDER_VALUE_RE.fullmatch(stripped) or EMBEDDED_PLACEHOLDER_RE.search(stripped) or stripped in PLACEHOLDER_THRESHOLD_VALUES:
             paths.append(path)
     return paths
 
@@ -363,9 +369,17 @@ def validate_streaming_dma_throughput(root: Path, data: dict[str, Any]) -> list[
     require(errors, "bram" not in transport and "jtag" not in transport and "ila" not in transport, "transport must not be BRAM/JTAG/ILA")
     sustained = number_or(data.get("sustained_bytes_per_second"), 0.0)
     p95 = number_or(data.get("p95_event_bytes_per_second"), 0.0)
+    p99 = number_or(data.get("p99_event_bytes_per_second"), 0.0)
+    multiplier = number_or(data.get("minimum_sustained_throughput_multiplier"), 0.0)
+    required = number_or(data.get("required_sustained_bytes_per_second"), 0.0)
     require(errors, sustained > 0, "sustained_bytes_per_second must be positive")
     require(errors, p95 > 0, "p95_event_bytes_per_second must be positive")
-    require(errors, sustained > p95, "sustained throughput must exceed p95 event production")
+    require(errors, p99 > 0, "p99_event_bytes_per_second must be positive")
+    require(errors, p99 >= p95, "p99 event production must be >= p95")
+    require(errors, multiplier == 1.5, "minimum sustained throughput multiplier must be 1.5")
+    require(errors, required > 0, "required_sustained_bytes_per_second must be positive")
+    require(errors, math.isclose(required, p99 * multiplier, rel_tol=1e-12, abs_tol=0.0), "required sustained throughput must be 1.5x p99")
+    require(errors, sustained > required, "sustained throughput must exceed required 1.5x p99 event production")
     require(errors, number_or(data.get("unaccounted_drop"), -1) == 0, "unaccounted_drop must be 0")
     require(errors, data.get("timing_passed") is True, "timing must pass")
     require(errors, data.get("noninterference_passed") is True, "noninterference must pass")
@@ -454,7 +468,6 @@ def expected_record_state(root: Path, record_id: str, path_value: Path) -> dict[
 def check_summary(data: dict[str, Any], root: Path) -> list[str]:
     errors: list[str] = []
     require(errors, data.get("schema") == "rvmt.genesys2.external_closure_intake.v1", "schema mismatch")
-    require(errors, data.get("status") == "PASS", "status must be PASS")
     require(errors, data.get("canonical_evaluation_root") == "results/evaluation/genesys2-cva6/current", "canonical root mismatch")
     require(errors, data.get("external_summary_root") == DEFAULT_EXTERNAL_ROOT.as_posix(), "external summary root mismatch")
     require(errors, "real_malware_validation" in as_list(data.get("objective_exclusions")), "real-malware objective exclusion missing")
@@ -503,6 +516,8 @@ def check_summary(data: dict[str, Any], root: Path) -> list[str]:
     require(errors, data.get("invalid_external_blocker_count") == invalid, "invalid count mismatch")
     expected_closure = "ALL_NON_REAL_EXTERNAL_SUMMARIES_ACCEPTED" if accepted == len(EXPECTED_EXTERNAL_SUMMARIES) else "OPEN_EXTERNAL_ARTIFACTS_REQUIRED"
     require(errors, data.get("closure_status") == expected_closure, "closure_status mismatch")
+    expected_status = "PASS" if accepted == len(EXPECTED_EXTERNAL_SUMMARIES) else "BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED"
+    require(errors, data.get("status") == expected_status, f"status must be {expected_status}")
     commands = " ".join(str(item) for item in as_list(data.get("validation_commands")))
     require(errors, "tools/package_genesys2_external_closure_intake.py" in commands, "packager command missing")
     require(errors, "tools/check_genesys2_external_closure_intake.py --root ." in commands, "checker command missing")
@@ -630,6 +645,9 @@ def good_external_summary(record_id: str, evidence_artifacts: list[dict[str, Any
             "transport": "axi_dma",
             "sustained_bytes_per_second": 2000000,
             "p95_event_bytes_per_second": 1000000,
+            "p99_event_bytes_per_second": 1200000,
+            "minimum_sustained_throughput_multiplier": 1.5,
+            "required_sustained_bytes_per_second": 1800000,
             "unaccounted_drop": 0,
             "timing_passed": True,
             "noninterference_passed": True,
@@ -672,6 +690,13 @@ def good_external_summary(record_id: str, evidence_artifacts: list[dict[str, Any
 def self_test() -> int:
     from package_genesys2_external_closure_intake import package_intake
 
+    def record_validation_errors(summary: dict[str, Any], record_id: str) -> list[str]:
+        for record in as_list(summary.get("records")):
+            row = as_dict(record)
+            if row.get("id") == record_id:
+                return [str(error) for error in as_list(row.get("validation_errors"))]
+        return []
+
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
         summary = package_intake(root)
@@ -696,8 +721,11 @@ def self_test() -> int:
         write_json(bad_path, bad)
         summary = package_intake(root)
         errors = check_summary(summary, root)
-        if not errors:
-            print("[FAIL] sha-mismatched external artifact fixture passed", file=sys.stderr)
+        record_errors = record_validation_errors(summary, "production_streaming_dma_trace_sink")
+        if errors or summary.get("status") != "BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED" or not any("sha256 mismatch" in error for error in record_errors):
+            print("[FAIL] sha-mismatched external artifact fixture was not blocked truthfully", file=sys.stderr)
+            for error in errors:
+                print(error, file=sys.stderr)
             return 1
         write_json(
             bad_path,
@@ -719,13 +747,11 @@ def self_test() -> int:
         write_json(bad_path, bad)
         summary = package_intake(root)
         errors = check_summary(summary, root)
-        record_errors: list[str] = []
-        for record in as_list(summary.get("records")):
-            if as_dict(record).get("id") == "production_streaming_dma_trace_sink":
-                record_errors = [str(error) for error in as_list(as_dict(record).get("validation_errors"))]
-                break
-        if not errors or not any("external_closure" in error for error in record_errors):
-            print("[FAIL] out-of-scope external artifact fixture passed", file=sys.stderr)
+        record_errors = record_validation_errors(summary, "production_streaming_dma_trace_sink")
+        if errors or summary.get("status") != "BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED" or not any("external_closure" in error for error in record_errors):
+            print("[FAIL] out-of-scope external artifact fixture was not blocked truthfully", file=sys.stderr)
+            for error in errors:
+                print(error, file=sys.stderr)
             return 1
         write_json(
             bad_path,
@@ -741,13 +767,11 @@ def self_test() -> int:
         write_json(bad_path, bad)
         summary = package_intake(root)
         errors = check_summary(summary, root)
-        record_errors = []
-        for record in as_list(summary.get("records")):
-            if as_dict(record).get("id") == "production_streaming_dma_trace_sink":
-                record_errors = [str(error) for error in as_list(as_dict(record).get("validation_errors"))]
-                break
-        if not errors or not any("nonempty" in error for error in record_errors):
-            print("[FAIL] empty external artifact fixture passed", file=sys.stderr)
+        record_errors = record_validation_errors(summary, "production_streaming_dma_trace_sink")
+        if errors or summary.get("status") != "BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED" or not any("nonempty" in error for error in record_errors):
+            print("[FAIL] empty external artifact fixture was not blocked truthfully", file=sys.stderr)
+            for error in errors:
+                print(error, file=sys.stderr)
             return 1
         write_json(
             bad_path,
@@ -765,13 +789,11 @@ def self_test() -> int:
         write_json(bad_path, bad)
         summary = package_intake(root)
         errors = check_summary(summary, root)
-        record_errors = []
-        for record in as_list(summary.get("records")):
-            if as_dict(record).get("id") == "genesys2_board_benign_control":
-                record_errors = [str(error) for error in as_list(as_dict(record).get("validation_errors"))]
-                break
-        if not errors or not any("genesys2_board_benign_control" in error for error in record_errors):
-            print("[FAIL] cross-record board benign artifact fixture passed", file=sys.stderr)
+        record_errors = record_validation_errors(summary, "genesys2_board_benign_control")
+        if errors or summary.get("status") != "BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED" or not any("genesys2_board_benign_control" in error for error in record_errors):
+            print("[FAIL] cross-record board benign artifact fixture was not blocked truthfully", file=sys.stderr)
+            for error in errors:
+                print(error, file=sys.stderr)
             return 1
         write_json(
             bad_path,
@@ -786,8 +808,11 @@ def self_test() -> int:
         write_json(bad_path, bad)
         summary = package_intake(root)
         errors = check_summary(summary, root)
-        if not errors:
-            print("[FAIL] invalid external summary fixture passed", file=sys.stderr)
+        record_errors = record_validation_errors(summary, "full_hardware_pointer_strings")
+        if errors or summary.get("status") != "BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED" or not any("companion" in error for error in record_errors):
+            print("[FAIL] invalid external summary fixture was not blocked truthfully", file=sys.stderr)
+            for error in errors:
+                print(error, file=sys.stderr)
             return 1
         bad = good_external_summary(
             "full_hardware_pointer_strings",
@@ -797,8 +822,11 @@ def self_test() -> int:
         write_json(bad_path, bad)
         summary = package_intake(root)
         errors = check_summary(summary, root)
-        if not errors:
-            print("[FAIL] placeholder external summary fixture passed", file=sys.stderr)
+        record_errors = record_validation_errors(summary, "full_hardware_pointer_strings")
+        if errors or summary.get("status") != "BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED" or not any("placeholder" in error for error in record_errors):
+            print("[FAIL] placeholder external summary fixture was not blocked truthfully", file=sys.stderr)
+            for error in errors:
+                print(error, file=sys.stderr)
             return 1
     print("[PASS] Genesys2 external closure intake checker self-test")
     return 0

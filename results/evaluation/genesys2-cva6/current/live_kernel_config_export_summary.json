@@ -1,0 +1,65 @@
+{
+  "blocked_reason": "live board exposes no readable kernel config at /proc/config.gz, /boot/config-$(uname -r), or /lib/modules/$(uname -r)/build/.config",
+  "claim_boundary": {
+    "board_cycle_source_claimed": false,
+    "cycle_level_overhead_claimed": false,
+    "live_kernel_config_export_claimed": false,
+    "qemu_or_strace_substitution_allowed": false,
+    "sd_card_image_rebuild_claimed": false,
+    "source_level_kernel_config_claimed": false
+  },
+  "diagnostics": {
+    "candidate_paths_found": [],
+    "candidate_paths_missing": [
+      "/boot/config-6.19.6",
+      "/lib/modules/6.19.6/build/.config",
+      "/proc/config.gz"
+    ],
+    "config_line_count": 0,
+    "kernel": "6.19.6 #1 Tue Jun  9 06:02:04 UTC 2026 riscv64 GNU/Linux",
+    "markers": {
+      "begin": true,
+      "done": true
+    },
+    "option_audit": {
+      "missing_required_options": [
+        "CONFIG_PERF_EVENTS",
+        "CONFIG_IKCONFIG",
+        "CONFIG_IKCONFIG_PROC"
+      ],
+      "pmu_option_group_satisfied": false,
+      "pmu_options": {
+        "CONFIG_HW_PERF_EVENTS": null,
+        "CONFIG_RISCV_PMU": null,
+        "CONFIG_RISCV_PMU_SBI": null
+      },
+      "required_options": {
+        "CONFIG_IKCONFIG": null,
+        "CONFIG_IKCONFIG_PROC": null,
+        "CONFIG_PERF_EVENTS": null
+      },
+      "satisfies_counter_config": false
+    },
+    "root_shell": true,
+    "selected_config_path": null
+  },
+  "live_config": null,
+  "non_claims": [
+    "A BLOCKED summary does not create or substitute a live kernel config artifact.",
+    "A PASS live kernel config export proves only the readable live config file and required counter options, not a usable board cycle source.",
+    "QEMU, strace, source-level defconfigs, and Buildroot defconfigs cannot substitute for this live board export."
+  ],
+  "run_log": {
+    "path": "results/board/genesys2_trace_validation/20260624-live-kernel-config-export/uart.log",
+    "sha256": "a13fb1abcd020b502f774bcd9360e8ca54799655d5a11249297711da62e9107f",
+    "size_bytes": 3281
+  },
+  "schema": "rvmt.genesys2.live_kernel_config_export.v1",
+  "status": "BLOCKED_LIVE_KERNEL_CONFIG_UNAVAILABLE",
+  "validation_commands": [
+    "uv run rvmt ndss:live-kernel-config-export --port COM7 --baud 115200",
+    "uv run python tools/check_genesys2_live_kernel_config_export.py --root .",
+    "uv run python tools/check_genesys2_live_kernel_config_export.py --root . --require-pass",
+    "uv run rvmt ndss:linux-counter-preflight"
+  ]
+}

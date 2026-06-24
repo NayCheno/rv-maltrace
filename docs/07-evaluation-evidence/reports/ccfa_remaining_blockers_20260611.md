@@ -5,8 +5,8 @@ Scope: Digilent Genesys2 + CVA6.
 Current-status note (2026-06-12): this report is retained as an intermediate
 blocker log. Current paper-facing status is governed by
 `ccfa_readiness_matrix.md` and `ccfa_next_closure_plan.md`: 82/100, NOT CCF-A
-READY, controlled safe/surrogate evidence only. As of the 2026-06-13 update,
-the current non-real-malware gate is `genesys2-current` PASS 53/53.
+READY, controlled safe/surrogate evidence only. As of the 2026-06-24 update,
+the current non-real-malware gate is `genesys2-current` PASS 76/76.
 
 This report records the blockers remaining after the 2026-06-11 136-bit P0
 recapture, Phase C BRAM ring trace-sink board run, safe-surrogate BRAM
@@ -303,7 +303,7 @@ Command:
 uv run python tools/check_genesys2_external_closure_intake.py --root .
 ```
 
-Result: PASS OPEN.
+Result: BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED.
 
 Summary artifact:
 `results/evaluation/genesys2-cva6/current/external_closure_intake.json`
@@ -311,10 +311,9 @@ Summary artifact:
 Allowed claim: the repository now has a strict intake gate for optional future
 external summaries under
 `results/evaluation/genesys2-cva6/current/external_closure/`. The current
-status is `OPEN_EXTERNAL_ARTIFACTS_REQUIRED`, with 0 accepted, 4 open, and 0
-invalid external blockers. This does not mark board-native DWARF source lines,
-full hardware pointer strings, production streaming/DMA throughput, or
-Genesys2 board benign-control evidence complete.
+status is `BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED`, with 2 accepted, 0 open, and 2
+invalid external blockers. This does not mark full hardware pointer strings or
+production streaming/DMA throughput complete.
 
 The remaining external closure work now has an executable plan.
 
@@ -479,8 +478,8 @@ hardware into a user-pointer snapshot implementation.
 | Phase F evaluation matrix | PASS via `ccfa_evaluation_matrix.json`, `workload_manifest.json`, and per-sample metric summaries. | Not a real-malware or production throughput matrix. | `tools/check_ccfa_evaluation_matrix.py` |
 | Phase F baseline alignment | PASS via `baseline_alignment_summary.json` across event-only, guardrailed bounded-prefix ARG_MEM, trusted companion, strace, qemu-strace, and software-sidecar rows. | Pointer snapshot row is not a full memory dump or full hardware string route. | `tools/check_baseline_alignment.py` |
 | Phase F behavior metrics | PASS via `behavior_audit_metrics.json` for controlled safe workloads. | Metrics are behavior-audit metrics, not malware-family detection accuracy. | `tools/check_behavior_audit_metrics.py` |
-| Phase F statistical robustness | PASS via `statistical_robustness_summary.json`: 120 accepted controlled board repetitions across 12 P0/safe-surrogate samples, one retained failed P0 attempt, zero accepted-window unaccounted DROP/wrap/dropped count, 12 case studies, and five local benign controls with 0.0 unexpected false-positive rate. | This is not randomized workload generalization, real-malware validation, production long-run stability, or Genesys2 board benign-control evidence. | `tools/check_genesys2_statistical_robustness.py` |
-| Phase F streaming/DMA target baseline | PASS via `streaming_dma_target_summary.json`: 120 accepted marker-window repetitions define a p95 target of `0.01981178801386825` compact event bytes per marker-window cycle for future non-BRAM transport experiments. | This is a local target baseline only; it is not production streaming/DMA throughput evidence and still requires external host receiver, timing, resource, and noninterference artifacts. | `tools/check_genesys2_streaming_dma_target.py` |
+| Phase F statistical robustness | PASS via `statistical_robustness_summary.json`: 122 accepted controlled board repetitions across 12 P0/safe-surrogate samples, four retained failed P0 attempts, zero accepted-window unaccounted DROP/wrap/dropped count, 12 case studies, and five local benign controls with 0.0 unexpected false-positive rate. | This is not randomized workload generalization, real-malware validation, production long-run stability, or Genesys2 board benign-control evidence. | `tools/check_genesys2_statistical_robustness.py` |
+| Phase F streaming/DMA target baseline | PASS via `streaming_dma_target_summary.json`: 122 accepted marker-window repetitions define p50/p95/p99 compact event-byte targets of `0.006971521218847351` / `0.01981178801386825` / `0.020308813427709585` bytes/cycle and a future `1.5 * p99` sustained transport threshold for non-BRAM transport experiments. | This is a local target baseline only; it is not production streaming/DMA throughput evidence and still requires external host receiver, timing, resource, and noninterference artifacts. | `tools/check_genesys2_streaming_dma_target.py` |
 | Phase F streaming/DMA transport readiness | PASS via `streaming_dma_readiness_summary.json`: allowed non-BRAM transport kinds, exact clock conversion, host receiver fields, required artifact kinds, summary fields, and no-substitution boundaries are fixed for future external runs. | Readiness only; it does not complete production streaming/DMA throughput evidence. | `tools/check_genesys2_streaming_dma_readiness.py` |
 | Phase F full hardware pointer-string readiness | PASS via `pointer_string_readiness_summary.json`: future full-string summary schema, required artifact kinds, offset-zero contiguity, terminator/mem_last evidence, redaction policy, and no-substitution boundaries are fixed for future RTL/board runs. | Readiness only; it does not complete full hardware-derived pointer-string evidence. | `tools/check_genesys2_pointer_string_readiness.py` |
 | Phase F case-study package | PASS via `case_study_manifest.json` and per-sample `case_study_summary.json` files for all P0 and safe-surrogate samples. | Controlled case studies only; not real-malware validation, detection accuracy, full hardware strings, board-native DWARF, or production streaming/DMA. | `tools/check_ccfa_case_study_manifest.py` |
@@ -490,7 +489,7 @@ hardware into a user-pointer snapshot implementation.
 | Phase F reproducibility manifest | PASS via `reproducibility_manifest.json`, which links reports to summary hashes, raw roots, raw file counts, and checker commands. | This is controlled-package reproducibility linkage, not real-malware validation. | `tools/check_genesys2_reproducibility_manifest.py` |
 | Phase F artifact package | PASS via `artifact_package_manifest.json` and `tools/reproduce_genesys2_current.py`. | Lightweight manifest package only; raw board artifacts are referenced, not copied. | `tools/check_genesys2_artifact_package.py` |
 | Phase F external closure readiness | PASS via `external_closure_readiness.json`, which records required artifacts, acceptance criteria, future checker contracts, and no-substitution rules for the remaining non-real-malware external blockers. | Readiness contract only; it does not complete board-native DWARF, full hardware strings, streaming/DMA throughput, or board benign-control evidence. | `tools/check_genesys2_external_closure_readiness.py` |
-| Phase F external closure intake | PASS OPEN via `external_closure_intake.json`, which records optional future external-summary paths and strict acceptance checks. | Current `OPEN_EXTERNAL_ARTIFACTS_REQUIRED` status means no external blocker is accepted as closed yet. | `tools/check_genesys2_external_closure_intake.py` |
+| Phase F external closure intake | BLOCKED via `external_closure_intake.json`, which records optional future external-summary paths and strict acceptance checks. | Current `BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED` status means three external summaries are accepted, while production streaming/DMA remains invalid and open. | `tools/check_genesys2_external_closure_intake.py` |
 | Phase F external closure plan | PASS PLAN ONLY via `external_closure_plan.json`, which records executable runbooks and template-only summaries for the remaining non-real-malware external blockers. | Plan templates are not evidence and do not replace board/RTL execution. | `tools/check_genesys2_external_closure_plan.py` |
 | Phase F external closure local preflight | PASS LOCAL PREFLIGHT via `external_closure_preflight.json`, which records local script, dry-run, schema/path, and no-substitution readiness for the remaining external blockers. | Preflight is not external execution and does not replace board/RTL evidence or accepted external summaries. | `tools/check_genesys2_external_closure_preflight.py` |
 | Phase F external operator handoff | PASS OPERATOR HANDOFF via `external_operator_packet.json` and `ccfa_external_operator_packet.md`, which record per-blocker execution order, required artifact kinds, candidate-summary packaging, and intake acceptance steps. | Operator handoff is not external execution and does not replace board/RTL/host transport evidence or accepted external summaries. | `tools/check_genesys2_external_operator_packet.py` |
@@ -505,13 +504,13 @@ Phase D/E/F summary packaging, the current repository gate state is:
 
 | Gate | Command | Result |
 | --- | --- | --- |
-| current Genesys2/CVA6 gate | `uv run python tools/run_check_suite.py --suite genesys2-current` | PASS 53/53, including Phase 4.4 baseline pass criteria, Phase B/C/D/E/F controlled gates, trace-export boundary, bounded fuzz trace invariant fixtures, source-line toolchain probe, debug ELF source-line rerun readiness, board benign-control readiness, evaluation-plan synchronization, review-closure audit, benign control, statistical robustness/failure-retention audit, streaming/DMA target-baseline and transport-readiness audit, full hardware pointer-string readiness audit, case-study packaging, hardware pointer prefix audit, reproducibility manifest, artifact package, external closure readiness/intake/plan/preflight/operator-handoff/template guard, current-quality integrity, and real-malware containment |
+| current Genesys2/CVA6 gate | `uv run python tools/run_check_suite.py --suite genesys2-current` | PASS 76/76, including Phase 4.4 baseline pass criteria, Phase B/C/D/E/F controlled gates, trace-export boundary, bounded fuzz trace invariant fixtures, directed trace-correctness corpus, local code-analysis fixture provenance, semantic provenance, source-line toolchain probe, debug ELF source-line rerun readiness, board benign-control readiness, evaluation-plan synchronization, review-closure audit, benign control, statistical robustness/failure-retention audit, streaming/DMA target-baseline and transport-readiness audit, full hardware pointer-string readiness and accepted scoped evidence audit, case-study packaging, hardware pointer prefix audit, software tracer-visibility baseline, reproducibility manifest, artifact package, local raw-artifact release archive, recursive artifact integrity, bootrom counter-delegation build artifact validation, cycle-source probe, cycle-source diagnostics, counter-access matrix, Docker Linux rebuild manifest, local boot SD-card image manifest, SD-card write-target preflight truthful-BLOCKED guard, host-side Vivado part/board preflight guard, trace-marker programming guard, read-only JTAG RAM-boot probe truthful-BLOCKED guard, current-bitstream strict-SRET board smoke guard, live SD-card Linux manifest, live kernel-config export truthful-BLOCKED guard, Linux counter-path preflight truthful-BLOCKED guard, host-side LaTeX skeleton-build guard, external closure readiness/intake/plan/preflight/operator-handoff/template guard, current-quality integrity, and real-malware containment |
 | trace-export decision boundary | `uv run python tools/check_trace_export_decision.py --root .` | PASS, BRAM ring plus ILA/JTAG selected; UART/DMA streaming deferred |
 | BRAM trace sink | `uv run python tools/check_genesys2_bram_trace_sink.py --root .` | PASS |
 | safe-surrogate BRAM marker-window trace | `uv run python tools/check_genesys2_safe_surrogate_bram_trace.py --root .` | PASS |
 | trace drop accounting | `uv run python tools/check_trace_drop_accounting.py --root .` | PASS |
-| statistical robustness audit | `uv run python tools/check_genesys2_statistical_robustness.py --root .` | PASS, 120 accepted controlled board repetitions, 1 retained failed P0 attempt, zero accepted-window DROP/wrap/dropped count, and 5 local benign controls with unexpected FP rate 0.0 |
-| streaming/DMA target baseline | `uv run python tools/check_genesys2_streaming_dma_target.py --root .` | PASS, p95 target `0.01981178801386825` compact event bytes per marker-window cycle; production throughput remains external/open |
+| statistical robustness audit | `uv run python tools/check_genesys2_statistical_robustness.py --root .` | PASS, 122 accepted controlled board repetitions, 4 retained failed P0 attempts, zero accepted-window DROP/wrap/dropped count, and 5 local benign controls with unexpected FP rate 0.0 |
+| streaming/DMA target baseline | `uv run python tools/check_genesys2_streaming_dma_target.py --root .` | PASS, p50/p95/p99 targets `0.006971521218847351` / `0.01981178801386825` / `0.020308813427709585` compact event bytes per marker-window cycle; required future sustained threshold `0.030463220141564377` event bytes/cycle before exact-clock conversion; production throughput remains external/open |
 | streaming/DMA transport readiness | `uv run python tools/check_genesys2_streaming_dma_readiness.py --root .` | PASS, non-BRAM transport contract, exact clock conversion, host receiver fields, artifact kinds, and no-substitution boundary; production throughput remains external/open |
 | syscall semantic reconstruction | `uv run python tools/check_syscall_semantic_reconstruction.py --root .` | PASS |
 | pointer snapshot guardrails | `uv run python tools/check_pointer_snapshot_guardrails.py --root .` | PASS, bounded-prefix ARG_MEM for openat / execve / write; no full hardware strings |
@@ -523,7 +522,7 @@ Phase D/E/F summary packaging, the current repository gate state is:
 | source-line attribution | `uv run python tools/check_source_line_attribution.py --root .` | PASS, sidecar-scoped source lines; board traces function-level |
 | source-line toolchain probe | `uv run python tools/check_source_line_toolchain_probe.py --root .` | PASS, debug/no-PIE `.debug_line` path proven; current board ELFs no-DWARF |
 | process/ELF ownership | `uv run python tools/check_process_elf_ownership.py --root .` | PASS |
-| dynamic mapping attribution | `uv run python tools/check_dynamic_mapping_attribution.py --root .` | PASS |
+| dynamic mapping attribution | `uv run python tools/check_dynamic_mapping_attribution.py --root .` | BLOCKED_BOARD_DYNAMIC_MAPPING_CASES accepted by checker; static/no-PIE/fork-exec cases remain supported, while PIE/load-bias, dynamic-loader, shared-library, and stripped-ELF board evidence still require exact board runtime maps |
 | CCF-A evaluation matrix | `uv run python tools/check_ccfa_evaluation_matrix.py --root .` | PASS |
 | baseline alignment | `uv run python tools/check_baseline_alignment.py --root .` | PASS |
 | behavior audit metrics | `uv run python tools/check_behavior_audit_metrics.py --root .` | PASS |
@@ -532,7 +531,7 @@ Phase D/E/F summary packaging, the current repository gate state is:
 | reproducibility manifest | `uv run python tools/check_genesys2_reproducibility_manifest.py --root .` | PASS |
 | artifact package / fresh-clone commands | `uv run python tools/check_genesys2_artifact_package.py --root .`; `uv run python tools/reproduce_genesys2_current.py --full --dry-run` | PASS, lightweight manifest package with quick/full fresh-clone command sets |
 | external closure readiness contract | `uv run python tools/check_genesys2_external_closure_readiness.py --root .` | PASS, machine-checkable requirements for remaining non-real-malware external blockers; not completion evidence |
-| external closure intake gate | `uv run python tools/check_genesys2_external_closure_intake.py --root .` | PASS OPEN, 0 accepted and 4 open external blockers; invalid external summaries would fail the gate |
+| external closure intake gate | `uv run python tools/check_genesys2_external_closure_intake.py --root .` | BLOCKED, 2 accepted and 2 invalid external summaries; invalid summaries remain blockers and are not counted as closed |
 | external closure execution plan | `uv run python tools/check_genesys2_external_closure_plan.py --root .` | PASS PLAN ONLY, executable runbooks and templates are present but are not external evidence |
 | external closure local preflight | `uv run python tools/check_genesys2_external_closure_preflight.py --root .` | PASS LOCAL PREFLIGHT, local scripts/dry-run hooks/schema paths/no-substitution guardrails are ready; not external evidence |
 | external operator handoff packet | `uv run python tools/check_genesys2_external_operator_packet.py --root .` | PASS OPERATOR HANDOFF, per-blocker execution order and artifact-kind handoff are present; not external evidence |
@@ -580,7 +579,7 @@ detection accuracy.
 - The current trace-export route is BRAM ring plus ILA/JTAG; UART streaming and
   AXI DMA/Ethernet streaming remain deferred and unmeasured for throughput.
 - External closure intake validates future summaries but currently records
-  `OPEN_EXTERNAL_ARTIFACTS_REQUIRED`; it is not external evidence by itself.
+  `BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED`; it is not external evidence by itself.
 - External closure plan templates are not evidence and do not substitute for
   board/RTL execution or external reviewer artifacts.
 - External operator handoff is not evidence and does not substitute for

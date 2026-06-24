@@ -276,7 +276,7 @@ def package_summary(repo_root: Path, current_root: Path) -> dict[str, Any]:
     status = "PASS"
     if any(data.get("status") != "PASS" for data in (p0, safe, drop, case_manifest, benign)):
         status = "FAIL"
-    if aggregate["board_sample_count"] != 12 or aggregate["accepted_board_repetitions"] != 120:
+    if aggregate["board_sample_count"] != 12 or aggregate["accepted_board_repetitions"] < 120:
         status = "FAIL"
     if aggregate["min_accepted_repetitions_per_board_sample"] < 10:
         status = "FAIL"
@@ -317,9 +317,9 @@ def package_summary(repo_root: Path, current_root: Path) -> dict[str, Any]:
             "retained_failed_attempts_counted_as_pass": False,
         },
         "allowed_claims": [
-            "The current controlled Genesys2/CVA6 board evidence contains 120 accepted marker-window repetitions across 12 safe/surrogate board samples, with at least 10 accepted repetitions per board sample.",
+            f"The current controlled Genesys2/CVA6 board evidence contains {accepted_repetitions} accepted marker-window repetitions across 12 safe/surrogate board samples, with at least 10 accepted repetitions per board sample.",
             "Accepted board repetitions have zero unaccounted DROP, zero BRAM wrap, and no sequence-gap samples under the captured-window criteria.",
-            "One failed P0 board attempt is retained as failure evidence and is not counted as an accepted PASS repetition.",
+            f"{failed_attempt_count} failed board attempt(s) are retained as failure evidence and are not counted as accepted PASS repetitions.",
             "The current local benign-control set contains at least five benign workloads with zero unexpected false positives under the controlled local Linux audit.",
         ],
         "non_claims": [
@@ -431,8 +431,8 @@ def self_test() -> int:
         if summary.get("status") != "PASS":
             print("[FAIL] expected statistical robustness fixture to pass", file=sys.stderr)
             return 1
-        if summary.get("aggregate", {}).get("accepted_board_repetitions") != 120:
-            print("[FAIL] expected 120 accepted fixture repetitions", file=sys.stderr)
+        if summary.get("aggregate", {}).get("accepted_board_repetitions") < 120:
+            print("[FAIL] expected at least 120 accepted fixture repetitions", file=sys.stderr)
             return 1
         if len(summary.get("retained_failed_attempts", [])) != 1:
             print("[FAIL] expected retained failed attempt fixture", file=sys.stderr)

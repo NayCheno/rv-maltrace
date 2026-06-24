@@ -1,0 +1,10 @@
+{
+  "compact_trace_record_bytes": 17,
+  "console_control_baud": 115200,
+  "ftdi_serial": null,
+  "receiver_backend": "pyserial",
+  "rtl_source": "rtl/trace/trace_uart_stream_sink.sv",
+  "status_frame_required": true,
+  "stream_baud": 12000000,
+  "transport": "uart_streaming_dma"
+}

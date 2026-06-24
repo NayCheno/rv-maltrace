@@ -1,10 +1,10 @@
 {
   "bitstream": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.bit",
-  "bitstream_sha256": "5ab54e577456532936a117fe89c3e5800758e5e42819d8618db42622ce9447cc",
+  "bitstream_sha256": null,
   "board": "Digilent Genesys2",
   "cpu": "CVA6 rv64gc sv39",
   "ltx": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.ltx",
-  "ltx_sha256": "0a647dbd67f4921dc4a449f269b94caf9fa407627e840ab386d168775981467c",
+  "ltx_sha256": null,
   "run_root": "results/board/genesys2_trace_validation/20260611-phase-c-bram-ring-board",
   "samples": [
     {

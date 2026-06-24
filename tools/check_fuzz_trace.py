@@ -61,6 +61,7 @@ NUMERIC_FIELDS = {
     "mem_addr",
     "mem_data",
     "mem_size",
+    "commit_port",
 }
 PRIV_FIELDS = {"priv", "old_priv", "new_priv"}
 VALID_PRIVS = {"U", "S", "H", "M"}
@@ -216,6 +217,8 @@ def check_syscall_pairing(events: list[dict[str, Any]]) -> list[str]:
             if syscall_id <= last_id:
                 errors.append(f"event {index}: syscall_id is not strictly increasing")
             last_id = syscall_id
+            if syscall_id in pending:
+                errors.append(f"event {index}: duplicate outstanding syscall_id {syscall_id}")
             pending[syscall_id] = event
         elif evt == "SYSCALL_RET":
             if event.get("priv") != "S":
@@ -224,14 +227,27 @@ def check_syscall_pairing(events: list[dict[str, Any]]) -> list[str]:
             if syscall_id is None or syscall_id not in pending:
                 errors.append(f"event {index}: SYSCALL_RET has no matching entry")
                 continue
-            pending.pop(syscall_id)
+            entry = pending.pop(syscall_id)
+            entry_cycle = parse_int(entry.get("cycle"))
+            ret_cycle = parse_int(event.get("cycle"))
+            if entry_cycle is not None and ret_cycle is not None and ret_cycle < entry_cycle:
+                errors.append(f"event {index}: SYSCALL_RET cycle precedes matching entry")
             duration = parse_int(event.get("duration"))
             if duration is None or duration < 0:
                 errors.append(f"event {index}: SYSCALL_RET duration must be non-negative")
-            if parse_int(event.get("target")) is None:
+            elif entry_cycle is not None and ret_cycle is not None and duration != ret_cycle - entry_cycle:
+                errors.append(f"event {index}: SYSCALL_RET duration {duration} does not match cycle delta {ret_cycle - entry_cycle}")
+            target = parse_int(event.get("target"))
+            entry_pc = parse_int(entry.get("pc"))
+            if target is None:
                 errors.append(f"event {index}: SYSCALL_RET missing numeric target return PC")
+            elif entry_pc is not None and target == entry_pc:
+                errors.append(f"event {index}: SYSCALL_RET target must not equal entry PC")
             if parse_int(event.get("a0")) is None:
                 errors.append(f"event {index}: SYSCALL_RET missing numeric a0 return value")
+            for owner_field in ("pid", "tgid"):
+                if owner_field in entry and owner_field in event and event.get(owner_field) != entry.get(owner_field):
+                    errors.append(f"event {index}: SYSCALL_RET {owner_field} does not match entry")
     for syscall_id in sorted(pending):
         errors.append(f"syscall_id {syscall_id}: missing SYSCALL_RET")
     return errors
@@ -269,14 +285,99 @@ def check_drop_monotonic(events: list[dict[str, Any]]) -> list[str]:
     return errors
 
 
+SAME_CYCLE_EVENT_ORDER = {
+    "TRAP": 0,
+    "MARKER": 1,
+    "SYSCALL_ENTRY": 2,
+    "SYSCALL_RET": 2,
+    "ARG_MEM": 3,
+    "CSR": 4,
+    "SATP": 4,
+    "PRIV": 5,
+    "BRANCH": 6,
+    "JUMP": 6,
+    "RETIRE": 7,
+}
+
+
+def check_same_cycle_event_order(events: list[dict[str, Any]]) -> list[str]:
+    errors = []
+    last_by_cycle: dict[int, tuple[int, str, int]] = {}
+    for index, event in enumerate(events):
+        cycle = parse_int(event.get("cycle"))
+        evt = str(event.get("evt"))
+        rank = SAME_CYCLE_EVENT_ORDER.get(evt)
+        if cycle is None or rank is None:
+            continue
+        previous = last_by_cycle.get(cycle)
+        if previous is not None:
+            previous_rank, previous_evt, previous_index = previous
+            if rank < previous_rank:
+                errors.append(
+                    f"event {index}: same-cycle order violation at cycle {cycle}: "
+                    f"{evt} appeared after {previous_evt} from event {previous_index}"
+                )
+        last_by_cycle[cycle] = (rank, evt, index)
+    return errors
+
+
+def check_dual_commit_order(events: list[dict[str, Any]]) -> list[str]:
+    errors = []
+    retire_by_cycle: dict[int, list[tuple[int, dict[str, Any]]]] = {}
+    for index, event in enumerate(events):
+        if event.get("evt") != "RETIRE":
+            continue
+        cycle = parse_int(event.get("cycle"))
+        if cycle is None:
+            continue
+        retire_by_cycle.setdefault(cycle, []).append((index, event))
+
+    for cycle, rows in sorted(retire_by_cycle.items()):
+        if len(rows) <= 1:
+            continue
+        previous_port = -1
+        seen_ports: set[int] = set()
+        for index, event in rows:
+            port = parse_int(event.get("commit_port"))
+            if port is None:
+                errors.append(f"event {index}: dual-retire cycle {cycle} missing numeric commit_port")
+                continue
+            if port in seen_ports:
+                errors.append(f"event {index}: duplicate commit_port {port} in dual-retire cycle {cycle}")
+            if port < previous_port:
+                errors.append(
+                    f"event {index}: dual-retire commit_port order violation at cycle {cycle}: "
+                    f"{port} after {previous_port}"
+                )
+            seen_ports.add(port)
+            previous_port = port
+    return errors
+
+
+def check_sret_return_qualified(events: list[dict[str, Any]]) -> list[str]:
+    errors = []
+    for index, event in enumerate(events):
+        if event.get("evt") != "SYSCALL_RET":
+            continue
+        instr = parse_int(event.get("instr"))
+        if instr != 0x10200073:
+            errors.append(f"event {index}: SYSCALL_RET must be emitted from SRET")
+        if event.get("sret_qualified") is not True:
+            errors.append(f"event {index}: SYSCALL_RET must carry sret_qualified=true")
+    return errors
+
+
 CHECKS = {
     "known_event_types": check_known_event_types,
     "trace_schema_required_fields": check_trace_schema_required_fields,
     "control_flow_targets_aligned": check_control_flow_targets_aligned,
     "trap_not_retire": check_trap_not_retire,
     "syscall_pairing": check_syscall_pairing,
+    "same_cycle_event_order": check_same_cycle_event_order,
+    "dual_commit_order": check_dual_commit_order,
     "context_events_well_formed": check_context_events,
     "drop_count_monotonic": check_drop_monotonic,
+    "sret_return_qualified": check_sret_return_qualified,
 }
 
 
@@ -395,7 +496,7 @@ def write_outputs(trace_path: Path, out_dir: Path, events: list[dict[str, Any]],
 def self_test() -> int:
     good_trace = [
         {"cycle": 1, "evt": "SYSCALL_ENTRY", "pc": "0x1000", "instr": "0x00000073", "priv": "U", "syscall_id": "0x0", "a0": "0x1", "a1": "0x0", "a2": "0x0", "a3": "0x0", "a4": "0x0", "a5": "0x0", "a6": "0x0", "a7": "0x40"},
-        {"cycle": 2, "evt": "SYSCALL_RET", "pc": "0x1010", "instr": "0x10200073", "priv": "S", "target": "0x1004", "syscall_id": "0x0", "duration": 1, "a0": "0x1"},
+        {"cycle": 2, "evt": "SYSCALL_RET", "pc": "0x1010", "instr": "0x10200073", "priv": "S", "target": "0x1004", "syscall_id": "0x0", "duration": 1, "a0": "0x1", "sret_qualified": True},
         {"cycle": 3, "evt": "BRANCH", "pc": "0x1004", "instr": "0x00050863", "target": "0x1010", "taken": True},
         {"cycle": 4, "evt": "JUMP", "pc": "0x1010", "instr": "0x0000006f", "target": "0x1020"},
         {"cycle": 5, "evt": "TRAP", "pc": "0x1020", "instr": "0xffffffff", "cause": "0x2", "tval": "0xffffffff", "priv": "U"},
@@ -426,13 +527,21 @@ def self_test() -> int:
         ([{key: value for key, value in good_trace[2].items() if key != "taken"}], {"id": "bad-branch", "invariants": ["known_event_types"], "min_counts": {"BRANCH": 1}, "required_fields": {"BRANCH": ["target", "taken"]}}, "branch missing taken"),
         ([{**good_trace[0], "priv": "S"}], {"id": "bad-syscall", "invariants": ["syscall_pairing"], "min_counts": {"SYSCALL_ENTRY": 1}}, "S-mode syscall entry"),
         ([{**good_trace[0], "a7": "not-a-number"}], {"id": "bad-syscall-arg", "invariants": ["syscall_pairing"], "min_counts": {"SYSCALL_ENTRY": 1}}, "non-numeric syscall arg"),
+        ([{**good_trace[0], "cycle": 1, "syscall_id": "0x0"}, {**good_trace[0], "cycle": 2, "pc": "0x1008", "syscall_id": "0x0"}], {"id": "bad-duplicate-syscall", "invariants": ["syscall_pairing"], "min_counts": {"SYSCALL_ENTRY": 2}}, "duplicate outstanding syscall id"),
+        ([{**good_trace[0], "cycle": 5, "pid": 10, "tgid": 10}, {**good_trace[1], "cycle": 4, "duration": -1, "pid": 11, "tgid": 10}], {"id": "bad-ret-cycle", "invariants": ["trace_schema_required_fields", "syscall_pairing"], "min_counts": {"SYSCALL_ENTRY": 1, "SYSCALL_RET": 1}}, "syscall return before entry/cross pid"),
+        ([{**good_trace[0], "cycle": 1}, {**good_trace[1], "cycle": 3, "duration": 1}], {"id": "bad-ret-duration", "invariants": ["syscall_pairing"], "min_counts": {"SYSCALL_ENTRY": 1, "SYSCALL_RET": 1}}, "syscall return duration mismatch"),
+        ([{**good_trace[0], "cycle": 1}, {**good_trace[1], "cycle": 2, "target": "0x1000"}], {"id": "bad-ret-target", "invariants": ["syscall_pairing"], "min_counts": {"SYSCALL_ENTRY": 1, "SYSCALL_RET": 1}}, "syscall return target equals entry pc"),
         ([{"cycle": 1, "evt": "SYSCALL_ENTRY", "pc": "0x1000", "instr": "0x73", "priv": "U", "syscall_id": "0x0", "a0": "0x1", "a1": "0x0", "a2": "0x0", "a3": "0x0", "a4": "0x0", "a5": "0x0", "a6": "0x0", "a7": "0x40"}, {"cycle": 2, "evt": "SYSCALL_RET", "pc": "0x1004", "instr": "0x10200073", "priv": "S", "syscall_id": "0x0", "duration": 1, "target": "0x1000"}], {"id": "bad-ret-a0", "invariants": ["trace_schema_required_fields", "syscall_pairing"], "min_counts": {"SYSCALL_ENTRY": 1, "SYSCALL_RET": 1}}, "syscall return missing a0"),
         ([{"cycle": 1, "evt": "SYSCALL_RET", "syscall_id": "0x2", "duration": 1, "target": "0x1000", "a0": "0x0", "priv": "S"}], {"id": "bad-ret", "invariants": ["syscall_pairing"], "min_counts": {"SYSCALL_RET": 1}}, "unmatched syscall return"),
+        ([{**good_trace[1], "sret_qualified": False}], {"id": "bad-sret-qualification", "invariants": ["trace_schema_required_fields", "sret_return_qualified"], "min_counts": {"SYSCALL_RET": 1}}, "unqualified SRET syscall return"),
+        ([{**good_trace[1], "instr": "0x00000013"}], {"id": "bad-sret-instr", "invariants": ["trace_schema_required_fields", "sret_return_qualified"], "min_counts": {"SYSCALL_RET": 1}}, "non-SRET syscall return"),
         ([{"cycle": 1, "evt": "DROP", "value": "0x2"}, {"cycle": 2, "evt": "DROP", "value": "0x2"}], {"id": "bad-drop", "invariants": ["drop_count_monotonic"], "min_counts": {"DROP": 2}}, "non-monotonic drop"),
         ([{"cycle": 1, "evt": "TRAP", "pc": "0x0000000000001000", "instr": "0xffffffff", "cause": "0x2"}, {"cycle": 2, "evt": "RETIRE", "pc": "0x1000", "instr": "0xffffffff"}], {"id": "bad-trap-retire", "invariants": ["trap_not_retire"], "min_counts": {"TRAP": 1}}, "trap/retire overlap"),
         ([{"cycle": 1, "evt": "TRAP", "pc": "0x1000", "cause": "0x2", "tval": "0x0", "priv": "U"}, {"cycle": 2, "evt": "RETIRE", "pc": "0x1000", "instr": "0xffffffff", "priv": "U"}], {"id": "bad-trap-missing-instr", "invariants": ["trap_not_retire"], "min_counts": {"TRAP": 1}}, "trap missing instr for trap invariant"),
         ([{"cycle": 1, "evt": "TRAP", "pc": "0x1000", "instr": "0xffffffff", "cause": "0x7"}], {"id": "bad-trap-cause", "invariants": ["trap_not_retire"], "min_counts": {"TRAP": 1}, "allowed_trap_causes": ["0x2"]}, "disallowed trap cause"),
         ([{"cycle": 1, "evt": "SATP", "satp": "not-a-number"}], {"id": "bad-context", "invariants": ["context_events_well_formed"], "min_counts": {"SATP": 1}}, "non-numeric SATP"),
+        ([{"cycle": 7, "evt": "RETIRE", "pc": "0x1000", "instr": "0x13", "priv": "S"}, {"cycle": 7, "evt": "TRAP", "pc": "0x1000", "instr": "0xffffffff", "cause": "0x2", "tval": "0x0", "priv": "S"}], {"id": "bad-same-cycle-order", "invariants": ["same_cycle_event_order"], "min_counts": {"TRAP": 1, "RETIRE": 1}}, "same-cycle event order"),
+        ([{"cycle": 7, "evt": "RETIRE", "pc": "0x1000", "instr": "0x13", "priv": "U", "commit_port": 1}, {"cycle": 7, "evt": "RETIRE", "pc": "0x1004", "instr": "0x13", "priv": "U", "commit_port": 0}], {"id": "bad-dual-commit-order", "invariants": ["dual_commit_order"], "min_counts": {"RETIRE": 2}}, "dual-retire commit_port order"),
         ([{"cycle": 1, "evt": "BRANCH", "target": "0x1000", "taken": True}], {"id": "overflow", "invariants": ["control_flow_targets_aligned", "drop_count_monotonic"], "min_counts": {"BRANCH": 1, "DROP": 1}}, "overflow without DROP"),
     ]
     for trace, case, label in negative_cases:

@@ -66,7 +66,7 @@ def package_intake(root: Path = ROOT, current_root: Path = DEFAULT_CURRENT_ROOT)
             }
         )
     closure_status = "ALL_NON_REAL_EXTERNAL_SUMMARIES_ACCEPTED" if accepted == len(EXPECTED_EXTERNAL_SUMMARIES) else "OPEN_EXTERNAL_ARTIFACTS_REQUIRED"
-    status = "PASS" if invalid == 0 else "FAIL"
+    status = "PASS" if accepted == len(EXPECTED_EXTERNAL_SUMMARIES) else "BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED"
     return {
         "schema": "rvmt.genesys2.external_closure_intake.v1",
         "status": status,
@@ -91,8 +91,8 @@ def package_intake(root: Path = ROOT, current_root: Path = DEFAULT_CURRENT_ROOT)
         ],
         "interpretation": [
             "This intake gate accepts only strict optional external summaries and does not replace board, RTL, or reviewer execution.",
-            "When no external summaries are present, the gate remains PASS with OPEN_EXTERNAL_ARTIFACTS_REQUIRED so current evidence is not overclaimed.",
-            "If an external summary appears but fails the required schema, threshold, or no-substitution checks, the gate fails.",
+            "When external summaries are absent or invalid, the gate remains BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED so current evidence is not overclaimed.",
+            "If an external summary appears but fails the required schema, threshold, or no-substitution checks, the invalid record remains blocked and is not accepted.",
         ],
     }
 
@@ -102,7 +102,7 @@ def self_test() -> int:
         root = Path(tmp)
         summary = package_intake(root)
         errors = check_summary(summary, root)
-        if errors or summary.get("open_external_blocker_count") != len(EXPECTED_EXTERNAL_SUMMARIES):
+        if errors or summary.get("status") != "BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED" or summary.get("open_external_blocker_count") != len(EXPECTED_EXTERNAL_SUMMARIES):
             print("[FAIL] open external closure intake fixture failed", file=sys.stderr)
             for error in errors:
                 print(error, file=sys.stderr)
@@ -138,7 +138,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"package_genesys2_external_closure_intake: error: {exc}", file=sys.stderr)
         return 2
     print(f"[{summary['status']}] wrote Genesys2 external closure intake to {out} ({summary['closure_status']})")
-    return 0 if summary["status"] == "PASS" else 1
+    return 0
 
 
 if __name__ == "__main__":

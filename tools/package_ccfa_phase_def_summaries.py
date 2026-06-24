@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any
 
 from ccfa_gate_common import ABLATIONS, ALL_CCFA_SAMPLES, BASELINES, P0_SAMPLES, SAFE_SURROGATE_SAMPLES
+from package_genesys2_semantic_provenance import PROVENANCE_NAME, package_provenance
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -97,6 +98,12 @@ KNOWN_STRACE_SYSCALLS = {
     "wait4",
     "waitid",
     "write",
+}
+
+UART_WALL_CLOCK_RUNTIME_METRIC = "wall_clock_ns_from_board_uart_date_markers"
+CLAIMABLE_RUNTIME_OVERHEAD_METRICS = {
+    "board_rdcycle_delta_cycles",
+    "hardware_trace_cycle_delta",
 }
 
 
@@ -524,9 +531,17 @@ def production_runtime_rollup(runtime_benchmark: dict[str, Any] | None) -> dict[
     if not runtime_benchmark:
         return {
             "claimed": False,
+            "board_execution_smoke_claimed": False,
+            "cycle_level_overhead_claimed": False,
+            "production_runtime_slowdown_claimed": False,
             "summary": None,
             "reason": "production runtime benchmark artifact is not present",
         }
+    metric = str(runtime_benchmark.get("metric") or "")
+    benchmark_passed = runtime_benchmark.get("status") == "PASS"
+    claimable_metric = metric in CLAIMABLE_RUNTIME_OVERHEAD_METRICS
+    explicit_cycle_claim = runtime_benchmark.get("cycle_level_overhead_claimed") is True
+    claimed = benchmark_passed and claimable_metric and explicit_cycle_claim
     mode_stats = runtime_benchmark.get("mode_stats", {}) if isinstance(runtime_benchmark.get("mode_stats"), dict) else {}
     sample_rows = runtime_benchmark.get("samples", []) if isinstance(runtime_benchmark.get("samples"), list) else []
     slowdown_by_mode: dict[str, list[float]] = {}
@@ -541,10 +556,29 @@ def production_runtime_rollup(runtime_benchmark: dict[str, Any] | None) -> dict[
             if isinstance(slowdown, (int, float)):
                 slowdown_by_mode.setdefault(str(mode), []).append(float(slowdown))
     return {
-        "claimed": runtime_benchmark.get("status") == "PASS",
+        "claimed": claimed,
+        "board_execution_smoke_claimed": benchmark_passed,
+        "cycle_level_overhead_claimed": claimed,
+        "production_runtime_slowdown_claimed": claimed,
         "benchmark": repo_rel(DEFAULT_RUNTIME_BENCHMARK),
         "minimum_repetitions_per_mode_sample": runtime_benchmark.get("minimum_repetitions_per_mode_sample"),
-        "metric": runtime_benchmark.get("metric"),
+        "metric": metric,
+        "claim_boundary": {
+            "metric_is_cycle_level": claimable_metric,
+            "wall_clock_uart_marker_metric": metric == UART_WALL_CLOCK_RUNTIME_METRIC,
+            "uart_wall_clock_promoted_to_overhead_claim": False,
+            "requires_native_cycle_or_hardware_counter_artifact": not claimed,
+        },
+        "non_claims": [
+            "UART shell date markers are retained as board execution smoke and repetition evidence.",
+            "UART shell date markers are not a cycle-level perturbation or production slowdown claim.",
+            "Cycle-level overhead requires a native rdcycle/hardware-counter artifact or equivalent hardware trace counter evidence.",
+        ],
+        "reason": (
+            "cycle-level runtime overhead claim is backed by an explicit native/hardware cycle metric"
+            if claimed
+            else "current benchmark is board runtime smoke only; cycle-level production slowdown remains open"
+        ),
         "mode_stats": mode_stats,
         "median_slowdown_vs_trace_off_by_mode": {
             mode: statistics.median(values)
@@ -970,7 +1004,7 @@ def package(args: argparse.Namespace) -> dict[str, Any]:
         "pointer_snapshot_mode": pointer_claims["snapshot_mode"],
         "hardware_user_pointer_snapshot": pointer_claims["hardware_user_pointer_snapshot"],
         "runtime_overhead_scope": (
-            "production runtime slowdown is measured by board UART START/DONE markers and summarized with median/p95/variance"
+            "board UART START/DONE markers are reported as runtime smoke only; cycle-level production slowdown is not claimed"
             if runtime_benchmark and runtime_benchmark.get("status") == "PASS"
             else "resource/timing and trace-window timing are reported; production runtime slowdown is not claimed from this artifact alone"
         ),
@@ -1015,28 +1049,53 @@ def package(args: argparse.Namespace) -> dict[str, Any]:
     }
     dynamic_summary = {
         "schema": "rvmt.dynamic_mapping_attribution.v1",
-        "status": "PASS",
+        "status": "BLOCKED_BOARD_DYNAMIC_MAPPING_CASES",
+        "claim_boundary": {
+            "board_dynamic_mapping_claimed": False,
+            "host_control_strace_qemu_is_validation_oracle_only": True,
+            "exact_board_elf_required_for_board_claims": True,
+            "runtime_os_map_required_for_pie_aslr_and_dynamic_libraries": True,
+        },
         "cases": {
-            "static_binary": {"pass": True, "evidence": repo_rel(out_root / "workload_manifest.json")},
-            "no_pie_binary": {"pass": True, "evidence": repo_rel(out_root / "source_line_sidecar.json")},
-            "pie_binary": {
+            "static_binary": {"status": "PASS", "pass": True, "evidence": repo_rel(out_root / "workload_manifest.json")},
+            "no_pie_binary": {
+                "status": "PASS",
                 "pass": True,
+                "evidence": repo_rel(out_root / "source_line_sidecar.json"),
+                "scope": "source-equivalent sidecar and no-PIE readiness only; not board-native DWARF",
+            },
+            "pie_binary": {
+                "status": "BLOCKED_BOARD_EVIDENCE_REQUIRED",
+                "pass": False,
                 "evidence": "results/demo/ccfa-p0-20260611/*/01_ground_truth/host_control.strace.log",
-                "scope": "host/control dynamic loader baseline; board syscall-only ELFs are EXEC/no-PIE",
+                "scope": "host/control dynamic loader oracle only; exact board ELF plus runtime load bias map required for board claims",
             },
             "dynamic_loader": {
-                "pass": True,
+                "status": "BLOCKED_BOARD_EVIDENCE_REQUIRED",
+                "pass": False,
                 "evidence": "results/demo/ccfa-p0-20260611/*/01_ground_truth/host_control.strace.log",
+                "scope": "host/control oracle only; board-native dynamic loader map not captured in current evidence root",
             },
             "shared_libraries": {
-                "pass": True,
+                "status": "BLOCKED_BOARD_EVIDENCE_REQUIRED",
+                "pass": False,
                 "evidence": "results/demo/ccfa-p0-20260611/*/01_ground_truth/host_control.strace.log",
+                "scope": "host/control oracle only; board runtime shared-object mapping not captured in current evidence root",
             },
-            "fork_exec_child": {"pass": True, "evidence": repo_rel(args.p0_run_root / P0_DIRS["fork_exec"] / "runtime_process_map.json")},
+            "fork_exec_child": {"status": "PASS", "pass": True, "evidence": repo_rel(args.p0_run_root / P0_DIRS["fork_exec"] / "runtime_process_map.json")},
+            "stripped_elf": {
+                "status": "TODO_DIRECTED_BOARD_CASE",
+                "pass": False,
+                "evidence": repo_rel(out_root / "debug_elf_readiness_summary.json"),
+                "scope": "stripped ELF attribution must degrade to symbol-free offsets/sections and remain explicitly bounded",
+            },
         },
-        "dynamic_library_events_not_target_binary": True,
-        "aslr_load_bias_accounted": True,
-        "non_claims": ["Current board syscall-only ELFs are static EXEC/no-PIE; PIE/shared-library coverage is host/control baseline scoped."],
+        "dynamic_library_events_not_target_binary": "HOST_CONTROL_ORACLE_ONLY",
+        "aslr_load_bias_accounted": "HOST_CONTROL_ORACLE_ONLY",
+        "non_claims": [
+            "Current board syscall-only ELFs are static EXEC/no-PIE; PIE/shared-library coverage is host/control oracle scoped, not board evidence.",
+            "QEMU/strace host-control traces validate expected behavior only and are not hardware reconstruction results.",
+        ],
     }
     eval_summary = {
         "schema": "rvmt.ccfa_evaluation_matrix.v1",
@@ -1050,7 +1109,7 @@ def package(args: argparse.Namespace) -> dict[str, Any]:
             pointer_claims["eval_limitation"],
             "ILA remains a debug path; BRAM ring is the current board trace-sink evidence.",
             (
-                "Production runtime slowdown is measured in production_runtime_benchmark.json."
+                "production_runtime_benchmark.json is board runtime smoke only; cycle-level production slowdown remains external/open."
                 if runtime_benchmark and runtime_benchmark.get("status") == "PASS"
                 else "Production runtime slowdown is not claimed from this summary alone."
             ),
@@ -1178,6 +1237,9 @@ def package(args: argparse.Namespace) -> dict[str, Any]:
     }
     for filename, data in outputs.items():
         write_json(out_root / filename, data)
+    provenance_summary = package_provenance(ROOT, out_root)
+    write_json(out_root / PROVENANCE_NAME, provenance_summary)
+    outputs[PROVENANCE_NAME] = provenance_summary
     return {"out_root": repo_rel(out_root), "outputs": sorted(outputs), "source_line_rate": source_sidecar.get("rate")}
 
 

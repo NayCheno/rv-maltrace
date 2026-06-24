@@ -78,11 +78,14 @@ def percentile(values: list[float], quantile: float) -> float:
 def numeric_stats(values: list[int | float]) -> dict[str, Any]:
     numeric = [float(value) for value in values]
     if not numeric:
-        return {"min": 0.0, "median": 0.0, "p95": 0.0, "max": 0.0, "variance": 0.0}
+        return {"min": 0.0, "median": 0.0, "p50": 0.0, "p95": 0.0, "p99": 0.0, "max": 0.0, "variance": 0.0}
+    median = statistics.median(numeric)
     return {
         "min": min(numeric),
-        "median": statistics.median(numeric),
+        "median": median,
+        "p50": median,
         "p95": percentile(numeric, 0.95),
+        "p99": percentile(numeric, 0.99),
         "max": max(numeric),
         "variance": statistics.pvariance(numeric) if len(numeric) > 1 else 0.0,
     }
@@ -146,6 +149,7 @@ def repetition_rows(
             bram = as_dict(rep.get("bram_ring"))
             cycles = marker_window_cycles(rep)
             captured_events = integer(bram.get("event_count"))
+            window_events = marker_window_event_count(rep)
             trace_bytes = captured_events * record_width_bytes
             sample_class = rep.get("sample_class") or sample.get("sample_class") or default_sample_class
             rows.append(
@@ -157,10 +161,12 @@ def repetition_rows(
                     "trace_sink_mode": rep.get("trace_sink_mode"),
                     "parse_success": rep.get("parse_success"),
                     "captured_event_count": captured_events,
-                    "marker_window_event_count": marker_window_event_count(rep),
+                    "marker_window_event_count": window_events,
                     "trace_record_width_bytes": record_width_bytes,
                     "trace_bytes": trace_bytes,
                     "marker_window_cycles": cycles,
+                    "captured_events_per_cycle": (captured_events / cycles) if cycles else 0.0,
+                    "marker_window_events_per_cycle": (window_events / cycles) if cycles else 0.0,
                     "event_bytes_per_cycle": (trace_bytes / cycles) if cycles else 0.0,
                     "unaccounted_drop": integer(rep.get("unaccounted_drop")),
                     "bram_dropped_count": integer(bram.get("dropped_count")),
@@ -182,6 +188,8 @@ def cohort_row(summary: dict[str, Any], cohort_id: str, rows: list[dict[str, Any
         "accepted_repetition_count": len(cohort_rows),
         "trace_bytes": numeric_stats([integer(row.get("trace_bytes")) for row in cohort_rows]),
         "marker_window_cycles": numeric_stats([integer(row.get("marker_window_cycles")) for row in cohort_rows]),
+        "captured_events_per_cycle": numeric_stats([float(row.get("captured_events_per_cycle") or 0.0) for row in cohort_rows]),
+        "marker_window_events_per_cycle": numeric_stats([float(row.get("marker_window_events_per_cycle") or 0.0) for row in cohort_rows]),
         "event_bytes_per_cycle": numeric_stats([float(row.get("event_bytes_per_cycle") or 0.0) for row in cohort_rows]),
         "max_unaccounted_drop": max((integer(row.get("unaccounted_drop")) for row in cohort_rows), default=0),
         "max_bram_dropped_count": max((integer(row.get("bram_dropped_count")) for row in cohort_rows), default=0),
@@ -219,6 +227,8 @@ def package_summary(repo_root: Path, current_root: Path) -> dict[str, Any]:
         "trace_record_width_bytes": width_bytes,
         "trace_bytes": numeric_stats([integer(row.get("trace_bytes")) for row in rows]),
         "marker_window_cycles": numeric_stats([integer(row.get("marker_window_cycles")) for row in rows]),
+        "captured_events_per_cycle": numeric_stats([float(row.get("captured_events_per_cycle") or 0.0) for row in rows]),
+        "marker_window_events_per_cycle": numeric_stats([float(row.get("marker_window_events_per_cycle") or 0.0) for row in rows]),
         "event_bytes_per_cycle": numeric_stats([float(row.get("event_bytes_per_cycle") or 0.0) for row in rows]),
         "max_unaccounted_drop": max((integer(row.get("unaccounted_drop")) for row in rows), default=0),
         "max_bram_dropped_count": max((integer(row.get("bram_dropped_count")) for row in rows), default=0),
@@ -227,9 +237,9 @@ def package_summary(repo_root: Path, current_root: Path) -> dict[str, Any]:
     status = "PASS"
     if p0.get("status") != "PASS" or safe.get("status") != "PASS" or external_plan.get("status") != "PASS":
         status = "FAIL"
-    if aggregate["accepted_repetition_count"] != 120 or aggregate["board_sample_count"] != 12:
+    if aggregate["accepted_repetition_count"] < 120 or aggregate["board_sample_count"] != 12:
         status = "FAIL"
-    if cohorts[0]["accepted_repetition_count"] != 40 or cohorts[1]["accepted_repetition_count"] != 80:
+    if cohorts[0]["accepted_repetition_count"] < 40 or cohorts[1]["accepted_repetition_count"] < 80:
         status = "FAIL"
     if aggregate["trace_record_width_bits"] <= 0 or aggregate["trace_record_width_bytes"] <= 0:
         status = "FAIL"
@@ -237,19 +247,38 @@ def package_summary(repo_root: Path, current_root: Path) -> dict[str, Any]:
         status = "FAIL"
     if any(integer(row.get("marker_window_cycles")) <= 0 for row in rows):
         status = "FAIL"
+    if any(float(row.get("captured_events_per_cycle") or 0.0) <= 0.0 for row in rows):
+        status = "FAIL"
+    if any(float(row.get("marker_window_events_per_cycle") or 0.0) <= 0.0 for row in rows):
+        status = "FAIL"
+
+    p99_event_bytes_per_cycle = aggregate["event_bytes_per_cycle"]["p99"]
+    required_event_bytes_per_cycle = p99_event_bytes_per_cycle * 1.5
 
     target = {
         "metric": "compact_trace_event_bytes_per_marker_window_cycle",
+        "p50_event_bytes_per_cycle": aggregate["event_bytes_per_cycle"]["p50"],
         "p95_event_bytes_per_cycle": aggregate["event_bytes_per_cycle"]["p95"],
+        "p99_event_bytes_per_cycle": p99_event_bytes_per_cycle,
+        "p50_captured_events_per_cycle": aggregate["captured_events_per_cycle"]["p50"],
+        "p95_captured_events_per_cycle": aggregate["captured_events_per_cycle"]["p95"],
+        "p99_captured_events_per_cycle": aggregate["captured_events_per_cycle"]["p99"],
+        "p50_marker_window_events_per_cycle": aggregate["marker_window_events_per_cycle"]["p50"],
+        "p95_marker_window_events_per_cycle": aggregate["marker_window_events_per_cycle"]["p95"],
+        "p99_marker_window_events_per_cycle": aggregate["marker_window_events_per_cycle"]["p99"],
         "max_observed_event_bytes_per_cycle": aggregate["event_bytes_per_cycle"]["max"],
         "record_width_bits": width_bits,
         "record_width_bytes": width_bytes,
+        "minimum_sustained_throughput_multiplier": 1.5,
+        "required_sustained_event_bytes_per_cycle": required_event_bytes_per_cycle,
         "external_summary_path": EXTERNAL_SUMMARY_PATH,
         "required_external_summary_schema": "rvmt.genesys2.streaming_dma_throughput.v1",
-        "bytes_per_second_conversion": "p95_event_bytes_per_cycle * exact trace clock Hz from the production streaming bitstream timing report",
+        "bytes_per_second_conversion": "event_bytes_per_cycle * exact trace clock Hz from the production streaming bitstream timing report",
         "p95_event_bytes_per_second": BYTES_PER_SECOND_REQUIRES_CLOCK,
+        "p99_event_bytes_per_second": BYTES_PER_SECOND_REQUIRES_CLOCK,
+        "required_sustained_bytes_per_second": BYTES_PER_SECOND_REQUIRES_CLOCK,
         "clock_hz_required_for_bytes_per_second": True,
-        "future_acceptance_rule": "external sustained_bytes_per_second must exceed p95_event_bytes_per_second computed from this cycle-normalized target and the exact streaming bitstream clock report",
+        "future_acceptance_rule": "external sustained_bytes_per_second must exceed 1.5 * p99_event_bytes_per_cycle * exact trace clock Hz from the production streaming bitstream timing report",
     }
 
     return {
@@ -280,8 +309,8 @@ def package_summary(repo_root: Path, current_root: Path) -> dict[str, Any]:
             "real_malware_validation_claimed": False,
         },
         "allowed_claims": [
-            "The current controlled BRAM marker-window evidence defines a cycle-normalized p95 event-byte production target for future non-BRAM streaming/DMA experiments.",
-            "Future production streaming/DMA summaries must convert this target to bytes/sec using the exact clock report for the streaming bitstream and exceed it with sustained transport throughput.",
+            "The current controlled BRAM marker-window evidence defines cycle-normalized p50/p95/p99 event production targets for future non-BRAM streaming/DMA experiments.",
+            "Future production streaming/DMA summaries must convert the p99 target to bytes/sec using the exact clock report for the streaming bitstream and exceed 1.5x that rate with sustained transport throughput.",
         ],
         "non_claims": [
             "This target summary is not production streaming/DMA throughput evidence.",
@@ -359,7 +388,7 @@ def self_test() -> int:
         if summary.get("status") != "PASS":
             print("[FAIL] streaming DMA target fixture did not pass", file=sys.stderr)
             return 1
-        if summary.get("aggregate", {}).get("accepted_repetition_count") != 120:
+        if summary.get("aggregate", {}).get("accepted_repetition_count") < 120:
             print("[FAIL] streaming DMA target fixture repetition count mismatch", file=sys.stderr)
             return 1
         safe_classes = {
@@ -371,8 +400,11 @@ def self_test() -> int:
             print("[FAIL] expected streaming DMA target safe-surrogate sample class fallback", file=sys.stderr)
             return 1
         target = as_dict(summary.get("throughput_target"))
-        if not target.get("p95_event_bytes_per_cycle") or target.get("p95_event_bytes_per_second") != BYTES_PER_SECOND_REQUIRES_CLOCK:
+        if not target.get("p99_event_bytes_per_cycle") or target.get("p99_event_bytes_per_second") != BYTES_PER_SECOND_REQUIRES_CLOCK:
             print("[FAIL] streaming DMA target fixture throughput target mismatch", file=sys.stderr)
+            return 1
+        if target.get("minimum_sustained_throughput_multiplier") != 1.5:
+            print("[FAIL] streaming DMA target fixture multiplier mismatch", file=sys.stderr)
             return 1
         write_json(
             current / "safe_surrogate_bram_trace_summary.json",

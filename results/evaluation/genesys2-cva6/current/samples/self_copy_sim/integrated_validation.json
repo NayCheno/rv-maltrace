@@ -7,7 +7,7 @@
     "runtime_process_map": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map/self_copy_sim/runtime_process_map.json",
     "semantic_events": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/behavior/semantic_events.json",
     "source_attribution": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/local_code_analysis/source_attribution_summary.json",
-    "trace": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait/self_copy_sim/rep_01/bram_records.jsonl"
+    "trace": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort/self_copy_sim/rep_01/bram_records.jsonl"
   },
   "metrics": {
     "anti_analysis_visibility": 1.0,

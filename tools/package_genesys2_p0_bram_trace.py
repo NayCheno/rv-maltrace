@@ -34,7 +34,7 @@ SAMPLES = {
     },
 }
 
-DEFAULT_RUN_ROOT = Path("results/board/genesys2_trace_validation/20260612-p0-bram-repetitions")
+DEFAULT_RUN_ROOT = Path("results/board/genesys2_trace_validation/20260624-current-p0-cohort")
 DEFAULT_BUILD_ROOT = Path("build/board/genesys2_cva6_p0_marker")
 DEFAULT_OUT = Path("results/evaluation/genesys2-cva6/current/p0_bram_trace_summary.json")
 DEFAULT_BITSTREAM = Path("build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.bit")
@@ -142,7 +142,7 @@ def expected_syscall_entries(manifest: dict[str, Any]) -> int:
     sequence = manifest.get("syscall_sequence")
     if not isinstance(sequence, list):
         return 0
-    return sum(1 for item in sequence if str(item) != "rvmt_marker")
+    return sum(1 for item in sequence if str(item) not in {"rvmt_marker", "exit"})
 
 
 def expected_pairable_entries(manifest: dict[str, Any]) -> int:
@@ -418,7 +418,6 @@ def run_self_test() -> int:
                     {"evt": "SYSCALL_ENTRY", "packed_primary": "0x00000040", "packed_aux": "0x00000001", "sequence_number": 1, "cycle": 2},
                     {"evt": "SYSCALL_RET", "packed_primary": "0x00000001", "sequence_number": 2, "cycle": 3},
                     {"evt": "MARKER", "packed_primary": f"0x{int(spec['end_marker']):08x}", "sequence_number": 3, "cycle": 4},
-                    {"evt": "SYSCALL_ENTRY", "packed_primary": "0x0000005d", "packed_aux": "0x00000002", "sequence_number": 4, "cycle": 5},
                 ]
                 (rep_dir / "bram_records.jsonl").write_text("".join(json.dumps(row) + "\n" for row in records), encoding="utf-8")
                 write_json(
@@ -428,16 +427,16 @@ def run_self_test() -> int:
                         "status": "PASS",
                         "csv": (rep_dir / "capture.csv").as_posix(),
                         "sequence_first": 0,
-                        "sequence_last": 4,
-                        "event_counts": {"MARKER": 2, "SYSCALL_ENTRY": 2, "SYSCALL_RET": 1},
+                        "sequence_last": 3,
+                        "event_counts": {"MARKER": 2, "SYSCALL_ENTRY": 1, "SYSCALL_RET": 1},
                         "bram_ring": {
-                            "event_count": 5,
-                            "captured_count": 5,
+                            "event_count": 4,
+                            "captured_count": 4,
                             "dropped_count": 0,
                             "wrap_count": 0,
                             "full": False,
                             "start_timestamp": 1,
-                            "end_timestamp": 5,
+                            "end_timestamp": 4,
                         },
                     },
                 )

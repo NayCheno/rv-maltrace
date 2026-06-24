@@ -1,0 +1,123 @@
+{
+  "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",
+  "claim_boundary": {
+    "board_or_vivado_rerun_performed": false,
+    "external_release_asset_published": false,
+    "local_export_reproduced": true,
+    "real_malware_validation_claimed": false,
+    "requires_commit_tag_for_true_fresh_clone": true,
+    "true_git_fresh_clone_claimed": false,
+    "uncommitted_worktree_snapshot_included": true
+  },
+  "commands": [
+    {
+      "command": "uv run rvmt repro:quick",
+      "duration_seconds": 34.761,
+      "ended_utc": "2026-06-24T05:55:08.573363+00:00",
+      "exit_code": 0,
+      "log": "build/clean_repro_logs/repro_quick.log",
+      "mode": "quick",
+      "started_utc": "2026-06-24T05:54:33.812651+00:00",
+      "status": "PASS"
+    },
+    {
+      "command": "uv run rvmt repro:local",
+      "duration_seconds": 11.141,
+      "ended_utc": "2026-06-24T05:55:19.715482+00:00",
+      "exit_code": 0,
+      "log": "build/clean_repro_logs/repro_local.log",
+      "mode": "local",
+      "started_utc": "2026-06-24T05:55:08.574900+00:00",
+      "status": "PASS"
+    }
+  ],
+  "created_utc": "2026-06-24T05:55:21.434421+00:00",
+  "export": {
+    "bitstream_artifact_file_count": 20,
+    "copied_source_file_count": 6355,
+    "cva6_submodule_source_file_count": 12,
+    "file_count_excluding_uv_env": 5344,
+    "git_publishable_file_count": 2302,
+    "linux_repro_artifact_file_count": 8,
+    "local_root": "build/clean_repro/genesys2-cva6-current-20260624-055410",
+    "manifest_referenced_artifact_file_count": 4012,
+    "raw_archive_extracted_file_count": 3735,
+    "total_bytes_excluding_uv_env": 2810483254
+  },
+  "non_claims": [
+    "This is a local clean-export reproduction of the current uncommitted worktree, not a committed/tagged Git fresh clone.",
+    "The raw artifact ZIP is copied and extracted locally; it is still not an external immutable release asset.",
+    "No Vivado, Genesys2/JTAG/UART, LaTeX, or real-malware experiment was run by this tool."
+  ],
+  "raw_archive": {
+    "copied_into_export": true,
+    "extraction": {
+      "archive_exists": true,
+      "extracted": true,
+      "file_count": 3735,
+      "total_bytes": 1184251795
+    },
+    "local_archive": "build/ndss_artifacts/rv-maltrace-genesys2-cva6-current-raw-artifacts.zip",
+    "sha256": "5adb70579b4b92ab6dca645c77ce308d584940850dda11b3797fb8be98455f0d",
+    "size_bytes": 323004886
+  },
+  "required_local_artifacts": {
+    "bitstream_files": [
+      "build/vivado/genesys2-cv64a6_imafdc_sv39/work-fpga/ariane_xilinx.bit",
+      "build/vivado/genesys2-cv64a6_imafdc_sv39/work-fpga/ariane_xilinx.mcs",
+      "build/vivado/genesys2-cv64a6_imafdc_sv39/work-fpga/ariane_xilinx.dcp",
+      "build/vivado/genesys2-cv64a6_imafdc_sv39/reports/ariane.timing.rpt",
+      "build/vivado/genesys2-cv64a6_imafdc_sv39/reports/ariane.utilization.rpt",
+      "build/vivado/genesys2-cv64a6_imafdc_sv39-trace/work-fpga/ariane_xilinx.bit",
+      "build/vivado/genesys2-cv64a6_imafdc_sv39-trace/work-fpga/ariane_xilinx.ltx",
+      "build/vivado/genesys2-cv64a6_imafdc_sv39-trace/work-fpga/ariane_xilinx_routed.dcp",
+      "build/vivado/genesys2-cv64a6_imafdc_sv39-trace/work-fpga/ariane_xilinx_timing_summary_routed.rpt",
+      "build/vivado/genesys2-cv64a6_imafdc_sv39-trace/reports/ariane.utilization.rpt",
+      "build/vivado/genesys2-cv64a6_imafdc_sv39-trace/work-fpga/ariane_xilinx_route_status.rpt",
+      "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.bit",
+      "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.mcs",
+      "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.ltx",
+      "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/rvmt_trace_marker_build_manifest.json",
+      "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/xlnx_ila.xci",
+      "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx_routed.dcp",
+      "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/reports/ariane.timing.rpt",
+      "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/reports/ariane.utilization.rpt",
+      "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx_route_status.rpt"
+    ],
+    "cva6_source_files": [
+      "rtl/cva6/core/cva6_rvfi.sv",
+      "rtl/cva6/corev_apu/fpga/src/ariane_xilinx.sv",
+      "rtl/cva6/corev_apu/fpga/src/bootrom/bootrom_64.sv",
+      "rtl/cva6/corev_apu/fpga/src/bootrom/src/main.c",
+      "rtl/cva6/corev_apu/fpga/src/bootrom/cv64a6.dts.in",
+      "rtl/cva6/corev_apu/fpga/src/bootrom/README.md",
+      "rtl/cva6/corev_apu/fpga/xilinx/xlnx_ila/tcl/run.tcl",
+      "rtl/cva6/corev_apu/bootrom/ariane.dts",
+      "rtl/cva6/corev_apu/openpiton/bootrom/linux/ariane.dts",
+      "rtl/cva6/verif/tb/core/bootrom/cva6.dts",
+      "rtl/cva6/tutorials/fpga.md",
+      "rtl/cva6/RESOURCES.md"
+    ],
+    "linux_repro_files": [
+      "build/linux/genesys2-cva6/buildroot_defconfig.generated",
+      "build/linux/genesys2-cva6/cv64a6.generated.dts",
+      "build/linux/genesys2-cva6/sdcard_image_manifest.json",
+      "build/linux/genesys2-cva6/sdcard.img",
+      "build/linux/genesys2-cva6/images/fw_payload.bin",
+      "build/linux/genesys2-cva6/images/fw_payload.elf",
+      "build/linux/genesys2-cva6/images/rootfs.ext2",
+      "build/linux/genesys2-cva6/images/rootfs.cpio"
+    ],
+    "missing": []
+  },
+  "schema": "rvmt.genesys2.clean_repro_bundle.v1",
+  "source_worktree": {
+    "git_status_short": " M .gitignore\n M README.md\n M docker-compose.toolchain.yml\n M docker/linux-behavior/Dockerfile\n M docker/toolchain/build-cva6-bootrom.sh\n M docs/06-validation-gates/fuzz_trace_validation.md\n M docs/07-evaluation-evidence/evaluation_plan.md\n M docs/07-evaluation-evidence/reports/ccfa_external_operator_packet.md\n M docs/07-evaluation-evidence/reports/ccfa_next_closure_plan.md\n M docs/07-evaluation-evidence/reports/ccfa_readiness_matrix.md\n M docs/07-evaluation-evidence/reports/ccfa_remaining_blockers_20260611.md\n M docs/07-evaluation-evidence/reports/ccfa_review_closure_audit.md\n M docs/10-process/check_suites.md\n M docs/10-process/uv_workflow.md\n M docs/10-process/version_lock.md\n M results/board/genesys2_trace_validation/20260612-p0-bram-repetitions/hello_write/rep_01/bram_records.jsonl\n M results/board/genesys2_trace_validation/20260612-p0-bram-repetitions/hello_write/rep_01/bram_summary.json\n M results/board/genesys2_trace_validation/20260612-p0-bram-repetitions/hello_write/rep_01/capture.csv\n M results/board/genesys2_trace_validation/20260612-p0-bram-repetitions/hello_write/rep_01/capture.log\n M results/board/genesys2_trace_validation/20260612-p0-bram-repetitions/hello_write/rep_01/uart.log\n M results/evaluation/genesys2-cva6/current/artifact_package_manifest.json\n M results/evaluation/genesys2-cva6/current/behavior_audit_metrics.json\n M results/evaluation/genesys2-cva6/current/board_benign_readiness_summary.json\n M results/evaluation/genesys2-cva6/current/case_study_manifest.json\n M results/evaluation/genesys2-cva6/current/ccfa_evaluation_matrix.json\n M results/evaluation/genesys2-cva6/current/drop_accounting_summary.json\n M results/evaluation/genesys2-cva6/current/dynamic_mapping_attribution_summary.json\n M results/evaluation/genesys2-cva6/current/external_closure_intake.json\n M results/evaluation/genesys2-cva6/current/external_closure_plan.json\n M results/evaluation/genesys2-cva6/current/external_closure_preflight.json\n M results/evaluation/genesys2-cva6/current/external_closure_readiness.json\n M results/evaluation/genesys2-cva6/current/external_closure_templates/streaming_dma_throughput_summary.template.json\n M results/evaluation/genesys2-cva6/current/external_operator_packet.json\n M results/evaluation/genesys2-cva6/current/latest_manifest.json\n M results/evaluation/genesys2-cva6/current/p0_bram_trace_summary.json\n M results/evaluation/genesys2-cva6/current/pointer_snapshot_guardrails.json\n M results/evaluation/genesys2-cva6/current/pointer_string_readiness_summary.json\n M results/evaluation/genesys2-cva6/current/process_elf_ownership_summary.json\n M results/evaluation/genesys2-cva6/current/reproducibility_manifest.json\n M results/evaluation/genesys2-cva6/current/resource_timing_summary.json\n M results/evaluation/genesys2-cva6/current/review_closure_audit.json\n M results/evaluation/genesys2-cva6/current/safe_surrogate_bram_trace_summary.json\n M results/evaluation/genesys2-cva6/current/samples/abnormal_syscall_sequence/baseline_logs.json\n M results/evaluation/genesys2-cva6/current/samples/abnormal_syscall_sequence/case_study_summary.json\n M results/evaluation/genesys2-cva6/current/samples/abnormal_syscall_sequence/integrated_validation.json\n M results/evaluation/genesys2-cva6/current/samples/abnormal_syscall_sequence/semantic_events.json\n M results/evaluation/genesys2-cva6/current/samples/abnormal_syscall_sequence/semantic_events_summary.json\n M results/evaluation/genesys2-cva6/current/samples/anti_debug_like/baseline_logs.json\n M results/evaluation/genesys2-cva6/current/samples/anti_debug_like/case_study_summary.json\n M results/evaluation/genesys2-cva6/current/samples/anti_debug_like/integrated_validation.json\n M results/evaluation/genesys2-cva6/current/samples/anti_debug_like/semantic_events.json\n M results/evaluation/genesys2-cva6/current/samples/anti_debug_like/semantic_events_summary.json\n M results/evaluation/genesys2-cva6/current/samples/batch_open_read_write/baseline_logs.json\n M results/evaluation/genesys2-cva6/current/samples/batch_open_read_write/case_study_summary.json\n M results/evaluation/genesys2-cva6/current/samples/batch_open_read_write/integrated_validation.json\n M results/evaluation/genesys2-cva6/current/samples/batch_open_read_write/semantic_events.json\n M results/evaluation/genesys2-cva6/current/samples/batch_open_read_write/semantic_events_summary.json\n M results/evaluation/genesys2-cva6/current/samples/dynamic_executable_memory/baseline_logs.json\n M results/evaluation/genesys2-cva6/current/samples/dynamic_executable_memory/case_study_summary.json\n M results/evaluation/genesys2-cva6/current/samples/dynamic_executable_memory/integrated_validation.json\n M results/evaluation/genesys2-cva6/current/samples/dynamic_executable_memory/semantic_events.json\n M results/evaluation/genesys2-cva6/current/samples/dynamic_executable_memory/semantic_events_summary.json\n M results/evaluation/genesys2-cva6/current/samples/file_open_read_write/semantic_events.json\n M results/evaluation/genesys2-cva6/current/samples/file_scan/baseline_logs.json\n M results/evaluation/genesys2-cva6/current/samples/file_scan/case_study_summary.json\n M results/evaluation/genesys2-cva6/current/samples/file_scan/integrated_validation.json\n M results/evaluation/genesys2-cva6/current/samples/file_scan/semantic_events.json\n M results/evaluation/genesys2-cva6/current/samples/file_scan/semantic_events_summary.json\n M results/evaluation/genesys2-cva6/current/samples/fork_exec/semantic_events.json\n M results/evaluation/genesys2-cva6/current/samples/hello_write/semantic_events.json\n M results/evaluation/genesys2-cva6/current/samples/illegal_instruction/semantic_events.json\n M results/evaluation/genesys2-cva6/current/samples/illegal_trap/baseline_logs.json\n M results/evaluation/genesys2-cva6/current/samples/illegal_trap/case_study_summary.json\n M results/evaluation/genesys2-cva6/current/samples/illegal_trap/integrated_validation.json\n M results/evaluation/genesys2-cva6/current/samples/illegal_trap/semantic_events.json\n M results/evaluation/genesys2-cva6/current/samples/illegal_trap/semantic_events_summary.json\n M results/evaluation/genesys2-cva6/current/samples/process_chain/baseline_logs.json\n M results/evaluation/genesys2-cva6/current/samples/process_chain/case_study_summary.json\n M results/evaluation/genesys2-cva6/current/samples/process_chain/integrated_validation.json\n M results/evaluation/genesys2-cva6/current/samples/process_chain/semantic_events.json\n M results/evaluation/genesys2-cva6/current/samples/process_chain/semantic_events_summary.json\n M results/evaluation/genesys2-cva6/current/samples/self_copy_sim/baseline_logs.json\n M results/evaluation/genesys2-cva6/current/samples/self_copy_sim/case_study_summary.json\n M results/evaluation/genesys2-cva6/current/samples/self_copy_sim/integrated_validation.json\n M results/evaluation/genesys2-cva6/current/samples/self_copy_sim/semantic_events.json\n M results/evaluation/genesys2-cva6/current/samples/self_copy_sim/semantic_events_summary.json\n M results/evaluation/genesys2-cva6/current/semantic_reconstruction_summary.json\n M results/evaluation/genesys2-cva6/current/source_line_attribution_summary.json\n M results/evaluation/genesys2-cva6/current/statistical_robustness_summary.json\n M results/evaluation/genesys2-cva6/current/streaming_dma_readiness_summary.json\n M results/evaluation/genesys2-cva6/current/streaming_dma_target_summary.json\n M results/evaluation/genesys2-cva6/current/trace_sink_summary.json\n m rtl/cva6\n M rtl/trace/cva6_rvfi_trace_adapter.sv\n M rtl/trace/trace_bram_ring.sv\n M sim/golden/fuzz_invariants.json\n M sim/golden/rvfi_adapter.expected.json\n M sim/tb/tb_cva6_direct_xsim_smoke.sv\n M sim/tb/tb_cva6_rvfi_trace_adapter.sv\n M sim/tb/tb_trace_bram_ring.sv\n M src/rv_maltrace/cli.py\n M tools/analyze_single_riscv_binary_trace.py\n M tools/build_genesys2_benign_syscall_elf.py\n M tools/ccfa_gate_common.py\n M tools/check_ccfa_current_quality.py\n M tools/check_evaluation_plan.py\n M tools/check_fuzz_trace.py\n M tools/check_fuzz_trace_plan.py\n M tools/check_genesys2_artifact_package.py\n M tools/check_genesys2_bitstream_artifacts.py\n M tools/check_genesys2_bram_trace_sink_readiness.py\n M tools/check_genesys2_external_closure_intake.py\n M tools/check_genesys2_external_closure_plan.py\n M tools/check_genesys2_external_closure_preflight.py\n M tools/check_genesys2_external_closure_readiness.py\n M tools/check_genesys2_external_operator_packet.py\n M tools/check_genesys2_latest_standard.py\n M tools/check_genesys2_reproducibility_manifest.py\n M tools/check_genesys2_review_closure_audit.py\n M tools/check_genesys2_statistical_robustness.py\n M tools/check_genesys2_streaming_dma_readiness.py\n M tools/check_genesys2_streaming_dma_target.py\n M tools/check_suites.json\n M tools/check_timing_principles.py\n M tools/compare_trace.py\n M tools/package_ccfa_phase_def_summaries.py\n M tools/package_genesys2_artifact_package.py\n M tools/package_genesys2_board_benign_control.py\n M tools/package_genesys2_board_native_source_lines.py\n M tools/package_genesys2_external_closure_intake.py\n M tools/package_genesys2_external_closure_plan.py\n M tools/package_genesys2_external_closure_preflight.py\n M tools/package_genesys2_external_closure_readiness.py\n M tools/package_genesys2_external_operator_packet.py\n M tools/package_genesys2_hardware_pointer_strings.py\n M tools/package_genesys2_p0_bram_trace.py\n M tools/package_genesys2_reproducibility_manifest.py\n M tools/package_genesys2_review_closure_audit.py\n M tools/package_genesys2_safe_surrogate_bram_trace.py\n M tools/package_genesys2_statistical_robustness.py\n M tools/package_genesys2_streaming_dma_readiness.py\n M tools/package_genesys2_streaming_dma_target.py\n M tools/package_genesys2_streaming_dma_throughput.py\n M tools/package_pointer_snapshot_guardrails.py\n M tools/package_trace_drop_accounting_summary.py\n M tools/reproduce_genesys2_current.py\n M tools/run_check_suite.py\n M tools/run_cva6_xsim.py\n M tools/run_genesys2_board_benign_control.py\n M tools/run_genesys2_p0_bram_repetitions.py\n M tools/run_genesys2_safe_surrogate_bram_repetitions.py\n?? board/genesys2-cva6/\n?? board/trace_validation/programs/counter_access_matrix.c\n?? board/trace_validation/programs/cycle_counter_smoke.c\n?? board/trace_validation/programs/cycle_source_probe.c\n?? board/trace_validation/programs/tracer_visibility_probe.c\n?? docs/07-evaluation-evidence/ndss_artifact_instructions.md\n?? docs/07-evaluation-evidence/ndss_host_runbook.md\n?? docs/08-publication/ndss2026/\n?? docs/09-planning/ndss_execution_status.md\n?? results/evaluation/genesys2-cva6/current/clean_repro_bundle_manifest.json\n?? results/evaluation/genesys2-cva6/current/counter_access_matrix_summary.json\n?? results/evaluation/genesys2-cva6/current/cycle_counter_smoke_summary.json\n?? results/evaluation/genesys2-cva6/current/cycle_source_diagnostics_summary.json\n?? results/evaluation/genesys2-cva6/current/cycle_source_probe_summary.json\n?? results/evaluation/genesys2-cva6/current/external_closure/\n?? results/evaluation/genesys2-cva6/current/host_latex_build_summary.json\n?? results/evaluation/genesys2-cva6/current/host_vivado_check.log\n?? results/evaluation/genesys2-cva6/current/host_vivado_check_summary.json\n?? results/evaluation/genesys2-cva6/current/linux_counter_path_preflight.json\n?? results/evaluation/genesys2-cva6/current/linux_rebuild_manifest.json\n?? results/evaluation/genesys2-cva6/current/live_kernel_config_export_summary.json\n?? results/evaluation/genesys2-cva6/current/raw_artifact_release_manifest.json\n?? results/evaluation/genesys2-cva6/current/sdcard_image_manifest.json\n?? results/evaluation/genesys2-cva6/current/sdcard_linux_manifest.json\n?? results/evaluation/genesys2-cva6/current/sdcard_write_preflight_summary.json\n?? results/evaluation/genesys2-cva6/current/semantic_provenance_summary.json\n?? results/evaluation/genesys2-cva6/current/strict_sret_board_smoke_summary.json\n?? results/evaluation/genesys2-cva6/current/trace_correctness_directed_summary.json\n?? results/evaluation/genesys2-cva6/current/trace_marker_programming.log\n?? results/evaluation/genesys2-cva6/current/trace_marker_programming_summary.json\n?? results/evaluation/genesys2-cva6/current/tracer_visibility_baseline_summary.json\n?? tools/build_genesys2_counter_access_matrix.py\n?? tools/build_genesys2_cva6_linux_image.py\n?? tools/build_genesys2_cycle_counter_smoke.py\n?? tools/build_genesys2_cycle_source_probe.py\n?? tools/check_genesys2_artifact_integrity.py\n?? tools/check_genesys2_boot_sdcard_image.py\n?? tools/check_genesys2_bootrom_counter_delegation.py\n?? tools/check_genesys2_clean_repro_bundle.py\n?? tools/check_genesys2_counter_access_matrix.py\n?? tools/check_genesys2_cycle_counter_smoke.py\n?? tools/check_genesys2_cycle_diagnostics.py\n?? tools/check_genesys2_cycle_source_probe.py\n?? tools/check_genesys2_linux_counter_path_preflight.py\n?? tools/check_genesys2_linux_rebuild_manifest.py\n?? tools/check_genesys2_live_kernel_config_export.py\n?? tools/check_genesys2_raw_artifact_release.py\n?? tools/check_genesys2_sdcard_linux_manifest.py\n?? tools/check_genesys2_sdcard_write_preflight.py\n?? tools/check_genesys2_semantic_provenance.py\n?? tools/check_genesys2_strict_sret_board_smoke.py\n?? tools/check_genesys2_trace_marker_programming.py\n?? tools/check_genesys2_tracer_visibility_baseline.py\n?? tools/check_ndss_host_latex_build.py\n?? tools/check_ndss_host_vivado_check.py\n?? tools/check_trace_correctness_directed.py\n?? tools/create_genesys2_boot_sdcard_image.py\n?? tools/package_genesys2_linux_counter_path_preflight.py\n?? tools/package_genesys2_raw_artifact_release.py\n?? tools/package_genesys2_semantic_provenance.py\n?? tools/package_genesys2_strict_sret_board_smoke.py\n?? tools/package_genesys2_trace_marker_programming.py\n?? tools/package_genesys2_tracer_visibility_baseline.py\n?? tools/package_trace_correctness_directed.py\n?? tools/prepare_genesys2_clean_repro_bundle.py\n?? tools/prepare_genesys2_cva6_linux_rebuild.py\n?? tools/run_genesys2_counter_access_matrix.py\n?? tools/run_genesys2_cycle_counter_smoke.py\n?? tools/run_genesys2_cycle_diagnostics.py\n?? tools/run_genesys2_cycle_source_probe.py\n?? tools/run_genesys2_live_kernel_config_export.py\n?? tools/run_genesys2_sdcard_linux_manifest.py\n?? tools/run_genesys2_sdcard_write_preflight.py\n?? tools/run_ndss_host_vivado_check.py\n",
+    "uncommitted_or_untracked_changes_included": true
+  },
+  "status": "PASS_LOCAL_EXPORT_REPRODUCED",
+  "validation_commands": [
+    "uv run rvmt repro:clean-export",
+    "uv run python tools/check_genesys2_clean_repro_bundle.py --root ."
+  ]
+}

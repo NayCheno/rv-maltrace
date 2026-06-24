@@ -1,0 +1,52 @@
+{
+  "artifacts": {
+    "binary": {
+      "path": "build/board/genesys2_cycle_source_probe/cycle_source_probe.riscv64",
+      "sha256": "4b6120fce66473e70341ed0e99eb224becbbbb712b9d30fd9a1fe624c9c5d75c",
+      "size_bytes": 3928
+    },
+    "build_manifest": {
+      "path": "build/board/genesys2_cycle_source_probe/build_manifest.json",
+      "sha256": "ce8a4c2284d255711ffcb36f16f4e24ef6997c2c9ed60a1ad8cd090379be012d",
+      "size_bytes": 1080
+    },
+    "run_log": {
+      "path": "results/board/genesys2_trace_validation/20260623-cycle-source-probe/uart.log",
+      "sha256": "4030b538277f7fd4901383554bbbc8791dfc43deaeb554ac63e2f9615de1f5db",
+      "size_bytes": 583
+    },
+    "source": {
+      "path": "board/trace_validation/programs/cycle_source_probe.c",
+      "sha256": "340635550a80005184e6d02b699cdeb50c0b4866da7dfe4d0be2e137b72ffd23",
+      "size_bytes": 6586
+    },
+    "transfer_log": {
+      "path": "results/board/genesys2_trace_validation/20260623-cycle-source-probe/transfer.log",
+      "sha256": "ea76f08d0219ebfc3a60eb390487f719d999ffb5f497e7497a9d691667f4f61f",
+      "size_bytes": 1192
+    }
+  },
+  "blocked_reason": "perf_event_open_failed code=-38",
+  "claim_boundary": {
+    "board_kernel_perf_cycle_source_claimed": false,
+    "board_rdcycle_smoke_claimed": false,
+    "cycle_level_overhead_claimed": false,
+    "paper_runtime_overhead_claimed": false,
+    "production_runtime_slowdown_claimed": false
+  },
+  "cycle_source": "kernel_perf_hw_cycles",
+  "iters": 10000,
+  "minimum_repetitions": 5,
+  "non_claims": [
+    "This is a board-native kernel-perf hardware cycle-source accessibility and monotonic-positive smoke test.",
+    "It is not a production runtime slowdown claim and is not normalized against trace-off/trace-on modes.",
+    "A PASS here does not claim that user-mode rdcycle is available."
+  ],
+  "requested_repetitions": 5,
+  "row_count": 0,
+  "rows": [],
+  "run_root": "results/board/genesys2_trace_validation/20260623-cycle-source-probe",
+  "schema": "rvmt.genesys2.cycle_source_probe.v1",
+  "status": "BLOCKED_BOARD_KERNEL_PERF_CYCLES_UNAVAILABLE",
+  "target": "/tmp/rvmt_cycle/cycle_source_probe"
+}

@@ -93,6 +93,18 @@ def compare(events: list[dict[str, Any]], expected: dict[str, Any]) -> tuple[boo
         else:
             messages.append(f"[PASS] forbidden {evt}: absent")
 
+    for forbidden in expected.get("forbidden_event_matches", []):
+        if not isinstance(forbidden, dict):
+            ok = False
+            messages.append(f"[FAIL] invalid forbidden event matcher: {forbidden}")
+            continue
+        matches = [event for event in events if event_matches(event, forbidden)]
+        if matches:
+            ok = False
+            messages.append(f"[FAIL] forbidden event matched {len(matches)} time(s): {forbidden}")
+        else:
+            messages.append(f"[PASS] forbidden event matcher absent: {forbidden}")
+
     for required in expected.get("required_events", []):
         if isinstance(required, str):
             if counts.get(required, 0):

@@ -54,7 +54,10 @@ module trace_bram_ring
   logic [ADDR_WIDTH-1:0] write_index_d;
   logic [31:0] write_sequence_d;
 
-  assign capture_fire = capture_enable_i && !freeze_i && trace_valid_i && trace_packet_i.valid;
+  // A marker-begin clear starts a fresh evidence window even when the previous
+  // window ended with freeze asserted.
+  assign capture_fire = capture_enable_i && (!freeze_i || clear_i) &&
+                        trace_valid_i && trace_packet_i.valid;
   assign capture_write = rst_ni && capture_fire;
   assign write_index_d = clear_i ? '0 : write_index_q;
   assign write_sequence_d = clear_i ? 32'd0 : next_sequence_q;

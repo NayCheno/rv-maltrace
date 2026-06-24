@@ -11,9 +11,9 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_P0_RUN_ROOT = Path("results/board/genesys2_trace_validation/20260611-p0-continuous-136bit")
-DEFAULT_P0_BRAM_RUN_ROOT = Path("results/board/genesys2_trace_validation/20260612-p0-bram-repetitions")
+DEFAULT_P0_BRAM_RUN_ROOT = Path("results/board/genesys2_trace_validation/20260624-current-p0-cohort")
 DEFAULT_SAFE_RUN_ROOT = Path("results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610")
-DEFAULT_SAFE_BRAM_RUN_ROOT = Path("results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait")
+DEFAULT_SAFE_BRAM_RUN_ROOT = Path("results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort")
 DEFAULT_OUT = Path("results/evaluation/genesys2-cva6/current/drop_accounting_summary.json")
 BRAM_SUMMARY_RECORD_INDEX_NOT_AVAILABLE = "BRAM_SUMMARY_RECORD_INDEX_NOT_AVAILABLE"
 
@@ -223,22 +223,39 @@ def package_bram_sample(sample_id: str, bram_run_root: Path, *, sample_class: st
             sample_class=sample_class,
             continuity_scope="begin_marker_cleared_bram_window",
         )
+        failure_reasons: list[str] = []
+        if rep.get("marker_window_present") is False:
+            failure_reasons.append("marker_window_not_delimited")
         rep["repetition_id"] = path.parent.name
         summary_path = path.parent / "bram_summary.json"
         if summary_path.is_file():
             summary = load_json(summary_path)
             bram = summary.get("bram_ring", {}) if isinstance(summary.get("bram_ring"), dict) else {}
+            marker = summary.get("marker_window", {}) if isinstance(summary.get("marker_window"), dict) else {}
             bram_drop = int(bram.get("dropped_count", 0) or 0)
             bram_wrap = int(bram.get("wrap_count", 0) or 0)
             rep["bram_summary"] = repo_rel(summary_path)
             rep["bram_dropped_count"] = bram_drop
             rep["bram_wrap_count"] = bram_wrap
+            if summary.get("parse_success") is False:
+                failure_reasons.append("parse_success_false")
+            if marker:
+                begin_count = int(marker.get("begin_count", 0) or 0)
+                end_count = int(marker.get("end_count", 0) or 0)
+                rep["marker_window_present"] = begin_count == 1 and end_count == 1
+                if begin_count != 1:
+                    failure_reasons.append("begin_marker_count_not_one")
+                if end_count != 1:
+                    failure_reasons.append("end_marker_count_not_one")
             if bram_drop or bram_wrap:
+                if bram_drop:
+                    failure_reasons.append("bram_dropped_count_nonzero")
+                if bram_wrap:
+                    failure_reasons.append("bram_wrap_count_nonzero")
                 rep["status"] = "FAIL"
                 rep["drop_events"] = max(int(rep.get("drop_events", 0) or 0), 1 if bram_drop else 0)
                 rep["drop_total"] = max(int(rep.get("drop_total", 0) or 0), bram_drop)
                 rep["unaccounted_drop"] = max(int(rep.get("unaccounted_drop", 0) or 0), bram_drop)
-                rep["impact_analysis"] = "BRAM summary reports dropped or wrapped records; this attempt is retained as a failed attempt and is not counted as accepted no-drop evidence."
                 rep["drop_locations"] = rep.get("drop_locations") or [
                     {
                         "record_index": BRAM_SUMMARY_RECORD_INDEX_NOT_AVAILABLE,
@@ -249,6 +266,14 @@ def package_bram_sample(sample_id: str, bram_run_root: Path, *, sample_class: st
                         "bram_summary": repo_rel(summary_path),
                     }
                 ]
+            if failure_reasons:
+                rep["status"] = "FAIL"
+                rep["failure_reasons"] = sorted(set(failure_reasons))
+                rep["impact_analysis"] = (
+                    "BRAM summary reports an invalid marker window, parse failure, dropped records, "
+                    "or wrapped records; this attempt is retained as failed and is not counted as "
+                    "accepted no-drop evidence."
+                )
         target = repetitions if rep.get("status") == "PASS" and int(rep.get("unaccounted_drop", 0) or 0) == 0 else failed_attempts
         target.append(rep)
         if target is repetitions:

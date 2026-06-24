@@ -1,0 +1,1066 @@
+{
+  "aggregate": {
+    "companion_derived_strings_as_hardware": 0,
+    "contiguous_from_offset_zero": true,
+    "full_memory_dump_count": 0,
+    "full_string_claimed": true,
+    "kernel_fragment_count": 0,
+    "mem_last_observed": true
+  },
+  "claim_boundary": {
+    "companion_strings_substituted_as_hardware": false,
+    "hardware_full_pointer_strings_claimed": true,
+    "kernel_or_full_memory_dump_claimed": false,
+    "real_malware_validation_claimed": false
+  },
+  "evidence_artifacts": [
+    {
+      "id": "companion_substitution_audit",
+      "kind": "companion_substitution_audit",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/full_hardware_pointer_strings/companion_substitution_audit.json",
+      "sha256": "e2472818e1e7f02d2f423215f1c0753f01aeacabe9cab3cdd55fac41580c0f58"
+    },
+    {
+      "id": "kernel_space_filter_report",
+      "kind": "kernel_space_filter_report",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/full_hardware_pointer_strings/kernel_space_filter_report.json",
+      "sha256": "9df94a09358ff4ac5fd3c6284c91acb81a416b5cc1f3c0f8a59725d64bc9d3b0"
+    },
+    {
+      "id": "mem_last_or_terminator_report",
+      "kind": "mem_last_or_terminator_report",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/full_hardware_pointer_strings/mem_last_or_terminator_report.json",
+      "sha256": "677443e071ffd0475208db985b7af3c11cc2913abfc910f991ef8e732bb2496d"
+    },
+    {
+      "id": "pointer_capture_manifest",
+      "kind": "pointer_capture_manifest",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/full_hardware_pointer_strings/pointer_capture_manifest.json",
+      "sha256": "3a956a49daaf8c1296f9b0f6d62f0a6fdffad302a2e169e134395a226221696d"
+    },
+    {
+      "id": "pointer_group_reconstruction",
+      "kind": "pointer_group_reconstruction",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/full_hardware_pointer_strings/pointer_group_reconstruction.json",
+      "sha256": "157ebf0a5d3dbe3e2e3ab49dd623f185b159e9a06461a2d970ab3fe2de0ea048"
+    },
+    {
+      "id": "redaction_policy",
+      "kind": "redaction_policy",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/full_hardware_pointer_strings/redaction_policy.txt",
+      "sha256": "125cceb6c3b78891b1d750545a7b819fbb144c3238aeb6ddf8b30b964df80f66"
+    },
+    {
+      "id": "resource_timing_report",
+      "kind": "resource_timing_report",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/full_hardware_pointer_strings/resource_timing_report.txt",
+      "sha256": "4381ca49c82817fa445b2567419f5bcd9e1617fb00b478d79a91955d1f4eeef6"
+    },
+    {
+      "id": "rtl_design_manifest",
+      "kind": "rtl_design_manifest",
+      "path": "results/evaluation/genesys2-cva6/current/external_closure/full_hardware_pointer_strings/rtl_design_manifest.json",
+      "sha256": "d571b6c730f03065c0d908f217ecdb8e8237d52f913c09e1c65e65760baee343"
+    }
+  ],
+  "failed_attempts": [],
+  "full_string_group_count": 46,
+  "pointer_groups": [
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "file_scan:rep_01:syscall_3f16:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66152,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 64,
+      "redacted_ascii_preview": "experiments/linux_behavior/malwa",
+      "repetition": "rep_01",
+      "sample_id": "file_scan",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 16150,
+      "syscall_name": "openat"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "file_scan:rep_02:syscall_4240:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66152,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 64,
+      "redacted_ascii_preview": "experiments/linux_behavior/malwa",
+      "repetition": "rep_02",
+      "sample_id": "file_scan",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 16960,
+      "syscall_name": "openat"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "file_scan:rep_03:syscall_455f:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66152,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 64,
+      "redacted_ascii_preview": "experiments/linux_behavior/malwa",
+      "repetition": "rep_03",
+      "sample_id": "file_scan",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 17759,
+      "syscall_name": "openat"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "file_scan:rep_04:syscall_48b4:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66152,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 64,
+      "redacted_ascii_preview": "experiments/linux_behavior/malwa",
+      "repetition": "rep_04",
+      "sample_id": "file_scan",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 18612,
+      "syscall_name": "openat"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "file_scan:rep_05:syscall_4bde:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66152,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 64,
+      "redacted_ascii_preview": "experiments/linux_behavior/malwa",
+      "repetition": "rep_05",
+      "sample_id": "file_scan",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 19422,
+      "syscall_name": "openat"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "file_scan:rep_06:syscall_4ef7:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66152,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 64,
+      "redacted_ascii_preview": "experiments/linux_behavior/malwa",
+      "repetition": "rep_06",
+      "sample_id": "file_scan",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 20215,
+      "syscall_name": "openat"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "file_scan:rep_07:syscall_5252:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66152,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 64,
+      "redacted_ascii_preview": "experiments/linux_behavior/malwa",
+      "repetition": "rep_07",
+      "sample_id": "file_scan",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 21074,
+      "syscall_name": "openat"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "file_scan:rep_08:syscall_557c:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66152,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 64,
+      "redacted_ascii_preview": "experiments/linux_behavior/malwa",
+      "repetition": "rep_08",
+      "sample_id": "file_scan",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 21884,
+      "syscall_name": "openat"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "file_scan:rep_09:syscall_5895:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66152,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 64,
+      "redacted_ascii_preview": "experiments/linux_behavior/malwa",
+      "repetition": "rep_09",
+      "sample_id": "file_scan",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 22677,
+      "syscall_name": "openat"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "file_scan:rep_10:syscall_5bf4:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66152,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 64,
+      "redacted_ascii_preview": "experiments/linux_behavior/malwa",
+      "repetition": "rep_10",
+      "sample_id": "file_scan",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 23540,
+      "syscall_name": "openat"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "batch_open_read_write:rep_01:syscall_5f86:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66056,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 32,
+      "redacted_ascii_preview": "/path/that/does/not/exist.......",
+      "repetition": "rep_01",
+      "sample_id": "batch_open_read_write",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 24454,
+      "syscall_name": "openat"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "batch_open_read_write:rep_01:syscall_5f89:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66088,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 40,
+      "redacted_ascii_preview": "/tmp/rvmt_p2/batch_open_read_wri",
+      "repetition": "rep_01",
+      "sample_id": "batch_open_read_write",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 24457,
+      "syscall_name": "openat"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "batch_open_read_write:rep_01:syscall_5f8a:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66024,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 30,
+      "redacted_ascii_preview": "rvmt_p2:batch_open_read_write.",
+      "repetition": "rep_01",
+      "sample_id": "batch_open_read_write",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 24458,
+      "syscall_name": "write"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "batch_open_read_write:rep_02:syscall_6342:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66056,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 32,
+      "redacted_ascii_preview": "/path/that/does/not/exist.......",
+      "repetition": "rep_02",
+      "sample_id": "batch_open_read_write",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 25410,
+      "syscall_name": "openat"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "batch_open_read_write:rep_02:syscall_6345:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66088,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 40,
+      "redacted_ascii_preview": "/tmp/rvmt_p2/batch_open_read_wri",
+      "repetition": "rep_02",
+      "sample_id": "batch_open_read_write",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 25413,
+      "syscall_name": "openat"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "batch_open_read_write:rep_02:syscall_6346:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66024,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 30,
+      "redacted_ascii_preview": "rvmt_p2:batch_open_read_write.",
+      "repetition": "rep_02",
+      "sample_id": "batch_open_read_write",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 25414,
+      "syscall_name": "write"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "batch_open_read_write:rep_03:syscall_66d6:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66056,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 32,
+      "redacted_ascii_preview": "/path/that/does/not/exist.......",
+      "repetition": "rep_03",
+      "sample_id": "batch_open_read_write",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 26326,
+      "syscall_name": "openat"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "batch_open_read_write:rep_03:syscall_66d9:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66088,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 40,
+      "redacted_ascii_preview": "/tmp/rvmt_p2/batch_open_read_wri",
+      "repetition": "rep_03",
+      "sample_id": "batch_open_read_write",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 26329,
+      "syscall_name": "openat"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "batch_open_read_write:rep_03:syscall_66da:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66024,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 30,
+      "redacted_ascii_preview": "rvmt_p2:batch_open_read_write.",
+      "repetition": "rep_03",
+      "sample_id": "batch_open_read_write",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 26330,
+      "syscall_name": "write"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "batch_open_read_write:rep_04:syscall_6a68:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66056,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 32,
+      "redacted_ascii_preview": "/path/that/does/not/exist.......",
+      "repetition": "rep_04",
+      "sample_id": "batch_open_read_write",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 27240,
+      "syscall_name": "openat"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "batch_open_read_write:rep_04:syscall_6a6b:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66088,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 40,
+      "redacted_ascii_preview": "/tmp/rvmt_p2/batch_open_read_wri",
+      "repetition": "rep_04",
+      "sample_id": "batch_open_read_write",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 27243,
+      "syscall_name": "openat"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "batch_open_read_write:rep_04:syscall_6a6c:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66024,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 30,
+      "redacted_ascii_preview": "rvmt_p2:batch_open_read_write.",
+      "repetition": "rep_04",
+      "sample_id": "batch_open_read_write",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 27244,
+      "syscall_name": "write"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "batch_open_read_write:rep_05:syscall_6ded:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66056,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 32,
+      "redacted_ascii_preview": "/path/that/does/not/exist.......",
+      "repetition": "rep_05",
+      "sample_id": "batch_open_read_write",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 28141,
+      "syscall_name": "openat"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "batch_open_read_write:rep_05:syscall_6df0:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66088,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 40,
+      "redacted_ascii_preview": "/tmp/rvmt_p2/batch_open_read_wri",
+      "repetition": "rep_05",
+      "sample_id": "batch_open_read_write",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 28144,
+      "syscall_name": "openat"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "batch_open_read_write:rep_05:syscall_6df1:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66024,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 30,
+      "redacted_ascii_preview": "rvmt_p2:batch_open_read_write.",
+      "repetition": "rep_05",
+      "sample_id": "batch_open_read_write",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 28145,
+      "syscall_name": "write"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "batch_open_read_write:rep_06:syscall_71b8:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66056,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 32,
+      "redacted_ascii_preview": "/path/that/does/not/exist.......",
+      "repetition": "rep_06",
+      "sample_id": "batch_open_read_write",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 29112,
+      "syscall_name": "openat"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "batch_open_read_write:rep_06:syscall_71bb:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66088,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 40,
+      "redacted_ascii_preview": "/tmp/rvmt_p2/batch_open_read_wri",
+      "repetition": "rep_06",
+      "sample_id": "batch_open_read_write",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 29115,
+      "syscall_name": "openat"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "batch_open_read_write:rep_06:syscall_71bc:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66024,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 30,
+      "redacted_ascii_preview": "rvmt_p2:batch_open_read_write.",
+      "repetition": "rep_06",
+      "sample_id": "batch_open_read_write",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 29116,
+      "syscall_name": "write"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "batch_open_read_write:rep_07:syscall_754a:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66056,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 32,
+      "redacted_ascii_preview": "/path/that/does/not/exist.......",
+      "repetition": "rep_07",
+      "sample_id": "batch_open_read_write",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 30026,
+      "syscall_name": "openat"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "batch_open_read_write:rep_07:syscall_754d:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66088,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 40,
+      "redacted_ascii_preview": "/tmp/rvmt_p2/batch_open_read_wri",
+      "repetition": "rep_07",
+      "sample_id": "batch_open_read_write",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 30029,
+      "syscall_name": "openat"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "batch_open_read_write:rep_07:syscall_754e:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66024,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 30,
+      "redacted_ascii_preview": "rvmt_p2:batch_open_read_write.",
+      "repetition": "rep_07",
+      "sample_id": "batch_open_read_write",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 30030,
+      "syscall_name": "write"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "batch_open_read_write:rep_08:syscall_78cf:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66056,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 32,
+      "redacted_ascii_preview": "/path/that/does/not/exist.......",
+      "repetition": "rep_08",
+      "sample_id": "batch_open_read_write",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 30927,
+      "syscall_name": "openat"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "batch_open_read_write:rep_08:syscall_78d2:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66088,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 40,
+      "redacted_ascii_preview": "/tmp/rvmt_p2/batch_open_read_wri",
+      "repetition": "rep_08",
+      "sample_id": "batch_open_read_write",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 30930,
+      "syscall_name": "openat"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "batch_open_read_write:rep_08:syscall_78d3:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66024,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 30,
+      "redacted_ascii_preview": "rvmt_p2:batch_open_read_write.",
+      "repetition": "rep_08",
+      "sample_id": "batch_open_read_write",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 30931,
+      "syscall_name": "write"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "batch_open_read_write:rep_09:syscall_7c8c:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66056,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 32,
+      "redacted_ascii_preview": "/path/that/does/not/exist.......",
+      "repetition": "rep_09",
+      "sample_id": "batch_open_read_write",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 31884,
+      "syscall_name": "openat"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "batch_open_read_write:rep_09:syscall_7c8f:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66088,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 40,
+      "redacted_ascii_preview": "/tmp/rvmt_p2/batch_open_read_wri",
+      "repetition": "rep_09",
+      "sample_id": "batch_open_read_write",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 31887,
+      "syscall_name": "openat"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "batch_open_read_write:rep_10:syscall_801f:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66056,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 32,
+      "redacted_ascii_preview": "/path/that/does/not/exist.......",
+      "repetition": "rep_10",
+      "sample_id": "batch_open_read_write",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 32799,
+      "syscall_name": "openat"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "batch_open_read_write:rep_10:syscall_8022:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66088,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 40,
+      "redacted_ascii_preview": "/tmp/rvmt_p2/batch_open_read_wri",
+      "repetition": "rep_10",
+      "sample_id": "batch_open_read_write",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 32802,
+      "syscall_name": "openat"
+    },
+    {
+      "arg_index": 1,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "batch_open_read_write:rep_10:syscall_8023:arg1",
+      "kernel_fragment_count": 0,
+      "mem_base": 66024,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 30,
+      "redacted_ascii_preview": "rvmt_p2:batch_open_read_write.",
+      "repetition": "rep_10",
+      "sample_id": "batch_open_read_write",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 32803,
+      "syscall_name": "write"
+    },
+    {
+      "arg_index": 0,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "process_chain:rep_01:syscall_836a:arg0",
+      "kernel_fragment_count": 0,
+      "mem_base": 65992,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 32,
+      "redacted_ascii_preview": "/path/that/does/not/exist.......",
+      "repetition": "rep_01",
+      "sample_id": "process_chain",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 33642,
+      "syscall_name": "execve"
+    },
+    {
+      "arg_index": 0,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "process_chain:rep_01:syscall_836c:arg0",
+      "kernel_fragment_count": 0,
+      "mem_base": 65992,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 32,
+      "redacted_ascii_preview": "/path/that/does/not/exist.......",
+      "repetition": "rep_01",
+      "sample_id": "process_chain",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 33644,
+      "syscall_name": "execve"
+    },
+    {
+      "arg_index": 0,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "process_chain:rep_02:syscall_86c4:arg0",
+      "kernel_fragment_count": 0,
+      "mem_base": 65992,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 32,
+      "redacted_ascii_preview": "/path/that/does/not/exist.......",
+      "repetition": "rep_02",
+      "sample_id": "process_chain",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 34500,
+      "syscall_name": "execve"
+    },
+    {
+      "arg_index": 0,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "process_chain:rep_03:syscall_8a5c:arg0",
+      "kernel_fragment_count": 0,
+      "mem_base": 65992,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 32,
+      "redacted_ascii_preview": "/path/that/does/not/exist.......",
+      "repetition": "rep_03",
+      "sample_id": "process_chain",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 35420,
+      "syscall_name": "execve"
+    },
+    {
+      "arg_index": 0,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "process_chain:rep_03:syscall_8a5e:arg0",
+      "kernel_fragment_count": 0,
+      "mem_base": 65992,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 32,
+      "redacted_ascii_preview": "/path/that/does/not/exist.......",
+      "repetition": "rep_03",
+      "sample_id": "process_chain",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 35422,
+      "syscall_name": "execve"
+    },
+    {
+      "arg_index": 0,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "process_chain:rep_04:syscall_8db2:arg0",
+      "kernel_fragment_count": 0,
+      "mem_base": 65992,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 32,
+      "redacted_ascii_preview": "/path/that/does/not/exist.......",
+      "repetition": "rep_04",
+      "sample_id": "process_chain",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 36274,
+      "syscall_name": "execve"
+    },
+    {
+      "arg_index": 0,
+      "companion_derived_strings_as_hardware": false,
+      "contiguous_from_offset_zero": true,
+      "full_string_claimed": true,
+      "hardware_bram_v3_source": true,
+      "id": "process_chain:rep_04:syscall_8db4:arg0",
+      "kernel_fragment_count": 0,
+      "mem_base": 65992,
+      "mem_last_observed": true,
+      "min_payload_width": 716,
+      "reconstructed_byte_count": 32,
+      "redacted_ascii_preview": "/path/that/does/not/exist.......",
+      "repetition": "rep_04",
+      "sample_id": "process_chain",
+      "snapshot_sources": [
+        "hardware_bram_ring_v3"
+      ],
+      "syscall_id": 36276,
+      "syscall_name": "execve"
+    }
+  ],
+  "record_root": "results/evaluation/genesys2-cva6/current/external_closure/full_hardware_pointer_strings",
+  "redaction_policy": "artifact-backed redacted pointer reconstruction; no companion or kernel/full-memory strings are counted as hardware evidence",
+  "schema": "rvmt.genesys2.hardware_pointer_strings.v1",
+  "status": "PASS",
+  "syscall_coverage": {
+    "execve": {
+      "companion_derived_strings_as_hardware": false,
+      "full_string_group_count": 7,
+      "gap_free": true,
+      "mem_last_observed": true
+    },
+    "openat": {
+      "companion_derived_strings_as_hardware": false,
+      "full_string_group_count": 30,
+      "gap_free": true,
+      "mem_last_observed": true
+    },
+    "write": {
+      "companion_derived_strings_as_hardware": false,
+      "full_string_group_count": 9,
+      "gap_free": true,
+      "mem_last_observed": true
+    }
+  },
+  "validation_commands": [
+    "uv run python tools/package_genesys2_hardware_pointer_strings.py --run-root results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings --resource-timing-report results/evaluation/genesys2-cva6/current/external_closure/full_hardware_pointer_strings/resource_timing_report.txt",
+    "uv run python tools/check_genesys2_hardware_pointer_strings.py --root .",
+    "uv run python tools/package_genesys2_external_closure_intake.py",
+    "uv run python tools/check_genesys2_external_closure_intake.py --root ."
+  ]
+}

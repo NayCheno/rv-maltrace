@@ -15,6 +15,7 @@ REQUIRED_SUMMARY_IDS = {
     "trace_sink",
     "safe_surrogate_bram_trace",
     "p0_bram_trace",
+    "strict_sret_board_smoke",
     "drop_accounting",
     "statistical_robustness",
     "streaming_dma_target",
@@ -26,6 +27,7 @@ REQUIRED_SUMMARY_IDS = {
     "board_benign_readiness",
     "production_runtime_benchmark",
     "semantic_reconstruction",
+    "semantic_provenance",
     "fd_path_graph",
     "source_line_attribution",
     "source_line_sidecar",
@@ -36,6 +38,9 @@ REQUIRED_SUMMARY_IDS = {
     "external_closure_plan",
     "external_closure_preflight",
     "external_operator_packet",
+    "external_board_native_source_lines",
+    "external_hardware_pointer_strings",
+    "external_board_benign_control",
     "external_template_board_native_source_lines",
     "external_template_hardware_pointer_strings",
     "external_template_streaming_dma_throughput",
@@ -48,6 +53,17 @@ REQUIRED_SUMMARY_IDS = {
     "case_study_manifest",
     "review_closure_audit",
     "real_malware_containment",
+    "cycle_counter_smoke",
+    "cycle_source_probe",
+    "counter_access_matrix",
+    "cycle_source_diagnostics",
+    "sdcard_linux_manifest",
+    "live_kernel_config_export",
+    "sdcard_write_preflight",
+    "linux_counter_path_preflight",
+    "host_vivado_check",
+    "trace_marker_programming",
+    "trace_correctness_directed",
 }
 TEMPLATE_SUMMARY_IDS = {
     "external_template_board_native_source_lines",
@@ -55,7 +71,22 @@ TEMPLATE_SUMMARY_IDS = {
     "external_template_streaming_dma_throughput",
     "external_template_board_benign_control",
 }
-TRUTHFUL_NONPASS_SUMMARY_IDS = {"external_closure_intake"}
+TRUTHFUL_NONPASS_SUMMARY_IDS = {
+    "external_closure_intake",
+    "dynamic_mapping_attribution",
+    "cycle_counter_smoke",
+    "cycle_source_probe",
+    "counter_access_matrix",
+    "cycle_source_diagnostics",
+    "live_kernel_config_export",
+    "sdcard_write_preflight",
+    "linux_counter_path_preflight",
+}
+LOCAL_PASS_STATUSES_BY_ID = {
+    "host_vivado_check": {"PASS_HOST_VIVADO_PREFLIGHT"},
+    "trace_marker_programming": {"PASS_TRACE_MARKER_PROGRAMMED"},
+    "tracer_visibility_baseline": {"PASS_LOCAL_SOFTWARE_TRACER_BASELINE"},
+}
 REQUIRED_RAW_ROOT_IDS = {
     "p0_bram_repetitions",
     "safe_surrogate_bram_repetitions",
@@ -111,16 +142,110 @@ def require(errors: list[str], condition: bool, message: str) -> None:
 
 
 def truthful_nonpass_summary(artifact_id: str, artifact: dict[str, Any]) -> bool:
-    if artifact_id != "external_closure_intake":
-        return False
     boundary = as_dict(artifact.get("claim_boundary"))
-    return (
-        artifact.get("schema") == "rvmt.genesys2.external_closure_intake.v1"
-        and artifact.get("status") == "FAIL"
-        and int(artifact.get("invalid_external_blocker_count") or 0) > 0
-        and boundary.get("unvalidated_external_summary_accepted") is False
-        and boundary.get("all_non_real_external_blockers_closed") is False
-    )
+    if artifact_id == "external_closure_intake":
+        return (
+            artifact.get("schema") == "rvmt.genesys2.external_closure_intake.v1"
+            and artifact.get("status") == "BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED"
+            and int(artifact.get("accepted_external_blocker_count") or 0) < 4
+            and boundary.get("unvalidated_external_summary_accepted") is False
+            and boundary.get("all_non_real_external_blockers_closed") is False
+        )
+    if artifact_id == "dynamic_mapping_attribution":
+        cases = artifact.get("cases", {}) if isinstance(artifact.get("cases"), dict) else {}
+        blocked_cases = [
+            case_id
+            for case_id, row in cases.items()
+            if isinstance(row, dict) and str(row.get("status") or "").startswith(("BLOCKED_", "TODO_"))
+        ]
+        return (
+            artifact.get("schema") == "rvmt.dynamic_mapping_attribution.v1"
+            and artifact.get("status") == "BLOCKED_BOARD_DYNAMIC_MAPPING_CASES"
+            and bool(blocked_cases)
+            and boundary.get("board_dynamic_mapping_claimed") is False
+        )
+    if artifact_id == "cycle_counter_smoke":
+        return (
+            artifact.get("schema") == "rvmt.genesys2.cycle_counter_smoke.v1"
+            and artifact.get("status") == "BLOCKED_BOARD_RDCYCLE_UNAVAILABLE"
+            and boundary.get("board_rdcycle_smoke_claimed") is False
+            and boundary.get("cycle_level_overhead_claimed") is False
+            and boundary.get("production_runtime_slowdown_claimed") is False
+        )
+    if artifact_id == "cycle_source_probe":
+        return (
+            artifact.get("schema") == "rvmt.genesys2.cycle_source_probe.v1"
+            and artifact.get("status") == "BLOCKED_BOARD_KERNEL_PERF_CYCLES_UNAVAILABLE"
+            and boundary.get("board_kernel_perf_cycle_source_claimed") is False
+            and boundary.get("cycle_level_overhead_claimed") is False
+            and boundary.get("production_runtime_slowdown_claimed") is False
+        )
+    if artifact_id == "counter_access_matrix":
+        return (
+            artifact.get("schema") == "rvmt.genesys2.counter_access_matrix.v1"
+            and artifact.get("status")
+            in {
+                "BLOCKED_BOARD_CYCLE_COUNTER_UNAVAILABLE_NONCYCLE_TIME_AVAILABLE",
+                "BLOCKED_BOARD_COUNTER_SOURCES_UNAVAILABLE",
+            }
+            and boundary.get("board_cycle_counter_claimed") is False
+            and boundary.get("cycle_level_overhead_claimed") is False
+            and boundary.get("production_runtime_slowdown_claimed") is False
+        )
+    if artifact_id == "cycle_source_diagnostics":
+        return (
+            artifact.get("schema") == "rvmt.genesys2.cycle_source_diagnostics.v1"
+            and artifact.get("status") == "BLOCKED_BOARD_KERNEL_PMU_AND_USER_CYCLE_UNAVAILABLE"
+            and boundary.get("board_cycle_source_claimed") is False
+            and boundary.get("cycle_level_overhead_claimed") is False
+            and boundary.get("production_runtime_slowdown_claimed") is False
+            and boundary.get("diagnostic_only") is True
+        )
+    if artifact_id == "live_kernel_config_export":
+        return (
+            artifact.get("schema") == "rvmt.genesys2.live_kernel_config_export.v1"
+            and artifact.get("status")
+            in {
+                "BLOCKED_LIVE_KERNEL_CONFIG_UNAVAILABLE",
+                "BLOCKED_LIVE_KERNEL_CONFIG_COUNTER_OPTIONS_MISSING",
+            }
+            and boundary.get("live_kernel_config_export_claimed") is False
+            and boundary.get("source_level_kernel_config_claimed") is False
+            and boundary.get("board_cycle_source_claimed") is False
+            and boundary.get("cycle_level_overhead_claimed") is False
+        )
+    if artifact_id == "linux_counter_path_preflight":
+        return (
+            artifact.get("schema") == "rvmt.genesys2.linux_counter_path_preflight.v1"
+            and artifact.get("status")
+            in {
+                "BLOCKED_SD_CARD_LINUX_SOURCE_MISSING",
+                "BLOCKED_BOARD_COUNTER_SOURCE_UNAVAILABLE_AFTER_REBUILD_PREFLIGHT",
+            }
+            and boundary.get("linux_counter_path_preflight_only") is True
+            and boundary.get("board_cycle_source_claimed") is False
+            and boundary.get("cycle_level_overhead_claimed") is False
+            and boundary.get("production_runtime_slowdown_claimed") is False
+        )
+    if artifact_id == "sdcard_write_preflight":
+        return (
+            artifact.get("schema") == "rvmt.genesys2.sdcard_write_preflight.v1"
+            and artifact.get("status")
+            in {
+                "BLOCKED_SDCARD_IMAGE_MISSING",
+                "BLOCKED_SDCARD_IMAGE_HASH_MISMATCH",
+                "BLOCKED_HOST_DISK_ENUMERATION_UNAVAILABLE",
+                "BLOCKED_NO_SAFE_SDCARD_TARGET",
+                "BLOCKED_SDCARD_WRITE_TARGET_NOT_SELECTED",
+                "BLOCKED_SDCARD_WRITE_TARGET_NOT_FOUND",
+                "BLOCKED_SDCARD_WRITE_TARGET_UNSAFE",
+            }
+            and boundary.get("disk_inventory_read_only") is True
+            and boundary.get("destructive_write_performed") is False
+            and boundary.get("physical_sd_card_written") is False
+            and boundary.get("genesys2_board_booted_written_image") is False
+        )
+    return False
 
 
 def row_map(rows: list[Any]) -> dict[str, dict[str, Any]]:
@@ -139,7 +264,18 @@ def check_summary(data: dict[str, Any], root: Path) -> list[str]:
     boundary = as_dict(data.get("claim_boundary"))
     require(errors, boundary.get("controlled_safe_surrogate_evidence") is True, "controlled safe/surrogate boundary missing")
     require(errors, boundary.get("real_malware_validation_claimed") is False, "real malware validation must not be claimed")
-    require(errors, boundary.get("hardware_full_pointer_strings_claimed") is False, "full hardware pointer strings must not be claimed")
+    if boundary.get("hardware_full_pointer_strings_claimed") is True:
+        require(
+            errors,
+            boundary.get("external_full_hardware_pointer_strings_summary_accepted") is True,
+            "full hardware pointer strings may be claimed only after artifact-backed external intake acceptance",
+        )
+    else:
+        require(
+            errors,
+            boundary.get("hardware_full_pointer_strings_claimed") is False,
+            "full hardware pointer strings claim flag must be boolean false unless externally accepted",
+        )
     require(errors, boundary.get("production_streaming_dma_throughput_claimed") is False, "production streaming/DMA throughput must not be claimed")
     require(errors, boundary.get("board_native_source_line_attribution_claimed") is False, "board-native DWARF source-line attribution must not be claimed")
     require(errors, boundary.get("debug_toolchain_source_line_probe_available") is True, "debug toolchain source-line probe must be available")
@@ -172,8 +308,15 @@ def check_summary(data: dict[str, Any], root: Path) -> list[str]:
             elif artifact_id in TRUTHFUL_NONPASS_SUMMARY_IDS:
                 require(
                     errors,
-                    (row.get("status") == "PASS" and artifact.get("status") == "PASS") or (row.get("status") == "FAIL" and truthful_nonpass_summary(artifact_id, artifact)),
-                    f"{artifact_id}: status must be PASS or a truthful external-intake FAIL",
+                    (row.get("status") == "PASS" and artifact.get("status") == "PASS") or (row.get("status") == artifact.get("status") and truthful_nonpass_summary(artifact_id, artifact)),
+                    f"{artifact_id}: status must be PASS or a truthful blocked non-PASS status",
+                )
+            elif artifact_id in LOCAL_PASS_STATUSES_BY_ID:
+                allowed_statuses = LOCAL_PASS_STATUSES_BY_ID[artifact_id]
+                require(
+                    errors,
+                    row.get("status") == artifact.get("status") and row.get("status") in allowed_statuses,
+                    f"{artifact_id}: status must be one of {sorted(allowed_statuses)}",
                 )
             elif artifact_id != "source_line_sidecar":
                 require(errors, row.get("status") == "PASS" and artifact.get("status") == "PASS", f"{artifact_id}: status must be PASS")
@@ -220,6 +363,7 @@ def check_summary(data: dict[str, Any], root: Path) -> list[str]:
     require(errors, "does not complete production streaming/dma throughput evidence" in non_claims, "non_claims must preserve streaming/DMA target boundary")
     require(errors, "streaming/dma readiness summary" in non_claims, "non_claims must preserve streaming/DMA readiness boundary")
     require(errors, "pointer string readiness summary" in non_claims, "non_claims must preserve pointer string readiness boundary")
+    require(errors, "companion strings are not substitutes" in non_claims, "non_claims must reject companion string substitution")
     require(errors, "does not complete board benign false-positive evidence" in non_claims, "non_claims must preserve board benign boundary")
     return errors
 
@@ -236,6 +380,8 @@ def self_test() -> int:
         for artifact_id in REQUIRED_SUMMARY_IDS:
             path = current / f"{artifact_id}.json"
             status = "TEMPLATE_NOT_EVIDENCE" if artifact_id in TEMPLATE_SUMMARY_IDS else "PASS"
+            if artifact_id in LOCAL_PASS_STATUSES_BY_ID:
+                status = sorted(LOCAL_PASS_STATUSES_BY_ID[artifact_id])[0]
             write_json(path, {"schema": f"rvmt.fixture.{artifact_id}.v1", "status": status})
             summary_rows.append(
                 {
@@ -258,6 +404,7 @@ def self_test() -> int:
                 "controlled_safe_surrogate_evidence": True,
                 "real_malware_validation_claimed": False,
                 "hardware_full_pointer_strings_claimed": False,
+                "external_full_hardware_pointer_strings_summary_accepted": False,
                 "production_streaming_dma_throughput_claimed": False,
                 "board_native_source_line_attribution_claimed": False,
                 "debug_toolchain_source_line_probe_available": True,
@@ -311,6 +458,7 @@ def self_test() -> int:
                 "The statistical robustness summary audits controlled repetitions but does not make randomized workload or real-malware generalization claims.",
                 "The streaming/DMA target summary is local only and does not complete production streaming/DMA throughput evidence.",
                 "The streaming/DMA readiness summary is local only and does not complete production streaming/DMA throughput evidence.",
+                "Full hardware pointer strings are claimed only when the external intake accepts the artifact-backed summary; pointer readiness and companion strings are not substitutes.",
                 "The pointer string readiness summary is local only and does not complete full hardware pointer-string evidence.",
                 "The board benign readiness summary is local only and does not complete board benign false-positive evidence.",
             ],

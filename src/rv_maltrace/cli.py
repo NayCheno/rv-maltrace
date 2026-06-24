@@ -7,6 +7,7 @@ import hashlib
 import json
 import os
 import re
+import shlex
 import shutil
 import subprocess
 import sys
@@ -38,7 +39,10 @@ XLNX_ILA_EXPECTED = {
 }
 TRACE_MARKER_BUILD_MANIFEST = Path("work-fpga/rvmt_trace_marker_build_manifest.json")
 TRACE_MARKER_SOURCE_HASH_FILES = {
+    "rtl/cva6/core/cva6_rvfi.sv": ("cva6", "core/cva6_rvfi.sv"),
     "rtl/cva6/corev_apu/fpga/src/ariane_xilinx.sv": ("cva6", "corev_apu/fpga/src/ariane_xilinx.sv"),
+    "rtl/cva6/corev_apu/fpga/src/bootrom/bootrom_64.sv": ("cva6", "corev_apu/fpga/src/bootrom/bootrom_64.sv"),
+    "rtl/cva6/corev_apu/fpga/src/bootrom/src/main.c": ("cva6", "corev_apu/fpga/src/bootrom/src/main.c"),
     "rtl/cva6/corev_apu/fpga/xilinx/xlnx_ila/tcl/run.tcl": ("cva6", "corev_apu/fpga/xilinx/xlnx_ila/tcl/run.tcl"),
     "rtl/trace/trace_pkg.sv": ("repo", "rtl/trace/trace_pkg.sv"),
     "rtl/trace/trace_filter.sv": ("repo", "rtl/trace/trace_filter.sv"),
@@ -59,10 +63,40 @@ TASK_ALIASES = {
     "repro:quick": "repro:quick",
     "repro:local": "repro:local",
     "repro:full": "repro:full",
+    "repro:clean-export": "repro:clean-export",
     "repro:genesys2": "repro:local",
     "repro:genesys2-quick": "repro:quick",
     "repro:genesys2-local": "repro:local",
     "repro:genesys2-full": "repro:full",
+    "repro:genesys2-clean-export": "repro:clean-export",
+    "ndss": "ndss:quick",
+    "ndss:quick": "ndss:quick",
+    "ndss:local": "ndss:local",
+    "ndss:full": "repro:full",
+    "ndss:clean-export": "repro:clean-export",
+    "ndss:docker-quick": "ndss:docker-quick",
+    "ndss:docker-local": "ndss:docker-local",
+    "ndss:docker-full": "ndss:docker-full",
+    "ndss:host-vivado": "ndss:host-vivado-runbook",
+    "ndss:host-vivado-check": "ndss:host-vivado-check",
+    "ndss:host-vivado-runbook": "ndss:host-vivado-runbook",
+    "ndss:jtag-ram-boot-probe": "ndss:jtag-ram-boot-probe",
+    "ndss:host-latex": "ndss:host-latex",
+    "ndss:host-latex-runbook": "ndss:host-latex-runbook",
+    "ndss:cycle-smoke": "ndss:cycle-smoke",
+    "ndss:cycle-source-probe": "ndss:cycle-source-probe",
+    "ndss:cycle-diagnostics": "ndss:cycle-diagnostics",
+    "ndss:counter-access-matrix": "ndss:counter-access-matrix",
+    "ndss:sdcard-linux-manifest": "ndss:sdcard-linux-manifest",
+    "ndss:boot-sdcard-image": "ndss:boot-sdcard-image",
+    "ndss:sdcard-write-preflight": "ndss:sdcard-write-preflight",
+    "ndss:linux-rebuild-prep": "ndss:linux-rebuild-prep",
+    "ndss:live-kernel-config-export": "ndss:live-kernel-config-export",
+    "ndss:linux-source-lock": "ndss:linux-source-lock",
+    "ndss:linux-counter-preflight": "ndss:linux-counter-preflight",
+    "ndss:trace-correctness-directed": "ndss:trace-correctness-directed",
+    "ndss:tracer-visibility-baseline": "ndss:tracer-visibility-baseline",
+    "ndss:local-code-analysis": "ndss:local-code-analysis",
     "ccfa": "repro:local",
     "ccfa:quick": "repro:quick",
     "ccfa:local": "repro:local",
@@ -192,6 +226,32 @@ DISPLAY_TASKS = [
     "repro:quick",
     "repro:local",
     "repro:full",
+    "repro:clean-export",
+    "ndss:quick",
+    "ndss:local",
+    "ndss:clean-export",
+    "ndss:docker-quick",
+    "ndss:docker-local",
+    "ndss:docker-full",
+    "ndss:host-vivado-check",
+    "ndss:host-vivado-runbook",
+    "ndss:jtag-ram-boot-probe",
+    "ndss:host-latex",
+    "ndss:host-latex-runbook",
+    "ndss:cycle-smoke",
+    "ndss:cycle-source-probe",
+    "ndss:cycle-diagnostics",
+    "ndss:counter-access-matrix",
+    "ndss:sdcard-linux-manifest",
+    "ndss:boot-sdcard-image",
+    "ndss:sdcard-write-preflight",
+    "ndss:linux-rebuild-prep",
+    "ndss:live-kernel-config-export",
+    "ndss:linux-source-lock",
+    "ndss:linux-counter-preflight",
+    "ndss:trace-correctness-directed",
+    "ndss:tracer-visibility-baseline",
+    "ndss:local-code-analysis",
     "docker:build",
     "toolchain:build",
     "bootrom:build",
@@ -274,6 +334,16 @@ COMPLETION_CANDIDATES = sorted(
         "--trace",
         "--load-base",
         "--runtime-process-map",
+        "--exact-elf-sha256",
+        "--work-dir",
+        "--buildroot-url",
+        "--buildroot-sha256",
+        "--build-work-dir",
+        "--artifact-out-dir",
+        "--fetch",
+        "--configure",
+        "--execute",
+        "--jobs",
         "--addr2line",
         "--limit",
         "--width",
@@ -1008,14 +1078,22 @@ def prepend_env_path(env: dict[str, str], *paths: str | os.PathLike[str]) -> dic
     return env
 
 
-def run(cmd: list[str], *, cwd: Path, env: dict[str, str], dry_run: bool) -> None:
+def run(
+    cmd: list[str],
+    *,
+    cwd: Path,
+    env: dict[str, str],
+    dry_run: bool,
+    allowed_returncodes: set[int] | None = None,
+) -> None:
     printable = " ".join(quote_for_display(part) for part in cmd)
     print(f"+ {printable}")
     if dry_run:
         return
 
+    ok = allowed_returncodes or {0}
     completed = subprocess.run(cmd, cwd=str(cwd), env=env)
-    if completed.returncode:
+    if completed.returncode not in ok:
         raise TaskError(f"Command failed with exit code {completed.returncode}: {printable}")
 
 
@@ -1070,6 +1148,358 @@ def task_toolchain_build(root: Path, config: dict, env: dict[str, str], dry_run:
     env.setdefault("NUM_JOBS", str(config.get("num_jobs", 8)))
     service = str(config.get("docker_service", "cva6-toolchain"))
     run([*docker_compose_base(config), "run", "--rm", service], cwd=root, env=env, dry_run=dry_run)
+
+
+def task_ndss_docker_repro(root: Path, config: dict, env: dict[str, str], dry_run: bool, mode: str) -> None:
+    service = str(config.get("docker_python_service", "linux-behavior"))
+    run(
+        [
+            *docker_compose_base(config),
+            "run",
+            "--rm",
+            "--build",
+            service,
+            "bash",
+            "-lc",
+            f"UV_PROJECT_ENVIRONMENT=/tmp/rvmt-uv-env UV_CACHE_DIR=/tmp/rvmt-uv-cache uv run rvmt repro:{mode}",
+        ],
+        cwd=root,
+        env=env,
+        dry_run=dry_run,
+    )
+
+
+def task_ndss_host_vivado_runbook(root: Path) -> None:
+    print("Status: BLOCKED_HOST_VIVADO_GENESYS2_REQUIRED")
+    print("Run these on the host with Vivado, Genesys2/JTAG, and UART attached; do not mark PASS until artifacts exist and checkers pass.")
+    commands = [
+        "uv run rvmt vivado:check",
+        "uv run rvmt bitstream:build-trace-marker",
+        "uv run python tools/package_genesys2_external_operator_packet.py",
+        "uv run python tools/check_genesys2_external_operator_packet.py --root .",
+        "uv run python tools/package_genesys2_external_closure_intake.py",
+        "uv run python tools/check_genesys2_external_closure_intake.py --root .",
+        "uv run rvmt repro:local",
+    ]
+    for command in commands:
+        print(f"+ {command}")
+    print(f"Runbook: {root / 'docs/07-evaluation-evidence/ndss_host_runbook.md'}")
+
+
+def task_ndss_host_vivado_check(root: Path, env: dict[str, str], dry_run: bool) -> None:
+    cmd = [
+        sys.executable,
+        "tools/run_ndss_host_vivado_check.py",
+        "--root",
+        str(root),
+    ]
+    if dry_run:
+        cmd.append("--dry-run")
+    run(cmd, cwd=root, env=env, dry_run=False, allowed_returncodes={0, 2})
+
+
+def task_ndss_jtag_ram_boot_probe(root: Path, env: dict[str, str], args: argparse.Namespace) -> None:
+    cmd = [
+        sys.executable,
+        "tools/run_genesys2_jtag_ram_boot_probe.py",
+        "--root",
+        str(root),
+    ]
+    if args.ltx is not None:
+        cmd.extend(["--ltx", str(args.ltx)])
+    if args.hw_server_url:
+        cmd.extend(["--hw-server-url", args.hw_server_url])
+    run(cmd, cwd=root, env=env, dry_run=args.dry_run, allowed_returncodes={0, 2})
+
+
+def task_ndss_host_latex_runbook(root: Path) -> None:
+    print("Status: BLOCKED_HOST_LATEX_REQUIRED")
+    print("LaTeX is a host-side step. Build only after the NDSS paper source is created or copied into docs/08-publication/ndss2026/.")
+    commands = [
+        "uv run rvmt ndss:host-latex",
+        "latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build/latex/ndss2026 docs/08-publication/ndss2026/paper.tex",
+    ]
+    for command in commands:
+        print(f"+ {command}")
+    print(f"Runbook: {root / 'docs/07-evaluation-evidence/ndss_host_runbook.md'}")
+
+
+def task_ndss_host_latex(root: Path, env: dict[str, str], dry_run: bool) -> None:
+    paper = root / "docs/08-publication/ndss2026/paper.tex"
+    out_dir = root / "build/latex/ndss2026"
+    pdf = out_dir / "paper.pdf"
+    log = out_dir / "paper.log"
+    summary = out_dir / "latex_build_summary.json"
+    current_summary = root / "results/evaluation/genesys2-cva6/current/host_latex_build_summary.json"
+    latexmk = shutil.which("latexmk", path=env.get("PATH"))
+    if latexmk is None:
+        raise TaskError("latexmk was not found on PATH; run this host-side task where LaTeX is installed.")
+    if not paper.is_file():
+        raise TaskError(f"Missing NDSS paper source: {paper}")
+    run(
+        [
+            latexmk,
+            "-pdf",
+            "-interaction=nonstopmode",
+            "-halt-on-error",
+            f"-outdir={out_dir}",
+            str(paper),
+        ],
+        cwd=root,
+        env=env,
+        dry_run=dry_run,
+    )
+    if dry_run:
+        return
+    if not pdf.is_file():
+        raise TaskError(f"LaTeX command completed but PDF was not created: {pdf}")
+    row = {
+        "schema": "rvmt.ndss.host_latex_build.v1",
+        "status": "PASS",
+        "command": "uv run rvmt ndss:host-latex",
+        "paper_tex": "docs/08-publication/ndss2026/paper.tex",
+        "paper_tex_sha256": sha256_file(paper),
+        "pdf": "build/latex/ndss2026/paper.pdf",
+        "pdf_sha256": sha256_file(pdf),
+        "pdf_size_bytes": pdf.stat().st_size,
+        "log": "build/latex/ndss2026/paper.log" if log.is_file() else None,
+        "log_sha256": sha256_file(log) if log.is_file() else None,
+        "claim_boundary": {
+            "host_latex_build_executed": True,
+            "anonymous_submission_ready_claimed": False,
+            "paper_content_complete_claimed": False,
+        },
+        "non_claims": [
+            "This confirms the current NDSS skeleton compiles on the host; it is not a final anonymous submission readiness claim.",
+            "Docker reproduction does not require LaTeX.",
+        ],
+    }
+    for summary_path in (summary, current_summary):
+        summary_path.parent.mkdir(parents=True, exist_ok=True)
+        summary_path.write_text(json.dumps(row, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
+    print(f"[PASS] host LaTeX build: {pdf}")
+    print(f"[PASS] pdf sha256={row['pdf_sha256']}")
+    print(f"[PASS] current evidence summary: {current_summary.relative_to(root).as_posix()}")
+
+
+def task_ndss_cycle_smoke(root: Path, env: dict[str, str], args: argparse.Namespace) -> None:
+    cmd = [
+        sys.executable,
+        "tools/run_genesys2_cycle_counter_smoke.py",
+        "--reps",
+        str(args.reps),
+    ]
+    if args.port != "COM5":
+        cmd.extend(["--port", args.port])
+    if args.baud is not None:
+        cmd.extend(["--baud", str(args.baud)])
+    if args.dry_run:
+        cmd.append("--dry-run")
+    run(cmd, cwd=root, env=env, dry_run=False, allowed_returncodes={0, 2})
+
+
+def task_ndss_cycle_source_probe(root: Path, env: dict[str, str], args: argparse.Namespace) -> None:
+    cmd = [
+        sys.executable,
+        "tools/run_genesys2_cycle_source_probe.py",
+        "--reps",
+        str(args.reps),
+    ]
+    if args.port != "COM5":
+        cmd.extend(["--port", args.port])
+    if args.baud is not None:
+        cmd.extend(["--baud", str(args.baud)])
+    if args.dry_run:
+        cmd.append("--dry-run")
+    run(cmd, cwd=root, env=env, dry_run=False, allowed_returncodes={0, 2})
+
+
+def task_ndss_cycle_diagnostics(root: Path, env: dict[str, str], args: argparse.Namespace) -> None:
+    cmd = [
+        sys.executable,
+        "tools/run_genesys2_cycle_diagnostics.py",
+    ]
+    if args.port != "COM5":
+        cmd.extend(["--port", args.port])
+    if args.baud is not None:
+        cmd.extend(["--baud", str(args.baud)])
+    if args.dry_run:
+        cmd.append("--dry-run")
+    run(cmd, cwd=root, env=env, dry_run=False, allowed_returncodes={0, 2})
+
+
+def task_ndss_counter_access_matrix(root: Path, env: dict[str, str], args: argparse.Namespace) -> None:
+    cmd = [
+        sys.executable,
+        "tools/run_genesys2_counter_access_matrix.py",
+        "--reps",
+        str(args.reps),
+    ]
+    if args.port != "COM5":
+        cmd.extend(["--port", args.port])
+    if args.baud is not None:
+        cmd.extend(["--baud", str(args.baud)])
+    if args.dry_run:
+        cmd.append("--dry-run")
+    run(cmd, cwd=root, env=env, dry_run=False, allowed_returncodes={0, 2})
+
+
+def task_ndss_sdcard_linux_manifest(root: Path, env: dict[str, str], args: argparse.Namespace) -> None:
+    cmd = [
+        sys.executable,
+        "tools/run_genesys2_sdcard_linux_manifest.py",
+    ]
+    if args.port != "COM5":
+        cmd.extend(["--port", args.port])
+    if args.baud is not None:
+        cmd.extend(["--baud", str(args.baud)])
+    if args.dry_run:
+        cmd.append("--dry-run")
+    run(cmd, cwd=root, env=env, dry_run=False, allowed_returncodes={0, 2})
+
+
+def task_ndss_live_kernel_config_export(root: Path, env: dict[str, str], args: argparse.Namespace) -> None:
+    cmd = [
+        sys.executable,
+        "tools/run_genesys2_live_kernel_config_export.py",
+    ]
+    if args.port != "COM5":
+        cmd.extend(["--port", args.port])
+    if args.baud is not None:
+        cmd.extend(["--baud", str(args.baud)])
+    if args.dry_run:
+        cmd.append("--dry-run")
+    run(cmd, cwd=root, env=env, dry_run=False, allowed_returncodes={0, 2})
+
+
+def task_ndss_linux_source_lock(root: Path, env: dict[str, str], dry_run: bool) -> None:
+    cmd = [sys.executable, "tools/build_genesys2_cva6_linux_image.py", "--root", str(root)]
+    run(cmd, cwd=root, env=env, dry_run=dry_run, allowed_returncodes={0, 2})
+
+
+def task_ndss_boot_sdcard_image(root: Path, env: dict[str, str], args: argparse.Namespace) -> None:
+    if args.payload is None:
+        raise TaskError("ndss:boot-sdcard-image requires --payload <fw_payload.bin>")
+    cmd = [
+        sys.executable,
+        "tools/create_genesys2_boot_sdcard_image.py",
+        "--root",
+        str(root),
+        "--payload",
+        str(args.payload),
+    ]
+    if args.rootfs is not None:
+        cmd.extend(["--rootfs", str(args.rootfs)])
+    if args.image_out is not None:
+        cmd.extend(["--out", str(args.image_out)])
+    if args.manifest_out is not None:
+        cmd.extend(["--manifest", str(args.manifest_out)])
+    run(cmd, cwd=root, env=env, dry_run=args.dry_run)
+
+
+def task_ndss_sdcard_write_preflight(root: Path, env: dict[str, str], args: argparse.Namespace) -> None:
+    cmd = [
+        sys.executable,
+        "tools/run_genesys2_sdcard_write_preflight.py",
+        "--root",
+        str(root),
+    ]
+    if args.image is not None:
+        cmd.extend(["--image", str(args.image)])
+    if args.disk_number is not None:
+        cmd.extend(["--disk-number", str(args.disk_number)])
+    if args.expected_image_sha256:
+        cmd.extend(["--expected-image-sha256", args.expected_image_sha256])
+    if args.max_target_size_gib is not None:
+        cmd.extend(["--max-target-size-gib", str(args.max_target_size_gib)])
+    if args.allow_large_target:
+        cmd.append("--allow-large-target")
+    run(cmd, cwd=root, env=env, dry_run=args.dry_run, allowed_returncodes={0, 2})
+
+
+def task_ndss_linux_rebuild_prep(root: Path, config: dict, env: dict[str, str], args: argparse.Namespace) -> None:
+    service = str(config.get("docker_python_service", "linux-behavior"))
+    inner = [
+        "uv",
+        "run",
+        "python",
+        "tools/prepare_genesys2_cva6_linux_rebuild.py",
+        "--root",
+        "/workspace/rv-maltrace",
+        "--build-work-dir",
+        "/workspace/genesys2-cva6-linux-build",
+        "--artifact-out-dir",
+        "/workspace/rv-maltrace/build/linux/genesys2-cva6/images",
+    ]
+    if args.work_dir is not None:
+        inner.extend(["--work-dir", str(args.work_dir).replace("\\", "/")])
+    if args.build_work_dir is not None:
+        inner.extend(["--build-work-dir", str(args.build_work_dir).replace("\\", "/")])
+    if args.artifact_out_dir is not None:
+        inner.extend(["--artifact-out-dir", str(args.artifact_out_dir).replace("\\", "/")])
+    if args.buildroot_url:
+        inner.extend(["--buildroot-url", args.buildroot_url])
+    if args.buildroot_sha256:
+        inner.extend(["--buildroot-sha256", args.buildroot_sha256])
+    if args.fetch:
+        inner.append("--fetch")
+    if args.configure:
+        inner.append("--configure")
+    if args.execute:
+        inner.append("--execute")
+    if args.jobs is not None:
+        inner.extend(["--jobs", str(args.jobs)])
+    if args.dry_run:
+        inner.append("--dry-run")
+    shell_cmd = "UV_PROJECT_ENVIRONMENT=/tmp/rvmt-uv-env UV_CACHE_DIR=/tmp/rvmt-uv-cache " + " ".join(
+        shlex.quote(part) for part in inner
+    )
+    run(
+        [
+            *docker_compose_base(config),
+            "run",
+            "--rm",
+            "--build",
+            service,
+            "bash",
+            "-lc",
+            shell_cmd,
+        ],
+        cwd=root,
+        env=env,
+        dry_run=args.dry_run,
+        allowed_returncodes={0, 2},
+    )
+
+
+def task_ndss_linux_counter_preflight(root: Path, env: dict[str, str], dry_run: bool) -> None:
+    run(
+        [sys.executable, "tools/package_genesys2_linux_counter_path_preflight.py", "--root", str(root)],
+        cwd=root,
+        env=env,
+        dry_run=dry_run,
+    )
+    run(
+        [sys.executable, "tools/check_genesys2_linux_counter_path_preflight.py", "--root", str(root)],
+        cwd=root,
+        env=env,
+        dry_run=dry_run,
+    )
+
+
+def task_ndss_trace_correctness_directed(root: Path, env: dict[str, str], dry_run: bool) -> None:
+    run([sys.executable, "tools/package_trace_correctness_directed.py", "--root", str(root)], cwd=root, env=env, dry_run=dry_run)
+    run([sys.executable, "tools/check_trace_correctness_directed.py", "--root", str(root)], cwd=root, env=env, dry_run=dry_run)
+
+
+def task_ndss_tracer_visibility_baseline(root: Path, env: dict[str, str], dry_run: bool) -> None:
+    run([sys.executable, "tools/package_genesys2_tracer_visibility_baseline.py"], cwd=root, env=env, dry_run=dry_run)
+    run([sys.executable, "tools/check_genesys2_tracer_visibility_baseline.py", "--root", str(root)], cwd=root, env=env, dry_run=dry_run)
+
+
+def task_ndss_local_code_analysis(root: Path, env: dict[str, str], dry_run: bool) -> None:
+    run([sys.executable, "tools/package_genesys2_local_code_analysis_fixtures.py", "--root", str(root)], cwd=root, env=env, dry_run=dry_run)
+    run([sys.executable, "tools/check_genesys2_local_code_analysis_fixtures.py", "--root", str(root)], cwd=root, env=env, dry_run=dry_run)
 
 
 def task_bootrom_build(root: Path, config: dict, env: dict[str, str], dry_run: bool) -> None:
@@ -3590,6 +4020,12 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         help=(
             "Tasks to run. Supports docker:build, toolchain:build, bootrom:build, "
             "repro:quick, repro:local, repro:full, "
+            "repro:clean-export, ndss:quick, ndss:local, ndss:clean-export, "
+            "ndss:docker-quick, ndss:docker-local, ndss:docker-full, ndss:host-vivado-check, ndss:host-vivado-runbook, "
+            "ndss:jtag-ram-boot-probe, "
+            "ndss:host-latex, ndss:host-latex-runbook, ndss:cycle-smoke, ndss:cycle-source-probe, ndss:cycle-diagnostics, ndss:counter-access-matrix, "
+            "ndss:sdcard-linux-manifest, ndss:boot-sdcard-image, ndss:sdcard-write-preflight, ndss:linux-rebuild-prep, ndss:live-kernel-config-export, ndss:linux-source-lock, ndss:linux-counter-preflight, "
+            "ndss:tracer-visibility-baseline, ndss:local-code-analysis, "
             "vivado:check, bitstream:build, bitstream:build-trace, bitstream:build-trace-marker, "
             "bitstream:build-trace-source-lines, sim:trace-unit, sim:cva6-smoke, "
             "sim:cva6-full-soc, sim:cva6-full-soc-tohost, sim:cva6-full-soc-rv64gc, sim:cva6-run, trace:view, binary:analyze, baremetal:build, "
@@ -3601,6 +4037,26 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--asm", type=Path, help="For sim:cva6-run, compile and run a custom RISC-V assembly source.")
     parser.add_argument("--elf", type=Path, help="For sim:cva6-run, run a custom RISC-V ELF image.")
     parser.add_argument("--bin", type=Path, help="For sim:cva6-run, run a custom raw binary image.")
+    parser.add_argument("--payload", type=Path, help="For ndss:boot-sdcard-image, OpenSBI fw_payload.bin or equivalent boot payload.")
+    parser.add_argument("--rootfs", type=Path, help="For ndss:boot-sdcard-image, optional rootfs image placed after the boot payload partition.")
+    parser.add_argument("--ltx", type=Path, help="For ndss:jtag-ram-boot-probe, optional Vivado probes LTX file.")
+    parser.add_argument("--hw-server-url", default="localhost:3121", help="For ndss:jtag-ram-boot-probe, Vivado hw_server URL.")
+    parser.add_argument("--image-out", type=Path, help="For ndss:boot-sdcard-image, output SD-card image path.")
+    parser.add_argument("--manifest-out", type=Path, help="For ndss:boot-sdcard-image, output SD-card image manifest path.")
+    parser.add_argument("--image", type=Path, help="For ndss:sdcard-write-preflight, local SD-card image to preflight for a host write target.")
+    parser.add_argument("--disk-number", type=int, help="For ndss:sdcard-write-preflight, explicit Windows Get-Disk number for the target SD card.")
+    parser.add_argument("--expected-image-sha256", help="For ndss:sdcard-write-preflight, expected SHA256 of the SD-card image.")
+    parser.add_argument("--max-target-size-gib", type=int, default=128, help="For ndss:sdcard-write-preflight, reject target disks larger than this size unless --allow-large-target is set.")
+    parser.add_argument("--allow-large-target", action="store_true", help="For ndss:sdcard-write-preflight, allow targets larger than --max-target-size-gib.")
+    parser.add_argument("--work-dir", type=Path, help="For ndss:linux-rebuild-prep, Docker-side Buildroot/OpenSBI work directory.")
+    parser.add_argument("--build-work-dir", type=Path, help="For ndss:linux-rebuild-prep, Buildroot source/output directory, preferably a Docker volume path.")
+    parser.add_argument("--artifact-out-dir", type=Path, help="For ndss:linux-rebuild-prep, repository-visible directory for copied build images.")
+    parser.add_argument("--buildroot-url", help="For ndss:linux-rebuild-prep, Buildroot source tarball URL.")
+    parser.add_argument("--buildroot-sha256", help="For ndss:linux-rebuild-prep, optional Buildroot tarball SHA256.")
+    parser.add_argument("--fetch", action="store_true", help="For ndss:linux-rebuild-prep, fetch/extract Buildroot if absent.")
+    parser.add_argument("--configure", action="store_true", help="For ndss:linux-rebuild-prep, run Buildroot defconfig.")
+    parser.add_argument("--execute", action="store_true", help="For ndss:linux-rebuild-prep, run the full long Buildroot build.")
+    parser.add_argument("--jobs", type=int, help="For ndss:linux-rebuild-prep, parallel build jobs.")
     parser.add_argument("--mem", type=Path, help="For sim:cva6-run, run a custom $readmemh memory image.")
     parser.add_argument("--name", help="For sim:cva6-run, result directory name under results/vivado_sim/.")
     parser.add_argument("--expected", type=Path, help="For sim:cva6-run, optional JSON golden to compare against.")
@@ -3638,6 +4094,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--trace", type=Path, help="For demo:behavior --backend trace or trace:view, input RV-MalTrace JSONL trace.")
     parser.add_argument("--load-base", help="For binary:analyze, runtime load base for PIE/ET_DYN traces, for example 0x555555554000.")
     parser.add_argument("--runtime-process-map", type=Path, help="For binary:analyze, optional runtime process map JSON.")
+    parser.add_argument("--exact-elf-sha256", help="For binary:analyze, expected SHA256 of the exact board/runtime ELF.")
     parser.add_argument("--addr2line", help="For binary:analyze, addr2line-compatible executable for source-line enrichment.")
     parser.add_argument("--limit", type=int, default=40, help="For trace:view, maximum event rows to print.")
     parser.add_argument("--width", type=int, help="For trace:view, terminal timeline width.")
@@ -3741,6 +4198,56 @@ def main(argv: list[str] | None = None) -> int:
                 run([sys.executable, "tools/reproduce_genesys2_current.py", "--local"], cwd=root, env=env, dry_run=args.dry_run)
             elif task == "repro:full":
                 run([sys.executable, "tools/reproduce_genesys2_current.py", "--full"], cwd=root, env=env, dry_run=args.dry_run)
+            elif task == "repro:clean-export":
+                run([sys.executable, "tools/prepare_genesys2_clean_repro_bundle.py", "--root", str(root)], cwd=root, env=env, dry_run=args.dry_run)
+            elif task == "ndss:quick":
+                run([sys.executable, "tools/reproduce_genesys2_current.py", "--quick"], cwd=root, env=env, dry_run=args.dry_run)
+            elif task == "ndss:local":
+                run([sys.executable, "tools/reproduce_genesys2_current.py", "--local"], cwd=root, env=env, dry_run=args.dry_run)
+            elif task == "ndss:docker-quick":
+                task_ndss_docker_repro(root, config, env, args.dry_run, "quick")
+            elif task == "ndss:docker-local":
+                task_ndss_docker_repro(root, config, env, args.dry_run, "local")
+            elif task == "ndss:docker-full":
+                task_ndss_docker_repro(root, config, env, args.dry_run, "full")
+            elif task == "ndss:host-vivado-check":
+                task_ndss_host_vivado_check(root, env, args.dry_run)
+            elif task == "ndss:host-vivado-runbook":
+                task_ndss_host_vivado_runbook(root)
+            elif task == "ndss:jtag-ram-boot-probe":
+                task_ndss_jtag_ram_boot_probe(root, env, args)
+            elif task == "ndss:host-latex":
+                task_ndss_host_latex(root, env, args.dry_run)
+            elif task == "ndss:host-latex-runbook":
+                task_ndss_host_latex_runbook(root)
+            elif task == "ndss:cycle-smoke":
+                task_ndss_cycle_smoke(root, env, args)
+            elif task == "ndss:cycle-source-probe":
+                task_ndss_cycle_source_probe(root, env, args)
+            elif task == "ndss:cycle-diagnostics":
+                task_ndss_cycle_diagnostics(root, env, args)
+            elif task == "ndss:counter-access-matrix":
+                task_ndss_counter_access_matrix(root, env, args)
+            elif task == "ndss:sdcard-linux-manifest":
+                task_ndss_sdcard_linux_manifest(root, env, args)
+            elif task == "ndss:boot-sdcard-image":
+                task_ndss_boot_sdcard_image(root, env, args)
+            elif task == "ndss:sdcard-write-preflight":
+                task_ndss_sdcard_write_preflight(root, env, args)
+            elif task == "ndss:linux-rebuild-prep":
+                task_ndss_linux_rebuild_prep(root, config, env, args)
+            elif task == "ndss:live-kernel-config-export":
+                task_ndss_live_kernel_config_export(root, env, args)
+            elif task == "ndss:linux-source-lock":
+                task_ndss_linux_source_lock(root, env, args.dry_run)
+            elif task == "ndss:linux-counter-preflight":
+                task_ndss_linux_counter_preflight(root, env, args.dry_run)
+            elif task == "ndss:trace-correctness-directed":
+                task_ndss_trace_correctness_directed(root, env, args.dry_run)
+            elif task == "ndss:tracer-visibility-baseline":
+                task_ndss_tracer_visibility_baseline(root, env, args.dry_run)
+            elif task == "ndss:local-code-analysis":
+                task_ndss_local_code_analysis(root, env, args.dry_run)
             elif task == "docker:build":
                 task_docker_build(root, config, env, args.dry_run)
             elif task == "toolchain:build":
@@ -3863,6 +4370,8 @@ def main(argv: list[str] | None = None) -> int:
                     command.extend(["--load-base", args.load_base])
                 if args.runtime_process_map is not None:
                     command.extend(["--runtime-process-map", str(args.runtime_process_map)])
+                if args.exact_elf_sha256:
+                    command.extend(["--exact-elf-sha256", args.exact_elf_sha256])
                 if args.addr2line:
                     command.extend(["--addr2line", args.addr2line])
                 if args.out_dir is not None:

@@ -1,0 +1,49 @@
+{
+  "artifacts": {
+    "binary": {
+      "path": "build/board/genesys2_cycle_counter_smoke/cycle_counter_smoke.riscv64",
+      "sha256": "d0f8b7266628e7cd93da070d843a685e5177016d32481503019d42d46ab211bf",
+      "size_bytes": 2928
+    },
+    "build_manifest": {
+      "path": "build/board/genesys2_cycle_counter_smoke/build_manifest.json",
+      "sha256": "7e6ab9f7d2d6d88c8c679aa523b0e470d14747f3e8a28ad2ff436cf483a1e6f3",
+      "size_bytes": 1044
+    },
+    "run_log": {
+      "path": "results/board/genesys2_trace_validation/20260623-cycle-counter-smoke/uart.log",
+      "sha256": "4d54e8566a2e0e846035dcdf74479787d9cfdcdef54cbf0d53ffa150b6ae4cc8",
+      "size_bytes": 1870
+    },
+    "source": {
+      "path": "board/trace_validation/programs/cycle_counter_smoke.c",
+      "sha256": "27ecacaf037d6da659e25a14d0b86391ffe02c82b75550116694bb6e154132e5",
+      "size_bytes": 3690
+    },
+    "transfer_log": {
+      "path": "results/board/genesys2_trace_validation/20260623-cycle-counter-smoke/transfer.log",
+      "sha256": "b3ec915c5c578673886b6847ecd119b63fd4c5513dd5cff816fedd294d1564b2",
+      "size_bytes": 1134
+    }
+  },
+  "blocked_reason": "rdcycle_illegal_instruction",
+  "claim_boundary": {
+    "board_rdcycle_smoke_claimed": false,
+    "cycle_level_overhead_claimed": false,
+    "paper_runtime_overhead_claimed": false,
+    "production_runtime_slowdown_claimed": false
+  },
+  "iters": 100000,
+  "minimum_repetitions": 5,
+  "non_claims": [
+    "This is a board-native rdcycle accessibility and monotonic-positive smoke test.",
+    "It is not a production runtime slowdown claim and is not normalized against trace-off/trace-on modes."
+  ],
+  "requested_repetitions": 5,
+  "row_count": 0,
+  "rows": [],
+  "run_root": "results/board/genesys2_trace_validation/20260623-cycle-counter-smoke",
+  "schema": "rvmt.genesys2.cycle_counter_smoke.v1",
+  "status": "BLOCKED_BOARD_RDCYCLE_UNAVAILABLE",
+  "target": "/tmp/rvmt_cycle/cycle_counter_smoke"
+}

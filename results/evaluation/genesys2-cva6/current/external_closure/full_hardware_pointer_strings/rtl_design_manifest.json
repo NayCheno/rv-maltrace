@@ -1,0 +1,32 @@
+{
+  "payload_version": "v3",
+  "probe2_width_bits": 716,
+  "sources": [
+    {
+      "exists": true,
+      "path": "rtl/trace/trace_pkg.sv",
+      "sha256": "63140e4b391a4223d4d607bf3e9ec4022017e36e61fe70f32ddc65f149e8b52e"
+    },
+    {
+      "exists": true,
+      "path": "rtl/trace/arg_mem_tap.sv",
+      "sha256": "823706986b3e5cc70763eaa92b61c99b8b3f6f26f05e94ac7f1bec3375ba3c41"
+    },
+    {
+      "exists": true,
+      "path": "rtl/trace/trace_bram_ring.sv",
+      "sha256": "cbafde3872908bbc636eddbac81d0248803bc63af9d954cab88dc86895e16c8a"
+    },
+    {
+      "exists": true,
+      "path": "rtl/cva6/corev_apu/fpga/src/ariane_xilinx.sv",
+      "sha256": "fd9ebb1646a9439526f752192527aa838fd258cda82e87f263432abdc0257042"
+    },
+    {
+      "exists": true,
+      "path": "tools/decode_genesys2_bram_ring_dump.py",
+      "sha256": "31a9e3c566a272fdb3fa5e9cbaefe5b741ca6fa063db141cde12b0a741796e24"
+    }
+  ],
+  "v3_mem_base_full_bits": "332..395"
+}

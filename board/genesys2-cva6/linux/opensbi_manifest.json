@@ -1,0 +1,23 @@
+{
+  "artifacts": [
+    {
+      "kind": "source_lock",
+      "path": "board/genesys2-cva6/linux/opensbi_source_lock.txt",
+      "sha256": "d898896101586e71a13dace8bdbdb8f08890c96ab19e346d52430a6b2ac6ac5d"
+    }
+  ],
+  "claim_boundary": {
+    "current_live_sd_card_firmware_claimed": false,
+    "firmware_binary_built": false,
+    "live_board_counter_source_claimed": false,
+    "source_lock_only": true
+  },
+  "schema": "rvmt.genesys2.opensbi_source_manifest.v1",
+  "source": {
+    "commit": "242542438402e2b310a82b131c5cabfc2e2f027a",
+    "platform": "generic",
+    "repository": "https://github.com/riscv-software-src/opensbi.git",
+    "tag": "v1.7"
+  },
+  "status": "PASS_SOURCE_LOCKED_FOR_REBUILD"
+}

@@ -49,6 +49,10 @@ def row_map(rows: Any) -> dict[str, dict[str, Any]]:
     return {str(row.get("id")): row for row in rows if isinstance(row, dict) and row.get("id")}
 
 
+def command_arg(root: Path, value: str | Path) -> str:
+    return repo_relative(root, repo_path(root, value))
+
+
 def find_decodedline_path(root: Path, readiness_row: dict[str, Any]) -> Path | None:
     explicit = readiness_row.get("readelf_decodedline_path") or readiness_row.get("readelf_debug_line_path")
     if explicit:
@@ -213,6 +217,15 @@ def package_summary(
     aggregate_drop = sum(row["unaccounted_drop"] for row in samples)
     marker_windows_passed = all(row["marker_window_passed"] for row in samples)
     status = "PASS" if not failures else "FAIL"
+    package_command = [
+        "uv run python tools/package_genesys2_board_native_source_lines.py",
+        f"--debug-readiness {command_arg(root, debug_readiness_arg)}",
+        f"--run-root {command_arg(root, run_root_arg)}",
+    ]
+    if board_manifest_arg is not None:
+        package_command.append(f"--board-manifest {command_arg(root, board_manifest_arg)}")
+    if generate_decodedline:
+        package_command.append(f"--generate-readelf-decodedline --readelf {readelf}")
     artifacts = {
         "debug_elf_manifest": write_json_artifact(root, RECORD_ID, "debug_elf_manifest", {"source": repo_relative(root, debug_readiness_path), "samples": debug_manifest_rows}),
         "readelf_debug_line_transcript": write_text_artifact(
@@ -245,7 +258,7 @@ def package_summary(
         "failed_attempts": failures,
         "record_root": repo_relative(root, record_root),
         "validation_commands": [
-            "uv run python tools/package_genesys2_board_native_source_lines.py --run-root <board-run-root> --board-manifest <manifest>",
+            " ".join(package_command),
             "uv run python tools/check_genesys2_board_native_source_lines.py --root .",
         ],
     }

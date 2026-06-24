@@ -546,9 +546,9 @@ module cva6_rvfi_trace_adapter
       marker_evt = syscall_entry_evt && trace_enable_marker_i &&
                    args_at_port[port][7] == MARKER_SYSCALL_NR &&
                    (marker_tag == MARKER_BEGIN_TAG || marker_tag == MARKER_END_TAG);
-      // The FPGA RVFI export path does not currently provide explicit
-      // sret-to-user metadata. When opted in, treat an S-mode SRET with an
-      // outstanding user syscall as the return edge.
+      // Paper/board evidence must keep RELAX_SRET_TO_USER_CHECK=0 and require
+      // explicit rvfi_sret_to_user metadata. The relaxed path is only a legacy
+      // debug escape hatch for RVFI exports that cannot expose that metadata.
       syscall_ret_evt = event_valid && !rvfi_trap_s[port] && instr == INSTR_SRET &&
                           rvfi_mode_s[port] == TRACE_PRIV_S &&
                           (rvfi_sret_to_user_s[port] || RELAX_SRET_TO_USER_CHECK) &&
@@ -857,6 +857,8 @@ module cva6_rvfi_trace_adapter
         marker_evt = syscall_entry_evt && trace_enable_marker_i &&
                      args_at_port[port][7] == MARKER_SYSCALL_NR &&
                      (marker_tag == MARKER_BEGIN_TAG || marker_tag == MARKER_END_TAG);
+        // Keep the production/paper path strict: unqualified SRET retires but
+        // must not close an outstanding user syscall.
         syscall_ret_evt = event_valid && !rvfi_trap_s[port] && instr == INSTR_SRET &&
                            rvfi_mode_s[port] == TRACE_PRIV_S &&
                            (rvfi_sret_to_user_s[port] || RELAX_SRET_TO_USER_CHECK) &&

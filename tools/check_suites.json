@@ -136,6 +136,12 @@
           "tags": ["genesys2", "cva6", "p0", "trace", "bram-ring", "board", "evidence"]
         },
         {
+          "id": "strict-sret-board-smoke",
+          "label": "Genesys2/CVA6 strict-SRET current-bitstream board smoke",
+          "command": ["{python}", "tools/check_genesys2_strict_sret_board_smoke.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "trace", "sret", "bram-ring", "board", "evidence"]
+        },
+        {
           "id": "trace-drop-accounting",
           "label": "Genesys2/CVA6 captured-window trace drop accounting",
           "command": ["{python}", "tools/check_trace_drop_accounting.py", "--root", "{root}"],
@@ -146,6 +152,18 @@
           "label": "RV-MalTrace bounded fuzz trace invariant fixtures",
           "command": ["{python}", "tools/check_fuzz_trace_plan.py", "--root", "{root}"],
           "tags": ["genesys2", "cva6", "trace", "fuzz", "invariants", "claim-boundary"]
+        },
+        {
+          "id": "trace-correctness-directed",
+          "label": "RV-MalTrace directed trace correctness corpus",
+          "command": ["{python}", "tools/check_trace_correctness_directed.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "trace", "directed", "invariants", "claim-boundary"]
+        },
+        {
+          "id": "trace-timing-principles",
+          "label": "CVA6 trace timing and strict SRET integration",
+          "command": ["{python}", "tools/check_timing_principles.py"],
+          "tags": ["genesys2", "cva6", "trace", "timing", "sret", "claim-boundary"]
         },
         {
           "id": "statistical-robustness",
@@ -184,6 +202,12 @@
           "tags": ["genesys2", "cva6", "pointer-snapshot", "hardware-string-readiness", "claim-boundary"]
         },
         {
+          "id": "hardware-pointer-strings",
+          "label": "Genesys2/CVA6 scoped full hardware pointer-string evidence",
+          "command": ["{python}", "tools/check_genesys2_hardware_pointer_strings.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "pointer-snapshot", "hardware-string", "external-summary", "claim-boundary"]
+        },
+        {
           "id": "benign-control-summary",
           "label": "Genesys2/CVA6 local benign-control behavior evidence",
           "command": ["{python}", "tools/check_benign_control_summary.py", "--root", "{root}"],
@@ -200,6 +224,12 @@
           "label": "Genesys2/CVA6 syscall semantic reconstruction evidence",
           "command": ["{python}", "tools/check_syscall_semantic_reconstruction.py", "--root", "{root}"],
           "tags": ["genesys2", "cva6", "semantic", "syscall", "fd-path"]
+        },
+        {
+          "id": "semantic-provenance",
+          "label": "Genesys2/CVA6 semantic field provenance boundary",
+          "command": ["{python}", "tools/check_genesys2_semantic_provenance.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "semantic", "provenance", "oracle-boundary"]
         },
         {
           "id": "fd-path-graph",
@@ -238,6 +268,12 @@
           "tags": ["genesys2", "cva6", "dynamic-mapping", "code-attribution"]
         },
         {
+          "id": "local-code-analysis-fixtures",
+          "label": "Genesys2/CVA6 local code-analysis fixture provenance",
+          "command": ["{python}", "tools/check_genesys2_local_code_analysis_fixtures.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "code-attribution", "exact-elf", "runtime-map", "claim-boundary"]
+        },
+        {
           "id": "ccfa-evaluation-matrix",
           "label": "CCF-A evaluation matrix evidence",
           "command": ["{python}", "tools/check_ccfa_evaluation_matrix.py", "--root", "{root}"],
@@ -248,6 +284,12 @@
           "label": "CCF-A baseline alignment evidence",
           "command": ["{python}", "tools/check_baseline_alignment.py", "--root", "{root}"],
           "tags": ["ccfa", "baseline", "alignment"]
+        },
+        {
+          "id": "tracer-visibility-baseline",
+          "label": "Safe software tracer visibility baseline",
+          "command": ["{python}", "tools/check_genesys2_tracer_visibility_baseline.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "baseline", "anti-analysis", "software-tracer", "claim-boundary"]
         },
         {
           "id": "behavior-audit-metrics",
@@ -278,6 +320,102 @@
           "label": "Genesys2/CVA6 lightweight artifact package and fresh-clone reproduction manifest",
           "command": ["{python}", "tools/check_genesys2_artifact_package.py", "--root", "{root}"],
           "tags": ["genesys2", "cva6", "artifact-package", "reproducibility", "fresh-clone"]
+        },
+        {
+          "id": "raw-artifact-release",
+          "label": "Genesys2/CVA6 local raw artifact release archive",
+          "command": ["{python}", "tools/check_genesys2_raw_artifact_release.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "artifact-package", "raw-artifacts", "hash", "fresh-clone"]
+        },
+        {
+          "id": "artifact-integrity",
+          "label": "Genesys2/CVA6 recursive artifact path/hash integrity",
+          "command": ["{python}", "tools/check_genesys2_artifact_integrity.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "artifact-integrity", "hash", "fresh-clone"]
+        },
+        {
+          "id": "bootrom-counter-delegation",
+          "label": "Genesys2/CVA6 bootrom counter-delegation build artifact",
+          "command": ["{python}", "tools/check_genesys2_bootrom_counter_delegation.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "bootrom", "cycle-source", "firmware", "claim-boundary"]
+        },
+        {
+          "id": "cycle-source-probe",
+          "label": "Genesys2/CVA6 board kernel-perf cycle-source probe",
+          "command": ["{python}", "tools/check_genesys2_cycle_source_probe.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "cycle-source", "board", "claim-boundary"]
+        },
+        {
+          "id": "cycle-source-diagnostics",
+          "label": "Genesys2/CVA6 board cycle-source kernel/PMU diagnostics",
+          "command": ["{python}", "tools/check_genesys2_cycle_diagnostics.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "cycle-source", "board", "diagnostic", "claim-boundary"]
+        },
+        {
+          "id": "counter-access-matrix",
+          "label": "Genesys2/CVA6 board counter-access matrix",
+          "command": ["{python}", "tools/check_genesys2_counter_access_matrix.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "cycle-source", "counter", "board", "claim-boundary"]
+        },
+        {
+          "id": "sdcard-linux-manifest",
+          "label": "Genesys2/CVA6 live SD-card Linux identity manifest",
+          "command": ["{python}", "tools/check_genesys2_sdcard_linux_manifest.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "linux", "sdcard", "board", "claim-boundary"]
+        },
+        {
+          "id": "live-kernel-config-export",
+          "label": "Genesys2/CVA6 live kernel config export evidence",
+          "command": ["{python}", "tools/check_genesys2_live_kernel_config_export.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "linux", "kernel-config", "board", "claim-boundary"]
+        },
+        {
+          "id": "linux-rebuild-manifest",
+          "label": "Genesys2/CVA6 Docker Linux rebuild manifest",
+          "command": ["{python}", "tools/check_genesys2_linux_rebuild_manifest.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "linux", "buildroot", "claim-boundary"]
+        },
+        {
+          "id": "boot-sdcard-image-manifest",
+          "label": "Genesys2/CVA6 local boot SD-card image manifest",
+          "command": ["{python}", "tools/check_genesys2_boot_sdcard_image.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "linux", "sdcard", "bootrom", "claim-boundary"]
+        },
+        {
+          "id": "sdcard-write-preflight",
+          "label": "Genesys2/CVA6 host SD-card write-target preflight",
+          "command": ["{python}", "tools/check_genesys2_sdcard_write_preflight.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "linux", "sdcard", "host", "preflight", "claim-boundary"]
+        },
+        {
+          "id": "host-vivado-check",
+          "label": "NDSS host-side Vivado part/board preflight",
+          "command": ["{python}", "tools/check_ndss_host_vivado_check.py", "--root", "{root}"],
+          "tags": ["ndss", "vivado", "host", "preflight", "claim-boundary"]
+        },
+        {
+          "id": "trace-marker-programming",
+          "label": "Genesys2/CVA6 trace-marker bitstream programming evidence",
+          "command": ["{python}", "tools/check_genesys2_trace_marker_programming.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "vivado", "jtag", "programming", "claim-boundary"]
+        },
+        {
+          "id": "jtag-ram-boot-probe",
+          "label": "Genesys2/CVA6 read-only JTAG RAM boot control-path probe",
+          "command": ["{python}", "tools/check_genesys2_jtag_ram_boot_probe.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "vivado", "jtag", "ram-boot", "claim-boundary"]
+        },
+        {
+          "id": "linux-counter-path-preflight",
+          "label": "Genesys2/CVA6 SD-card Linux counter-path rebuild preflight",
+          "command": ["{python}", "tools/check_genesys2_linux_counter_path_preflight.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "cycle-source", "linux", "preflight", "claim-boundary"]
+        },
+        {
+          "id": "host-latex-build",
+          "label": "NDSS host-side LaTeX skeleton build",
+          "command": ["{python}", "tools/check_ndss_host_latex_build.py", "--root", "{root}"],
+          "tags": ["ndss", "latex", "host", "claim-boundary"]
         },
         {
           "id": "external-closure-readiness",
@@ -607,6 +745,18 @@
           "tags": ["genesys2", "trace", "fuzz", "self-test"]
         },
         {
+          "id": "trace-correctness-directed-packager-self-test",
+          "label": "directed trace correctness corpus packager self-test",
+          "command": ["{python}", "tools/package_trace_correctness_directed.py", "--self-test"],
+          "tags": ["genesys2", "trace", "directed", "self-test"]
+        },
+        {
+          "id": "trace-correctness-directed-checker-self-test",
+          "label": "directed trace correctness corpus checker self-test",
+          "command": ["{python}", "tools/check_trace_correctness_directed.py", "--self-test"],
+          "tags": ["genesys2", "trace", "directed", "self-test"]
+        },
+        {
           "id": "statistical-robustness-packager-self-test",
           "label": "Genesys2/CVA6 statistical robustness packager self-test",
           "command": ["{python}", "tools/package_genesys2_statistical_robustness.py", "--self-test"],
@@ -673,6 +823,12 @@
           "tags": ["genesys2", "pointer-snapshot", "hardware-string-readiness", "self-test"]
         },
         {
+          "id": "hardware-pointer-strings-packager-self-test",
+          "label": "hardware pointer strings packager self-test",
+          "command": ["{python}", "tools/package_genesys2_hardware_pointer_strings.py", "--self-test"],
+          "tags": ["genesys2", "pointer-snapshot", "hardware-string", "self-test"]
+        },
+        {
           "id": "benign-control-packager-self-test",
           "label": "benign control packager self-test",
           "command": ["{python}", "tools/package_benign_control_summary.py", "--self-test"],
@@ -731,6 +887,162 @@
           "label": "Genesys2/CVA6 artifact package checker self-test",
           "command": ["{python}", "tools/check_genesys2_artifact_package.py", "--self-test"],
           "tags": ["genesys2", "artifact-package", "reproducibility", "self-test"]
+        },
+        {
+          "id": "raw-artifact-release-packager-self-test",
+          "label": "Genesys2/CVA6 raw artifact release packager self-test",
+          "command": ["{python}", "tools/package_genesys2_raw_artifact_release.py", "--self-test"],
+          "tags": ["genesys2", "artifact-package", "raw-artifacts", "self-test"]
+        },
+        {
+          "id": "raw-artifact-release-checker-self-test",
+          "label": "Genesys2/CVA6 raw artifact release checker self-test",
+          "command": ["{python}", "tools/check_genesys2_raw_artifact_release.py", "--self-test"],
+          "tags": ["genesys2", "artifact-package", "raw-artifacts", "self-test"]
+        },
+        {
+          "id": "tracer-visibility-baseline-packager-self-test",
+          "label": "Safe software tracer visibility baseline packager self-test",
+          "command": ["{python}", "tools/package_genesys2_tracer_visibility_baseline.py", "--self-test"],
+          "tags": ["genesys2", "baseline", "anti-analysis", "software-tracer", "self-test"]
+        },
+        {
+          "id": "tracer-visibility-baseline-checker-self-test",
+          "label": "Safe software tracer visibility baseline checker self-test",
+          "command": ["{python}", "tools/check_genesys2_tracer_visibility_baseline.py", "--self-test"],
+          "tags": ["genesys2", "baseline", "anti-analysis", "software-tracer", "self-test"]
+        },
+        {
+          "id": "semantic-provenance-checker-self-test",
+          "label": "Genesys2/CVA6 semantic provenance checker self-test",
+          "command": ["{python}", "tools/check_genesys2_semantic_provenance.py", "--self-test"],
+          "tags": ["genesys2", "semantic", "provenance", "self-test"]
+        },
+        {
+          "id": "artifact-integrity-checker-self-test",
+          "label": "Genesys2/CVA6 artifact integrity checker self-test",
+          "command": ["{python}", "tools/check_genesys2_artifact_integrity.py", "--self-test"],
+          "tags": ["genesys2", "artifact-integrity", "self-test"]
+        },
+        {
+          "id": "bootrom-counter-delegation-checker-self-test",
+          "label": "Genesys2/CVA6 bootrom counter-delegation checker self-test",
+          "command": ["{python}", "tools/check_genesys2_bootrom_counter_delegation.py", "--self-test"],
+          "tags": ["genesys2", "bootrom", "cycle-source", "firmware", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "cycle-counter-smoke-checker-self-test",
+          "label": "Genesys2/CVA6 cycle-counter smoke checker self-test",
+          "command": ["{python}", "tools/check_genesys2_cycle_counter_smoke.py", "--self-test"],
+          "tags": ["genesys2", "cycle-counter", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "cycle-source-probe-checker-self-test",
+          "label": "Genesys2/CVA6 cycle-source probe checker self-test",
+          "command": ["{python}", "tools/check_genesys2_cycle_source_probe.py", "--self-test"],
+          "tags": ["genesys2", "cycle-source", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "cycle-source-diagnostics-checker-self-test",
+          "label": "Genesys2/CVA6 cycle-source diagnostics checker self-test",
+          "command": ["{python}", "tools/check_genesys2_cycle_diagnostics.py", "--self-test"],
+          "tags": ["genesys2", "cycle-source", "diagnostic", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "counter-access-matrix-checker-self-test",
+          "label": "Genesys2/CVA6 counter-access matrix checker self-test",
+          "command": ["{python}", "tools/check_genesys2_counter_access_matrix.py", "--self-test"],
+          "tags": ["genesys2", "counter", "cycle-source", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "sdcard-linux-manifest-checker-self-test",
+          "label": "Genesys2/CVA6 live SD-card Linux manifest checker self-test",
+          "command": ["{python}", "tools/check_genesys2_sdcard_linux_manifest.py", "--self-test"],
+          "tags": ["genesys2", "linux", "sdcard", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "sdcard-write-preflight-runner-self-test",
+          "label": "Genesys2/CVA6 host SD-card write-target preflight runner self-test",
+          "command": ["{python}", "tools/run_genesys2_sdcard_write_preflight.py", "--self-test"],
+          "tags": ["genesys2", "linux", "sdcard", "host", "preflight", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "sdcard-write-preflight-checker-self-test",
+          "label": "Genesys2/CVA6 host SD-card write-target preflight checker self-test",
+          "command": ["{python}", "tools/check_genesys2_sdcard_write_preflight.py", "--self-test"],
+          "tags": ["genesys2", "linux", "sdcard", "host", "preflight", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "host-vivado-preflight-runner-self-test",
+          "label": "NDSS host-side Vivado preflight runner self-test",
+          "command": ["{python}", "tools/run_ndss_host_vivado_check.py", "--self-test"],
+          "tags": ["ndss", "vivado", "host", "preflight", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "host-vivado-preflight-checker-self-test",
+          "label": "NDSS host-side Vivado preflight checker self-test",
+          "command": ["{python}", "tools/check_ndss_host_vivado_check.py", "--self-test"],
+          "tags": ["ndss", "vivado", "host", "preflight", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "trace-marker-programming-packager-self-test",
+          "label": "Genesys2/CVA6 trace-marker programming packager self-test",
+          "command": ["{python}", "tools/package_genesys2_trace_marker_programming.py", "--self-test"],
+          "tags": ["genesys2", "vivado", "jtag", "programming", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "trace-marker-programming-checker-self-test",
+          "label": "Genesys2/CVA6 trace-marker programming checker self-test",
+          "command": ["{python}", "tools/check_genesys2_trace_marker_programming.py", "--self-test"],
+          "tags": ["genesys2", "vivado", "jtag", "programming", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "jtag-ram-boot-probe-runner-self-test",
+          "label": "Genesys2/CVA6 read-only JTAG RAM boot probe runner self-test",
+          "command": ["{python}", "tools/run_genesys2_jtag_ram_boot_probe.py", "--self-test"],
+          "tags": ["genesys2", "vivado", "jtag", "ram-boot", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "jtag-ram-boot-probe-checker-self-test",
+          "label": "Genesys2/CVA6 read-only JTAG RAM boot probe checker self-test",
+          "command": ["{python}", "tools/check_genesys2_jtag_ram_boot_probe.py", "--self-test"],
+          "tags": ["genesys2", "vivado", "jtag", "ram-boot", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "strict-sret-board-smoke-packager-self-test",
+          "label": "Genesys2/CVA6 strict-SRET board smoke packager self-test",
+          "command": ["{python}", "tools/package_genesys2_strict_sret_board_smoke.py", "--self-test"],
+          "tags": ["genesys2", "cva6", "trace", "sret", "board", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "strict-sret-board-smoke-checker-self-test",
+          "label": "Genesys2/CVA6 strict-SRET board smoke checker self-test",
+          "command": ["{python}", "tools/check_genesys2_strict_sret_board_smoke.py", "--self-test"],
+          "tags": ["genesys2", "cva6", "trace", "sret", "board", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "live-kernel-config-export-checker-self-test",
+          "label": "Genesys2/CVA6 live kernel config export checker self-test",
+          "command": ["{python}", "tools/check_genesys2_live_kernel_config_export.py", "--self-test"],
+          "tags": ["genesys2", "linux", "kernel-config", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "linux-counter-path-preflight-packager-self-test",
+          "label": "Genesys2/CVA6 Linux counter-path preflight packager self-test",
+          "command": ["{python}", "tools/package_genesys2_linux_counter_path_preflight.py", "--self-test"],
+          "tags": ["genesys2", "linux", "cycle-source", "preflight", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "linux-counter-path-preflight-checker-self-test",
+          "label": "Genesys2/CVA6 Linux counter-path preflight checker self-test",
+          "command": ["{python}", "tools/check_genesys2_linux_counter_path_preflight.py", "--self-test"],
+          "tags": ["genesys2", "linux", "cycle-source", "preflight", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "host-latex-build-checker-self-test",
+          "label": "NDSS host-side LaTeX build checker self-test",
+          "command": ["{python}", "tools/check_ndss_host_latex_build.py", "--self-test"],
+          "tags": ["ndss", "latex", "host", "claim-boundary", "self-test"]
         },
         {
           "id": "fresh-clone-reproduction-self-test",
@@ -877,6 +1189,30 @@
           "tags": ["ccfa", "review", "claim-boundary", "self-test"]
         },
         {
+          "id": "genesys2-boot-sdcard-image-builder-self-test",
+          "label": "Genesys2/CVA6 boot SD-card image builder self-test",
+          "command": ["{python}", "tools/create_genesys2_boot_sdcard_image.py", "--self-test"],
+          "tags": ["genesys2", "cva6", "sdcard", "bootrom", "self-test"]
+        },
+        {
+          "id": "genesys2-boot-sdcard-image-checker-self-test",
+          "label": "Genesys2/CVA6 boot SD-card image checker self-test",
+          "command": ["{python}", "tools/check_genesys2_boot_sdcard_image.py", "--self-test"],
+          "tags": ["genesys2", "cva6", "sdcard", "bootrom", "self-test"]
+        },
+        {
+          "id": "genesys2-linux-rebuild-preparer-self-test",
+          "label": "Genesys2/CVA6 Linux rebuild preparer self-test",
+          "command": ["{python}", "tools/prepare_genesys2_cva6_linux_rebuild.py", "--self-test"],
+          "tags": ["genesys2", "cva6", "linux", "buildroot", "self-test"]
+        },
+        {
+          "id": "genesys2-linux-rebuild-manifest-checker-self-test",
+          "label": "Genesys2/CVA6 Linux rebuild manifest checker self-test",
+          "command": ["{python}", "tools/check_genesys2_linux_rebuild_manifest.py", "--self-test"],
+          "tags": ["genesys2", "cva6", "linux", "buildroot", "self-test"]
+        },
+        {
           "id": "suite-manifest-self-test",
           "label": "check suite manifest self-test",
           "command": ["{python}", "tools/run_check_suite.py", "--self-test"],
@@ -951,6 +1287,18 @@
           "label": "bounded fuzz trace validation plan self-test",
           "command": ["{python}", "tools/check_fuzz_trace_plan.py", "--self-test"],
           "tags": ["trace", "fuzz", "self-test"]
+        },
+        {
+          "id": "trace-correctness-directed-packager-self-test",
+          "label": "directed trace correctness corpus packager self-test",
+          "command": ["{python}", "tools/package_trace_correctness_directed.py", "--self-test"],
+          "tags": ["trace", "directed", "self-test"]
+        },
+        {
+          "id": "trace-correctness-directed-checker-self-test",
+          "label": "directed trace correctness corpus checker self-test",
+          "command": ["{python}", "tools/check_trace_correctness_directed.py", "--self-test"],
+          "tags": ["trace", "directed", "self-test"]
         },
         {
           "id": "statistical-robustness-self-test",
@@ -1049,6 +1397,18 @@
           "tags": ["dynamic-mapping", "self-test"]
         },
         {
+          "id": "local-code-analysis-fixture-packager-self-test",
+          "label": "local code-analysis fixture packager self-test",
+          "command": ["{python}", "tools/package_genesys2_local_code_analysis_fixtures.py", "--self-test"],
+          "tags": ["code-attribution", "exact-elf", "runtime-map", "self-test"]
+        },
+        {
+          "id": "local-code-analysis-fixture-checker-self-test",
+          "label": "local code-analysis fixture checker self-test",
+          "command": ["{python}", "tools/check_genesys2_local_code_analysis_fixtures.py", "--self-test"],
+          "tags": ["code-attribution", "exact-elf", "runtime-map", "self-test"]
+        },
+        {
           "id": "ccfa-evaluation-matrix-self-test",
           "label": "CCF-A evaluation matrix checker self-test",
           "command": ["{python}", "tools/check_ccfa_evaluation_matrix.py", "--self-test"],
@@ -1101,6 +1461,42 @@
           "label": "Genesys2/CVA6 artifact package checker self-test",
           "command": ["{python}", "tools/check_genesys2_artifact_package.py", "--self-test"],
           "tags": ["genesys2", "artifact-package", "reproducibility", "self-test"]
+        },
+        {
+          "id": "raw-artifact-release-self-test",
+          "label": "Genesys2/CVA6 raw artifact release checker self-test",
+          "command": ["{python}", "tools/check_genesys2_raw_artifact_release.py", "--self-test"],
+          "tags": ["genesys2", "artifact-package", "raw-artifacts", "self-test"]
+        },
+        {
+          "id": "clean-repro-preparer-self-test",
+          "label": "Genesys2/CVA6 clean-export reproduction preparer self-test",
+          "command": ["{python}", "tools/prepare_genesys2_clean_repro_bundle.py", "--self-test"],
+          "tags": ["genesys2", "artifact-package", "clean-export", "self-test"]
+        },
+        {
+          "id": "clean-repro-checker-self-test",
+          "label": "Genesys2/CVA6 clean-export reproduction checker self-test",
+          "command": ["{python}", "tools/check_genesys2_clean_repro_bundle.py", "--self-test"],
+          "tags": ["genesys2", "artifact-package", "clean-export", "self-test"]
+        },
+        {
+          "id": "semantic-provenance-self-test",
+          "label": "Genesys2/CVA6 semantic provenance checker self-test",
+          "command": ["{python}", "tools/check_genesys2_semantic_provenance.py", "--self-test"],
+          "tags": ["genesys2", "semantic", "provenance", "self-test"]
+        },
+        {
+          "id": "artifact-integrity-self-test",
+          "label": "Genesys2/CVA6 artifact integrity checker self-test",
+          "command": ["{python}", "tools/check_genesys2_artifact_integrity.py", "--self-test"],
+          "tags": ["genesys2", "artifact-integrity", "self-test"]
+        },
+        {
+          "id": "host-latex-build-self-test",
+          "label": "NDSS host-side LaTeX build checker self-test",
+          "command": ["{python}", "tools/check_ndss_host_latex_build.py", "--self-test"],
+          "tags": ["ndss", "latex", "host", "claim-boundary", "self-test"]
         },
         {
           "id": "external-closure-readiness-self-test",

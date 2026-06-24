@@ -83,20 +83,38 @@ def template_path(record_id: str) -> str:
     return (DEFAULT_CURRENT_ROOT / "external_closure_templates" / f"{summary_path.stem}.template.json").as_posix()
 
 
+def effective_record_status(intake_record: dict[str, Any]) -> str:
+    completion_status = str(intake_record.get("completion_status") or "")
+    if completion_status == "EXTERNAL_SUMMARY_ACCEPTED" and intake_record.get("completion_evidence_valid") is True:
+        return "EXTERNAL_SUMMARY_ACCEPTED_ARTIFACT_BACKED"
+    if completion_status == "EXTERNAL_SUMMARY_PRESENT_INVALID":
+        return "EXTERNAL_SUMMARY_PRESENT_INVALID_REQUIRES_RERUN_OR_REPAIR"
+    if completion_status == "OPEN_NO_EXTERNAL_SUMMARY":
+        return "OPEN_NO_EXTERNAL_SUMMARY_REQUIRES_EXTERNAL_COLLECTION"
+    return completion_status or "UNKNOWN_EXTERNAL_RECORD_STATUS"
+
+
 def packet_record(order: int, plan_record: dict[str, Any], intake_record: dict[str, Any]) -> dict[str, Any]:
     record_id = str(plan_record["id"])
     spec = EXPECTED_EXTERNAL_SUMMARIES[record_id]
+    record_status = effective_record_status(intake_record)
+    accepted = record_status == "EXTERNAL_SUMMARY_ACCEPTED_ARTIFACT_BACKED"
     return {
         "order": order,
         "id": record_id,
+        "record_status": record_status,
         "required_summary_schema": spec["schema"],
         "external_summary_path": spec["path"].as_posix(),
         "template_path": template_path(record_id),
         "plan_status": plan_record.get("plan_status"),
-        "readiness_status": plan_record.get("readiness_status"),
+        "plan_readiness_status": plan_record.get("readiness_status"),
+        "readiness_status": record_status,
         "intake_completion_status": intake_record.get("completion_status"),
         "completion_requires_external_state": intake_record.get("completion_requires_external_state"),
         "completion_evidence_valid": intake_record.get("completion_evidence_valid"),
+        "execution_steps_required_to_close_record": not accepted,
+        "accepted_summary_supersedes_plan_readiness": accepted,
+        "accepted_summary_must_remain_hash_valid": accepted,
         "no_substitution_rule": plan_record.get("no_substitution_rule"),
         "operator_inputs": plan_record.get("operator_inputs", []),
         "required_raw_artifacts": plan_record.get("required_raw_artifacts", []),
@@ -126,6 +144,7 @@ def packet_record(order: int, plan_record: dict[str, Any], intake_record: dict[s
         ],
         "exit_criteria": plan_record.get("exit_criteria", []),
         "operator_notes": [
+            "If record_status is EXTERNAL_SUMMARY_ACCEPTED_ARTIFACT_BACKED, preserve the accepted summary and its sha256-backed evidence artifacts instead of treating the plan readiness text as current execution state.",
             "Do not copy template-only JSON into the intake directory as evidence.",
             "Do not replace board, RTL, or host receiver artifacts with local sidecars or companion-derived fields.",
             f"Every evidence_artifacts row must point to a real nonempty record-specific file under results/evaluation/genesys2-cva6/current/external_closure/{record_id}/ with matching sha256 and no template placeholders.",
@@ -140,8 +159,10 @@ def markdown_report(packet: dict[str, Any]) -> str:
         "",
         f"Status: `{packet['status']}`",
         f"Closure status: `{packet['closure_status']}`",
+        f"Accepted external summaries: `{packet['accepted_external_blocker_count']}`",
+        f"Invalid external summaries: `{packet['invalid_external_blocker_count']}`",
         "",
-        "This packet is an operator handoff for the remaining non-real-malware external work. It is not evidence that the external work has already been executed.",
+        "This packet is a status and operator handoff for non-real-malware external closure work. It does not itself execute external work; accepted rows are closed only by hash-backed intake summaries.",
         "",
         "## Source Artifacts",
         "",
@@ -165,14 +186,14 @@ def markdown_report(packet: dict[str, Any]) -> str:
             "",
             "## External Records",
             "",
-            "| Order | External id | Intake status | Expected summary | Required artifact kinds |",
-            "| ---: | --- | --- | --- | --- |",
+            "| Order | External id | Effective status | Plan readiness | Expected summary | Required artifact kinds |",
+            "| ---: | --- | --- | --- | --- | --- |",
         ]
     )
     for record in packet["records"]:
         kinds = ", ".join(f"`{kind}`" for kind in record["required_evidence_artifact_kinds"])
         lines.append(
-            f"| {record['order']} | `{record['id']}` | `{record['intake_completion_status']}` | `{record['external_summary_path']}` | {kinds} |"
+            f"| {record['order']} | `{record['id']}` | `{record['record_status']}` | `{record['plan_readiness_status']}` | `{record['external_summary_path']}` | {kinds} |"
         )
     lines.extend(
         [
@@ -204,7 +225,7 @@ def package_packet(root: Path, current_root: Path) -> dict[str, Any]:
         "schema": "rvmt.genesys2.external_operator_packet.v1",
         "status": "PASS",
         "canonical_evaluation_root": repo_rel(repo_path(root, current_root), root),
-        "scope": "operator handoff for remaining non-real-malware Genesys2/CVA6 external closure items",
+        "scope": "status and operator handoff for non-real-malware Genesys2/CVA6 external closure items",
         "closure_status": intake.get("closure_status"),
         "open_external_blocker_count": intake.get("open_external_blocker_count"),
         "accepted_external_blocker_count": intake.get("accepted_external_blocker_count"),
@@ -219,6 +240,10 @@ def package_packet(root: Path, current_root: Path) -> dict[str, Any]:
         "claim_boundary": {
             "operator_packet_only": True,
             "external_execution_completed": False,
+            "external_execution_completed_by_packet": False,
+            "accepted_external_summaries_present": int(intake.get("accepted_external_blocker_count") or 0) > 0,
+            "accepted_external_summaries_hash_validated_by_intake": int(intake.get("accepted_external_blocker_count") or 0) > 0,
+            "open_or_invalid_external_blockers_remain": intake.get("closure_status") != "ALL_NON_REAL_EXTERNAL_SUMMARIES_ACCEPTED",
             "external_readiness_substituted_for_completion": False,
             "all_non_real_external_blockers_closed": intake.get("closure_status") == "ALL_NON_REAL_EXTERNAL_SUMMARIES_ACCEPTED",
             "real_malware_validation_claimed": False,
@@ -228,8 +253,9 @@ def package_packet(root: Path, current_root: Path) -> dict[str, Any]:
             "placeholder_values_treated_as_invalid": True,
         },
         "operator_sequence": [
-            "Run the local preflight commands recorded for each external id.",
-            "Execute the required board, RTL, or host-transport experiment outside the repository-only checker path.",
+            "For records already marked EXTERNAL_SUMMARY_ACCEPTED_ARTIFACT_BACKED, preserve the accepted summary and evidence artifact hashes.",
+            "For open or invalid records, run the local preflight commands recorded for each external id.",
+            "Execute the required board, RTL, or host-transport experiment outside the repository-only checker path for open or invalid records.",
             "Write candidate summaries only from real record-specific external_closure artifacts with matching sha256-backed evidence rows and no template placeholders.",
             "Validate each candidate with tools/prepare_genesys2_external_summary.py before moving it into the intake path.",
             "Regenerate external_closure_intake.json, then run the intake, operator packet, current-suite, and full reproduction checks.",
@@ -243,10 +269,10 @@ def package_packet(root: Path, current_root: Path) -> dict[str, Any]:
             "uv run python tools/reproduce_genesys2_current.py --full --dry-run",
         ],
         "non_claims": [
-            "This packet does not itself create board-native DWARF source-line attribution evidence; only accepted intake summaries close that item.",
+            "This packet does not itself create board-native DWARF source-line attribution evidence; only the accepted intake summary closes that item.",
             "This packet does not itself create full hardware pointer-string reconstruction evidence; only accepted intake summaries close that item.",
             "This packet does not complete production streaming/DMA throughput evidence.",
-            "This packet does not itself create Genesys2 board benign-control evidence; only accepted intake summaries close that item.",
+            "This packet does not itself create Genesys2 board benign-control evidence; only the accepted intake summary closes that item.",
             "This packet does not add real-malware validation.",
         ],
     }

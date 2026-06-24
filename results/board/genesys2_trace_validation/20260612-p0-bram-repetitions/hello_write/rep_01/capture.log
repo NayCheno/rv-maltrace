@@ -1,13 +1,13 @@
 RVMT_GENESYS2_ILA_COMMAND_CAPTURE
-command=D:\Application\vivado\2025.2\Vivado\bin\vivado.bat -mode batch -source tools\capture_genesys2_ila_event.tcl -tclargs c e0000a01 results\board\genesys2_trace_validation\20260612-p0-bram-repetitions\hello_write\rep_01\capture.csv 300 0 0 build\vivado\genesys2-cv64a6_imafdc_sv39-trace-marker\work-fpga\ariane_xilinx.ltx localhost:3121
+command=D:\Application\vivado\2025.2\Vivado\bin\vivado.bat -mode batch -source tools\capture_genesys2_ila_event.tcl -tclargs c e0000a01 results\board\genesys2_trace_validation\20260612-p0-bram-repetitions\hello_write\rep_01\capture.csv 120 0 1 build\vivado\genesys2-cv64a6_imafdc_sv39-trace-marker\work-fpga\ariane_xilinx.ltx localhost:3121
 csv=results\board\genesys2_trace_validation\20260612-p0-bram-repetitions\hello_write\rep_01\capture.csv
-start=2026-06-12T16:30:33+0800
+start=2026-06-23T02:03:33+0800
 
 ****** Vivado v2025.2 (64-bit)
   **** SW Build 6299465 on Fri Nov 14 19:35:11 GMT 2025
   **** IP Build 6300035 on Fri Nov 14 10:48:45 MST 2025
   **** SharedData Build 6298862 on Thu Nov 13 04:50:51 MST 2025
-  **** Start of session at: Fri Jun 12 16:30:33 2026
+  **** Start of session at: Tue Jun 23 02:03:35 2026
     ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
     ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 
@@ -41,12 +41,18 @@ source {tools\capture_genesys2_ila_event.tcl}
 # }
 # set payload_width 136
 # set payload_nibbles [expr {$payload_width / 4}]
+# if {$evt_hex eq "x"} {
+#   set evt_compare "X"
+# } else {
+#   scan $evt_hex "%x" evt_value
+#   set evt_compare [format "%01x" [expr {$evt_value & 0xf}]]
+# }
 # if {$primary_arg eq "x"} {
-#   set compare "eq${payload_width}'h[string repeat X [expr {$payload_nibbles - 1}]]${evt_hex}"
+#   set compare "eq${payload_width}'h[string repeat X [expr {$payload_nibbles - 1}]]${evt_compare}"
 # } else {
 #   scan $primary_arg "%x" primary_value
 #   set primary_hex [format "%08x" $primary_value]
-#   set compare "eq${payload_width}'h[string repeat X 9]${primary_hex}[string repeat X 16]${evt_hex}"
+#   set compare "eq${payload_width}'h[string repeat X 9]${primary_hex}[string repeat X 16]${evt_compare}"
 # }
 # puts "RVMT_LTX_FILE=$ltx_file"
 RVMT_LTX_FILE=D:/Code/research/rv-maltrace/build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.ltx
@@ -59,15 +65,25 @@ RVMT_TRIGGER_PRIMARY=e0000a01
 # puts "RVMT_TRIGGER_COMPARE=$compare"
 RVMT_TRIGGER_COMPARE=eq136'hXXXXXXXXXe0000a01XXXXXXXXXXXXXXXXc
 # puts "RVMT_TIMEOUT_SECONDS=$timeout_seconds"
-RVMT_TIMEOUT_SECONDS=300
+RVMT_TIMEOUT_SECONDS=120
 # puts "RVMT_TRIGGER_POSITION=$trigger_position"
 RVMT_TRIGGER_POSITION=0
 # puts "RVMT_EVENT_ONLY_CAPTURE=$event_only_capture"
-RVMT_EVENT_ONLY_CAPTURE=0
+RVMT_EVENT_ONLY_CAPTURE=1
 # open_hw_manager
-open_hw_manager: Time (s): cpu = 00:00:07 ; elapsed = 00:00:05 . Memory (MB): peak = 538.969 ; gain = 224.438
+open_hw_manager: Time (s): cpu = 00:00:06 ; elapsed = 00:00:12 . Memory (MB): peak = 540.008 ; gain = 225.492
 # connect_hw_server -url $hw_server_url
 INFO: [Labtools 27-2285] Connecting to hw_server url TCP:localhost:3121
+INFO: [Labtools 27-2222] Launching hw_server...
+INFO: [Labtools 27-2221] Launch Output:
+
+****** Xilinx hw_server v2025.2
+  **** Build date : Oct 28 2025 at 10:03:13
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+
+
+
+
 INFO: [Labtools 27-3415] Connecting to cs_server url TCP:localhost:0
 INFO: [Labtools 27-3417] Launching cs_server...
 INFO: [Labtools 27-2221] Launch Output:
@@ -81,6 +97,7 @@ INFO: [Labtools 27-2221] Launch Output:
 
 
 
+connect_hw_server: Time (s): cpu = 00:00:00 ; elapsed = 00:00:09 . Memory (MB): peak = 544.988 ; gain = 4.980
 # set targets [get_hw_targets *]
 # puts "RVMT_HW_TARGETS=$targets"
 RVMT_HW_TARGETS=localhost:3121/xilinx_tcf/Digilent/200300B81858B
@@ -110,11 +127,16 @@ RVMT_HW_ILAS=hw_ila_1
 # puts "RVMT_BRAM_PROBE=$bram_probe"
 RVMT_BRAM_PROBE=
 # puts "RVMT_BRAM_SEGMENT_PROBES=$bram_segment_probes"
-RVMT_BRAM_SEGMENT_PROBES=rvmt_trace_bram_captured_count rvmt_trace_bram_dropped_count rvmt_trace_bram_dump_aux rvmt_trace_bram_dump_cycle rvmt_trace_bram_dump_evt rvmt_trace_bram_dump_index rvmt_trace_bram_dump_pc rvmt_trace_bram_dump_primary rvmt_trace_bram_dump_sequence rvmt_trace_bram_dump_valid rvmt_trace_bram_event_count rvmt_trace_bram_full rvmt_trace_bram_next_sequence rvmt_trace_bram_oldest_index rvmt_trace_bram_wrap_count rvmt_trace_bram_write_index
+RVMT_BRAM_SEGMENT_PROBES=rvmt_trace_bram_captured_count rvmt_trace_bram_dropped_count rvmt_trace_bram_dump_arg_index rvmt_trace_bram_dump_aux rvmt_trace_bram_dump_cycle rvmt_trace_bram_dump_evt rvmt_trace_bram_dump_index rvmt_trace_bram_dump_mem_addr rvmt_trace_bram_dump_mem_base rvmt_trace_bram_dump_mem_data rvmt_trace_bram_dump_mem_last rvmt_trace_bram_dump_mem_size rvmt_trace_bram_dump_pc rvmt_trace_bram_dump_primary rvmt_trace_bram_dump_sequence rvmt_trace_bram_dump_syscall_id rvmt_trace_bram_dump_valid rvmt_trace_bram_event_count rvmt_trace_bram_full rvmt_trace_bram_next_sequence rvmt_trace_bram_oldest_index rvmt_trace_bram_wrap_count rvmt_trace_bram_write_index
 # set_property CONTROL.WINDOW_COUNT 1 $ila
 # set_property CONTROL.TRIGGER_POSITION $trigger_position $ila
 # set_property TRIGGER_COMPARE_VALUE eq1'b1 $fire_probe
 # set_property TRIGGER_COMPARE_VALUE $compare $payload_probe
+# set trigger_condition_rc [catch {set_property CONTROL.TRIGGER_CONDITION AND $ila} trigger_condition_err]
+# puts "RVMT_TRIGGER_CONDITION_RC=$trigger_condition_rc"
+RVMT_TRIGGER_CONDITION_RC=0
+# puts "RVMT_TRIGGER_CONDITION_ERR=$trigger_condition_err"
+RVMT_TRIGGER_CONDITION_ERR=
 # if {$event_only_capture} {
 #   set cap_rc [catch {
 #     set_property CONTROL.CAPTURE_MODE BASIC $ila
@@ -128,14 +150,18 @@ RVMT_BRAM_SEGMENT_PROBES=rvmt_trace_bram_captured_count rvmt_trace_bram_dropped_
 #     exit 8
 #   }
 # }
+RVMT_EVENT_ONLY_CAPTURE_RC=0
+RVMT_EVENT_ONLY_CAPTURE_ERR=
 # puts "RVMT_TRIGGER_PAYLOAD_COMPARE=[get_property TRIGGER_COMPARE_VALUE $payload_probe]"
 RVMT_TRIGGER_PAYLOAD_COMPARE=eq136'hXXXXXXXXXe0000a01XXXXXXXXXXXXXXXXc
+# puts "RVMT_TRIGGER_CONDITION=[get_property CONTROL.TRIGGER_CONDITION $ila]"
+RVMT_TRIGGER_CONDITION=AND
 # puts "RVMT_CAPTURE_MODE=[get_property CONTROL.CAPTURE_MODE $ila]"
-RVMT_CAPTURE_MODE=ALWAYS
+RVMT_CAPTURE_MODE=BASIC
 # puts "RVMT_CAPTURE_CONDITION=[get_property CONTROL.CAPTURE_CONDITION $ila]"
 RVMT_CAPTURE_CONDITION=AND
 # puts "RVMT_FIRE_CAPTURE_COMPARE=[get_property CAPTURE_COMPARE_VALUE $fire_probe]"
-RVMT_FIRE_CAPTURE_COMPARE=eq1'bX
+RVMT_FIRE_CAPTURE_COMPARE=eq1'b1
 # if {$event_only_capture} {
 #   set capture_mode [string toupper [get_property CONTROL.CAPTURE_MODE $ila]]
 #   set fire_capture_compare [get_property CAPTURE_COMPARE_VALUE $fire_probe]
@@ -148,12 +174,13 @@ RVMT_FIRE_CAPTURE_COMPARE=eq1'bX
 #     exit 8
 #   }
 # }
+# catch {stop_hw_ila $ila}
 # run_hw_ila $ila
-INFO: [Labtools 27-1964] The ILA core 'hw_ila_1' trigger was armed at 2026-Jun-12 16:30:44
+INFO: [Labtools 27-1964] The ILA core 'hw_ila_1' trigger was armed at 2026-Jun-23 02:04:05
 # puts "RVMT_ILA_ARMED"
 RVMT_ILA_ARMED
 # flush stdout
-wait_on_hw_ila: Time (s): cpu = 00:00:00 ; elapsed = 00:00:08 . Memory (MB): peak = 604.660 ; gain = 0.031
+wait_on_hw_ila: Time (s): cpu = 00:00:00 ; elapsed = 00:00:10 . Memory (MB): peak = 605.062 ; gain = 0.047
 # set wait_rc [catch {wait_on_hw_ila -timeout $timeout_seconds $ila} wait_err]
 # puts "RVMT_WAIT_RC=$wait_rc"
 RVMT_WAIT_RC=0
@@ -164,7 +191,7 @@ RVMT_WAIT_ERR=
 #   puts "RVMT_TRIGGER_TIMEOUT"
 #   exit 7
 # }
-INFO: [Labtools 27-1966] The ILA core 'hw_ila_1' triggered at 2026-Jun-12 16:30:52
+INFO: [Labtools 27-1966] The ILA core 'hw_ila_1' triggered at 2026-Jun-23 02:04:15
 # set data_rc [catch {set data [upload_hw_ila_data $ila]} data_err]
 # puts "RVMT_UPLOAD_RC=$data_rc"
 RVMT_UPLOAD_RC=0
@@ -180,5 +207,5 @@ RVMT_WRITE_ERR=D:/Code/research/rv-maltrace/results/board/genesys2_trace_validat
 # puts "RVMT_ILA_CAPTURE_DONE"
 RVMT_ILA_CAPTURE_DONE
 # exit 0
-INFO: [Common 17-206] Exiting Vivado at Fri Jun 12 16:30:52 2026...
+INFO: [Common 17-206] Exiting Vivado at Tue Jun 23 02:04:16 2026...
 RVMT_CAPTURE_PROCESS_RETURNCODE=0

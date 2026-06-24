@@ -27,6 +27,7 @@ services:
     working_dir: /workspace/rv-maltrace
     volumes:
       - .:/workspace/rv-maltrace
+      - genesys2_cva6_linux_build:/workspace/genesys2-cva6-linux-build
     command: bash
 
   mirai-safety:
@@ -69,3 +70,4 @@ volumes:
   cva6_toolchain_build:
   cva6_toolchain_install:
   litex_buildroot:
+  genesys2_cva6_linux_build:

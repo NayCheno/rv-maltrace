@@ -919,16 +919,23 @@ def build(root: Path, args: argparse.Namespace) -> None:
     run([xvhdl, "-2008", "-f", as_posix(vhdl_file)], cwd=work_dir, env=env, log=log, dry_run=False)
     run(common_xvlog + inc_args + ["-f", as_posix(src_file)], cwd=work_dir, env=env, log=log, dry_run=False)
     run([xsc, as_posix(root / "sim" / "dpi" / "xsim_dpi_stubs.c")], cwd=work_dir, env=env, log=log, dry_run=False)
+    common_xelab = [
+        xelab,
+        "-L",
+        "uvm",
+        "--sv_lib",
+        "dpi",
+        "--sv_root",
+        as_posix(work_dir / "xsim.dir" / "work" / "xsc"),
+        "--timescale",
+        "1ns/1ps",
+        "--override_timeunit",
+        "--override_timeprecision",
+    ]
     if args.full_soc_smoke:
         run(
-            [
-                xelab,
-                "-L",
-                "uvm",
-                "--sv_lib",
-                "dpi",
-                "--sv_root",
-                as_posix(work_dir / "xsim.dir" / "work" / "xsc"),
+            common_xelab
+            + [
                 f"work.{FULL_SOC_TOP}",
                 "-s",
                 FULL_SOC_SNAPSHOT,
@@ -968,14 +975,8 @@ def build(root: Path, args: argparse.Namespace) -> None:
         return
 
     run(
-        [
-            xelab,
-            "-L",
-            "uvm",
-            "--sv_lib",
-            "dpi",
-            "--sv_root",
-            as_posix(work_dir / "xsim.dir" / "work" / "xsc"),
+        common_xelab
+        + [
             f"work.{TRACE_TOP}",
             "-s",
             TRACE_SNAPSHOT,
@@ -988,14 +989,8 @@ def build(root: Path, args: argparse.Namespace) -> None:
         dry_run=False,
     )
     run(
-        [
-            xelab,
-            "-L",
-            "uvm",
-            "--sv_lib",
-            "dpi",
-            "--sv_root",
-            as_posix(work_dir / "xsim.dir" / "work" / "xsc"),
+        common_xelab
+        + [
             f"work.{NOTRACE_TOP}",
             "-s",
             NOTRACE_SNAPSHOT,

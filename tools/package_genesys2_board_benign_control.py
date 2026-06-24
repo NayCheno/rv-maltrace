@@ -23,8 +23,8 @@ from external_closure_artifacts import (
 
 RECORD_ID = "genesys2_board_benign_control"
 DEFAULT_OUT = EXPECTED_EXTERNAL_SUMMARIES[RECORD_ID]["path"]
-DEFAULT_RUN_ROOT = Path("results/board/genesys2_trace_validation/20260613-board-benign-control")
-BENIGN_SAMPLES = ("hello", "ls", "cat", "cp", "sha256sum")
+DEFAULT_RUN_ROOT = Path("results/board/genesys2_trace_validation/20260613-board-benign-control-direct")
+DEFAULT_BENIGN_SAMPLES = ("hello", "ls", "cat", "cp", "sha256sum")
 
 
 def as_list(value: Any) -> list[Any]:
@@ -62,9 +62,35 @@ def find_capture_manifest(sample_dir: Path) -> Path | None:
     return None
 
 
-def package_summary(root: Path, run_root_arg: Path) -> dict[str, Any]:
+def command_arg(root: Path, value: str | Path) -> str:
+    return repo_relative(root, repo_path(root, value))
+
+
+def discover_sample_ids(run_root: Path, requested: list[str] | None = None) -> list[str]:
+    if requested:
+        return requested
+    if not run_root.is_dir():
+        return list(DEFAULT_BENIGN_SAMPLES)
+    discovered = [
+        path.name
+        for path in sorted(run_root.iterdir())
+        if path.is_dir()
+        and (
+            find_capture_manifest(path) is not None
+            or find_sample_file(path, "semantic_events.json") is not None
+            or find_sample_file(path, "behavior_graph.json") is not None
+            or find_sample_file(path, "behavior_audit.json") is not None
+        )
+    ]
+    ordered = [sample_id for sample_id in DEFAULT_BENIGN_SAMPLES if sample_id in discovered]
+    ordered.extend(sample_id for sample_id in discovered if sample_id not in ordered)
+    return ordered or list(DEFAULT_BENIGN_SAMPLES)
+
+
+def package_summary(root: Path, run_root_arg: Path, requested_samples: list[str] | None = None) -> dict[str, Any]:
     record_root = external_record_root(root, RECORD_ID)
     run_root = repo_path(root, run_root_arg)
+    sample_ids = discover_sample_ids(run_root, requested_samples)
     failures: list[str] = []
     sample_rows: list[dict[str, Any]] = []
     capture_manifest_rows: list[dict[str, Any]] = []
@@ -73,7 +99,7 @@ def package_summary(root: Path, run_root_arg: Path) -> dict[str, Any]:
     audit_manifest_rows: list[dict[str, Any]] = []
     false_positive_rows: list[dict[str, Any]] = []
 
-    for sample_id in BENIGN_SAMPLES:
+    for sample_id in sample_ids:
         sample_dir = run_root / sample_id
         capture_path = find_capture_manifest(sample_dir)
         semantic_src = find_sample_file(sample_dir, "semantic_events.json")
@@ -140,7 +166,7 @@ def package_summary(root: Path, run_root_arg: Path) -> dict[str, Any]:
             "false_positive_report",
             {
                 "unexpected_false_positive_count": unexpected_count,
-                "benign_false_positive_rate": unexpected_count / len(BENIGN_SAMPLES),
+                "benign_false_positive_rate": unexpected_count / len(sample_ids) if sample_ids else 1.0,
                 "samples": false_positive_rows,
                 "failures": failures,
             },
@@ -165,7 +191,13 @@ def package_summary(root: Path, run_root_arg: Path) -> dict[str, Any]:
         "failed_attempts": failures,
         "record_root": repo_relative(root, record_root),
         "validation_commands": [
-            "uv run python tools/package_genesys2_board_benign_control.py --run-root <board-benign-run-root>",
+            " ".join(
+                [
+                    "uv run python tools/package_genesys2_board_benign_control.py",
+                    f"--run-root {command_arg(root, run_root_arg)}",
+                    *[f"--sample {sample_id}" for sample_id in requested_samples or []],
+                ]
+            ),
             "uv run python tools/check_genesys2_board_benign_control.py --root .",
         ],
     }
@@ -173,7 +205,7 @@ def package_summary(root: Path, run_root_arg: Path) -> dict[str, Any]:
 
 def write_fixture(root: Path) -> Path:
     run_root = root / "board_benign"
-    for sample_id in BENIGN_SAMPLES:
+    for sample_id in DEFAULT_BENIGN_SAMPLES:
         sample_dir = run_root / sample_id
         sample_dir.mkdir(parents=True, exist_ok=True)
         (sample_dir / "board_capture_manifest.json").write_text(
@@ -231,12 +263,13 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--root", type=Path, default=ROOT)
     parser.add_argument("--run-root", type=Path, default=DEFAULT_RUN_ROOT)
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
+    parser.add_argument("--sample", action="append", help="Restrict packaging to specific sample ids. Defaults to discovered sample directories.")
     parser.add_argument("--self-test", action="store_true")
     args = parser.parse_args(argv)
     if args.self_test:
         return self_test()
     root = args.root.resolve()
-    summary = package_summary(root, args.run_root)
+    summary = package_summary(root, args.run_root, args.sample)
     out = write_summary(root, args.out, summary)
     errors = validate_external_summary(RECORD_ID, summary, root)
     status = "PASS" if not errors else "FAIL"

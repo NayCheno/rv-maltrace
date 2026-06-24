@@ -1,0 +1,13 @@
+﻿noninterference_passed=false
+reason=No accepted UART streaming trace can be captured from COM7 after rebuilding/programming the Genesys2 trace-marker bitstream with 12,000,000 baud RTL. D2XX rejects 12,000,000 baud with FT_INVALID_BAUD_RATE(7); pyserial accepts the baud setting but receives only unframed bytes with no RVMT magic, no status frame, and parser_success=false.
+hardware=Genesys2 CVA6, UART COM7 / FTDI serial AU05XHWM, JTAG USB Serial Converter
+required_stream_baud=12000000
+ftdi_set_baud_status=FT_INVALID_BAUD_RATE(7)
+pyserial_stream_baud_accepted=true
+host_receiver_log=results/board/genesys2_trace_validation/20260614-uart-streaming-dma-12m-fix/shell_loop_12m_pyserial_attempt1/host_receiver_log.json
+programming_log=results/board/genesys2_trace_validation/20260614-uart-streaming-dma-12m-fix/vivado_program_trace_marker_12m.log
+workload_wrapper=results/board/genesys2_trace_validation/20260614-uart-streaming-dma-12m-fix/shell_loop_marker_wrap.riscv64
+parser_success=false
+status_frame_seen=false
+sustained_bytes_per_second=0.0
+noninterference_scope=not proven for production uart_streaming_dma because no valid framed stream was received.

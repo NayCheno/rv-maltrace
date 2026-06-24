@@ -1,10 +1,10 @@
 {
   "active_run_roots": {
-    "p0_bram_repetitions": "results/board/genesys2_trace_validation/20260612-p0-bram-repetitions",
+    "p0_bram_repetitions": "results/board/genesys2_trace_validation/20260624-current-p0-cohort",
     "p0_continuous_trace": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit",
     "pointer_snapshot_bram": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram",
     "production_runtime_benchmark": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark",
-    "safe_surrogate_bram_repetitions": "results/board/genesys2_trace_validation/20260611-safe-surrogate-bram-ring-busywait",
+    "safe_surrogate_bram_repetitions": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort",
     "safe_surrogate_runtime_map": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map"
   },
   "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",

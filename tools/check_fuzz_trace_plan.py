@@ -28,6 +28,8 @@ EXPECTED_INVARIANTS = [
     "control_flow_targets_aligned",
     "trap_not_retire",
     "syscall_pairing",
+    "same_cycle_event_order",
+    "dual_commit_order",
     "context_events_well_formed",
     "drop_count_monotonic",
 ]
@@ -48,6 +50,7 @@ REQUIRED_DOC_TEXT = (
     GOLDEN_TRACE_STATUS,
     SYSCALL_EVIDENCE_STATUS,
     "syscall_ret",
+    "dual_commit_order",
     "rvfi_adapter",
     "existing trace-unit and RVFI adapter syscall evidence",
     "seed assembly is still not treated as executed processor evidence",
@@ -64,6 +67,12 @@ FORBIDDEN_DOC_PATTERNS = (
 
 def resolve(root: Path, path: Path) -> Path:
     return path if path.is_absolute() else root / path
+
+
+def resolve_artifact_path(root: Path, path_text: str) -> Path:
+    normalized = path_text.replace("\\", "/")
+    path = Path(normalized)
+    return resolve(root, path)
 
 
 def normalized_text(text: str) -> str:
@@ -235,7 +244,7 @@ def check_syscall_harness_evidence(root: Path, summary_path: Path, report_path: 
         if not isinstance(compare_log, str) or not compare_log:
             errors.append(f"{summary_path}: {test_id}.compare_log path required")
             continue
-        compare_path = resolve(root, Path(compare_log))
+        compare_path = resolve_artifact_path(root, compare_log)
         if not compare_path.is_file():
             errors.append(f"{summary_path}: {test_id} compare log missing: {compare_log}")
             continue
@@ -467,6 +476,7 @@ not a processor fuzzing campaign or CVA6 bug-discovery claim
 sim/golden/fuzz_invariants.json
 tools/gen_rv_trace_fuzz.py
 tools/check_fuzz_trace.py
+dual_commit_order
 fuzz_trace_invariants.json
 fuzz_trace_report.md
 fuzz_cf
@@ -567,6 +577,45 @@ def self_test() -> int:
         report_path.write_text("syscall_ret SRET-to-U rvfi_adapter U-mode syscall entry/return correlation\n", encoding="utf-8")
         if not check_syscall_harness_evidence(root, DEFAULT_SIM_SUMMARY, DEFAULT_SIM_REPORT):
             print("[FAIL] self-test missed incomplete syscall evidence summary", file=sys.stderr)
+            return 1
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        summary_path = root / DEFAULT_SIM_SUMMARY
+        report_path = root / DEFAULT_SIM_REPORT
+        summary_path.parent.mkdir(parents=True, exist_ok=True)
+        report_path.parent.mkdir(parents=True, exist_ok=True)
+        for test_id in ("syscall_ret", "rvfi_adapter"):
+            log_dir = summary_path.parent / test_id
+            log_dir.mkdir(parents=True, exist_ok=True)
+            (log_dir / "compare.log").write_text(
+                "[PASS] required event matched SYSCALL_ENTRY\n[PASS] required event matched SYSCALL_RET\n[PASS] required event matched TRAP\n",
+                encoding="utf-8",
+            )
+        summary_path.write_text(
+            json.dumps(
+                {
+                    "overall": "PASS",
+                    "tests": {
+                        "syscall_ret": {
+                            "status": "PASS",
+                            "counts": {"SYSCALL_ENTRY": 1, "SYSCALL_RET": 1, "TRAP": 1},
+                            "compare_log": r"results\vivado_sim\syscall_ret\compare.log",
+                        },
+                        "rvfi_adapter": {
+                            "status": "PASS",
+                            "counts": {"SYSCALL_ENTRY": 1, "SYSCALL_RET": 1},
+                            "compare_log": r"results\vivado_sim\rvfi_adapter\compare.log",
+                        },
+                    },
+                }
+            ),
+            encoding="utf-8",
+        )
+        report_path.write_text("syscall_ret SRET-to-U rvfi_adapter U-mode syscall entry/return correlation\n", encoding="utf-8")
+        path_errors = check_syscall_harness_evidence(root, DEFAULT_SIM_SUMMARY, DEFAULT_SIM_REPORT)
+        if path_errors:
+            for error in path_errors:
+                print(f"[FAIL] self-test rejected Windows-style artifact path: {error}", file=sys.stderr)
             return 1
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)

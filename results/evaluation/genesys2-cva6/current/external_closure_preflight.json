@@ -421,7 +421,7 @@
         },
         {
           "code_map_supported": "NOT_REQUESTED",
-          "command": "external: run host receiver during the selected workload set and retain byte/event/elapsed/parser logs; compare sustained bytes/sec against streaming_dma_target_summary.json converted with the exact streaming bitstream clock report",
+          "command": "external: run host receiver during the selected workload set and retain byte/event/elapsed/parser logs; compare sustained bytes/sec against 1.5 * p99_event_bytes_per_cycle from streaming_dma_target_summary.json converted with the exact streaming bitstream clock report",
           "dry_run_supported": "NOT_REQUESTED",
           "kind": "external_operator_action",
           "local_preflight_ready": true,
@@ -783,7 +783,7 @@
       "expected_schema": "rvmt.genesys2.external_closure_plan.v1",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_plan.json",
       "schema": "rvmt.genesys2.external_closure_plan.v1",
-      "sha256": "afc62e04df773b0f9f5e69bd35a410d89cc74443b45621610d929ce930a2a341",
+      "sha256": "d0768119e020be185ecbebf776f0da70ab8904fa361c38397d080390b8c96f28",
       "status": "PASS"
     },
     {
@@ -791,8 +791,8 @@
       "expected_schema": "rvmt.genesys2.external_closure_intake.v1",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_intake.json",
       "schema": "rvmt.genesys2.external_closure_intake.v1",
-      "sha256": "b1658baf075311a17d591ffce8bd47a3102b7b1ca19db7f90ba3a5d533e4784b",
-      "status": "FAIL"
+      "sha256": "b5142b834d24be56ec97517c8b208255f1bfef1677c9aac48a282dff9772027a",
+      "status": "BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED"
     }
   ],
   "status": "PASS",
