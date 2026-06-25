@@ -1,0 +1,55 @@
+\documentclass[conference]{IEEEtran}
+
+\IEEEoverridecommandlockouts
+\makeatletter\def\@IEEEpubidpullup{6.5\baselineskip}\makeatother
+
+\usepackage{cite}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xspace}
+
+\pagestyle{plain}
+
+\newcommand{\rvmt}{RV-MalTrace\xspace}
+\newcommand{\artifactroot}{\path{results/evaluation/genesys2-cva6/current/}\xspace}
+\newcommand{\tool}[1]{\path{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\begin{document}
+
+\title{RV-MalTrace: Hardware-Assisted Behavior Tracing for RISC-V Linux Workloads}
+
+\author{\IEEEauthorblockN{Anonymous Authors}}
+
+\IEEEpubid{\parbox{\columnwidth}{
+    Network and Distributed System Security (NDSS) Symposium 2026\\
+    23 - 27 February 2026, San Diego, CA, USA\\
+    ISBN 979-8-9919276-8-0\\
+    https://dx.doi.org/10.14722/ndss.2026.[23$|$24]xxxx\\
+    www.ndss-symposium.org
+}
+\hspace{\columnsep}\makebox[\columnwidth]{}}
+
+\maketitle
+
+\input{sections/abstract}
+\input{sections/introduction}
+\input{sections/background}
+\input{sections/threat_model}
+\input{sections/design}
+\input{sections/implementation}
+\input{sections/semantic_reconstruction}
+\input{sections/evaluation}
+\input{sections/limitations}
+\input{sections/ethics}
+\input{sections/related_work}
+\input{sections/conclusion}
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

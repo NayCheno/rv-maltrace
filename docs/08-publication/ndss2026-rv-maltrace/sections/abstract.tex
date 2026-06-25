@@ -1,0 +1,22 @@
+\begin{abstract}
+Malware behavior analysis often relies on software tracing, such as syscall
+logs or emulator traces. These tools are useful, but they also become part of
+the software environment being measured. Hardware-assisted tracing provides a
+separate observation path, but raw hardware events do not directly answer
+security questions. They must be connected to executable identity, process
+context, and reference logs without confusing one evidence source for another.
+
+We present \rvmt, a RISC-V Linux tracing system that connects a CVA6/Genesys2
+hardware trace path with an offline behavior reconstruction pipeline. The
+system records control-flow, trap, syscall, context, marker, and pointer-byte
+events. It then combines those events with ELF metadata and runtime process
+maps, while marking whether each reconstructed field came from hardware trace,
+the executable, the runtime map, or a reference log such as QEMU or strace.
+
+The current implementation supports controlled RISC-V Linux workloads and a
+reproducible artifact package rooted at \artifactroot. It evaluates trace
+ordering, syscall pairing, source labeling, code attribution, and local
+reproduction. The paper does not report real-malware validation, production
+streaming/DMA throughput, JTAG RAM boot, SD-card-free kernel update, or
+cycle-level board overhead.
+\end{abstract}

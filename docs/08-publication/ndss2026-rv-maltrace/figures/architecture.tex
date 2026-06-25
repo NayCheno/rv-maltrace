@@ -1,0 +1,29 @@
+\begin{figure*}[t]
+\centering
+\fbox{\begin{minipage}{0.90\textwidth}
+\centering
+\scriptsize
+\begin{tabular}{c@{\;$\rightarrow$\;}c@{\;$\rightarrow$\;}c@{\;$\rightarrow$\;}c}
+\textbf{Workload} &
+\textbf{Hardware trace} &
+\textbf{Trace buffer} &
+\textbf{Behavior reconstruction} \\
+\small RISC-V Linux process &
+\small retire, trap, syscall, context &
+\small measured window &
+\small source-labeled events \\
+\end{tabular}
+
+\vspace{0.6em}
+\begin{tabular}{c@{\;+\;}c@{\;+\;}c}
+\textbf{ELF metadata} &
+\textbf{Runtime process map} &
+\textbf{Reference logs} \\
+\small SHA-256, code ranges, load bias &
+\small process and loaded objects &
+\small QEMU, strace, host logs \\
+\end{tabular}
+\end{minipage}}
+\caption{\rvmt pipeline. Hardware trace records are joined with executable metadata and runtime context. Reference logs are used for comparison, not reported as hardware output.}
+\label{fig:architecture}
+\end{figure*}

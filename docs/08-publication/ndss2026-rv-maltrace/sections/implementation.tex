@@ -1,0 +1,21 @@
+\section{Implementation}
+
+The implementation has three components.
+
+\textbf{CVA6 trace adapter.} The adapter converts execution and control
+signals into a compact event stream. The directed trace-correctness fixtures
+exercise trap/retire separation, strict syscall entry/return pairing,
+same-cycle ordering, dual-commit ordering, privilege transitions, and negative
+cases for unqualified SRET events.
+
+\textbf{Genesys2 trace path.} The current board evidence uses a BRAM trace
+buffer for controlled marker windows. Production streaming or DMA transport is
+not evaluated in this draft; it requires separate measurements for transport
+design, clocking, host reception, parsing, drop accounting, timing, resource
+use, and interference.
+
+\textbf{Offline reconstruction tools.} The Python tooling parses trace records,
+builds ELF code maps, joins trace PCs to code ranges, recovers process and
+file/path summaries where evidence permits, and emits machine-readable
+summaries. The artifact checks require each reported result to point to a file
+in the evidence directory and to match its recorded SHA-256 digest.

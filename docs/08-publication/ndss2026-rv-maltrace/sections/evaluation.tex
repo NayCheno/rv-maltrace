@@ -1,0 +1,48 @@
+\section{Evaluation}
+
+The evaluation asks whether the implementation can support controlled behavior
+studies from hardware trace records. We evaluate trace correctness, source
+labeling, code attribution, and reproducibility. Board transport throughput,
+cycle overhead, and RAM boot are outside the evaluated scope.
+
+\input{tables/evaluation_matrix}
+
+\subsection{RQ1: Trace Correctness}
+
+The directed tests check event ordering and syscall pairing at the trace-record
+level. They cover trap/retire separation, strict syscall entry/return pairing,
+same-cycle ordering, dual-commit ordering, privilege transitions, and negative
+relaxed-SRET cases.
+
+\subsection{RQ2: Source Labeling}
+
+The source-labeling checks verify that reconstructed fields identify their
+source: hardware trace, ELF metadata, runtime map, or reference log. Reference
+traces can validate expected behavior, but they are not reported as
+hardware-recovered fields.
+
+\subsection{RQ3: Code Attribution}
+
+The local code-analysis tests cover ELF identity, PIE/ASLR load bias, dynamic
+object attribution, fork/exec ownership, stripped binaries, and source-map
+boundaries. These tests support attribution logic, but they are not reported as
+a new board run or as board-native DWARF evidence.
+
+\subsection{RQ4: Reproducibility}
+
+The artifact package is organized around a canonical evidence directory and
+machine-readable manifests. Quick local reproduction is:
+
+\begin{verbatim}
+uv run rvmt repro:quick
+\end{verbatim}
+
+Docker-local reproduction is:
+
+\begin{verbatim}
+uv run rvmt ndss:docker-full
+\end{verbatim}
+
+The current project status records successful quick, local, full, and
+Docker-local reproduction paths. Experiments that were not run are recorded
+separately and are not included in the results.

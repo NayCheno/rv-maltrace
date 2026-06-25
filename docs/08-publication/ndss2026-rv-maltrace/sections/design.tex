@@ -1,0 +1,31 @@
+\section{Design}
+
+\input{figures/architecture}
+
+\rvmt has three stages: hardware collection, offline reconstruction, and
+reproducibility checking. The collection stage records architectural events.
+The reconstruction stage joins those records with executable and runtime
+context. The checking stage verifies that reported results are backed by files
+in the artifact package.
+
+\subsection{Trace Records}
+
+The CVA6 adapter emits event records for retire, trap, syscall entry, syscall
+return, privilege transition, branch, jump, context, pointer-byte snapshots,
+and markers. The evaluated configuration requires strict SRET qualification so
+that user-mode return evidence is not widened by a permissive timing rule.
+
+Markers define the measured workload window. The trace buffer clears on a
+begin marker, stops on an end marker, and records the begin marker as the first
+event in the window. This lets the analysis distinguish the intended workload
+from boot or background activity.
+
+\subsection{Source Labels}
+
+The design avoids a common failure mode in trace analysis: reporting a
+reconstructed field without identifying its source. \rvmt labels fields as
+hardware trace, ELF metadata, runtime map, or reference log. A field that
+depends on QEMU, strace, or host-control data can validate expected behavior,
+but it is not treated as hardware output.
+
+\input{figures/source_labels}

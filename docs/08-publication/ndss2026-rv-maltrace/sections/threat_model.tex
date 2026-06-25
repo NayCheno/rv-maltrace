@@ -1,0 +1,16 @@
+\section{Threat Model and Scope}
+
+This draft studies controlled RISC-V Linux workloads on a CVA6/Genesys2 trace
+path. The target workload runs under an experiment harness that marks the
+start and end of the measured region. The attacker model is limited to
+software behavior visible through the collected architectural events and
+supporting runtime metadata.
+
+The paper does not evaluate resistance against a malicious workload that can
+physically modify the board, reprogram the trace logic, or compromise the host
+collection machine. It also does not evaluate malware-family detection,
+indicators of compromise, or TTP coverage. Safe synthetic and malware-like
+workloads are used to test trace and reconstruction behavior; they are not
+reported as uncontrolled real-malware validation.
+
+\input{tables/scope}

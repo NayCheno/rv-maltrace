@@ -1,0 +1,45 @@
+\section{Introduction}
+
+Malware behavior analysis often starts with observable events: which files a
+program opens, whether it creates child processes, when it calls \texttt{execve},
+and whether it reaches unusual traps or memory-permission changes. Software
+tracers can collect these events, but they run inside the environment being
+studied. A workload may detect the tracer, change behavior because of tracing
+overhead, or force the analyst to trade detail for lower perturbation.
+
+Hardware-assisted tracing gives the analyst another observation point. It can
+record architectural events below the operating system and the traced process.
+However, raw events are not enough. A program counter needs an executable and
+load address. A syscall transition needs a process context. A path or expected
+syscall sequence may come from a reference run rather than from hardware. A
+paper that mixes these sources risks overstating what the hardware recovered.
+
+\rvmt addresses this problem for controlled RISC-V Linux workloads. The system
+collects hardware trace records from a CVA6-based platform, joins them with ELF
+metadata and runtime process maps, and marks the source of each reconstructed
+field. The result is a behavior trace whose evidence is explicit: the reader
+can see which parts came from hardware and which parts came from supporting
+metadata or reference logs.
+
+This paper is scoped as a systems and artifact paper. It is not a malware
+classifier and does not measure family-level accuracy, indicator coverage, or
+uncontrolled malware execution. It also does not evaluate production trace
+transport, cycle-level overhead, or JTAG RAM boot. The contribution is a
+reproducible RISC-V hardware tracing pipeline for controlled behavior studies
+with clear evidence sources.
+
+We make the following contributions:
+
+\begin{itemize}
+  \item A CVA6/Genesys2 trace path for controlled RISC-V Linux behavior
+  studies, covering retire, trap, syscall entry/return, privilege transition,
+  branch/jump, context, marker, and pointer-byte snapshot records.
+  \item A behavior reconstruction pipeline that separates hardware trace
+  fields from ELF metadata, runtime process-map evidence, and reference logs.
+  \item Local code-attribution tests for ELF identity, PIE/ASLR load bias,
+  dynamic objects, fork/exec ownership, stripped binaries, and source-map
+  boundaries.
+  \item A reproducible artifact package rooted at \artifactroot, with
+  manifests and SHA-256 path checks that keep supported results separate from
+  experiments that are not evaluated in this draft.
+\end{itemize}

@@ -1,0 +1,19 @@
+\section{Behavior Reconstruction}
+
+\rvmt reconstructs behavior in layers. Hardware records provide the event
+sequence and architectural context. ELF metadata provides binary identity and
+code ranges. Runtime process maps bind the target process and its loaded
+objects. Reference logs provide expected behavior for comparison but are not
+reported as hardware output.
+
+The local code-attribution fixtures cover cases that commonly break simple
+PC-to-binary mapping: ELF SHA-256 identity, PIE and ASLR load bias, dynamic
+library ownership, fork/exec ownership, stripped binaries, and source maps not
+captured on the board. Source-line information is reported only when it is
+bound to the exact board artifact.
+
+This reconstruction model is intentionally limited. It supports evidence such
+as syscall pairing, measured-window target attribution, and executable
+ownership where the required inputs exist. It does not evaluate a complete OS
+process graph, complete filesystem history, complete memory-object tracking,
+or recovery of all pointer strings.

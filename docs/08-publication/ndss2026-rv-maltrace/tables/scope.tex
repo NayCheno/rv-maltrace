@@ -1,0 +1,18 @@
+\begin{table*}[t]
+\centering
+\caption{Scope of the CVA6/Genesys2 draft.}
+\label{tab:scope}
+\begin{tabularx}{\textwidth}{p{0.20\textwidth}p{0.22\textwidth}Y}
+\toprule
+Area & Evidence Used & Scope \\
+\midrule
+Artifact root & Manifests and hashes & The draft uses \artifactroot as the current evidence directory. \\
+Trace correctness & Directed tests & Syscall entry/return pairing, trap/retire separation, and event ordering are evaluated. \\
+Source labels & Reconstruction summaries & Fields identify whether they came from hardware trace, ELF metadata, runtime maps, or reference logs. \\
+Code attribution & Local tests & ELF identity, PIE/ASLR load bias, dynamic objects, fork/exec, and stripped binaries are covered. \\
+Production streaming/DMA & Not evaluated & Throughput and interference measurements require a separate transport study. \\
+JTAG RAM boot & Not evaluated & The current observed target does not expose a Vivado memory-control object. \\
+Real malware & Not evaluated & Safe malware-like workloads are not reported as uncontrolled real-malware validation. \\
+\bottomrule
+\end{tabularx}
+\end{table*}

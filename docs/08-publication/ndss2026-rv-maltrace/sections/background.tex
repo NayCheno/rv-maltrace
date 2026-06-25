@@ -1,0 +1,26 @@
+\section{Background}
+
+\subsection{RISC-V Linux Trace Context}
+
+RISC-V exposes architectural privilege transitions, traps, branches, jumps,
+and system-call boundaries that can be useful for behavioral analysis. On a
+CVA6-class core, these events can be observed near instruction retirement and
+then packaged into records consumed by an offline analyzer
+\cite{riscv-isa,cva6}. The resulting events are lower-level than
+strace-style syscall logs: they can include trap and control-flow context, but
+they also require careful reconstruction before they become security-relevant
+behavior.
+
+\subsection{Why Source Labels Matter}
+
+A behavioral summary can combine multiple evidence sources. A syscall entry
+record may be hardware-derived. The function or binary that owns a PC may come
+from an exact ELF and its load ranges. The current process identity may come
+from a runtime process map. QEMU, strace, or host-control logs may provide a
+reference for expected behavior. Treating these fields as one undifferentiated
+trace would overstate what the hardware alone recovered.
+
+\rvmt therefore records source labels as part of the reconstruction output. A
+summary is used in this draft only when the source of each field is explicit
+and the supporting artifact path is recorded under the current evidence
+directory.

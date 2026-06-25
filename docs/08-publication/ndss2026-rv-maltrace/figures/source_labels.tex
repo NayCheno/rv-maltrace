@@ -1,0 +1,17 @@
+\begin{figure}[t]
+\centering
+\fbox{\begin{minipage}{0.86\columnwidth}
+\scriptsize
+\textbf{Source labels}
+
+\vspace{0.4em}
+\begin{tabularx}{\linewidth}{p{0.24\linewidth}Y}
+Hardware & event kind, PC, trap cause, marker order \\
+ELF & binary hash, section range, symbol range \\
+Runtime map & process identity, load object ownership \\
+Reference log & expected syscall or path behavior \\
+\end{tabularx}
+\end{minipage}}
+\caption{Each reconstructed field records where it came from.}
+\label{fig:source-labels}
+\end{figure}

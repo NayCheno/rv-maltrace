@@ -1,0 +1,20 @@
+\section{Limitations}
+
+The current implementation is a research artifact, not a production tracing
+system.
+
+First, the current evaluation does not include production streaming/DMA
+throughput. That result requires a separate transport study.
+
+Second, board cycle-overhead is not evaluated. Existing probes show that the
+required live cycle-source path is not yet available in the current board
+state.
+
+Third, JTAG RAM boot and SD-card-free kernel update are not evaluated. The
+observed Vivado Hardware Manager target exposes the device and ILA path but no
+memory-control or hart-control object for RAM loading.
+
+Fourth, real malware validation is not evaluated. Safe synthetic and
+malware-like workloads test trace and reconstruction behavior under controlled
+conditions; they do not establish malware-family accuracy, IOC coverage, TTP
+coverage, or payload equivalence.
