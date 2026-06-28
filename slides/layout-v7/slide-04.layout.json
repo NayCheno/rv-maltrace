@@ -1,0 +1,1036 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/lteiyv",
+    "id": "lteiyv",
+    "slide": 4,
+    "layoutId": "cc4f3dd5-7978-437e-a525-a7699366b2b7",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "2122b03d-c09d-4d5d-af01-2596891346ab",
+    "masterLayoutName": "Master",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "ChatGPT",
+    "colors": {
+      "accent1": "#156082",
+      "accent2": "#E97132",
+      "accent3": "#196B24",
+      "accent4": "#0F9ED5",
+      "accent5": "#A02B93",
+      "accent6": "#4EA72E",
+      "bg1": "#FFFFFF",
+      "bg2": "#000000",
+      "tx1": "#1F1F1F",
+      "tx2": "#FFFFFF",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#0E2841",
+      "lt2": "#E8E8E8",
+      "hlink": "#467886",
+      "folHlink": "#96607D"
+    },
+    "typefaces": [
+      "Cascadia Mono",
+      "Microsoft YaHei UI"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "cc4f3dd5-7978-437e-a525-a7699366b2b7",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "2122b03d-c09d-4d5d-af01-2596891346ab",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "2122b03d-c09d-4d5d-af01-2596891346ab",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/h0fepkzu",
+      "id": "1",
+      "bbox": [
+        0,
+        0,
+        1280,
+        720
+      ],
+      "geometry": "rect",
+      "fillColor": "#FFFFFF",
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/a9w3m94f",
+      "id": "2",
+      "bbox": [
+        0,
+        0,
+        18,
+        720
+      ],
+      "geometry": "rect",
+      "fillColor": "#0057FF",
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/zupwb2hw",
+      "id": "3",
+      "bbox": [
+        72,
+        40,
+        420,
+        24
+      ],
+      "geometry": "rect",
+      "text": "MOTIVATION",
+      "textPreview": "MOTIVATION",
+      "resolvedFontSize": 13,
+      "resolvedTextStyle": {
+        "fontSize": 13,
+        "typeface": "Cascadia Mono",
+        "color": "#0057FF",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "MOTIVATION"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "MOTIVATION",
+          "resolvedTextStyle": {
+            "fontSize": 13,
+            "typeface": "Cascadia Mono",
+            "color": "#0057FF",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "MOTIVATION",
+              "fontSize": 13,
+              "typeface": "Cascadia Mono",
+              "color": "#0057FF",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/orytsvu9",
+      "id": "4",
+      "bbox": [
+        1160,
+        40,
+        56,
+        24
+      ],
+      "geometry": "rect",
+      "text": "04",
+      "textPreview": "04",
+      "resolvedFontSize": 13,
+      "resolvedTextStyle": {
+        "fontSize": 13,
+        "typeface": "Cascadia Mono",
+        "color": "#68717D",
+        "bold": true,
+        "alignment": "right",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "04"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "04",
+          "resolvedTextStyle": {
+            "fontSize": 13,
+            "typeface": "Cascadia Mono",
+            "color": "#68717D",
+            "bold": true,
+            "alignment": "right"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "04",
+              "fontSize": 13,
+              "typeface": "Cascadia Mono",
+              "color": "#68717D",
+              "bold": true,
+              "alignment": "right"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/hcrmhk3q",
+      "id": "5",
+      "bbox": [
+        72,
+        86,
+        1040,
+        58
+      ],
+      "geometry": "rect",
+      "text": "Why is this worth studying?",
+      "textPreview": "Why is this worth studying?",
+      "resolvedFontSize": 34,
+      "resolvedTextStyle": {
+        "fontSize": 34,
+        "typeface": "Microsoft YaHei UI",
+        "color": "#111418",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Why is this worth studying?"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Why is this worth studying?",
+          "resolvedTextStyle": {
+            "fontSize": 34,
+            "typeface": "Microsoft YaHei UI",
+            "color": "#111418",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Why is this worth studying?",
+              "fontSize": 34,
+              "typeface": "Microsoft YaHei UI",
+              "color": "#111418",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/al87ed8b",
+      "id": "6",
+      "bbox": [
+        72,
+        176,
+        58,
+        4
+      ],
+      "geometry": "rect",
+      "fillColor": "#0057FF",
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/z61032ls",
+      "id": "7",
+      "bbox": [
+        160,
+        158,
+        925,
+        58
+      ],
+      "geometry": "rect",
+      "text": "Software logs are useful references, but they are part of the measured system.",
+      "textPreview": "Software logs are useful references, but they are part of the measured system.",
+      "resolvedFontSize": 21,
+      "resolvedTextStyle": {
+        "fontSize": 21,
+        "typeface": "Microsoft YaHei UI",
+        "color": "#242A31",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Software logs are useful references, but they are part of the measured system."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Software logs are useful references, but they are part of the measured system.",
+          "resolvedTextStyle": {
+            "fontSize": 21,
+            "typeface": "Microsoft YaHei UI",
+            "color": "#242A31",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Software logs are useful references, but they are part of the measured system.",
+              "fontSize": 21,
+              "typeface": "Microsoft YaHei UI",
+              "color": "#242A31",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/oza1gvy9",
+      "id": "8",
+      "bbox": [
+        90,
+        260,
+        330,
+        238
+      ],
+      "geometry": "rect",
+      "fillColor": "#EAF1FF",
+      "lineColor": "#0057FF",
+      "lineWidth": 2
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/hk3q5o7q",
+      "id": "9",
+      "bbox": [
+        114,
+        286,
+        250,
+        24
+      ],
+      "geometry": "rect",
+      "text": "OBSERVATION",
+      "textPreview": "OBSERVATION",
+      "resolvedFontSize": 14,
+      "resolvedTextStyle": {
+        "fontSize": 14,
+        "typeface": "Cascadia Mono",
+        "color": "#0057FF",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "OBSERVATION"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "OBSERVATION",
+          "resolvedTextStyle": {
+            "fontSize": 14,
+            "typeface": "Cascadia Mono",
+            "color": "#0057FF",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "OBSERVATION",
+              "fontSize": 14,
+              "typeface": "Cascadia Mono",
+              "color": "#0057FF",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 10,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/hgn29gr2",
+      "id": "10",
+      "bbox": [
+        114,
+        332,
+        250,
+        60
+      ],
+      "geometry": "rect",
+      "text": "Software traces are visible",
+      "textPreview": "Software traces are visible",
+      "resolvedFontSize": 27,
+      "resolvedTextStyle": {
+        "fontSize": 27,
+        "typeface": "Microsoft YaHei UI",
+        "color": "#111418",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Software traces"
+          },
+          {
+            "index": 2,
+            "text": "are visible"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Software traces are visible",
+          "resolvedTextStyle": {
+            "fontSize": 27,
+            "typeface": "Microsoft YaHei UI",
+            "color": "#111418",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Software traces are visible",
+              "fontSize": 27,
+              "typeface": "Microsoft YaHei UI",
+              "color": "#111418",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 11,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/svu9knih",
+      "id": "11",
+      "bbox": [
+        114,
+        410,
+        270,
+        56
+      ],
+      "geometry": "rect",
+      "text": "They are excellent references, but adversarial workloads can observe or react to them.",
+      "textPreview": "They are excellent references, but adversarial workloads can observe or react to them.",
+      "resolvedFontSize": 17.51,
+      "resolvedTextStyle": {
+        "fontSize": 17.51,
+        "typeface": "Microsoft YaHei UI",
+        "color": "#68717D",
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 3,
+        "lines": [
+          {
+            "index": 1,
+            "text": "They are excellent references,"
+          },
+          {
+            "index": 2,
+            "text": "but adversarial workloads can"
+          },
+          {
+            "index": 3,
+            "text": "observe or react to them."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "They are excellent references, but adversarial workloads can observe or react to them.",
+          "resolvedTextStyle": {
+            "fontSize": 17.51,
+            "typeface": "Microsoft YaHei UI",
+            "color": "#68717D",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "They are excellent references, but adversarial workloads can observe or react to them.",
+              "fontSize": 17.51,
+              "typeface": "Microsoft YaHei UI",
+              "color": "#68717D",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 12,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/za1gvy90",
+      "id": "12",
+      "bbox": [
+        475,
+        260,
+        330,
+        238
+      ],
+      "geometry": "rect",
+      "fillColor": "#EAF6EF",
+      "lineColor": "#12783A",
+      "lineWidth": 2
+    },
+    {
+      "order": 13,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/ap4r65wj",
+      "id": "13",
+      "bbox": [
+        499,
+        286,
+        250,
+        24
+      ],
+      "geometry": "rect",
+      "text": "INTERPRETATION",
+      "textPreview": "INTERPRETATION",
+      "resolvedFontSize": 14,
+      "resolvedTextStyle": {
+        "fontSize": 14,
+        "typeface": "Cascadia Mono",
+        "color": "#12783A",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "INTERPRETATION"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "INTERPRETATION",
+          "resolvedTextStyle": {
+            "fontSize": 14,
+            "typeface": "Cascadia Mono",
+            "color": "#12783A",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "INTERPRETATION",
+              "fontSize": 14,
+              "typeface": "Cascadia Mono",
+              "color": "#12783A",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 14,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/hoza1gvy",
+      "id": "14",
+      "bbox": [
+        499,
+        332,
+        250,
+        60
+      ],
+      "geometry": "rect",
+      "text": "Hardware events are not behavior",
+      "textPreview": "Hardware events are not behavior",
+      "resolvedFontSize": 27,
+      "resolvedTextStyle": {
+        "fontSize": 27,
+        "typeface": "Microsoft YaHei UI",
+        "color": "#111418",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Hardware events"
+          },
+          {
+            "index": 2,
+            "text": "are not behavior"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Hardware events are not behavior",
+          "resolvedTextStyle": {
+            "fontSize": 27,
+            "typeface": "Microsoft YaHei UI",
+            "color": "#111418",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Hardware events are not behavior",
+              "fontSize": 27,
+              "typeface": "Microsoft YaHei UI",
+              "color": "#111418",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 15,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/s36hcrmh",
+      "id": "15",
+      "bbox": [
+        499,
+        410,
+        270,
+        56
+      ],
+      "geometry": "rect",
+      "text": "A PC, trap, or syscall transition still needs process and executable context.",
+      "textPreview": "A PC, trap, or syscall transition still needs process and executable context.",
+      "resolvedFontSize": 17.51,
+      "resolvedTextStyle": {
+        "fontSize": 17.51,
+        "typeface": "Microsoft YaHei UI",
+        "color": "#68717D",
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 3,
+        "lines": [
+          {
+            "index": 1,
+            "text": "A PC, trap, or syscall"
+          },
+          {
+            "index": 2,
+            "text": "transition still needs process"
+          },
+          {
+            "index": 3,
+            "text": "and executable context."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "A PC, trap, or syscall transition still needs process and executable context.",
+          "resolvedTextStyle": {
+            "fontSize": 17.51,
+            "typeface": "Microsoft YaHei UI",
+            "color": "#68717D",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "A PC, trap, or syscall transition still needs process and executable context.",
+              "fontSize": 17.51,
+              "typeface": "Microsoft YaHei UI",
+              "color": "#68717D",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 16,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/zidonyd0",
+      "id": "16",
+      "bbox": [
+        860,
+        260,
+        330,
+        238
+      ],
+      "geometry": "rect",
+      "fillColor": "#FFF0ED",
+      "lineColor": "#B42318",
+      "lineWidth": 2
+    },
+    {
+      "order": 17,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/a1gvy90j",
+      "id": "17",
+      "bbox": [
+        884,
+        286,
+        250,
+        24
+      ],
+      "geometry": "rect",
+      "text": "EVIDENCE",
+      "textPreview": "EVIDENCE",
+      "resolvedFontSize": 14,
+      "resolvedTextStyle": {
+        "fontSize": 14,
+        "typeface": "Cascadia Mono",
+        "color": "#B42318",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "EVIDENCE"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "EVIDENCE",
+          "resolvedTextStyle": {
+            "fontSize": 14,
+            "typeface": "Cascadia Mono",
+            "color": "#B42318",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "EVIDENCE",
+              "fontSize": 14,
+              "typeface": "Cascadia Mono",
+              "color": "#B42318",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 18,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/lszqtcj6",
+      "id": "18",
+      "bbox": [
+        884,
+        332,
+        250,
+        60
+      ],
+      "geometry": "rect",
+      "text": "Sources can be confused",
+      "textPreview": "Sources can be confused",
+      "resolvedFontSize": 27,
+      "resolvedTextStyle": {
+        "fontSize": 27,
+        "typeface": "Microsoft YaHei UI",
+        "color": "#111418",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Sources can be"
+          },
+          {
+            "index": 2,
+            "text": "confused"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Sources can be confused",
+          "resolvedTextStyle": {
+            "fontSize": 27,
+            "typeface": "Microsoft YaHei UI",
+            "color": "#111418",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Sources can be confused",
+              "fontSize": 27,
+              "typeface": "Microsoft YaHei UI",
+              "color": "#111418",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 19,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/s72x4nap",
+      "id": "19",
+      "bbox": [
+        884,
+        410,
+        270,
+        56
+      ],
+      "geometry": "rect",
+      "text": "Reference logs must validate results without being reported as hardware output.",
+      "textPreview": "Reference logs must validate results without being reported as hardware output.",
+      "resolvedFontSize": 17.51,
+      "resolvedTextStyle": {
+        "fontSize": 17.51,
+        "typeface": "Microsoft YaHei UI",
+        "color": "#68717D",
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 3,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Reference logs must validate"
+          },
+          {
+            "index": 2,
+            "text": "results without being"
+          },
+          {
+            "index": 3,
+            "text": "reported as hardware output."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Reference logs must validate results without being reported as hardware output.",
+          "resolvedTextStyle": {
+            "fontSize": 17.51,
+            "typeface": "Microsoft YaHei UI",
+            "color": "#68717D",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Reference logs must validate results without being reported as hardware output.",
+              "fontSize": 17.51,
+              "typeface": "Microsoft YaHei UI",
+              "color": "#68717D",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

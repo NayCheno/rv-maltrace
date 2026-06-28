@@ -70,11 +70,7 @@
       "RVMT_SEND 'dmesg 2>&1 | grep -i pmu | tail -40 || true'",
       "dmesg 2>&1 | grep -i pmu | tail -40 || true"
     ],
-    "previous_user_rdcycle_illegal_traps": [
-      "[  155.426231] cycle_counter_s[128]: unhandled signal 4 code 0x1 at 0x000000000001015c in cycle_counter_smoke[15c,10000+1000]",
-      "[31687.949820] cycle_counter_s[6137]: unhandled signal 4 code 0x1 at 0x000000000001015c in cycle_counter_smoke[15c,10000+1000]",
-      "[39883.295575] cycle_counter_s[7620]: unhandled signal 4 code 0x1 at 0x000000000001015c in cycle_counter_smoke[15c,10000+1000]"
-    ],
+    "previous_user_rdcycle_illegal_traps": [],
     "root_shell": true,
     "sbi_lines": [
       "RVMT_SEND 'dmesg 2>&1 | grep -i sbi | tail -40 || true'",
@@ -86,7 +82,7 @@
       "[    0.000000] SBI RFENCE extension detected",
       "[    0.000000] SBI DBCN extension detected",
       "[    0.000000] SBI FWFT extension detected",
-      "[    0.369534] SBI misaligned access exception delegation ok"
+      "[    0.369374] SBI misaligned access exception delegation ok"
     ],
     "sbi_pmu_extension_observed": false
   },
@@ -110,7 +106,7 @@
       "The counter-access matrix must pass with monotonic-positive rdcycle rows."
     ],
     "sbi_pmu_extension_observed": false,
-    "user_rdcycle_illegal_trap_observed": true
+    "user_rdcycle_illegal_trap_observed": false
   },
   "next_steps": [
     "Enable OpenSBI or kernel PMU/counter delegation for cycle counters, or add a board-specific SBI/kernel cycle export.",
@@ -128,8 +124,8 @@
     "counter_access_matrix": {
       "path": "results/evaluation/genesys2-cva6/current/counter_access_matrix_summary.json",
       "schema": "rvmt.genesys2.counter_access_matrix.v1",
-      "sha256": "40a34e994007c9324bd2ae1ab5ceeb07d7cf4399b879c80590f5687f7cb4391c",
-      "size_bytes": 6141,
+      "sha256": "bf19844a1ebc4253362e1b0b08221af185113c769be5a40e7c85fe3da5aff11e",
+      "size_bytes": 6188,
       "status": "BLOCKED_BOARD_CYCLE_COUNTER_UNAVAILABLE_NONCYCLE_TIME_AVAILABLE"
     },
     "cycle_source_probe": {
@@ -141,9 +137,9 @@
     }
   },
   "run_log": {
-    "path": "results/board/genesys2_trace_validation/20260623-cycle-source-diagnostics/uart.log",
-    "sha256": "453e1978d0c739a157dc18d7b100bfc0159d06d0d2017441c19753c1ec1502d7",
-    "size_bytes": 10083
+    "path": "results/board/genesys2_trace_validation/20260625-010000-official-image-cycle-diagnostics/uart.log",
+    "sha256": "4cfe76eb02d60d94bb87c2c28ae8d8a7f1d874bedb78282da61a29d477222d42",
+    "size_bytes": 9464
   },
   "schema": "rvmt.genesys2.cycle_source_diagnostics.v1",
   "status": "BLOCKED_BOARD_KERNEL_PMU_AND_USER_CYCLE_UNAVAILABLE"

@@ -320,7 +320,7 @@
           "id": "drop_accounting_summary",
           "path": "results/evaluation/genesys2-cva6/current/drop_accounting_summary.json",
           "schema": "rvmt.trace_drop_accounting.v1",
-          "sha256": "34f52238f8fa442750dc9e019568687118b0a41f338352e4c621f674b2278ba4",
+          "sha256": "0fdd718cbd091abac3e4d26436b7fed3510d4e5d778e59e370d6d4e5c05debbe",
           "status": "PASS"
         },
         {
@@ -328,7 +328,7 @@
           "id": "streaming_dma_target_summary",
           "path": "results/evaluation/genesys2-cva6/current/streaming_dma_target_summary.json",
           "schema": "rvmt.genesys2.streaming_dma_target.v1",
-          "sha256": "068cce61ea6c5413a24c6ae0c52c616dcedb22305e56d15e125d00084bda8f0c",
+          "sha256": "2cf7edb7679ff329e3a10ccfe35f3fbfd47443583ff6e6c3fe23fb59fd5956fa",
           "status": "PASS"
         },
         {
@@ -336,7 +336,7 @@
           "id": "streaming_dma_readiness",
           "path": "results/evaluation/genesys2-cva6/current/streaming_dma_readiness_summary.json",
           "schema": "rvmt.genesys2.streaming_dma_readiness.v1",
-          "sha256": "6e449b82930d43e435e32954159fa6a0b9e689bf1bd2c6b577282d3b2828fe57",
+          "sha256": "16a8cd7477b6d28b5fe2cbbb50e49056f3d65869c289d106aaed41d29ded7bd7",
           "status": "PASS"
         },
         {
@@ -412,7 +412,7 @@
           "id": "board_benign_readiness",
           "path": "results/evaluation/genesys2-cva6/current/board_benign_readiness_summary.json",
           "schema": "rvmt.genesys2.board_benign_readiness.v1",
-          "sha256": "ca8afc3c50089562b0cbe0185346bb1a0a332ed1d01e309fb4c0a6d3c3311246",
+          "sha256": "45396192c4538c472200f0ffdf9d5d9e7f98b0b4471586cc5a4dc686d494916e",
           "status": "PASS"
         },
         {

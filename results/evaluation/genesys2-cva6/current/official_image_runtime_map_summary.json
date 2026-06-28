@@ -1,0 +1,274 @@
+{
+  "artifacts": {
+    "bitstream": {
+      "exists": true,
+      "path": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker-syscall/work-fpga/ariane_xilinx.bit",
+      "sha256": "af4e4462ddfa5bfc34114b44820f10f28e4293591d488b082cf715e4bd7c5cc3",
+      "size_bytes": 11443738
+    },
+    "bram_records": {
+      "exists": true,
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/bram_records.jsonl",
+      "sha256": "c99417f9a0805678ad3de6df1543ea193e4a0c5d0c5efb2c12cd427beb5cfa82",
+      "size_bytes": 35909
+    },
+    "bram_summary": {
+      "exists": true,
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/bram_summary.json",
+      "sha256": "08e9cb56e278d0b94983f1464007eb16e10d6a0ad07ca4d2b8099c9af7342f99",
+      "size_bytes": 1000
+    },
+    "capture_csv": {
+      "exists": true,
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/capture.csv",
+      "sha256": "dd61e013adf92fe033ca8611846044b61fef1b8e3651a29d614b1a9225605fb8",
+      "size_bytes": 2095924
+    },
+    "capture_err_log": {
+      "exists": true,
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/capture.err.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "capture_log": {
+      "exists": true,
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/capture.log",
+      "sha256": "0ebbd75e28f86079424021fb9c653bd8c2b3e82533f9544acebaaa6de4d3d42f",
+      "size_bytes": 9434
+    },
+    "ltx": {
+      "exists": true,
+      "path": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker-syscall/work-fpga/ariane_xilinx.ltx",
+      "sha256": "16360c1f20031509b61dafb4847ba638b85d1a758a1c10b96d2faacdb4ce7ee3",
+      "size_bytes": 180130
+    },
+    "proc_snapshots": {
+      "cmdline": {
+        "exists": true,
+        "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/proc_snapshots/3194/cmdline.txt",
+        "sha256": "343a800abacab575effa6f5e3f830e671942e23ce88747de7172d97ac2a4c6bb",
+        "size_bytes": 86
+      },
+      "exe_readlink": {
+        "exists": true,
+        "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/proc_snapshots/3194/exe_readlink.txt",
+        "sha256": "31156e05eab7b7f4ddb0229735efe6b6af9e3e65b589b6e34fb1f3bfdcd09994",
+        "size_bytes": 40
+      },
+      "exe_sha256": {
+        "exists": true,
+        "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/proc_snapshots/3194/exe_sha256.txt",
+        "sha256": "46e22b4ae429bd855d36a3862b8b5ae05aacf493d524fbb5c8453238228dda39",
+        "size_bytes": 81
+      },
+      "maps": {
+        "exists": true,
+        "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/proc_snapshots/3194/maps.txt",
+        "sha256": "0db681df16e080548517690b418f9a46d15463946b533699ae05bae46e610374",
+        "size_bytes": 701
+      },
+      "stat": {
+        "exists": true,
+        "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/proc_snapshots/3194/stat.txt",
+        "sha256": "5b48f1ac25980798db5e78991ac08a489d53265150de21cc19a9e0007631c52e",
+        "size_bytes": 256
+      },
+      "status": {
+        "exists": true,
+        "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/proc_snapshots/3194/status.txt",
+        "sha256": "9e2a41800c191f6ddbcc007dcc9c6b72d288b8aeecb5b047ded979c3bdf78632",
+        "size_bytes": 1060
+      }
+    },
+    "transfer_log": {
+      "exists": true,
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/runtime_map_transfer.log",
+      "sha256": "702183974d40b8c274fdecc1014a10d5243bd77aa7a8d2624fbcbfc97d201fa1",
+      "size_bytes": 23405
+    },
+    "uart_log": {
+      "exists": true,
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/uart.log",
+      "sha256": "9cfc9eb29aebec51cfde9c5b4abff089f2a18496397d488ea9c7df100b5de330",
+      "size_bytes": 5676
+    }
+  },
+  "blocked_reason": null,
+  "board": "Digilent Genesys2",
+  "bram_ring": {
+    "captured_count": 37,
+    "dropped_count": 0,
+    "event_count": 37,
+    "wrap_count": 0
+  },
+  "claim_boundary": {
+    "board_runtime_pc_to_proc_map_attribution_claimed": true,
+    "cycle_level_overhead_claimed": false,
+    "provenance_exact_elf_hash_required": true,
+    "qemu_or_strace_substitution_used": false,
+    "real_malware_validation_claimed": false,
+    "runtime_proc_maps_are_board_observed": true
+  },
+  "cpu": "CVA6 rv64gc sv39",
+  "exact_elf": {
+    "board_proc_exe_sha256": "e3d913bd859badb7a5ad4401237e406ba6ebaa2b6ae03c35dca3f388dde39144",
+    "build_manifest": {
+      "exists": true,
+      "path": "build/board/genesys2_official_image_probe/build_manifest.json",
+      "sha256": "ca9eb7b099081a0852788a85691f441d698fd0a184ece629224348b758128b6c",
+      "size_bytes": 2976
+    },
+    "exe_readlink": "/tmp/rvmt_official/official_image_probe",
+    "expected_sha256": "e3d913bd859badb7a5ad4401237e406ba6ebaa2b6ae03c35dca3f388dde39144",
+    "hash_match": true,
+    "variant": "static_exec"
+  },
+  "marker_window": {
+    "begin": "0xb0000c01",
+    "end": "0xe0000c01"
+  },
+  "non_claims": [
+    "This runtime-map evidence binds hardware PCs to live /proc maps for a benign official-image probe only.",
+    "It does not claim DWARF source-line attribution or real-malware validation.",
+    "QEMU/strace outputs are not used as a substitute for the board runtime map."
+  ],
+  "pc_attributions": [
+    {
+      "evt": "MARKER",
+      "mapping_end": "0x0000000000081000",
+      "mapping_path": "/tmp/rvmt_official/official_image_probe",
+      "mapping_perms": "r-xp",
+      "mapping_start": "0x0000000000010000",
+      "pc": "0x000000000001ec0c",
+      "provenance": "hardware_pc_joined_to_runtime_proc_maps",
+      "sequence_number": 0
+    },
+    {
+      "evt": "SYSCALL_ENTRY",
+      "mapping_end": "0x0000000000081000",
+      "mapping_path": "/tmp/rvmt_official/official_image_probe",
+      "mapping_perms": "r-xp",
+      "mapping_start": "0x0000000000010000",
+      "pc": "0x000000000001ec0c",
+      "provenance": "hardware_pc_joined_to_runtime_proc_maps",
+      "sequence_number": 1
+    },
+    {
+      "evt": "SYSCALL_ENTRY",
+      "mapping_end": "0x0000000000081000",
+      "mapping_path": "/tmp/rvmt_official/official_image_probe",
+      "mapping_perms": "r-xp",
+      "mapping_start": "0x0000000000010000",
+      "pc": "0x000000000001e10c",
+      "provenance": "hardware_pc_joined_to_runtime_proc_maps",
+      "sequence_number": 3
+    },
+    {
+      "evt": "MARKER",
+      "mapping_end": "0x0000000000081000",
+      "mapping_path": "/tmp/rvmt_official/official_image_probe",
+      "mapping_perms": "r-xp",
+      "mapping_start": "0x0000000000010000",
+      "pc": "0x000000000001ec0c",
+      "provenance": "hardware_pc_joined_to_runtime_proc_maps",
+      "sequence_number": 36
+    }
+  ],
+  "pid": 3194,
+  "run_root": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map",
+  "runtime_maps": {
+    "entries": [
+      {
+        "end": 528384,
+        "end_hex": "0x0000000000081000",
+        "offset": "00000000",
+        "path": "/tmp/rvmt_official/official_image_probe",
+        "perms": "r-xp",
+        "raw": "00010000-00081000 r-xp 00000000 00:10 28                                 /tmp/rvmt_official/official_image_probe",
+        "start": 65536,
+        "start_hex": "0x0000000000010000"
+      },
+      {
+        "end": 544768,
+        "end_hex": "0x0000000000085000",
+        "offset": "00071000",
+        "path": "/tmp/rvmt_official/official_image_probe",
+        "perms": "r--p",
+        "raw": "00081000-00085000 r--p 00071000 00:10 28                                 /tmp/rvmt_official/official_image_probe",
+        "start": 528384,
+        "start_hex": "0x0000000000081000"
+      },
+      {
+        "end": 552960,
+        "end_hex": "0x0000000000087000",
+        "offset": "00075000",
+        "path": "/tmp/rvmt_official/official_image_probe",
+        "perms": "rw-p",
+        "raw": "00085000-00087000 rw-p 00075000 00:10 28                                 /tmp/rvmt_official/official_image_probe",
+        "start": 544768,
+        "start_hex": "0x0000000000085000"
+      },
+      {
+        "end": 577536,
+        "end_hex": "0x000000000008d000",
+        "offset": "00000000",
+        "path": "",
+        "perms": "rw-p",
+        "raw": "00087000-0008d000 rw-p 00000000 00:00 0",
+        "start": 552960,
+        "start_hex": "0x0000000000087000"
+      },
+      {
+        "end": 716800,
+        "end_hex": "0x00000000000af000",
+        "offset": "00000000",
+        "path": "[heap]",
+        "perms": "rw-p",
+        "raw": "0008d000-000af000 rw-p 00000000 00:00 0                                  [heap]",
+        "start": 577536,
+        "start_hex": "0x000000000008d000"
+      },
+      {
+        "end": 273309425664,
+        "end_hex": "0x0000003fa282e000",
+        "offset": "00000000",
+        "path": "[vvar]",
+        "perms": "r--p",
+        "raw": "3fa282a000-3fa282e000 r--p 00000000 00:00 0                              [vvar]",
+        "start": 273309409280,
+        "start_hex": "0x0000003fa282a000"
+      },
+      {
+        "end": 273309433856,
+        "end_hex": "0x0000003fa2830000",
+        "offset": "00000000",
+        "path": "[vdso]",
+        "perms": "r-xp",
+        "raw": "3fa282e000-3fa2830000 r-xp 00000000 00:00 0                              [vdso]",
+        "start": 273309425664,
+        "start_hex": "0x0000003fa282e000"
+      },
+      {
+        "end": 273839656960,
+        "end_hex": "0x0000003fc21d9000",
+        "offset": "00000000",
+        "path": "[stack]",
+        "perms": "rw-p",
+        "raw": "3fc21b8000-3fc21d9000 rw-p 00000000 00:00 0                              [stack]",
+        "start": 273839521792,
+        "start_hex": "0x0000003fc21b8000"
+      }
+    ],
+    "entry_count": 8,
+    "executable_entry_count": 2
+  },
+  "schema": "rvmt.genesys2.official_image_runtime_map.v1",
+  "sequence_gap_count": 0,
+  "status": "PASS",
+  "target": "/tmp/rvmt_official/official_image_probe",
+  "uart_done": {
+    "pid": 3194,
+    "rc": 0,
+    "ready": 1
+  }
+}

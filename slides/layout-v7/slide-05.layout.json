@@ -1,0 +1,860 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/mmcthz",
+    "id": "mmcthz",
+    "slide": 5,
+    "layoutId": "cc4f3dd5-7978-437e-a525-a7699366b2b7",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "2122b03d-c09d-4d5d-af01-2596891346ab",
+    "masterLayoutName": "Master",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "ChatGPT",
+    "colors": {
+      "accent1": "#156082",
+      "accent2": "#E97132",
+      "accent3": "#196B24",
+      "accent4": "#0F9ED5",
+      "accent5": "#A02B93",
+      "accent6": "#4EA72E",
+      "bg1": "#FFFFFF",
+      "bg2": "#000000",
+      "tx1": "#1F1F1F",
+      "tx2": "#FFFFFF",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#0E2841",
+      "lt2": "#E8E8E8",
+      "hlink": "#467886",
+      "folHlink": "#96607D"
+    },
+    "typefaces": [
+      "Cascadia Mono",
+      "Microsoft YaHei UI"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "cc4f3dd5-7978-437e-a525-a7699366b2b7",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "2122b03d-c09d-4d5d-af01-2596891346ab",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "2122b03d-c09d-4d5d-af01-2596891346ab",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/nqxs72x4",
+      "id": "1",
+      "bbox": [
+        0,
+        0,
+        1280,
+        720
+      ],
+      "geometry": "rect",
+      "fillColor": "#FFFFFF",
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/cbulwval",
+      "id": "2",
+      "bbox": [
+        0,
+        0,
+        18,
+        720
+      ],
+      "geometry": "rect",
+      "fillColor": "#0057FF",
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/5sneloj2",
+      "id": "3",
+      "bbox": [
+        72,
+        40,
+        420,
+        24
+      ],
+      "geometry": "rect",
+      "text": "CURRENT CONCLUSION",
+      "textPreview": "CURRENT CONCLUSION",
+      "resolvedFontSize": 13,
+      "resolvedTextStyle": {
+        "fontSize": 13,
+        "typeface": "Cascadia Mono",
+        "color": "#0057FF",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "CURRENT CONCLUSION"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "CURRENT CONCLUSION",
+          "resolvedTextStyle": {
+            "fontSize": 13,
+            "typeface": "Cascadia Mono",
+            "color": "#0057FF",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "CURRENT CONCLUSION",
+              "fontSize": 13,
+              "typeface": "Cascadia Mono",
+              "color": "#0057FF",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/ytsvu9kn",
+      "id": "4",
+      "bbox": [
+        1160,
+        40,
+        56,
+        24
+      ],
+      "geometry": "rect",
+      "text": "05",
+      "textPreview": "05",
+      "resolvedFontSize": 13,
+      "resolvedTextStyle": {
+        "fontSize": 13,
+        "typeface": "Cascadia Mono",
+        "color": "#68717D",
+        "bold": true,
+        "alignment": "right",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "05"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "05",
+          "resolvedTextStyle": {
+            "fontSize": 13,
+            "typeface": "Cascadia Mono",
+            "color": "#68717D",
+            "bold": true,
+            "alignment": "right"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "05",
+              "fontSize": 13,
+              "typeface": "Cascadia Mono",
+              "color": "#68717D",
+              "bold": true,
+              "alignment": "right"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/neloj2t8",
+      "id": "5",
+      "bbox": [
+        72,
+        86,
+        1040,
+        58
+      ],
+      "geometry": "rect",
+      "text": "What is the current core conclusion?",
+      "textPreview": "What is the current core conclusion?",
+      "resolvedFontSize": 34,
+      "resolvedTextStyle": {
+        "fontSize": 34,
+        "typeface": "Microsoft YaHei UI",
+        "color": "#111418",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "What is the current core conclusion?"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "What is the current core conclusion?",
+          "resolvedTextStyle": {
+            "fontSize": 34,
+            "typeface": "Microsoft YaHei UI",
+            "color": "#111418",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "What is the current core conclusion?",
+              "fontSize": 34,
+              "typeface": "Microsoft YaHei UI",
+              "color": "#111418",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/czed8v6p",
+      "id": "6",
+      "bbox": [
+        72,
+        176,
+        58,
+        4
+      ],
+      "geometry": "rect",
+      "fillColor": "#0057FF",
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/5kb6xkf6",
+      "id": "7",
+      "bbox": [
+        160,
+        158,
+        925,
+        58
+      ],
+      "geometry": "rect",
+      "text": "RV-MalTrace supports controlled behavior reconstruction, not detector accuracy.",
+      "textPreview": "RV-MalTrace supports controlled behavior reconstruction, not detector accuracy.",
+      "resolvedFontSize": 21,
+      "resolvedTextStyle": {
+        "fontSize": 21,
+        "typeface": "Microsoft YaHei UI",
+        "color": "#242A31",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "RV-MalTrace supports controlled behavior reconstruction, not detector accuracy."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "RV-MalTrace supports controlled behavior reconstruction, not detector accuracy.",
+          "resolvedTextStyle": {
+            "fontSize": 21,
+            "typeface": "Microsoft YaHei UI",
+            "color": "#242A31",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "RV-MalTrace supports controlled behavior reconstruction, not detector accuracy.",
+              "fontSize": 21,
+              "typeface": "Microsoft YaHei UI",
+              "color": "#242A31",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/yhgn29gr",
+      "id": "8",
+      "bbox": [
+        105,
+        250,
+        1070,
+        120
+      ],
+      "geometry": "rect",
+      "fillColor": "#EAF1FF",
+      "lineColor": "#0057FF",
+      "lineWidth": 2
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/n29gr2p8",
+      "id": "9",
+      "bbox": [
+        138,
+        275,
+        270,
+        24
+      ],
+      "geometry": "rect",
+      "text": "Current conclusion",
+      "textPreview": "Current conclusion",
+      "resolvedFontSize": 16,
+      "resolvedTextStyle": {
+        "fontSize": 16,
+        "typeface": "Cascadia Mono",
+        "color": "#0057FF",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Current conclusion"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Current conclusion",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "Cascadia Mono",
+            "color": "#0057FF",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Current conclusion",
+              "fontSize": 16,
+              "typeface": "Cascadia Mono",
+              "color": "#0057FF",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 10,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/fyxobm58",
+      "id": "10",
+      "bbox": [
+        138,
+        315,
+        980,
+        42
+      ],
+      "geometry": "rect",
+      "text": "For controlled RISC-V Linux workloads, RV-MalTrace can reconstruct behavior summaries from CVA6 trace records while labeling supporting evidence sources.",
+      "textPreview": "For controlled RISC-V Linux workloads, RV-MalTrace can reconstruct behavior summaries from CVA6 trace records while labeling supporting e...",
+      "resolvedFontSize": 25,
+      "resolvedTextStyle": {
+        "fontSize": 25,
+        "typeface": "Microsoft YaHei UI",
+        "color": "#111418",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 3,
+        "lines": [
+          {
+            "index": 1,
+            "text": "For controlled RISC-V Linux workloads, RV-MalTrace can reconstruct"
+          },
+          {
+            "index": 2,
+            "text": "behavior summaries from CVA6 trace records while labeling supporting"
+          },
+          {
+            "index": 3,
+            "text": "evidence sources."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "For controlled RISC-V Linux workloads, RV-MalTrace can reconstruct behavior summaries from CVA6 trace records while labeling supporting evidence sources.",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "Microsoft YaHei UI",
+            "color": "#111418",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "For controlled RISC-V Linux workloads, RV-MalTrace can reconstruct behavior summaries from CVA6 trace records while labeling supporting evidence sources.",
+              "fontSize": 25,
+              "typeface": "Microsoft YaHei UI",
+              "color": "#111418",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 11,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/qd4vmtwr",
+      "id": "11",
+      "bbox": [
+        125,
+        430,
+        145,
+        32
+      ],
+      "geometry": "rect",
+      "fillColor": "#12783A",
+      "lineWidth": 0
+    },
+    {
+      "order": 12,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/x4nap4r6",
+      "id": "12",
+      "bbox": [
+        125,
+        437,
+        145,
+        16
+      ],
+      "geometry": "rect",
+      "text": "SUPPORTED",
+      "textPreview": "SUPPORTED",
+      "resolvedFontSize": 11.51,
+      "resolvedTextStyle": {
+        "fontSize": 11.51,
+        "typeface": "Cascadia Mono",
+        "color": "#FFFFFF",
+        "bold": true,
+        "alignment": "center",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "SUPPORTED"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "SUPPORTED",
+          "resolvedTextStyle": {
+            "fontSize": 11.51,
+            "typeface": "Cascadia Mono",
+            "color": "#FFFFFF",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "SUPPORTED",
+              "fontSize": 11.51,
+              "typeface": "Cascadia Mono",
+              "color": "#FFFFFF",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 13,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/8jqh0fep",
+      "id": "13",
+      "bbox": [
+        320,
+        428,
+        840,
+        38
+      ],
+      "geometry": "rect",
+      "text": "trace ordering, syscall pairing, source labels, code attribution, reproducibility",
+      "textPreview": "trace ordering, syscall pairing, source labels, code attribution, reproducibility",
+      "resolvedFontSize": 22,
+      "resolvedTextStyle": {
+        "fontSize": 22,
+        "typeface": "Microsoft YaHei UI",
+        "color": "#111418",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "trace ordering, syscall pairing, source labels, code attribution,"
+          },
+          {
+            "index": 2,
+            "text": "reproducibility"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "trace ordering, syscall pairing, source labels, code attribution, reproducibility",
+          "resolvedTextStyle": {
+            "fontSize": 22,
+            "typeface": "Microsoft YaHei UI",
+            "color": "#111418",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "trace ordering, syscall pairing, source labels, code attribution, reproducibility",
+              "fontSize": 22,
+              "typeface": "Microsoft YaHei UI",
+              "color": "#111418",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 14,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/fa9w3m94",
+      "id": "14",
+      "bbox": [
+        125,
+        484,
+        900,
+        1
+      ],
+      "geometry": "rect",
+      "fillColor": "#D8DEE6",
+      "lineWidth": 0
+    },
+    {
+      "order": 15,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/qpg3ex0n",
+      "id": "15",
+      "bbox": [
+        125,
+        504,
+        145,
+        32
+      ],
+      "geometry": "rect",
+      "fillColor": "#B42318",
+      "lineWidth": 0
+    },
+    {
+      "order": 16,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/xczed8v6",
+      "id": "16",
+      "bbox": [
+        125,
+        511,
+        145,
+        16
+      ],
+      "geometry": "rect",
+      "text": "NOT CLAIMED",
+      "textPreview": "NOT CLAIMED",
+      "resolvedFontSize": 11.51,
+      "resolvedTextStyle": {
+        "fontSize": 11.51,
+        "typeface": "Cascadia Mono",
+        "color": "#FFFFFF",
+        "bold": true,
+        "alignment": "center",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "NOT CLAIMED"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "NOT CLAIMED",
+          "resolvedTextStyle": {
+            "fontSize": 11.51,
+            "typeface": "Cascadia Mono",
+            "color": "#FFFFFF",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "NOT CLAIMED",
+              "fontSize": 11.51,
+              "typeface": "Cascadia Mono",
+              "color": "#FFFFFF",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 17,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/8v6psfil",
+      "id": "17",
+      "bbox": [
+        320,
+        502,
+        840,
+        38
+      ],
+      "geometry": "rect",
+      "text": "real-malware accuracy, payload equivalence, production throughput, cycle overhead",
+      "textPreview": "real-malware accuracy, payload equivalence, production throughput, cycle overhead",
+      "resolvedFontSize": 22,
+      "resolvedTextStyle": {
+        "fontSize": 22,
+        "typeface": "Microsoft YaHei UI",
+        "color": "#111418",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "real-malware accuracy, payload equivalence, production throughput,"
+          },
+          {
+            "index": 2,
+            "text": "cycle overhead"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "real-malware accuracy, payload equivalence, production throughput, cycle overhead",
+          "resolvedTextStyle": {
+            "fontSize": 22,
+            "typeface": "Microsoft YaHei UI",
+            "color": "#111418",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "real-malware accuracy, payload equivalence, production throughput, cycle overhead",
+              "fontSize": 22,
+              "typeface": "Microsoft YaHei UI",
+              "color": "#111418",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 18,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/je9cvixc",
+      "id": "18",
+      "bbox": [
+        125,
+        558,
+        900,
+        1
+      ],
+      "geometry": "rect",
+      "fillColor": "#D8DEE6",
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

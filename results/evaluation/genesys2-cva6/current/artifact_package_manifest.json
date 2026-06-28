@@ -66,24 +66,24 @@
       "git_publishable": true,
       "path": "tools/check_suites.json",
       "role": "core_reproduction_file",
-      "sha256": "34a52f38d8c5e99f0f8035eb326da9c066c41176c1232cc60ff64d8b169445c9",
-      "size_bytes": 81915
+      "sha256": "2761ef129a1d0c2ad2965b856e6cb7ad1a6753a72ac394c361ca59fff37a7f39",
+      "size_bytes": 84453
     },
     {
       "exists": true,
       "git_publishable": true,
       "path": "tools/run_check_suite.py",
       "role": "core_reproduction_file",
-      "sha256": "0e47063f72275f602b3b2ee022fe6c08138572009fd25c5f64a3ab5b8563f635",
-      "size_bytes": 16176
+      "sha256": "997d7177d2596ca869b7b9416902d44870e9cd158c041e53605df5f7fdc93a3e",
+      "size_bytes": 16562
     },
     {
       "exists": true,
       "git_publishable": true,
       "path": "tools/reproduce_genesys2_current.py",
       "role": "core_reproduction_file",
-      "sha256": "6981062108eb61e8dbad0e2a5d098af043a2585d2e9ebf9a5046fefeb6a738e6",
-      "size_bytes": 6628
+      "sha256": "b48c6caa65e5f4213ee2e20ba64799104ea324681ef530be66551de17e6e5f3f",
+      "size_bytes": 7645
     },
     {
       "exists": true,
@@ -106,8 +106,8 @@
       "git_publishable": true,
       "path": "src/rv_maltrace/cli.py",
       "role": "core_reproduction_file",
-      "sha256": "844e84c147eb637be0ff3a59dcc7cfaf3145d3a18a4196508e23dc702a02e5e7",
-      "size_bytes": 177935
+      "sha256": "4c54be758d795fa72003d80ebfaf281572d65d3fa2411a7d44d44e7f97ee6e27",
+      "size_bytes": 180476
     },
     {
       "exists": true,
@@ -192,6 +192,142 @@
     {
       "exists": true,
       "git_publishable": true,
+      "path": "tools/official_image_evidence_common.py",
+      "role": "core_reproduction_file",
+      "sha256": "ec86e4f42bcb08a5859a5cecbe56c33624f23781c157e2b9e54d4d7136878581",
+      "size_bytes": 7583
+    },
+    {
+      "exists": true,
+      "git_publishable": true,
+      "path": "tools/build_genesys2_official_image_probe.py",
+      "role": "core_reproduction_file",
+      "sha256": "6e0999bb997a9124812852fd825fb50ec600642e8df3a9921f35aca556aa82d7",
+      "size_bytes": 6418
+    },
+    {
+      "exists": true,
+      "git_publishable": true,
+      "path": "tools/run_genesys2_official_image_capability_matrix.py",
+      "role": "core_reproduction_file",
+      "sha256": "17fcbcc6e211bfce93b6ff45e7497dbab1d8bfbc91c6c372358b757a4c923a3f",
+      "size_bytes": 6270
+    },
+    {
+      "exists": true,
+      "git_publishable": true,
+      "path": "tools/check_genesys2_official_image_capability_matrix.py",
+      "role": "core_reproduction_file",
+      "sha256": "c05034202d985d3e0a9e6dee648c65001022e1efb4e589b6fc10550662cf1d4b",
+      "size_bytes": 11868
+    },
+    {
+      "exists": true,
+      "git_publishable": true,
+      "path": "tools/run_genesys2_official_image_workloads.py",
+      "role": "core_reproduction_file",
+      "sha256": "832c1da1e18cc35f125107fafb0d545e39696b83b92e4a878f71ae79f5880b55",
+      "size_bytes": 9213
+    },
+    {
+      "exists": true,
+      "git_publishable": true,
+      "path": "tools/package_genesys2_official_image_workloads.py",
+      "role": "core_reproduction_file",
+      "sha256": "b93cf6c58a1eff2ec7cafbb340802f49634780315d139b00c69af3fb91da67a7",
+      "size_bytes": 12101
+    },
+    {
+      "exists": true,
+      "git_publishable": true,
+      "path": "tools/check_genesys2_official_image_workloads.py",
+      "role": "core_reproduction_file",
+      "sha256": "d1c6ae53df56c3989ce47935c032b095bbdf22f4bf21c00f9a64054eaa14ab9f",
+      "size_bytes": 9843
+    },
+    {
+      "exists": true,
+      "git_publishable": true,
+      "path": "tools/run_genesys2_official_image_runtime_map.py",
+      "role": "core_reproduction_file",
+      "sha256": "e91b274b7d288d67c88071159dc5aec7a934d51b067555f83492652130aab3ae",
+      "size_bytes": 13357
+    },
+    {
+      "exists": true,
+      "git_publishable": true,
+      "path": "tools/check_genesys2_official_image_runtime_map.py",
+      "role": "core_reproduction_file",
+      "sha256": "ac1755b7dbf756228e33e01c09b4f29d9e321972672fa0923ccff2dbd8326fd0",
+      "size_bytes": 6367
+    },
+    {
+      "exists": true,
+      "git_publishable": true,
+      "path": "tools/run_genesys2_fork_exec_ownership.py",
+      "role": "core_reproduction_file",
+      "sha256": "f49cb791cf1a9befe524547c0cd0711aa3fbfc46f6031028290fa6a3c6cfd446",
+      "size_bytes": 21717
+    },
+    {
+      "exists": true,
+      "git_publishable": true,
+      "path": "tools/check_genesys2_fork_exec_ownership.py",
+      "role": "core_reproduction_file",
+      "sha256": "fc71ab4291f51800d26fccc3e14e76accc92f3303c8ae6c1b919c5d2900dc227",
+      "size_bytes": 9519
+    },
+    {
+      "exists": true,
+      "git_publishable": true,
+      "path": "tools/run_genesys2_aslr_pie_probe.py",
+      "role": "core_reproduction_file",
+      "sha256": "ce80823fa32d3ff45bdfb6610bbc1f65532b6939cf079e23d5455a437269f1da",
+      "size_bytes": 14755
+    },
+    {
+      "exists": true,
+      "git_publishable": true,
+      "path": "tools/check_genesys2_aslr_pie_probe.py",
+      "role": "core_reproduction_file",
+      "sha256": "31128e9ca2b7e15221f1868e2adbcc5816397a8c2b9ebac05ba1510326483787",
+      "size_bytes": 5627
+    },
+    {
+      "exists": true,
+      "git_publishable": true,
+      "path": "tools/package_genesys2_board_repeatability.py",
+      "role": "core_reproduction_file",
+      "sha256": "80b3bbcfc3f242445438f2a15264790a419f83f1f6e4472794f55d948625c127",
+      "size_bytes": 7944
+    },
+    {
+      "exists": true,
+      "git_publishable": true,
+      "path": "tools/check_genesys2_board_repeatability.py",
+      "role": "core_reproduction_file",
+      "sha256": "b4b0eb9907f675d4a504c5674641ab18623ee0dce2f9d0d266ebdfeb08366f24",
+      "size_bytes": 5180
+    },
+    {
+      "exists": true,
+      "git_publishable": true,
+      "path": "tools/run_genesys2_hardware_oracle_differential.py",
+      "role": "core_reproduction_file",
+      "sha256": "e9fd63ba43fe0209a705ca00fb675e269c68638e6728a6dd140d9e513ab8c8ca",
+      "size_bytes": 9763
+    },
+    {
+      "exists": true,
+      "git_publishable": true,
+      "path": "tools/check_genesys2_hardware_oracle_differential.py",
+      "role": "core_reproduction_file",
+      "sha256": "d93031816d7664f305b8e19c5b977f3d8160bd3ad297010bf57ce7f59346a03b",
+      "size_bytes": 3927
+    },
+    {
+      "exists": true,
+      "git_publishable": true,
       "path": "tools/check_risk_log_current.py",
       "role": "core_reproduction_file",
       "sha256": "59ce831b6ed0b38c03d07feea483703d54b72fcb3001cf379d59c977dca4c3c5",
@@ -226,16 +362,16 @@
       "git_publishable": true,
       "path": "tools/package_genesys2_artifact_package.py",
       "role": "core_reproduction_file",
-      "sha256": "600e685ee97c27efcb97b7f61c8ec46f5de9efb665b37687e4cb2197ae46273b",
-      "size_bytes": 23276
+      "sha256": "88d8f2a5705ba15e1311c92e3db80d890dd5bb79a26b93f11427c34ab43c14bd",
+      "size_bytes": 24892
     },
     {
       "exists": true,
       "git_publishable": true,
       "path": "tools/check_genesys2_artifact_package.py",
       "role": "core_reproduction_file",
-      "sha256": "bd2e9971a72b0dbdb6b12b098e97bb66192744ccbe3e2fec2d1ca98ae3d5d1d1",
-      "size_bytes": 31887
+      "sha256": "9bd009239f271d845de03f8e7db60a2b160f40b90b2306a9174e401131a288b8",
+      "size_bytes": 33503
     },
     {
       "exists": true,
@@ -290,16 +426,16 @@
       "git_publishable": true,
       "path": "tools/package_genesys2_reproducibility_manifest.py",
       "role": "core_reproduction_file",
-      "sha256": "d6b9d6eb2bf2fcefcc13eaf0fc9e10eec8393fafb06cfdbb06e698fd279e65be",
-      "size_bytes": 36992
+      "sha256": "4d84300bef7601c983b2eb67cfea857e183fd61907ce4d525b0dcc0dd8e5ac99",
+      "size_bytes": 38839
     },
     {
       "exists": true,
       "git_publishable": true,
       "path": "tools/check_genesys2_reproducibility_manifest.py",
       "role": "core_reproduction_file",
-      "sha256": "8f4a1abafe2b6a4fbe9aa4f077ba96553408ceddf768e47cb6184a2e9e9dfc52",
-      "size_bytes": 26922
+      "sha256": "c9119282a459f8dc8e38f73b16a63dcf2879f04915e36d6df2b2df77320576ab",
+      "size_bytes": 30992
     },
     {
       "exists": true,
@@ -546,8 +682,8 @@
       "git_publishable": true,
       "path": "tools/package_genesys2_trace_marker_programming.py",
       "role": "core_reproduction_file",
-      "sha256": "f4f9688a14a44d234896ae85ecf61b4fa5cae45822e39c444ddc92d3bcc427ed",
-      "size_bytes": 11873
+      "sha256": "2f5735c116a130ef3d20e151d91f2f64af4fd1e192a5f7c970db9b9380740d1b",
+      "size_bytes": 12033
     },
     {
       "exists": true,
@@ -778,8 +914,8 @@
       "git_publishable": true,
       "path": "tools/check_genesys2_bitstream_artifacts.py",
       "role": "core_reproduction_file",
-      "sha256": "90ff1438da8b05c79c9df9075dd4bd00a37bc38b2416cbd84d4fbb89d0f6127c",
-      "size_bytes": 24156
+      "sha256": "5871ba62ccb17a4fa1eccf9fea88d5dcd1066bdfdde17ded1dc3aa8cec15e616",
+      "size_bytes": 29178
     },
     {
       "exists": true,
@@ -984,6 +1120,14 @@
     {
       "exists": true,
       "git_publishable": true,
+      "path": "board/trace_validation/programs/official_image_probe.c",
+      "role": "core_reproduction_file",
+      "sha256": "9646a2c696e018221a75d5a070452430d1f500e0471b0ba17a898d914cc1712e",
+      "size_bytes": 10807
+    },
+    {
+      "exists": true,
+      "git_publishable": true,
       "path": "docs/06-validation-gates/fuzz_trace_validation.md",
       "role": "core_reproduction_file",
       "sha256": "5cbd2d07a9757b84d5b10684bd94cae3ab769a2efc3fba5b4c1a8c9d00976bf3",
@@ -1066,8 +1210,8 @@
       "git_publishable": true,
       "path": "docs/10-process/check_suites.md",
       "role": "core_reproduction_file",
-      "sha256": "af491b70463ec4ef37bc1be02ad65f5834d1fa4ff91710688f7305db2e239494",
-      "size_bytes": 36941
+      "sha256": "c0fa8d0ac8876b4824c43d695e5f3234a2f3ddc1106cdf9fa86f42af2a080f31",
+      "size_bytes": 37568
     },
     {
       "exists": true,
@@ -1082,7 +1226,7 @@
       "git_publishable": true,
       "path": "docs/07-evaluation-evidence/ndss_artifact_instructions.md",
       "role": "core_reproduction_file",
-      "sha256": "0a4b72da26457c4aeeeb41c3c4b95ea72480ee307db9dfc81afd855090ae1583",
+      "sha256": "69556f5685db1411a139e2b537a0b63b4aa50480b6ff56c2e4bdcd1a9a518634",
       "size_bytes": 8651
     },
     {
@@ -1130,7 +1274,7 @@
       "git_publishable": true,
       "path": "docs/09-planning/ndss_execution_status.md",
       "role": "core_reproduction_file",
-      "sha256": "22576361aa9ee38b6802706529ad27e42cb86464877dfe404528df938c905884",
+      "sha256": "92a5290a766f30d16b71e6e99f67cbbe8814944a747d6dc900b196fe5edd1733",
       "size_bytes": 11535
     },
     {
@@ -1154,32 +1298,32 @@
       "git_publishable": true,
       "path": "results/evaluation/genesys2-cva6/current/cycle_source_diagnostics_summary.json",
       "role": "core_reproduction_file",
-      "sha256": "83d7cc84959d1e5ba8d5c31e1b84f6dc3afbd4655f15ccc0d32b2236711e4c90",
-      "size_bytes": 9388
+      "sha256": "ce513752063768b70f49534446ae8f1447192e37591fe4c7a1f1fe611040bcd5",
+      "size_bytes": 8992
     },
     {
       "exists": true,
       "git_publishable": true,
       "path": "results/evaluation/genesys2-cva6/current/counter_access_matrix_summary.json",
       "role": "core_reproduction_file",
-      "sha256": "40a34e994007c9324bd2ae1ab5ceeb07d7cf4399b879c80590f5687f7cb4391c",
-      "size_bytes": 6141
+      "sha256": "bf19844a1ebc4253362e1b0b08221af185113c769be5a40e7c85fe3da5aff11e",
+      "size_bytes": 6188
     },
     {
       "exists": true,
       "git_publishable": true,
       "path": "results/evaluation/genesys2-cva6/current/sdcard_linux_manifest.json",
       "role": "core_reproduction_file",
-      "sha256": "0cdc91ef385678b56a9b6994116392ae5dc008dee8eb8b3bf4f5b87db506ee22",
-      "size_bytes": 10439
+      "sha256": "4027bdebad5c4754a931ae6f31770e546ba9416848afc320f1e7c016fe4e315d",
+      "size_bytes": 10291
     },
     {
       "exists": true,
       "git_publishable": true,
       "path": "results/evaluation/genesys2-cva6/current/live_kernel_config_export_summary.json",
       "role": "core_reproduction_file",
-      "sha256": "0bd5c480cce0342c989d3f3595b8920ed501d35f2811ca01b8b1b85cf73ebfa7",
-      "size_bytes": 2465
+      "sha256": "dfd192c560ae8dd8df8d419be2d8bbf427b144304bd5c3a7ca476089cfefe807",
+      "size_bytes": 2487
     },
     {
       "exists": true,
@@ -1226,15 +1370,15 @@
       "git_publishable": true,
       "path": "results/evaluation/genesys2-cva6/current/trace_marker_programming_summary.json",
       "role": "core_reproduction_file",
-      "sha256": "fe1a50281b944486b4c39b9e03cd870e92cd81915061b35a0151ea6273511d03",
-      "size_bytes": 3725
+      "sha256": "f8bd28dd3aded85fd58529d3002a6833357df046d2ea4eb2689b0e9dcd5a6910",
+      "size_bytes": 3736
     },
     {
       "exists": true,
       "git_publishable": true,
       "path": "results/evaluation/genesys2-cva6/current/trace_marker_programming.log",
       "role": "core_reproduction_file",
-      "sha256": "ad9395078cacd6aae737b0cf5254385628ffff31fd0f9e68925f8661bdb04bb4",
+      "sha256": "bdc4a75d097abf27ed5e516908ba6c465bbdd09b3bd8539ce9c7bad34fc55497",
       "size_bytes": 7384
     },
     {
@@ -1242,7 +1386,7 @@
       "git_publishable": true,
       "path": "results/evaluation/genesys2-cva6/current/strict_sret_board_smoke_summary.json",
       "role": "core_reproduction_file",
-      "sha256": "0a2f845601e4ce01f9dfc81ef3cd90458c40f1df8413e754584e4a669c2ab788",
+      "sha256": "247b71969d6a694a54752ca2d3b38c7eac0d2dda384813339de5fdd7e7c959da",
       "size_bytes": 8213
     },
     {
@@ -1250,8 +1394,64 @@
       "git_publishable": true,
       "path": "results/evaluation/genesys2-cva6/current/linux_counter_path_preflight.json",
       "role": "core_reproduction_file",
-      "sha256": "53afed6da96c60d8b3194c298b2163683c742fe1ff138c7f8564713ce8b5d2dc",
+      "sha256": "8637a8caf2cf0824143ea47dc5e0247a8f030666acefa857f688e66b4391d933",
       "size_bytes": 34052
+    },
+    {
+      "exists": true,
+      "git_publishable": true,
+      "path": "results/evaluation/genesys2-cva6/current/official_image_capability_matrix.json",
+      "role": "core_reproduction_file",
+      "sha256": "b6122e891ba2bfe5dacfa559ff82513ade885865e34b7d7f4846aedefc3b797a",
+      "size_bytes": 9004
+    },
+    {
+      "exists": true,
+      "git_publishable": true,
+      "path": "results/evaluation/genesys2-cva6/current/official_image_workload_summary.json",
+      "role": "core_reproduction_file",
+      "sha256": "5b2888363b051045f6f83ebbff2b09345d7f39f95b1ad6580633c74fc9fa6f6b",
+      "size_bytes": 30181
+    },
+    {
+      "exists": true,
+      "git_publishable": true,
+      "path": "results/evaluation/genesys2-cva6/current/official_image_runtime_map_summary.json",
+      "role": "core_reproduction_file",
+      "sha256": "b4d28cb69e1b423f778ac78d8080d7efac6fc36c2bcb11b64f97a259cb2fd95f",
+      "size_bytes": 10491
+    },
+    {
+      "exists": true,
+      "git_publishable": true,
+      "path": "results/evaluation/genesys2-cva6/current/official_image_fork_exec_ownership_summary.json",
+      "role": "core_reproduction_file",
+      "sha256": "1a61f5acd08b64f2149621715035dd4ae673f98f7f961b5966f14df9ca1ead41",
+      "size_bytes": 8012
+    },
+    {
+      "exists": true,
+      "git_publishable": true,
+      "path": "results/evaluation/genesys2-cva6/current/official_image_aslr_pie_summary.json",
+      "role": "core_reproduction_file",
+      "sha256": "6a2176deea056fa81f54d84fa18a6d321f1dda897891ce51f83a5a269036792b",
+      "size_bytes": 15524
+    },
+    {
+      "exists": true,
+      "git_publishable": true,
+      "path": "results/evaluation/genesys2-cva6/current/official_image_repeatability_summary.json",
+      "role": "core_reproduction_file",
+      "sha256": "c0580c4c4c3c1c26fc29a272a75577124a13177676fce0e1543ccb31d51a1785",
+      "size_bytes": 5298
+    },
+    {
+      "exists": true,
+      "git_publishable": true,
+      "path": "results/evaluation/genesys2-cva6/current/official_image_hardware_oracle_differential_summary.json",
+      "role": "core_reproduction_file",
+      "sha256": "2376aace31d00f6ad194c2e712d54bd41c0c7eb1fecea49ae84211e58e49bbb1",
+      "size_bytes": 3858
     },
     {
       "exists": true,
@@ -1274,16 +1474,16 @@
       "git_publishable": true,
       "path": "results/evaluation/genesys2-cva6/current/raw_artifact_release_manifest.json",
       "role": "raw_artifact_release_manifest",
-      "sha256": "c6834c679c6a4a231ec2ba08e107e6850cfccfddf9d65657ce8aa2738d254c14",
-      "size_bytes": 992545
+      "sha256": "d0615036848c355de68940191e286c26d5592a5aa9b95965b6f76255e196b9a6",
+      "size_bytes": 1057599
     },
     {
       "exists": true,
       "git_publishable": true,
       "path": "results/evaluation/genesys2-cva6/current/latest_manifest.json",
       "role": "summary_artifact",
-      "sha256": "846e88d475daef7742eff39ba309efca793edde488580d36f6a99253c580abe5",
-      "size_bytes": 2265
+      "sha256": "3d9cdc6b6917118ebdcba5b738b0ee432b4af8cbdb1f3031d5e917c145e78d4e",
+      "size_bytes": 2284
     },
     {
       "exists": true,
@@ -1298,47 +1498,47 @@
       "git_publishable": true,
       "path": "results/evaluation/genesys2-cva6/current/safe_surrogate_bram_trace_summary.json",
       "role": "summary_artifact",
-      "sha256": "e7d6e50242c60b6a5b2e82af5af2826ac291b3049bc850a1e83a5b66feee7f11",
-      "size_bytes": 276000
+      "sha256": "c83b356250e13d73d8df3d21c218a6bdcfe39facff76218b837470f6c7f6dbfe",
+      "size_bytes": 275990
     },
     {
       "exists": true,
       "git_publishable": true,
       "path": "results/evaluation/genesys2-cva6/current/p0_bram_trace_summary.json",
       "role": "summary_artifact",
-      "sha256": "3c1b66e153d9fdf713206a622dcb562c2dec0a47bc711457220deb754eb25ebe",
-      "size_bytes": 288960
+      "sha256": "4d8f6c55fc78f62e42481ae6d6a866920c6f712b73c7553836177f6d85e739ac",
+      "size_bytes": 457510
     },
     {
       "exists": true,
       "git_publishable": true,
       "path": "results/evaluation/genesys2-cva6/current/drop_accounting_summary.json",
       "role": "summary_artifact",
-      "sha256": "34f52238f8fa442750dc9e019568687118b0a41f338352e4c621f674b2278ba4",
-      "size_bytes": 156850
+      "sha256": "0fdd718cbd091abac3e4d26436b7fed3510d4e5d778e59e370d6d4e5c05debbe",
+      "size_bytes": 182388
     },
     {
       "exists": true,
       "git_publishable": true,
       "path": "results/evaluation/genesys2-cva6/current/statistical_robustness_summary.json",
       "role": "summary_artifact",
-      "sha256": "54dd9aca62a6490c3bbc917517558f6d52296af2b49775cf6fb3f52b2b47fe3f",
-      "size_bytes": 17612
+      "sha256": "d4e45eb45d62cb6adcd7c5d73df07cfd12bd54dadd2e67d97c9fa41bb04a830a",
+      "size_bytes": 27890
     },
     {
       "exists": true,
       "git_publishable": true,
       "path": "results/evaluation/genesys2-cva6/current/streaming_dma_target_summary.json",
       "role": "summary_artifact",
-      "sha256": "068cce61ea6c5413a24c6ae0c52c616dcedb22305e56d15e125d00084bda8f0c",
-      "size_bytes": 97590
+      "sha256": "2cf7edb7679ff329e3a10ccfe35f3fbfd47443583ff6e6c3fe23fb59fd5956fa",
+      "size_bytes": 101741
     },
     {
       "exists": true,
       "git_publishable": true,
       "path": "results/evaluation/genesys2-cva6/current/streaming_dma_readiness_summary.json",
       "role": "summary_artifact",
-      "sha256": "6e449b82930d43e435e32954159fa6a0b9e689bf1bd2c6b577282d3b2828fe57",
+      "sha256": "16a8cd7477b6d28b5fe2cbbb50e49056f3d65869c289d106aaed41d29ded7bd7",
       "size_bytes": 7371
     },
     {
@@ -1378,7 +1578,7 @@
       "git_publishable": true,
       "path": "results/evaluation/genesys2-cva6/current/board_benign_readiness_summary.json",
       "role": "summary_artifact",
-      "sha256": "ca8afc3c50089562b0cbe0185346bb1a0a332ed1d01e309fb4c0a6d3c3311246",
+      "sha256": "45396192c4538c472200f0ffdf9d5d9e7f98b0b4471586cc5a4dc686d494916e",
       "size_bytes": 17376
     },
     {
@@ -1450,7 +1650,7 @@
       "git_publishable": true,
       "path": "results/evaluation/genesys2-cva6/current/external_closure_readiness.json",
       "role": "summary_artifact",
-      "sha256": "eecf2992c3fed3658943ef444a9c07d8bebd2371e0756d200109d5b3f2932e38",
+      "sha256": "6cac89807f46ac824eb7ff760d893d87e16f843c4403bcfc9e437c4cd62be009",
       "size_bytes": 22329
     },
     {
@@ -1466,7 +1666,7 @@
       "git_publishable": true,
       "path": "results/evaluation/genesys2-cva6/current/external_closure_plan.json",
       "role": "summary_artifact",
-      "sha256": "d0768119e020be185ecbebf776f0da70ab8904fa361c38397d080390b8c96f28",
+      "sha256": "f030e693c9d92cd3b7f74b16edb8a6176e01070c601ca6e772e9fbc50d19ec87",
       "size_bytes": 42724
     },
     {
@@ -1474,7 +1674,7 @@
       "git_publishable": true,
       "path": "results/evaluation/genesys2-cva6/current/external_closure_preflight.json",
       "role": "summary_artifact",
-      "sha256": "495f9f332b0f6dbe061c8e694b5749b7ee663cba5abf2936c9f3d651431e942c",
+      "sha256": "02ba65bd3a9619eae7df62292e0223a40b03ae3e6164c5bf4490ad583388d376",
       "size_bytes": 33353
     },
     {
@@ -1482,7 +1682,7 @@
       "git_publishable": true,
       "path": "results/evaluation/genesys2-cva6/current/external_operator_packet.json",
       "role": "summary_artifact",
-      "sha256": "0d5b7d1a901454418486e835240b51f01a2eaed81abbe00f94c762a5c7063c30",
+      "sha256": "4d6ed1f2e7687e14aab6f7cab8f8892aa4262bb63c8785bf0190e5cc9ad7a1f5",
       "size_bytes": 30450
     },
     {
@@ -1554,8 +1754,8 @@
       "git_publishable": true,
       "path": "results/evaluation/genesys2-cva6/current/dynamic_mapping_attribution_summary.json",
       "role": "summary_artifact",
-      "sha256": "7b9427c85a9b6d71a8933153b1ce77d86d45a17399bdd6c5a457fcfa0c4fabdc",
-      "size_bytes": 2660
+      "sha256": "07621ad1feda69742a454f23a434fa2c8ca45e54f0e4d3c9d557b119735a72dc",
+      "size_bytes": 2125
     },
     {
       "exists": true,
@@ -1594,8 +1794,8 @@
       "git_publishable": true,
       "path": "results/evaluation/genesys2-cva6/current/review_closure_audit.json",
       "role": "summary_artifact",
-      "sha256": "ced7e5bba0f70ea1f62a76b30307af9565bf8772b08820c4207ef91ee417584a",
-      "size_bytes": 38255
+      "sha256": "7ab2afa84b41fa8c3d24e7af775b8645122d2eb6bd8b3a4034068783d31a512e",
+      "size_bytes": 38224
     },
     {
       "exists": true,
@@ -1618,16 +1818,16 @@
       "git_publishable": true,
       "path": "docs/07-evaluation-evidence/reports/ccfa_readiness_matrix.md",
       "role": "paper_facing_report",
-      "sha256": "177bf9d26ea3b9ec0aed774f590d96a112ba7acd78e77f8bc53bdab3a849f9b6",
-      "size_bytes": 38811
+      "sha256": "60ca0f3a4ecc36c4d8007ded731b45354a19a360358b558528177eff205064bf",
+      "size_bytes": 39310
     },
     {
       "exists": true,
       "git_publishable": true,
       "path": "docs/07-evaluation-evidence/reports/ccfa_next_closure_plan.md",
       "role": "paper_facing_report",
-      "sha256": "45c9cfe49435f241c583fc1c9e558163044b1b03f7190c30be9ce4186f222e87",
-      "size_bytes": 21664
+      "sha256": "9321c1cc98783132cb9d7b97f131e82288ba6f3504d7677c951b5b2ecc3447ad",
+      "size_bytes": 22104
     },
     {
       "exists": true,
@@ -1658,8 +1858,8 @@
       "git_publishable": true,
       "path": "results/evaluation/genesys2-cva6/current/reproducibility_manifest.json",
       "role": "referenced_file",
-      "sha256": "e73f4135f9bfca8be9222d9e9816e01b48fcd0d0736a5a5c635cef1b58cf7289",
-      "size_bytes": 41476
+      "sha256": "fb5f7706bfb091876418c734b0baa2fd42445f97324a3e9d0b4a470c428e5c64",
+      "size_bytes": 44489
     }
   ],
   "non_claims": [
@@ -1672,26 +1872,26 @@
   ],
   "package_kind": "lightweight-current-evidence-manifest",
   "raw_artifact_release": {
-    "archive_file_count": 3160,
+    "archive_file_count": 3356,
     "archive_path": "build/ndss_artifacts/rv-maltrace-genesys2-cva6-current-raw-artifacts.zip",
-    "archive_sha256": "d5b806db53bc86d03fb247095160bbcc7005893498af6c31d3bef6f12038433b",
-    "archive_size_bytes": 316917413,
+    "archive_sha256": "57f48d6e269598268508d3e5a35c940a14aafdcf151b23fa4ace97188b22f611",
+    "archive_size_bytes": 323142849,
     "external_release_asset_published": false,
     "manifest": "results/evaluation/genesys2-cva6/current/raw_artifact_release_manifest.json",
     "manifest_exists": true,
-    "manifest_sha256": "c6834c679c6a4a231ec2ba08e107e6850cfccfddf9d65657ce8aa2738d254c14",
+    "manifest_sha256": "d0615036848c355de68940191e286c26d5592a5aa9b95965b6f76255e196b9a6",
     "status": "PASS_LOCAL_ARCHIVE_PRESENT"
   },
   "referenced_raw_artifact_roots": [
     {
       "exists": true,
       "file_counts": {
-        "bram_records": 46,
-        "capture_logs": 46,
-        "uart_logs": 46
+        "bram_records": 62,
+        "capture_logs": 62,
+        "uart_logs": 62
       },
       "id": "p0_bram_repetitions",
-      "path": "results/board/genesys2_trace_validation/20260624-current-p0-cohort",
+      "path": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret",
       "release_policy": "referenced-by-manifest; raw board artifacts are not copied into this lightweight package"
     },
     {

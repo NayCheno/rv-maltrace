@@ -46,6 +46,7 @@ TRACE_MARKER_SOURCE_HASH_FILES = {
     "rtl/cva6/corev_apu/fpga/xilinx/xlnx_ila/tcl/run.tcl": ("cva6", "corev_apu/fpga/xilinx/xlnx_ila/tcl/run.tcl"),
     "rtl/trace/trace_pkg.sv": ("repo", "rtl/trace/trace_pkg.sv"),
     "rtl/trace/trace_filter.sv": ("repo", "rtl/trace/trace_filter.sv"),
+    "rtl/trace/trace_board_minimal_ctrl.sv": ("repo", "rtl/trace/trace_board_minimal_ctrl.sv"),
     "rtl/trace/trace_bram_ring.sv": ("repo", "rtl/trace/trace_bram_ring.sv"),
     "rtl/trace/trace_uart_stream_sink.sv": ("repo", "rtl/trace/trace_uart_stream_sink.sv"),
     "rtl/trace/rvmt_genesys2_oled_status.sv": ("repo", "rtl/trace/rvmt_genesys2_oled_status.sv"),
@@ -115,18 +116,26 @@ TASK_ALIASES = {
     "bitstream:build": "bitstream:build",
     "bitstream:build-trace": "bitstream:build-trace",
     "bitstream:build-trace-marker": "bitstream:build-trace-marker",
+    "bitstream:build-trace-marker-syscall": "bitstream:build-trace-marker-syscall",
+    "bitstream:build-trace-syscall-marker": "bitstream:build-trace-marker-syscall",
     "bitstream:build-trace-source-lines": "bitstream:build-trace-source-lines",
     "bitstream:trace": "bitstream:build-trace",
     "bitstream:trace-marker": "bitstream:build-trace-marker",
+    "bitstream:trace-marker-syscall": "bitstream:build-trace-marker-syscall",
+    "bitstream:trace-syscall-marker": "bitstream:build-trace-marker-syscall",
     "bitstream:trace-source-lines": "bitstream:build-trace-source-lines",
     "bitstream:collect": "bitstream:collect",
     "fpga": "bitstream:build",
     "fpga:build": "bitstream:build",
     "fpga:build-trace": "bitstream:build-trace",
     "fpga:build-trace-marker": "bitstream:build-trace-marker",
+    "fpga:build-trace-marker-syscall": "bitstream:build-trace-marker-syscall",
+    "fpga:build-trace-syscall-marker": "bitstream:build-trace-marker-syscall",
     "fpga:build-trace-source-lines": "bitstream:build-trace-source-lines",
     "fpga:trace": "bitstream:build-trace",
     "fpga:trace-marker": "bitstream:build-trace-marker",
+    "fpga:trace-marker-syscall": "bitstream:build-trace-marker-syscall",
+    "fpga:trace-syscall-marker": "bitstream:build-trace-marker-syscall",
     "fpga:trace-source-lines": "bitstream:build-trace-source-lines",
     "vivado": "vivado:check",
     "vivado:check": "vivado:check",
@@ -278,6 +287,7 @@ DISPLAY_TASKS = [
     "bitstream:build",
     "bitstream:build-trace",
     "bitstream:build-trace-marker",
+    "bitstream:build-trace-marker-syscall",
     "bitstream:build-trace-source-lines",
     "bitstream:collect",
     "sim:trace-unit",
@@ -600,6 +610,7 @@ def write_trace_marker_build_manifest(
         "xilinx_board": xboard,
         "trace_enabled": "RV_MALTRACE_FPGA_TRACE" in verilog_defines,
         "trace_marker_scope": "RV_MALTRACE_FPGA_TRACE_MARKER_SCOPE" in verilog_defines,
+        "trace_syscall_marker_profile": "RV_MALTRACE_FPGA_TRACE_SYSCALL_MARKER_SCOPE" in verilog_defines,
         "trace_source_line_profile": "RV_MALTRACE_FPGA_TRACE_SOURCE_LINES" in verilog_defines,
         "verilog_defines": verilog_defines,
         "ila_expected": XLNX_ILA_EXPECTED,
@@ -609,8 +620,14 @@ def write_trace_marker_build_manifest(
             "enable_branch": False,
             "enable_jump": False,
             "enable_syscall": "RV_MALTRACE_FPGA_TRACE_SOURCE_LINES" not in verilog_defines,
-            "enable_trap": "RV_MALTRACE_FPGA_TRACE_SOURCE_LINES" not in verilog_defines,
-            "enable_context": "RV_MALTRACE_FPGA_TRACE_SOURCE_LINES" not in verilog_defines,
+            "enable_trap": (
+                "RV_MALTRACE_FPGA_TRACE_SOURCE_LINES" not in verilog_defines
+                and "RV_MALTRACE_FPGA_TRACE_SYSCALL_MARKER_SCOPE" not in verilog_defines
+            ),
+            "enable_context": (
+                "RV_MALTRACE_FPGA_TRACE_SOURCE_LINES" not in verilog_defines
+                and "RV_MALTRACE_FPGA_TRACE_SYSCALL_MARKER_SCOPE" not in verilog_defines
+            ),
             "pc_filter": (
                 "0x0000000000010574..0x00000000000105ae"
                 if "RV_MALTRACE_FPGA_TRACE_SOURCE_LINES" in verilog_defines
@@ -619,6 +636,8 @@ def write_trace_marker_build_manifest(
             "reason": (
                 "source-line profile keeps marker control and filters retire events to the common debug/no-PIE source-bearing function window"
                 if "RV_MALTRACE_FPGA_TRACE_SOURCE_LINES" in verilog_defines
+                else "syscall-marker profile keeps official-image BusyBox windows within the fixed BRAM marker ring by disabling trap/context noise"
+                if "RV_MALTRACE_FPGA_TRACE_SYSCALL_MARKER_SCOPE" in verilog_defines
                 else "keep event-limited ILA windows focused on marker/syscall/trap evidence"
             ),
         },
@@ -723,6 +742,11 @@ def trace_vivado_artifact_dir(root: Path, config: dict) -> Path:
 def trace_marker_vivado_artifact_dir(root: Path, config: dict) -> Path:
     base = vivado_artifact_dir(root, config)
     return base.with_name(f"{base.name}-trace-marker")
+
+
+def trace_marker_syscall_vivado_artifact_dir(root: Path, config: dict) -> Path:
+    base = vivado_artifact_dir(root, config)
+    return base.with_name(f"{base.name}-trace-marker-syscall")
 
 
 def trace_source_lines_vivado_artifact_dir(root: Path, config: dict) -> Path:
@@ -3315,8 +3339,12 @@ def task_bitstream_build(
     *,
     trace_enabled: bool = False,
     trace_marker_scope: bool = False,
+    trace_syscall_marker_scope: bool = False,
     trace_source_lines: bool = False,
 ) -> None:
+    if trace_syscall_marker_scope:
+        trace_enabled = True
+        trace_marker_scope = True
     if trace_source_lines:
         trace_enabled = True
         trace_marker_scope = True
@@ -3337,6 +3365,9 @@ def task_bitstream_build(
         if trace_source_lines:
             artifact_dir = trace_source_lines_vivado_artifact_dir(work_root, config)
             real_artifact_dir = trace_source_lines_vivado_artifact_dir(root, config)
+        elif trace_syscall_marker_scope:
+            artifact_dir = trace_marker_syscall_vivado_artifact_dir(work_root, config)
+            real_artifact_dir = trace_marker_syscall_vivado_artifact_dir(root, config)
         elif trace_marker_scope:
             artifact_dir = trace_marker_vivado_artifact_dir(work_root, config)
             real_artifact_dir = trace_marker_vivado_artifact_dir(root, config)
@@ -3361,6 +3392,8 @@ def task_bitstream_build(
             verilog_defines.append("RV_MALTRACE_FPGA_TRACE")
             if trace_marker_scope:
                 verilog_defines.append("RV_MALTRACE_FPGA_TRACE_MARKER_SCOPE")
+            if trace_syscall_marker_scope:
+                verilog_defines.append("RV_MALTRACE_FPGA_TRACE_SYSCALL_MARKER_SCOPE")
             if trace_source_lines:
                 verilog_defines.append("RV_MALTRACE_FPGA_TRACE_SOURCE_LINES")
         if not dry_run:
@@ -3909,6 +3942,7 @@ def show_config(root: Path, config: dict) -> None:
     print(f"vivado_artifacts    = {vivado_artifact_dir(root, config)}")
     print(f"trace_artifacts     = {trace_vivado_artifact_dir(root, config)}")
     print(f"trace_marker_artifacts = {trace_marker_vivado_artifact_dir(root, config)}")
+    print(f"trace_marker_syscall_artifacts = {trace_marker_syscall_vivado_artifact_dir(root, config)}")
     print(f"trace_source_line_artifacts = {trace_source_lines_vivado_artifact_dir(root, config)}")
     print(f"vivado_project      = {vivado_project_xpr(root, config)}")
     print(f"make                = {config.get('make', 'make')}")
@@ -4027,7 +4061,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
             "ndss:sdcard-linux-manifest, ndss:boot-sdcard-image, ndss:sdcard-write-preflight, ndss:linux-rebuild-prep, ndss:live-kernel-config-export, ndss:linux-source-lock, ndss:linux-counter-preflight, "
             "ndss:tracer-visibility-baseline, ndss:local-code-analysis, "
             "vivado:check, bitstream:build, bitstream:build-trace, bitstream:build-trace-marker, "
-            "bitstream:build-trace-source-lines, sim:trace-unit, sim:cva6-smoke, "
+            "bitstream:build-trace-marker-syscall, bitstream:build-trace-source-lines, sim:trace-unit, sim:cva6-smoke, "
             "sim:cva6-full-soc, sim:cva6-full-soc-tohost, sim:cva6-full-soc-rv64gc, sim:cva6-run, trace:view, binary:analyze, baremetal:build, "
             "board:artix7:jtag-scan, board:artix7:litex-build, exp:35t, run:35t, explain:35t, config:show, completion:powershell. Slash groups such as "
             "tool/bootrom are expanded."
@@ -4300,6 +4334,16 @@ def main(argv: list[str] | None = None) -> int:
                 task_bitstream_build(root, config, env, args.dry_run, trace_enabled=True)
             elif task == "bitstream:build-trace-marker":
                 task_bitstream_build(root, config, env, args.dry_run, trace_enabled=True, trace_marker_scope=True)
+            elif task == "bitstream:build-trace-marker-syscall":
+                task_bitstream_build(
+                    root,
+                    config,
+                    env,
+                    args.dry_run,
+                    trace_enabled=True,
+                    trace_marker_scope=True,
+                    trace_syscall_marker_scope=True,
+                )
             elif task == "bitstream:build-trace-source-lines":
                 task_bitstream_build(
                     root,

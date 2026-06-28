@@ -76,5 +76,5 @@
   "schema": "rvmt.resource_timing_summary.v1",
   "status": "PASS",
   "trace_bitstream": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.bit",
-  "trace_bitstream_sha256": "3b30e5ceda81f44a8c9e9b062557035adf66b6746b91559389437cf47cffd7fd"
+  "trace_bitstream_sha256": "92eef73290ec20d11a58d38bbec89e0528724df3764327d597a6aadb78e44655"
 }

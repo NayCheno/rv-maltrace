@@ -1,0 +1,169 @@
+{
+  "blocked_reason": null,
+  "claim_boundary": {
+    "bram_ring_overflow_not_promoted": false,
+    "cycle_level_overhead_claimed": false,
+    "failed_attempts_retained": true,
+    "official_image_repeatability_claimed": true,
+    "p0_repeatability_claimed": true,
+    "real_malware_validation_claimed": false
+  },
+  "drop_accounting": {
+    "p0_bram_run_root": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret",
+    "safe_surrogate_bram_run_root": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort",
+    "summary": {
+      "exists": true,
+      "path": "results/evaluation/genesys2-cva6/current/drop_accounting_summary.json",
+      "sha256": "0fdd718cbd091abac3e4d26436b7fed3510d4e5d778e59e370d6d4e5c05debbe",
+      "size_bytes": 182388
+    }
+  },
+  "non_claims": [
+    "The P0 strict-SRET cohort is repeatable, but official-image BusyBox workload repeatability remains blocked when BRAM wrap/drop occurs.",
+    "Drop/wrap accounting is not converted into cycle-level overhead or production slowdown claims."
+  ],
+  "official_image_workload_repeatability": {
+    "blocked_sample_count": 0,
+    "pass_sample_count": 8,
+    "samples": [
+      {
+        "attempt_count": 1,
+        "blocked_repetitions": 0,
+        "max_drop_count": 0,
+        "max_wrap_count": 0,
+        "pass_repetitions": 1,
+        "sample_id": "native_sh",
+        "source": "official_image_workload_summary",
+        "status": "PASS"
+      },
+      {
+        "attempt_count": 1,
+        "blocked_repetitions": 0,
+        "max_drop_count": 0,
+        "max_wrap_count": 0,
+        "pass_repetitions": 1,
+        "sample_id": "native_cat_proc",
+        "source": "official_image_workload_summary",
+        "status": "PASS"
+      },
+      {
+        "attempt_count": 1,
+        "blocked_repetitions": 0,
+        "max_drop_count": 0,
+        "max_wrap_count": 0,
+        "pass_repetitions": 1,
+        "sample_id": "native_ls_proc",
+        "source": "official_image_workload_summary",
+        "status": "PASS"
+      },
+      {
+        "attempt_count": 1,
+        "blocked_repetitions": 0,
+        "max_drop_count": 0,
+        "max_wrap_count": 0,
+        "pass_repetitions": 1,
+        "sample_id": "native_dd_tmp",
+        "source": "official_image_workload_summary",
+        "status": "PASS"
+      },
+      {
+        "attempt_count": 1,
+        "blocked_repetitions": 0,
+        "max_drop_count": 0,
+        "max_wrap_count": 0,
+        "pass_repetitions": 1,
+        "sample_id": "native_grep",
+        "source": "official_image_workload_summary",
+        "status": "PASS"
+      },
+      {
+        "attempt_count": 1,
+        "blocked_repetitions": 0,
+        "max_drop_count": 0,
+        "max_wrap_count": 0,
+        "pass_repetitions": 1,
+        "sample_id": "native_sha256sum",
+        "source": "official_image_workload_summary",
+        "status": "PASS"
+      },
+      {
+        "attempt_count": 1,
+        "blocked_repetitions": 0,
+        "max_drop_count": 0,
+        "max_wrap_count": 0,
+        "pass_repetitions": 1,
+        "sample_id": "native_mount_read",
+        "source": "official_image_workload_summary",
+        "status": "PASS"
+      },
+      {
+        "attempt_count": 1,
+        "blocked_repetitions": 0,
+        "max_drop_count": 0,
+        "max_wrap_count": 0,
+        "pass_repetitions": 1,
+        "sample_id": "native_file_rw",
+        "source": "official_image_workload_summary",
+        "status": "PASS"
+      }
+    ],
+    "status": "PASS",
+    "summary": {
+      "exists": true,
+      "path": "results/evaluation/genesys2-cva6/current/official_image_workload_summary.json",
+      "sha256": "5b2888363b051045f6f83ebbff2b09345d7f39f95b1ad6580633c74fc9fa6f6b",
+      "size_bytes": 30181
+    }
+  },
+  "p0_repeatability": {
+    "sample_count": 4,
+    "samples": [
+      {
+        "attempt_count": 10,
+        "max_unaccounted_drop": 0,
+        "max_wrap_count": 0,
+        "pass_repetitions": 10,
+        "sample_id": "hello_write",
+        "source": "p0_bram_trace_summary",
+        "status": "PASS"
+      },
+      {
+        "attempt_count": 12,
+        "max_unaccounted_drop": 1,
+        "max_wrap_count": 0,
+        "pass_repetitions": 11,
+        "sample_id": "file_open_read_write",
+        "source": "p0_bram_trace_summary",
+        "status": "PASS"
+      },
+      {
+        "attempt_count": 30,
+        "max_unaccounted_drop": 3615,
+        "max_wrap_count": 4,
+        "pass_repetitions": 17,
+        "sample_id": "fork_exec",
+        "source": "p0_bram_trace_summary",
+        "status": "PASS"
+      },
+      {
+        "attempt_count": 10,
+        "max_unaccounted_drop": 0,
+        "max_wrap_count": 0,
+        "pass_repetitions": 10,
+        "sample_id": "illegal_instruction",
+        "source": "p0_bram_trace_summary",
+        "status": "PASS"
+      }
+    ],
+    "status": "PASS",
+    "summary": {
+      "exists": true,
+      "path": "results/evaluation/genesys2-cva6/current/p0_bram_trace_summary.json",
+      "sha256": "4d8f6c55fc78f62e42481ae6d6a866920c6f712b73c7553836177f6d85e739ac",
+      "size_bytes": 457510
+    }
+  },
+  "schema": "rvmt.genesys2.official_image_repeatability_drop_wrap.v1",
+  "scope": "board repeatability, failed-run retention, drop/wrap accounting for official-image plan",
+  "status": "PASS"
+}

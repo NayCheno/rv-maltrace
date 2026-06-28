@@ -1,0 +1,742 @@
+{
+  "artifacts": {
+    "bitstream": {
+      "exists": true,
+      "path": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker-syscall/work-fpga/ariane_xilinx.bit",
+      "sha256": "af4e4462ddfa5bfc34114b44820f10f28e4293591d488b082cf715e4bd7c5cc3",
+      "size_bytes": 11443738
+    },
+    "build_manifest": {
+      "exists": true,
+      "path": "build/board/genesys2_official_image_probe/build_manifest.json",
+      "sha256": "ca9eb7b099081a0852788a85691f441d698fd0a184ece629224348b758128b6c",
+      "size_bytes": 2976
+    },
+    "launcher_transfer_log": {
+      "exists": true,
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/launcher_transfer.log",
+      "sha256": "762343328777cf0741a8665080bec46dddf391b5df0b81deb85f717dee6afd19",
+      "size_bytes": 23405
+    },
+    "ltx": {
+      "exists": true,
+      "path": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker-syscall/work-fpga/ariane_xilinx.ltx",
+      "sha256": "16360c1f20031509b61dafb4847ba638b85d1a758a1c10b96d2faacdb4ce7ee3",
+      "size_bytes": 180130
+    },
+    "sdcard_linux_manifest": {
+      "exists": true,
+      "path": "results/evaluation/genesys2-cva6/current/sdcard_linux_manifest.json",
+      "sha256": "4027bdebad5c4754a931ae6f31770e546ba9416848afc320f1e7c016fe4e315d",
+      "size_bytes": 10291
+    }
+  },
+  "blocked_reason": null,
+  "board": "Digilent Genesys2",
+  "busybox": {
+    "path": "/bin/busybox",
+    "sha256": "3d045aecebcb734c730fb6f7f41f3d17767112ab44372b0e80a8bc16ae3d1c4f",
+    "source": "results/evaluation/genesys2-cva6/current/sdcard_linux_manifest.json"
+  },
+  "claim_boundary": {
+    "bram_ring_depth_limited_workloads_not_promoted": false,
+    "busybox_shell_workloads_not_direct_syscall_fixtures": true,
+    "cycle_level_overhead_claimed": false,
+    "official_image_binary_workload_claimed": true,
+    "production_workload_claimed": false,
+    "real_malware_validation_claimed": false
+  },
+  "completed_sample_count": 8,
+  "cpu": "CVA6 rv64gc sv39",
+  "minimum_repetitions": 1,
+  "non_claims": [
+    "These workloads are benign official-image BusyBox/shell commands, not real malware.",
+    "The checker requires marker-window BRAM evidence but does not claim production streaming/DMA throughput.",
+    "Extra BusyBox or shell syscalls are retained in raw traces and are not treated as failures by full-sequence matching."
+  ],
+  "required_core_samples": [
+    "native_cat_proc",
+    "native_dd_tmp",
+    "native_ls_proc",
+    "native_sha256sum"
+  ],
+  "run_root": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads",
+  "samples": [
+    {
+      "attempt_count": 1,
+      "blocked_repetitions": 0,
+      "minimum_repetitions": 1,
+      "pass_repetitions": 1,
+      "repetitions": [
+        {
+          "artifacts": {
+            "bram_records": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_sh/rep_01/bram_records.jsonl",
+              "sha256": "cbe0e64aa4facbd0cba999a64d08ceb74598f3855d6796917772724a76c57fda",
+              "size_bytes": 146620
+            },
+            "bram_summary": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_sh/rep_01/bram_summary.json",
+              "sha256": "ead945a4a76d153b386b053348e2b8164391801ec9e1d43bf815213d5384eeab",
+              "size_bytes": 1017
+            },
+            "capture_csv": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_sh/rep_01/capture.csv",
+              "sha256": "83fec356dd769087dd81e2c46f866a3ba325186dc5f7738f40e3b72839a7d4ac",
+              "size_bytes": 2095924
+            },
+            "capture_err_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_sh/rep_01/capture.err.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "size_bytes": 0
+            },
+            "capture_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_sh/rep_01/capture.log",
+              "sha256": "22cf37e9c79e302186507f18e4fe926006c6d6fa766c06dd3b8a407bf00b392a",
+              "size_bytes": 9407
+            },
+            "uart_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_sh/rep_01/uart.log",
+              "sha256": "659d995e0b280d8381d8f520434d7055dca71bc879ca8f6ea0d8784bd0666293",
+              "size_bytes": 1106
+            }
+          },
+          "blocked_reason": null,
+          "bram_ring": {
+            "dropped_count": 0,
+            "event_count": 182,
+            "wrap_count": 0
+          },
+          "event_counts": {
+            "ARG_MEM": 56,
+            "MARKER": 2,
+            "SYSCALL_ENTRY": 62,
+            "SYSCALL_RET": 62
+          },
+          "markers": {
+            "begin_count": 1,
+            "begin_marker": "0xb0000b01",
+            "end_count": 1,
+            "end_marker": "0xe0000b01",
+            "markers_seen": [
+              "0xb0000b01",
+              "0xe0000b01"
+            ]
+          },
+          "rep": "rep_01",
+          "run_root": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads",
+          "sequence_gap_count": 0,
+          "status": "PASS",
+          "uart": {
+            "capture_rc": 0,
+            "child_pid": 1323,
+            "child_rc": 0,
+            "done_seen": true,
+            "done_source": "strict_capture_done",
+            "start_seen": true
+          }
+        }
+      ],
+      "sample_id": "native_sh",
+      "status": "PASS"
+    },
+    {
+      "attempt_count": 1,
+      "blocked_repetitions": 0,
+      "minimum_repetitions": 1,
+      "pass_repetitions": 1,
+      "repetitions": [
+        {
+          "artifacts": {
+            "bram_records": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_cat_proc/rep_01/bram_records.jsonl",
+              "sha256": "eda12c76856da22c6598f3d817bf80f703a4b494a9545d4ad913471657b19641",
+              "size_bytes": 140632
+            },
+            "bram_summary": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_cat_proc/rep_01/bram_summary.json",
+              "sha256": "ca1b063fe44a2194bd58ef266534cf1bba2f1245f48900600bb53052c3cb0382",
+              "size_bytes": 1029
+            },
+            "capture_csv": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_cat_proc/rep_01/capture.csv",
+              "sha256": "cf2e87084fc265626fed518ff2c23e697a787b7454b6d1093bb5f599eb3947b2",
+              "size_bytes": 2095924
+            },
+            "capture_err_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_cat_proc/rep_01/capture.err.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "size_bytes": 0
+            },
+            "capture_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_cat_proc/rep_01/capture.log",
+              "sha256": "0aa44172b429032a19a3ff1f703645fa5b95d222679e6e2674a497e01282444a",
+              "size_bytes": 9091
+            },
+            "uart_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_cat_proc/rep_01/uart.log",
+              "sha256": "f2261afdefb7c8736e129a8e75055f2fab5d646ac50ecbea4afb1ffb7f988938",
+              "size_bytes": 1155
+            }
+          },
+          "blocked_reason": null,
+          "bram_ring": {
+            "dropped_count": 0,
+            "event_count": 168,
+            "wrap_count": 0
+          },
+          "event_counts": {
+            "ARG_MEM": 68,
+            "MARKER": 2,
+            "SYSCALL_ENTRY": 49,
+            "SYSCALL_RET": 49
+          },
+          "markers": {
+            "begin_count": 1,
+            "begin_marker": "0xb0000b02",
+            "end_count": 1,
+            "end_marker": "0xe0000b02",
+            "markers_seen": [
+              "0xb0000b02",
+              "0xe0000b02"
+            ]
+          },
+          "rep": "rep_01",
+          "run_root": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads",
+          "sequence_gap_count": 0,
+          "status": "PASS",
+          "uart": {
+            "capture_rc": 0,
+            "child_pid": 1328,
+            "child_rc": 0,
+            "done_seen": true,
+            "done_source": "strict_capture_done",
+            "start_seen": true
+          }
+        }
+      ],
+      "sample_id": "native_cat_proc",
+      "status": "PASS"
+    },
+    {
+      "attempt_count": 1,
+      "blocked_repetitions": 0,
+      "minimum_repetitions": 1,
+      "pass_repetitions": 1,
+      "repetitions": [
+        {
+          "artifacts": {
+            "bram_records": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_ls_proc/rep_01/bram_records.jsonl",
+              "sha256": "d331b724e91b6d5caa4cd1d63d82f8390c4b07f594f8b87b3a3d0a5ab8321c02",
+              "size_bytes": 382857
+            },
+            "bram_summary": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_ls_proc/rep_01/bram_summary.json",
+              "sha256": "5a1fd612ff868431aa210d8c22c0b820b5c4a4f0af3b4dc0ccd8622fa8064b75",
+              "size_bytes": 1030
+            },
+            "capture_csv": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_ls_proc/rep_01/capture.csv",
+              "sha256": "3d2e2ccfd7863c929684972fc8959b29df0bb9d60e2351d80c58cec847099aa6",
+              "size_bytes": 2095924
+            },
+            "capture_err_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_ls_proc/rep_01/capture.err.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "size_bytes": 0
+            },
+            "capture_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_ls_proc/rep_01/capture.log",
+              "sha256": "be80a2d80699db80c26dfc7b16785eefb3712f34c21f669ff8ee5fbe09eaac8a",
+              "size_bytes": 9087
+            },
+            "uart_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_ls_proc/rep_01/uart.log",
+              "sha256": "126852bbe69dc1469239469557a037762d38fc6fbec02d2ac18a98b01fe3d41f",
+              "size_bytes": 2389
+            }
+          },
+          "blocked_reason": null,
+          "bram_ring": {
+            "dropped_count": 0,
+            "event_count": 465,
+            "wrap_count": 0
+          },
+          "event_counts": {
+            "ARG_MEM": 167,
+            "MARKER": 2,
+            "SYSCALL_ENTRY": 148,
+            "SYSCALL_RET": 148
+          },
+          "markers": {
+            "begin_count": 1,
+            "begin_marker": "0xb0000b03",
+            "end_count": 1,
+            "end_marker": "0xe0000b03",
+            "markers_seen": [
+              "0xb0000b03",
+              "0xe0000b03"
+            ]
+          },
+          "rep": "rep_01",
+          "run_root": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads",
+          "sequence_gap_count": 0,
+          "status": "PASS",
+          "uart": {
+            "capture_rc": 0,
+            "child_pid": 1333,
+            "child_rc": 0,
+            "done_seen": true,
+            "done_source": "strict_capture_done",
+            "start_seen": true
+          }
+        }
+      ],
+      "sample_id": "native_ls_proc",
+      "status": "PASS"
+    },
+    {
+      "attempt_count": 1,
+      "blocked_repetitions": 0,
+      "minimum_repetitions": 1,
+      "pass_repetitions": 1,
+      "repetitions": [
+        {
+          "artifacts": {
+            "bram_records": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_dd_tmp/rep_01/bram_records.jsonl",
+              "sha256": "20e6a7592cfd1f717468a9412cbe34ecb6ba5207e4771b1a73748ed113d8fe7e",
+              "size_bytes": 248425
+            },
+            "bram_summary": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_dd_tmp/rep_01/bram_summary.json",
+              "sha256": "2e3748fb96796b583a1922843038817b7010bda33c30e16f2a18ad6883b2ccb2",
+              "size_bytes": 1026
+            },
+            "capture_csv": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_dd_tmp/rep_01/capture.csv",
+              "sha256": "a24bc303d8f835e5b72a4e4d70a86d045e2f5a338ac3ed562550a8fe56103d5b",
+              "size_bytes": 2095924
+            },
+            "capture_err_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_dd_tmp/rep_01/capture.err.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "size_bytes": 0
+            },
+            "capture_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_dd_tmp/rep_01/capture.log",
+              "sha256": "a4811ef3a1f3d644931688c98e8376cdc5935771fae6b584de779c3788ea1fcf",
+              "size_bytes": 9083
+            },
+            "uart_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_dd_tmp/rep_01/uart.log",
+              "sha256": "bc317dc8587c58a46723a764cef5c66009567d4e297039144514aac2acc62dac",
+              "size_bytes": 1247
+            }
+          },
+          "blocked_reason": null,
+          "bram_ring": {
+            "dropped_count": 0,
+            "event_count": 297,
+            "wrap_count": 0
+          },
+          "event_counts": {
+            "ARG_MEM": 119,
+            "MARKER": 2,
+            "SYSCALL_ENTRY": 88,
+            "SYSCALL_RET": 88
+          },
+          "markers": {
+            "begin_count": 1,
+            "begin_marker": "0xb0000b04",
+            "end_count": 1,
+            "end_marker": "0xe0000b04",
+            "markers_seen": [
+              "0xb0000b04",
+              "0xe0000b04"
+            ]
+          },
+          "rep": "rep_01",
+          "run_root": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads",
+          "sequence_gap_count": 0,
+          "status": "PASS",
+          "uart": {
+            "capture_rc": 0,
+            "child_pid": 1338,
+            "child_rc": 0,
+            "done_seen": true,
+            "done_source": "strict_capture_done",
+            "start_seen": true
+          }
+        }
+      ],
+      "sample_id": "native_dd_tmp",
+      "status": "PASS"
+    },
+    {
+      "attempt_count": 1,
+      "blocked_repetitions": 0,
+      "minimum_repetitions": 1,
+      "pass_repetitions": 1,
+      "repetitions": [
+        {
+          "artifacts": {
+            "bram_records": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_grep/rep_01/bram_records.jsonl",
+              "sha256": "a2297b45233f07a151a7ee63721711d6caf6435dad45ded3220dd7cb1430b3c4",
+              "size_bytes": 157190
+            },
+            "bram_summary": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_grep/rep_01/bram_summary.json",
+              "sha256": "954894d46ef12a150a399a1e61b9f171eb07e806f5182bba42e9082391a33f09",
+              "size_bytes": 1017
+            },
+            "capture_csv": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_grep/rep_01/capture.csv",
+              "sha256": "415127b555238f055dbc70e3596c771ab72f632685232d1b31efaf265d7ff34b",
+              "size_bytes": 2095924
+            },
+            "capture_err_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_grep/rep_01/capture.err.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "size_bytes": 0
+            },
+            "capture_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_grep/rep_01/capture.log",
+              "sha256": "355f1dccbbec046020b58c2cff34ba9a1d3f6548cd0ac953c1d7a6953d11a648",
+              "size_bytes": 9075
+            },
+            "uart_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_grep/rep_01/uart.log",
+              "sha256": "5ec3643480fd27214f59bbbb315d87c2eb20b14938bb6e7ab8246c178099ef55",
+              "size_bytes": 1140
+            }
+          },
+          "blocked_reason": null,
+          "bram_ring": {
+            "dropped_count": 0,
+            "event_count": 188,
+            "wrap_count": 0
+          },
+          "event_counts": {
+            "ARG_MEM": 76,
+            "MARKER": 2,
+            "SYSCALL_ENTRY": 55,
+            "SYSCALL_RET": 55
+          },
+          "markers": {
+            "begin_count": 1,
+            "begin_marker": "0xb0000b05",
+            "end_count": 1,
+            "end_marker": "0xe0000b05",
+            "markers_seen": [
+              "0xb0000b05",
+              "0xe0000b05"
+            ]
+          },
+          "rep": "rep_01",
+          "run_root": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads",
+          "sequence_gap_count": 0,
+          "status": "PASS",
+          "uart": {
+            "capture_rc": 0,
+            "child_pid": 1343,
+            "child_rc": 0,
+            "done_seen": true,
+            "done_source": "strict_capture_done",
+            "start_seen": true
+          }
+        }
+      ],
+      "sample_id": "native_grep",
+      "status": "PASS"
+    },
+    {
+      "attempt_count": 1,
+      "blocked_repetitions": 0,
+      "minimum_repetitions": 1,
+      "pass_repetitions": 1,
+      "repetitions": [
+        {
+          "artifacts": {
+            "bram_records": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_sha256sum/rep_01/bram_records.jsonl",
+              "sha256": "3cb3aa87db509b3040705fafa49d0446f3bd8bffcc70561998c667aaf9e27c68",
+              "size_bytes": 535980
+            },
+            "bram_summary": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_sha256sum/rep_01/bram_summary.json",
+              "sha256": "33fb783ea896cce2997eb158470214e7457943c2540fc65ec074985e50e50978",
+              "size_bytes": 1030
+            },
+            "capture_csv": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_sha256sum/rep_01/capture.csv",
+              "sha256": "53c5bde88f6a869abdb3896473067a6882af067da4ad0fbcbd45e77a1c803d37",
+              "size_bytes": 2095924
+            },
+            "capture_err_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_sha256sum/rep_01/capture.err.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "size_bytes": 0
+            },
+            "capture_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_sha256sum/rep_01/capture.log",
+              "sha256": "6c402abd604a0e867708332767618145f701bc3088da093f9093750c262ddc7b",
+              "size_bytes": 9095
+            },
+            "uart_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_sha256sum/rep_01/uart.log",
+              "sha256": "a3f3a1e193772a8b338095a8000bc8735c25ab54b117ccd8b2edc07f9ac44c0f",
+              "size_bytes": 1237
+            }
+          },
+          "blocked_reason": null,
+          "bram_ring": {
+            "dropped_count": 0,
+            "event_count": 713,
+            "wrap_count": 0
+          },
+          "event_counts": {
+            "ARG_MEM": 101,
+            "MARKER": 2,
+            "SYSCALL_ENTRY": 305,
+            "SYSCALL_RET": 305
+          },
+          "markers": {
+            "begin_count": 1,
+            "begin_marker": "0xb0000b06",
+            "end_count": 1,
+            "end_marker": "0xe0000b06",
+            "markers_seen": [
+              "0xb0000b06",
+              "0xe0000b06"
+            ]
+          },
+          "rep": "rep_01",
+          "run_root": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads",
+          "sequence_gap_count": 0,
+          "status": "PASS",
+          "uart": {
+            "capture_rc": 0,
+            "child_pid": 1349,
+            "child_rc": 0,
+            "done_seen": true,
+            "done_source": "strict_capture_done",
+            "start_seen": true
+          }
+        }
+      ],
+      "sample_id": "native_sha256sum",
+      "status": "PASS"
+    },
+    {
+      "attempt_count": 1,
+      "blocked_repetitions": 0,
+      "minimum_repetitions": 1,
+      "pass_repetitions": 1,
+      "repetitions": [
+        {
+          "artifacts": {
+            "bram_records": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_mount_read/rep_01/bram_records.jsonl",
+              "sha256": "9d0f3f7e11d3d805cf8428441b05f90ec54f7050bf106d4d2dcb2e9ea6440d7b",
+              "size_bytes": 128236
+            },
+            "bram_summary": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_mount_read/rep_01/bram_summary.json",
+              "sha256": "3f5947c459d334e0225bbb7edbc5d31cef3063991751447303e8a3658c68cbf7",
+              "size_bytes": 1033
+            },
+            "capture_csv": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_mount_read/rep_01/capture.csv",
+              "sha256": "4769ead0ebc1a61688bbe7c5fb7eb2f8ff0a4b5554a0253769b7dfbbc9f3234f",
+              "size_bytes": 2095924
+            },
+            "capture_err_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_mount_read/rep_01/capture.err.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "size_bytes": 0
+            },
+            "capture_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_mount_read/rep_01/capture.log",
+              "sha256": "e4ec0cc6364335028bbb90818e4848040004dc657e618893f93c08bac7077ac0",
+              "size_bytes": 9439
+            },
+            "uart_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_mount_read/rep_01/uart.log",
+              "sha256": "bb8353ca9bafc9a72c9ad4a9a6d0619bcb1f59c6dcd0568fd6782828c4b605f7",
+              "size_bytes": 1336
+            }
+          },
+          "blocked_reason": null,
+          "bram_ring": {
+            "dropped_count": 0,
+            "event_count": 156,
+            "wrap_count": 0
+          },
+          "event_counts": {
+            "ARG_MEM": 56,
+            "MARKER": 2,
+            "SYSCALL_ENTRY": 49,
+            "SYSCALL_RET": 49
+          },
+          "markers": {
+            "begin_count": 1,
+            "begin_marker": "0xb0000b07",
+            "end_count": 1,
+            "end_marker": "0xe0000b07",
+            "markers_seen": [
+              "0xb0000b07",
+              "0xe0000b07"
+            ]
+          },
+          "rep": "rep_01",
+          "run_root": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads",
+          "sequence_gap_count": 0,
+          "status": "PASS",
+          "uart": {
+            "capture_rc": 0,
+            "child_pid": 1371,
+            "child_rc": 0,
+            "done_seen": true,
+            "done_source": "strict_capture_done",
+            "start_seen": true
+          }
+        }
+      ],
+      "sample_id": "native_mount_read",
+      "status": "PASS"
+    },
+    {
+      "attempt_count": 1,
+      "blocked_repetitions": 0,
+      "minimum_repetitions": 1,
+      "pass_repetitions": 1,
+      "repetitions": [
+        {
+          "artifacts": {
+            "bram_records": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_file_rw/rep_01/bram_records.jsonl",
+              "sha256": "24ce08126510649a8901b8ae86c80d5fe0cc182402bfc20e24fd5c4196b9c5b9",
+              "size_bytes": 429303
+            },
+            "bram_summary": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_file_rw/rep_01/bram_summary.json",
+              "sha256": "9f0556ad72806b68d1df23c9df12df6e80f1b42cf1c628f836b5602106188326",
+              "size_bytes": 1030
+            },
+            "capture_csv": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_file_rw/rep_01/capture.csv",
+              "sha256": "d1847d5987641af403e8b38e776bb80f5fdb120403064908cf64f024f6cc62ba",
+              "size_bytes": 2095924
+            },
+            "capture_err_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_file_rw/rep_01/capture.err.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "size_bytes": 0
+            },
+            "capture_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_file_rw/rep_01/capture.log",
+              "sha256": "da35a2e95b97e7d63e9e6b4439c5822acb0b574920230800b4debc0bb7ece5f9",
+              "size_bytes": 9087
+            },
+            "uart_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_file_rw/rep_01/uart.log",
+              "sha256": "d8f49faeadeeac037690adfe8f6552ec207770cf643564b665182c041228b86e",
+              "size_bytes": 1433
+            }
+          },
+          "blocked_reason": null,
+          "bram_ring": {
+            "dropped_count": 0,
+            "event_count": 539,
+            "wrap_count": 0
+          },
+          "event_counts": {
+            "ARG_MEM": 149,
+            "MARKER": 2,
+            "SYSCALL_ENTRY": 194,
+            "SYSCALL_RET": 194
+          },
+          "markers": {
+            "begin_count": 1,
+            "begin_marker": "0xb0000b08",
+            "end_count": 1,
+            "end_marker": "0xe0000b08",
+            "markers_seen": [
+              "0xb0000b08",
+              "0xe0000b08"
+            ]
+          },
+          "rep": "rep_01",
+          "run_root": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads",
+          "sequence_gap_count": 0,
+          "status": "PASS",
+          "uart": {
+            "capture_rc": 0,
+            "child_pid": 1376,
+            "child_rc": 0,
+            "done_seen": true,
+            "done_source": "strict_capture_done",
+            "start_seen": true
+          }
+        }
+      ],
+      "sample_id": "native_file_rw",
+      "status": "PASS"
+    }
+  ],
+  "schema": "rvmt.genesys2.official_image_workloads.v1",
+  "scope": "official CVA6 SD-image BusyBox and shell marker-window workloads",
+  "status": "PASS",
+  "trace_profile": "trace-marker-syscall"
+}

@@ -1,0 +1,1033 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/m75r34",
+    "id": "m75r34",
+    "slide": 17,
+    "layoutId": "cc4f3dd5-7978-437e-a525-a7699366b2b7",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "2122b03d-c09d-4d5d-af01-2596891346ab",
+    "masterLayoutName": "Master",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "ChatGPT",
+    "colors": {
+      "accent1": "#156082",
+      "accent2": "#E97132",
+      "accent3": "#196B24",
+      "accent4": "#0F9ED5",
+      "accent5": "#A02B93",
+      "accent6": "#4EA72E",
+      "bg1": "#FFFFFF",
+      "bg2": "#000000",
+      "tx1": "#1F1F1F",
+      "tx2": "#FFFFFF",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#0E2841",
+      "lt2": "#E8E8E8",
+      "hlink": "#467886",
+      "folHlink": "#96607D"
+    },
+    "typefaces": [
+      "Cascadia Mono",
+      "Microsoft YaHei UI"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "cc4f3dd5-7978-437e-a525-a7699366b2b7",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "2122b03d-c09d-4d5d-af01-2596891346ab",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "2122b03d-c09d-4d5d-af01-2596891346ab",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/a9w3m94f",
+      "id": "1",
+      "bbox": [
+        0,
+        0,
+        1280,
+        720
+      ],
+      "geometry": "rect",
+      "fillColor": "#FFFFFF",
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/h0fepkzu",
+      "id": "2",
+      "bbox": [
+        0,
+        0,
+        18,
+        720
+      ],
+      "geometry": "rect",
+      "fillColor": "#0057FF",
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/sfil0rqd",
+      "id": "3",
+      "bbox": [
+        72,
+        40,
+        420,
+        24
+      ],
+      "geometry": "rect",
+      "text": "NEXT STEP",
+      "textPreview": "NEXT STEP",
+      "resolvedFontSize": 13,
+      "resolvedTextStyle": {
+        "fontSize": 13,
+        "typeface": "Cascadia Mono",
+        "color": "#0057FF",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "NEXT STEP"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "NEXT STEP",
+          "resolvedTextStyle": {
+            "fontSize": 13,
+            "typeface": "Cascadia Mono",
+            "color": "#0057FF",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "NEXT STEP",
+              "fontSize": 13,
+              "typeface": "Cascadia Mono",
+              "color": "#0057FF",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/z61032ls",
+      "id": "4",
+      "bbox": [
+        1160,
+        40,
+        56,
+        24
+      ],
+      "geometry": "rect",
+      "text": "17",
+      "textPreview": "17",
+      "resolvedFontSize": 13,
+      "resolvedTextStyle": {
+        "fontSize": 13,
+        "typeface": "Cascadia Mono",
+        "color": "#68717D",
+        "bold": true,
+        "alignment": "right",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "17"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "17",
+          "resolvedTextStyle": {
+            "fontSize": 13,
+            "typeface": "Cascadia Mono",
+            "color": "#68717D",
+            "bold": true,
+            "alignment": "right"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "17",
+              "fontSize": 13,
+              "typeface": "Cascadia Mono",
+              "color": "#68717D",
+              "bold": true,
+              "alignment": "right"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/al87ed8b",
+      "id": "5",
+      "bbox": [
+        72,
+        86,
+        1040,
+        58
+      ],
+      "geometry": "rect",
+      "text": "What should the group help decide?",
+      "textPreview": "What should the group help decide?",
+      "resolvedFontSize": 34,
+      "resolvedTextStyle": {
+        "fontSize": 34,
+        "typeface": "Microsoft YaHei UI",
+        "color": "#111418",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "What should the group help decide?"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "What should the group help decide?",
+          "resolvedTextStyle": {
+            "fontSize": 34,
+            "typeface": "Microsoft YaHei UI",
+            "color": "#111418",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "What should the group help decide?",
+              "fontSize": 34,
+              "typeface": "Microsoft YaHei UI",
+              "color": "#111418",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/hcrmhk3q",
+      "id": "6",
+      "bbox": [
+        72,
+        176,
+        58,
+        4
+      ],
+      "geometry": "rect",
+      "fillColor": "#0057FF",
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/orytsvu9",
+      "id": "7",
+      "bbox": [
+        160,
+        158,
+        925,
+        58
+      ],
+      "geometry": "rect",
+      "text": "The next work is not more running; it is claim selection and one evidence gap.",
+      "textPreview": "The next work is not more running; it is claim selection and one evidence gap.",
+      "resolvedFontSize": 21,
+      "resolvedTextStyle": {
+        "fontSize": 21,
+        "typeface": "Microsoft YaHei UI",
+        "color": "#242A31",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "The next work is not more running; it is claim selection and one evidence gap."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "The next work is not more running; it is claim selection and one evidence gap.",
+          "resolvedTextStyle": {
+            "fontSize": 21,
+            "typeface": "Microsoft YaHei UI",
+            "color": "#242A31",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "The next work is not more running; it is claim selection and one evidence gap.",
+              "fontSize": 21,
+              "typeface": "Microsoft YaHei UI",
+              "color": "#242A31",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/zed8v6ps",
+      "id": "8",
+      "bbox": [
+        125,
+        238,
+        122,
+        32
+      ],
+      "geometry": "rect",
+      "fillColor": "#0057FF",
+      "lineWidth": 0
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/6xkf6dcb",
+      "id": "9",
+      "bbox": [
+        125,
+        245,
+        122,
+        16
+      ],
+      "geometry": "rect",
+      "text": "DECIDE",
+      "textPreview": "DECIDE",
+      "resolvedFontSize": 11.51,
+      "resolvedTextStyle": {
+        "fontSize": 11.51,
+        "typeface": "Cascadia Mono",
+        "color": "#FFFFFF",
+        "bold": true,
+        "alignment": "center",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "DECIDE"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "DECIDE",
+          "resolvedTextStyle": {
+            "fontSize": 11.51,
+            "typeface": "Cascadia Mono",
+            "color": "#FFFFFF",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "DECIDE",
+              "fontSize": 11.51,
+              "typeface": "Cascadia Mono",
+              "color": "#FFFFFF",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 10,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/8z25kb6x",
+      "id": "10",
+      "bbox": [
+        286,
+        236,
+        865,
+        46
+      ],
+      "geometry": "rect",
+      "text": "Is the submission claim trace-backed behavior reconstruction, not malware detection?",
+      "textPreview": "Is the submission claim trace-backed behavior reconstruction, not malware detection?",
+      "resolvedFontSize": 20.51,
+      "resolvedTextStyle": {
+        "fontSize": 20.51,
+        "typeface": "Microsoft YaHei UI",
+        "color": "#111418",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Is the submission claim trace-backed behavior reconstruction, not malware"
+          },
+          {
+            "index": 2,
+            "text": "detection?"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Is the submission claim trace-backed behavior reconstruction, not malware detection?",
+          "resolvedTextStyle": {
+            "fontSize": 20.51,
+            "typeface": "Microsoft YaHei UI",
+            "color": "#111418",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Is the submission claim trace-backed behavior reconstruction, not malware detection?",
+              "fontSize": 20.51,
+              "typeface": "Microsoft YaHei UI",
+              "color": "#111418",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 11,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/1gvy90je",
+      "id": "11",
+      "bbox": [
+        125,
+        302,
+        900,
+        1
+      ],
+      "geometry": "rect",
+      "fillColor": "#D8DEE6",
+      "lineWidth": 0
+    },
+    {
+      "order": 12,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/qtcj6tov",
+      "id": "12",
+      "bbox": [
+        125,
+        322,
+        122,
+        32
+      ],
+      "geometry": "rect",
+      "fillColor": "#0057FF",
+      "lineWidth": 0
+    },
+    {
+      "order": 13,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/je9cvixc",
+      "id": "13",
+      "bbox": [
+        125,
+        329,
+        122,
+        16
+      ],
+      "geometry": "rect",
+      "text": "DECIDE",
+      "textPreview": "DECIDE",
+      "resolvedFontSize": 11.51,
+      "resolvedTextStyle": {
+        "fontSize": 11.51,
+        "typeface": "Cascadia Mono",
+        "color": "#FFFFFF",
+        "bold": true,
+        "alignment": "center",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "DECIDE"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "DECIDE",
+          "resolvedTextStyle": {
+            "fontSize": 11.51,
+            "typeface": "Cascadia Mono",
+            "color": "#FFFFFF",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "DECIDE",
+              "fontSize": 11.51,
+              "typeface": "Cascadia Mono",
+              "color": "#FFFFFF",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 14,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/87ed8bat",
+      "id": "14",
+      "bbox": [
+        286,
+        320,
+        865,
+        46
+      ],
+      "geometry": "rect",
+      "text": "Which single evidence gap matters most: board-native source lines, overhead, or transport?",
+      "textPreview": "Which single evidence gap matters most: board-native source lines, overhead, or transport?",
+      "resolvedFontSize": 20.51,
+      "resolvedTextStyle": {
+        "fontSize": 20.51,
+        "typeface": "Microsoft YaHei UI",
+        "color": "#111418",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Which single evidence gap matters most: board-native source lines, overhead, or"
+          },
+          {
+            "index": 2,
+            "text": "transport?"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Which single evidence gap matters most: board-native source lines, overhead, or transport?",
+          "resolvedTextStyle": {
+            "fontSize": 20.51,
+            "typeface": "Microsoft YaHei UI",
+            "color": "#111418",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Which single evidence gap matters most: board-native source lines, overhead, or transport?",
+              "fontSize": 20.51,
+              "typeface": "Microsoft YaHei UI",
+              "color": "#111418",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 15,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/xs72x4na",
+      "id": "15",
+      "bbox": [
+        125,
+        386,
+        900,
+        1
+      ],
+      "geometry": "rect",
+      "fillColor": "#D8DEE6",
+      "lineWidth": 0
+    },
+    {
+      "order": 16,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/q1orytsv",
+      "id": "16",
+      "bbox": [
+        125,
+        406,
+        122,
+        32
+      ],
+      "geometry": "rect",
+      "fillColor": "#B42318",
+      "lineWidth": 0
+    },
+    {
+      "order": 17,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/fmlkjm1c",
+      "id": "17",
+      "bbox": [
+        125,
+        413,
+        122,
+        16
+      ],
+      "geometry": "rect",
+      "text": "REMOVE",
+      "textPreview": "REMOVE",
+      "resolvedFontSize": 11.51,
+      "resolvedTextStyle": {
+        "fontSize": 11.51,
+        "typeface": "Cascadia Mono",
+        "color": "#FFFFFF",
+        "bold": true,
+        "alignment": "center",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "REMOVE"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "REMOVE",
+          "resolvedTextStyle": {
+            "fontSize": 11.51,
+            "typeface": "Cascadia Mono",
+            "color": "#FFFFFF",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "REMOVE",
+              "fontSize": 11.51,
+              "typeface": "Cascadia Mono",
+              "color": "#FFFFFF",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 18,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/8jqh0fep",
+      "id": "18",
+      "bbox": [
+        286,
+        404,
+        865,
+        46
+      ],
+      "geometry": "rect",
+      "text": "Move real-malware accuracy and payload-equivalence claims to limitations/future work",
+      "textPreview": "Move real-malware accuracy and payload-equivalence claims to limitations/future work",
+      "resolvedFontSize": 20.51,
+      "resolvedTextStyle": {
+        "fontSize": 20.51,
+        "typeface": "Microsoft YaHei UI",
+        "color": "#111418",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Move real-malware accuracy and payload-equivalence claims to"
+          },
+          {
+            "index": 2,
+            "text": "limitations/future work"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Move real-malware accuracy and payload-equivalence claims to limitations/future work",
+          "resolvedTextStyle": {
+            "fontSize": 20.51,
+            "typeface": "Microsoft YaHei UI",
+            "color": "#111418",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Move real-malware accuracy and payload-equivalence claims to limitations/future work",
+              "fontSize": 20.51,
+              "typeface": "Microsoft YaHei UI",
+              "color": "#111418",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 19,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/x4nap4r6",
+      "id": "19",
+      "bbox": [
+        125,
+        470,
+        900,
+        1
+      ],
+      "geometry": "rect",
+      "fillColor": "#D8DEE6",
+      "lineWidth": 0
+    },
+    {
+      "order": 20,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/hgn29gr2",
+      "id": "20",
+      "bbox": [
+        125,
+        490,
+        122,
+        32
+      ],
+      "geometry": "rect",
+      "fillColor": "#12783A",
+      "lineWidth": 0
+    },
+    {
+      "order": 21,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/svu9knih",
+      "id": "21",
+      "bbox": [
+        125,
+        497,
+        122,
+        16
+      ],
+      "geometry": "rect",
+      "text": "NEXT",
+      "textPreview": "NEXT",
+      "resolvedFontSize": 11.51,
+      "resolvedTextStyle": {
+        "fontSize": 11.51,
+        "typeface": "Cascadia Mono",
+        "color": "#FFFFFF",
+        "bold": true,
+        "alignment": "center",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "NEXT"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "NEXT",
+          "resolvedTextStyle": {
+            "fontSize": 11.51,
+            "typeface": "Cascadia Mono",
+            "color": "#FFFFFF",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "NEXT",
+              "fontSize": 11.51,
+              "typeface": "Cascadia Mono",
+              "color": "#FFFFFF",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 22,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/za1gvy90",
+      "id": "22",
+      "bbox": [
+        286,
+        488,
+        865,
+        46
+      ],
+      "geometry": "rect",
+      "text": "Convert remaining prose claims into final figures and claim-evidence tables",
+      "textPreview": "Convert remaining prose claims into final figures and claim-evidence tables",
+      "resolvedFontSize": 20.51,
+      "resolvedTextStyle": {
+        "fontSize": 20.51,
+        "typeface": "Microsoft YaHei UI",
+        "color": "#111418",
+        "bold": true,
+        "alignment": "left",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Convert remaining prose claims into final figures and claim-evidence tables"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Convert remaining prose claims into final figures and claim-evidence tables",
+          "resolvedTextStyle": {
+            "fontSize": 20.51,
+            "typeface": "Microsoft YaHei UI",
+            "color": "#111418",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Convert remaining prose claims into final figures and claim-evidence tables",
+              "fontSize": 20.51,
+              "typeface": "Microsoft YaHei UI",
+              "color": "#111418",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 23,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/ap4r65wj",
+      "id": "23",
+      "bbox": [
+        125,
+        554,
+        900,
+        1
+      ],
+      "geometry": "rect",
+      "fillColor": "#D8DEE6",
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

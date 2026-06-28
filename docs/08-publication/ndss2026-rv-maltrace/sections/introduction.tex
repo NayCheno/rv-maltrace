@@ -21,6 +21,16 @@ field. The result is a behavior trace whose evidence is explicit: the reader
 can see which parts came from hardware and which parts came from supporting
 metadata or reference logs.
 
+The main finding in this draft is deliberately narrow. \rvmt supports controlled
+behavior reconstruction when the question is whether a trace record sequence
+can be connected to syscall transitions, executable identity, process context,
+and clearly labeled reference evidence. The supporting evidence is organized
+around trace correctness, source labeling, code attribution, and
+reproducibility. Each result is reported with the boundary needed to interpret
+it: local code-attribution fixtures do not become board-native source-line
+evidence, reference logs do not become hardware output, and controlled
+workloads do not establish in-the-wild malware accuracy.
+
 This paper is scoped as a systems and artifact paper. It is not a malware
 classifier and does not measure family-level accuracy, indicator coverage, or
 uncontrolled malware execution. It also does not evaluate production trace
@@ -32,13 +42,16 @@ We make the following contributions:
 
 \begin{itemize}
   \item A CVA6/Genesys2 trace path for controlled RISC-V Linux behavior
-  studies, covering retire, trap, syscall entry/return, privilege transition,
-  branch/jump, context, marker, and pointer-byte snapshot records.
-  \item A behavior reconstruction pipeline that separates hardware trace
-  fields from ELF metadata, runtime process-map evidence, and reference logs.
-  \item Local code-attribution tests for ELF identity, PIE/ASLR load bias,
-  dynamic objects, fork/exec ownership, stripped binaries, and source-map
-  boundaries.
+  studies, with trace records for retire, trap, syscall entry/return,
+  privilege transition, branch/jump, context, marker, and pointer-byte
+  snapshots.
+  \item A behavior reconstruction pipeline that keeps hardware trace fields
+  separate from ELF metadata, runtime process-map evidence, and reference logs,
+  so that derived fields carry explicit source labels.
+  \item Code-attribution checks for ELF identity, PIE/ASLR load bias, dynamic
+  objects, fork/exec ownership, stripped binaries, and source-map boundaries,
+  reported as local attribution evidence rather than board-native source-line
+  recovery.
   \item A reproducible artifact package rooted at \artifactroot, with
   manifests and SHA-256 path checks that keep supported results separate from
   experiments that are not evaluated in this draft.

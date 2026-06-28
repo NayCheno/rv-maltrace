@@ -3,10 +3,17 @@
 \rvmt demonstrates a path from RISC-V hardware trace records to controlled
 Linux behavior summaries. The current CVA6/Genesys2 implementation supports
 trace correctness tests, source-labeled reconstruction, local code-attribution
-tests, and reproducible artifact checks under the current evidence directory. Real
-malware validation, production transport, JTAG RAM boot, SD-card-free kernel
-update, and cycle-overhead are outside the evaluated scope.
+tests, and reproducible artifact checks under the current evidence directory.
+The supported conclusion is that hardware-assisted trace can be connected to
+behavior reconstruction under controlled inputs while preserving the source of
+each derived field. Real malware validation, production transport, JTAG RAM
+boot, SD-card-free kernel update, and cycle-overhead are outside the evaluated
+scope.
 
-The next step for a submission-ready paper is to replace remaining prose-level
-summaries with final figures, quantitative tables, and related-work positioning
-while keeping the same scope.
+The next revision should make two decisions explicit. First, the submission
+claim should remain behavior reconstruction with source-labeled evidence rather
+than malware detection accuracy. Second, the paper should choose which remaining
+gap is most important to close before submission: board-native source-line
+evidence, cycle-overhead measurement, or production trace transport. Remaining
+prose-level summaries should then be replaced with final figures, quantitative
+tables, and related-work positioning under the same scope.

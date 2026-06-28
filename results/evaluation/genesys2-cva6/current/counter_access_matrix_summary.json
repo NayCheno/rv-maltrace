@@ -11,9 +11,9 @@
       "size_bytes": 1143
     },
     "run_log": {
-      "path": "results/board/genesys2_trace_validation/20260623-counter-access-matrix/uart.log",
-      "sha256": "08f7d048216798f07d3dcd4441cff1ae463005a3575a32d629c1b937701887fe",
-      "size_bytes": 3104
+      "path": "results/board/genesys2_trace_validation/20260625-010300-official-image-counter-access-matrix/uart.log",
+      "sha256": "02b63aadc731283a7660a958f3e3a25a359e9edd74eaad67e76d9a6b5073e396",
+      "size_bytes": 3085
     },
     "source": {
       "path": "board/trace_validation/programs/counter_access_matrix.c",
@@ -21,8 +21,8 @@
       "size_bytes": 6094
     },
     "transfer_log": {
-      "path": "results/board/genesys2_trace_validation/20260623-counter-access-matrix/transfer.log",
-      "sha256": "3bffc457047a8d70c4e74a59eb62d89a4b2e407e8f1c96a42eb6018cbf62026e",
+      "path": "results/board/genesys2_trace_validation/20260625-010300-official-image-counter-access-matrix/transfer.log",
+      "sha256": "8c0acc011311af2c80081a1c53862954110c42e95ea694fabe9fc418b705c576",
       "size_bytes": 25836
     }
   },
@@ -37,13 +37,13 @@
   },
   "clock_access": {
     "clock_monotonic": {
-      "immediate_delta_ns": 43440,
+      "immediate_delta_ns": 45920,
       "name": "clock_monotonic",
       "res_ns": 10000000,
       "status": "AVAILABLE"
     },
     "clock_monotonic_raw": {
-      "immediate_delta_ns": 39200,
+      "immediate_delta_ns": 42360,
       "name": "clock_monotonic_raw",
       "res_ns": 10000000,
       "status": "AVAILABLE"
@@ -51,94 +51,94 @@
   },
   "clock_rows": [
     {
-      "loop_delta_ns": 2242880,
+      "loop_delta_ns": 3044280,
       "name": "clock_monotonic",
-      "pid": 7965,
+      "pid": 544,
       "rep": 1,
       "sink": 12030911620147184437,
-      "syscall_delta_ns": 68560,
-      "total_delta_ns": 2311440
-    },
-    {
-      "loop_delta_ns": 2603560,
-      "name": "clock_monotonic",
-      "pid": 7965,
-      "rep": 2,
-      "sink": 12030911620147184437,
-      "syscall_delta_ns": 62120,
-      "total_delta_ns": 2665680
-    },
-    {
-      "loop_delta_ns": 2608200,
-      "name": "clock_monotonic",
-      "pid": 7965,
-      "rep": 3,
-      "sink": 12030911620147184437,
-      "syscall_delta_ns": 70400,
-      "total_delta_ns": 2678600
-    },
-    {
-      "loop_delta_ns": 2237760,
-      "name": "clock_monotonic",
-      "pid": 7965,
-      "rep": 4,
-      "sink": 12030911620147184437,
-      "syscall_delta_ns": 60600,
-      "total_delta_ns": 2298360
-    },
-    {
-      "loop_delta_ns": 3208040,
-      "name": "clock_monotonic",
-      "pid": 7965,
-      "rep": 5,
-      "sink": 12030911620147184437,
-      "syscall_delta_ns": 64360,
-      "total_delta_ns": 3272400
-    },
-    {
-      "loop_delta_ns": 2611880,
-      "name": "clock_monotonic_raw",
-      "pid": 7965,
-      "rep": 1,
-      "sink": 12030911620147184437,
-      "syscall_delta_ns": 63960,
-      "total_delta_ns": 2675840
-    },
-    {
-      "loop_delta_ns": 3172920,
-      "name": "clock_monotonic_raw",
-      "pid": 7965,
-      "rep": 2,
-      "sink": 12030911620147184437,
-      "syscall_delta_ns": 66080,
-      "total_delta_ns": 3239000
-    },
-    {
-      "loop_delta_ns": 2239520,
-      "name": "clock_monotonic_raw",
-      "pid": 7965,
-      "rep": 3,
-      "sink": 12030911620147184437,
-      "syscall_delta_ns": 58040,
-      "total_delta_ns": 2297560
+      "syscall_delta_ns": 73920,
+      "total_delta_ns": 3118200
     },
     {
       "loop_delta_ns": 2242320,
-      "name": "clock_monotonic_raw",
-      "pid": 7965,
-      "rep": 4,
+      "name": "clock_monotonic",
+      "pid": 544,
+      "rep": 2,
       "sink": 12030911620147184437,
-      "syscall_delta_ns": 57520,
-      "total_delta_ns": 2299840
+      "syscall_delta_ns": 60640,
+      "total_delta_ns": 2302960
     },
     {
-      "loop_delta_ns": 3182080,
-      "name": "clock_monotonic_raw",
-      "pid": 7965,
+      "loop_delta_ns": 2610480,
+      "name": "clock_monotonic",
+      "pid": 544,
+      "rep": 3,
+      "sink": 12030911620147184437,
+      "syscall_delta_ns": 61160,
+      "total_delta_ns": 2671640
+    },
+    {
+      "loop_delta_ns": 2607000,
+      "name": "clock_monotonic",
+      "pid": 544,
+      "rep": 4,
+      "sink": 12030911620147184437,
+      "syscall_delta_ns": 67160,
+      "total_delta_ns": 2674160
+    },
+    {
+      "loop_delta_ns": 2238840,
+      "name": "clock_monotonic",
+      "pid": 544,
       "rep": 5,
       "sink": 12030911620147184437,
-      "syscall_delta_ns": 63160,
-      "total_delta_ns": 3245240
+      "syscall_delta_ns": 60600,
+      "total_delta_ns": 2299440
+    },
+    {
+      "loop_delta_ns": 2850520,
+      "name": "clock_monotonic_raw",
+      "pid": 544,
+      "rep": 1,
+      "sink": 12030911620147184437,
+      "syscall_delta_ns": 68080,
+      "total_delta_ns": 2918600
+    },
+    {
+      "loop_delta_ns": 2610680,
+      "name": "clock_monotonic_raw",
+      "pid": 544,
+      "rep": 2,
+      "sink": 12030911620147184437,
+      "syscall_delta_ns": 62120,
+      "total_delta_ns": 2672800
+    },
+    {
+      "loop_delta_ns": 3166480,
+      "name": "clock_monotonic_raw",
+      "pid": 544,
+      "rep": 3,
+      "sink": 12030911620147184437,
+      "syscall_delta_ns": 64640,
+      "total_delta_ns": 3231120
+    },
+    {
+      "loop_delta_ns": 2240560,
+      "name": "clock_monotonic_raw",
+      "pid": 544,
+      "rep": 4,
+      "sink": 12030911620147184437,
+      "syscall_delta_ns": 60000,
+      "total_delta_ns": 2300560
+    },
+    {
+      "loop_delta_ns": 2241600,
+      "name": "clock_monotonic_raw",
+      "pid": 544,
+      "rep": 5,
+      "sink": 12030911620147184437,
+      "syscall_delta_ns": 58440,
+      "total_delta_ns": 2300040
     }
   ],
   "counter_access": {
@@ -151,58 +151,58 @@
       "status": "ILLEGAL_INSTRUCTION"
     },
     "time": {
-      "first": 1004471232906,
-      "immediate_delta": 881,
+      "first": 12350157857,
+      "immediate_delta": 843,
       "name": "time",
-      "second": 1004471233787,
+      "second": 12350158700,
       "status": "AVAILABLE"
     }
   },
   "counter_rows": [
     {
-      "loop_delta": 82875,
+      "loop_delta": 55869,
       "name": "time",
-      "pid": 7965,
+      "pid": 544,
       "rep": 1,
       "sink": 12030911620147184437,
-      "syscall_delta": 1742,
-      "total_delta": 84617
+      "syscall_delta": 1618,
+      "total_delta": 57487
     },
     {
-      "loop_delta": 65489,
+      "loop_delta": 81700,
       "name": "time",
-      "pid": 7965,
+      "pid": 544,
       "rep": 2,
       "sink": 12030911620147184437,
-      "syscall_delta": 1418,
-      "total_delta": 66907
+      "syscall_delta": 1667,
+      "total_delta": 83367
     },
     {
-      "loop_delta": 55791,
+      "loop_delta": 65375,
       "name": "time",
-      "pid": 7965,
+      "pid": 544,
       "rep": 3,
       "sink": 12030911620147184437,
-      "syscall_delta": 1322,
-      "total_delta": 57113
+      "syscall_delta": 1382,
+      "total_delta": 66757
     },
     {
-      "loop_delta": 55857,
+      "loop_delta": 55776,
       "name": "time",
-      "pid": 7965,
+      "pid": 544,
       "rep": 4,
       "sink": 12030911620147184437,
-      "syscall_delta": 1496,
-      "total_delta": 57353
+      "syscall_delta": 1400,
+      "total_delta": 57176
     },
     {
-      "loop_delta": 64542,
+      "loop_delta": 55827,
       "name": "time",
-      "pid": 7965,
+      "pid": 544,
       "rep": 5,
       "sink": 12030911620147184437,
-      "syscall_delta": 1397,
-      "total_delta": 65939
+      "syscall_delta": 1589,
+      "total_delta": 57416
     }
   ],
   "iters": 10000,
@@ -213,7 +213,7 @@
     "A PASS here only means user rdcycle produced monotonic-positive rows; it is not a trace-on/trace-off slowdown measurement."
   ],
   "requested_repetitions": 5,
-  "run_root": "results/board/genesys2_trace_validation/20260623-counter-access-matrix",
+  "run_root": "results/board/genesys2_trace_validation/20260625-010300-official-image-counter-access-matrix",
   "schema": "rvmt.genesys2.counter_access_matrix.v1",
   "status": "BLOCKED_BOARD_CYCLE_COUNTER_UNAVAILABLE_NONCYCLE_TIME_AVAILABLE",
   "target": "/tmp/rvmt_cycle/counter_access_matrix"

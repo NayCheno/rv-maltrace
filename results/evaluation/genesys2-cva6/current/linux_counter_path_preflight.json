@@ -399,8 +399,8 @@
           "exists": true,
           "kind": "file",
           "path": "results/evaluation/genesys2-cva6/current/sdcard_linux_manifest.json",
-          "sha256": "0cdc91ef385678b56a9b6994116392ae5dc008dee8eb8b3bf4f5b87db506ee22",
-          "size_bytes": 10439
+          "sha256": "4027bdebad5c4754a931ae6f31770e546ba9416848afc320f1e7c016fe4e315d",
+          "size_bytes": 10291
         }
       ],
       "id": "sd_card_image_manifest",
@@ -428,8 +428,8 @@
           "exists": true,
           "kind": "file",
           "path": "results/evaluation/genesys2-cva6/current/sdcard_linux_manifest.json",
-          "sha256": "0cdc91ef385678b56a9b6994116392ae5dc008dee8eb8b3bf4f5b87db506ee22",
-          "size_bytes": 10439
+          "sha256": "4027bdebad5c4754a931ae6f31770e546ba9416848afc320f1e7c016fe4e315d",
+          "size_bytes": 10291
         }
       ],
       "required": true,
@@ -784,8 +784,8 @@
       "id": "sdcard_linux_manifest",
       "path": "results/evaluation/genesys2-cva6/current/sdcard_linux_manifest.json",
       "schema": "rvmt.genesys2.sdcard_linux_manifest.v1",
-      "sha256": "0cdc91ef385678b56a9b6994116392ae5dc008dee8eb8b3bf4f5b87db506ee22",
-      "size_bytes": 10439,
+      "sha256": "4027bdebad5c4754a931ae6f31770e546ba9416848afc320f1e7c016fe4e315d",
+      "size_bytes": 10291,
       "status": "PASS"
     },
     {
@@ -833,8 +833,8 @@
       "id": "cycle_source_diagnostics",
       "path": "results/evaluation/genesys2-cva6/current/cycle_source_diagnostics_summary.json",
       "schema": "rvmt.genesys2.cycle_source_diagnostics.v1",
-      "sha256": "83d7cc84959d1e5ba8d5c31e1b84f6dc3afbd4655f15ccc0d32b2236711e4c90",
-      "size_bytes": 9388,
+      "sha256": "ce513752063768b70f49534446ae8f1447192e37591fe4c7a1f1fe611040bcd5",
+      "size_bytes": 8992,
       "status": "BLOCKED_BOARD_KERNEL_PMU_AND_USER_CYCLE_UNAVAILABLE"
     },
     {
@@ -847,8 +847,8 @@
       "id": "live_kernel_config_export",
       "path": "results/evaluation/genesys2-cva6/current/live_kernel_config_export_summary.json",
       "schema": "rvmt.genesys2.live_kernel_config_export.v1",
-      "sha256": "0bd5c480cce0342c989d3f3595b8920ed501d35f2811ca01b8b1b85cf73ebfa7",
-      "size_bytes": 2465,
+      "sha256": "dfd192c560ae8dd8df8d419be2d8bbf427b144304bd5c3a7ca476089cfefe807",
+      "size_bytes": 2487,
       "status": "BLOCKED_LIVE_KERNEL_CONFIG_UNAVAILABLE"
     },
     {
@@ -863,8 +863,8 @@
       "id": "counter_access_matrix",
       "path": "results/evaluation/genesys2-cva6/current/counter_access_matrix_summary.json",
       "schema": "rvmt.genesys2.counter_access_matrix.v1",
-      "sha256": "40a34e994007c9324bd2ae1ab5ceeb07d7cf4399b879c80590f5687f7cb4391c",
-      "size_bytes": 6141,
+      "sha256": "bf19844a1ebc4253362e1b0b08221af185113c769be5a40e7c85fe3da5aff11e",
+      "size_bytes": 6188,
       "status": "BLOCKED_BOARD_CYCLE_COUNTER_UNAVAILABLE_NONCYCLE_TIME_AVAILABLE"
     }
   ],

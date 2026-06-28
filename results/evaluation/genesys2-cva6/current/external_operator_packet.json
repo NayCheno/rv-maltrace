@@ -459,7 +459,7 @@
       "expected_schema": "rvmt.genesys2.external_closure_plan.v1",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_plan.json",
       "schema": "rvmt.genesys2.external_closure_plan.v1",
-      "sha256": "d0768119e020be185ecbebf776f0da70ab8904fa361c38397d080390b8c96f28",
+      "sha256": "f030e693c9d92cd3b7f74b16edb8a6176e01070c601ca6e772e9fbc50d19ec87",
       "status": "PASS"
     },
     "external_closure_preflight": {
@@ -468,7 +468,7 @@
       "expected_schema": "rvmt.genesys2.external_closure_preflight.v1",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_preflight.json",
       "schema": "rvmt.genesys2.external_closure_preflight.v1",
-      "sha256": "495f9f332b0f6dbe061c8e694b5749b7ee663cba5abf2936c9f3d651431e942c",
+      "sha256": "02ba65bd3a9619eae7df62292e0223a40b03ae3e6164c5bf4490ad583388d376",
       "status": "PASS"
     },
     "external_closure_readiness": {
@@ -477,7 +477,7 @@
       "expected_schema": "rvmt.genesys2.external_closure_readiness.v1",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_readiness.json",
       "schema": "rvmt.genesys2.external_closure_readiness.v1",
-      "sha256": "eecf2992c3fed3658943ef444a9c07d8bebd2371e0756d200109d5b3f2932e38",
+      "sha256": "6cac89807f46ac824eb7ff760d893d87e16f843c4403bcfc9e437c4cd62be009",
       "status": "PASS"
     }
   },

@@ -146,7 +146,7 @@ def package_summary(
         "generated_utc": dt.datetime.now(dt.UTC).isoformat(),
         "command": (
             "vivado -mode batch -source tools/program_genesys2_bitstream.tcl -tclargs "
-            f"{DEFAULT_BITSTREAM.as_posix()} {DEFAULT_LTX.as_posix()} {hw_server or 'localhost:3121'}"
+            f"{bitstream.as_posix()} {ltx.as_posix()} {hw_server or 'localhost:3121'}"
         ),
         "returncode": 0,
         "vivado_version": vivado_version(text),
@@ -164,6 +164,8 @@ def package_summary(
             "build_manifest": {
                 **build_row,
                 "trace_marker_scope": build.get("trace_marker_scope"),
+                "trace_syscall_marker_profile": build.get("trace_syscall_marker_profile"),
+                "trace_source_line_profile": build.get("trace_source_line_profile"),
                 "verilog_defines": build.get("verilog_defines"),
                 "xilinx_part": build.get("xilinx_part"),
                 "xilinx_board": build.get("xilinx_board"),

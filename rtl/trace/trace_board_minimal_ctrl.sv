@@ -37,16 +37,25 @@ module trace_board_minimal_ctrl #(
   assign trace_pc_end_o = 64'h0000_0000_0001_05ae;
 `else
   assign trace_enable_retire_o = 1'b0;
-`ifdef RV_MALTRACE_FPGA_TRACE_MARKER_SCOPE
+`ifdef RV_MALTRACE_FPGA_TRACE_SYSCALL_MARKER_SCOPE
+  assign trace_enable_branch_o = 1'b0;
+`elsif RV_MALTRACE_FPGA_TRACE_MARKER_SCOPE
   assign trace_enable_branch_o = 1'b0;
 `else
   assign trace_enable_branch_o = 1'b1;
 `endif
   assign trace_enable_jump_o = 1'b0;
   assign trace_enable_syscall_o = 1'b1;
+`ifdef RV_MALTRACE_FPGA_TRACE_SYSCALL_MARKER_SCOPE
+  assign trace_enable_trap_o = 1'b0;
+  assign trace_enable_context_o = 1'b0;
+`else
   assign trace_enable_trap_o = 1'b1;
   assign trace_enable_context_o = 1'b1;
-`ifdef RV_MALTRACE_FPGA_TRACE_MARKER_SCOPE
+`endif
+`ifdef RV_MALTRACE_FPGA_TRACE_SYSCALL_MARKER_SCOPE
+  assign trace_enable_marker_o = 1'b1;
+`elsif RV_MALTRACE_FPGA_TRACE_MARKER_SCOPE
   assign trace_enable_marker_o = 1'b1;
 `else
   assign trace_enable_marker_o = 1'b0;

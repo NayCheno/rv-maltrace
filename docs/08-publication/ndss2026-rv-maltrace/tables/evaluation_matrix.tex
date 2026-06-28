@@ -1,17 +1,17 @@
 \begin{table*}[t]
 \centering
-\caption{Evaluation questions and supporting checks.}
+\caption{Evaluation questions, supporting evidence, and boundaries.}
 \label{tab:evaluation}
 \scriptsize
-\begin{tabularx}{\textwidth}{p{0.10\textwidth}Y p{0.26\textwidth}p{0.22\textwidth}}
+\begin{tabularx}{\textwidth}{p{0.08\textwidth}p{0.24\textwidth}p{0.20\textwidth}p{0.17\textwidth}Y}
 \toprule
-RQ & Measurement & Evidence & Result \\
+RQ & Claim tested & Evidence & Result & Boundary \\
 \midrule
-RQ1 & Trace ordering, trap/retire separation, syscall entry/return pairing, same-cycle ordering, and strict SRET qualification & Directed trace tests & Covered by the current test corpus \\
-RQ2 & Source labels for hardware trace, ELF metadata, runtime maps, and reference logs & Reconstruction summaries & All reported fields carry a source label \\
-RQ3 & ELF identity, PIE/ASLR, dynamic libraries, fork/exec, stripped binaries, and source-map boundaries & Local attribution tests & Attribution edge cases are covered locally \\
-RQ4 & Reproducible evidence directory with path and SHA-256 validation & Local and Docker runs & Quick, local, full, and Docker reproduction complete \\
-RQ5 & Visibility of software tracers and separation from hardware trace results & Local software baseline & Software traces are treated as references, not hardware output \\
+RQ1 & Trace records preserve ordering and syscall pairing needed for reconstruction & Directed trace tests & Covered by the current test corpus & Does not measure production transport throughput or runtime slowdown \\
+RQ2 & Reconstructed fields identify whether they came from hardware trace, ELF metadata, runtime maps, or reference logs & Reconstruction summaries & All reported fields carry a source label & Reference-derived fields validate expectations but are not hardware recovery \\
+RQ3 & Code attribution handles common mapping edge cases & Local attribution tests & Attribution edge cases are covered locally & Local fixtures do not establish board-native source-line recovery \\
+RQ4 & The evidence package is reproducible and auditable & Local and Docker runs & Quick, local, full, and Docker reproduction complete & Reproduction covers the recorded artifact, not experiments outside the manifest \\
+RQ5 & Controlled workloads exercise behavior reconstruction without becoming a malware benchmark & Case-study manifests and behavior checks & Controlled behavior checks are recorded in the artifact package & Does not imply real-malware accuracy, TTP coverage, or payload equivalence \\
 \bottomrule
 \end{tabularx}
 \end{table*}

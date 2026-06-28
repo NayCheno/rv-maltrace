@@ -1,0 +1,218 @@
+{
+  "artifacts": {
+    "bram_records": {
+      "exists": true,
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/bram_records.jsonl",
+      "sha256": "46473d12b60bb02701dcd07bfeff18039fa82645a4f264411c4909744eedc65b",
+      "size_bytes": 77229
+    },
+    "bram_summary": {
+      "exists": true,
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/bram_summary.json",
+      "sha256": "2d58d5f4daeab996400f5e89c651f936145502e9e69f98d4d1f1e0fc5c48fd46",
+      "size_bytes": 1008
+    },
+    "build_manifest": {
+      "exists": true,
+      "path": "build/board/genesys2_official_image_probe/build_manifest.json",
+      "sha256": "ca9eb7b099081a0852788a85691f441d698fd0a184ece629224348b758128b6c",
+      "size_bytes": 2976
+    },
+    "capture_csv": {
+      "exists": true,
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/capture.csv",
+      "sha256": "abe788a77adea029275607c9b4c01b05f0ee4001ebecb821b549a33fefa5f0da",
+      "size_bytes": 2095924
+    },
+    "capture_err_log": {
+      "exists": true,
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/capture.err.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "capture_log": {
+      "exists": true,
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/capture.log",
+      "sha256": "1697bb5b5c0eb57594ad4a9a7f540b65d9edf21627b7f89fe9a848484da503d2",
+      "size_bytes": 9410
+    },
+    "proc_snapshots": {
+      "child_exe_post": {
+        "exists": true,
+        "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/proc_snapshots/fork_exec/child_exe_post.txt",
+        "sha256": "faf05c4d26db6db0dfdee8d27468f68e4e07cb32d2ba9891e8167e8f7b6b4edf",
+        "size_bytes": 13
+      },
+      "child_exe_pre": {
+        "exists": true,
+        "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/proc_snapshots/fork_exec/child_exe_pre.txt",
+        "sha256": "e22820bc71c7e1f5395b6d8563634bbb0fc6645ac620b76aedeb315f056c248f",
+        "size_bytes": 122
+      },
+      "child_maps_post": {
+        "exists": true,
+        "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/proc_snapshots/fork_exec/child_maps_post.txt",
+        "sha256": "28f60286b2ca2281ac78867956ce95f1a41a0777b2bc21fe63d3158d1902102e",
+        "size_bytes": 1540
+      },
+      "child_maps_pre": {
+        "exists": true,
+        "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/proc_snapshots/fork_exec/child_maps_pre.txt",
+        "sha256": "ae46a6fe304dd72ef0a0357697e9c5da4fa56902056850e2e1f852d6da48dc12",
+        "size_bytes": 701
+      },
+      "child_status_post": {
+        "exists": true,
+        "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/proc_snapshots/fork_exec/child_status_post.txt",
+        "sha256": "67c07a279d5fe7fe9518b57621d43a1809903e2d164ffc1edc1592ac13c94305",
+        "size_bytes": 1053
+      },
+      "child_status_pre": {
+        "exists": true,
+        "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/proc_snapshots/fork_exec/child_status_pre.txt",
+        "sha256": "0837e09765ed473a328ae7592f1218d6e6d18c1c892f2987bb7fb3620ffac017",
+        "size_bytes": 1061
+      },
+      "parent_maps_pre": {
+        "exists": true,
+        "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/proc_snapshots/fork_exec/parent_maps_pre.txt",
+        "sha256": "ae46a6fe304dd72ef0a0357697e9c5da4fa56902056850e2e1f852d6da48dc12",
+        "size_bytes": 701
+      },
+      "parent_status_pre": {
+        "exists": true,
+        "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/proc_snapshots/fork_exec/parent_status_pre.txt",
+        "sha256": "964bb65c9dc8c1cbab882c7f93438462810b14a669fbbb06116173e78b8d28ba",
+        "size_bytes": 1059
+      }
+    },
+    "transfer_log": {
+      "exists": true,
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/fork_exec_transfer.log",
+      "sha256": "126159c68057f1b0a45994ab0c18f3c060d1df26ca31a8527038c40d5ffb5d80",
+      "size_bytes": 23405
+    },
+    "uart_log": {
+      "exists": true,
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/uart.log",
+      "sha256": "e743cd664109e87527c23c3e099f4a81a03767374d3495b3e74ba8f0c5057358",
+      "size_bytes": 11741
+    }
+  },
+  "blocked_reason": null,
+  "bram_ring": {
+    "captured_count": 88,
+    "dropped_count": 0,
+    "event_count": 88,
+    "wrap_count": 0
+  },
+  "claim_boundary": {
+    "cycle_level_overhead_claimed": false,
+    "fork_exec_process_ownership_claimed": true,
+    "hardware_pid_tgid_required_for_strict_pairing": false,
+    "marker_assisted_pid_tgid_pairing": true,
+    "qemu_or_strace_substitution_used": false,
+    "real_malware_validation_claimed": false,
+    "runtime_map_inference_not_promoted_to_pid_pairing": false,
+    "runtime_proc_snapshots_captured": true
+  },
+  "host_done": {
+    "child": 1294,
+    "parent": 1292,
+    "rc": 0
+  },
+  "marker_window": {
+    "begin": "0xb0000c02",
+    "end": "0xe0000c02"
+  },
+  "non_claims": [
+    "Marker-assisted PID/TGID pairing is scoped to this controlled probe and is not a claim that the hardware independently recovers Linux scheduler task IDs for arbitrary workloads.",
+    "This benign fork/exec probe is not real-malware validation."
+  ],
+  "pid_tgid_markers": [
+    {
+      "kind": 1,
+      "marker": null,
+      "name": "parent_pid",
+      "raw_label": "fork_parent_pid",
+      "sequence_number": null,
+      "source": "bram_arg_mem_stdout",
+      "syscall_id": "0x0002acaa",
+      "value": 1292
+    },
+    {
+      "kind": 2,
+      "marker": null,
+      "name": "parent_tgid",
+      "raw_label": "fork_parent_tgid",
+      "sequence_number": null,
+      "source": "bram_arg_mem_stdout",
+      "syscall_id": "0x0002acad",
+      "value": 1292
+    },
+    {
+      "kind": 3,
+      "marker": null,
+      "name": "child_pid",
+      "raw_label": "fork_child_pid",
+      "sequence_number": null,
+      "source": "bram_arg_mem_stdout",
+      "syscall_id": "0x0002acb0",
+      "value": 1294
+    },
+    {
+      "kind": 4,
+      "marker": null,
+      "name": "child_tgid",
+      "raw_label": "fork_child_tgid",
+      "sequence_number": null,
+      "source": "bram_arg_mem_stdout",
+      "syscall_id": "0x0002acb2",
+      "value": 1294
+    },
+    {
+      "kind": 5,
+      "marker": null,
+      "name": "child_pre_exec_pid",
+      "raw_label": "fork_child_pre_exec_pid",
+      "sequence_number": null,
+      "source": "bram_arg_mem_stdout",
+      "syscall_id": "0x0002acb5",
+      "value": 1294
+    },
+    {
+      "kind": 6,
+      "marker": null,
+      "name": "child_pre_exec_tgid",
+      "raw_label": "fork_child_pre_exec_tgid",
+      "sequence_number": null,
+      "source": "bram_arg_mem_stdout",
+      "syscall_id": "0x0002acb8",
+      "value": 1294
+    }
+  ],
+  "pids": {
+    "child": 1294,
+    "parent": 1292
+  },
+  "probe_done": {
+    "child_pid": 1294,
+    "parent_pid": 1292,
+    "raw_status": 0,
+    "rc": 0
+  },
+  "run_root": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec",
+  "runtime_snapshots": {
+    "child_post_exec_exe_matches_busybox": true,
+    "child_post_exec_map_entry_count": 19,
+    "child_pre_exec_exe_matches_probe": true,
+    "child_pre_exec_map_entry_count": 8,
+    "parent_map_entry_count": 8
+  },
+  "schema": "rvmt.genesys2.official_image_fork_exec_ownership.v1",
+  "sequence_gap_count": 0,
+  "status": "PASS",
+  "target": "/tmp/rvmt_official/official_image_probe",
+  "trace_pid_tgid_fields_present": false,
+  "trace_pid_tgid_marker_fields_present": true
+}

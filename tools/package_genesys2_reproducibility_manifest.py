@@ -67,6 +67,13 @@ SUMMARY_ARTIFACTS = [
     ("host_vivado_check", "host_vivado_check_summary.json", "uv run python tools/check_ndss_host_vivado_check.py --root ."),
     ("trace_marker_programming", "trace_marker_programming_summary.json", "uv run python tools/check_genesys2_trace_marker_programming.py --root ."),
     ("host_latex_build", "host_latex_build_summary.json", "uv run python tools/check_ndss_host_latex_build.py --root ."),
+    ("official_image_capability_matrix", "official_image_capability_matrix.json", "uv run python tools/check_genesys2_official_image_capability_matrix.py --root ."),
+    ("official_image_workloads", "official_image_workload_summary.json", "uv run python tools/check_genesys2_official_image_workloads.py --root ."),
+    ("official_image_runtime_map", "official_image_runtime_map_summary.json", "uv run python tools/check_genesys2_official_image_runtime_map.py --root ."),
+    ("official_image_fork_exec_ownership", "official_image_fork_exec_ownership_summary.json", "uv run python tools/check_genesys2_fork_exec_ownership.py --root ."),
+    ("official_image_aslr_pie", "official_image_aslr_pie_summary.json", "uv run python tools/check_genesys2_aslr_pie_probe.py --root ."),
+    ("official_image_repeatability", "official_image_repeatability_summary.json", "uv run python tools/check_genesys2_board_repeatability.py --root ."),
+    ("official_image_hardware_oracle_differential", "official_image_hardware_oracle_differential_summary.json", "uv run python tools/check_genesys2_hardware_oracle_differential.py --root ."),
     ("trace_correctness_directed", "trace_correctness_directed_summary.json", "uv run python tools/check_trace_correctness_directed.py --root ."),
     ("tracer_visibility_baseline", "tracer_visibility_baseline_summary.json", "uv run python tools/check_genesys2_tracer_visibility_baseline.py --root ."),
 ]
@@ -116,6 +123,11 @@ TRUTHFUL_NONPASS_SUMMARY_IDS = {
     "live_kernel_config_export",
     "sdcard_write_preflight",
     "linux_counter_path_preflight",
+    "official_image_workloads",
+    "official_image_fork_exec_ownership",
+    "official_image_aslr_pie",
+    "official_image_repeatability",
+    "official_image_hardware_oracle_differential",
 }
 TRUTHFUL_NONPASS_STATUSES = {
     "BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED",
@@ -136,6 +148,16 @@ TRUTHFUL_NONPASS_STATUSES = {
     "BLOCKED_SDCARD_WRITE_TARGET_UNSAFE",
     "BLOCKED_SD_CARD_LINUX_SOURCE_MISSING",
     "BLOCKED_BOARD_COUNTER_SOURCE_UNAVAILABLE_AFTER_REBUILD_PREFLIGHT",
+    "BLOCKED_OFFICIAL_WORKLOAD_CORE_RING_DEPTH_INSUFFICIENT",
+    "BLOCKED_FORK_EXEC_RUNTIME_CAPTURE_INCOMPLETE",
+    "BLOCKED_TRACE_PID_TGID_NOT_EXPOSED_IN_BRAM_RECORDS",
+    "BLOCKED_DYNAMIC_PIE_RUNTIME_UNAVAILABLE",
+    "BLOCKED_DYNAMIC_PIE_BASE_NOT_RANDOMIZED",
+    "BLOCKED_STATIC_EXEC_BASELINE_INCOMPLETE",
+    "BLOCKED_OFFICIAL_WORKLOAD_REPEATABILITY_LIMITED_BY_BRAM_RING_DEPTH",
+    "BLOCKED_OFFICIAL_WORKLOAD_REPEATABILITY_INCOMPLETE",
+    "BLOCKED_QEMU_ORACLE_UNAVAILABLE",
+    "BLOCKED_HARDWARE_ORACLE_ALIGNMENT_INCOMPLETE",
 }
 LOCAL_PASS_STATUSES_BY_ID = {
     "host_vivado_check": {"PASS_HOST_VIVADO_PREFLIGHT"},

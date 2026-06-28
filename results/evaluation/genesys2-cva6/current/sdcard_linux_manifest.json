@@ -51,9 +51,9 @@
   },
   "raw_uart_log": {
     "exists": true,
-    "path": "results/board/genesys2_trace_validation/20260623-sdcard-linux-manifest/uart.log",
-    "sha256": "0a1ad3c1be361cc6a617c71f9d1d55609b265b50dfe0f4e5da89beaccd406d0e",
-    "size_bytes": 16996
+    "path": "results/board/genesys2_trace_validation/20260625-005800-official-image-manifest/uart.log",
+    "sha256": "a4781e7d95d19ec61c623bfa92ecb80e2ab0ba6d624dd5a5e9e83de6108234e8",
+    "size_bytes": 16596
   },
   "schema": "rvmt.genesys2.sdcard_linux_manifest.v1",
   "scope": "live Genesys2/CVA6 SD-card Linux identity manifest captured over UART",
@@ -63,7 +63,7 @@
       "first_nonempty_line": "Filesystem           Type       1K-blocks      Used Available Use% Mounted on",
       "id": "block_inventory",
       "line_count": 16,
-      "sha256": "085c5a09e194baf89b3f185ce445224779b90025aa4daa9696616cdba4a2f8c6"
+      "sha256": "a23d9a57f116efbb1b1e7b7f6e8e18ca350c84660c8cd911138cb2cdb5538976"
     },
     {
       "first_nonempty_line": "RVMT_BOOT_DIR_MISSING /boot",
@@ -74,14 +74,14 @@
     {
       "first_nonempty_line": "RVMT_DTB_FILE 4b70cf601f7b2b772e125c0f76a9d1d53e15764d97fce8f8e33437087bcec1ad 18 /proc/device-tree/compatible",
       "id": "dtb_identity_hashes",
-      "line_count": 9,
-      "sha256": "3c59610af2032789d8b7bb3494cf0ab8c77af24b914d7bf33b3a84765b71a92a"
+      "line_count": 7,
+      "sha256": "134cbb6ac5e2c45ec645efb2f96c9e12c3fa5a93dc3fa7026730e1be1c47993b"
     },
     {
       "first_nonempty_line": "RVMT_DTB_VALUE_FILE /proc/device-tree/compatible",
       "id": "dtb_readable_identity",
-      "line_count": 22,
-      "sha256": "f1dfc45d6337a4db43d11eeefebee99f87a47e9b5754fa96c3d66e8f708992c1"
+      "line_count": 24,
+      "sha256": "d6e43d22b78eb3a420624683fdea4fd749a97f44de6e0952c19cc9ceebee03e8"
     },
     {
       "first_nonempty_line": "NAME=Buildroot",
@@ -138,10 +138,10 @@
       "sha256": "d1343d2564fb62012de30b1b54c1930d49c67a5479c1f6ea110319bb62f38baf"
     },
     {
-      "first_nonempty_line": "[    0.000000] Linux version 6.19.6 (root@buildkitsandbox) (riscv64-buildroot-linux-gnu-gcc.br_real (Buildroot 2026.02) 14.3.0, GNU ld (GNU Binutils) 2.44) #1 Tue Jun  9 06:02:04 UTC 2026",
+      "first_nonempty_line": "echo RVMT_SDCARD_MANIFEST_DONE",
       "id": "sbi_pmu_dmesg_probe",
-      "line_count": 20,
-      "sha256": "3d796b25a994340e1a648e0e6aa27320bdc55a5abf5e1445e63a612b961df587"
+      "line_count": 18,
+      "sha256": "d6eb92eed1b124d8aa71dd3fdf3c5aee15d47e71cee5c57f757bb6a777965ded"
     },
     {
       "first_nonempty_line": "Linux buildroot 6.19.6 #1 Tue Jun  9 06:02:04 UTC 2026 riscv64 GNU/Linux",

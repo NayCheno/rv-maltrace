@@ -13,6 +13,7 @@ from typing import NamedTuple
 DEFAULT_BASELINE_DIR = Path("build/vivado/genesys2-cv64a6_imafdc_sv39")
 DEFAULT_TRACE_DIR = Path("build/vivado/genesys2-cv64a6_imafdc_sv39-trace")
 DEFAULT_TRACE_MARKER_DIR = Path("build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker")
+DEFAULT_TRACE_MARKER_SYSCALL_DIR = Path("build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker-syscall")
 TRACE_MARKER_ILA_XCI = Path("work-fpga/xlnx_ila.xci")
 TRACE_MARKER_MANIFEST = Path("work-fpga/rvmt_trace_marker_build_manifest.json")
 TRACE_MARKER_ILA_EXPECTED = {
@@ -32,6 +33,7 @@ TRACE_MARKER_SOURCE_HASH_FILES = [
     "rtl/cva6/corev_apu/fpga/xilinx/xlnx_ila/tcl/run.tcl",
     "rtl/trace/trace_pkg.sv",
     "rtl/trace/trace_filter.sv",
+    "rtl/trace/trace_board_minimal_ctrl.sv",
     "rtl/trace/trace_bram_ring.sv",
     "rtl/trace/trace_uart_stream_sink.sv",
     "rtl/trace/rvmt_genesys2_oled_status.sv",
@@ -193,44 +195,73 @@ def check_trace_marker_source_hashes(root: Path, manifest_path: Path, data: dict
     return Check("Trace-marker source hashes", "PASS", f"{display(manifest_path, root)} source hashes match current sources")
 
 
-def check_trace_marker_manifest(root: Path, path: Path) -> Check:
+def check_trace_marker_manifest(
+    root: Path,
+    path: Path,
+    *,
+    label: str = "Trace-marker build manifest",
+    require_syscall_marker_profile: bool = False,
+) -> Check:
     full_path = resolve(root, path)
     if not full_path.exists():
-        return Check("Trace-marker build manifest", "FAIL", f"missing {display(full_path, root)}")
+        return Check(label, "FAIL", f"missing {display(full_path, root)}")
     try:
         data = json.loads(full_path.read_text(encoding="utf-8"))
     except json.JSONDecodeError as exc:
-        return Check("Trace-marker build manifest", "FAIL", f"{display(full_path, root)}: invalid JSON: {exc}")
+        return Check(label, "FAIL", f"{display(full_path, root)}: invalid JSON: {exc}")
     defines = data.get("verilog_defines")
     if not isinstance(defines, list):
-        return Check("Trace-marker build manifest", "FAIL", f"{display(full_path, root)}: verilog_defines missing")
+        return Check(label, "FAIL", f"{display(full_path, root)}: verilog_defines missing")
     required = {"RV_MALTRACE_FPGA_TRACE", "RV_MALTRACE_FPGA_TRACE_MARKER_SCOPE"}
+    if require_syscall_marker_profile:
+        required.add("RV_MALTRACE_FPGA_TRACE_SYSCALL_MARKER_SCOPE")
     missing = sorted(required - set(str(item) for item in defines))
     policy = data.get("marker_scope_policy") if isinstance(data.get("marker_scope_policy"), dict) else {}
     if missing:
-        return Check("Trace-marker build manifest", "FAIL", f"{display(full_path, root)}: missing defines {', '.join(missing)}")
+        return Check(label, "FAIL", f"{display(full_path, root)}: missing defines {', '.join(missing)}")
     if data.get("trace_marker_scope") is not True:
-        return Check("Trace-marker build manifest", "FAIL", f"{display(full_path, root)}: trace_marker_scope is not true")
+        return Check(label, "FAIL", f"{display(full_path, root)}: trace_marker_scope is not true")
+    if require_syscall_marker_profile and data.get("trace_syscall_marker_profile") is not True:
+        return Check(label, "FAIL", f"{display(full_path, root)}: trace_syscall_marker_profile is not true")
     if policy.get("enable_marker") is not True or policy.get("enable_branch") is not False:
         return Check(
-            "Trace-marker build manifest",
+            label,
             "FAIL",
             f"{display(full_path, root)}: expected marker enabled and branch disabled policy",
         )
+    if require_syscall_marker_profile and (
+        policy.get("enable_syscall") is not True
+        or policy.get("enable_trap") is not False
+        or policy.get("enable_context") is not False
+    ):
+        return Check(
+            label,
+            "FAIL",
+            f"{display(full_path, root)}: expected syscall enabled with trap/context disabled policy",
+        )
     hash_check = check_trace_marker_source_hashes(root, full_path, data)
     if hash_check is not None and hash_check.level != "PASS":
+        if hash_check.label == "Trace-marker source hashes":
+            return Check(label, hash_check.level, hash_check.evidence)
         return hash_check
     return Check(
-        "Trace-marker build manifest",
+        label,
         "PASS",
         f"{display(full_path, root)} ({', '.join(str(item) for item in defines)})",
     )
 
 
-def collect_checks(root: Path, baseline_dir: Path, trace_dir: Path, trace_marker_dir: Path) -> list[Check]:
+def collect_checks(
+    root: Path,
+    baseline_dir: Path,
+    trace_dir: Path,
+    trace_marker_dir: Path,
+    trace_marker_syscall_dir: Path,
+) -> list[Check]:
     baseline = resolve(root, baseline_dir)
     trace = resolve(root, trace_dir)
     trace_marker = resolve(root, trace_marker_dir)
+    trace_marker_syscall = resolve(root, trace_marker_syscall_dir)
     return [
         check_file(root, baseline / "work-fpga/ariane_xilinx.bit", "Baseline bitstream"),
         check_file(root, baseline / "work-fpga/ariane_xilinx.mcs", "Baseline flash image"),
@@ -267,6 +298,25 @@ def collect_checks(root: Path, baseline_dir: Path, trace_dir: Path, trace_marker
         ),
         check_file(root, trace_marker / "reports/ariane.utilization.rpt", "Trace-marker utilization report"),
         check_file(root, trace_marker / "work-fpga/ariane_xilinx_route_status.rpt", "Trace-marker route status report"),
+        check_file(root, trace_marker_syscall / "work-fpga/ariane_xilinx.bit", "Trace-marker-syscall bitstream"),
+        check_file(root, trace_marker_syscall / "work-fpga/ariane_xilinx.mcs", "Trace-marker-syscall flash image"),
+        check_file(root, trace_marker_syscall / "work-fpga/ariane_xilinx.ltx", "Trace-marker-syscall ILA probes"),
+        check_trace_marker_manifest(
+            root,
+            trace_marker_syscall / TRACE_MARKER_MANIFEST,
+            label="Trace-marker-syscall build manifest",
+            require_syscall_marker_profile=True,
+        ),
+        check_ila_xci(root, trace_marker_syscall / TRACE_MARKER_ILA_XCI, "Trace-marker-syscall ILA XCI configuration"),
+        check_file(root, trace_marker_syscall / "work-fpga/ariane_xilinx_routed.dcp", "Trace-marker-syscall routed checkpoint"),
+        check_timing(
+            root,
+            trace_marker_syscall / "reports/ariane.timing.rpt",
+            "Trace-marker-syscall routed timing",
+            expected_design_state="Routed",
+        ),
+        check_file(root, trace_marker_syscall / "reports/ariane.utilization.rpt", "Trace-marker-syscall utilization report"),
+        check_file(root, trace_marker_syscall / "work-fpga/ariane_xilinx_route_status.rpt", "Trace-marker-syscall route status report"),
     ]
 
 
@@ -290,6 +340,7 @@ def self_test() -> int:
         baseline = root / DEFAULT_BASELINE_DIR
         trace = root / DEFAULT_TRACE_DIR
         trace_marker = root / DEFAULT_TRACE_MARKER_DIR
+        trace_marker_syscall = root / DEFAULT_TRACE_MARKER_SYSCALL_DIR
         for directory in (
             baseline / "work-fpga",
             baseline / "reports",
@@ -297,6 +348,8 @@ def self_test() -> int:
             trace / "reports",
             trace_marker / "work-fpga",
             trace_marker / "reports",
+            trace_marker_syscall / "work-fpga",
+            trace_marker_syscall / "reports",
             root / "rtl/cva6/corev_apu/fpga/src",
             root / "rtl/cva6/corev_apu/fpga/xilinx/xlnx_ila/tcl",
             root / "rtl/trace",
@@ -323,6 +376,14 @@ def self_test() -> int:
             trace_marker / "work-fpga/ariane_xilinx_routed.dcp",
             trace_marker / "reports/ariane.utilization.rpt",
             trace_marker / "work-fpga/ariane_xilinx_route_status.rpt",
+            trace_marker_syscall / "work-fpga/ariane_xilinx.bit",
+            trace_marker_syscall / "work-fpga/ariane_xilinx.mcs",
+            trace_marker_syscall / "work-fpga/ariane_xilinx.ltx",
+            trace_marker_syscall / TRACE_MARKER_MANIFEST,
+            trace_marker_syscall / TRACE_MARKER_ILA_XCI,
+            trace_marker_syscall / "work-fpga/ariane_xilinx_routed.dcp",
+            trace_marker_syscall / "reports/ariane.utilization.rpt",
+            trace_marker_syscall / "work-fpga/ariane_xilinx_route_status.rpt",
         ):
             path.write_text("x\n", encoding="utf-8")
         (baseline / "reports/ariane.timing.rpt").write_text(
@@ -337,7 +398,19 @@ def self_test() -> int:
             "| Design State : Routed\nSlack (MET) : 0.177ns\n",
             encoding="utf-8",
         )
+        (trace_marker_syscall / "reports/ariane.timing.rpt").write_text(
+            "| Design State : Routed\nSlack (MET) : 0.177ns\n",
+            encoding="utf-8",
+        )
         (trace_marker / TRACE_MARKER_ILA_XCI).write_text(
+            "\n".join(
+                f'"{key}": [ {{ "value": "{value}", "resolve_type": "user" }} ],'
+                for key, value in TRACE_MARKER_ILA_EXPECTED.items()
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        (trace_marker_syscall / TRACE_MARKER_ILA_XCI).write_text(
             "\n".join(
                 f'"{key}": [ {{ "value": "{value}", "resolve_type": "user" }} ],'
                 for key, value in TRACE_MARKER_ILA_EXPECTED.items()
@@ -361,8 +434,35 @@ def self_test() -> int:
             + "\n",
             encoding="utf-8",
         )
+        (trace_marker_syscall / TRACE_MARKER_MANIFEST).write_text(
+            json.dumps(
+                {
+                    "schema": "rvmt.trace_marker_build_manifest.v1",
+                    "trace_marker_scope": True,
+                    "trace_syscall_marker_profile": True,
+                    "verilog_defines": [
+                        "RV_MALTRACE_FPGA_TRACE",
+                        "RV_MALTRACE_FPGA_TRACE_MARKER_SCOPE",
+                        "RV_MALTRACE_FPGA_TRACE_SYSCALL_MARKER_SCOPE",
+                    ],
+                    "marker_scope_policy": {
+                        "enable_marker": True,
+                        "enable_branch": False,
+                        "enable_syscall": True,
+                        "enable_trap": False,
+                        "enable_context": False,
+                    },
+                    "source_hashes": {
+                        "hash_algorithm": "sha256",
+                        "files": {path: sha256_file(root / path) for path in TRACE_MARKER_SOURCE_HASH_FILES},
+                    },
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
 
-        checks = collect_checks(root, DEFAULT_BASELINE_DIR, DEFAULT_TRACE_DIR, DEFAULT_TRACE_MARKER_DIR)
+        checks = collect_checks(root, DEFAULT_BASELINE_DIR, DEFAULT_TRACE_DIR, DEFAULT_TRACE_MARKER_DIR, DEFAULT_TRACE_MARKER_SYSCALL_DIR)
         if exit_code(checks, strict=False) != 0:
             print("[FAIL] default inventory must tolerate a missing trace bitstream as WARN", file=sys.stderr)
             return 1
@@ -371,7 +471,7 @@ def self_test() -> int:
             return 1
 
         (trace / "work-fpga/ariane_xilinx.bit").write_text("x\n", encoding="utf-8")
-        checks = collect_checks(root, DEFAULT_BASELINE_DIR, DEFAULT_TRACE_DIR, DEFAULT_TRACE_MARKER_DIR)
+        checks = collect_checks(root, DEFAULT_BASELINE_DIR, DEFAULT_TRACE_DIR, DEFAULT_TRACE_MARKER_DIR, DEFAULT_TRACE_MARKER_SYSCALL_DIR)
         if exit_code(checks, strict=True) != 0:
             print("[FAIL] strict inventory must pass after trace bitstream is present", file=sys.stderr)
             return 1
@@ -379,7 +479,7 @@ def self_test() -> int:
             '"C_DATA_DEPTH": [ { "value": "1024", "resolve_type": "user" } ],\n',
             encoding="utf-8",
         )
-        checks = collect_checks(root, DEFAULT_BASELINE_DIR, DEFAULT_TRACE_DIR, DEFAULT_TRACE_MARKER_DIR)
+        checks = collect_checks(root, DEFAULT_BASELINE_DIR, DEFAULT_TRACE_DIR, DEFAULT_TRACE_MARKER_DIR, DEFAULT_TRACE_MARKER_SYSCALL_DIR)
         if exit_code(checks, strict=True) == 0:
             print("[FAIL] strict inventory must fail on stale trace-marker ILA XCI", file=sys.stderr)
             return 1
@@ -407,7 +507,7 @@ def self_test() -> int:
             + "\n",
             encoding="utf-8",
         )
-        checks = collect_checks(root, DEFAULT_BASELINE_DIR, DEFAULT_TRACE_DIR, DEFAULT_TRACE_MARKER_DIR)
+        checks = collect_checks(root, DEFAULT_BASELINE_DIR, DEFAULT_TRACE_DIR, DEFAULT_TRACE_MARKER_DIR, DEFAULT_TRACE_MARKER_SYSCALL_DIR)
         if exit_code(checks, strict=True) == 0:
             print("[FAIL] strict inventory must fail when marker-scope define is missing", file=sys.stderr)
             return 1
@@ -445,7 +545,7 @@ def self_test() -> int:
             + "\n",
             encoding="utf-8",
         )
-        checks = collect_checks(root, DEFAULT_BASELINE_DIR, DEFAULT_TRACE_DIR, DEFAULT_TRACE_MARKER_DIR)
+        checks = collect_checks(root, DEFAULT_BASELINE_DIR, DEFAULT_TRACE_DIR, DEFAULT_TRACE_MARKER_DIR, DEFAULT_TRACE_MARKER_SYSCALL_DIR)
         if not any(check.level == "BLOCKED_HOST_VIVADO_REBUILD_REQUIRED" for check in checks):
             print("[FAIL] incomplete source hashes must produce a host-Vivado BLOCKED state", file=sys.stderr)
             return 1
@@ -469,7 +569,7 @@ def self_test() -> int:
             encoding="utf-8",
         )
         (root / "tools/decode_genesys2_ila_trace.py").write_text("modified\n", encoding="utf-8")
-        checks = collect_checks(root, DEFAULT_BASELINE_DIR, DEFAULT_TRACE_DIR, DEFAULT_TRACE_MARKER_DIR)
+        checks = collect_checks(root, DEFAULT_BASELINE_DIR, DEFAULT_TRACE_DIR, DEFAULT_TRACE_MARKER_DIR, DEFAULT_TRACE_MARKER_SYSCALL_DIR)
         if not any(check.level == "BLOCKED_HOST_VIVADO_REBUILD_REQUIRED" for check in checks):
             print("[FAIL] stale source hashes must produce a host-Vivado BLOCKED state", file=sys.stderr)
             return 1
@@ -489,6 +589,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--baseline-dir", type=Path, default=DEFAULT_BASELINE_DIR)
     parser.add_argument("--trace-dir", type=Path, default=DEFAULT_TRACE_DIR)
     parser.add_argument("--trace-marker-dir", type=Path, default=DEFAULT_TRACE_MARKER_DIR)
+    parser.add_argument("--trace-marker-syscall-dir", type=Path, default=DEFAULT_TRACE_MARKER_SYSCALL_DIR)
     parser.add_argument("--strict", action="store_true", help="Treat WARN items as failures.")
     parser.add_argument("--self-test", action="store_true", help="Run fixture-based self-test.")
     args = parser.parse_args(argv)
@@ -497,7 +598,7 @@ def main(argv: list[str] | None = None) -> int:
         return self_test()
 
     root = args.root.resolve()
-    checks = collect_checks(root, args.baseline_dir, args.trace_dir, args.trace_marker_dir)
+    checks = collect_checks(root, args.baseline_dir, args.trace_dir, args.trace_marker_dir, args.trace_marker_syscall_dir)
     print_checks(checks)
     code = exit_code(checks, strict=args.strict)
     if code:

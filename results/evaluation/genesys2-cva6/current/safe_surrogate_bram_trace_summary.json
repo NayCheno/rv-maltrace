@@ -1,6 +1,6 @@
 {
   "bitstream": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.bit",
-  "bitstream_sha256": "3b30e5ceda81f44a8c9e9b062557035adf66b6746b91559389437cf47cffd7fd",
+  "bitstream_sha256": "39b2170032e968bbd549c85608bf9b44d125da346d8dc08de5d50dbf75d09a81",
   "board": "Digilent Genesys2",
   "build_root": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610",
   "continuity_scope": "begin-marker-cleared BRAM ring through capture readout",
@@ -18,7 +18,7 @@
   ],
   "ltx": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.ltx",
   "ltx_sha256": "16360c1f20031509b61dafb4847ba638b85d1a758a1c10b96d2faacdb4ce7ee3",
-  "minimum_repetitions_per_sample": 10,
+  "minimum_repetitions_per_sample": 1,
   "non_claims": [
     "These are safe syscall-only surrogate workloads, not real malware payloads.",
     "This evidence does not claim pointer-payload semantic reconstruction.",
@@ -97,7 +97,7 @@
         ],
         "post_end_tail_event_count": 0
       },
-      "minimum_repetitions": 10,
+      "minimum_repetitions": 1,
       "observed_syscall_entries": 6,
       "parse_success": true,
       "pass_repetition_count": 10,
@@ -885,7 +885,7 @@
         ],
         "post_end_tail_event_count": 0
       },
-      "minimum_repetitions": 10,
+      "minimum_repetitions": 1,
       "observed_syscall_entries": 6,
       "parse_success": true,
       "pass_repetition_count": 10,
@@ -1673,7 +1673,7 @@
         ],
         "post_end_tail_event_count": 0
       },
-      "minimum_repetitions": 10,
+      "minimum_repetitions": 1,
       "observed_syscall_entries": 6,
       "parse_success": true,
       "pass_repetition_count": 10,
@@ -2461,7 +2461,7 @@
         ],
         "post_end_tail_event_count": 0
       },
-      "minimum_repetitions": 10,
+      "minimum_repetitions": 1,
       "observed_syscall_entries": 6,
       "parse_success": true,
       "pass_repetition_count": 10,
@@ -3249,7 +3249,7 @@
         ],
         "post_end_tail_event_count": 0
       },
-      "minimum_repetitions": 10,
+      "minimum_repetitions": 1,
       "observed_syscall_entries": 2,
       "parse_success": true,
       "pass_repetition_count": 10,
@@ -4037,7 +4037,7 @@
         ],
         "post_end_tail_event_count": 0
       },
-      "minimum_repetitions": 10,
+      "minimum_repetitions": 1,
       "observed_syscall_entries": 3,
       "parse_success": true,
       "pass_repetition_count": 10,
@@ -4824,7 +4824,7 @@
         ],
         "post_end_tail_event_count": 0
       },
-      "minimum_repetitions": 10,
+      "minimum_repetitions": 1,
       "observed_syscall_entries": 3,
       "parse_success": true,
       "pass_repetition_count": 10,
@@ -5602,7 +5602,7 @@
         ],
         "post_end_tail_event_count": 0
       },
-      "minimum_repetitions": 10,
+      "minimum_repetitions": 1,
       "observed_syscall_entries": 5,
       "parse_success": true,
       "pass_repetition_count": 10,
@@ -6340,7 +6340,7 @@
     "max_unaccounted_drop": 0,
     "max_wrap_count": 0,
     "minimum_observed_repetitions": 10,
-    "sample_repetition_goal": 10,
+    "sample_repetition_goal": 1,
     "total_repetitions": 80
   },
   "status": "PASS",

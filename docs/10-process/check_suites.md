@@ -81,6 +81,8 @@ diagnostic claim-boundary validation, board counter-access matrix
 claim-boundary validation, live kernel-config export validation, Linux
 counter-path preflight validation, host-side Vivado part/board preflight
 validation, host-side NDSS LaTeX skeleton-build validation, external
+official SD-image capability/workload/runtime-map/fork-exec/ASLR-repeatability
+and hardware-oracle differential validation, external
 closure readiness contracts, the
 external closure intake gate, the external closure execution plan, and the
 external closure local preflight gate, the external operator handoff packet,
@@ -161,6 +163,13 @@ uv run python tools/check_genesys2_live_kernel_config_export.py --root .
 uv run python tools/check_genesys2_linux_rebuild_manifest.py --root .
 uv run python tools/check_genesys2_linux_counter_path_preflight.py --root .
 uv run python tools/check_ndss_host_latex_build.py --root .
+uv run python tools/check_genesys2_official_image_capability_matrix.py --root .
+uv run python tools/check_genesys2_official_image_workloads.py --root .
+uv run python tools/check_genesys2_official_image_runtime_map.py --root .
+uv run python tools/check_genesys2_fork_exec_ownership.py --root .
+uv run python tools/check_genesys2_aslr_pie_probe.py --root .
+uv run python tools/check_genesys2_board_repeatability.py --root .
+uv run python tools/check_genesys2_hardware_oracle_differential.py --root .
 uv run python tools/check_genesys2_external_closure_readiness.py --root .
 uv run python tools/check_genesys2_external_closure_intake.py --root .
 uv run python tools/check_genesys2_external_closure_plan.py --root .

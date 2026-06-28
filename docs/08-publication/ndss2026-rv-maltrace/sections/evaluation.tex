@@ -5,6 +5,12 @@ studies from hardware trace records. We evaluate trace correctness, source
 labeling, code attribution, and reproducibility. Board transport throughput,
 cycle overhead, and RAM boot are outside the evaluated scope.
 
+The evaluation is organized as claim, evidence, and boundary rather than as a
+log of experiments. A passing check supports only the claim named in
+Table~\ref{tab:evaluation}. It does not automatically support neighboring
+claims, such as detector accuracy, payload equivalence, production transport
+throughput, or board-native source-line attribution.
+
 \input{tables/evaluation_matrix}
 
 \subsection{RQ1: Trace Correctness}
@@ -46,3 +52,16 @@ uv run rvmt ndss:docker-full
 The current project status records successful quick, local, full, and
 Docker-local reproduction paths. Experiments that were not run are recorded
 separately and are not included in the results.
+
+\subsection{Evidence Boundaries and Alternative Explanations}
+
+The current evidence rules out several implementation failures, but it does not
+remove all alternative explanations. First, a reconstruction may appear
+semantically rich because reference logs supply expected behavior. \rvmt
+therefore labels reference-derived fields and does not report them as hardware
+recovery. Second, local code-attribution fixtures check the analysis logic, but
+they do not prove board-native source-line recovery. Third, controlled
+workloads exercise selected behavior patterns; they do not establish
+malware-family accuracy, indicator coverage, or payload equivalence. Fourth,
+resource and timing reports describe implementation cost and timing closure;
+they do not measure cycle-level runtime slowdown.

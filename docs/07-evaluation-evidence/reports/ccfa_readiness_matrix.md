@@ -10,6 +10,8 @@ Overall status: NOT CCF-A READY. The controlled Genesys2/CVA6 chain now has stro
 
 Current-standard rule: `results/evaluation/genesys2-cva6/current/latest_manifest.json` is the only selector for the active Genesys2/CVA6 evidence package. Dated `results/board/genesys2_trace_validation/202606xx-*` directories are retained only as provenance for transcripts, hashes, and raw board artifacts; current gates must not choose evidence by chronological directory order.
 
+Official-image addendum: the current trace-marker bitstream used for the official SD-image strict-SRET/P0 run is SHA256 `39b2170032e968bbd549c85608bf9b44d125da346d8dc08de5d50dbf75d09a81`, with the board evidence retained under `results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret`. This root is provenance for the current `strict_sret_board_smoke_summary.json` and `p0_bram_trace_summary.json` checks; it does not replace the `current/latest_manifest.json` selector.
+
 ## Claim Gates
 
 | Gate | Current status | Allowed claims | Non-claims | Artifact root | Run id | Board / CPU / bitstream hash | Command transcript | Checker command |

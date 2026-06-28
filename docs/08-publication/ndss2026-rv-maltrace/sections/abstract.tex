@@ -14,9 +14,12 @@ maps, while marking whether each reconstructed field came from hardware trace,
 the executable, the runtime map, or a reference log such as QEMU or strace.
 
 The current implementation supports controlled RISC-V Linux workloads and a
-reproducible artifact package rooted at \artifactroot. It evaluates trace
-ordering, syscall pairing, source labeling, code attribution, and local
-reproduction. The paper does not report real-malware validation, production
-streaming/DMA throughput, JTAG RAM boot, SD-card-free kernel update, or
-cycle-level board overhead.
+reproducible artifact package rooted at \artifactroot. The main result is
+therefore scoped: \rvmt can support source-labeled behavior reconstruction for
+controlled workloads when the required trace, executable, runtime-map, and
+reference inputs are present. The evaluation covers trace ordering, syscall
+pairing, source labeling, code attribution, and local reproduction. It does not
+claim real-malware accuracy, payload equivalence, production streaming/DMA
+throughput, JTAG RAM boot, SD-card-free kernel update, or cycle-level board
+overhead.
 \end{abstract}

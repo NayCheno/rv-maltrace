@@ -41,9 +41,9 @@
     {
       "exists": true,
       "file_counts": {
-        "bram_records": 46,
-        "capture_logs": 46,
-        "uart_logs": 46
+        "bram_records": 62,
+        "capture_logs": 62,
+        "uart_logs": 62
       },
       "glob_patterns": {
         "bram_records": "*/*/bram_records.jsonl",
@@ -51,7 +51,7 @@
         "uart_logs": "*/*/uart.log"
       },
       "id": "p0_bram_repetitions",
-      "path": "results/board/genesys2_trace_validation/20260624-current-p0-cohort"
+      "path": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret"
     },
     {
       "exists": true,
@@ -412,7 +412,7 @@
       "id": "latest_manifest",
       "path": "results/evaluation/genesys2-cva6/current/latest_manifest.json",
       "schema": "rvmt.genesys2.latest_manifest.v1",
-      "sha256": "846e88d475daef7742eff39ba309efca793edde488580d36f6a99253c580abe5",
+      "sha256": "3d9cdc6b6917118ebdcba5b738b0ee432b4af8cbdb1f3031d5e917c145e78d4e",
       "status": "PASS"
     },
     {
@@ -428,7 +428,7 @@
       "id": "safe_surrogate_bram_trace",
       "path": "results/evaluation/genesys2-cva6/current/safe_surrogate_bram_trace_summary.json",
       "schema": "rvmt.genesys2.safe_surrogate_bram_trace.v1",
-      "sha256": "e7d6e50242c60b6a5b2e82af5af2826ac291b3049bc850a1e83a5b66feee7f11",
+      "sha256": "c83b356250e13d73d8df3d21c218a6bdcfe39facff76218b837470f6c7f6dbfe",
       "status": "PASS"
     },
     {
@@ -436,7 +436,7 @@
       "id": "p0_bram_trace",
       "path": "results/evaluation/genesys2-cva6/current/p0_bram_trace_summary.json",
       "schema": "rvmt.genesys2.p0_bram_trace.v1",
-      "sha256": "3c1b66e153d9fdf713206a622dcb562c2dec0a47bc711457220deb754eb25ebe",
+      "sha256": "4d8f6c55fc78f62e42481ae6d6a866920c6f712b73c7553836177f6d85e739ac",
       "status": "PASS"
     },
     {
@@ -444,7 +444,7 @@
       "id": "strict_sret_board_smoke",
       "path": "results/evaluation/genesys2-cva6/current/strict_sret_board_smoke_summary.json",
       "schema": "rvmt.genesys2.strict_sret_board_smoke.v1",
-      "sha256": "0a2f845601e4ce01f9dfc81ef3cd90458c40f1df8413e754584e4a669c2ab788",
+      "sha256": "247b71969d6a694a54752ca2d3b38c7eac0d2dda384813339de5fdd7e7c959da",
       "status": "PASS"
     },
     {
@@ -452,7 +452,7 @@
       "id": "drop_accounting",
       "path": "results/evaluation/genesys2-cva6/current/drop_accounting_summary.json",
       "schema": "rvmt.trace_drop_accounting.v1",
-      "sha256": "34f52238f8fa442750dc9e019568687118b0a41f338352e4c621f674b2278ba4",
+      "sha256": "0fdd718cbd091abac3e4d26436b7fed3510d4e5d778e59e370d6d4e5c05debbe",
       "status": "PASS"
     },
     {
@@ -460,7 +460,7 @@
       "id": "statistical_robustness",
       "path": "results/evaluation/genesys2-cva6/current/statistical_robustness_summary.json",
       "schema": "rvmt.genesys2.statistical_robustness.v1",
-      "sha256": "54dd9aca62a6490c3bbc917517558f6d52296af2b49775cf6fb3f52b2b47fe3f",
+      "sha256": "d4e45eb45d62cb6adcd7c5d73df07cfd12bd54dadd2e67d97c9fa41bb04a830a",
       "status": "PASS"
     },
     {
@@ -468,7 +468,7 @@
       "id": "streaming_dma_target",
       "path": "results/evaluation/genesys2-cva6/current/streaming_dma_target_summary.json",
       "schema": "rvmt.genesys2.streaming_dma_target.v1",
-      "sha256": "068cce61ea6c5413a24c6ae0c52c616dcedb22305e56d15e125d00084bda8f0c",
+      "sha256": "2cf7edb7679ff329e3a10ccfe35f3fbfd47443583ff6e6c3fe23fb59fd5956fa",
       "status": "PASS"
     },
     {
@@ -476,7 +476,7 @@
       "id": "streaming_dma_readiness",
       "path": "results/evaluation/genesys2-cva6/current/streaming_dma_readiness_summary.json",
       "schema": "rvmt.genesys2.streaming_dma_readiness.v1",
-      "sha256": "6e449b82930d43e435e32954159fa6a0b9e689bf1bd2c6b577282d3b2828fe57",
+      "sha256": "16a8cd7477b6d28b5fe2cbbb50e49056f3d65869c289d106aaed41d29ded7bd7",
       "status": "PASS"
     },
     {
@@ -516,7 +516,7 @@
       "id": "board_benign_readiness",
       "path": "results/evaluation/genesys2-cva6/current/board_benign_readiness_summary.json",
       "schema": "rvmt.genesys2.board_benign_readiness.v1",
-      "sha256": "ca8afc3c50089562b0cbe0185346bb1a0a332ed1d01e309fb4c0a6d3c3311246",
+      "sha256": "45396192c4538c472200f0ffdf9d5d9e7f98b0b4471586cc5a4dc686d494916e",
       "status": "PASS"
     },
     {
@@ -588,7 +588,7 @@
       "id": "external_closure_readiness",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_readiness.json",
       "schema": "rvmt.genesys2.external_closure_readiness.v1",
-      "sha256": "eecf2992c3fed3658943ef444a9c07d8bebd2371e0756d200109d5b3f2932e38",
+      "sha256": "6cac89807f46ac824eb7ff760d893d87e16f843c4403bcfc9e437c4cd62be009",
       "status": "PASS"
     },
     {
@@ -604,7 +604,7 @@
       "id": "external_closure_plan",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_plan.json",
       "schema": "rvmt.genesys2.external_closure_plan.v1",
-      "sha256": "d0768119e020be185ecbebf776f0da70ab8904fa361c38397d080390b8c96f28",
+      "sha256": "f030e693c9d92cd3b7f74b16edb8a6176e01070c601ca6e772e9fbc50d19ec87",
       "status": "PASS"
     },
     {
@@ -612,7 +612,7 @@
       "id": "external_closure_preflight",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_preflight.json",
       "schema": "rvmt.genesys2.external_closure_preflight.v1",
-      "sha256": "495f9f332b0f6dbe061c8e694b5749b7ee663cba5abf2936c9f3d651431e942c",
+      "sha256": "02ba65bd3a9619eae7df62292e0223a40b03ae3e6164c5bf4490ad583388d376",
       "status": "PASS"
     },
     {
@@ -620,7 +620,7 @@
       "id": "external_operator_packet",
       "path": "results/evaluation/genesys2-cva6/current/external_operator_packet.json",
       "schema": "rvmt.genesys2.external_operator_packet.v1",
-      "sha256": "0d5b7d1a901454418486e835240b51f01a2eaed81abbe00f94c762a5c7063c30",
+      "sha256": "4d6ed1f2e7687e14aab6f7cab8f8892aa4262bb63c8785bf0190e5cc9ad7a1f5",
       "status": "PASS"
     },
     {
@@ -692,8 +692,8 @@
       "id": "dynamic_mapping_attribution",
       "path": "results/evaluation/genesys2-cva6/current/dynamic_mapping_attribution_summary.json",
       "schema": "rvmt.dynamic_mapping_attribution.v1",
-      "sha256": "7b9427c85a9b6d71a8933153b1ce77d86d45a17399bdd6c5a457fcfa0c4fabdc",
-      "status": "BLOCKED_BOARD_DYNAMIC_MAPPING_CASES"
+      "sha256": "07621ad1feda69742a454f23a434fa2c8ca45e54f0e4d3c9d557b119735a72dc",
+      "status": "PASS"
     },
     {
       "checker_command": "uv run python tools/check_ccfa_evaluation_matrix.py --root .",
@@ -732,7 +732,7 @@
       "id": "review_closure_audit",
       "path": "results/evaluation/genesys2-cva6/current/review_closure_audit.json",
       "schema": "rvmt.genesys2.review_closure_audit.v1",
-      "sha256": "ced7e5bba0f70ea1f62a76b30307af9565bf8772b08820c4207ef91ee417584a",
+      "sha256": "7ab2afa84b41fa8c3d24e7af775b8645122d2eb6bd8b3a4034068783d31a512e",
       "status": "PASS"
     },
     {
@@ -764,7 +764,7 @@
       "id": "counter_access_matrix",
       "path": "results/evaluation/genesys2-cva6/current/counter_access_matrix_summary.json",
       "schema": "rvmt.genesys2.counter_access_matrix.v1",
-      "sha256": "40a34e994007c9324bd2ae1ab5ceeb07d7cf4399b879c80590f5687f7cb4391c",
+      "sha256": "bf19844a1ebc4253362e1b0b08221af185113c769be5a40e7c85fe3da5aff11e",
       "status": "BLOCKED_BOARD_CYCLE_COUNTER_UNAVAILABLE_NONCYCLE_TIME_AVAILABLE"
     },
     {
@@ -772,7 +772,7 @@
       "id": "cycle_source_diagnostics",
       "path": "results/evaluation/genesys2-cva6/current/cycle_source_diagnostics_summary.json",
       "schema": "rvmt.genesys2.cycle_source_diagnostics.v1",
-      "sha256": "83d7cc84959d1e5ba8d5c31e1b84f6dc3afbd4655f15ccc0d32b2236711e4c90",
+      "sha256": "ce513752063768b70f49534446ae8f1447192e37591fe4c7a1f1fe611040bcd5",
       "status": "BLOCKED_BOARD_KERNEL_PMU_AND_USER_CYCLE_UNAVAILABLE"
     },
     {
@@ -780,7 +780,7 @@
       "id": "sdcard_linux_manifest",
       "path": "results/evaluation/genesys2-cva6/current/sdcard_linux_manifest.json",
       "schema": "rvmt.genesys2.sdcard_linux_manifest.v1",
-      "sha256": "0cdc91ef385678b56a9b6994116392ae5dc008dee8eb8b3bf4f5b87db506ee22",
+      "sha256": "4027bdebad5c4754a931ae6f31770e546ba9416848afc320f1e7c016fe4e315d",
       "status": "PASS"
     },
     {
@@ -788,7 +788,7 @@
       "id": "live_kernel_config_export",
       "path": "results/evaluation/genesys2-cva6/current/live_kernel_config_export_summary.json",
       "schema": "rvmt.genesys2.live_kernel_config_export.v1",
-      "sha256": "0bd5c480cce0342c989d3f3595b8920ed501d35f2811ca01b8b1b85cf73ebfa7",
+      "sha256": "dfd192c560ae8dd8df8d419be2d8bbf427b144304bd5c3a7ca476089cfefe807",
       "status": "BLOCKED_LIVE_KERNEL_CONFIG_UNAVAILABLE"
     },
     {
@@ -804,7 +804,7 @@
       "id": "linux_counter_path_preflight",
       "path": "results/evaluation/genesys2-cva6/current/linux_counter_path_preflight.json",
       "schema": "rvmt.genesys2.linux_counter_path_preflight.v1",
-      "sha256": "53afed6da96c60d8b3194c298b2163683c742fe1ff138c7f8564713ce8b5d2dc",
+      "sha256": "8637a8caf2cf0824143ea47dc5e0247a8f030666acefa857f688e66b4391d933",
       "status": "BLOCKED_SD_CARD_LINUX_SOURCE_MISSING"
     },
     {
@@ -820,7 +820,7 @@
       "id": "trace_marker_programming",
       "path": "results/evaluation/genesys2-cva6/current/trace_marker_programming_summary.json",
       "schema": "rvmt.genesys2.trace_marker_programming.v1",
-      "sha256": "fe1a50281b944486b4c39b9e03cd870e92cd81915061b35a0151ea6273511d03",
+      "sha256": "f8bd28dd3aded85fd58529d3002a6833357df046d2ea4eb2689b0e9dcd5a6910",
       "status": "PASS_TRACE_MARKER_PROGRAMMED"
     },
     {
@@ -829,6 +829,62 @@
       "path": "results/evaluation/genesys2-cva6/current/host_latex_build_summary.json",
       "schema": "rvmt.ndss.host_latex_build.v1",
       "sha256": "75040a1e5046ae29b4f4b014d6762f05343bad7df1dc1a3d32bda8932ba3cfb3",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_genesys2_official_image_capability_matrix.py --root .",
+      "id": "official_image_capability_matrix",
+      "path": "results/evaluation/genesys2-cva6/current/official_image_capability_matrix.json",
+      "schema": "rvmt.genesys2.official_image_capability_matrix.v1",
+      "sha256": "b6122e891ba2bfe5dacfa559ff82513ade885865e34b7d7f4846aedefc3b797a",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_genesys2_official_image_workloads.py --root .",
+      "id": "official_image_workloads",
+      "path": "results/evaluation/genesys2-cva6/current/official_image_workload_summary.json",
+      "schema": "rvmt.genesys2.official_image_workloads.v1",
+      "sha256": "5b2888363b051045f6f83ebbff2b09345d7f39f95b1ad6580633c74fc9fa6f6b",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_genesys2_official_image_runtime_map.py --root .",
+      "id": "official_image_runtime_map",
+      "path": "results/evaluation/genesys2-cva6/current/official_image_runtime_map_summary.json",
+      "schema": "rvmt.genesys2.official_image_runtime_map.v1",
+      "sha256": "b4d28cb69e1b423f778ac78d8080d7efac6fc36c2bcb11b64f97a259cb2fd95f",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_genesys2_fork_exec_ownership.py --root .",
+      "id": "official_image_fork_exec_ownership",
+      "path": "results/evaluation/genesys2-cva6/current/official_image_fork_exec_ownership_summary.json",
+      "schema": "rvmt.genesys2.official_image_fork_exec_ownership.v1",
+      "sha256": "1a61f5acd08b64f2149621715035dd4ae673f98f7f961b5966f14df9ca1ead41",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_genesys2_aslr_pie_probe.py --root .",
+      "id": "official_image_aslr_pie",
+      "path": "results/evaluation/genesys2-cva6/current/official_image_aslr_pie_summary.json",
+      "schema": "rvmt.genesys2.official_image_aslr_pie.v1",
+      "sha256": "6a2176deea056fa81f54d84fa18a6d321f1dda897891ce51f83a5a269036792b",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_genesys2_board_repeatability.py --root .",
+      "id": "official_image_repeatability",
+      "path": "results/evaluation/genesys2-cva6/current/official_image_repeatability_summary.json",
+      "schema": "rvmt.genesys2.official_image_repeatability_drop_wrap.v1",
+      "sha256": "c0580c4c4c3c1c26fc29a272a75577124a13177676fce0e1543ccb31d51a1785",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_genesys2_hardware_oracle_differential.py --root .",
+      "id": "official_image_hardware_oracle_differential",
+      "path": "results/evaluation/genesys2-cva6/current/official_image_hardware_oracle_differential_summary.json",
+      "schema": "rvmt.genesys2.hardware_oracle_differential.v1",
+      "sha256": "2376aace31d00f6ad194c2e712d54bd41c0c7eb1fecea49ae84211e58e49bbb1",
       "status": "PASS"
     },
     {

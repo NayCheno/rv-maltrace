@@ -63,7 +63,16 @@ REQUIRED_SUMMARY_IDS = {
     "linux_counter_path_preflight",
     "host_vivado_check",
     "trace_marker_programming",
+    "host_latex_build",
+    "official_image_capability_matrix",
+    "official_image_workloads",
+    "official_image_runtime_map",
+    "official_image_fork_exec_ownership",
+    "official_image_aslr_pie",
+    "official_image_repeatability",
+    "official_image_hardware_oracle_differential",
     "trace_correctness_directed",
+    "tracer_visibility_baseline",
 }
 TEMPLATE_SUMMARY_IDS = {
     "external_template_board_native_source_lines",
@@ -81,6 +90,11 @@ TRUTHFUL_NONPASS_SUMMARY_IDS = {
     "live_kernel_config_export",
     "sdcard_write_preflight",
     "linux_counter_path_preflight",
+    "official_image_workloads",
+    "official_image_fork_exec_ownership",
+    "official_image_aslr_pie",
+    "official_image_repeatability",
+    "official_image_hardware_oracle_differential",
 }
 LOCAL_PASS_STATUSES_BY_ID = {
     "host_vivado_check": {"PASS_HOST_VIVADO_PREFLIGHT"},
@@ -244,6 +258,71 @@ def truthful_nonpass_summary(artifact_id: str, artifact: dict[str, Any]) -> bool
             and boundary.get("destructive_write_performed") is False
             and boundary.get("physical_sd_card_written") is False
             and boundary.get("genesys2_board_booted_written_image") is False
+        )
+    if artifact_id == "official_image_workloads":
+        return (
+            artifact.get("schema") == "rvmt.genesys2.official_image_workloads.v1"
+            and artifact.get("status") == "BLOCKED_OFFICIAL_WORKLOAD_CORE_RING_DEPTH_INSUFFICIENT"
+            and boundary.get("official_image_binary_workload_claimed") is False
+            and boundary.get("bram_ring_depth_limited_workloads_not_promoted") is True
+            and boundary.get("cycle_level_overhead_claimed") is False
+            and boundary.get("real_malware_validation_claimed") is False
+        )
+    if artifact_id == "official_image_fork_exec_ownership":
+        return (
+            artifact.get("schema") == "rvmt.genesys2.official_image_fork_exec_ownership.v1"
+            and artifact.get("status")
+            in {
+                "BLOCKED_FORK_EXEC_RUNTIME_CAPTURE_INCOMPLETE",
+                "BLOCKED_TRACE_PID_TGID_NOT_EXPOSED_IN_BRAM_RECORDS",
+            }
+            and boundary.get("fork_exec_process_ownership_claimed") is False
+            and boundary.get("runtime_map_inference_not_promoted_to_pid_pairing") is True
+            and boundary.get("qemu_or_strace_substitution_used") is False
+            and boundary.get("cycle_level_overhead_claimed") is False
+            and boundary.get("real_malware_validation_claimed") is False
+        )
+    if artifact_id == "official_image_aslr_pie":
+        return (
+            artifact.get("schema") == "rvmt.genesys2.official_image_aslr_pie.v1"
+            and artifact.get("status")
+            in {
+                "BLOCKED_DYNAMIC_PIE_RUNTIME_UNAVAILABLE",
+                "BLOCKED_DYNAMIC_PIE_BASE_NOT_RANDOMIZED",
+                "BLOCKED_STATIC_EXEC_BASELINE_INCOMPLETE",
+            }
+            and boundary.get("aslr_dynamic_pie_board_claimed") is False
+            and boundary.get("static_exec_fixed_base_is_baseline_only") is True
+            and boundary.get("qemu_or_strace_substitution_used") is False
+            and boundary.get("cycle_level_overhead_claimed") is False
+            and boundary.get("real_malware_validation_claimed") is False
+        )
+    if artifact_id == "official_image_repeatability":
+        return (
+            artifact.get("schema") == "rvmt.genesys2.official_image_repeatability_drop_wrap.v1"
+            and artifact.get("status")
+            in {
+                "BLOCKED_OFFICIAL_WORKLOAD_REPEATABILITY_LIMITED_BY_BRAM_RING_DEPTH",
+                "BLOCKED_OFFICIAL_WORKLOAD_REPEATABILITY_INCOMPLETE",
+            }
+            and boundary.get("official_image_repeatability_claimed") is False
+            and boundary.get("bram_ring_overflow_not_promoted") is True
+            and boundary.get("cycle_level_overhead_claimed") is False
+            and boundary.get("real_malware_validation_claimed") is False
+        )
+    if artifact_id == "official_image_hardware_oracle_differential":
+        return (
+            artifact.get("schema") == "rvmt.genesys2.hardware_oracle_differential.v1"
+            and artifact.get("status")
+            in {
+                "BLOCKED_QEMU_ORACLE_UNAVAILABLE",
+                "BLOCKED_HARDWARE_ORACLE_ALIGNMENT_INCOMPLETE",
+            }
+            and boundary.get("hardware_oracle_alignment_claimed") is False
+            and boundary.get("qemu_strace_is_validation_oracle_only") is True
+            and boundary.get("qemu_or_strace_substitutes_for_hardware_trace") is False
+            and boundary.get("cycle_level_overhead_claimed") is False
+            and boundary.get("real_malware_validation_claimed") is False
         )
     return False
 

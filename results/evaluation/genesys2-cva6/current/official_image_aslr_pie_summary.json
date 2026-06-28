@@ -1,0 +1,346 @@
+{
+  "artifacts": {
+    "build_manifest": {
+      "exists": true,
+      "path": "build/board/genesys2_official_image_probe/build_manifest.json",
+      "sha256": "ca9eb7b099081a0852788a85691f441d698fd0a184ece629224348b758128b6c",
+      "size_bytes": 2976
+    },
+    "dynamic_pie_transfer_log": {
+      "exists": true,
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/dynamic_pie_transfer.log",
+      "sha256": "b64731459513fee2f0c4db4d8c8835259d0a379ab0479292a8a4c4e78acac5f5",
+      "size_bytes": 1841
+    },
+    "static_exec_transfer_log": {
+      "exists": true,
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/static_exec_transfer.log",
+      "sha256": "b9761fb8c5643f592fed2f26568cef19712205f844e7d5e754a9217b9cce5270",
+      "size_bytes": 23405
+    }
+  },
+  "aslr_policy_source": "/proc/sys/kernel/randomize_va_space on official SD image",
+  "blocked_reason": null,
+  "claim_boundary": {
+    "aslr_dynamic_pie_board_claimed": true,
+    "cycle_level_overhead_claimed": false,
+    "qemu_or_strace_substitution_used": false,
+    "real_malware_validation_claimed": false,
+    "static_exec_fixed_base_is_baseline_only": true,
+    "static_pie_build_failure_not_promoted": true
+  },
+  "non_claims": [
+    "Static ET_EXEC fixed-base observations are a baseline and are not treated as evidence that ASLR is disabled.",
+    "Dynamic PIE claims require repeated board /proc map captures; failed dynamic execution is reported as BLOCKED."
+  ],
+  "repetitions_requested": 4,
+  "run_root": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie",
+  "schema": "rvmt.genesys2.official_image_aslr_pie.v1",
+  "static_pie_build_status": "BLOCKED_BUILD_FAILED",
+  "status": "PASS",
+  "variants": {
+    "dynamic_pie": {
+      "attempt_count": 4,
+      "pass_count": 4,
+      "samples": [
+        {
+          "artifacts": {
+            "proc_snapshots": {
+              "exe": {
+                "exists": true,
+                "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/dynamic_pie/rep_01/proc_snapshots/exe.txt",
+                "sha256": "e19c0be1b50de9700763e1657494c97ede1a8375cea2d40c6108899488b099e5",
+                "size_bytes": 587
+              },
+              "maps": {
+                "exists": true,
+                "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/dynamic_pie/rep_01/proc_snapshots/maps.txt",
+                "sha256": "26eb4ac43fb8ea9be68b285d806abd89bf25ef01909a122c3a5503b9eb4f3787",
+                "size_bytes": 1368
+              }
+            },
+            "uart_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/dynamic_pie/rep_01/uart.log",
+              "sha256": "3f77229b5e9c34daf64cb591507891e96fedfe2f5240cdd783e492e2e9dfaadf",
+              "size_bytes": 5037
+            }
+          },
+          "blocked_reason": null,
+          "board_proc_exe_sha256": "95d00eb194571d77f35a8ee440a00096c50b127e9a683a45d3f9f94ec14ce6b6",
+          "executable_base": "0x0000002acfe79000",
+          "executable_base_int": 183876685824,
+          "expected_sha256": "95d00eb194571d77f35a8ee440a00096c50b127e9a683a45d3f9f94ec14ce6b6",
+          "hash_match": true,
+          "map_entry_count": 15,
+          "pid": 3148,
+          "randomize_va_space": "1",
+          "rep": "rep_01",
+          "status": "PASS"
+        },
+        {
+          "artifacts": {
+            "proc_snapshots": {
+              "exe": {
+                "exists": true,
+                "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/dynamic_pie/rep_02/proc_snapshots/exe.txt",
+                "sha256": "f0b105d653bcd9d039c2ada7b6ab54807beff90ef79ad86ece0ff78d167487e1",
+                "size_bytes": 134
+              },
+              "maps": {
+                "exists": true,
+                "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/dynamic_pie/rep_02/proc_snapshots/maps.txt",
+                "sha256": "97c70e7507cef0aa6c147976809c1968e2dc05f0d8d32c6aa11003a944fb0aa2",
+                "size_bytes": 1821
+              }
+            },
+            "uart_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/dynamic_pie/rep_02/uart.log",
+              "sha256": "b7888c141705a999e53897239344ba0de6e453be810636f602dec082c4b1b36f",
+              "size_bytes": 5232
+            }
+          },
+          "blocked_reason": null,
+          "board_proc_exe_sha256": "95d00eb194571d77f35a8ee440a00096c50b127e9a683a45d3f9f94ec14ce6b6",
+          "executable_base": "0x0000002ae607d000",
+          "executable_base_int": 184247898112,
+          "expected_sha256": "95d00eb194571d77f35a8ee440a00096c50b127e9a683a45d3f9f94ec14ce6b6",
+          "hash_match": true,
+          "map_entry_count": 15,
+          "pid": 3159,
+          "randomize_va_space": "1",
+          "rep": "rep_02",
+          "status": "PASS"
+        },
+        {
+          "artifacts": {
+            "proc_snapshots": {
+              "exe": {
+                "exists": true,
+                "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/dynamic_pie/rep_03/proc_snapshots/exe.txt",
+                "sha256": "62bf9945a9b66da77d68ca7ad68e8087ba834f060ee92355033631b23fda4a84",
+                "size_bytes": 134
+              },
+              "maps": {
+                "exists": true,
+                "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/dynamic_pie/rep_03/proc_snapshots/maps.txt",
+                "sha256": "3040d941471032b590c8e586a0c634cc565ba05c43b2ed5be735d1b1d70ef054",
+                "size_bytes": 1368
+              }
+            },
+            "uart_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/dynamic_pie/rep_03/uart.log",
+              "sha256": "d19496fb40eed6439ded574d975274c3caae87226b3ab2ed6d6fd05acd317003",
+              "size_bytes": 4814
+            }
+          },
+          "blocked_reason": null,
+          "board_proc_exe_sha256": "95d00eb194571d77f35a8ee440a00096c50b127e9a683a45d3f9f94ec14ce6b6",
+          "executable_base": "0x0000002acad0b000",
+          "executable_base_int": 183791300608,
+          "expected_sha256": "95d00eb194571d77f35a8ee440a00096c50b127e9a683a45d3f9f94ec14ce6b6",
+          "hash_match": true,
+          "map_entry_count": 15,
+          "pid": 3169,
+          "randomize_va_space": "1",
+          "rep": "rep_03",
+          "status": "PASS"
+        },
+        {
+          "artifacts": {
+            "proc_snapshots": {
+              "exe": {
+                "exists": true,
+                "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/dynamic_pie/rep_04/proc_snapshots/exe.txt",
+                "sha256": "8604598699987a11ad9f72c6aa0a00820513b18f4de855ebc4c64a1cae809c3e",
+                "size_bytes": 134
+              },
+              "maps": {
+                "exists": true,
+                "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/dynamic_pie/rep_04/proc_snapshots/maps.txt",
+                "sha256": "4c448e67d9cd72ce3de6e2b9fa3d98372281bc9db1d0d0853119506e03718ed6",
+                "size_bytes": 1368
+              }
+            },
+            "uart_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/dynamic_pie/rep_04/uart.log",
+              "sha256": "2066b5f3f12bb307fea02343581c629dd23759096d972bb6f9ec92eec0b3b152",
+              "size_bytes": 4814
+            }
+          },
+          "blocked_reason": null,
+          "board_proc_exe_sha256": "95d00eb194571d77f35a8ee440a00096c50b127e9a683a45d3f9f94ec14ce6b6",
+          "executable_base": "0x0000002ad4e46000",
+          "executable_base_int": 183960363008,
+          "expected_sha256": "95d00eb194571d77f35a8ee440a00096c50b127e9a683a45d3f9f94ec14ce6b6",
+          "hash_match": true,
+          "map_entry_count": 15,
+          "pid": 3180,
+          "randomize_va_space": "1",
+          "rep": "rep_04",
+          "status": "PASS"
+        }
+      ],
+      "unique_base_count": 4,
+      "unique_executable_bases": [
+        "0x0000002acad0b000",
+        "0x0000002acfe79000",
+        "0x0000002ad4e46000",
+        "0x0000002ae607d000"
+      ]
+    },
+    "static_exec": {
+      "attempt_count": 4,
+      "pass_count": 4,
+      "samples": [
+        {
+          "artifacts": {
+            "proc_snapshots": {
+              "exe": {
+                "exists": true,
+                "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/static_exec/rep_01/proc_snapshots/exe.txt",
+                "sha256": "9db4e0cadb44c39756856b56f42ac398a283bea1bb1fda29ad32835ff8fb0dd6",
+                "size_bytes": 575
+              },
+              "maps": {
+                "exists": true,
+                "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/static_exec/rep_01/proc_snapshots/maps.txt",
+                "sha256": "77e667b7dd12e31782e2c11dd5cdec9fbbddaa876d8c446ef3683b205ece69c6",
+                "size_bytes": 701
+              }
+            },
+            "uart_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/static_exec/rep_01/uart.log",
+              "sha256": "c2c8896f86f305eed47f0d8808e86479b53a866c47e71c6da0278b572007b44f",
+              "size_bytes": 4312
+            }
+          },
+          "blocked_reason": null,
+          "board_proc_exe_sha256": "e3d913bd859badb7a5ad4401237e406ba6ebaa2b6ae03c35dca3f388dde39144",
+          "executable_base": "0x0000000000010000",
+          "executable_base_int": 65536,
+          "expected_sha256": "e3d913bd859badb7a5ad4401237e406ba6ebaa2b6ae03c35dca3f388dde39144",
+          "hash_match": true,
+          "map_entry_count": 8,
+          "pid": 3105,
+          "randomize_va_space": "1",
+          "rep": "rep_01",
+          "status": "PASS"
+        },
+        {
+          "artifacts": {
+            "proc_snapshots": {
+              "exe": {
+                "exists": true,
+                "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/static_exec/rep_02/proc_snapshots/exe.txt",
+                "sha256": "f95ec70c4b8645db4022938925b13952504a23e2c3faaa9553256ddf54dbd2fa",
+                "size_bytes": 575
+              },
+              "maps": {
+                "exists": true,
+                "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/static_exec/rep_02/proc_snapshots/maps.txt",
+                "sha256": "ebd0d70ea5687147a956f02eb665239862df3edd6d20ee3fe92e2b5cd84e9456",
+                "size_bytes": 894
+              }
+            },
+            "uart_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/static_exec/rep_02/uart.log",
+              "sha256": "1b5cb8a02c7bfe3de73465785a857657560ad2bae84377675baa750366625a04",
+              "size_bytes": 4507
+            }
+          },
+          "blocked_reason": null,
+          "board_proc_exe_sha256": "e3d913bd859badb7a5ad4401237e406ba6ebaa2b6ae03c35dca3f388dde39144",
+          "executable_base": "0x0000000000010000",
+          "executable_base_int": 65536,
+          "expected_sha256": "e3d913bd859badb7a5ad4401237e406ba6ebaa2b6ae03c35dca3f388dde39144",
+          "hash_match": true,
+          "map_entry_count": 8,
+          "pid": 3116,
+          "randomize_va_space": "1",
+          "rep": "rep_02",
+          "status": "PASS"
+        },
+        {
+          "artifacts": {
+            "proc_snapshots": {
+              "exe": {
+                "exists": true,
+                "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/static_exec/rep_03/proc_snapshots/exe.txt",
+                "sha256": "ec594f210431e74791d5176a388823409bca8b32fc9d741fbb07376ba823a8ca",
+                "size_bytes": 122
+              },
+              "maps": {
+                "exists": true,
+                "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/static_exec/rep_03/proc_snapshots/maps.txt",
+                "sha256": "f2dad859badc969d1fb476344d1c21bc6e5f398c18b62eaa1a0a0c341e49f2f9",
+                "size_bytes": 701
+              }
+            },
+            "uart_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/static_exec/rep_03/uart.log",
+              "sha256": "0c45dae3810c8e2a6b350773597abf986548d64958df6053cc2f57983b039417",
+              "size_bytes": 4089
+            }
+          },
+          "blocked_reason": null,
+          "board_proc_exe_sha256": "e3d913bd859badb7a5ad4401237e406ba6ebaa2b6ae03c35dca3f388dde39144",
+          "executable_base": "0x0000000000010000",
+          "executable_base_int": 65536,
+          "expected_sha256": "e3d913bd859badb7a5ad4401237e406ba6ebaa2b6ae03c35dca3f388dde39144",
+          "hash_match": true,
+          "map_entry_count": 8,
+          "pid": 3127,
+          "randomize_va_space": "1",
+          "rep": "rep_03",
+          "status": "PASS"
+        },
+        {
+          "artifacts": {
+            "proc_snapshots": {
+              "exe": {
+                "exists": true,
+                "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/static_exec/rep_04/proc_snapshots/exe.txt",
+                "sha256": "91d4802b76686a24dccbcf2822e876803c69cc383cbd0e81297d16593a12d224",
+                "size_bytes": 343
+              },
+              "maps": {
+                "exists": true,
+                "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/static_exec/rep_04/proc_snapshots/maps.txt",
+                "sha256": "80edd7101d4cd02783ab1cdc74afcde06a5193013cc3d8e0a402e923e4890949",
+                "size_bytes": 701
+              }
+            },
+            "uart_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/static_exec/rep_04/uart.log",
+              "sha256": "69e48b21bf6b3bdc3a235e0a15f750db377ca2581f7cfac64ce951de17b02331",
+              "size_bytes": 4312
+            }
+          },
+          "blocked_reason": null,
+          "board_proc_exe_sha256": "e3d913bd859badb7a5ad4401237e406ba6ebaa2b6ae03c35dca3f388dde39144",
+          "executable_base": "0x0000000000010000",
+          "executable_base_int": 65536,
+          "expected_sha256": "e3d913bd859badb7a5ad4401237e406ba6ebaa2b6ae03c35dca3f388dde39144",
+          "hash_match": true,
+          "map_entry_count": 8,
+          "pid": 3137,
+          "randomize_va_space": "1",
+          "rep": "rep_04",
+          "status": "PASS"
+        }
+      ],
+      "unique_base_count": 1,
+      "unique_executable_bases": [
+        "0x0000000000010000"
+      ]
+    }
+  }
+}

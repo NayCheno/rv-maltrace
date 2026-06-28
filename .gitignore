@@ -149,6 +149,13 @@ results/evaluation/genesys2-cva6/current/*
 !results/evaluation/genesys2-cva6/current/trace_marker_programming_summary.json
 !results/evaluation/genesys2-cva6/current/trace_marker_programming.log
 !results/evaluation/genesys2-cva6/current/host_latex_build_summary.json
+!results/evaluation/genesys2-cva6/current/official_image_capability_matrix.json
+!results/evaluation/genesys2-cva6/current/official_image_workload_summary.json
+!results/evaluation/genesys2-cva6/current/official_image_runtime_map_summary.json
+!results/evaluation/genesys2-cva6/current/official_image_fork_exec_ownership_summary.json
+!results/evaluation/genesys2-cva6/current/official_image_aslr_pie_summary.json
+!results/evaluation/genesys2-cva6/current/official_image_repeatability_summary.json
+!results/evaluation/genesys2-cva6/current/official_image_hardware_oracle_differential_summary.json
 !results/evaluation/genesys2-cva6/current/trace_correctness_directed_summary.json
 !results/evaluation/genesys2-cva6/current/tracer_visibility_baseline_summary.json
 !results/evaluation/genesys2-cva6/current/external_closure/

@@ -418,6 +418,48 @@
           "tags": ["ndss", "latex", "host", "claim-boundary"]
         },
         {
+          "id": "official-image-capability-matrix",
+          "label": "Genesys2/CVA6 official-image capability matrix",
+          "command": ["{python}", "tools/check_genesys2_official_image_capability_matrix.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "official-image", "capability", "board", "claim-boundary"]
+        },
+        {
+          "id": "official-image-workloads",
+          "label": "Genesys2/CVA6 official-image BusyBox workload evidence",
+          "command": ["{python}", "tools/check_genesys2_official_image_workloads.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "official-image", "busybox", "workload", "bram-ring", "claim-boundary"]
+        },
+        {
+          "id": "official-image-runtime-map",
+          "label": "Genesys2/CVA6 official-image runtime map PC attribution",
+          "command": ["{python}", "tools/check_genesys2_official_image_runtime_map.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "official-image", "proc-maps", "pc-attribution", "board", "claim-boundary"]
+        },
+        {
+          "id": "official-image-fork-exec-ownership",
+          "label": "Genesys2/CVA6 official-image fork/exec ownership boundary",
+          "command": ["{python}", "tools/check_genesys2_fork_exec_ownership.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "official-image", "fork-exec", "process-ownership", "claim-boundary"]
+        },
+        {
+          "id": "official-image-aslr-pie",
+          "label": "Genesys2/CVA6 official-image ASLR/PIE map evidence",
+          "command": ["{python}", "tools/check_genesys2_aslr_pie_probe.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "official-image", "aslr", "pie", "proc-maps", "claim-boundary"]
+        },
+        {
+          "id": "official-image-repeatability",
+          "label": "Genesys2/CVA6 official-image repeatability drop/wrap boundary",
+          "command": ["{python}", "tools/check_genesys2_board_repeatability.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "official-image", "repeatability", "drop", "wrap", "claim-boundary"]
+        },
+        {
+          "id": "official-image-hardware-oracle-differential",
+          "label": "Genesys2/CVA6 hardware trace versus QEMU strace oracle differential",
+          "command": ["{python}", "tools/check_genesys2_hardware_oracle_differential.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "official-image", "qemu", "strace", "oracle", "claim-boundary"]
+        },
+        {
           "id": "external-closure-readiness",
           "label": "Genesys2/CVA6 remaining external closure readiness contract",
           "command": ["{python}", "tools/check_genesys2_external_closure_readiness.py", "--root", "{root}"],
