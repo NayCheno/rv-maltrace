@@ -25,4 +25,5 @@
 	url = https://github.com/litex-hub/pythondata-cpu-vexriscv_smp
 [submodule "vendor/litex/linux-on-litex-vexriscv"]
 	path = vendor/litex/linux-on-litex-vexriscv
-	url = https://github.com/litex-hub/linux-on-litex-vexriscv
+	url = git@github.com-research:NayCheno/linux-on-litex-vexriscv.git
+	branch = rvmt
