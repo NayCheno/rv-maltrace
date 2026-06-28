@@ -22,7 +22,8 @@
 	url = https://github.com/enjoy-digital/litedram
 [submodule "vendor/litex/pythondata-cpu-vexriscv_smp"]
 	path = vendor/litex/pythondata-cpu-vexriscv_smp
-	url = https://github.com/litex-hub/pythondata-cpu-vexriscv_smp
+	url = git@github.com-research:NayCheno/pythondata-cpu-vexriscv_smp.git
+	branch = rvmt
 [submodule "vendor/litex/linux-on-litex-vexriscv"]
 	path = vendor/litex/linux-on-litex-vexriscv
 	url = git@github.com-research:NayCheno/linux-on-litex-vexriscv.git
