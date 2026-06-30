@@ -1,11 +1,14 @@
 from __future__ import annotations
 
 import argparse
-import json
 import subprocess
 import sys
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    load_json,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -41,13 +44,6 @@ def marker_begin(marker: int) -> str:
 
 def marker_end(marker: int) -> str:
     return f"e{marker:07x}"
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
 
 
 def static_binary_from_manifest(path: Path) -> Path:

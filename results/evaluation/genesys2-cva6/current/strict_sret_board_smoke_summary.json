@@ -89,7 +89,7 @@
   "bitstream": {
     "bitstream": {
       "path": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.bit",
-      "sha256": "39b2170032e968bbd549c85608bf9b44d125da346d8dc08de5d50dbf75d09a81",
+      "sha256": "92eef73290ec20d11a58d38bbec89e0528724df3764327d597a6aadb78e44655",
       "size_bytes": 11443738
     },
     "ltx": {
@@ -99,8 +99,8 @@
     },
     "manifest": {
       "path": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/rvmt_trace_marker_build_manifest.json",
-      "sha256": "22a6ec09c87a1fd912cd3b61bf67d5ecaa8ab3807a2dcc9a02477474b8ea599c",
-      "size_bytes": 2886
+      "sha256": "4af9bcff7a6b138f3f0d05732781214f41c8cb634f73ff2c21b0510c534f7b7c",
+      "size_bytes": 3042
     },
     "source_hash_status": "PASS",
     "status": "PASS",
@@ -135,7 +135,7 @@
       "uart_log": "results/board/genesys2_trace_validation/20260624-strict-sret-current-bitstream/hello_write/rep_01/uart.log"
     }
   ],
-  "generated_utc": "2026-06-24T17:23:55.813357+00:00",
+  "generated_utc": "2026-06-30T12:02:54.659288+00:00",
   "non_claims": [
     "This is one strict-SRET smoke sample and does not replace the full 40/40 P0 repetition cohort.",
     "This does not claim boot from the newly generated SD-card image.",
@@ -147,8 +147,8 @@
     "status": "PASS_TRACE_MARKER_PROGRAMMED",
     "summary": {
       "path": "results/evaluation/genesys2-cva6/current/trace_marker_programming_summary.json",
-      "sha256": "f8bd28dd3aded85fd58529d3002a6833357df046d2ea4eb2689b0e9dcd5a6910",
-      "size_bytes": 3736
+      "sha256": "7adc370db8b444950eb8dbb8de3fec493f1f311ecaa7e8d7d284367ae9724ce6",
+      "size_bytes": 3812
     },
     "target": "localhost:3121/xilinx_tcf/Digilent/200300B81858B"
   },

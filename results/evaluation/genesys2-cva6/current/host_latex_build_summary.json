@@ -5,17 +5,17 @@
     "paper_content_complete_claimed": false
   },
   "command": "uv run rvmt ndss:host-latex",
-  "log": "build/latex/ndss2026/paper.log",
-  "log_sha256": "b77f18668f7660f9741e6fcf97db8448a3d976c8195501ca06ed964d92556643",
+  "log": "docs/08-publication/ndss2026-rv-maltrace/build/main.log",
+  "log_sha256": "1b8a7338c3329110c4c85131234753b5c91c245cff0e3cf687de63226e46d025",
   "non_claims": [
     "This confirms the current NDSS skeleton compiles on the host; it is not a final anonymous submission readiness claim.",
     "Docker reproduction does not require LaTeX."
   ],
-  "paper_tex": "docs/08-publication/ndss2026/paper.tex",
-  "paper_tex_sha256": "0dc977bc21d77eb587b82b30035b7f0f41236d0b8c2f018b1a63d83a4ddb1650",
-  "pdf": "build/latex/ndss2026/paper.pdf",
-  "pdf_sha256": "9dd98db785a0b1201f388f5f02af9f83df9d10a6fd0206b5b84d3540302c9086",
-  "pdf_size_bytes": 124373,
+  "paper_tex": "docs/08-publication/ndss2026-rv-maltrace/main.tex",
+  "paper_tex_sha256": "8ef14bb64f4c7aedf998c27b8e1b6473ccf3ad7406e925ed064ed22749264831",
+  "pdf": "docs/08-publication/ndss2026-rv-maltrace/build/main.pdf",
+  "pdf_sha256": "f234a44632779f73c692ebc6106963cac65ebc437c1b5f98697d40363d4bc937",
+  "pdf_size_bytes": 145239,
   "schema": "rvmt.ndss.host_latex_build.v1",
   "status": "PASS"
 }

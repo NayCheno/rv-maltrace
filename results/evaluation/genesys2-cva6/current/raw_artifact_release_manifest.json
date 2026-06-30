@@ -1,11 +1,11 @@
 {
   "archive": {
     "exists": true,
-    "file_count": 3356,
+    "file_count": 3375,
     "format": "zip",
     "path": "build/ndss_artifacts/rv-maltrace-genesys2-cva6-current-raw-artifacts.zip",
-    "sha256": "57f48d6e269598268508d3e5a35c940a14aafdcf151b23fa4ace97188b22f611",
-    "size_bytes": 323142849
+    "sha256": "c839d5ff2e184683d1950d2e5b1a2f7e0389749bf18e85016d70375641ea41c9",
+    "size_bytes": 326810249
   },
   "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",
   "claim_boundary": {
@@ -516,7 +516,7 @@
     {
       "path": "build/board/genesys2_official_image_probe/build_manifest.json",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "69106141ef32591ef2cd41547cb2fadc7406426db692b8f18631af93aa2493f0",
+      "sha256": "ca9eb7b099081a0852788a85691f441d698fd0a184ece629224348b758128b6c",
       "size_bytes": 2976
     },
     {
@@ -928,18 +928,6 @@
       "size_bytes": 4381
     },
     {
-      "path": "build/latex/ndss2026/paper.log",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "b77f18668f7660f9741e6fcf97db8448a3d976c8195501ca06ed964d92556643",
-      "size_bytes": 15932
-    },
-    {
-      "path": "build/latex/ndss2026/paper.pdf",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "9dd98db785a0b1201f388f5f02af9f83df9d10a6fd0206b5b84d3540302c9086",
-      "size_bytes": 124373
-    },
-    {
       "path": "build/source_line_toolchain_probe/board_p0_marker_hello_write.readelf_sections.txt",
       "root_id": "current_manifest_referenced_artifacts",
       "sha256": "7eb6e88fd98b0065b16258fb622c6e2f0dcf9551aea186a1bffc37da9f7c2e9e",
@@ -1078,21 +1066,39 @@
       "size_bytes": 474928
     },
     {
+      "path": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker-syscall/work-fpga/ariane_xilinx.bit",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "af4e4462ddfa5bfc34114b44820f10f28e4293591d488b082cf715e4bd7c5cc3",
+      "size_bytes": 11443738
+    },
+    {
+      "path": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker-syscall/work-fpga/ariane_xilinx.ltx",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "16360c1f20031509b61dafb4847ba638b85d1a758a1c10b96d2faacdb4ce7ee3",
+      "size_bytes": 180130
+    },
+    {
+      "path": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker-syscall/work-fpga/rvmt_trace_marker_build_manifest.json",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "1ff26b345f4a3daf0c7692bbe16dda029f690c5f8df8ee653db91cd049c19396",
+      "size_bytes": 3149
+    },
+    {
       "path": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/reports/ariane.timing.rpt",
       "root_id": "local_bitstream_inventory_artifacts",
-      "sha256": "b97761b59148e5b975508b2a83521d7d7f08dc0bb7bb485f9d42fd4ad8b7813e",
+      "sha256": "071bc07b92fb85b5d81603a80ee3282626c4673e0e9f27cec278209301468301",
       "size_bytes": 242845
     },
     {
       "path": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/reports/ariane.utilization.rpt",
       "root_id": "local_bitstream_inventory_artifacts",
-      "sha256": "ac23b22f0cf2940b02f8fd0c22a408ca4e38e505d6ebf4895b63f393dc0222bd",
+      "sha256": "d9811dc77e0539a48ddf189b6e781f989c7e9b17e690156750bf2f48c887531b",
       "size_bytes": 168145
     },
     {
       "path": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.bit",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "39b2170032e968bbd549c85608bf9b44d125da346d8dc08de5d50dbf75d09a81",
+      "sha256": "92eef73290ec20d11a58d38bbec89e0528724df3764327d597a6aadb78e44655",
       "size_bytes": 11443738
     },
     {
@@ -1116,14 +1122,14 @@
     {
       "path": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx_routed.dcp",
       "root_id": "local_bitstream_inventory_artifacts",
-      "sha256": "a49f4c15757c83158b8c98c89fbb63eee232f8c0dbf3811e5cf30782a8dad91d",
-      "size_bytes": 88940641
+      "sha256": "19043fc7f0bf6761cf762f99ef8eaf08a42613ea227f09e5828caed99161d065",
+      "size_bytes": 88888586
     },
     {
       "path": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/rvmt_trace_marker_build_manifest.json",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "22a6ec09c87a1fd912cd3b61bf67d5ecaa8ab3807a2dcc9a02477474b8ea599c",
-      "size_bytes": 2886
+      "sha256": "4af9bcff7a6b138f3f0d05732781214f41c8cb634f73ff2c21b0510c534f7b7c",
+      "size_bytes": 3042
     },
     {
       "path": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/xlnx_ila.xci",
@@ -17026,9 +17032,9 @@
       "size_bytes": 252
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-004600-official-image-programming/program_trace_marker.log",
+      "path": "results/board/genesys2_trace_validation/20260624-trace-marker-reprogram/program_trace_marker.log",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "bdc4a75d097abf27ed5e516908ba6c465bbdd09b3bd8539ce9c7bad34fc55497",
+      "sha256": "ad9395078cacd6aae737b0cf5254385628ffff31fd0f9e68925f8661bdb04bb4",
       "size_bytes": 7384
     },
     {
@@ -19360,577 +19366,685 @@
       "size_bytes": 7473
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-020000-official-image-runtime-map/bram_records.jsonl",
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/dynamic_pie/rep_01/proc_snapshots/exe.txt",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "5c6d12860dde26beca37bc583970a94978dbb10e5381c4809a41e2b674bfeb4e",
-      "size_bytes": 62740
+      "sha256": "e19c0be1b50de9700763e1657494c97ede1a8375cea2d40c6108899488b099e5",
+      "size_bytes": 587
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-020000-official-image-runtime-map/bram_summary.json",
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/dynamic_pie/rep_01/proc_snapshots/maps.txt",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "c68a52f1194512c0527d93570796c4a550de865bf21acf791c1a92982cab353b",
-      "size_bytes": 1032
+      "sha256": "26eb4ac43fb8ea9be68b285d806abd89bf25ef01909a122c3a5503b9eb4f3787",
+      "size_bytes": 1368
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-020000-official-image-runtime-map/capture.csv",
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/dynamic_pie/rep_01/uart.log",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "e9f876e684177f8c144c7d0a43e26caca8ab91e6b104aaa803e7d03d36151913",
+      "sha256": "3f77229b5e9c34daf64cb591507891e96fedfe2f5240cdd783e492e2e9dfaadf",
+      "size_bytes": 5037
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/dynamic_pie/rep_02/proc_snapshots/exe.txt",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "f0b105d653bcd9d039c2ada7b6ab54807beff90ef79ad86ece0ff78d167487e1",
+      "size_bytes": 134
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/dynamic_pie/rep_02/proc_snapshots/maps.txt",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "97c70e7507cef0aa6c147976809c1968e2dc05f0d8d32c6aa11003a944fb0aa2",
+      "size_bytes": 1821
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/dynamic_pie/rep_02/uart.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "b7888c141705a999e53897239344ba0de6e453be810636f602dec082c4b1b36f",
+      "size_bytes": 5232
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/dynamic_pie/rep_03/proc_snapshots/exe.txt",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "62bf9945a9b66da77d68ca7ad68e8087ba834f060ee92355033631b23fda4a84",
+      "size_bytes": 134
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/dynamic_pie/rep_03/proc_snapshots/maps.txt",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "3040d941471032b590c8e586a0c634cc565ba05c43b2ed5be735d1b1d70ef054",
+      "size_bytes": 1368
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/dynamic_pie/rep_03/uart.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "d19496fb40eed6439ded574d975274c3caae87226b3ab2ed6d6fd05acd317003",
+      "size_bytes": 4814
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/dynamic_pie/rep_04/proc_snapshots/exe.txt",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "8604598699987a11ad9f72c6aa0a00820513b18f4de855ebc4c64a1cae809c3e",
+      "size_bytes": 134
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/dynamic_pie/rep_04/proc_snapshots/maps.txt",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "4c448e67d9cd72ce3de6e2b9fa3d98372281bc9db1d0d0853119506e03718ed6",
+      "size_bytes": 1368
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/dynamic_pie/rep_04/uart.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "2066b5f3f12bb307fea02343581c629dd23759096d972bb6f9ec92eec0b3b152",
+      "size_bytes": 4814
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/dynamic_pie_transfer.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "b64731459513fee2f0c4db4d8c8835259d0a379ab0479292a8a4c4e78acac5f5",
+      "size_bytes": 1841
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/static_exec/rep_01/proc_snapshots/exe.txt",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "9db4e0cadb44c39756856b56f42ac398a283bea1bb1fda29ad32835ff8fb0dd6",
+      "size_bytes": 575
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/static_exec/rep_01/proc_snapshots/maps.txt",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "77e667b7dd12e31782e2c11dd5cdec9fbbddaa876d8c446ef3683b205ece69c6",
+      "size_bytes": 701
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/static_exec/rep_01/uart.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "c2c8896f86f305eed47f0d8808e86479b53a866c47e71c6da0278b572007b44f",
+      "size_bytes": 4312
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/static_exec/rep_02/proc_snapshots/exe.txt",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "f95ec70c4b8645db4022938925b13952504a23e2c3faaa9553256ddf54dbd2fa",
+      "size_bytes": 575
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/static_exec/rep_02/proc_snapshots/maps.txt",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "ebd0d70ea5687147a956f02eb665239862df3edd6d20ee3fe92e2b5cd84e9456",
+      "size_bytes": 894
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/static_exec/rep_02/uart.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "1b5cb8a02c7bfe3de73465785a857657560ad2bae84377675baa750366625a04",
+      "size_bytes": 4507
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/static_exec/rep_03/proc_snapshots/exe.txt",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "ec594f210431e74791d5176a388823409bca8b32fc9d741fbb07376ba823a8ca",
+      "size_bytes": 122
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/static_exec/rep_03/proc_snapshots/maps.txt",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "f2dad859badc969d1fb476344d1c21bc6e5f398c18b62eaa1a0a0c341e49f2f9",
+      "size_bytes": 701
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/static_exec/rep_03/uart.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "0c45dae3810c8e2a6b350773597abf986548d64958df6053cc2f57983b039417",
+      "size_bytes": 4089
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/static_exec/rep_04/proc_snapshots/exe.txt",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "91d4802b76686a24dccbcf2822e876803c69cc383cbd0e81297d16593a12d224",
+      "size_bytes": 343
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/static_exec/rep_04/proc_snapshots/maps.txt",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "80edd7101d4cd02783ab1cdc74afcde06a5193013cc3d8e0a402e923e4890949",
+      "size_bytes": 701
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/static_exec/rep_04/uart.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "69e48b21bf6b3bdc3a235e0a15f750db377ca2581f7cfac64ce951de17b02331",
+      "size_bytes": 4312
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-aslr-pie/static_exec_transfer.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "b9761fb8c5643f592fed2f26568cef19712205f844e7d5e754a9217b9cce5270",
+      "size_bytes": 23405
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/bram_records.jsonl",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "c99417f9a0805678ad3de6df1543ea193e4a0c5d0c5efb2c12cd427beb5cfa82",
+      "size_bytes": 35909
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/bram_summary.json",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "08e9cb56e278d0b94983f1464007eb16e10d6a0ad07ca4d2b8099c9af7342f99",
+      "size_bytes": 1000
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/capture.csv",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "dd61e013adf92fe033ca8611846044b61fef1b8e3651a29d614b1a9225605fb8",
       "size_bytes": 2095924
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-020000-official-image-runtime-map/capture.err.log",
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/capture.err.log",
       "root_id": "current_manifest_referenced_artifacts",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "size_bytes": 0
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-020000-official-image-runtime-map/capture.log",
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/capture.log",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "75c154dcb52284e1fc6547dcde2304b55acd96663385c292d7755312ca2d20d9",
-      "size_bytes": 9459
+      "sha256": "0ebbd75e28f86079424021fb9c653bd8c2b3e82533f9544acebaaa6de4d3d42f",
+      "size_bytes": 9434
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-020000-official-image-runtime-map/proc_snapshots/2244/cmdline.txt",
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/proc_snapshots/3194/cmdline.txt",
       "root_id": "current_manifest_referenced_artifacts",
       "sha256": "343a800abacab575effa6f5e3f830e671942e23ce88747de7172d97ac2a4c6bb",
       "size_bytes": 86
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-020000-official-image-runtime-map/proc_snapshots/2244/exe_readlink.txt",
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/proc_snapshots/3194/exe_readlink.txt",
       "root_id": "current_manifest_referenced_artifacts",
       "sha256": "31156e05eab7b7f4ddb0229735efe6b6af9e3e65b589b6e34fb1f3bfdcd09994",
       "size_bytes": 40
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-020000-official-image-runtime-map/proc_snapshots/2244/exe_sha256.txt",
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/proc_snapshots/3194/exe_sha256.txt",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "e0488d3ec2eba86e80a66447de251bd3835e916de783db056ad90023102ad376",
+      "sha256": "46e22b4ae429bd855d36a3862b8b5ae05aacf493d524fbb5c8453238228dda39",
       "size_bytes": 81
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-020000-official-image-runtime-map/proc_snapshots/2244/maps.txt",
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/proc_snapshots/3194/maps.txt",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "78b88211bd72645f635fe6b3c2ddc8ea8b3ae8ce8bf7720b94611a8d4aac453e",
+      "sha256": "0db681df16e080548517690b418f9a46d15463946b533699ae05bae46e610374",
       "size_bytes": 701
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-020000-official-image-runtime-map/proc_snapshots/2244/stat.txt",
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/proc_snapshots/3194/stat.txt",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "06d4df0124f6cae39f748dc61eac14656776232b53f671a22ee22e1b0a276d56",
-      "size_bytes": 253
+      "sha256": "5b48f1ac25980798db5e78991ac08a489d53265150de21cc19a9e0007631c52e",
+      "size_bytes": 256
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-020000-official-image-runtime-map/proc_snapshots/2244/status.txt",
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/proc_snapshots/3194/status.txt",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "41a9483e8a7f8f552ecadc71b311704588f76a96ce1a2f65ad94ae91c5abb8d6",
-      "size_bytes": 1058
+      "sha256": "9e2a41800c191f6ddbcc007dcc9c6b72d288b8aeecb5b047ded979c3bdf78632",
+      "size_bytes": 1060
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-020000-official-image-runtime-map/runtime_map_transfer.log",
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/runtime_map_transfer.log",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "bd19f4e9d81aee0edc70542449ef515dc9e6d6a4dd5c55c05b51e271818cae6d",
+      "sha256": "702183974d40b8c274fdecc1014a10d5243bd77aa7a8d2624fbcbfc97d201fa1",
       "size_bytes": 23405
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-020000-official-image-runtime-map/uart.log",
+      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/uart.log",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "d056ee2132f0972d159cabae8d901fec8a7c7a24dbae1a2838df012a54ab2903",
-      "size_bytes": 5690
+      "sha256": "9cfc9eb29aebec51cfde9c5b4abff089f2a18496397d488ea9c7df100b5de330",
+      "size_bytes": 5676
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-021500-official-image-fork-exec-ownership/bram_records.jsonl",
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/bram_records.jsonl",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "b8941d856c12131510e5e3c9adc68d65ca85047cafbd0259f71372961c4436fb",
-      "size_bytes": 708506
+      "sha256": "46473d12b60bb02701dcd07bfeff18039fa82645a4f264411c4909744eedc65b",
+      "size_bytes": 77229
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-021500-official-image-fork-exec-ownership/bram_summary.json",
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/bram_summary.json",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "35799cdb5d7d35d069152358f57a8fd07cc83322808a582923a8de580088999f",
-      "size_bytes": 1064
+      "sha256": "2d58d5f4daeab996400f5e89c651f936145502e9e69f98d4d1f1e0fc5c48fd46",
+      "size_bytes": 1008
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-021500-official-image-fork-exec-ownership/capture.csv",
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/capture.csv",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "e3e7b7587bd4da89c98e1c1a7f8b8663fcd555751e658ba097fb631249335119",
+      "sha256": "abe788a77adea029275607c9b4c01b05f0ee4001ebecb821b549a33fefa5f0da",
       "size_bytes": 2095924
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-021500-official-image-fork-exec-ownership/capture.err.log",
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/capture.err.log",
       "root_id": "current_manifest_referenced_artifacts",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "size_bytes": 0
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-021500-official-image-fork-exec-ownership/capture.log",
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/capture.log",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "cb3f34f1b462b78cfd510808fee9245bdc65ae228156e21c2deaf4c6fb20924d",
-      "size_bytes": 9491
+      "sha256": "1697bb5b5c0eb57594ad4a9a7f540b65d9edf21627b7f89fe9a848484da503d2",
+      "size_bytes": 9410
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-021500-official-image-fork-exec-ownership/fork_exec_transfer.log",
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/fork_exec_transfer.log",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "7ecead6e3ca45985da7465227e65311ae5c9609df4887a0af45bbfe33d80dbef",
+      "sha256": "126159c68057f1b0a45994ab0c18f3c060d1df26ca31a8527038c40d5ffb5d80",
       "size_bytes": 23405
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-021500-official-image-fork-exec-ownership/proc_snapshots/fork_exec/child_exe_post.txt",
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/proc_snapshots/fork_exec/child_exe_post.txt",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "4a1999b9ec329a240b779252b97433532e0bbf998ca309c91619934f803996f8",
-      "size_bytes": 66
+      "sha256": "faf05c4d26db6db0dfdee8d27468f68e4e07cb32d2ba9891e8167e8f7b6b4edf",
+      "size_bytes": 13
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-021500-official-image-fork-exec-ownership/proc_snapshots/fork_exec/child_maps_post.txt",
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/proc_snapshots/fork_exec/child_exe_pre.txt",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "b2d2969e6ca916a68616b92fe3f18e86fa0a6042aedad5c5c16c5a1aba6b23e4",
-      "size_bytes": 61
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-021500-official-image-fork-exec-ownership/uart.log",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "484c4c8a939f9866ee860490a8607f778ed72093bf73c5e2fc11cf68b4f761c0",
-      "size_bytes": 23998
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022000-official-image-aslr-pie/dynamic_pie/rep_01/proc_snapshots/exe.txt",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "41590b89df02054566261b562027b42b392f86ce45aba1b011097a2ce94965b6",
-      "size_bytes": 134
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022000-official-image-aslr-pie/dynamic_pie/rep_01/proc_snapshots/maps.txt",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "6c36f5cdb995d8eaa6110424943eb54d1f470638cd770121771418cb05c39038",
-      "size_bytes": 1600
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022000-official-image-aslr-pie/dynamic_pie/rep_01/uart.log",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "75a93cc58c95273f3231825cf5b834594c17f03a1f193c90e12c5163a4961289",
-      "size_bytes": 5009
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022000-official-image-aslr-pie/dynamic_pie/rep_02/proc_snapshots/exe.txt",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "a9274122d039d1b4de65f68d3e7ae338537730cce7b46304e9308a98bbed358e",
-      "size_bytes": 134
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022000-official-image-aslr-pie/dynamic_pie/rep_02/proc_snapshots/maps.txt",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "d5691f4b3581b982c07ebfa9a42e0fbbc0d1f2739f569e7aac757dcf68741242",
-      "size_bytes": 1821
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022000-official-image-aslr-pie/dynamic_pie/rep_02/uart.log",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "a14cf5eb4c48e357303b3ca61817d346046dd989a0444cef301c134d4e055602",
-      "size_bytes": 5007
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022000-official-image-aslr-pie/dynamic_pie/rep_03/proc_snapshots/exe.txt",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "9adfffa8b789214b0eb557451d7225cf2edde7d3a05d584f42f3b2e9221defdb",
-      "size_bytes": 134
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022000-official-image-aslr-pie/dynamic_pie/rep_03/proc_snapshots/maps.txt",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "63ed63d937abff5c852fca68ec3863ee747ad898617ff8ba87f09aa21d02369b",
-      "size_bytes": 1821
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022000-official-image-aslr-pie/dynamic_pie/rep_03/uart.log",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "23dbfb684b341f9f0cba14666e54d3ee3b0c0da7b5eb752e1084e96e6c23ec7d",
-      "size_bytes": 5232
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022000-official-image-aslr-pie/dynamic_pie_transfer.log",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "d60aaa300924769da943137c3aecb683d8f8b89f4efbba4192c471dea97285ad",
-      "size_bytes": 1841
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022000-official-image-aslr-pie/static_exec/rep_01/proc_snapshots/exe.txt",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "ec84b34fc5061451700def210458112930b7c64f74d2c02c18c1e9bbc233c070",
+      "sha256": "e22820bc71c7e1f5395b6d8563634bbb0fc6645ac620b76aedeb315f056c248f",
       "size_bytes": 122
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-022000-official-image-aslr-pie/static_exec/rep_01/proc_snapshots/maps.txt",
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/proc_snapshots/fork_exec/child_maps_post.txt",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "c4f01c8790578c6b135f8a41b7ba1cc891aea25efbc1e226861642345c43a401",
-      "size_bytes": 933
+      "sha256": "28f60286b2ca2281ac78867956ce95f1a41a0777b2bc21fe63d3158d1902102e",
+      "size_bytes": 1540
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-022000-official-image-aslr-pie/static_exec/rep_01/uart.log",
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/proc_snapshots/fork_exec/child_maps_pre.txt",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "a4275da7d52e67d7a6e1f2b477319aff90fd5cc8ec72787ac1d6ec7081d770d8",
-      "size_bytes": 4284
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022000-official-image-aslr-pie/static_exec/rep_02/proc_snapshots/exe.txt",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "43f2680fac1a64f3b23201edfcd55c0cec6a9cdca7ebaa7f38dcd34d597e0b28",
-      "size_bytes": 122
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022000-official-image-aslr-pie/static_exec/rep_02/proc_snapshots/maps.txt",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "e1d0b61db377c50b7afa234b6dabcd5b1dd98636b39209d9c3ec2c1eb0cf6e30",
+      "sha256": "ae46a6fe304dd72ef0a0357697e9c5da4fa56902056850e2e1f852d6da48dc12",
       "size_bytes": 701
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-022000-official-image-aslr-pie/static_exec/rep_02/uart.log",
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/proc_snapshots/fork_exec/child_status_post.txt",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "ea9473641b93eaaaee4c3feb91ac5ebbb6999b70419474ab515d4d45a4a4aaba",
-      "size_bytes": 4190
+      "sha256": "67c07a279d5fe7fe9518b57621d43a1809903e2d164ffc1edc1592ac13c94305",
+      "size_bytes": 1053
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-022000-official-image-aslr-pie/static_exec/rep_03/proc_snapshots/exe.txt",
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/proc_snapshots/fork_exec/child_status_pre.txt",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "d756ab9419ebdf82ef3357596d4d29fa197943156e648b9be9eba480eb763dcc",
-      "size_bytes": 122
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022000-official-image-aslr-pie/static_exec/rep_03/proc_snapshots/maps.txt",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "b63e9f06eb0faf67c5c4d9b7073d4ced65b95db88838e60e1f84e20e00de390d",
-      "size_bytes": 934
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022000-official-image-aslr-pie/static_exec/rep_03/uart.log",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "51b145c09cf9ebead946145e05fcc461ac52ae71354ae7852eba2461346e2c9c",
-      "size_bytes": 4284
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022000-official-image-aslr-pie/static_exec_transfer.log",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "3c4485bb6b763451024438f4f5a9cd5a7bddc0a695a9a2a47e9d78e5866a533a",
-      "size_bytes": 23405
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/launcher_transfer.log",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "87e00b1396914151ab7ef7641506ec353e4710ea9b3a7bc094f6a4e9379c4883",
-      "size_bytes": 23405
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_cat_proc/rep_01/bram_records.jsonl",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "2f8d06827395e0cd7f55f50fbe5edb457305c8aacc88ab27b41255210e10fef7",
-      "size_bytes": 575836
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_cat_proc/rep_01/bram_summary.json",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "a51fcd7057083cf63bea07b96f3e0e325bc552d6f94a7d45dc26006ec8d3f6a4",
-      "size_bytes": 1054
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_cat_proc/rep_01/capture.csv",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "83e1168c43261ce3c0f5d2b26365003183006d11b26f024d3ca9b55c615422c5",
-      "size_bytes": 2095924
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_cat_proc/rep_01/capture.err.log",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "size_bytes": 0
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_cat_proc/rep_01/capture.log",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "e685e5ad0103e9cbe1788c994a21e597eb4dc3ff742484fbf8ee47d1604df82b",
-      "size_bytes": 9096
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_cat_proc/rep_01/uart.log",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "a0c515f5cab50a6de1fc56f9a87a2bd44908a3dc272bdaf81d8e54912fa60959",
-      "size_bytes": 1310
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_dd_tmp/rep_01/bram_records.jsonl",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "3e4cb211b5cb19395df402f4e3f46304687f2901c5bfaa06c70fee772438eb10",
-      "size_bytes": 732973
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_dd_tmp/rep_01/bram_summary.json",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "7f8c755f37afa53a5f9e7b8d2124498c1fea67637429a6401a8276713ab2dbbc",
+      "sha256": "0837e09765ed473a328ae7592f1218d6e6d18c1c892f2987bb7fb3620ffac017",
       "size_bytes": 1061
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_dd_tmp/rep_01/capture.csv",
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/proc_snapshots/fork_exec/parent_maps_pre.txt",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "f2b751a8cae85b943ebd32f631ebee06c20b1eee1fafcdc759d476be9dc47eef",
+      "sha256": "ae46a6fe304dd72ef0a0357697e9c5da4fa56902056850e2e1f852d6da48dc12",
+      "size_bytes": 701
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/proc_snapshots/fork_exec/parent_status_pre.txt",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "964bb65c9dc8c1cbab882c7f93438462810b14a669fbbb06116173e78b8d28ba",
+      "size_bytes": 1059
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/uart.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "e743cd664109e87527c23c3e099f4a81a03767374d3495b3e74ba8f0c5057358",
+      "size_bytes": 11741
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/launcher_transfer.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "762343328777cf0741a8665080bec46dddf391b5df0b81deb85f717dee6afd19",
+      "size_bytes": 23405
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_cat_proc/rep_01/bram_records.jsonl",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "eda12c76856da22c6598f3d817bf80f703a4b494a9545d4ad913471657b19641",
+      "size_bytes": 140632
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_cat_proc/rep_01/bram_summary.json",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "ca1b063fe44a2194bd58ef266534cf1bba2f1245f48900600bb53052c3cb0382",
+      "size_bytes": 1029
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_cat_proc/rep_01/capture.csv",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "cf2e87084fc265626fed518ff2c23e697a787b7454b6d1093bb5f599eb3947b2",
       "size_bytes": 2095924
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_dd_tmp/rep_01/capture.err.log",
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_cat_proc/rep_01/capture.err.log",
       "root_id": "current_manifest_referenced_artifacts",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "size_bytes": 0
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_dd_tmp/rep_01/capture.log",
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_cat_proc/rep_01/capture.log",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "4b4b54c4f24be227822e1ae591f02e94ec1e6a5d1d50aedb4ba5df648ab95607",
-      "size_bytes": 9088
+      "sha256": "0aa44172b429032a19a3ff1f703645fa5b95d222679e6e2674a497e01282444a",
+      "size_bytes": 9091
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_dd_tmp/rep_01/uart.log",
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_cat_proc/rep_01/uart.log",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "aa8fffa6459248e7ed428f79a27d1a4357c2004ff9cf3d9947a28180898e9489",
-      "size_bytes": 1408
+      "sha256": "f2261afdefb7c8736e129a8e75055f2fab5d646ac50ecbea4afb1ffb7f988938",
+      "size_bytes": 1155
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_file_rw/rep_01/bram_records.jsonl",
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_dd_tmp/rep_01/bram_records.jsonl",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "e5ce246e246a169e6fab891c1bf769c503d02d69fdff65f8b51f4e9c73864ae1",
-      "size_bytes": 717327
+      "sha256": "20e6a7592cfd1f717468a9412cbe34ecb6ba5207e4771b1a73748ed113d8fe7e",
+      "size_bytes": 248425
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_file_rw/rep_01/bram_summary.json",
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_dd_tmp/rep_01/bram_summary.json",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "2ac70c433eed1f604526c0bd92913f876ac56eaa0b7eef37391a834a910f2cff",
+      "sha256": "2e3748fb96796b583a1922843038817b7010bda33c30e16f2a18ad6883b2ccb2",
+      "size_bytes": 1026
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_dd_tmp/rep_01/capture.csv",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "a24bc303d8f835e5b72a4e4d70a86d045e2f5a338ac3ed562550a8fe56103d5b",
+      "size_bytes": 2095924
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_dd_tmp/rep_01/capture.err.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_dd_tmp/rep_01/capture.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "a4811ef3a1f3d644931688c98e8376cdc5935771fae6b584de779c3788ea1fcf",
+      "size_bytes": 9083
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_dd_tmp/rep_01/uart.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "bc317dc8587c58a46723a764cef5c66009567d4e297039144514aac2acc62dac",
+      "size_bytes": 1247
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_file_rw/rep_01/bram_records.jsonl",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "24ce08126510649a8901b8ae86c80d5fe0cc182402bfc20e24fd5c4196b9c5b9",
+      "size_bytes": 429303
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_file_rw/rep_01/bram_summary.json",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "9f0556ad72806b68d1df23c9df12df6e80f1b42cf1c628f836b5602106188326",
+      "size_bytes": 1030
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_file_rw/rep_01/capture.csv",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "d1847d5987641af403e8b38e776bb80f5fdb120403064908cf64f024f6cc62ba",
+      "size_bytes": 2095924
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_file_rw/rep_01/capture.err.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_file_rw/rep_01/capture.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "da35a2e95b97e7d63e9e6b4439c5822acb0b574920230800b4debc0bb7ece5f9",
+      "size_bytes": 9087
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_file_rw/rep_01/uart.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "d8f49faeadeeac037690adfe8f6552ec207770cf643564b665182c041228b86e",
+      "size_bytes": 1433
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_grep/rep_01/bram_records.jsonl",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "a2297b45233f07a151a7ee63721711d6caf6435dad45ded3220dd7cb1430b3c4",
+      "size_bytes": 157190
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_grep/rep_01/bram_summary.json",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "954894d46ef12a150a399a1e61b9f171eb07e806f5182bba42e9082391a33f09",
+      "size_bytes": 1017
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_grep/rep_01/capture.csv",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "415127b555238f055dbc70e3596c771ab72f632685232d1b31efaf265d7ff34b",
+      "size_bytes": 2095924
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_grep/rep_01/capture.err.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_grep/rep_01/capture.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "355f1dccbbec046020b58c2cff34ba9a1d3f6548cd0ac953c1d7a6953d11a648",
+      "size_bytes": 9075
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_grep/rep_01/uart.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "5ec3643480fd27214f59bbbb315d87c2eb20b14938bb6e7ab8246c178099ef55",
+      "size_bytes": 1140
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_ls_proc/rep_01/bram_records.jsonl",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "d331b724e91b6d5caa4cd1d63d82f8390c4b07f594f8b87b3a3d0a5ab8321c02",
+      "size_bytes": 382857
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_ls_proc/rep_01/bram_summary.json",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "5a1fd612ff868431aa210d8c22c0b820b5c4a4f0af3b4dc0ccd8622fa8064b75",
+      "size_bytes": 1030
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_ls_proc/rep_01/capture.csv",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "3d2e2ccfd7863c929684972fc8959b29df0bb9d60e2351d80c58cec847099aa6",
+      "size_bytes": 2095924
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_ls_proc/rep_01/capture.err.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_ls_proc/rep_01/capture.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "be80a2d80699db80c26dfc7b16785eefb3712f34c21f669ff8ee5fbe09eaac8a",
+      "size_bytes": 9087
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_ls_proc/rep_01/uart.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "126852bbe69dc1469239469557a037762d38fc6fbec02d2ac18a98b01fe3d41f",
+      "size_bytes": 2389
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_mount_read/rep_01/bram_records.jsonl",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "9d0f3f7e11d3d805cf8428441b05f90ec54f7050bf106d4d2dcb2e9ea6440d7b",
+      "size_bytes": 128236
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_mount_read/rep_01/bram_summary.json",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "3f5947c459d334e0225bbb7edbc5d31cef3063991751447303e8a3658c68cbf7",
+      "size_bytes": 1033
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_mount_read/rep_01/capture.csv",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "4769ead0ebc1a61688bbe7c5fb7eb2f8ff0a4b5554a0253769b7dfbbc9f3234f",
+      "size_bytes": 2095924
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_mount_read/rep_01/capture.err.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_mount_read/rep_01/capture.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "e4ec0cc6364335028bbb90818e4848040004dc657e618893f93c08bac7077ac0",
+      "size_bytes": 9439
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_mount_read/rep_01/uart.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "bb8353ca9bafc9a72c9ad4a9a6d0619bcb1f59c6dcd0568fd6782828c4b605f7",
+      "size_bytes": 1336
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_sh/rep_01/bram_records.jsonl",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "cbe0e64aa4facbd0cba999a64d08ceb74598f3855d6796917772724a76c57fda",
+      "size_bytes": 146620
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_sh/rep_01/bram_summary.json",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "ead945a4a76d153b386b053348e2b8164391801ec9e1d43bf815213d5384eeab",
+      "size_bytes": 1017
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_sh/rep_01/capture.csv",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "83fec356dd769087dd81e2c46f866a3ba325186dc5f7738f40e3b72839a7d4ac",
+      "size_bytes": 2095924
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_sh/rep_01/capture.err.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_sh/rep_01/capture.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "22cf37e9c79e302186507f18e4fe926006c6d6fa766c06dd3b8a407bf00b392a",
+      "size_bytes": 9407
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_sh/rep_01/uart.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "659d995e0b280d8381d8f520434d7055dca71bc879ca8f6ea0d8784bd0666293",
+      "size_bytes": 1106
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_sh_no_event/rep_01/bram_records.jsonl",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "adc176e9355f1dd6b5dae00419688bf60843dc3ad9ca2689e15b1b8e4cc6bc7c",
+      "size_bytes": 154882
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_sh_no_event/rep_01/bram_summary.json",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "dd2cbc5589ea0f02dc6b13e958dc57212c1a5fc2514ab0b883b1e78a51dc75ca",
+      "size_bytes": 1026
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_sh_no_event/rep_01/capture.csv",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "3b587aae2a4c50b62523336740d466d328fb20c1d9c34883d2eae0ec798889e2",
+      "size_bytes": 2095924
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_sh_no_event/rep_01/capture.err.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_sh_no_event/rep_01/capture.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "f5401c116b02fb76978aeab6fe7566fbbe5f7fdffbca4d5bffd5b80df9a596ca",
+      "size_bytes": 9443
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_sh_no_event/rep_01/uart.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "3e8331a34eafc76c3526340d2e38a2d9326ae600b6b6d5366f39919f51bb43df",
       "size_bytes": 1065
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_file_rw/rep_01/capture.csv",
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_sha256sum/rep_01/bram_records.jsonl",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "c31d78bfcb407409f5f10f1321dc3c603ef03b4c44011f0e538c405107bf89db",
+      "sha256": "3cb3aa87db509b3040705fafa49d0446f3bd8bffcc70561998c667aaf9e27c68",
+      "size_bytes": 535980
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_sha256sum/rep_01/bram_summary.json",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "33fb783ea896cce2997eb158470214e7457943c2540fc65ec074985e50e50978",
+      "size_bytes": 1030
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_sha256sum/rep_01/capture.csv",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "53c5bde88f6a869abdb3896473067a6882af067da4ad0fbcbd45e77a1c803d37",
       "size_bytes": 2095924
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_file_rw/rep_01/capture.err.log",
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_sha256sum/rep_01/capture.err.log",
       "root_id": "current_manifest_referenced_artifacts",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "size_bytes": 0
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_file_rw/rep_01/capture.log",
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_sha256sum/rep_01/capture.log",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "223394b6f9682e66b257d3266f24970e4d8cd11f052df33309e7857776da8b1c",
-      "size_bytes": 9092
+      "sha256": "6c402abd604a0e867708332767618145f701bc3088da093f9093750c262ddc7b",
+      "size_bytes": 9095
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_file_rw/rep_01/uart.log",
+      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-official-workloads/native_sha256sum/rep_01/uart.log",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "01033e013f0f3b72ff941f38814d71f91ff225ee5bd27de770f4fb56067177d2",
-      "size_bytes": 2068
+      "sha256": "a3f3a1e193772a8b338095a8000bc8735c25ab54b117ccd8b2edc07f9ac44c0f",
+      "size_bytes": 1237
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_grep/rep_01/bram_records.jsonl",
+      "path": "results/board/genesys2_trace_validation/20260625-official-image-hardware-oracle-differential/qemu/command.txt",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "e3f9dc8331755bdb7cdf619dc56205aeb4ece1a108603a0028a6014cd9b72dc3",
-      "size_bytes": 614355
+      "sha256": "a900792f0e713f2eb325de7424995c939b52155c55777d6fa45becf253d722c7",
+      "size_bytes": 704
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_grep/rep_01/bram_summary.json",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "0fc782f224b25c8f9b3aee84308fc70dc317c22eca60a2094fce57b03726caf9",
-      "size_bytes": 1046
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_grep/rep_01/capture.csv",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "8c392839c532bf0ab809481190405636a99711eee5d05e17fcfe76b5aed6529d",
-      "size_bytes": 2095924
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_grep/rep_01/capture.err.log",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "size_bytes": 0
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_grep/rep_01/capture.log",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "3b7a24f06883a05499d7f678352b5e96740aaea1debf61d1e1f74604e3f6bc16",
-      "size_bytes": 9080
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_grep/rep_01/uart.log",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "13e6e29dbc08dcb9f3c231fdecca3c3c632f5e787afafdc7814a3de2b38ee0b8",
-      "size_bytes": 1313
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_ls_proc/rep_01/bram_records.jsonl",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "39a032e8732423c97c9553732afc4b2e67aeb5e643a5cffcdb97cf02a6f3b771",
-      "size_bytes": 708679
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_ls_proc/rep_01/bram_summary.json",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "abb06b16753754c47c8f9fe931b539d6bcd722531e8a860287180f6bc338af25",
-      "size_bytes": 1063
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_ls_proc/rep_01/capture.csv",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "a453b84a3f06911bd7d4c2b13cf87755d55f0825a1021924d19c4fe93bce7e06",
-      "size_bytes": 2095924
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_ls_proc/rep_01/capture.err.log",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "size_bytes": 0
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_ls_proc/rep_01/capture.log",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "b9472e6133b9e693a4b9eb091f2159aed7d6d5a56b2cc4f387d825da4b806f89",
-      "size_bytes": 9092
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_ls_proc/rep_01/uart.log",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "9c0eb09f3c6ae45e73018457e02db70f079100fa13431b4f4f8e21d41b7d748a",
-      "size_bytes": 831
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_mount_read/rep_01/bram_records.jsonl",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "32446fde92a6162028e3bc3760b1dc03fd014ff502fb90ca2e06df3abf3b810c",
-      "size_bytes": 655305
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_mount_read/rep_01/bram_summary.json",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "fc6ab5d91a98ae06bb0ff1e616b90002c402c5c540d9647ee5c6170748182fd2",
-      "size_bytes": 1058
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_mount_read/rep_01/capture.csv",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "39039155523cdac6589602a7e61dab7b3a114d486c3f787a490de2322f4ba21e",
-      "size_bytes": 2095924
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_mount_read/rep_01/capture.err.log",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "size_bytes": 0
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_mount_read/rep_01/capture.log",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "daa0489cbec4bf37b05b6d97c06f07280835d0e3ba0a4559870134e083c8fe42",
-      "size_bytes": 9104
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_mount_read/rep_01/uart.log",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "d9836983df1f784960ecca1fa38fb2fc2fcb5abd39a26465d88e7352dff85362",
-      "size_bytes": 1536
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_sh/rep_01/bram_records.jsonl",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "6b4358ab3aabbbc993e66650799363548373fd673fab8ebf6c19fe830b4a0e6a",
-      "size_bytes": 594546
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_sh/rep_01/bram_summary.json",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "40f27e7a68d391a7568dbbc05ff00f6ed3e02b4c6427db5a78077784a43074c2",
-      "size_bytes": 1038
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_sh/rep_01/capture.csv",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "768e10bd58406e5049554ab5c0bcd6b61361a04aac39e63523a7f784da9edc5e",
-      "size_bytes": 2095924
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_sh/rep_01/capture.err.log",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "size_bytes": 0
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_sh/rep_01/capture.log",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "c025327cc0468771591ce456669e22e9bc8cf4623393ea6e8044ab5cafcff15b",
-      "size_bytes": 9412
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_sh/rep_01/uart.log",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "5766e425201aab4acd0865b74b60cc52024a25f0d13b17f5d9496d30fcd8fca0",
-      "size_bytes": 822
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_sha256sum/rep_01/bram_records.jsonl",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "74216bf83225a3c9daeced085503bf67427a98311f2eed9d22157824b6828846",
-      "size_bytes": 704311
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_sha256sum/rep_01/bram_summary.json",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "b1ce95212fbad905026806f9ecf54d3d010f9ef3ca94aafcd48db2747f1bcb4d",
-      "size_bytes": 1064
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_sha256sum/rep_01/capture.csv",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "c48bceeabb13afff9e0cf17f1230a9e0ffd1c9f1fa4c1cb023ef173f456946f0",
-      "size_bytes": 2095924
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_sha256sum/rep_01/capture.err.log",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "size_bytes": 0
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_sha256sum/rep_01/capture.log",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "da964b7f58112dc1673772e4c499eaf07713c3e750112a2bef59d133b3bfc862",
-      "size_bytes": 9100
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-022300-official-image-workloads/native_sha256sum/rep_01/uart.log",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "aa1415c7cf9f0d8f101b62b6f0cb4ea149f93a85203827a6f0139f3759f2502d",
-      "size_bytes": 2538
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-023000-official-image-hardware-oracle-differential/qemu/command.txt",
-      "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "6301995a8fab32ec722cc37a53d60ac99bb6176b16752fddd348c3b9225c0410",
-      "size_bytes": 732
-    },
-    {
-      "path": "results/board/genesys2_trace_validation/20260625-023000-official-image-hardware-oracle-differential/qemu/qemu.version.txt",
+      "path": "results/board/genesys2_trace_validation/20260625-official-image-hardware-oracle-differential/qemu/qemu.version.txt",
       "root_id": "current_manifest_referenced_artifacts",
       "sha256": "dfa5b140954f6812762667d2f8e24ad257d7ce6418b0468fb1ac6ed67829179c",
       "size_bytes": 59
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-023000-official-image-hardware-oracle-differential/qemu/returncode.txt",
+      "path": "results/board/genesys2_trace_validation/20260625-official-image-hardware-oracle-differential/qemu/returncode.txt",
       "root_id": "current_manifest_referenced_artifacts",
       "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
       "size_bytes": 2
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-023000-official-image-hardware-oracle-differential/qemu/stdout.txt",
+      "path": "results/board/genesys2_trace_validation/20260625-official-image-hardware-oracle-differential/qemu/stdout.txt",
       "root_id": "current_manifest_referenced_artifacts",
       "sha256": "101ffc310e10afd2ad86579667b20425a56ecec6daa5c49a05e1c648e7702b86",
       "size_bytes": 20
     },
     {
-      "path": "results/board/genesys2_trace_validation/20260625-023000-official-image-hardware-oracle-differential/qemu/strace.txt",
+      "path": "results/board/genesys2_trace_validation/20260625-official-image-hardware-oracle-differential/qemu/strace.txt",
       "root_id": "current_manifest_referenced_artifacts",
       "sha256": "e111362d3110a4d1b17ed2dddd7bb1d84738ae84db04fa055361e4cfef57c897",
       "size_bytes": 87
@@ -20166,16 +20280,16 @@
       "total_bytes": 232022
     },
     {
-      "file_count": 3331,
+      "file_count": 3350,
       "id": "current_manifest_referenced_artifacts",
       "role": "ignored local artifacts outside the canonical current evidence root that are referenced by current manifests and required by recursive path/hash checks",
-      "total_bytes": 871969221
+      "total_bytes": 881931206
     },
     {
       "file_count": 17,
       "id": "local_bitstream_inventory_artifacts",
       "role": "host Vivado bitstream, LTX, DCP, timing, route, and utilization artifacts required by repro:local",
-      "total_bytes": 320185888
+      "total_bytes": 320133833
     }
   ],
   "non_claims": [
@@ -20260,7 +20374,7 @@
   "schema": "rvmt.genesys2.raw_artifact_release.v1",
   "source_reproducibility_manifest": {
     "path": "results/evaluation/genesys2-cva6/current/reproducibility_manifest.json",
-    "sha256": "21b52dc7b625c98d5201afc88d7f0ecb0b422267398b2b9a30f85e1ed42caea7"
+    "sha256": "e290473ee5ed2e99098c6835f1d0eec83cc5eb65d4dec6c93965b96af401079a"
   },
   "status": "PASS_LOCAL_ARCHIVE_PRESENT",
   "validation_commands": [

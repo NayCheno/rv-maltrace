@@ -1,11 +1,18 @@
 from __future__ import annotations
 
 import argparse
-import json
 import sys
 import tempfile
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    as_dict,
+    as_list,
+    load_json,
+    repo_path,
+    require,
+)
 
 from package_genesys2_semantic_provenance import (
     ALLOWED_PROVENANCE,
@@ -20,31 +27,6 @@ from package_genesys2_semantic_provenance import (
 
 DEFAULT_SUMMARY = DEFAULT_CURRENT_ROOT / PROVENANCE_NAME
 ORACLE_HINTS = ("qemu", "strace", "host", "control", "trusted_companion")
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
-def repo_path(root: Path, value: Any) -> Path:
-    path = Path(str(value))
-    return path if path.is_absolute() else root / path
-
-
-def as_list(value: Any) -> list[Any]:
-    return value if isinstance(value, list) else []
-
-
-def as_dict(value: Any) -> dict[str, Any]:
-    return value if isinstance(value, dict) else {}
-
-
-def require(errors: list[str], condition: bool, message: str) -> None:
-    if not condition:
-        errors.append(message)
 
 
 def value_mentions_oracle(value: Any) -> bool:

@@ -1,11 +1,14 @@
 from __future__ import annotations
 
 import argparse
-import json
 import sys
 import tempfile
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    repo_path,
+)
 
 from check_genesys2_external_closure_intake import (
     DEFAULT_EXTERNAL_ROOT,
@@ -29,10 +32,6 @@ NO_SUBSTITUTION_RULES = {
     "production_streaming_dma_trace_sink": "BRAM ring captures, ILA/JTAG dumps, and local runtime benchmarks must not be substituted for production streaming or DMA throughput evidence.",
     "genesys2_board_benign_control": "Local Linux benign controls must not be substituted for Genesys2/CVA6 board benign-control traces.",
 }
-
-
-def repo_path(root: Path, value: Path) -> Path:
-    return value if value.is_absolute() else root / value
 
 
 def package_intake(root: Path = ROOT, current_root: Path = DEFAULT_CURRENT_ROOT) -> dict[str, Any]:

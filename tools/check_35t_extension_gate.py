@@ -1,13 +1,20 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import sys
 import tempfile
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    file_digest,
+    load_json,
+    rel,
+    repo_path,
+    utc_now,
+    write_json,
+)
 
 
 DEFAULT_RUN_ID = "35t-extension-r512-nonnetwork-20260523"
@@ -37,41 +44,6 @@ NON_CLAIMS = [
     "no complete semantic reconstruction claim",
     "extension gate is reported separately from the primary 13-sample gate",
 ]
-
-
-def utc_now() -> str:
-    return datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
-
-
-def repo_path(repo_root: Path, path: Path) -> Path:
-    return path if path.is_absolute() else repo_root / path
-
-
-def rel(path: Path, repo_root: Path) -> str:
-    try:
-        return path.resolve().relative_to(repo_root.resolve()).as_posix()
-    except ValueError:
-        return path.as_posix()
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
-
-
-def file_digest(path: Path) -> str:
-    h = hashlib.sha256()
-    with path.open("rb") as fh:
-        for chunk in iter(lambda: fh.read(1024 * 1024), b""):
-            h.update(chunk)
-    return h.hexdigest()
 
 
 def sample_rows(gate_report: dict[str, Any]) -> dict[str, dict[str, Any]]:

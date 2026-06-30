@@ -8,6 +8,10 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    load_json,
+)
+
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_RESULT_ROOT = Path("results/experiments/35t")
@@ -25,13 +29,6 @@ def repo_rel(path: Path) -> str:
         return path.relative_to(ROOT).as_posix()
     except ValueError:
         return path.as_posix()
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
 
 
 def median(values: list[float]) -> float | None:

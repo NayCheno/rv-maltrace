@@ -1,11 +1,15 @@
 from __future__ import annotations
 
 import argparse
-import json
 import sys
 import tempfile
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    repo_path,
+    write_json,
+)
 
 from check_genesys2_external_closure_intake import (
     DEFAULT_EXTERNAL_ROOT,
@@ -32,15 +36,6 @@ TEMPLATE_BUILDERS = {
     "production_streaming_dma_trace_sink": streaming_template,
     "genesys2_board_benign_control": board_benign_template,
 }
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
-
-
-def repo_path(root: Path, value: Path) -> Path:
-    return value if value.is_absolute() else root / value
 
 
 def repo_relative(root: Path, value: Path) -> str | None:

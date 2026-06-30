@@ -9,6 +9,11 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    load_json,
+    resolve,
+)
+
 
 DEFAULT_MANIFEST = Path("experiments/linux_behavior/malware_like/manifest.json")
 DEFAULT_FIXTURE_DIR = Path("sim/golden/demo_behavior")
@@ -26,17 +31,6 @@ EXPECTED_SAMPLES = (
     "dynamic_executable_memory",
     "illegal_trap",
 )
-
-
-def resolve(root: Path, path: Path) -> Path:
-    return path if path.is_absolute() else root / path
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
 
 
 def run_python(root: Path, args: list[str]) -> tuple[int, str, str]:

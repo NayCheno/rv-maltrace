@@ -4,9 +4,16 @@ import argparse
 import json
 import sys
 import tempfile
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    load_json,
+    rel,
+    repo_path,
+    utc_now,
+    write_json,
+)
 
 
 PRIMARY_RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
@@ -20,33 +27,6 @@ FD_PATH_SAMPLES = (
     "obfuscated_syscall_wrapper",
     "file_encryption_sim_non_destructive",
 )
-
-
-def utc_now() -> str:
-    return datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
-
-
-def repo_path(repo_root: Path, path: Path) -> Path:
-    return path if path.is_absolute() else repo_root / path
-
-
-def rel(path: Path, repo_root: Path) -> str:
-    try:
-        return path.resolve().relative_to(repo_root.resolve()).as_posix()
-    except ValueError:
-        return path.as_posix()
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
 
 
 def sample_dir(results_root: Path, sample: str) -> Path | None:

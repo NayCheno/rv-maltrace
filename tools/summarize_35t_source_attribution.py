@@ -7,6 +7,10 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    load_json,
+)
+
 
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
 DEFAULT_RESULTS_ROOT = Path("results/experiments/35t") / RUN_ID
@@ -19,13 +23,6 @@ SAMPLES = [
     "batch_open_read_write",
     "self_copy_sim",
 ]
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
 
 
 def symbol_function_count(code_map: dict[str, Any]) -> int:

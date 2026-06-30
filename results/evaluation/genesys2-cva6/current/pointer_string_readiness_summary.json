@@ -186,19 +186,19 @@
       "exists": true,
       "id": "rv_maltrace_cli_trace_parser",
       "path": "src/rv_maltrace/cli.py",
-      "sha256": "844e84c147eb637be0ff3a59dcc7cfaf3145d3a18a4196508e23dc702a02e5e7"
+      "sha256": "4c54be758d795fa72003d80ebfaf281572d65d3fa2411a7d44d44e7f97ee6e27"
     },
     {
       "exists": true,
       "id": "package_hardware_pointer_prefixes",
       "path": "tools/package_hardware_pointer_prefixes.py",
-      "sha256": "fc7b18162f77893bfb48c072e14d1ef2ace83503c56d30854c46a475e3728320"
+      "sha256": "4d6c83e97a18641ec29c9d7a0d8b51ba1dae0b31916eda87b1f642c7873616f9"
     },
     {
       "exists": true,
       "id": "check_hardware_pointer_prefixes",
       "path": "tools/check_hardware_pointer_prefixes.py",
-      "sha256": "620f6cda55cabd1edc69515ec86451e9c71ee75171475bc23e074cd249b93d38"
+      "sha256": "b10892252340a4c911b9251c141f312d8d87824c015aa5025b5693fab6ccc872"
     }
   ],
   "status": "PASS",

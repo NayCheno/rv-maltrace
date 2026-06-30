@@ -1,13 +1,21 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import re
 import sys
 import tempfile
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    load_json,
+    repo_path,
+    repo_rel,
+    require,
+    sha256_file,
+    write_json,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -32,41 +40,9 @@ PMU_OPTION_GROUP = {
 }
 
 
-def repo_path(root: Path, value: Any) -> Path:
-    path = Path(str(value))
-    return path if path.is_absolute() else root / path
-
-
-def repo_rel(root: Path, path: Path) -> str:
-    try:
-        return path.resolve().relative_to(root.resolve()).as_posix()
-    except ValueError:
-        return path.as_posix()
-
-
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
 def write_text(path: Path, value: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(value, encoding="utf-8", newline="\n")
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
 
 
 def artifact_row(root: Path, path: Path) -> dict[str, Any]:
@@ -216,11 +192,6 @@ def summarize_export(root: Path, log: Path, summary: Path, live_config: Path) ->
         data["blocked_reason"] = blocked_reason
     write_json(summary, data)
     return data
-
-
-def require(errors: list[str], condition: bool, message: str) -> None:
-    if not condition:
-        errors.append(message)
 
 
 def check_row_hash(errors: list[str], root: Path, row: dict[str, Any], label: str) -> None:

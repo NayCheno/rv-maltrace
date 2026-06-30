@@ -7,6 +7,10 @@ import sys
 import tempfile
 from pathlib import Path
 
+from experiment_common import (
+    resolve,
+)
+
 
 DEFAULT_MATRIX = Path("docs/07-evaluation-evidence/reports/ccfa_readiness_matrix.md")
 DEFAULT_NEXT_PLAN = Path("docs/07-evaluation-evidence/reports/ccfa_next_closure_plan.md")
@@ -121,10 +125,6 @@ OVERCLAIM_RULES = [
         SAFE_NEGATORS,
     ),
 ]
-
-
-def resolve(root: Path, path: Path) -> Path:
-    return path if path.is_absolute() else root / path
 
 
 def display(path: Path, root: Path) -> str:

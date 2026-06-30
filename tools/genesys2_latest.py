@@ -1,24 +1,16 @@
 from __future__ import annotations
 
-import json
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    load_json,
+    repo_path,
+)
 
 
 LATEST_SCHEMA = "rvmt.genesys2.latest_manifest.v1"
 DEFAULT_LATEST_MANIFEST = Path("results/evaluation/genesys2-cva6/current/latest_manifest.json")
-
-
-def repo_path(root: Path, value: str | Path) -> Path:
-    path = Path(value)
-    return path if path.is_absolute() else root / path
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
 
 
 def load_latest_manifest(root: Path, manifest_path: Path | None = None) -> tuple[Path, dict[str, Any]]:

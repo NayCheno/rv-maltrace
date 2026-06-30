@@ -1,11 +1,15 @@
 from __future__ import annotations
 
 import argparse
-import json
 import subprocess
 import sys
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    load_json,
+    load_jsonl,
+)
 
 
 SAMPLES = [
@@ -17,27 +21,6 @@ SAMPLES = [
 DEFAULT_RUN_ROOT = Path("results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram")
 DEFAULT_LTX = Path("build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.ltx")
 END_MARKER = "e0000a11"
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
-def load_jsonl(path: Path) -> list[dict[str, Any]]:
-    rows: list[dict[str, Any]] = []
-    with path.open("r", encoding="utf-8") as handle:
-        for line_no, line in enumerate(handle, start=1):
-            line = line.strip()
-            if not line:
-                continue
-            value = json.loads(line)
-            if not isinstance(value, dict):
-                raise ValueError(f"{path}:{line_no}: expected JSON object")
-            rows.append(value)
-    return rows
 
 
 def is_arg_mem(row: dict[str, Any]) -> bool:

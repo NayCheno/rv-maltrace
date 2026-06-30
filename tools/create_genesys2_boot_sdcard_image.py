@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import argparse
 import binascii
-import hashlib
 import json
 import math
 import struct
@@ -11,6 +10,13 @@ import tempfile
 import uuid
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    repo_path,
+    repo_rel,
+    sha256_file,
+    write_json,
+)
 
 
 SCHEMA = "rvmt.genesys2.boot_sdcard_image.v1"
@@ -26,30 +32,6 @@ RVMT_ROOTFS_GUID = uuid.UUID("a19d880f-05fc-4d3b-8e24-1568f8765f90")
 DEFAULT_OUT = Path("build/linux/genesys2-cva6/sdcard.img")
 DEFAULT_MANIFEST = Path("results/evaluation/genesys2-cva6/current/sdcard_image_manifest.json")
 
-
-def repo_path(root: Path, value: Path | str) -> Path:
-    path = Path(value)
-    return path if path.is_absolute() else root / path
-
-
-def repo_rel(root: Path, value: Path) -> str:
-    try:
-        return value.resolve().relative_to(root.resolve()).as_posix()
-    except ValueError:
-        return value.as_posix()
-
-
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
 
 
 def sectors_for(size_bytes: int) -> int:

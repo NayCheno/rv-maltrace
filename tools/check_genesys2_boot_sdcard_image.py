@@ -1,52 +1,26 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
-import json
 import struct
 import sys
 import tempfile
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    as_dict,
+    as_list,
+    load_json,
+    repo_path,
+    require,
+    sha256_file,
+)
+
 
 DEFAULT_MANIFEST = Path("results/evaluation/genesys2-cva6/current/sdcard_image_manifest.json")
 SCHEMA = "rvmt.genesys2.boot_sdcard_image.v1"
 PASS_STATUS = "PASS_LOCAL_SDCARD_IMAGE_CREATED"
 SECTOR_SIZE = 512
-
-
-def repo_path(root: Path, value: Any) -> Path:
-    path = Path(str(value))
-    return path if path.is_absolute() else root / path
-
-
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
-def as_dict(value: Any) -> dict[str, Any]:
-    return value if isinstance(value, dict) else {}
-
-
-def as_list(value: Any) -> list[Any]:
-    return value if isinstance(value, list) else []
-
-
-def require(errors: list[str], condition: bool, message: str) -> None:
-    if not condition:
-        errors.append(message)
 
 
 def compare_partition_prefix(errors: list[str], image: Path, source: Path, first_lba: int, partition_bytes: int, label: str) -> None:

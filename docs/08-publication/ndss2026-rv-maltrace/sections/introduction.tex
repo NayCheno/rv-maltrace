@@ -65,8 +65,9 @@ We make the following contributions:
   to executable identity and process context, with each reconstructed field
   explicitly labeled by its evidence source.
   \item A code-attribution mechanism that resolves executable identity under
-  PIE/ASLR, dynamic loading, fork/exec, and stripped binaries, achieving [X\%]
-  coverage on controlled workloads.
+  PIE/ASLR, dynamic loading, fork/exec, and stripped binaries, attributing
+  108/108 key PC events to the target ELF/function level and passing 6/6
+  mapping edge cases on controlled workloads.
   \item A reproducible artifact package with manifests and SHA-256 checks that
   enables independent verification of all reported results.
 \end{itemize}

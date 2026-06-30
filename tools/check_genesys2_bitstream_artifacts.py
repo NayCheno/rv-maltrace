@@ -1,13 +1,17 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import re
 import sys
 import tempfile
 from pathlib import Path
 from typing import NamedTuple
+
+from experiment_common import (
+    resolve,
+    sha256_file,
+)
 
 
 DEFAULT_BASELINE_DIR = Path("build/vivado/genesys2-cv64a6_imafdc_sv39")
@@ -54,10 +58,6 @@ class Check(NamedTuple):
     @property
     def ok(self) -> bool:
         return self.level == "PASS"
-
-
-def resolve(root: Path, path: Path) -> Path:
-    return path if path.is_absolute() else root / path
 
 
 def display(path: Path, root: Path) -> str:
@@ -122,14 +122,6 @@ def check_timing(
 def xci_config_value(text: str, key: str) -> str | None:
     match = re.search(rf'"{re.escape(key)}"\s*:\s*\[\s*\{{\s*"value"\s*:\s*"([^"]+)"', text)
     return match.group(1) if match else None
-
-
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
 
 
 def check_ila_xci(root: Path, path: Path, label: str) -> Check:

@@ -58,13 +58,13 @@ experiment is marked PASS.
 
 - Raw artifact release candidate:
   `build/ndss_artifacts/rv-maltrace-genesys2-cva6-current-raw-artifacts.zip`
-  SHA256 `57f48d6e269598268508d3e5a35c940a14aafdcf151b23fa4ace97188b22f611`,
-  file count 3356, size 323142849 bytes.
+  SHA256 `c839d5ff2e184683d1950d2e5b1a2f7e0389749bf18e85016d70375641ea41c9`,
+  file count 3375, size 326810249 bytes.
 - Host LaTeX skeleton build:
   `results/evaluation/genesys2-cva6/current/host_latex_build_summary.json`
-  SHA256 `75040a1e5046ae29b4f4b014d6762f05343bad7df1dc1a3d32bda8932ba3cfb3`;
-  `build/latex/ndss2026/paper.pdf` SHA256
-  `9dd98db785a0b1201f388f5f02af9f83df9d10a6fd0206b5b84d3540302c9086`,
+  SHA256 `b5a30117261a9f58529ef93248adacf1b4607e49f9dec980767b3fe60438b135`;
+  `docs/08-publication/ndss2026-rv-maltrace/build/main.pdf` SHA256
+  `f234a44632779f73c692ebc6106963cac65ebc437c1b5f98697d40363d4bc937`,
   status `PASS`. This is a skeleton compile only.
 - JTAG RAM-boot probe summary:
   `results/evaluation/genesys2-cva6/current/jtag_ram_boot_probe_summary.json`

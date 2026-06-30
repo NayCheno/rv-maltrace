@@ -10,6 +10,10 @@ import time
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    write_json,
+)
+
 
 MAP_RE = re.compile(r"^([0-9a-fA-F]+)-([0-9a-fA-F]+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s*(.*)$")
 MARKER_RE = re.compile(r"RVMT_RUNTIME_PROCESS(?:_MAP_BEGIN|_MAP_END|_MAP_RAW|_PROVENANCE)?\s+(.*)")
@@ -296,11 +300,6 @@ wait \"$target_pid\"
 target_exit=$?
 echo \"RVMT_RUNTIME_PROCESS_MAP_END status=PASS target_exit=$target_exit\"
 """
-
-
-def write_json(path: Path, data: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
 
 
 def self_test() -> int:

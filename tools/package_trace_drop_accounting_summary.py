@@ -1,12 +1,18 @@
 from __future__ import annotations
 
 import argparse
-import json
 import sys
 import tempfile
 from collections import Counter
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    load_json,
+    load_jsonl,
+    repo_rel_from,
+    write_json,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -36,37 +42,7 @@ SAFE_TRACE_PATHS = {
 }
 
 
-def repo_rel(path: Path) -> str:
-    try:
-        return path.resolve().relative_to(ROOT.resolve()).as_posix()
-    except ValueError:
-        return path.as_posix()
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
-
-
-def load_jsonl(path: Path) -> list[dict[str, Any]]:
-    rows: list[dict[str, Any]] = []
-    with path.open("r", encoding="utf-8") as handle:
-        for line_no, line in enumerate(handle, start=1):
-            line = line.strip()
-            if not line:
-                continue
-            value = json.loads(line)
-            if not isinstance(value, dict):
-                raise ValueError(f"{path}:{line_no}: expected JSON object")
-            rows.append(value)
-    return rows
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
+repo_rel = repo_rel_from(ROOT)
 
 
 def parse_int(value: Any) -> int | None:

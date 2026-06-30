@@ -8,6 +8,12 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    rel,
+    repo_path,
+    utc_now,
+)
+
 
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
 DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / RUN_ID
@@ -32,21 +38,6 @@ NON_CLAIMS = [
 
 def utc_date() -> str:
     return datetime.now(timezone.utc).strftime("%Y%m%d")
-
-
-def utc_now() -> str:
-    return datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
-
-
-def repo_path(repo_root: Path, path: Path) -> Path:
-    return path if path.is_absolute() else repo_root / path
-
-
-def rel(path: Path, repo_root: Path) -> str:
-    try:
-        return path.relative_to(repo_root).as_posix()
-    except ValueError:
-        return path.as_posix()
 
 
 def shell_join(parts: list[str]) -> str:

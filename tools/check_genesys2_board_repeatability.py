@@ -6,16 +6,15 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    require,
+)
+
 import official_image_evidence_common as common
 import package_genesys2_board_repeatability as packager
 
 
 DEFAULT_SUMMARY = common.CURRENT_ROOT / "official_image_repeatability_summary.json"
-
-
-def require(errors: list[str], condition: bool, message: str) -> None:
-    if not condition:
-        errors.append(message)
 
 
 def check_file(root: Path, errors: list[str], row: dict[str, Any], label: str) -> None:

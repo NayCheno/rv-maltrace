@@ -9,6 +9,12 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    load_json,
+    resolve,
+    write_json,
+)
+
 
 DEFAULT_MANIFEST = Path("experiments/linux_behavior/malware_like/manifest.json")
 DEFAULT_RUN_ROOT = Path("results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610")
@@ -36,22 +42,6 @@ SYSCALL_NUMBERS = {
     "rt_sigaction": 134,
     "exit": 93,
 }
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
-
-
-def resolve(root: Path, path: Path) -> Path:
-    return path if path.is_absolute() else root / path
 
 
 def display(path: Path, root: Path) -> str:

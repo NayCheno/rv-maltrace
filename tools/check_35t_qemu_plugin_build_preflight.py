@@ -6,9 +6,16 @@ import json
 import subprocess
 import sys
 import tempfile
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    rel,
+    repo_path,
+    utc_now,
+)
+
+from docker_common import docker_compose_base
 
 
 RUN_ID = "35t-qemu-plugin-build-preflight-20260523"
@@ -115,21 +122,6 @@ printf 'qemu_stderr=%s\n' "$(tr '\n' '|' < "$work/qemu.err" | cut -c1-400)"
 '''.strip()
 
 
-def utc_now() -> str:
-    return datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
-
-
-def repo_path(repo_root: Path, path: Path) -> Path:
-    return path if path.is_absolute() else repo_root / path
-
-
-def rel(path: Path, repo_root: Path) -> str:
-    try:
-        return path.resolve().relative_to(repo_root.resolve()).as_posix()
-    except ValueError:
-        return path.as_posix()
-
-
 def parse_key_values(stdout: str) -> dict[str, str]:
     values: dict[str, str] = {}
     for line in stdout.splitlines():
@@ -151,10 +143,6 @@ def int_field(values: dict[str, str], key: str) -> int:
         return int(values.get(key, "0"))
     except ValueError:
         return 0
-
-
-def docker_compose_base() -> list[str]:
-    return ["docker", "compose", "-f", "docker-compose.toolchain.yml"]
 
 
 def run_docker_probe(repo_root: Path, timeout_s: int) -> dict[str, Any]:

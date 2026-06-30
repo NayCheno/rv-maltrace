@@ -1,10 +1,13 @@
 from __future__ import annotations
 
 import argparse
-import json
 import subprocess
 import sys
 from pathlib import Path
+
+from experiment_common import (
+    load_json,
+)
 
 
 SAMPLES = [
@@ -21,13 +24,6 @@ SAMPLES = [
 DEFAULT_RUN_ROOT = Path("results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort")
 DEFAULT_LTX = Path("build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.ltx")
 END_MARKER = "e0000a11"
-
-
-def load_json(path: Path) -> dict:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
 
 
 def rep_is_pass(rep_dir: Path) -> bool:

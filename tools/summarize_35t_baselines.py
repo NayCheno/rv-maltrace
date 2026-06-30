@@ -7,6 +7,10 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    load_json,
+)
+
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
@@ -44,13 +48,6 @@ NON_CLAIMS = [
     "no classifier accuracy claim",
     "no complete semantic reconstruction claim",
 ]
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
 
 
 def display_path(path: Path) -> str:

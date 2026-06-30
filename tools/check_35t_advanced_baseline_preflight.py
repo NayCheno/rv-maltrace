@@ -9,6 +9,13 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    rel,
+    repo_path,
+)
+
+from docker_common import docker_compose_base
+
 
 PRIMARY_RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
 RUN_ID = "35t-advanced-baseline-preflight-20260523"
@@ -125,21 +132,6 @@ true
 
 
 EBPF_CAPABILITY_PROBE_SCRIPT = EBPF_CAPABILITY_PROBE_SCRIPT + "\n" + EBPF_SMOKE_SCRIPT
-
-
-def repo_path(repo_root: Path, path: Path) -> Path:
-    return path if path.is_absolute() else repo_root / path
-
-
-def rel(path: Path, repo_root: Path) -> str:
-    try:
-        return path.resolve().relative_to(repo_root.resolve()).as_posix()
-    except ValueError:
-        return path.as_posix()
-
-
-def docker_compose_base() -> list[str]:
-    return ["docker", "compose", "-f", "docker-compose.toolchain.yml"]
 
 
 def run_docker_bash(repo_root: Path, script: str, timeout_s: int, extra_run_args: tuple[str, ...] = ()) -> dict[str, Any]:

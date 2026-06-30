@@ -2,11 +2,14 @@ from __future__ import annotations
 
 import argparse
 import base64
-import json
 import subprocess
 import sys
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    load_json,
+)
 
 from check_genesys2_official_image_capability_matrix import package_summary, write_json
 
@@ -41,13 +44,6 @@ SHELL_COMMANDS = [
     "dmesg 2>&1 | grep -Ei 'sbi|pmu|perf|bpf|debugfs|trace|counter|riscv' | tail -120 || true",
     "echo RVMT_CAPABILITY_DONE",
 ]
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
 
 
 def run(command: list[str], *, cwd: Path, dry_run: bool, allowed: set[int] | None = None) -> None:

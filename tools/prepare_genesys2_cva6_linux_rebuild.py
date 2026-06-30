@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import os
 import shutil
@@ -10,6 +9,13 @@ import sys
 import tempfile
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    repo_path,
+    repo_rel,
+    sha256_file,
+    write_json,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -57,30 +63,6 @@ BLOCKED_SOURCE = "BLOCKED_LINUX_REBUILD_SOURCE_FETCH_REQUIRED"
 BLOCKED_COMMAND = "BLOCKED_LINUX_REBUILD_COMMAND_FAILED"
 BLOCKED_OUTPUT = "BLOCKED_LINUX_PAYLOAD_BUILD_INCOMPLETE"
 
-
-def repo_path(root: Path, value: Path | str) -> Path:
-    path = Path(value)
-    return path if path.is_absolute() else root / path
-
-
-def repo_rel(root: Path, value: Path) -> str:
-    try:
-        return value.resolve().relative_to(root.resolve()).as_posix()
-    except ValueError:
-        return value.as_posix()
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
-
-
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
 
 
 def hashed_file_row(root: Path, row_id: str, path: Path) -> dict[str, Any]:

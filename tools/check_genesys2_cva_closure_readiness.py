@@ -6,6 +6,10 @@ import sys
 import tempfile
 from pathlib import Path
 
+from experiment_common import (
+    require,
+)
+
 
 ADAPTER = Path("rtl/trace/cva6_rvfi_trace_adapter.sv")
 FPGA_TOP = Path("rtl/cva6/corev_apu/fpga/src/ariane_xilinx.sv")
@@ -25,11 +29,6 @@ def read(root: Path, path: Path) -> str:
     if not full.exists():
         raise FileNotFoundError(path.as_posix())
     return full.read_text(encoding="utf-8", errors="replace")
-
-
-def require(errors: list[str], condition: bool, message: str) -> None:
-    if not condition:
-        errors.append(message)
 
 
 def compact_sv(text: str) -> str:

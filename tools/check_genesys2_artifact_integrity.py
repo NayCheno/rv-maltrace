@@ -1,13 +1,21 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import re
 import sys
 import tempfile
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    as_dict,
+    as_list,
+    repo_path,
+    repo_rel,
+    sha256_file,
+    write_json,
+)
 
 
 DEFAULT_CURRENT_ROOT = Path("results/evaluation/genesys2-cva6/current")
@@ -63,33 +71,8 @@ SKIP_MARKERS = (
 )
 
 
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
 def load_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
-
-
-def write_json(path: Path, value: Any) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
-
-
-def repo_path(root: Path, value: str) -> Path:
-    path = Path(value)
-    return path if path.is_absolute() else root / path
-
-
-def repo_rel(root: Path, path: Path) -> str:
-    try:
-        return path.resolve().relative_to(root.resolve()).as_posix()
-    except ValueError:
-        return path.as_posix()
 
 
 def is_path_key(key: str) -> bool:
@@ -127,14 +110,6 @@ def normalized_path_value(value: str) -> str:
 
 def has_wildcard(value: Any) -> bool:
     return isinstance(value, str) and bool(WILDCARD_RE.search(value))
-
-
-def as_dict(value: Any) -> dict[str, Any]:
-    return value if isinstance(value, dict) else {}
-
-
-def as_list(value: Any) -> list[Any]:
-    return value if isinstance(value, list) else []
 
 
 def context_is_pass(row: dict[str, Any]) -> bool:

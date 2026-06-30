@@ -1,14 +1,21 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
-import json
-import subprocess
 import sys
 from pathlib import Path
 from typing import Any
 
-from check_genesys2_cycle_counter_smoke import SUMMARY_SCHEMA, artifact_row, parse_cycle_log, repo_rel, sha256_file
+from check_genesys2_cycle_counter_smoke import SUMMARY_SCHEMA, parse_cycle_log
+from genesys2_experiment_common import (
+    capture_board_command,
+    load_checked_build_artifacts,
+    make_run_artifacts,
+    repo_rel,
+    report_summary_exit,
+    run,
+    transfer_binary,
+    write_json,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -16,37 +23,6 @@ DEFAULT_BUILD_MANIFEST = Path("build/board/genesys2_cycle_counter_smoke/build_ma
 DEFAULT_RUN_ROOT = Path("results/board/genesys2_trace_validation/20260623-cycle-counter-smoke")
 DEFAULT_SUMMARY = Path("results/evaluation/genesys2-cva6/current/cycle_counter_smoke_summary.json")
 DEFAULT_TARGET = "/tmp/rvmt_cycle/cycle_counter_smoke"
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
-
-
-def run(command: list[str], *, cwd: Path, dry_run: bool) -> None:
-    print("+ " + " ".join(command))
-    if dry_run:
-        return
-    subprocess.run(command, cwd=cwd, check=True)
-
-
-def make_artifacts(root: Path, source: Path, binary: Path, build_manifest: Path, transfer_log: Path, run_log: Path) -> dict[str, Any]:
-    artifacts = {
-        "source": artifact_row(root, source),
-        "binary": artifact_row(root, binary),
-        "build_manifest": artifact_row(root, build_manifest),
-        "run_log": artifact_row(root, run_log),
-    }
-    if transfer_log.is_file():
-        artifacts["transfer_log"] = artifact_row(root, transfer_log)
-    return artifacts
 
 
 def summarize_run(
@@ -90,7 +66,7 @@ def summarize_run(
         "iters": iters,
         "rows": rows,
         "row_count": len(rows),
-        "artifacts": make_artifacts(root, source, binary, build_manifest, transfer_log, run_log),
+        "artifacts": make_run_artifacts(root, source, binary, build_manifest, transfer_log, run_log),
         "claim_boundary": {
             "board_rdcycle_smoke_claimed": status == "PASS",
             "cycle_level_overhead_claimed": False,
@@ -135,67 +111,19 @@ def main() -> int:
             f"--reps {args.reps} --iters {args.iters}, and write {args.summary}"
         )
         return 0
-    if not build_manifest.is_file():
-        raise FileNotFoundError(f"build manifest missing: {build_manifest}")
-    build_data = load_json(build_manifest)
-    source = Path(str(build_data["source"]))
-    binary = Path(str(build_data["binary"]))
-    if not source.is_file() or sha256_file(source) != build_data.get("source_sha256"):
-        raise RuntimeError("source hash mismatch in cycle-counter build manifest")
-    if not binary.is_file() or sha256_file(binary) != build_data.get("binary_sha256"):
-        raise RuntimeError("binary hash mismatch in cycle-counter build manifest")
+    source, binary = load_checked_build_artifacts(build_manifest, label="cycle-counter")
 
     run_root = args.run_root
     transfer_log = run_root / "transfer.log"
     run_log = run_root / "uart.log"
     run_root.mkdir(parents=True, exist_ok=True)
-    run(
-        [
-            sys.executable,
-            "tools/serial_base64_transfer.py",
-            "--port",
-            args.port,
-            "--baud",
-            str(args.baud),
-            "--source",
-            str(binary),
-            "--target",
-            args.target,
-            "--log",
-            str(transfer_log),
-            "--chunk-read",
-            "0.25",
-            "--final-read",
-            "3.0",
-            "--disable-echo",
-        ],
-        cwd=ROOT,
-        dry_run=False,
-    )
+    transfer_binary(ROOT, port=args.port, baud=args.baud, binary=binary, target=args.target, transfer_log=transfer_log)
     board_command = (
         f"echo RVMT_CYCLE_SMOKE_SHELL_READY; "
         f"{args.target} --reps {args.reps} --iters {args.iters}; "
         "rc=$?; echo RVMT_CYCLE_SMOKE_RC=$rc"
     )
-    run(
-        [
-            sys.executable,
-            "tools/serial_direct_command_capture.py",
-            "--port",
-            args.port,
-            "--baud",
-            str(args.baud),
-            "--out",
-            str(run_log),
-            "--pre-read",
-            "0.2",
-            "--post-read",
-            "8.0",
-            board_command,
-        ],
-        cwd=ROOT,
-        dry_run=False,
-    )
+    capture_board_command(ROOT, port=args.port, baud=args.baud, run_log=run_log, board_command=board_command, post_read="8.0")
     summary = summarize_run(
         root=ROOT,
         source=source,
@@ -209,15 +137,7 @@ def main() -> int:
         iters=args.iters,
         target=args.target,
     )
-    print(f"[{summary['status']}] wrote {args.summary}")
-    if summary["status"] == "PASS":
-        print(f"[PASS] parsed {summary['row_count']} rdcycle rows")
-        return 0
-    if str(summary["status"]).startswith("BLOCKED_"):
-        print(f"[{summary['status']}] {summary.get('blocked_reason')}")
-        return 2
-    print(f"[{summary['status']}] {summary.get('blocked_reason')}", file=sys.stderr)
-    return 1
+    return report_summary_exit(summary, args.summary, pass_message=f"[PASS] parsed {summary['row_count']} rdcycle rows")
 
 
 if __name__ == "__main__":

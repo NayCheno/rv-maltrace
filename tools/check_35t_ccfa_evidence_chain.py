@@ -1,13 +1,22 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
-import json
 import sys
 import tempfile
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    class_digest,
+    file_digest,
+    file_record,
+    load_json,
+    read_json,
+    rel,
+    repo_path,
+    utc_now,
+    write_json,
+)
 
 
 PRIMARY_RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
@@ -88,76 +97,8 @@ TOOLING_PROVENANCE_PATHS = (
 )
 
 
-def utc_now() -> str:
-    return datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
-
-
-def repo_path(repo_root: Path, path: Path) -> Path:
-    return path if path.is_absolute() else repo_root / path
-
-
-def rel(path: Path, repo_root: Path) -> str:
-    try:
-        return path.resolve().relative_to(repo_root.resolve()).as_posix()
-    except ValueError:
-        return path.as_posix()
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
-def read_json(path: Path, failures: list[str], repo_root: Path, label: str) -> dict[str, Any]:
-    if not path.is_file():
-        failures.append(f"missing {label}: {rel(path, repo_root)}")
-        return {}
-    try:
-        return load_json(path)
-    except Exception as exc:
-        failures.append(f"invalid {label}: {rel(path, repo_root)}: {exc}")
-        return {}
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
-
-
 def nonempty_file(path: Path) -> bool:
     return path.is_file() and path.stat().st_size > 0
-
-
-def file_digest(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as fh:
-        for chunk in iter(lambda: fh.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
-def file_record(path: Path, repo_root: Path) -> dict[str, Any]:
-    return {
-        "path": rel(path, repo_root),
-        "bytes": path.stat().st_size,
-        "sha256": file_digest(path),
-    }
-
-
-def class_digest(files: list[Path], repo_root: Path) -> str | None:
-    if not files:
-        return None
-    digest = hashlib.sha256()
-    for path in sorted(files, key=lambda item: rel(item, repo_root)):
-        digest.update(rel(path, repo_root).encode("utf-8"))
-        digest.update(b"\0")
-        digest.update(str(path.stat().st_size).encode("ascii"))
-        digest.update(b"\0")
-        digest.update(file_digest(path).encode("ascii"))
-        digest.update(b"\n")
-    return digest.hexdigest()
 
 
 def collect_files(root: Path, patterns: tuple[str, ...]) -> list[Path]:

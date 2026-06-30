@@ -1,13 +1,13 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
-import json
 import re
 import sys
 import tempfile
 from pathlib import Path
 from typing import Any
+
+from genesys2_experiment_common import artifact_row, check_artifact, load_json, require, write_json
 
 
 DEFAULT_SUMMARY = Path("results/evaluation/genesys2-cva6/current/counter_access_matrix_summary.json")
@@ -31,46 +31,6 @@ CLOCK_DELTA_RE = re.compile(
     r"loop_delta_ns=(?P<loop_delta_ns>-?\d+) syscall_delta_ns=(?P<syscall_delta_ns>-?\d+) "
     r"total_delta_ns=(?P<total_delta_ns>-?\d+) pid=(?P<pid>-?\d+) sink=(?P<sink>\d+)"
 )
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
-
-
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
-def rel_or_abs(root: Path, value: str) -> Path:
-    candidate = Path(value)
-    return candidate if candidate.is_absolute() else root / candidate
-
-
-def repo_rel(root: Path, path: Path) -> str:
-    try:
-        return path.resolve().relative_to(root.resolve()).as_posix()
-    except ValueError:
-        return path.as_posix()
-
-
-def artifact_row(root: Path, path: Path) -> dict[str, Any]:
-    return {
-        "path": repo_rel(root, path),
-        "sha256": sha256_file(path),
-        "size_bytes": path.stat().st_size,
-    }
 
 
 def parse_matrix_log(path: Path) -> dict[str, Any]:
@@ -113,26 +73,6 @@ def parse_matrix_log(path: Path) -> dict[str, Any]:
         "clock_access": clock_access,
         "clock_rows": clock_rows,
     }
-
-
-def require(errors: list[str], condition: bool, message: str) -> None:
-    if not condition:
-        errors.append(message)
-
-
-def check_artifact(errors: list[str], root: Path, summary: dict[str, Any], name: str) -> Path | None:
-    artifacts = summary.get("artifacts") if isinstance(summary.get("artifacts"), dict) else {}
-    row = artifacts.get(name) if isinstance(artifacts.get(name), dict) else {}
-    value = row.get("path")
-    if not value:
-        errors.append(f"artifact missing: {name}")
-        return None
-    path = rel_or_abs(root, str(value))
-    if not path.is_file():
-        errors.append(f"artifact file missing: {name}: {value}")
-        return None
-    require(errors, row.get("sha256") == sha256_file(path), f"artifact sha256 mismatch: {name}")
-    return path
 
 
 def counter_available(data: dict[str, Any], name: str) -> bool:

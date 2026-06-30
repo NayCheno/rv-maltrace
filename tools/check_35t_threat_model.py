@@ -5,9 +5,15 @@ import json
 import re
 import sys
 import tempfile
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    load_json,
+    rel,
+    repo_path,
+    utc_now,
+)
 
 
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
@@ -60,28 +66,6 @@ FORBIDDEN_POSITIVE_PATTERNS = [
     re.compile(r"\beBPF\s+(?:is\s+)?(?:an?\s+)?MVP\s+dependency\b", re.IGNORECASE),
     re.compile(r"\bhelper\s+(?:or\s+eBPF\s+)?(?:is\s+)?(?:an?\s+)?MVP\s+dependency\b", re.IGNORECASE),
 ]
-
-
-def utc_now() -> str:
-    return datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
-
-
-def repo_path(repo_root: Path, path: Path) -> Path:
-    return path if path.is_absolute() else repo_root / path
-
-
-def rel(path: Path, repo_root: Path) -> str:
-    try:
-        return path.resolve().relative_to(repo_root.resolve()).as_posix()
-    except ValueError:
-        return path.as_posix()
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
 
 
 def contains_all(text: str, needles: list[str]) -> bool:

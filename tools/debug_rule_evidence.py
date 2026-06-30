@@ -7,6 +7,11 @@ import sys
 from pathlib import Path
 from typing import Any, Iterable
 
+from experiment_common import (
+    load_json,
+    load_jsonl,
+)
+
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_RESULT_ROOT = Path("results/experiments/35t")
@@ -33,29 +38,6 @@ def repo_rel(path: Path) -> str:
         return path.relative_to(ROOT).as_posix()
     except ValueError:
         return path.as_posix()
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
-def load_jsonl(path: Path) -> list[dict[str, Any]]:
-    if not path.exists():
-        return []
-    rows: list[dict[str, Any]] = []
-    with path.open("r", encoding="utf-8") as handle:
-        for line_no, line in enumerate(handle, start=1):
-            line = line.strip()
-            if not line:
-                continue
-            value = json.loads(line)
-            if not isinstance(value, dict):
-                raise ValueError(f"{path}:{line_no}: expected JSON object")
-            rows.append(value)
-    return rows
 
 
 def parse_int(value: Any) -> int | None:

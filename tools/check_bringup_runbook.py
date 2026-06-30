@@ -6,6 +6,10 @@ import sys
 import tempfile
 from pathlib import Path
 
+from experiment_common import (
+    resolve,
+)
+
 
 DEFAULT_RUNBOOK = Path("docs/03-platform-architecture/genesys2/baseline_bringup_runbook.md")
 DEFAULT_BOARD_DOC = Path("docs/03-platform-architecture/genesys2/board_bringup.md")
@@ -37,10 +41,6 @@ RUNBOOK_HEADINGS = (
     "4. CVA6 Bare-metal Boot",
     "5. CVA6 Simple Linux Boot (Optional)",
 )
-
-
-def resolve(root: Path, path: Path) -> Path:
-    return path if path.is_absolute() else root / path
 
 
 def heading_line(text: str, number: int, title: str) -> int | None:

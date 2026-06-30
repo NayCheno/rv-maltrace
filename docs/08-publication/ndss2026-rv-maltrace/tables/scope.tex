@@ -9,7 +9,7 @@ Area & Evidence Used & Scope \\
 Artifact root & Manifests and hashes & The draft uses \artifactroot as the current evidence directory. \\
 Trace correctness & Directed tests & Syscall entry/return pairing, trap/retire separation, and event ordering are evaluated. \\
 Source labels & Reconstruction summaries & Fields identify whether they came from hardware trace, ELF metadata, runtime maps, or reference logs. \\
-Code attribution & Local tests & ELF identity, PIE/ASLR load bias, dynamic objects, fork/exec, and stripped binaries are covered. \\
+Code attribution & Process/ELF summaries and local fixtures & ELF identity, PIE/ASLR load bias, dynamic objects, fork/exec, and stripped binaries are covered at target ELF/function level. \\
 Production streaming/DMA & Not evaluated & Throughput and interference measurements require a separate transport study. \\
 JTAG RAM boot & Not evaluated & The current observed target does not expose a Vivado memory-control object. \\
 Real malware & Not evaluated & Safe malware-like workloads are not reported as uncontrolled real-malware validation. \\

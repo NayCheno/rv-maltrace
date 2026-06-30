@@ -1,12 +1,17 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
-import json
 import sys
 import tempfile
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    load_json,
+    repo_path,
+    sha256_file_if_present,
+    write_json,
+)
 
 from check_genesys2_external_closure_intake import EXPECTED_EXTERNAL_SUMMARIES, REQUIRED_EVIDENCE_ARTIFACT_KINDS
 
@@ -17,18 +22,6 @@ DEFAULT_OUT_JSON = DEFAULT_CURRENT_ROOT / "external_operator_packet.json"
 DEFAULT_OUT_MD = Path("docs/07-evaluation-evidence/reports/ccfa_external_operator_packet.md")
 
 
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
 def repo_rel(path: Path, root: Path = ROOT) -> str:
     try:
         return path.resolve().relative_to(root.resolve()).as_posix()
@@ -36,19 +29,7 @@ def repo_rel(path: Path, root: Path = ROOT) -> str:
         return path.as_posix()
 
 
-def repo_path(root: Path, value: str | Path) -> Path:
-    path = Path(value)
-    return path if path.is_absolute() else root / path
-
-
-def sha256_file(path: Path) -> str | None:
-    if not path.is_file():
-        return None
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
+sha256_file = sha256_file_if_present
 
 
 def rows_by_id(rows: Any) -> dict[str, dict[str, Any]]:

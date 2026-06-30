@@ -6,6 +6,10 @@ import sys
 import tempfile
 from pathlib import Path
 
+from experiment_common import (
+    resolve,
+)
+
 
 DEFAULT_DECISION = Path("docs/02-trace-architecture/trace_export_decision.md")
 DEFAULT_BOARD_DOC = Path("docs/03-platform-architecture/genesys2/board_bringup.md")
@@ -87,10 +91,6 @@ FORBIDDEN_DECISION_PATTERNS: tuple[tuple[re.Pattern[str], str], ...] = (
         "decision doc must not claim hardware validation has passed",
     ),
 )
-
-
-def resolve(root: Path, path: Path) -> Path:
-    return path if path.is_absolute() else root / path
 
 
 def parse_table_rows(text: str) -> list[list[str]]:

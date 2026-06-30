@@ -8,6 +8,12 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    load_json,
+    load_jsonl,
+    require,
+)
+
 from genesys2_latest import DEFAULT_LATEST_MANIFEST, active_run_root
 
 
@@ -47,32 +53,6 @@ def parse_int(value: Any) -> int | None:
         except ValueError:
             return None
     return None
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
-def load_jsonl(path: Path) -> list[dict[str, Any]]:
-    rows: list[dict[str, Any]] = []
-    with path.open("r", encoding="utf-8") as handle:
-        for line_no, line in enumerate(handle, start=1):
-            line = line.strip()
-            if not line:
-                continue
-            value = json.loads(line)
-            if not isinstance(value, dict):
-                raise ValueError(f"{path}:{line_no}: expected JSON object")
-            rows.append(value)
-    return rows
-
-
-def require(errors: list[str], condition: bool, message: str) -> None:
-    if not condition:
-        errors.append(message)
 
 
 def marker_indexes(events: list[dict[str, Any]], payload: int) -> tuple[int | None, int | None]:

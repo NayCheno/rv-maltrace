@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import math
 import re
@@ -9,6 +8,16 @@ import sys
 import tempfile
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    as_dict,
+    as_list,
+    load_json,
+    repo_path,
+    require,
+    sha256_file,
+    write_json,
+)
 
 from ccfa_gate_common import ALL_CCFA_SAMPLES
 
@@ -89,46 +98,8 @@ REQUIRED_EVIDENCE_ARTIFACT_KINDS = {
 }
 
 
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
-
-
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
-def repo_path(root: Path, value: Any) -> Path:
-    path = Path(str(value))
-    return path if path.is_absolute() else root / path
-
-
-def as_list(value: Any) -> list[Any]:
-    return value if isinstance(value, list) else []
-
-
-def as_dict(value: Any) -> dict[str, Any]:
-    return value if isinstance(value, dict) else {}
-
-
 def observed_external_field(value: Any) -> str:
     return value if isinstance(value, str) and value else MISSING_EXTERNAL_SUMMARY_FIELD
-
-
-def require(errors: list[str], condition: bool, message: str) -> None:
-    if not condition:
-        errors.append(message)
 
 
 def repo_relative_path(root: Path, value: Any) -> str:

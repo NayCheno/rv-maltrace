@@ -783,7 +783,7 @@
       "expected_schema": "rvmt.genesys2.external_closure_plan.v1",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_plan.json",
       "schema": "rvmt.genesys2.external_closure_plan.v1",
-      "sha256": "f030e693c9d92cd3b7f74b16edb8a6176e01070c601ca6e772e9fbc50d19ec87",
+      "sha256": "8761a8c9c26c03dbe1d621d0d09f72eb6f61efa91cb39ee9208c812b63842caa",
       "status": "PASS"
     },
     {

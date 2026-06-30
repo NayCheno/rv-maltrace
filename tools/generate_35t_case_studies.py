@@ -6,6 +6,10 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    load_json,
+)
+
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_RESULT_ROOT = Path("results/experiments/35t")
@@ -14,13 +18,6 @@ DEFAULT_SAMPLES = ("illegal_trap", "anti_debug_like", "dynamic_executable_memory
 
 def resolve(path: Path) -> Path:
     return path if path.is_absolute() else ROOT / path
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
 
 
 def load_jsonl(path: Path, limit: int) -> list[dict[str, Any]]:

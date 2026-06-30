@@ -13,10 +13,13 @@ reconstruction pipeline. \rvmt captures architectural events---retire, trap,
 syscall entry/return, privilege transition, branch/jump, context, and marker
 events---below the OS, then joins them with ELF metadata and runtime process maps
 while explicitly labeling each reconstructed field with its provenance source. Our
-evaluation demonstrates that the trace pipeline correctly reconstructs event
-ordering and syscall pairing on directed tests, achieves effective
-code-attribution coverage under PIE, ASLR, fork/exec, and dynamic loading on
-controlled workloads, and delivers a reproducible artifact package rooted at
-\artifactroot with manifests and SHA-256 checks that enables independent
-verification of all reported results.
+evaluation demonstrates that the trace pipeline passes 50 directed correctness
+cases, 10 seeded-random event-sequence cases, and 9 negative-sensitivity cases.
+Across 12 controlled workload artifacts, 288/288 provenance-tagged semantic
+fields pass source-label validation. The code-attribution pipeline attributes
+108/108 key PC events to the target ELF/function level and passes 6/6 mapping
+edge cases covering PIE/ASLR, dynamic loading, fork/exec, and stripped binaries.
+The artifact package rooted at \artifactroot records 62 summary artifacts, 228
+package files, and a 3,356-file raw-artifact archive with SHA-256 checks for
+independent verification.
 \end{abstract}

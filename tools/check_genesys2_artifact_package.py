@@ -1,243 +1,26 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
-import json
 import subprocess
 import sys
 import tempfile
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    as_dict,
+    as_list,
+    load_json,
+    repo_path,
+    require,
+    sha256_file,
+    write_json,
+)
+
+from genesys2_artifact_package_spec import REQUIRED_INCLUDED_PATHS, REQUIRED_RAW_ROOT_IDS
+
 
 DEFAULT_SUMMARY = Path("results/evaluation/genesys2-cva6/current/artifact_package_manifest.json")
-REQUIRED_INCLUDED_PATHS = {
-    "README.md",
-    "pyproject.toml",
-    "uv.lock",
-    "tools/check_suites.json",
-    "tools/run_check_suite.py",
-    "tools/reproduce_genesys2_current.py",
-    "tools/view_trace_terminal.py",
-    "tools/analyze_single_riscv_binary_trace.py",
-    "src/rv_maltrace/cli.py",
-    "tools/check_baseline_pass_criteria.py",
-    "tools/check_board_trace_programs.py",
-    "tools/check_board_trace_evidence.py",
-    "tools/gen_rv_trace_fuzz.py",
-    "tools/check_fuzz_trace.py",
-    "tools/check_fuzz_trace_plan.py",
-    "tools/package_trace_correctness_directed.py",
-    "tools/check_trace_correctness_directed.py",
-    "tools/package_genesys2_tracer_visibility_baseline.py",
-    "tools/check_genesys2_tracer_visibility_baseline.py",
-    "tools/official_image_evidence_common.py",
-    "tools/build_genesys2_official_image_probe.py",
-    "tools/run_genesys2_official_image_capability_matrix.py",
-    "tools/check_genesys2_official_image_capability_matrix.py",
-    "tools/run_genesys2_official_image_workloads.py",
-    "tools/package_genesys2_official_image_workloads.py",
-    "tools/check_genesys2_official_image_workloads.py",
-    "tools/run_genesys2_official_image_runtime_map.py",
-    "tools/check_genesys2_official_image_runtime_map.py",
-    "tools/run_genesys2_fork_exec_ownership.py",
-    "tools/check_genesys2_fork_exec_ownership.py",
-    "tools/run_genesys2_aslr_pie_probe.py",
-    "tools/check_genesys2_aslr_pie_probe.py",
-    "tools/package_genesys2_board_repeatability.py",
-    "tools/check_genesys2_board_repeatability.py",
-    "tools/run_genesys2_hardware_oracle_differential.py",
-    "tools/check_genesys2_hardware_oracle_differential.py",
-    "tools/check_risk_log_current.py",
-    "tools/check_evaluation_plan.py",
-    "tools/package_genesys2_review_closure_audit.py",
-    "tools/check_genesys2_review_closure_audit.py",
-    "tools/package_genesys2_artifact_package.py",
-    "tools/check_genesys2_artifact_package.py",
-    "tools/check_genesys2_artifact_integrity.py",
-    "tools/check_genesys2_bootrom_counter_delegation.py",
-    "tools/package_genesys2_raw_artifact_release.py",
-    "tools/check_genesys2_raw_artifact_release.py",
-    "tools/prepare_genesys2_clean_repro_bundle.py",
-    "tools/check_genesys2_clean_repro_bundle.py",
-    "tools/package_genesys2_reproducibility_manifest.py",
-    "tools/check_genesys2_reproducibility_manifest.py",
-    "tools/package_genesys2_semantic_provenance.py",
-    "tools/check_genesys2_semantic_provenance.py",
-    "tools/package_genesys2_statistical_robustness.py",
-    "tools/check_genesys2_statistical_robustness.py",
-    "tools/package_genesys2_streaming_dma_target.py",
-    "tools/check_genesys2_streaming_dma_target.py",
-    "tools/package_genesys2_streaming_dma_readiness.py",
-    "tools/check_genesys2_streaming_dma_readiness.py",
-    "tools/build_genesys2_cycle_counter_smoke.py",
-    "tools/run_genesys2_cycle_counter_smoke.py",
-    "tools/check_genesys2_cycle_counter_smoke.py",
-    "tools/build_genesys2_cycle_source_probe.py",
-    "tools/run_genesys2_cycle_source_probe.py",
-    "tools/check_genesys2_cycle_source_probe.py",
-    "tools/run_genesys2_cycle_diagnostics.py",
-    "tools/check_genesys2_cycle_diagnostics.py",
-    "tools/build_genesys2_counter_access_matrix.py",
-    "tools/run_genesys2_counter_access_matrix.py",
-    "tools/check_genesys2_counter_access_matrix.py",
-    "tools/run_genesys2_sdcard_linux_manifest.py",
-    "tools/check_genesys2_sdcard_linux_manifest.py",
-    "tools/run_genesys2_live_kernel_config_export.py",
-    "tools/check_genesys2_live_kernel_config_export.py",
-    "tools/build_genesys2_cva6_linux_image.py",
-    "tools/create_genesys2_boot_sdcard_image.py",
-    "tools/check_genesys2_boot_sdcard_image.py",
-    "tools/run_genesys2_sdcard_write_preflight.py",
-    "tools/check_genesys2_sdcard_write_preflight.py",
-    "tools/run_ndss_host_vivado_check.py",
-    "tools/check_ndss_host_vivado_check.py",
-    "tools/package_genesys2_trace_marker_programming.py",
-    "tools/check_genesys2_trace_marker_programming.py",
-    "tools/package_genesys2_strict_sret_board_smoke.py",
-    "tools/check_genesys2_strict_sret_board_smoke.py",
-    "tools/prepare_genesys2_cva6_linux_rebuild.py",
-    "tools/check_genesys2_linux_rebuild_manifest.py",
-    "tools/package_genesys2_linux_counter_path_preflight.py",
-    "tools/check_genesys2_linux_counter_path_preflight.py",
-    "tools/package_genesys2_pointer_string_readiness.py",
-    "tools/check_genesys2_pointer_string_readiness.py",
-    "tools/package_genesys2_debug_elf_readiness.py",
-    "tools/check_genesys2_debug_elf_readiness.py",
-    "tools/package_genesys2_board_benign_readiness.py",
-    "tools/check_genesys2_board_benign_readiness.py",
-    "tools/package_ccfa_case_study_manifest.py",
-    "tools/check_ccfa_case_study_manifest.py",
-    "tools/package_genesys2_external_closure_readiness.py",
-    "tools/check_genesys2_external_closure_readiness.py",
-    "tools/package_genesys2_external_closure_intake.py",
-    "tools/check_genesys2_external_closure_intake.py",
-    "tools/package_genesys2_external_closure_plan.py",
-    "tools/check_genesys2_external_closure_plan.py",
-    "tools/package_genesys2_external_closure_preflight.py",
-    "tools/check_genesys2_external_closure_preflight.py",
-    "tools/package_genesys2_external_operator_packet.py",
-    "tools/check_genesys2_external_operator_packet.py",
-    "tools/prepare_genesys2_external_summary.py",
-    "tools/check_ccfa_current_quality.py",
-    "tools/check_genesys2_bitstream_artifacts.py",
-    "docker/toolchain/build-cva6-bootrom.sh",
-    "rtl/cva6/corev_apu/fpga/src/bootrom/src/main.c",
-    "rtl/cva6/corev_apu/fpga/src/bootrom/cv64a6.dts.in",
-    "rtl/cva6/corev_apu/fpga/src/bootrom/bootrom_64.sv",
-    "board/genesys2-cva6/linux/README.md",
-    "board/genesys2-cva6/linux/buildroot_defconfig",
-    "board/genesys2-cva6/linux/linux.config",
-    "board/genesys2-cva6/linux/opensbi_manifest.json",
-    "board/genesys2-cva6/linux/opensbi_source_lock.txt",
-    "docs/03-platform-architecture/genesys2/baseline_pass_criteria.md",
-    "docs/03-platform-architecture/genesys2/board_bringup.md",
-    "docs/03-platform-architecture/genesys2/board_trace_validation.md",
-    "board/trace_validation/manifest.json",
-    "board/trace_validation/expected/hello_write.expected.json",
-    "board/trace_validation/expected/file_open_read_write.expected.json",
-    "board/trace_validation/expected/fork_exec.expected.json",
-    "board/trace_validation/expected/illegal_instruction.expected.json",
-    "board/trace_validation/programs/hello_write.c",
-    "board/trace_validation/programs/file_open_read_write.c",
-    "board/trace_validation/programs/fork_exec.c",
-    "board/trace_validation/programs/illegal_instruction.c",
-    "board/trace_validation/programs/cycle_counter_smoke.c",
-    "board/trace_validation/programs/cycle_source_probe.c",
-    "board/trace_validation/programs/counter_access_matrix.c",
-    "board/trace_validation/programs/tracer_visibility_probe.c",
-    "board/trace_validation/programs/official_image_probe.c",
-    "docs/06-validation-gates/fuzz_trace_validation.md",
-    "sim/golden/fuzz_invariants.json",
-    "sim/golden/fuzz_trace_smoke.trace.jsonl",
-    "sim/golden/fuzz_cf.trace.jsonl",
-    "sim/golden/fuzz_trap.trace.jsonl",
-    "sim/golden/fuzz_syscall.trace.jsonl",
-    "sim/golden/fuzz_context.trace.jsonl",
-    "sim/golden/fuzz_overflow.trace.jsonl",
-    "docs/10-process/risk_log.md",
-    "docs/10-process/version_lock.md",
-    "docs/10-process/check_suites.md",
-    "docs/07-evaluation-evidence/evaluation_plan.md",
-    "docs/07-evaluation-evidence/ndss_artifact_instructions.md",
-    "docs/07-evaluation-evidence/ndss_host_runbook.md",
-    "docs/08-publication/ndss2026/claim_nonclaim_matrix.md",
-    "docs/08-publication/ndss2026/experiment_tables.md",
-    "docs/08-publication/ndss2026/paper_skeleton.md",
-    "docs/08-publication/ndss2026/paper.tex",
-    "docs/09-planning/ndss_execution_status.md",
-    "results/evaluation/genesys2-cva6/current/cycle_counter_smoke_summary.json",
-    "results/evaluation/genesys2-cva6/current/cycle_source_probe_summary.json",
-    "results/evaluation/genesys2-cva6/current/cycle_source_diagnostics_summary.json",
-    "results/evaluation/genesys2-cva6/current/counter_access_matrix_summary.json",
-    "results/evaluation/genesys2-cva6/current/sdcard_linux_manifest.json",
-    "results/evaluation/genesys2-cva6/current/live_kernel_config_export_summary.json",
-    "results/evaluation/genesys2-cva6/current/linux_rebuild_manifest.json",
-    "results/evaluation/genesys2-cva6/current/sdcard_image_manifest.json",
-    "results/evaluation/genesys2-cva6/current/sdcard_write_preflight_summary.json",
-    "results/evaluation/genesys2-cva6/current/host_vivado_check_summary.json",
-    "results/evaluation/genesys2-cva6/current/host_vivado_check.log",
-    "results/evaluation/genesys2-cva6/current/trace_marker_programming_summary.json",
-    "results/evaluation/genesys2-cva6/current/trace_marker_programming.log",
-    "results/evaluation/genesys2-cva6/current/strict_sret_board_smoke_summary.json",
-    "results/evaluation/genesys2-cva6/current/linux_counter_path_preflight.json",
-    "results/evaluation/genesys2-cva6/current/official_image_capability_matrix.json",
-    "results/evaluation/genesys2-cva6/current/official_image_workload_summary.json",
-    "results/evaluation/genesys2-cva6/current/official_image_runtime_map_summary.json",
-    "results/evaluation/genesys2-cva6/current/official_image_fork_exec_ownership_summary.json",
-    "results/evaluation/genesys2-cva6/current/official_image_aslr_pie_summary.json",
-    "results/evaluation/genesys2-cva6/current/official_image_repeatability_summary.json",
-    "results/evaluation/genesys2-cva6/current/official_image_hardware_oracle_differential_summary.json",
-    "results/evaluation/genesys2-cva6/current/trace_correctness_directed_summary.json",
-    "results/evaluation/genesys2-cva6/current/tracer_visibility_baseline_summary.json",
-    "results/evaluation/genesys2-cva6/current/reproducibility_manifest.json",
-    "results/evaluation/genesys2-cva6/current/raw_artifact_release_manifest.json",
-    "results/evaluation/genesys2-cva6/current/streaming_dma_target_summary.json",
-    "results/evaluation/genesys2-cva6/current/streaming_dma_readiness_summary.json",
-    "results/evaluation/genesys2-cva6/current/pointer_string_readiness_summary.json",
-    "results/evaluation/genesys2-cva6/current/debug_elf_readiness_summary.json",
-    "results/evaluation/genesys2-cva6/current/board_benign_readiness_summary.json",
-    "results/evaluation/genesys2-cva6/current/external_closure_templates/board_native_source_lines_summary.template.json",
-    "results/evaluation/genesys2-cva6/current/external_closure_templates/hardware_pointer_strings_summary.template.json",
-    "results/evaluation/genesys2-cva6/current/external_closure_templates/streaming_dma_throughput_summary.template.json",
-    "results/evaluation/genesys2-cva6/current/external_closure_templates/board_benign_control_summary.template.json",
-    "results/evaluation/genesys2-cva6/current/external_operator_packet.json",
-    "docs/07-evaluation-evidence/reports/ccfa_external_operator_packet.md",
-    "docs/07-evaluation-evidence/reports/ccfa_readiness_matrix.md",
-    "docs/07-evaluation-evidence/reports/ccfa_next_closure_plan.md",
-}
-REQUIRED_RAW_ROOT_IDS = {
-    "p0_bram_repetitions",
-    "safe_surrogate_bram_repetitions",
-    "pointer_snapshot_bram",
-    "p0_continuous_trace",
-    "safe_surrogate_runtime_map",
-}
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
-
-
-def repo_path(root: Path, value: Any) -> Path:
-    path = Path(str(value))
-    return path if path.is_absolute() else root / path
-
-
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
 
 
 def git_publishable(root: Path, path_value: str) -> bool | None:
@@ -262,19 +45,6 @@ def git_publishable(root: Path, path_value: str) -> bool | None:
     if ignored.returncode == 1:
         return True
     return None
-
-
-def as_list(value: Any) -> list[Any]:
-    return value if isinstance(value, list) else []
-
-
-def as_dict(value: Any) -> dict[str, Any]:
-    return value if isinstance(value, dict) else {}
-
-
-def require(errors: list[str], condition: bool, message: str) -> None:
-    if not condition:
-        errors.append(message)
 
 
 def row_map(rows: list[Any], key: str) -> dict[str, dict[str, Any]]:

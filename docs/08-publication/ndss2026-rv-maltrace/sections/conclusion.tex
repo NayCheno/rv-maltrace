@@ -3,6 +3,17 @@
 
 We presented \rvmt, a hardware-assisted behavior tracing system for RISC-V Linux that connects CVA6 hardware trace events to source-labeled behavior reconstruction. Our key insight is that labeling each reconstructed field with its provenance source enables auditable behavior analysis without overstating what the hardware alone recovered. By keeping hardware trace fields separate from ELF metadata, runtime process maps, and reference logs, \rvmt produces behavior summaries whose evidence is explicit and verifiable.
 
-Our evaluation demonstrates correct trace capture: all [N] directed tests pass, confirming correct event ordering, syscall pairing, and privilege transitions. RV-MalTrace achieves [X\%] source-label coverage, ensuring that every reconstructed field carries a correct provenance label. It achieves [Y\%] code-attribution accuracy across [N] test cases covering PIE/ASLR, dynamic loading, fork/exec, and stripped binaries. All reported results are backed by a fully reproducible artifact package with SHA-256 verified manifests.
+Our evaluation demonstrates correct trace capture: 50/50 directed correctness
+cases, 10/10 seeded-random event-sequence cases, and 9/9 negative-sensitivity
+cases pass, confirming correct event ordering, syscall pairing, and privilege
+transitions. RV-MalTrace achieves 288/288 source-label validation across 12
+sample artifacts, ensuring that every provenance-tagged field carries a correct
+source label. It attributes 108/108 key PC events to the target ELF/function
+level across 12 controlled workload artifacts and passes 6/6 dynamic-mapping edge
+cases covering PIE/ASLR, dynamic loading, fork/exec, and stripped binaries. All
+reported results are backed by a reproducible artifact package with SHA-256
+verified manifests.
 
-Future work includes production trace streaming, cycle-level overhead measurement, and real malware validation on the RISC-V platform. We release \rvmt and its artifact package at [URL].
+Future work includes production trace streaming, cycle-level overhead
+measurement, and real malware validation on the RISC-V platform. The current
+artifact package is rooted at \artifactroot.

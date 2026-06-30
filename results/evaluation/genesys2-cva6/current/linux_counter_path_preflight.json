@@ -25,8 +25,8 @@
           "exists": true,
           "kind": "file",
           "path": "tools/prepare_genesys2_cva6_linux_rebuild.py",
-          "sha256": "56e2d01985b3aff037276d10c1fc2d950ed8fcadd7c9dbe6864e0ba5cf3b583f",
-          "size_bytes": 19420
+          "sha256": "69ed4c69aec741d1b3c3e5df63d7da8300cb09a961f50d8142e133f09196499a",
+          "size_bytes": 19167
         },
         {
           "build_entrypoint_analysis": {
@@ -43,8 +43,8 @@
           "exists": true,
           "kind": "file",
           "path": "tools/build_genesys2_cva6_linux_image.py",
-          "sha256": "17710d80ce001425132a4ca16bb04319ed570bc3383a75ecbeeb03408dc99587",
-          "size_bytes": 9680
+          "sha256": "4fd8727703c93c67b83999e17ed63a7c3ec2a05e95fd0d0449fb884fb20e999d",
+          "size_bytes": 9214
         },
         {
           "candidate": "docker/genesys2-cva6-linux/Dockerfile",
@@ -86,8 +86,8 @@
           "exists": true,
           "kind": "file",
           "path": "tools/prepare_genesys2_cva6_linux_rebuild.py",
-          "sha256": "56e2d01985b3aff037276d10c1fc2d950ed8fcadd7c9dbe6864e0ba5cf3b583f",
-          "size_bytes": 19420
+          "sha256": "69ed4c69aec741d1b3c3e5df63d7da8300cb09a961f50d8142e133f09196499a",
+          "size_bytes": 19167
         },
         {
           "build_entrypoint_analysis": {
@@ -104,8 +104,8 @@
           "exists": true,
           "kind": "file",
           "path": "tools/build_genesys2_cva6_linux_image.py",
-          "sha256": "17710d80ce001425132a4ca16bb04319ed570bc3383a75ecbeeb03408dc99587",
-          "size_bytes": 9680
+          "sha256": "4fd8727703c93c67b83999e17ed63a7c3ec2a05e95fd0d0449fb884fb20e999d",
+          "size_bytes": 9214
         }
       ],
       "required": true,

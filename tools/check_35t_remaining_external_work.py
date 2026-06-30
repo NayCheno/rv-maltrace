@@ -7,6 +7,14 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    load_json,
+    read_json,
+    rel,
+    repo_path,
+    write_json,
+)
+
 
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
 DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / RUN_ID
@@ -26,35 +34,6 @@ RAW_ARTIFACT_ESCROW_STATUS = "LOCAL_RAW_ARTIFACT_ESCROW_READY_PUBLIC_RELEASE_DEF
 HELPER_ALIGNMENT_STATUS = "TRUSTED_HELPER_ALIGNMENT_PASS_REPRESENTATIVE_DUAL_CHANNEL"
 QEMU_PLUGIN_BUILD_PREFLIGHT_STATUS = "QEMU_PLUGIN_SYSTEM_BUILD_LOAD_PREFLIGHT_PASS_USER_BASELINE_BLOCKED"
 QEMU_PLUGIN_BASELINE_STATUS = "QEMU_PLUGIN_BASELINE_PASS_13_SAMPLES"
-
-
-def repo_path(repo_root: Path, path: Path) -> Path:
-    return path if path.is_absolute() else repo_root / path
-
-
-def rel(path: Path, repo_root: Path) -> str:
-    try:
-        return path.resolve().relative_to(repo_root.resolve()).as_posix()
-    except ValueError:
-        return path.as_posix()
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
-def read_json(path: Path, failures: list[str], repo_root: Path, label: str) -> dict[str, Any]:
-    if not path.is_file():
-        failures.append(f"missing {label}: {rel(path, repo_root)}")
-        return {}
-    try:
-        return load_json(path)
-    except Exception as exc:
-        failures.append(f"invalid {label}: {rel(path, repo_root)}: {exc}")
-        return {}
 
 
 def goal_by_id(report: dict[str, Any]) -> dict[str, dict[str, Any]]:
@@ -754,11 +733,6 @@ def write_outputs(report: dict[str, Any], evidence_root: Path) -> None:
         newline="\n",
     )
     (evidence_root / "remaining_external_work.md").write_text(render_markdown(report), encoding="utf-8", newline="\n")
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
 
 
 def write_fixture(

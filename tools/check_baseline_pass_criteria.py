@@ -6,6 +6,10 @@ import sys
 import tempfile
 from pathlib import Path
 
+from experiment_common import (
+    resolve,
+)
+
 
 DEFAULT_CRITERIA = Path("docs/03-platform-architecture/genesys2/baseline_pass_criteria.md")
 DEFAULT_BOARD_DOC = Path("docs/03-platform-architecture/genesys2/board_bringup.md")
@@ -42,10 +46,6 @@ PRE_EVIDENCE_BOUNDARY = "Pre-evidence physical-board criteria stay TODO (BOARD)"
 ACCEPTED_EVIDENCE_BOUNDARY = "Phase 4.4 baseline board bring-up is accepted"
 TRACE_SCOPE_BOUNDARY = "does not claim trace-enabled board export, production streaming/DMA"
 STALE_INCOMPLETE_BOUNDARY = "Baseline board bring-up is not complete"
-
-
-def resolve(root: Path, path: Path) -> Path:
-    return path if path.is_absolute() else root / path
 
 
 def parse_table_rows(text: str) -> list[list[str]]:

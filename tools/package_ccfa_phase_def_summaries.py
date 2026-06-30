@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import re
 import statistics
@@ -9,6 +8,13 @@ import sys
 from collections import Counter
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    load_json,
+    load_jsonl,
+    sha256_file_if_present,
+    write_json,
+)
 
 from ccfa_gate_common import ABLATIONS, ALL_CCFA_SAMPLES, BASELINES, P0_SAMPLES, SAFE_SURROGATE_SAMPLES
 from package_genesys2_semantic_provenance import PROVENANCE_NAME, package_provenance
@@ -118,21 +124,7 @@ def repo_rel(path: Path | str | None) -> str | None:
         return candidate.as_posix()
 
 
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
-def sha256_file(path: Path) -> str | None:
-    if not path.is_file():
-        return None
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
+sha256_file = sha256_file_if_present
 
 
 def artifact_sha256(value: Any) -> str | None:
@@ -141,25 +133,6 @@ def artifact_sha256(value: Any) -> str | None:
     path = Path(str(value))
     full_path = path if path.is_absolute() else ROOT / path
     return sha256_file(full_path)
-
-
-def load_jsonl(path: Path) -> list[dict[str, Any]]:
-    rows: list[dict[str, Any]] = []
-    with path.open("r", encoding="utf-8") as handle:
-        for line_no, line in enumerate(handle, start=1):
-            text = line.strip()
-            if not text:
-                continue
-            value = json.loads(text)
-            if not isinstance(value, dict):
-                raise ValueError(f"{path}:{line_no}: expected JSON object")
-            rows.append(value)
-    return rows
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
 
 
 def build_dynamic_mapping_summary(*, out_root: Path, p0_run_root: Path) -> dict[str, Any]:

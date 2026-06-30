@@ -1,13 +1,20 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import sys
 import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    load_json,
+    load_jsonl,
+    repo_rel,
+    sha256_file,
+    write_json,
+)
 
 from package_genesys2_p0_bram_trace import (
     marker_positions,
@@ -27,47 +34,6 @@ DEFAULT_SAMPLE_MANIFEST = Path("build/board/genesys2_cva6_p0_marker/hello_write/
 DEFAULT_PROGRAMMING_SUMMARY = Path("results/evaluation/genesys2-cva6/current/trace_marker_programming_summary.json")
 BEGIN_MARKER = 0xB0000A01
 END_MARKER = 0xE0000A01
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
-def load_jsonl(path: Path) -> list[dict[str, Any]]:
-    rows: list[dict[str, Any]] = []
-    with path.open("r", encoding="utf-8") as handle:
-        for line_no, line in enumerate(handle, start=1):
-            text = line.strip()
-            if not text:
-                continue
-            value = json.loads(text)
-            if not isinstance(value, dict):
-                raise ValueError(f"{path}:{line_no}: expected JSON object")
-            rows.append(value)
-    return rows
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
-
-
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
-def repo_rel(root: Path, path: Path) -> str:
-    try:
-        return path.resolve().relative_to(root.resolve()).as_posix()
-    except ValueError:
-        return path.as_posix()
 
 
 def file_row(root: Path, path: Path) -> dict[str, Any]:

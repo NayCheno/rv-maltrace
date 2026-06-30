@@ -1,8 +1,6 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
-import json
 import re
 import shutil
 import subprocess
@@ -10,6 +8,12 @@ import sys
 import tempfile
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    repo_rel_from,
+    sha256_file,
+    write_json,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -20,24 +24,7 @@ DEFAULT_SUMMARY = Path("results/evaluation/genesys2-cva6/current/tracer_visibili
 PROBE_RE = re.compile(r"RVMT_TRACER_VISIBILITY\s+(?P<fields>.+)")
 
 
-def repo_rel(path: Path) -> str:
-    try:
-        return path.resolve().relative_to(ROOT.resolve()).as_posix()
-    except ValueError:
-        return path.as_posix()
-
-
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
+repo_rel = repo_rel_from(ROOT)
 
 
 def artifact_row(path: Path, role: str) -> dict[str, Any]:

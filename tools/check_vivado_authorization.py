@@ -8,6 +8,10 @@ import tomllib
 from pathlib import Path
 from typing import NamedTuple
 
+from experiment_common import (
+    resolve,
+)
+
 
 DEFAULT_CONFIG = Path("pyproject.toml")
 DEFAULT_ARTIFACT_DIR = Path("build/vivado/genesys2-cv64a6_imafdc_sv39")
@@ -29,10 +33,6 @@ class Check(NamedTuple):
     label: str
     ok: bool
     evidence: str
-
-
-def resolve(root: Path, path: Path) -> Path:
-    return path if path.is_absolute() else root / path
 
 
 def display(path: Path, root: Path) -> str:

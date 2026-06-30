@@ -6,6 +6,11 @@ import sys
 import tempfile
 from pathlib import Path
 
+from experiment_common import (
+    write_json,
+    write_jsonl,
+)
+
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
@@ -20,16 +25,6 @@ from rv_maltrace.explain import (  # noqa: E402
     render_process_console,
     render_process_markdown,
 )
-
-
-def write_json(path: Path, value: object) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
-
-
-def write_jsonl(path: Path, rows: list[dict[str, object]]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text("".join(json.dumps(row, sort_keys=True) + "\n" for row in rows), encoding="utf-8", newline="\n")
 
 
 def write_self_test_fixture(root: Path) -> None:

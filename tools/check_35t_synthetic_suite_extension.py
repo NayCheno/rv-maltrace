@@ -8,6 +8,13 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    load_json,
+    rel,
+    repo_path,
+    write_json,
+)
+
 
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
 DEFAULT_MANIFEST = Path("experiments/linux_behavior/malware_like/manifest.json")
@@ -71,24 +78,6 @@ NON_CLAIMS = [
     "no classifier accuracy claim",
     "no complete semantic reconstruction claim",
 ]
-
-
-def repo_path(repo_root: Path, path: Path) -> Path:
-    return path if path.is_absolute() else repo_root / path
-
-
-def rel(path: Path, repo_root: Path) -> str:
-    try:
-        return path.resolve().relative_to(repo_root.resolve()).as_posix()
-    except ValueError:
-        return path.as_posix()
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
 
 
 def sample_ids(manifest: dict[str, Any]) -> set[str]:
@@ -302,11 +291,6 @@ def write_outputs(report: dict[str, Any], evidence_root: Path) -> None:
         encoding="utf-8",
         newline="\n",
     )
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
 
 
 def fixture_manifest(path: Path, *, network_required: bool = False) -> None:

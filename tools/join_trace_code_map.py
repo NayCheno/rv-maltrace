@@ -6,6 +6,11 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    load_json,
+    load_jsonl,
+)
+
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -31,27 +36,6 @@ def parse_int(value: Any) -> int | None:
         except ValueError:
             return None
     return None
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
-def load_jsonl(path: Path) -> list[dict[str, Any]]:
-    rows: list[dict[str, Any]] = []
-    with path.open("r", encoding="utf-8") as handle:
-        for line_no, line in enumerate(handle, start=1):
-            line = line.strip()
-            if not line:
-                continue
-            value = json.loads(line)
-            if not isinstance(value, dict):
-                raise ValueError(f"{path}:{line_no}: expected JSON object")
-            rows.append(value)
-    return rows
 
 
 def range_rows(code_map: dict[str, Any], key: str) -> list[dict[str, Any]]:

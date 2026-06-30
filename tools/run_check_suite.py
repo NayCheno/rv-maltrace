@@ -8,6 +8,10 @@ import time
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    resolve,
+)
+
 
 DEFAULT_MANIFEST = Path("tools/check_suites.json")
 DEFAULT_CHECK_SUITES_DOC = Path("docs/10-process/check_suites.md")
@@ -102,10 +106,6 @@ def documented_current_command(command: list[str]) -> str:
     if command[0] == "{python}" and len(command) >= 2:
         return "uv run python " + " ".join("." if token == "{root}" else token for token in command[1:])
     return " ".join("." if token == "{root}" else token for token in command)
-
-
-def resolve(root: Path, path: Path) -> Path:
-    return path if path.is_absolute() else root / path
 
 
 def load_manifest(root: Path, manifest_path: Path) -> dict[str, Any]:

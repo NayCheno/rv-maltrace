@@ -748,7 +748,7 @@
       "id": "external_closure_readiness",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_readiness.json",
       "schema": "rvmt.genesys2.external_closure_readiness.v1",
-      "sha256": "6cac89807f46ac824eb7ff760d893d87e16f843c4403bcfc9e437c4cd62be009",
+      "sha256": "a639e4a1d9060c47cf2261f9ff8898cd0c2a927bbef4dad4a99d44b2eece65aa",
       "status": "PASS"
     },
     {

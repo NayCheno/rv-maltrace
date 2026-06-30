@@ -7,6 +7,14 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    load_json,
+    load_jsonl,
+    repo_path,
+    repo_rel,
+    write_json,
+)
+
 from ccfa_gate_common import ALL_CCFA_SAMPLES, P0_BRAM_MARKERS, P0_SAMPLES
 
 
@@ -18,44 +26,6 @@ DEFAULT_RUNTIME_ROOT = "/tmp/rvmt_debug"
 DEFAULT_WRAPPER_ROOT = "/tmp/rvmt_debug_wrappers"
 SAFE_BEGIN_MARKER = "0xb0000a11"
 SAFE_END_MARKER = "0xe0000a11"
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
-def load_jsonl(path: Path) -> list[dict[str, Any]]:
-    rows: list[dict[str, Any]] = []
-    with path.open("r", encoding="utf-8") as handle:
-        for line_no, line in enumerate(handle, start=1):
-            line = line.strip()
-            if not line:
-                continue
-            value = json.loads(line)
-            if not isinstance(value, dict):
-                raise ValueError(f"{path}:{line_no}: expected JSON object")
-            rows.append(value)
-    return rows
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
-
-
-def repo_rel(root: Path, path: Path) -> str:
-    try:
-        return path.resolve().relative_to(root.resolve()).as_posix()
-    except ValueError:
-        return path.as_posix()
-
-
-def repo_path(root: Path, value: str | Path) -> Path:
-    path = Path(value)
-    return path if path.is_absolute() else root / path
 
 
 def readiness_rows(root: Path, readiness_path: Path) -> dict[str, dict[str, Any]]:

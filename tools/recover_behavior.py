@@ -7,6 +7,10 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    load_json,
+)
+
 from join_trace_code_map import code_map_index, marker_scope, pc_annotation, runtime_process_index
 
 
@@ -55,13 +59,6 @@ def load_trace(path: Path) -> list[dict[str, Any]]:
                 raise ValueError(f"{path}:{line_no}: event must be a JSON object")
             events.append(event)
     return events
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
 
 
 def parse_int(value: Any) -> int | None:

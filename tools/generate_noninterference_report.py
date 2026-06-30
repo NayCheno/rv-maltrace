@@ -8,6 +8,10 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    load_json,
+)
+
 
 DIRECT_CORE_CASES = ["cva6_smoke", "cva6_branch", "cva6_jump", "cva6_ecall", "cva6_trap_illegal", "cva6_ebreak"]
 ALLOWED_BLOCKED_SIM_TESTS = {
@@ -15,13 +19,6 @@ ALLOWED_BLOCKED_SIM_TESTS = {
 }
 TRACE_PASS_RE = re.compile(r"^\[rvmt\]\s+Direct CVA6 xsim trace PASS\b", re.MULTILINE)
 NO_TRACE_PASS_RE = re.compile(r"^\[rvmt\]\s+Direct CVA6 xsim no-trace PASS\b", re.MULTILINE)
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
 
 
 def parse_drop_value(value: Any) -> int:

@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import statistics
 import sys
@@ -9,6 +8,14 @@ import tempfile
 from collections import Counter
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    load_json,
+    load_jsonl,
+    sha256_file,
+    sha256_file_if_present,
+    write_json,
+)
 
 
 SAMPLES = {
@@ -41,42 +48,6 @@ DEFAULT_BITSTREAM = Path("build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/
 DEFAULT_LTX = Path("build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.ltx")
 EXIT_SYSCALL_NR = 93
 MARKER_NOT_OBSERVED = "MARKER_NOT_OBSERVED"
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
-def load_jsonl(path: Path) -> list[dict[str, Any]]:
-    rows: list[dict[str, Any]] = []
-    with path.open("r", encoding="utf-8") as handle:
-        for line_no, line in enumerate(handle, start=1):
-            line = line.strip()
-            if not line:
-                continue
-            value = json.loads(line)
-            if not isinstance(value, dict):
-                raise ValueError(f"{path}:{line_no}: expected JSON object")
-            rows.append(value)
-    return rows
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
-
-
-def sha256_file(path: Path | None) -> str | None:
-    if path is None or not path.is_file():
-        return None
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
 
 
 def parse_int(value: Any) -> int | None:
@@ -371,9 +342,9 @@ def package_run(
         "run_root": run_root.as_posix(),
         "build_root": build_root.as_posix(),
         "bitstream": bitstream.as_posix() if bitstream else None,
-        "bitstream_sha256": sha256_file(bitstream),
+        "bitstream_sha256": sha256_file_if_present(bitstream),
         "ltx": ltx.as_posix() if ltx else None,
-        "ltx_sha256": sha256_file(ltx),
+        "ltx_sha256": sha256_file_if_present(ltx),
         "sample_count": len(samples),
         "expected_samples": list(SAMPLES),
         "minimum_repetitions_per_sample": minimum_repetitions,

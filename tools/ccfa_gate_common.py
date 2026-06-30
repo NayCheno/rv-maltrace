@@ -7,72 +7,16 @@ import tempfile
 from pathlib import Path
 from typing import Any, Callable
 
-
-P0_SAMPLES = ["hello_write", "file_open_read_write", "fork_exec", "illegal_instruction"]
-P0_BRAM_MARKERS = {
-    "hello_write": ("0xb0000a01", "0xe0000a01"),
-    "file_open_read_write": ("0xb0000a02", "0xe0000a02"),
-    "fork_exec": ("0xb0000a03", "0xe0000a03"),
-    "illegal_instruction": ("0xb0000a04", "0xe0000a04"),
-}
-SAFE_SURROGATE_SAMPLES = [
-    "file_scan",
-    "batch_open_read_write",
-    "self_copy_sim",
-    "abnormal_syscall_sequence",
-    "illegal_trap",
-    "process_chain",
-    "dynamic_executable_memory",
-    "anti_debug_like",
-]
-ALL_CCFA_SAMPLES = P0_SAMPLES + SAFE_SURROGATE_SAMPLES
-
-BASELINES = [
-    "rv_maltrace_event_only",
-    "rv_maltrace_pointer_snapshot",
-    "rv_maltrace_kernel_helper",
-    "strace",
-    "qemu_strace",
-    "software_instrumentation",
-]
-
-ABLATIONS = [
-    "event_only",
-    "pointer_snapshot",
-    "kernel_helper_companion",
-]
-
-PRIORITY_SYSCALLS = [
-    "openat",
-    "read",
-    "write",
-    "close",
-    "execve",
-    "clone",
-    "wait4",
-    "waitid",
-    "mmap",
-    "mprotect",
-    "ptrace",
-    "clock_gettime",
-    "getdents64",
-]
-
-
-def repo_path(root: Path, path: Path) -> Path:
-    return path if path.is_absolute() else root / path
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
+from ccfa_gate_spec import (
+    ABLATIONS,
+    ALL_CCFA_SAMPLES,
+    BASELINES,
+    P0_BRAM_MARKERS,
+    P0_SAMPLES,
+    PRIORITY_SYSCALLS,
+    SAFE_SURROGATE_SAMPLES,
+)
+from experiment_common import as_list, load_json, repo_path, require, write_json
 
 
 def num(value: Any, default: float = 0.0) -> float:
@@ -84,10 +28,6 @@ def num(value: Any, default: float = 0.0) -> float:
         return float(str(value))
     except (TypeError, ValueError):
         return default
-
-
-def as_list(value: Any) -> list[Any]:
-    return value if isinstance(value, list) else []
 
 
 def sample_rows(data: dict[str, Any]) -> dict[str, dict[str, Any]]:
@@ -104,11 +44,6 @@ def sample_metric_rows(data: dict[str, Any]) -> dict[str, dict[str, Any]]:
     if isinstance(rows, dict):
         return {str(key): value for key, value in rows.items() if isinstance(value, dict)}
     return sample_rows(data)
-
-
-def require(errors: list[str], condition: bool, message: str) -> None:
-    if not condition:
-        errors.append(message)
 
 
 def require_schema_status(errors: list[str], data: dict[str, Any], schema: str) -> None:

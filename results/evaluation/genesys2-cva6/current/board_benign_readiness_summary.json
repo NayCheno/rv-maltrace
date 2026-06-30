@@ -464,7 +464,7 @@
       "id": "p0_bram_trace",
       "path": "results/evaluation/genesys2-cva6/current/p0_bram_trace_summary.json",
       "schema": "rvmt.genesys2.p0_bram_trace.v1",
-      "sha256": "4d8f6c55fc78f62e42481ae6d6a866920c6f712b73c7553836177f6d85e739ac",
+      "sha256": "ab4ca5875a92ae0c885c269e43b59214f6d9e049cac27a8f898b7508e7a99747",
       "status": "PASS"
     },
     {
@@ -472,7 +472,7 @@
       "id": "safe_surrogate_bram_trace",
       "path": "results/evaluation/genesys2-cva6/current/safe_surrogate_bram_trace_summary.json",
       "schema": "rvmt.genesys2.safe_surrogate_bram_trace.v1",
-      "sha256": "c83b356250e13d73d8df3d21c218a6bdcfe39facff76218b837470f6c7f6dbfe",
+      "sha256": "774e966cefdf068f3b0785c984c59a2240080bde2d498feab4d1711312141cc7",
       "status": "PASS"
     },
     {

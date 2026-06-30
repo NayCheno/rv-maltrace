@@ -8,6 +8,12 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    load_json,
+    rel,
+    repo_path,
+)
+
 
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
 DEFAULT_EVIDENCE_ROOT = Path("docs/07-evaluation-evidence/evidence") / RUN_ID
@@ -34,24 +40,6 @@ REQUIRED_OUTPUT_ARTIFACTS = [
     "source_attribution_summary.md",
     "command_log.md",
 ]
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
-def repo_path(repo_root: Path, path: Path) -> Path:
-    return path if path.is_absolute() else repo_root / path
-
-
-def rel(path: Path, repo_root: Path) -> str:
-    try:
-        return path.relative_to(repo_root).as_posix()
-    except ValueError:
-        return path.as_posix()
 
 
 def missing_result_artifacts(results_root: Path) -> list[str]:

@@ -1,46 +1,23 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
-import json
 import sys
 import tempfile
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    as_dict,
+    load_json,
+    repo_path,
+    require,
+    sha256_file,
+)
+
 from package_genesys2_tracer_visibility_baseline import SCHEMA, parse_probe_stdout, write_json
 
 
 DEFAULT_SUMMARY = Path("results/evaluation/genesys2-cva6/current/tracer_visibility_baseline_summary.json")
-
-
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
-def repo_path(root: Path, value: Any) -> Path:
-    path = Path(str(value))
-    return path if path.is_absolute() else root / path
-
-
-def require(errors: list[str], condition: bool, message: str) -> None:
-    if not condition:
-        errors.append(message)
-
-
-def as_dict(value: Any) -> dict[str, Any]:
-    return value if isinstance(value, dict) else {}
 
 
 def check_artifact(errors: list[str], root: Path, row: dict[str, Any], label: str) -> Path | None:

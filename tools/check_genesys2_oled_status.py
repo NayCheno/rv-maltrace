@@ -5,6 +5,10 @@ import re
 import sys
 from pathlib import Path
 
+from experiment_common import (
+    require,
+)
+
 
 OLED_RTL = Path("rtl/trace/rvmt_genesys2_oled_status.sv")
 TRACE_RTL_F = Path("sim/vivado/trace_rtl.f")
@@ -22,11 +26,6 @@ def read(root: Path, path: Path) -> str:
 
 def compact(text: str) -> str:
     return re.sub(r"\s+", "", text)
-
-
-def require(errors: list[str], condition: bool, message: str) -> None:
-    if not condition:
-        errors.append(message)
 
 
 def check_oled_rtl(root: Path) -> list[str]:

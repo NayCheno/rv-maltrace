@@ -10,6 +10,11 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    load_json,
+    resolve,
+)
+
 
 DEFAULT_SPEC = Path("experiments/hardware/noninterference_gate.json")
 DEFAULT_DOC = Path("docs/06-validation-gates/noninterference_resource_gate.md")
@@ -60,19 +65,8 @@ TRACE_PASS_RE = re.compile(r"^\[rvmt\]\s+Direct CVA6 xsim trace PASS\b", re.MULT
 NO_TRACE_PASS_RE = re.compile(r"^\[rvmt\]\s+Direct CVA6 xsim no-trace PASS\b", re.MULTILINE)
 
 
-def resolve(root: Path, path: Path) -> Path:
-    return path if path.is_absolute() else root / path
-
-
 def normalized_text(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
 
 
 def check_forbidden_claims(path: Path, text: str) -> list[str]:

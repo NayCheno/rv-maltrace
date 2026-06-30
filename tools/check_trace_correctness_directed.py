@@ -1,11 +1,17 @@
 from __future__ import annotations
 
 import argparse
-import json
 import sys
 import tempfile
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    as_dict,
+    as_list,
+    load_json,
+    require,
+)
 
 from package_trace_correctness_directed import DEFAULT_OUT, corpus_digest, package_summary, write_json
 
@@ -43,26 +49,6 @@ REQUIRED_NEGATIVE_CASE_IDS = {
     "negative_unqualified_sret_return",
     "negative_unaligned_branch_target",
 }
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
-def as_dict(value: Any) -> dict[str, Any]:
-    return value if isinstance(value, dict) else {}
-
-
-def as_list(value: Any) -> list[Any]:
-    return value if isinstance(value, list) else []
-
-
-def require(errors: list[str], condition: bool, message: str) -> None:
-    if not condition:
-        errors.append(message)
 
 
 def check_summary(data: dict[str, Any], *, compare_generated: bool = True) -> list[str]:

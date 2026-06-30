@@ -9,6 +9,11 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    write_json,
+    write_jsonl,
+)
+
 from build_code_map import build_code_map
 from join_trace_code_map import annotate_events, load_json
 from view_trace_terminal import cell, colorize, event_name, load_jsonl, parse_int, render_timeline, use_color
@@ -18,16 +23,6 @@ RISC_V_MACHINE = 243
 HEX_ADDRESS_KEYS = ("start", "end", "pc")
 RANGE_TABLES = ("load_ranges", "sections", "symbols", "function_ranges")
 SITE_TABLES = ("syscall_sites", "trap_sites", "source_locations")
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
-
-
-def write_jsonl(path: Path, rows: list[dict[str, Any]]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text("".join(json.dumps(row, sort_keys=True) + "\n" for row in rows), encoding="utf-8", newline="\n")
 
 
 def hex_addr(value: int) -> str:

@@ -9,6 +9,13 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    load_json,
+    write_json,
+)
+
+from docker_common import docker_compose_base
+
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
@@ -59,15 +66,6 @@ def repo_rel(path: Path) -> str:
         return path.relative_to(ROOT).as_posix()
     except ValueError:
         return path.as_posix()
-
-
-def docker_compose_base() -> list[str]:
-    return ["docker", "compose", "-f", "docker-compose.toolchain.yml"]
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
 
 
 def sample_args(sample: Sample) -> list[str]:
@@ -149,13 +147,6 @@ def build_shell(samples: list[Sample], results_root: Path, reps: int) -> str:
     ]
     lines.extend(sample_shell(sample, index, results_root, reps) for index, sample in enumerate(samples))
     return "\n\n".join(lines) + "\n"
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
 
 
 def load_jsonl(path: Path) -> list[dict[str, Any]]:

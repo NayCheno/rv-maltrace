@@ -6,6 +6,10 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    write_json,
+)
+
 from analyze_single_riscv_binary_trace import (
     apply_runtime_load_base,
     enrich_function_annotations,
@@ -21,11 +25,6 @@ PASS_STATUS = "PASS_LOCAL_CODE_ANALYSIS_FIXTURES"
 
 def hx(value: int) -> str:
     return f"0x{value:016x}"
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
 
 
 def base_dyn_code_map() -> dict[str, Any]:

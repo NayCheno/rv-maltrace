@@ -1,67 +1,25 @@
 from __future__ import annotations
 
 import argparse
-import json
 import sys
 import tempfile
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    as_dict,
+    as_float,
+    as_int,
+    as_list,
+    load_json,
+    repo_path,
+    require,
+    write_json,
+)
+
 
 DEFAULT_SUMMARY = Path("results/evaluation/genesys2-cva6/current/benign_control_summary.json")
 REQUIRED_SAMPLES = {"hello", "ls", "cat", "cp", "sha256sum"}
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
-
-
-def repo_path(root: Path, value: Any) -> Path:
-    path = Path(str(value))
-    return path if path.is_absolute() else root / path
-
-
-def as_list(value: Any) -> list[Any]:
-    return value if isinstance(value, list) else []
-
-
-def as_dict(value: Any) -> dict[str, Any]:
-    return value if isinstance(value, dict) else {}
-
-
-def require(errors: list[str], condition: bool, message: str) -> None:
-    if not condition:
-        errors.append(message)
-
-
-def as_int(value: Any, default: int = 0) -> int:
-    if isinstance(value, bool):
-        return default
-    if isinstance(value, int):
-        return value
-    try:
-        return int(str(value))
-    except (TypeError, ValueError):
-        return default
-
-
-def as_float(value: Any, default: float = 0.0) -> float:
-    if isinstance(value, bool):
-        return default
-    if isinstance(value, (int, float)):
-        return float(value)
-    try:
-        return float(str(value))
-    except (TypeError, ValueError):
-        return default
 
 
 def require_file(errors: list[str], root: Path, value: Any, context: str) -> None:

@@ -7,6 +7,12 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    load_json,
+    repo_rel,
+    write_json,
+)
+
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_RUN_ROOT = Path("results/board/genesys2_trace_validation/20260613-board-benign-control")
@@ -46,25 +52,6 @@ BENIGN_SAMPLES = {
     "open_proc_cmdline": "direct_syscall_proc_self_cmdline_read_close",
     "tmpdir_open_close_twice": "direct_syscall_tmpdir_open_close_twice_write",
 }
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
-def repo_rel(root: Path, path: Path) -> str:
-    try:
-        return path.resolve().relative_to(root.resolve()).as_posix()
-    except ValueError:
-        return path.as_posix()
 
 
 def run_command(command: list[str], *, cwd: Path, dry_run: bool = False) -> int:

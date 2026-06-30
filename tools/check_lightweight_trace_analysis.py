@@ -9,6 +9,11 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    load_json,
+    resolve,
+)
+
 
 DEFAULT_SPEC = Path("experiments/analysis/lightweight_trace_profile.json")
 DEFAULT_DOC = Path("docs/05-semantic-analysis/lightweight_trace_analysis.md")
@@ -36,19 +41,8 @@ REQUIRED_DOC_TEXT = (
 )
 
 
-def resolve(root: Path, path: Path) -> Path:
-    return path if path.is_absolute() else root / path
-
-
 def normalized_text(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
 
 
 def check_forbidden(path: Path, text: str) -> list[str]:

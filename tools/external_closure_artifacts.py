@@ -1,10 +1,15 @@
 from __future__ import annotations
 
-import hashlib
 import json
 import shutil
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    file_digest,
+    load_json,
+    repo_path,
+)
 
 from check_genesys2_external_closure_intake import DEFAULT_EXTERNAL_ROOT, sha256_file, write_json
 
@@ -12,23 +17,11 @@ from check_genesys2_external_closure_intake import DEFAULT_EXTERNAL_ROOT, sha256
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def repo_path(root: Path, value: Path | str) -> Path:
-    path = Path(value)
-    return path if path.is_absolute() else root / path
-
-
 def repo_relative(root: Path, path: Path) -> str:
     try:
         return path.resolve().relative_to(root.resolve()).as_posix()
     except ValueError:
         return path.as_posix()
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
 
 
 def load_jsonl(path: Path) -> list[dict[str, Any]]:
@@ -81,13 +74,6 @@ def evidence_rows(root: Path, artifacts: dict[str, Path]) -> list[dict[str, str]
         for kind, path in sorted(artifacts.items())
     ]
 
-
-def file_digest(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
 
 
 def write_summary(root: Path, out: Path, value: dict[str, Any]) -> Path:

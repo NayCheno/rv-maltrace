@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 import argparse
-import json
 import sys
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    utc_now,
+)
 
 
 TOOLS = Path(__file__).resolve().parent
@@ -35,10 +37,6 @@ MEMORY_ANTI_ANALYSIS_SAMPLES = (
     "dynamic_executable_memory",
     "anti_debug_like",
 )
-
-
-def utc_now() -> str:
-    return datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
 
 
 def sample_dir(results_root: Path, sample: str) -> Path | None:

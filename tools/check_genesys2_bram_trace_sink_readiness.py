@@ -6,6 +6,10 @@ import sys
 import tempfile
 from pathlib import Path
 
+from experiment_common import (
+    require,
+)
+
 
 TRACE_PKG = Path("rtl/trace/trace_pkg.sv")
 BRAM_RING = Path("rtl/trace/trace_bram_ring.sv")
@@ -34,11 +38,6 @@ def read(root: Path, path: Path) -> str:
 
 def compact(text: str) -> str:
     return re.sub(r"\s+", "", text)
-
-
-def require(errors: list[str], condition: bool, message: str) -> None:
-    if not condition:
-        errors.append(message)
 
 
 def check_trace_pkg(root: Path) -> list[str]:

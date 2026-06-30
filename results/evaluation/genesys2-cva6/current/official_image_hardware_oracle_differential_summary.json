@@ -34,7 +34,7 @@
     "p0_summary": {
       "exists": true,
       "path": "results/evaluation/genesys2-cva6/current/p0_bram_trace_summary.json",
-      "sha256": "4d8f6c55fc78f62e42481ae6d6a866920c6f712b73c7553836177f6d85e739ac",
+      "sha256": "ab4ca5875a92ae0c885c269e43b59214f6d9e049cac27a8f898b7508e7a99747",
       "size_bytes": 457510
     },
     "summary_binary_sha256": "bbce854f41d23cdb32543b757041d301c459ca5613d7fcc3d7bb0801de7b1a5e",
@@ -56,31 +56,31 @@
     "artifacts": {
       "command": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260625-023000-official-image-hardware-oracle-differential/qemu/command.txt",
-        "sha256": "6301995a8fab32ec722cc37a53d60ac99bb6176b16752fddd348c3b9225c0410",
-        "size_bytes": 732
+        "path": "results/board/genesys2_trace_validation/20260625-official-image-hardware-oracle-differential/qemu/command.txt",
+        "sha256": "a900792f0e713f2eb325de7424995c939b52155c55777d6fa45becf253d722c7",
+        "size_bytes": 704
       },
       "qemu_version": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260625-023000-official-image-hardware-oracle-differential/qemu/qemu.version.txt",
+        "path": "results/board/genesys2_trace_validation/20260625-official-image-hardware-oracle-differential/qemu/qemu.version.txt",
         "sha256": "dfa5b140954f6812762667d2f8e24ad257d7ce6418b0468fb1ac6ed67829179c",
         "size_bytes": 59
       },
       "returncode": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260625-023000-official-image-hardware-oracle-differential/qemu/returncode.txt",
+        "path": "results/board/genesys2_trace_validation/20260625-official-image-hardware-oracle-differential/qemu/returncode.txt",
         "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
         "size_bytes": 2
       },
       "stdout": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260625-023000-official-image-hardware-oracle-differential/qemu/stdout.txt",
+        "path": "results/board/genesys2_trace_validation/20260625-official-image-hardware-oracle-differential/qemu/stdout.txt",
         "sha256": "101ffc310e10afd2ad86579667b20425a56ecec6daa5c49a05e1c648e7702b86",
         "size_bytes": 20
       },
       "strace": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260625-023000-official-image-hardware-oracle-differential/qemu/strace.txt",
+        "path": "results/board/genesys2_trace_validation/20260625-official-image-hardware-oracle-differential/qemu/strace.txt",
         "sha256": "e111362d3110a4d1b17ed2dddd7bb1d84738ae84db04fa055361e4cfef57c897",
         "size_bytes": 87
       }
@@ -92,7 +92,7 @@
       "exit"
     ]
   },
-  "run_root": "results/board/genesys2_trace_validation/20260625-023000-official-image-hardware-oracle-differential",
+  "run_root": "results/board/genesys2_trace_validation/20260625-official-image-hardware-oracle-differential",
   "sample_id": "hello_write",
   "schema": "rvmt.genesys2.hardware_oracle_differential.v1",
   "status": "PASS"

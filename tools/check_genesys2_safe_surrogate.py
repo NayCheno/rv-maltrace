@@ -8,6 +8,11 @@ from collections.abc import Iterable
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    load_json,
+    write_json,
+)
+
 
 DEFAULT_RUN_ROOT = Path("results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610")
 SUMMARY_FILE = "safe_surrogate_summary.json"
@@ -44,13 +49,6 @@ DANGEROUS_STATIC_FLAGS = (
     "process_mutation",
     "real_payload",
 )
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
 
 
 def load_jsonl(path: Path) -> list[dict[str, Any]]:
@@ -294,11 +292,6 @@ def run_checks(root: Path, run_root: Path) -> list[str]:
         require(sample.get("sample_class") in SAFE_SAMPLE_CLASSES, errors, f"{summary_path}: {sample.get('sample_id')}.sample_class must be safe")
         check_sample(root, sample, errors)
     return errors
-
-
-def write_json(path: Path, data: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
 
 
 def write_text(path: Path, text: str) -> None:

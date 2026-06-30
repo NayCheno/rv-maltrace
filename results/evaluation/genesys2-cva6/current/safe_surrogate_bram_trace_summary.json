@@ -1,6 +1,6 @@
 {
   "bitstream": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.bit",
-  "bitstream_sha256": "39b2170032e968bbd549c85608bf9b44d125da346d8dc08de5d50dbf75d09a81",
+  "bitstream_sha256": "92eef73290ec20d11a58d38bbec89e0528724df3764327d597a6aadb78e44655",
   "board": "Digilent Genesys2",
   "build_root": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610",
   "continuity_scope": "begin-marker-cleared BRAM ring through capture readout",

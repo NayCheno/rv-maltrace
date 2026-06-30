@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-import json
 import re
 import statistics
 import subprocess
@@ -10,6 +9,11 @@ import tempfile
 import time
 from pathlib import Path
 from typing import Any, TextIO
+
+from experiment_common import (
+    repo_rel_from,
+    write_json,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -40,16 +44,7 @@ START_RE = re.compile(r"RVMT_RUNTIME_BENCH_START\s+(.*)")
 DONE_RE = re.compile(r"RVMT_RUNTIME_BENCH_DONE\s+(.*)")
 
 
-def repo_rel(path: Path) -> str:
-    try:
-        return path.resolve().relative_to(ROOT.resolve()).as_posix()
-    except ValueError:
-        return path.as_posix()
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
+repo_rel = repo_rel_from(ROOT)
 
 
 def parse_fields(text: str) -> dict[str, str]:

@@ -1,12 +1,16 @@
 from __future__ import annotations
 
 import argparse
-import json
 import re
 import sys
 import tempfile
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    load_json,
+    write_json,
+)
 
 
 DEFAULT_DOC = Path("docs/07-evaluation-evidence/evaluation_plan.md")
@@ -320,13 +324,6 @@ def check_doc(path: Path) -> list[str]:
     return errors
 
 
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
 def check_current_artifacts(root: Path) -> list[str]:
     errors: list[str] = []
     for artifact, (schema, _) in EXPECTED_EVIDENCE_ARTIFACTS.items():
@@ -377,11 +374,6 @@ def check_uv_doc(path: Path) -> list[str]:
         if token not in text:
             errors.append(f"{path}: missing {token}")
     return errors
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
 
 
 def write_artifact_fixtures(root: Path) -> None:

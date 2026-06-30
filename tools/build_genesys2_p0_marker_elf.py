@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import shutil
 import struct
@@ -9,6 +8,12 @@ import sys
 import tempfile
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    repo_rel_from,
+    sha256_file,
+    write_json,
+)
 
 from build_code_map import build_code_map, write_outputs
 from build_genesys2_safe_syscall_elf import (
@@ -61,20 +66,8 @@ SYSCALL_NUMBERS = {
 }
 
 
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
+repo_rel = repo_rel_from(ROOT)
 
-
-def repo_rel(path: Path) -> str:
-    try:
-        return path.resolve().relative_to(ROOT.resolve()).as_posix()
-    except ValueError:
-        return path.as_posix()
-
-
-def sha256_file(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def inst_beq(rs1: str, rs2: str, imm: int) -> bytes:

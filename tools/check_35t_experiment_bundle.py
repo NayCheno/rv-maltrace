@@ -8,6 +8,11 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Iterable
 
+from experiment_common import (
+    load_json,
+    resolve,
+    write_json,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_RESULT_ROOT = Path("results/experiments/35t")
@@ -46,17 +51,6 @@ TRACE_ANALYSIS_ARTIFACTS = (
 class SampleRef:
     sample_class: str
     sample_id: str
-
-
-def resolve(root: Path, path: Path) -> Path:
-    return path if path.is_absolute() else root / path
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
 
 
 def load_samples(root: Path, selectors: Iterable[str]) -> list[SampleRef]:
@@ -177,11 +171,6 @@ def check_run(run_root: Path, samples: list[SampleRef], reps: int) -> list[str]:
         errors.extend(check_groundtruth(run_root, sample, reps))
         errors.extend(check_board(run_root, sample, reps))
     return errors
-
-
-def write_json(path: Path, payload: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
 def self_test() -> int:

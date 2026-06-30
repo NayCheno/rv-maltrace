@@ -8,6 +8,12 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    load_json,
+    resolve,
+    write_json,
+)
+
 
 DEFAULT_RESOURCE_REPORT = Path("docs/07-evaluation-evidence/reports/resource_report.md")
 DEFAULT_EVIDENCE_REPORT = Path("docs/07-evaluation-evidence/reports/genesys2_cva6_evidence_chain_20260610.md")
@@ -23,22 +29,11 @@ EXPECTED_BOARD = "Digilent Genesys2"
 EXPECTED_CPU = "CVA6"
 
 
-def resolve(root: Path, path: Path) -> Path:
-    return path if path.is_absolute() else root / path
-
-
 def display(path: Path, root: Path) -> str:
     try:
         return path.resolve().relative_to(root.resolve()).as_posix()
     except ValueError:
         return path.as_posix()
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
 
 
 def parse_timing(path: Path) -> tuple[str, float]:
@@ -271,11 +266,6 @@ def run_checks(root: Path) -> list[str]:
     errors.extend(check_evidence_report(root, DEFAULT_EVIDENCE_REPORT))
     errors.extend(check_sim_results_report(root, DEFAULT_SIM_RESULTS))
     return errors
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
 
 
 def write_fixture(root: Path) -> None:

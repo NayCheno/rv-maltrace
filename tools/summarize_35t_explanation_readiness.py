@@ -7,6 +7,10 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    load_json,
+)
+
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
@@ -28,13 +32,6 @@ SOURCE_ATTRIBUTION_SAMPLES = [
     "batch_open_read_write",
     "self_copy_sim",
 ]
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
 
 
 def rep_semantic_paths(results_root: Path, sample: str) -> list[Path]:

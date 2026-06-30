@@ -1,11 +1,19 @@
 from __future__ import annotations
 
 import argparse
-import json
 import shutil
 from collections import Counter
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    load_json,
+    load_jsonl,
+    repo_rel_from,
+    sha256_file,
+    write_json,
+    write_jsonl,
+)
 
 from join_trace_code_map import annotate_events
 from recover_behavior import write_outputs as write_behavior_outputs
@@ -24,42 +32,7 @@ P0_SAMPLES = [
 ]
 
 
-def repo_rel(path: Path) -> str:
-    try:
-        return path.resolve().relative_to(ROOT.resolve()).as_posix()
-    except ValueError:
-        return path.as_posix()
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
-def load_jsonl(path: Path) -> list[dict[str, Any]]:
-    rows: list[dict[str, Any]] = []
-    with path.open("r", encoding="utf-8") as handle:
-        for line_no, line in enumerate(handle, start=1):
-            line = line.strip()
-            if not line:
-                continue
-            value = json.loads(line)
-            if not isinstance(value, dict):
-                raise ValueError(f"{path}:{line_no}: expected JSON object")
-            rows.append(value)
-    return rows
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
-
-
-def write_jsonl(path: Path, rows: list[dict[str, Any]]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text("".join(json.dumps(row, sort_keys=True) + "\n" for row in rows), encoding="utf-8", newline="\n")
+repo_rel = repo_rel_from(ROOT)
 
 
 def parse_int(value: Any) -> int | None:
@@ -76,16 +49,6 @@ def parse_int(value: Any) -> int | None:
         except ValueError:
             return None
     return None
-
-
-def sha256_file(path: Path) -> str:
-    import hashlib
-
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
 
 
 def marker_indexes(events: list[dict[str, Any]], payload: int) -> tuple[int | None, int | None]:

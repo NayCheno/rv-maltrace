@@ -21,7 +21,7 @@
           "id": "ccfa_readiness_matrix",
           "path": "docs/07-evaluation-evidence/reports/ccfa_readiness_matrix.md",
           "schema": "NOT_APPLICABLE",
-          "sha256": "60ca0f3a4ecc36c4d8007ded731b45354a19a360358b558528177eff205064bf",
+          "sha256": "738bda69cef1b55d0eb4fe4db1e912ff5576ed64b4b84e5c854465be8b070241",
           "status": "NOT_APPLICABLE"
         },
         {
@@ -29,7 +29,7 @@
           "id": "ccfa_next_closure_plan",
           "path": "docs/07-evaluation-evidence/reports/ccfa_next_closure_plan.md",
           "schema": "NOT_APPLICABLE",
-          "sha256": "9321c1cc98783132cb9d7b97f131e82288ba6f3504d7677c951b5b2ecc3447ad",
+          "sha256": "5984d20c687cf8343c4f3d8fb68235864e2625b405fee25c4102c34cf97a46ef",
           "status": "NOT_APPLICABLE"
         },
         {
@@ -94,7 +94,7 @@
           "id": "p0_bram_trace",
           "path": "results/evaluation/genesys2-cva6/current/p0_bram_trace_summary.json",
           "schema": "rvmt.genesys2.p0_bram_trace.v1",
-          "sha256": "4d8f6c55fc78f62e42481ae6d6a866920c6f712b73c7553836177f6d85e739ac",
+          "sha256": "ab4ca5875a92ae0c885c269e43b59214f6d9e049cac27a8f898b7508e7a99747",
           "status": "PASS"
         },
         {
@@ -102,7 +102,7 @@
           "id": "safe_surrogate_bram_trace",
           "path": "results/evaluation/genesys2-cva6/current/safe_surrogate_bram_trace_summary.json",
           "schema": "rvmt.genesys2.safe_surrogate_bram_trace.v1",
-          "sha256": "c83b356250e13d73d8df3d21c218a6bdcfe39facff76218b837470f6c7f6dbfe",
+          "sha256": "774e966cefdf068f3b0785c984c59a2240080bde2d498feab4d1711312141cc7",
           "status": "PASS"
         },
         {
@@ -177,7 +177,7 @@
           "id": "pointer_string_readiness",
           "path": "results/evaluation/genesys2-cva6/current/pointer_string_readiness_summary.json",
           "schema": "rvmt.genesys2.pointer_string_readiness.v1",
-          "sha256": "d1a4eda3fa749309f771cb719816e0a2da924d67ee061fc8694fd9a0d0d5eefd",
+          "sha256": "eeb3ca32d8cd96075dbcb8793d232c99ff578c046c8df5c8283efe7da51bdbe5",
           "status": "PASS"
         },
         {
@@ -185,7 +185,7 @@
           "id": "external_closure_readiness",
           "path": "results/evaluation/genesys2-cva6/current/external_closure_readiness.json",
           "schema": "rvmt.genesys2.external_closure_readiness.v1",
-          "sha256": "6cac89807f46ac824eb7ff760d893d87e16f843c4403bcfc9e437c4cd62be009",
+          "sha256": "a639e4a1d9060c47cf2261f9ff8898cd0c2a927bbef4dad4a99d44b2eece65aa",
           "status": "PASS"
         },
         {
@@ -201,7 +201,7 @@
           "id": "external_closure_plan",
           "path": "results/evaluation/genesys2-cva6/current/external_closure_plan.json",
           "schema": "rvmt.genesys2.external_closure_plan.v1",
-          "sha256": "f030e693c9d92cd3b7f74b16edb8a6176e01070c601ca6e772e9fbc50d19ec87",
+          "sha256": "8761a8c9c26c03dbe1d621d0d09f72eb6f61efa91cb39ee9208c812b63842caa",
           "status": "PASS"
         },
         {
@@ -209,7 +209,7 @@
           "id": "external_closure_preflight",
           "path": "results/evaluation/genesys2-cva6/current/external_closure_preflight.json",
           "schema": "rvmt.genesys2.external_closure_preflight.v1",
-          "sha256": "02ba65bd3a9619eae7df62292e0223a40b03ae3e6164c5bf4490ad583388d376",
+          "sha256": "de9acbb14180b1a7e219ad09048af288a0aecd921056be6312364320ba482053",
           "status": "PASS"
         },
         {
@@ -217,7 +217,7 @@
           "id": "external_operator_packet",
           "path": "results/evaluation/genesys2-cva6/current/external_operator_packet.json",
           "schema": "rvmt.genesys2.external_operator_packet.v1",
-          "sha256": "4d6ed1f2e7687e14aab6f7cab8f8892aa4262bb63c8785bf0190e5cc9ad7a1f5",
+          "sha256": "1e66d87525c254aa63d368a100bdae2afcf4135e11d5520b730cca46e846accd",
           "status": "PASS"
         },
         {
@@ -319,7 +319,7 @@
           "id": "external_closure_readiness",
           "path": "results/evaluation/genesys2-cva6/current/external_closure_readiness.json",
           "schema": "rvmt.genesys2.external_closure_readiness.v1",
-          "sha256": "6cac89807f46ac824eb7ff760d893d87e16f843c4403bcfc9e437c4cd62be009",
+          "sha256": "a639e4a1d9060c47cf2261f9ff8898cd0c2a927bbef4dad4a99d44b2eece65aa",
           "status": "PASS"
         },
         {
@@ -335,7 +335,7 @@
           "id": "external_closure_plan",
           "path": "results/evaluation/genesys2-cva6/current/external_closure_plan.json",
           "schema": "rvmt.genesys2.external_closure_plan.v1",
-          "sha256": "f030e693c9d92cd3b7f74b16edb8a6176e01070c601ca6e772e9fbc50d19ec87",
+          "sha256": "8761a8c9c26c03dbe1d621d0d09f72eb6f61efa91cb39ee9208c812b63842caa",
           "status": "PASS"
         },
         {
@@ -343,7 +343,7 @@
           "id": "external_closure_preflight",
           "path": "results/evaluation/genesys2-cva6/current/external_closure_preflight.json",
           "schema": "rvmt.genesys2.external_closure_preflight.v1",
-          "sha256": "02ba65bd3a9619eae7df62292e0223a40b03ae3e6164c5bf4490ad583388d376",
+          "sha256": "de9acbb14180b1a7e219ad09048af288a0aecd921056be6312364320ba482053",
           "status": "PASS"
         },
         {
@@ -351,7 +351,7 @@
           "id": "external_operator_packet",
           "path": "results/evaluation/genesys2-cva6/current/external_operator_packet.json",
           "schema": "rvmt.genesys2.external_operator_packet.v1",
-          "sha256": "4d6ed1f2e7687e14aab6f7cab8f8892aa4262bb63c8785bf0190e5cc9ad7a1f5",
+          "sha256": "1e66d87525c254aa63d368a100bdae2afcf4135e11d5520b730cca46e846accd",
           "status": "PASS"
         },
         {
@@ -463,7 +463,7 @@
           "id": "board_benign_readiness",
           "path": "results/evaluation/genesys2-cva6/current/board_benign_readiness_summary.json",
           "schema": "rvmt.genesys2.board_benign_readiness.v1",
-          "sha256": "45396192c4538c472200f0ffdf9d5d9e7f98b0b4471586cc5a4dc686d494916e",
+          "sha256": "2ef4647be03cdc2ac5cbaf1bcfcbeb93eb74c4557676577e73523e7e10742ffe",
           "status": "PASS"
         },
         {
@@ -471,7 +471,7 @@
           "id": "external_closure_readiness",
           "path": "results/evaluation/genesys2-cva6/current/external_closure_readiness.json",
           "schema": "rvmt.genesys2.external_closure_readiness.v1",
-          "sha256": "6cac89807f46ac824eb7ff760d893d87e16f843c4403bcfc9e437c4cd62be009",
+          "sha256": "a639e4a1d9060c47cf2261f9ff8898cd0c2a927bbef4dad4a99d44b2eece65aa",
           "status": "PASS"
         },
         {
@@ -487,7 +487,7 @@
           "id": "external_closure_plan",
           "path": "results/evaluation/genesys2-cva6/current/external_closure_plan.json",
           "schema": "rvmt.genesys2.external_closure_plan.v1",
-          "sha256": "f030e693c9d92cd3b7f74b16edb8a6176e01070c601ca6e772e9fbc50d19ec87",
+          "sha256": "8761a8c9c26c03dbe1d621d0d09f72eb6f61efa91cb39ee9208c812b63842caa",
           "status": "PASS"
         },
         {
@@ -495,7 +495,7 @@
           "id": "external_closure_preflight",
           "path": "results/evaluation/genesys2-cva6/current/external_closure_preflight.json",
           "schema": "rvmt.genesys2.external_closure_preflight.v1",
-          "sha256": "02ba65bd3a9619eae7df62292e0223a40b03ae3e6164c5bf4490ad583388d376",
+          "sha256": "de9acbb14180b1a7e219ad09048af288a0aecd921056be6312364320ba482053",
           "status": "PASS"
         },
         {
@@ -503,7 +503,7 @@
           "id": "external_operator_packet",
           "path": "results/evaluation/genesys2-cva6/current/external_operator_packet.json",
           "schema": "rvmt.genesys2.external_operator_packet.v1",
-          "sha256": "4d6ed1f2e7687e14aab6f7cab8f8892aa4262bb63c8785bf0190e5cc9ad7a1f5",
+          "sha256": "1e66d87525c254aa63d368a100bdae2afcf4135e11d5520b730cca46e846accd",
           "status": "PASS"
         },
         {
@@ -595,7 +595,7 @@
           "id": "p0_bram_trace",
           "path": "results/evaluation/genesys2-cva6/current/p0_bram_trace_summary.json",
           "schema": "rvmt.genesys2.p0_bram_trace.v1",
-          "sha256": "4d8f6c55fc78f62e42481ae6d6a866920c6f712b73c7553836177f6d85e739ac",
+          "sha256": "ab4ca5875a92ae0c885c269e43b59214f6d9e049cac27a8f898b7508e7a99747",
           "status": "PASS"
         },
         {
@@ -603,7 +603,7 @@
           "id": "safe_surrogate_bram_trace",
           "path": "results/evaluation/genesys2-cva6/current/safe_surrogate_bram_trace_summary.json",
           "schema": "rvmt.genesys2.safe_surrogate_bram_trace.v1",
-          "sha256": "c83b356250e13d73d8df3d21c218a6bdcfe39facff76218b837470f6c7f6dbfe",
+          "sha256": "774e966cefdf068f3b0785c984c59a2240080bde2d498feab4d1711312141cc7",
           "status": "PASS"
         },
         {
@@ -640,7 +640,7 @@
           "id": "reproducibility_manifest_checker",
           "path": "tools/check_genesys2_reproducibility_manifest.py",
           "schema": "NOT_APPLICABLE",
-          "sha256": "c9119282a459f8dc8e38f73b16a63dcf2879f04915e36d6df2b2df77320576ab",
+          "sha256": "78fc9be0b1aed69f09d178bed592b0a5293d1eb2c9d39e5aefc7dc989a300ed9",
           "status": "NOT_APPLICABLE"
         },
         {
@@ -648,7 +648,7 @@
           "id": "artifact_package_checker",
           "path": "tools/check_genesys2_artifact_package.py",
           "schema": "NOT_APPLICABLE",
-          "sha256": "9bd009239f271d845de03f8e7db60a2b160f40b90b2306a9174e401131a288b8",
+          "sha256": "f2ed42bc7888f4e08fb658cf2bf9795c61e9a24bbce83e75522123fdc62367fa",
           "status": "NOT_APPLICABLE"
         }
       ],
@@ -677,7 +677,7 @@
           "id": "p0_bram_trace",
           "path": "results/evaluation/genesys2-cva6/current/p0_bram_trace_summary.json",
           "schema": "rvmt.genesys2.p0_bram_trace.v1",
-          "sha256": "4d8f6c55fc78f62e42481ae6d6a866920c6f712b73c7553836177f6d85e739ac",
+          "sha256": "ab4ca5875a92ae0c885c269e43b59214f6d9e049cac27a8f898b7508e7a99747",
           "status": "PASS"
         },
         {
@@ -685,7 +685,7 @@
           "id": "safe_surrogate_bram_trace",
           "path": "results/evaluation/genesys2-cva6/current/safe_surrogate_bram_trace_summary.json",
           "schema": "rvmt.genesys2.safe_surrogate_bram_trace.v1",
-          "sha256": "c83b356250e13d73d8df3d21c218a6bdcfe39facff76218b837470f6c7f6dbfe",
+          "sha256": "774e966cefdf068f3b0785c984c59a2240080bde2d498feab4d1711312141cc7",
           "status": "PASS"
         }
       ],
@@ -717,7 +717,7 @@
           "id": "streaming_dma_readiness",
           "path": "results/evaluation/genesys2-cva6/current/streaming_dma_readiness_summary.json",
           "schema": "rvmt.genesys2.streaming_dma_readiness.v1",
-          "sha256": "16a8cd7477b6d28b5fe2cbbb50e49056f3d65869c289d106aaed41d29ded7bd7",
+          "sha256": "151b4c54628f458694e5701660060d2402b7bd9e24269bab67470f28a9bcf606",
           "status": "PASS"
         },
         {
@@ -725,7 +725,7 @@
           "id": "external_closure_readiness",
           "path": "results/evaluation/genesys2-cva6/current/external_closure_readiness.json",
           "schema": "rvmt.genesys2.external_closure_readiness.v1",
-          "sha256": "6cac89807f46ac824eb7ff760d893d87e16f843c4403bcfc9e437c4cd62be009",
+          "sha256": "a639e4a1d9060c47cf2261f9ff8898cd0c2a927bbef4dad4a99d44b2eece65aa",
           "status": "PASS"
         },
         {
@@ -741,7 +741,7 @@
           "id": "external_closure_plan",
           "path": "results/evaluation/genesys2-cva6/current/external_closure_plan.json",
           "schema": "rvmt.genesys2.external_closure_plan.v1",
-          "sha256": "f030e693c9d92cd3b7f74b16edb8a6176e01070c601ca6e772e9fbc50d19ec87",
+          "sha256": "8761a8c9c26c03dbe1d621d0d09f72eb6f61efa91cb39ee9208c812b63842caa",
           "status": "PASS"
         },
         {
@@ -749,7 +749,7 @@
           "id": "external_closure_preflight",
           "path": "results/evaluation/genesys2-cva6/current/external_closure_preflight.json",
           "schema": "rvmt.genesys2.external_closure_preflight.v1",
-          "sha256": "02ba65bd3a9619eae7df62292e0223a40b03ae3e6164c5bf4490ad583388d376",
+          "sha256": "de9acbb14180b1a7e219ad09048af288a0aecd921056be6312364320ba482053",
           "status": "PASS"
         },
         {
@@ -757,7 +757,7 @@
           "id": "external_operator_packet",
           "path": "results/evaluation/genesys2-cva6/current/external_operator_packet.json",
           "schema": "rvmt.genesys2.external_operator_packet.v1",
-          "sha256": "4d6ed1f2e7687e14aab6f7cab8f8892aa4262bb63c8785bf0190e5cc9ad7a1f5",
+          "sha256": "1e66d87525c254aa63d368a100bdae2afcf4135e11d5520b730cca46e846accd",
           "status": "PASS"
         },
         {

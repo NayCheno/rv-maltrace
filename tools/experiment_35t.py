@@ -15,6 +15,12 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Iterable
 
+from experiment_common import (
+    load_json,
+)
+
+from docker_common import docker_compose_base
+
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
@@ -31,87 +37,28 @@ from rv_maltrace.trace_profiles import (  # noqa: E402
     trace_control_mask_for_profile,
 )
 
-
-BENIGN_MANIFEST = Path("experiments/linux_behavior/benign/manifest.json")
-MALWARE_MANIFEST = Path("experiments/linux_behavior/malware_like/manifest.json")
-MALWARE_EXTENSION_PLAN = Path("experiments/linux_behavior/malware_like/extension_plan.json")
-SURROGATE_MANIFEST = Path("experiments/linux_behavior/real_malware_surrogate/manifest.json")
-RULES_PATH = Path("experiments/linux_behavior/behavior_audit_rules.json")
-ROOTFS_EXP_BIN_DIR = Path("build/board/artix7_35t/rootfs_exp_overlay/usr/bin")
-TRACE_OFF = "trace-off"
-TRACE_ON = "trace-on"
-RUNTIME_CLASSIC = "classic"
-RUNTIME_ABBA = "abba"
-TRACE_PROFILE_POLICY_UNIFORM = "uniform"
-TRACE_PROFILE_POLICY_35T_SMALL_CAPACITY = "35t_small_capacity"
-TRACE_PROFILE_POLICY_CHOICES = (TRACE_PROFILE_POLICY_UNIFORM, TRACE_PROFILE_POLICY_35T_SMALL_CAPACITY)
-TRACE_PROFILE_POLICY_35T_TRAP_SAMPLES = frozenset({"illegal_trap"})
-REQUIRED_BASELINES = ("host_native", "host_strace", "qemu_native", "qemu_strace")
-OPTIONAL_BASELINES = ("ebpf_only", "qemu_plugin", "software_instrumentation")
-BEHAVIOR_AUDIT_SAMPLE_CLASSES = frozenset({"malware_like_synthetic", "real_malware_surrogate"})
-UART_TIMESTAMP_RE = re.compile(r"\[[0-9]+(?:\.[0-9]+)?\]\s*")
-UART_MARKERS = (
-    "RVMT_EXP_REP_BEGIN",
-    "RVMT_EXP_REP_RESULT",
-    "RVMT_EXP_REP_END",
-    "RVMT_EXP_END",
-    "RVMT_RUNTIME_PROCESS_MAP_BEGIN",
-    "RVMT_RUNTIME_PROCESS_MAP_ENTRY",
-    "RVMT_RUNTIME_PROCESS_PROVENANCE",
-    "RVMT_RUNTIME_PROCESS_MAP_END",
-    "RVMT_RUNTIME_PROCESS",
-    "RVMT_SYSCALL_OBS",
-    "RVMT_TRACE_DUMP_BEGIN",
-    "RVMT_TRACE_DUMP_END",
-    "RVMT_TRACE_RECORD",
-)
-UART_MARKER_PATTERNS = tuple((re.compile(r"\s*".join(re.escape(char) for char in marker)), marker) for marker in UART_MARKERS)
-UART_FIELD_KEYS = (
-    "class",
-    "sample",
-    "mode",
-    "rep",
-    "order_index",
-    "warmup",
-    "exit",
-    "runtime_ns",
-    "trace_count",
-    "drop",
-    "schema",
-    "role",
-    "pid",
-    "tgid",
-    "status",
-    "comm_hex",
-    "exe_hex",
-    "start",
-    "end",
-    "perms",
-    "offset",
-    "dev",
-    "inode",
-    "path_hex",
-    "collector",
-    "method",
-    "proc_sample_time",
-    "warnings_hex",
-    "phase",
-    "seq",
-    "nr",
-    "name",
-    "a0",
-    "a1",
-    "a2",
-    "a3",
-    "a4",
-    "a5",
-    "a6",
-    "a7",
-    "ret",
-)
-UART_FIELD_KEY_PATTERN = "|".join(re.escape(key) for key in UART_FIELD_KEYS)
-UART_FIELD_RE = re.compile(
-    rf"\b({UART_FIELD_KEY_PATTERN})=([^\s]*?)(?=(?:{UART_FIELD_KEY_PATTERN})=|\s+(?:{UART_FIELD_KEY_PATTERN})=|$)"
+from experiment_35t_spec import (
+    BEHAVIOR_AUDIT_SAMPLE_CLASSES,
+    BENIGN_MANIFEST,
+    MALWARE_EXTENSION_PLAN,
+    MALWARE_MANIFEST,
+    OPTIONAL_BASELINES,
+    REQUIRED_BASELINES,
+    ROOTFS_EXP_BIN_DIR,
+    RULES_PATH,
+    RUNTIME_ABBA,
+    RUNTIME_CLASSIC,
+    SURROGATE_MANIFEST,
+    TRACE_OFF,
+    TRACE_ON,
+    TRACE_PROFILE_POLICY_35T_SMALL_CAPACITY,
+    TRACE_PROFILE_POLICY_35T_TRAP_SAMPLES,
+    TRACE_PROFILE_POLICY_CHOICES,
+    TRACE_PROFILE_POLICY_UNIFORM,
+    UART_FIELD_KEY_PATTERN,
+    UART_FIELD_RE,
+    UART_MARKER_PATTERNS,
+    UART_TIMESTAMP_RE,
 )
 
 
@@ -125,13 +72,6 @@ class Sample:
     evidence_dir: str
     default_enabled: bool = True
     network_required: bool = False
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
 
 
 def repo_rel(path: Path) -> str:
@@ -351,10 +291,6 @@ def run_command(cmd: list[str], *, cwd: Path = ROOT, dry_run: bool = False, log_
         handle.flush()
         completed = subprocess.run(cmd, cwd=str(cwd), stdout=handle, stderr=subprocess.STDOUT)
     return completed.returncode
-
-
-def docker_compose_base() -> list[str]:
-    return ["docker", "compose", "-f", "docker-compose.toolchain.yml"]
 
 
 def groundtruth_shell(sample: Sample, run_id: str, reps: int) -> str:

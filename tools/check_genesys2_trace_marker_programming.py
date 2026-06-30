@@ -1,13 +1,21 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
-import json
 import re
 import sys
 import tempfile
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    as_dict,
+    as_list,
+    load_json,
+    repo_path,
+    require,
+    sha256_file,
+    write_json,
+)
 
 
 DEFAULT_SUMMARY = Path("results/evaluation/genesys2-cva6/current/trace_marker_programming_summary.json")
@@ -19,31 +27,6 @@ EXPECTED_BUILD_MANIFEST = "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker
 EXPECTED_CURRENT_LOG = "results/evaluation/genesys2-cva6/current/trace_marker_programming.log"
 EXPECTED_TARGET_FRAGMENT = "localhost:3121/xilinx_tcf/Digilent/200300B81858B"
 EXPECTED_DEVICE = "xc7k325t_0"
-
-
-def repo_path(root: Path, value: Any) -> Path:
-    path = Path(str(value))
-    return path if path.is_absolute() else root / path
-
-
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
 
 
 def read_log_text(path: Path) -> str:
@@ -64,19 +47,6 @@ def read_log_text(path: Path) -> str:
         )
         candidates.append((score, text))
     return max(candidates, key=lambda item: item[0])[1]
-
-
-def as_dict(value: Any) -> dict[str, Any]:
-    return value if isinstance(value, dict) else {}
-
-
-def as_list(value: Any) -> list[Any]:
-    return value if isinstance(value, list) else []
-
-
-def require(errors: list[str], condition: bool, message: str) -> None:
-    if not condition:
-        errors.append(message)
 
 
 def marker(text: str, name: str) -> str | None:

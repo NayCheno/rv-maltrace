@@ -8,6 +8,10 @@ import sys
 import tempfile
 from pathlib import Path
 
+from experiment_common import (
+    resolve,
+)
+
 
 DEFAULT_PROFILE = Path("rtl/trace/trace_board_minimal_ctrl.sv")
 DEFAULT_WRAPPER = Path("rtl/trace/trace_board_minimal_top.sv")
@@ -72,10 +76,6 @@ FORBIDDEN_DOC_PATTERNS = (
     (re.compile(r"\bMARKER\b[^\n|]*(?:enabled|allowed)", re.IGNORECASE), "MARKER must not be allowed"),
     (re.compile(r"\bhardware\s+trace\s+(?:passed|validated|complete)\b", re.IGNORECASE), "must not claim hardware trace pass"),
 )
-
-
-def resolve(root: Path, path: Path) -> Path:
-    return path if path.is_absolute() else root / path
 
 
 def compact(value: str) -> str:

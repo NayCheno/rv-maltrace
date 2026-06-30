@@ -7,6 +7,10 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    as_list,
+)
+
 from check_genesys2_external_closure_intake import EXPECTED_EXTERNAL_SUMMARIES, validate_external_summary
 from external_closure_artifacts import (
     ROOT,
@@ -25,10 +29,6 @@ RECORD_ID = "genesys2_board_benign_control"
 DEFAULT_OUT = EXPECTED_EXTERNAL_SUMMARIES[RECORD_ID]["path"]
 DEFAULT_RUN_ROOT = Path("results/board/genesys2_trace_validation/20260613-board-benign-control-direct")
 DEFAULT_BENIGN_SAMPLES = ("hello", "ls", "cat", "cp", "sha256sum")
-
-
-def as_list(value: Any) -> list[Any]:
-    return value if isinstance(value, list) else []
 
 
 def board_claimed(manifest: dict[str, Any]) -> bool:

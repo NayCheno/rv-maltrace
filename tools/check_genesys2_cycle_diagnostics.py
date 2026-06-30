@@ -1,12 +1,18 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
-import json
 import re
 import tempfile
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    load_json,
+    repo_rel,
+    require,
+    sha256_file,
+    write_json,
+)
 
 
 DEFAULT_LOG = Path("results/board/genesys2_trace_validation/20260623-cycle-source-diagnostics/uart.log")
@@ -23,36 +29,9 @@ PERF_RELATED_CONFIG_PREFIXES = (
 )
 
 
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
-
-
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
 def rel_or_abs(root: Path, value: str) -> Path:
     candidate = Path(value)
     return candidate if candidate.is_absolute() else root / candidate
-
-
-def repo_rel(root: Path, path: Path) -> str:
-    try:
-        return path.resolve().relative_to(root.resolve()).as_posix()
-    except ValueError:
-        return path.as_posix()
 
 
 def artifact_row(root: Path, path: Path) -> dict[str, Any]:
@@ -262,11 +241,6 @@ def summarize_diagnostics(root: Path, log: Path, summary: Path) -> dict[str, Any
         data["blocked_reason"] = blocked_reason
     write_json(summary, data)
     return data
-
-
-def require(errors: list[str], condition: bool, message: str) -> None:
-    if not condition:
-        errors.append(message)
 
 
 def check_artifact(errors: list[str], root: Path, summary: dict[str, Any], name: str) -> Path | None:

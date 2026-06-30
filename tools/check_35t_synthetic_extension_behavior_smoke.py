@@ -8,6 +8,15 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    load_json,
+    rel,
+    repo_path,
+    write_json,
+)
+
+from docker_common import docker_compose_base
+
 
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
 SMOKE_RUN_ID = "35t-extension-behavior-smoke-20260523"
@@ -242,33 +251,6 @@ print("RVMT_EXTENSION_BEHAVIOR_JSON_BEGIN")
 print(json.dumps(summary, sort_keys=True))
 print("RVMT_EXTENSION_BEHAVIOR_JSON_END")
 """.strip()
-
-
-def repo_path(repo_root: Path, path: Path) -> Path:
-    return path if path.is_absolute() else repo_root / path
-
-
-def rel(path: Path, repo_root: Path) -> str:
-    try:
-        return path.resolve().relative_to(repo_root.resolve()).as_posix()
-    except ValueError:
-        return path.as_posix()
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
-
-
-def docker_compose_base() -> list[str]:
-    return ["docker", "compose", "-f", "docker-compose.toolchain.yml"]
 
 
 def extract_container_json(stdout: str) -> dict[str, Any] | None:

@@ -1,13 +1,19 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import statistics
 import sys
 import tempfile
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    load_json,
+    sha256_file,
+    sha256_file_if_present,
+    write_json,
+)
 
 
 SAMPLES = [
@@ -31,13 +37,6 @@ DEFAULT_LTX = Path("build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-f
 NOT_CAPTURED = "NOT_CAPTURED"
 
 
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
 def load_jsonl(path: Path) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     for line in path.read_text(encoding="utf-8").splitlines():
@@ -48,21 +47,6 @@ def load_jsonl(path: Path) -> list[dict[str, Any]]:
             raise ValueError(f"{path}: expected JSON object rows")
         rows.append(row)
     return rows
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
-
-
-def sha256_file(path: Path | None) -> str | None:
-    if path is None or not path.is_file():
-        return None
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
 
 
 def optional_artifact_path(path: Path) -> str:
@@ -322,9 +306,9 @@ def package_run(
         "run_root": run_root.as_posix(),
         "build_root": build_root.as_posix(),
         "bitstream": bitstream.as_posix() if bitstream else None,
-        "bitstream_sha256": sha256_file(bitstream),
+        "bitstream_sha256": sha256_file_if_present(bitstream),
         "ltx": ltx.as_posix() if ltx else None,
-        "ltx_sha256": sha256_file(ltx),
+        "ltx_sha256": sha256_file_if_present(ltx),
         "sample_count": len(samples),
         "expected_samples": SAMPLES,
         "minimum_repetitions_per_sample": minimum_repetitions,

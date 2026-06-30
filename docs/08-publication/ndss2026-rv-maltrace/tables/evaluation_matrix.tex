@@ -7,10 +7,10 @@
 \toprule
 RQ & Claim tested & Evidence & Result & Boundary \\
 \midrule
-RQ1 & Trace records preserve ordering and syscall pairing needed for reconstruction & Directed trace tests & Covered by the current test corpus & Does not measure production transport throughput or runtime slowdown \\
-RQ2 & Reconstructed fields identify whether they came from hardware trace, ELF metadata, runtime maps, or reference logs & Reconstruction summaries & All reported fields carry a source label & Reference-derived fields validate expectations but are not hardware recovery \\
-RQ3 & Code attribution handles common mapping edge cases & Local attribution tests & Attribution edge cases are covered locally & Local fixtures do not establish board-native source-line recovery \\
-RQ4 & The evidence package is reproducible and auditable & Local and Docker runs & Quick, local, full, and Docker reproduction complete & Reproduction covers the recorded artifact, not experiments outside the manifest \\
+RQ1 & Trace records preserve ordering and syscall pairing needed for reconstruction & Directed, seeded-random, and negative-sensitivity trace tests & 69/69 correctness cases pass & Does not measure production transport throughput or runtime slowdown \\
+RQ2 & Reconstructed fields identify whether they came from hardware trace, ELF metadata, runtime maps, or reference logs & Reconstruction summaries & 288/288 provenance-tagged fields pass source-label validation & Reference-derived fields validate expectations but are not hardware recovery \\
+RQ3 & Code attribution handles common mapping edge cases & Process/ELF ownership, source-line, and dynamic-mapping summaries & 108/108 key PC events attributed to target ELF/function level; 6/6 mapping edge cases pass & Current board traces remain function-level unless the exact captured ELF carries DWARF \\
+RQ4 & The evidence package is reproducible and auditable & Local and Docker runs plus artifact manifests & Quick, local, full, and Docker reproduction are recorded PASS; 228 package files and 62 summary artifacts are hashed & Reproduction covers the recorded artifact, not experiments outside the manifest \\
 RQ5 & Controlled workloads exercise behavior reconstruction without becoming a malware benchmark & Case-study manifests and behavior checks & Controlled behavior checks are recorded in the artifact package & Does not imply real-malware accuracy, TTP coverage, or payload equivalence \\
 \bottomrule
 \end{tabularx}

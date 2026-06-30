@@ -4,9 +4,17 @@ import argparse
 import json
 import sys
 import tempfile
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    load_json,
+    read_json,
+    rel,
+    repo_path,
+    utc_now,
+    write_json,
+)
 
 
 RUN_ID = "35t-smallcap-r512-full-synthetic-matrix-20260521"
@@ -20,39 +28,6 @@ BOARD_SMOKE_STATUS = "STRICT_BOARD_VALIDATION_PASS_AFTER_SIDE_CHANNEL_BOOT"
 THREAT_MODEL_STATUS = "TRUSTED_KERNEL_USER_MODE_THREAT_MODEL_BOUNDARY_SPECIFIED"
 CLAIM_LEVEL = "35T hardware-trace-assisted synthetic malware-like behavior audit prototype"
 SCOPE = "Artix-7 35T / LiteX / VexRiscv"
-
-
-def utc_now() -> str:
-    return datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
-
-
-def repo_path(repo_root: Path, path: Path) -> Path:
-    return path if path.is_absolute() else repo_root / path
-
-
-def rel(path: Path, repo_root: Path) -> str:
-    try:
-        return path.resolve().relative_to(repo_root.resolve()).as_posix()
-    except ValueError:
-        return path.as_posix()
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
-def read_json(path: Path, failures: list[str], repo_root: Path, label: str) -> dict[str, Any]:
-    if not path.is_file():
-        failures.append(f"missing {label}: {rel(path, repo_root)}")
-        return {}
-    try:
-        return load_json(path)
-    except Exception as exc:
-        failures.append(f"invalid {label}: {rel(path, repo_root)}: {exc}")
-        return {}
 
 
 def final_smoke(smoke: dict[str, Any]) -> dict[str, Any]:
@@ -276,11 +251,6 @@ def write_outputs(report: dict[str, Any], evidence_root: Path) -> None:
         newline="\n",
     )
     (evidence_root / "helper_alignment.md").write_text(render_markdown(report), encoding="utf-8", newline="\n")
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
 
 
 def write_side_channel(path: Path) -> None:

@@ -7,6 +7,10 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    load_json,
+)
+
 
 DEFAULT_INVARIANTS = Path("sim/golden/fuzz_invariants.json")
 KNOWN_EVENTS = {
@@ -65,13 +69,6 @@ NUMERIC_FIELDS = {
 }
 PRIV_FIELDS = {"priv", "old_priv", "new_priv"}
 VALID_PRIVS = {"U", "S", "H", "M"}
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
 
 
 def load_jsonl(path: Path) -> list[dict[str, Any]]:

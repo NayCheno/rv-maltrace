@@ -1,12 +1,20 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
-import json
 import sys
 import tempfile
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    as_dict,
+    as_list,
+    load_json,
+    repo_path_from,
+    repo_rel_from,
+    sha256_file,
+    write_json,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -29,44 +37,10 @@ SOURCE_EVIDENCE = (
 )
 
 
-def repo_rel(path: Path) -> str:
-    try:
-        return path.resolve().relative_to(ROOT.resolve()).as_posix()
-    except ValueError:
-        return path.as_posix()
+repo_rel = repo_rel_from(ROOT)
 
 
-def repo_path(path: str | Path) -> Path:
-    value = Path(path)
-    return value if value.is_absolute() else ROOT / value
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
-def as_list(value: Any) -> list[Any]:
-    return value if isinstance(value, list) else []
-
-
-def as_dict(value: Any) -> dict[str, Any]:
-    return value if isinstance(value, dict) else {}
+repo_path = repo_path_from(ROOT)
 
 
 def as_int(value: Any, default: int = 0) -> int:

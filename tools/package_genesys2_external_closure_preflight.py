@@ -1,13 +1,21 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import re
 import sys
 import tempfile
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    as_list,
+    load_json,
+    rel,
+    repo_path,
+    sha256_file_if_present,
+    write_json,
+)
 
 from check_genesys2_external_closure_intake import EXPECTED_EXTERNAL_SUMMARIES
 
@@ -23,41 +31,10 @@ NOT_REQUESTED = "NOT_REQUESTED"
 PY_TOOL = re.compile(r"tools/[A-Za-z0-9_./-]+\.py")
 
 
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
+repo_rel = rel
 
 
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
-def repo_path(root: Path, value: Path) -> Path:
-    return value if value.is_absolute() else root / value
-
-
-def repo_rel(path: Path, root: Path) -> str:
-    try:
-        return path.resolve().relative_to(root.resolve()).as_posix()
-    except ValueError:
-        return path.as_posix()
-
-
-def sha256_file(path: Path) -> str | None:
-    if not path.is_file():
-        return None
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
-def as_list(value: Any) -> list[Any]:
-    return value if isinstance(value, list) else []
+sha256_file = sha256_file_if_present
 
 
 def rows_by_id(rows: Any) -> dict[str, dict[str, Any]]:

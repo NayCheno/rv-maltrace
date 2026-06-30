@@ -1,12 +1,20 @@
 from __future__ import annotations
 
 import argparse
-import json
 import math
 import sys
 import tempfile
 from pathlib import Path
 from typing import Any
+
+from experiment_common import (
+    as_dict,
+    as_list,
+    load_json,
+    repo_path,
+    require,
+    write_json,
+)
 
 import package_genesys2_streaming_dma_target as packager
 
@@ -18,36 +26,6 @@ EXPECTED_ROW_SAMPLE_CLASSES = {
     "p0_bram_repetitions": "p0_safe_synthetic",
     "safe_surrogate_bram_repetitions": "malware_like_synthetic_syscall_only",
 }
-
-
-def repo_path(root: Path, value: Any) -> Path:
-    path = Path(str(value))
-    return path if path.is_absolute() else root / path
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
-
-
-def as_list(value: Any) -> list[Any]:
-    return value if isinstance(value, list) else []
-
-
-def as_dict(value: Any) -> dict[str, Any]:
-    return value if isinstance(value, dict) else {}
-
-
-def require(errors: list[str], condition: bool, message: str) -> None:
-    if not condition:
-        errors.append(message)
 
 
 def row_map(rows: list[Any], key: str = "id") -> dict[str, dict[str, Any]]:

@@ -8,6 +8,11 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    repo_rel_from,
+    write_json,
+)
+
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE_VADDR = 0x01000000
@@ -53,16 +58,7 @@ def align(value: int, boundary: int) -> int:
     return (value + boundary - 1) & ~(boundary - 1)
 
 
-def repo_rel(path: Path) -> str:
-    try:
-        return path.resolve().relative_to(ROOT.resolve()).as_posix()
-    except ValueError:
-        return path.as_posix()
-
-
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
+repo_rel = repo_rel_from(ROOT)
 
 
 def parse_marker(value: str) -> int:

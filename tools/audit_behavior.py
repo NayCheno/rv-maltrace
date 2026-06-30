@@ -7,6 +7,10 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+from experiment_common import (
+    load_json,
+)
+
 
 DEFAULT_RULES = Path("experiments/linux_behavior/behavior_audit_rules.json")
 DEFAULT_FIXTURES = Path("experiments/linux_behavior/rule_regression_fixtures/manifest.json")
@@ -17,13 +21,6 @@ TRAP_CAUSE_ALIASES = {
     "supervisor_ecall": "0x9",
     "machine_ecall": "0xb",
 }
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"{path}: expected JSON object")
-    return value
 
 
 def load_rule_definitions(path: Path) -> dict[str, dict[str, Any]]:
