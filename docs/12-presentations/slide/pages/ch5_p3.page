@@ -1,0 +1,149 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>05 应对这些挑战的方法/策略</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>策略三：Bounded Pointer Snapshot 约束s</strong></p>
+  - elementId: pointer-constraint-table
+    elementType: table
+    bounds: [60, 110, 1160, 300]
+    columnWidths: [0.25, 0.35, 0.4]
+    rowHeights: [0.12, 0.13, 0.13, 0.13, 0.13, 0.13, 0.13, 0.1]
+    style: "$default"
+    rows:
+      - - content: {text: "约束"}
+        - content: {text: "说明"}
+        - content: {text: "边界"}
+      - - content: {text: "只选特定 syscall"}
+        - content: {text: "openat / write / execve 的指针参数"}
+        - content: {text: "不是所有 syscall"}
+      - - content: {text: "只读 user 空间"}
+        - content: {text: "不读 kernel address"}
+        - content: {text: "user pointer 有效"}
+      - - content: {text: "有长度限制"}
+        - content: {text: "MAX_POINTER_SNAPSHOT_BYTES"}
+        - content: {text: "bounded fragments"}
+      - - content: {text: "有时间限制"}
+        - content: {text: "MAX_POINTER_WATCH_CYCLES"}
+        - content: {text: "窗口内"}
+      - - content: {text: "遇 NUL 终止"}
+        - content: {text: "字符串结束符自动停止"}
+        - content: {text: "prefix 不是完整"}
+      - - content: {text: "产物是 prefix"}
+        - content: {text: "bounded fragments，不是完整内存 dump"}
+        - content: {text: "不能 claim full string"}
+      - - content: {text: "标签"}
+        - content: {text: "hardware（bounded bytes）"}
+        - content: {text: "外部补充字符串 → validation_oracle"}
+  - elementId: artifact-bg
+    elementType: shape
+    bounds: [60, 430, 560, 180]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "$light"
+  - elementId: artifact-title
+    elementType: text
+    bounds: [80, 440, 300, 28]
+    content:
+      fontSize: 16
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>当前 Artifact 数据</strong></p>
+  - elementId: artifact-body
+    elementType: text
+    bounds: [80, 475, 520, 120]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>• 30 个 BRAM pointer-snapshot repetitions</p>
+        <p>• 51 个 pointer groups</p>
+        <p>• 1156 captured bytes</p>
+        <p>• hardware_pointer_strings_claimed = <strong>false</strong></p>
+        <p>• full_string_claimed = <strong>false</strong></p>
+  - elementId: right-note-bg
+    elementType: shape
+    bounds: [640, 430, 580, 180]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "#FEF3C7"
+  - elementId: right-note-title
+    elementType: text
+    bounds: [660, 440, 300, 28]
+    content:
+      fontSize: 16
+      color: "$accent"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>正确表述</strong></p>
+  - elementId: right-note-body
+    elementType: text
+    bounds: [660, 475, 540, 120]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>硬件支持的是 <strong>截断前缀 bytes</strong></p>
+        <p>不是 <strong>full path string</strong></p>
+        <p style="margin-top:6px">有一个 external full-string closure artifact</p>
+        <p>但它有独立的 约束 和范围</p>
+        <p>不能泛化为 full memory dump</p>
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>25</p>

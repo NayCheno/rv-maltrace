@@ -1,0 +1,108 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>07 具体方案/方法细节</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>Semantic Recovery：从 Annotated Events 到 Behavior Graph</strong></p>
+  - elementId: recovery-table
+    elementType: table
+    bounds: [60, 110, 1160, 380]
+    columnWidths: [0.2, 0.25, 0.3, 0.25]
+    rowHeights: [0.1, 0.13, 0.13, 0.13, 0.13, 0.13, 0.13, 0.12]
+    style: "$default"
+    rows:
+      - - content: {text: "Recovery Target"}
+        - content: {text: "Source Events"}
+        - content: {text: "Output Artifact"}
+        - content: {text: "Status"}
+      - - content: {text: "syscall_sequence"}
+        - content: {text: "SYSCALL_ENTRY, SYSCALL_RET"}
+        - content: {text: "semantic_events.json"}
+        - content: {text: "PASS_CONTROLLED"}
+      - - content: {text: "control_flow_segment"}
+        - content: {text: "BRANCH, JUMP"}
+        - content: {text: "behavior_graph.json"}
+        - content: {text: "PASS_SCOPE_LIMITED"}
+      - - content: {text: "trap_context_transition"}
+        - content: {text: "TRAP, CSR, SATP, PRIV"}
+        - content: {text: "semantic_events.json"}
+        - content: {text: "PASS_SCOPED"}
+      - - content: {text: "privilege_boundary"}
+        - content: {text: "SYSCALL_ENTRY, TRAP, PRIV"}
+        - content: {text: "semantic_events.json"}
+        - content: {text: "PASS_SCOPED"}
+      - - content: {text: "basic_behavior_graph"}
+        - content: {text: "All events"}
+        - content: {text: "behavior_graph.json"}
+        - content: {text: "PASS_CONTROLLED"}
+      - - content: {text: "fd_path_graph"}
+        - content: {text: "openat, read, write, close"}
+        - content: {text: "fd_path_graph.json"}
+        - content: {text: "PASS_CONTROLLED"}
+      - - content: {text: "source_line_attribution"}
+        - content: {text: "RETIRE + debug ELF"}
+        - content: {text: "source_line_attribution_summary.json"}
+        - content: {text: "PASS_FUNCTION (board-native open)"}
+  - elementId: bottom-note-bg
+    elementType: shape
+    bounds: [60, 510, 1160, 80]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "#EFF6FF"
+  - elementId: bottom-note-text
+    elementType: text
+    bounds: [80, 520, 1120, 60]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, middle]
+      text: |
+        <p><strong>行为图 结构</strong>：根节点 trace → Syscall 节点按 next_syscall 顺序连接 → Context/control 节点挂在 trace 下。每个节点保留 数据溯源标签。</p>
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>34</p>

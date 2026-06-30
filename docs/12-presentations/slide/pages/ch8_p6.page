@@ -1,0 +1,119 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>08 Related Work</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>综合定位：一句话总结</strong></p>
+  - elementId: quote-bg
+    elementType: shape
+    bounds: [60, 110, 1160, 100]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "#DBEAFE"
+  - elementId: quote-text
+    elementType: text
+    bounds: [80, 115, 1120, 90]
+    content:
+      fontSize: 18
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.6
+      align: [left, middle]
+      text: |
+        <p>别人用硬件 trace 做<strong>"防护"</strong>（DIFT、kernel sanitizer）或<strong>"分析"</strong>（透明调试、模糊测试）；</p>
+        <p>我们用硬件 trace 做<strong>"行为证据"</strong>——从 RISC-V 指令流水线直接提取操作系统语义事件，形成可审计、可校验、可解释的恶意软件行为证据链。</p>
+  - elementId: diff-title
+    elementType: text
+    bounds: [60, 230, 400, 35]
+    content:
+      fontSize: 20
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>五个核心差异</strong></p>
+  - elementId: diff-body
+    elementType: text
+    bounds: [60, 270, 1160, 240]
+    content:
+      fontSize: 16
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.7
+      align: [left, top]
+      text: |
+        <p><span style="color:$primary;"><strong>1. 自主 RTL 设计</strong></span>　不依赖 ARM ETM/ETB/PMU 等厂商调试 IP，可适配任何支持 RVFI 的 RISC-V core</p>
+        <p><span style="color:$primary;"><strong>2. 零系统软件修改</strong></span>　无 eBPF、无 kernel helper、无编译器插桩，对内核/固件/用户态均零修改</p>
+        <p><span style="color:$primary;"><strong>3. OS 语义事件原生捕获</strong></span>　RTL 层直接发出 SYSCALL_ENTRY、TRAP、PRIV 等语义事件，无需指令流解码</p>
+        <p><span style="color:$primary;"><strong>4. 自动化行为审计</strong></span>　从 trace 到行为规则匹配的全链条自动化，面向可审计证据链</p>
+        <p><span style="color:$primary;"><strong>5. RISC-V 生态差异化</strong></span>　首个面向 RISC-V/Linux 恶意软件行为审计的硬件 trace 框架</p>
+  - elementId: avoid-title
+    elementType: text
+    bounds: [60, 520, 400, 30]
+    content:
+      fontSize: 16
+      color: "$danger"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>绝对避免的说法</strong></p>
+  - elementId: avoid-body
+    elementType: text
+    bounds: [60, 555, 1160, 80]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.6
+      align: [left, top]
+      text: |
+        <p>RV-MalTrace is transparent like Ninja. / RV-MalTrace detects real malware. / RV-MalTrace provides runtime protection like Raft.</p>
+        <p>RV-MalTrace finds vulnerabilities like μAFL. / RV-MalTrace protects kernel modules like HART.</p>
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>45</p>

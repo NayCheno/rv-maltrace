@@ -1,0 +1,113 @@
+title: RV-MalTrace 深度技术汇报
+size: [1280, 720]
+theme:
+  colors:
+    primary: "#2563EB"
+    secondary: "#64748B"
+    accent: "#F59E0B"
+    background: "#FFFFFF"
+    text: "#1E293B"
+    light: "#F1F5F9"
+    success: "#10B981"
+    danger: "#EF4444"
+    white: "#FFFFFF"
+    border: "#E2E8F0"
+  textStyles:
+    title:
+      fontSize: 32
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      fontStyle: normal
+    subtitle:
+      fontSize: 22
+      color: "$secondary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.4
+    body:
+      fontSize: 18
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.6
+    caption:
+      fontSize: 14
+      color: "$secondary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.4
+    hero:
+      fontSize: 48
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+    chapterTitle:
+      fontSize: 40
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+    dataNumber:
+      fontSize: 44
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+    dataLabel:
+      fontSize: 14
+      color: "$secondary"
+      fontFamily: "QuattrocentoSans, MiSans"
+  tableStyles:
+    default:
+      fontSize: 16
+      fontFamily: "QuattrocentoSans, MiSans"
+      headerFill: "$primary"
+      headerColor: "#FFFFFF"
+      headerBold: true
+      bodyFill: ["#FFFFFF", "$light"]
+      bodyColor: "$text"
+      firstColumnBold: true
+      border:
+        style: solid
+        width: 1
+        color: "#E2E8F0"
+pages:
+  - pages/cover.page
+  - pages/toc.page
+  - pages/ch1_title.page
+  - pages/ch1_p1.page
+  - pages/ch1_p2.page
+  - pages/ch1_p3.page
+  - pages/ch1_p4.page
+  - pages/ch2_title.page
+  - pages/ch2_p1.page
+  - pages/ch2_p2.page
+  - pages/ch2_p3.page
+  - pages/ch3_title.page
+  - pages/ch3_p1.page
+  - pages/ch3_p2.page
+  - pages/ch3_p3.page
+  - pages/ch4_title.page
+  - pages/ch4_p1.page
+  - pages/ch4_p2.page
+  - pages/ch4_p3.page
+  - pages/ch4_p4.page
+  - pages/ch5_title.page
+  - pages/ch5_p1.page
+  - pages/ch5_p2.page
+  - pages/ch5_p3.page
+  - pages/ch5_p4.page
+  - pages/ch6_title.page
+  - pages/ch6_p1.page
+  - pages/ch6_p2.page
+  - pages/ch6_p3.page
+  - pages/ch6_p4.page
+  - pages/ch7_title.page
+  - pages/ch7_p1.page
+  - pages/ch7_p2.page
+  - pages/ch7_p3.page
+  - pages/ch7_p4.page
+  - pages/ch7_p5.page
+  - pages/ch7_p6.page
+  - pages/ch7_p7.page
+  - pages/ch8_title.page
+  - pages/ch8_p1.page
+  - pages/ch8_p2.page
+  - pages/ch8_p3.page
+  - pages/ch8_p4.page
+  - pages/ch8_p5.page
+  - pages/ch8_p6.page
+  - pages/evidence_matrix.page
+  - pages/final.page

@@ -1,0 +1,97 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>02 解决这个问题的难点</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>难点二：PC 和指针都不自带上下文</strong></p>
+  - elementId: gap-table
+    elementType: table
+    bounds: [60, 110, 1160, 420]
+    columnWidths: [0.2, 0.35, 0.45]
+    rowHeights: [0.1, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15]
+    style: "$default"
+    rows:
+      - - content: {text: "Gap 类型"}
+        - content: {text: "具体表现"}
+        - content: {text: "需要补齐的内容"}
+      - - content: {text: "PC → Binary"}
+        - content: {text: "PC 值不说明属于哪个 ELF"}
+        - content: {text: "目标 ELF 精确映射 code map (sections, symbols, build-id)"}
+      - - content: {text: "PC → Function"}
+        - content: {text: "PC 值不说明函数名"}
+        - content: {text: "Symbol table + debug line info"}
+      - - content: {text: "PC → Process"}
+        - content: {text: "PC 不说明属于 target child 还是 runner parent"}
+        - content: {text: "Runtime OS map (/proc/pid/maps, exe)"}
+      - - content: {text: "Pointer → String"}
+        - content: {text: "ARG_MEM 只给 bytes 片段"}
+        - content: {text: "截断前缀 + 外部补充验证基准"}
+      - - content: {text: "ASLR/PIE"}
+        - content: {text: "同一 binary 不同运行时 PC 不同"}
+        - content: {text: "load_base offset + /proc/self/maps"}
+      - - content: {text: "fork/exec"}
+        - content: {text: "进程切换后 owner 变化"}
+        - content: {text: "fork/exec event tracking + parent-child map"}
+  - elementId: bottom-note-bg
+    elementType: shape
+    bounds: [60, 545, 1160, 80]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "#FEF3C7"
+  - elementId: bottom-note-text
+    elementType: text
+    bounds: [80, 555, 1120, 60]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, middle]
+      text: |
+        <p>必须引入两种外部上下文：<strong>目标 ELF 精确映射 code map</strong>（静态分析）和 <strong>Runtime OS map</strong>（/proc/pid/maps）。对于 PIE/ASLR/动态库/fork-exec 链，光有静态 ELF 是不够的。</p>
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>10</p>

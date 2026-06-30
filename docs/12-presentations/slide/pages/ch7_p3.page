@@ -1,0 +1,153 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>07 具体方案/方法细节</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>案例：file_open_read_write 的语义恢复</strong></p>
+  - elementId: expected-bg
+    elementType: shape
+    bounds: [60, 110, 560, 180]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "$light"
+  - elementId: expected-title
+    elementType: text
+    bounds: [80, 120, 300, 28]
+    content:
+      fontSize: 16
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>Expected Syscall Order</strong></p>
+  - elementId: expected-body
+    elementType: text
+    bounds: [80, 155, 520, 120]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>openat → write → close</p>
+        <p>→ openat → read → write → close</p>
+        <p style="margin-top:6px">硬件窗口提供：marker、syscall、trap、privilege、ARG_MEM 片段</p>
+  - elementId: recovery-bg
+    elementType: shape
+    bounds: [640, 110, 580, 180]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "$light"
+  - elementId: recovery-title
+    elementType: text
+    bounds: [660, 120, 300, 28]
+    content:
+      fontSize: 16
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>Semantic Recovery 步骤</strong></p>
+  - elementId: recovery-body
+    elementType: text
+    bounds: [660, 155, 540, 120]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>① entry/ret 配对 → syscall number, args, return value</p>
+        <p>② fd/path graph → openat 返回 fd 关联后续 read/write/close</p>
+        <p>③ 路径字符串来自 qemu/strace → validation_oracle 标签</p>
+  - elementId: detail-table
+    elementType: table
+    bounds: [60, 310, 1160, 300]
+    columnWidths: [0.2, 0.3, 0.25, 0.25]
+    rowHeights: [0.1, 0.13, 0.13, 0.13, 0.13, 0.13, 0.13, 0.12]
+    style: "$default"
+    rows:
+      - - content: {text: "Step"}
+        - content: {text: "处理"}
+        - content: {text: "输入"}
+        - content: {text: "输出 / 标签"}
+      - - content: {text: "1"}
+        - content: {text: "Syscall entry 捕获"}
+        - content: {text: "SYSCALL_ENTRY (PC, a7, a0-a7)"}
+        - content: {text: "syscall number, args / hardware"}
+      - - content: {text: "2"}
+        - content: {text: "Syscall ret 配对"}
+        - content: {text: "SYSCALL_RET (a0, target)"}
+        - content: {text: "return value, duration / hardware"}
+      - - content: {text: "3"}
+        - content: {text: "FD 关联"}
+        - content: {text: "openat 返回 fd"}
+        - content: {text: "fd_path_graph / hardware+runtime"}
+      - - content: {text: "4"}
+        - content: {text: "Path 前缀"}
+        - content: {text: "ARG_MEM (bounded bytes)"}
+        - content: {text: "prefix / hardware"}
+      - - content: {text: "5"}
+        - content: {text: "完整路径"}
+        - content: {text: "qemu/strace"}
+        - content: {text: "full path / validation_oracle"}
+      - - content: {text: "6"}
+        - content: {text: "PC 绑定"}
+        - content: {text: "ELF + Runtime map"}
+        - content: {text: "binary, function / exact_elf+runtime"}
+      - - content: {text: "7"}
+        - content: {text: "数据溯源检查"}
+        - content: {text: "所有字段"}
+        - content: {text: "semantic_provenance_summary.json"}
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>35</p>

@@ -1,0 +1,170 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>04 实现该方案的挑战</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>挑战三：窗口完整性必须可验证</strong></p>
+  - elementId: formula-bg
+    elementType: shape
+    bounds: [60, 110, 1160, 120]
+    shapeName: roundRect
+    adjustments: [4000]
+    fill:
+      type: solid
+      color: "#DBEAFE"
+  - elementId: formula-title
+    elementType: text
+    bounds: [80, 118, 200, 28]
+    content:
+      fontSize: 16
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>Marker-Window Gate</strong></p>
+  - elementId: formula-body
+    elementType: text
+    bounds: [80, 150, 1120, 70]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>accepted_window(run) :=</p>
+        <p>  begin_marker_present ∧ end_marker_present ∧ begin before end</p>
+        <p>  ∧ sequence is continuous ∧ wrap_count == 0 ∧ unaccounted_drop == 0</p>
+        <p>  ∧ syscall entry/return is pairable when required</p>
+  - elementId: example-bg
+    elementType: shape
+    bounds: [60, 245, 560, 200]
+    shapeName: roundRect
+    adjustments: [4000]
+    fill:
+      type: solid
+      color: "$light"
+  - elementId: example-title
+    elementType: text
+    bounds: [80, 253, 300, 28]
+    content:
+      fontSize: 16
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>hello_write 示例</strong></p>
+  - elementId: example-body
+    elementType: text
+    bounds: [80, 288, 520, 145]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>BEGIN marker 0xb0000a01 (seq 0, clear ring)</p>
+        <p>→ PRIV / TRAP / SYSCALL_ENTRY / ARG_MEM / SYSCALL_RET</p>
+        <p>END marker 0xe0000a01 (seq 84, freeze + readout)</p>
+        <p style="margin-top:6px">captured_count = 85</p>
+        <p>sequence: 0..84, wrap=0, drop=0</p>
+  - elementId: result-bg
+    elementType: shape
+    bounds: [640, 245, 580, 200]
+    shapeName: roundRect
+    adjustments: [4000]
+    fill:
+      type: solid
+      color: "$light"
+  - elementId: result-title
+    elementType: text
+    bounds: [660, 253, 300, 28]
+    content:
+      fontSize: 16
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>P0 Accepted Reps</strong></p>
+  - elementId: result-body
+    elementType: text
+    bounds: [660, 288, 540, 145]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>hello_write: 10/10</p>
+        <p>file_open_read_write: 11/12</p>
+        <p>fork_exec: 17/30</p>
+        <p>illegal_instruction: 10/10</p>
+        <p style="margin-top:6px"><strong>Total: 128 accepted / 142 attempts</strong></p>
+  - elementId: bottom-note-bg
+    elementType: shape
+    bounds: [60, 465, 1160, 80]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "#FEF3C7"
+  - elementId: bottom-note-text
+    elementType: text
+    bounds: [80, 475, 1120, 60]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, middle]
+      text: |
+        <p>为什么不是所有 trace 都直接分析？因为 BRAM 可能满导致覆盖，采集压力可能导致丢包，readout 过程可能不完整。只有满足全部条件的窗口才进入后续语义重建。</p>
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>20</p>

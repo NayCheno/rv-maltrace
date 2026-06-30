@@ -1,0 +1,126 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>05 应对这些挑战的方法/策略</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>策略一：严格的 Marker-Window Gate</strong></p>
+  - elementId: intro
+    elementType: text
+    bounds: [60, 110, 1160, 40]
+    content:
+      fontSize: 16
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      text: |
+        <p>Gate 是防止"拿不完整 trace 做漂亮结论"的第一道防线。</p>
+  - elementId: board-table
+    elementType: table
+    bounds: [60, 160, 1160, 200]
+    columnWidths: [0.2, 0.15, 0.15, 0.5]
+    rowHeights: [0.2, 0.2, 0.2, 0.2, 0.2]
+    style: "$default"
+    rows:
+      - - content: {text: "类别"}
+        - content: {text: "Accepted"}
+        - content: {text: "Attempts"}
+        - content: {text: "备注"}
+      - - content: {text: "P0 safe"}
+        - content: {text: "48"}
+        - content: {text: "62"}
+        - content: {text: "hello_write, file_open_read_write, fork_exec, illegal_instruction"}
+      - - content: {text: "Safe surrogate"}
+        - content: {text: "80"}
+        - content: {text: "80"}
+        - content: {text: "file_scan, batch_open_read_write, self_copy_sim, abnormal_syscall_sequence, illegal_trap, process_chain, dynamic_executable_memory, anti_debug_like"}
+      - - content: {text: "Benign controls"}
+        - content: {text: "5"}
+        - content: {text: "5"}
+        - content: {text: "hello, cat, clock_status, getdents_only, mmap_rw (unexpected FP = 0)"}
+      - - content: {text: "Total"}
+        - content: {text: "128"}
+        - content: {text: "142"}
+        - content: {text: "整体通过率 90.1%"}
+      - - content: {text: "Retained failed"}
+        - content: {text: "—"}
+        - content: {text: "14"}
+        - content: {text: "失败保留，不计入 PASS"}
+  - elementId: key-data-bg
+    elementType: shape
+    bounds: [60, 380, 1160, 80]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "#DBEAFE"
+  - elementId: key-data-text
+    elementType: text
+    bounds: [80, 390, 1120, 60]
+    content:
+      fontSize: 16
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, middle]
+      text: |
+        <p><strong>关键数字</strong>：所有 accepted 窗口的 max drop、wrap、sequence gap 都是 <strong>0</strong>。14 个 retained failures 有独立的 failure reason。</p>
+  - elementId: gate-checks
+    elementType: text
+    bounds: [60, 480, 1160, 150]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p><strong>Gate 检查项</strong>：</p>
+        <p>① begin_marker_present  ∧  end_marker_present  ∧  begin before end</p>
+        <p>② sequence is continuous（无缺口）</p>
+        <p>③ wrap_count == 0（无覆盖）</p>
+        <p>④ unaccounted_drop == 0（无溢出丢包）</p>
+        <p>⑤ syscall entry/return is pairable when required（可配对）</p>
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>23</p>

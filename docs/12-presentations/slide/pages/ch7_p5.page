@@ -1,0 +1,216 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>07 具体方案/方法细节</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>结果总览：128/142 Accepted</strong></p>
+  - elementId: data-card1-bg
+    elementType: shape
+    bounds: [60, 110, 270, 100]
+    shapeName: roundRect
+    adjustments: [8000]
+    fill:
+      type: solid
+      color: "#DBEAFE"
+  - elementId: data-card1-num
+    elementType: text
+    bounds: [80, 118, 230, 45]
+    content:
+      fontSize: 36
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>128/142</strong></p>
+  - elementId: data-card1-label
+    elementType: text
+    bounds: [80, 163, 230, 35]
+    content:
+      fontSize: 12
+      color: "$secondary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>Accepted board attempts</p>
+  - elementId: data-card2-bg
+    elementType: shape
+    bounds: [350, 110, 270, 100]
+    shapeName: roundRect
+    adjustments: [8000]
+    fill:
+      type: solid
+      color: "#ECFDF5"
+  - elementId: data-card2-num
+    elementType: text
+    bounds: [370, 118, 230, 45]
+    content:
+      fontSize: 36
+      color: "$success"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>12</strong></p>
+  - elementId: data-card2-label
+    elementType: text
+    bounds: [370, 163, 230, 35]
+    content:
+      fontSize: 12
+      color: "$secondary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>Board workloads (4 P0 + 8 Surrogate)</p>
+  - elementId: data-card3-bg
+    elementType: shape
+    bounds: [640, 110, 270, 100]
+    shapeName: roundRect
+    adjustments: [8000]
+    fill:
+      type: solid
+      color: "#FEF3C7"
+  - elementId: data-card3-num
+    elementType: text
+    bounds: [660, 118, 230, 45]
+    content:
+      fontSize: 36
+      color: "$accent"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>5</strong></p>
+  - elementId: data-card3-label
+    elementType: text
+    bounds: [660, 163, 230, 35]
+    content:
+      fontSize: 12
+      color: "$secondary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>Benign controls (unexpected FP=0)</p>
+  - elementId: data-card4-bg
+    elementType: shape
+    bounds: [930, 110, 290, 100]
+    shapeName: roundRect
+    adjustments: [8000]
+    fill:
+      type: solid
+      color: "#F3E8FF"
+  - elementId: data-card4-num
+    elementType: text
+    bounds: [950, 118, 250, 45]
+    content:
+      fontSize: 36
+      color: "#7C3AED"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>0</strong></p>
+  - elementId: data-card4-label
+    elementType: text
+    bounds: [950, 163, 250, 35]
+    content:
+      fontSize: 12
+      color: "$secondary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>Max drop/wrap/gap in accepted</p>
+  - elementId: workload-table
+    elementType: table
+    bounds: [60, 230, 1160, 280]
+    columnWidths: [0.2, 0.2, 0.3, 0.3]
+    rowHeights: [0.12, 0.15, 0.15, 0.15, 0.15, 0.15, 0.13]
+    style: "$default"
+    rows:
+      - - content: {text: "类别"}
+        - content: {text: "数量"}
+        - content: {text: "样本"}
+        - content: {text: "Accepted"}
+      - - content: {text: "P0 safe"}
+        - content: {text: "4"}
+        - content: {text: "hello_write, file_open_read_write, fork_exec, illegal_instruction"}
+        - content: {text: "48"}
+      - - content: {text: "Safe surrogate"}
+        - content: {text: "8"}
+        - content: {text: "file_scan, batch_open_read_write, self_copy_sim, abnormal_syscall_sequence, illegal_trap, process_chain, dynamic_executable_memory, anti_debug_like"}
+        - content: {text: "80"}
+      - - content: {text: "Benign controls"}
+        - content: {text: "5"}
+        - content: {text: "hello, cat, clock_status, getdents_only, mmap_rw"}
+        - content: {text: "5/5 (FP=0)"}
+      - - content: {text: "Total"}
+        - content: {text: "12"}
+        - content: {text: "All workloads have accepted evidence"}
+        - content: {text: "128"}
+      - - content: {text: "Retained failed"}
+        - content: {text: "14"}
+        - content: {text: "Failure reasons preserved"}
+        - content: {text: "Not in PASS"}
+      - - content: {text: "Metric"}
+        - content: {text: "50/50"}
+        - content: {text: "expected syscall labels matched (validation)"}
+        - content: {text: "12/12 semantic artifacts"}
+  - elementId: bottom-note
+    elementType: text
+    bounds: [60, 530, 1160, 80]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, middle]
+      text: |
+        <p><strong>⚠️ 注意</strong>：50/50 expected syscall labels matched 是 validation metric，基于 验证基准对齐。这些不是 malware detection accuracy，也不是 production false-positive rate。</p>
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>37</p>

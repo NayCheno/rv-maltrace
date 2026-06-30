@@ -1,16 +1,33 @@
-\section{Threat Model and Scope}
+\section{Threat Model}
+\label{sec:threat-model}
 
-This draft studies controlled RISC-V Linux workloads on a CVA6/Genesys2 trace
-path. The target workload runs under an experiment harness that marks the
-start and end of the measured region. The attacker model is limited to
-software behavior visible through the collected architectural events and
-supporting runtime metadata.
+\subsection{Attacker Model}
+\label{sec:threat-model:attacker}
 
-The paper does not evaluate resistance against a malicious workload that can
-physically modify the board, reprogram the trace logic, or compromise the host
-collection machine. It also does not evaluate malware-family detection,
-indicators of compromise, or TTP coverage. Safe synthetic and malware-like
-workloads are used to test trace and reconstruction behavior; they are not
-reported as uncontrolled real-malware validation.
+We consider a software-only adversary executing on a RISC-V Linux system.
+The adversary can run arbitrary user-space code, create child processes
+through \texttt{fork}, transform the address space through \texttt{execve},
+and load dynamic shared objects at runtime.
+The adversary may attempt anti-analysis techniques such as timing checks,
+debugger detection, and process-tree manipulation to hide or manipulate
+behavior and evade analysis.
 
-\input{tables/scope}
+\subsection{Assumptions and Trust Boundaries}
+\label{sec:threat-model:assumptions}
+
+The hardware trace adapter is part of the trusted computing base: the
+adversary cannot modify, disable, or observe the trace logic.
+The offline host that receives the trace buffer and performs reconstruction
+is also trusted.
+The target workload runs under an experiment harness that marks the start
+and end of the measured region with hardware markers, defining the analysis
+window.
+Kernel-level rootkits that compromise the operating system itself are
+outside our scope.
+
+\subsection{Scope Statement}
+\label{sec:threat-model:scope}
+
+We focus on controlled RISC-V Linux workloads.
+We do not evaluate production streaming throughput or cycle-level runtime
+overhead, which we leave for future work.

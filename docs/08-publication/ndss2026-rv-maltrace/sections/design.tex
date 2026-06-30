@@ -1,31 +1,111 @@
 \section{Design}
+\label{sec:design}
+
+\rvmt has three stages: hardware collection, offline reconstruction, and
+artifact verification.
+The collection stage captures architectural events below the operating
+system.
+The reconstruction stage joins those events with executable identity and
+runtime context.
+The verification stage ensures that every reported result is backed by a
+concrete artifact in the evidence package.
 
 \input{figures/architecture}
 
-\rvmt has three stages: hardware collection, offline reconstruction, and
-reproducibility checking. The collection stage records architectural events.
-The reconstruction stage joins those records with executable and runtime
-context. The checking stage verifies that reported results are backed by files
-in the artifact package.
+\subsection{Hardware Trace Collection}
+\label{sec:design:collection}
 
-\subsection{Trace Records}
+\emph{Challenge: How to capture the right architectural events---retire, trap,
+syscall, privilege---without software interference on a RISC-V core.}
 
-The CVA6 adapter emits event records for retire, trap, syscall entry, syscall
-return, privilege transition, branch, jump, context, pointer-byte snapshots,
-and markers. The evaluated configuration requires strict SRET qualification so
-that user-mode return evidence is not widened by a permissive timing rule.
+To address this challenge, we design a CVA6 trace adapter that emits event
+records for retire, trap, syscall entry, syscall return, privilege
+transition, branch, jump, context, pointer-byte snapshots, and markers.
+Markers define the measured workload window: the begin marker clears the
+trace buffer and the end marker stops recording, isolating the target
+workload from boot or background activity.
+We enforce strict \texttt{SRET} qualification so that user-mode return
+evidence is not widened by permissive timing rules.
 
-Markers define the measured workload window. The trace buffer clears on a
-begin marker, stops on an end marker, and records the begin marker as the first
-event in the window. This lets the analysis distinguish the intended workload
-from boot or background activity.
+Our insight is that capturing events at instruction retirement observes
+committed behavior that cannot be rolled back or speculative.
+This ensures the trace is transparent to software: the workload cannot
+detect, evade, or interfere with the trace adapter.
+Because the adapter observes only committed architectural state, the
+target process has no mechanism to discover whether tracing is active
+or to alter its behavior based on trace presence.
 
-\subsection{Source Labels}
+\subsection{Source-Labeled Reconstruction}
+\label{sec:design:labels}
 
-The design avoids a common failure mode in trace analysis: reporting a
-reconstructed field without identifying its source. \rvmt labels fields as
-hardware trace, ELF metadata, runtime map, or reference log. A field that
-depends on QEMU, strace, or host-control data can validate expected behavior,
-but it is not treated as hardware output.
+\emph{Challenge: How to ensure reconstructed behavior is auditable by
+labeling each field with its provenance source.}
 
 \input{figures/source_labels}
+
+A common failure mode in trace analysis is reporting reconstructed fields
+without identifying their source, which risks overstating what the hardware
+alone recovered.
+We avoid this by designing every reconstructed field to carry a provenance
+label that records which source contributed to it.
+
+We define four source labels.
+(1)~\emph{Hardware trace} labels fields derived directly from the CVA6
+event stream, such as program counters, syscall numbers, and trap causes.
+(2)~\emph{ELF metadata} labels fields derived from binary identity and
+code ranges, such as section boundaries and executable SHA-256 digests.
+(3)~\emph{Runtime process map} labels fields derived from load addresses
+and process context, such as object base addresses and memory-range
+ownership.
+(4)~\emph{Reference log} labels fields derived from QEMU, \texttt{strace},
+or host-control data that validate expected behavior.
+
+Reference-derived fields serve an important validation role but are never
+treated as hardware output.
+This design enables auditable behavior summaries: a reader can trace any
+field back to its evidence source and verify whether the reported value
+was observed directly by the hardware or supplied by supporting metadata.
+
+\subsection{Code Attribution}
+\label{sec:design:attribution}
+
+\emph{Challenge: How to connect raw program-counter events to executable
+identity and process context under PIE, ASLR, \texttt{fork}, \texttt{execve},
+and dynamic loading.}
+
+Raw PC events do not directly answer security questions without connection
+to executable identity.
+Simple PC-to-binary mapping fails under several conditions that are
+common on modern Linux systems.
+
+\paragraph{PIE and ASLR.}
+Position-independent executables load at randomized addresses.
+We resolve the load bias by reading the runtime process map and adjusting
+the PC relative to the reported base, enabling accurate attribution even
+when the load address differs across runs.
+
+\paragraph{Dynamic libraries.}
+Shared objects are loaded at runtime into unpredictable address ranges.
+We match each PC to the loaded object ranges recorded in the runtime
+process map, ensuring that code executing in a shared library is
+attributed to the correct object rather than the main executable.
+
+\paragraph{Fork and exec.}
+Child processes inherit and transform address spaces across \texttt{fork}
+and \texttt{execve}.
+We track process ownership across these transitions by monitoring
+context-switch and privilege-transition events in the trace stream,
+maintaining accurate attribution even when the process tree changes.
+
+\paragraph{Stripped binaries.}
+Debug symbols are absent from deployed binaries.
+We attribute code using symbol-free ELF metadata, matching PCs to section
+ranges and SHA-256 binary identity without requiring DWARF information or
+reconstructed source-line mappings.
+
+Our approach combines three mechanisms to resolve these cases: ELF
+SHA-256 identity for exact binary matching; runtime process maps for
+load bias and object ranges; and \texttt{fork} and \texttt{execve} event
+tracking for process lineage.
+Source-map boundaries are handled by matching board artifacts to local
+build outputs when available.

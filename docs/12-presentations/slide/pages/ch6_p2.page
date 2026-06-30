@@ -1,0 +1,110 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>06 必要的技术背景知识</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>CVA6-RVFI 接口与信号映射</strong></p>
+  - elementId: intro
+    elementType: text
+    bounds: [60, 110, 1160, 40]
+    content:
+      fontSize: 16
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      text: |
+        <p>CVA6 是 OpenHW Group 开源的 RISC-V 处理器。RVFI（RISC-V Formal Interface）是<strong>提交级接口</strong>。</p>
+  - elementId: signal-table
+    elementType: table
+    bounds: [60, 160, 1160, 300]
+    columnWidths: [0.2, 0.3, 0.5]
+    rowHeights: [0.1, 0.13, 0.13, 0.13, 0.13, 0.13, 0.13, 0.12]
+    style: "$default"
+    rows:
+      - - content: {text: "信号"}
+        - content: {text: "含义"}
+        - content: {text: "Trace Usage"}
+      - - content: {text: "pc_rdata"}
+        - content: {text: "提交 PC"}
+        - content: {text: "PC for each committed port"}
+      - - content: {text: "insn"}
+        - content: {text: "提交指令（32-bit）"}
+        - content: {text: "Zero-extended low 32 bits for JSONL"}
+      - - content: {text: "trap"}
+        - content: {text: "是否异常"}
+        - content: {text: "EVT_TRAP when valid low but trap high"}
+      - - content: {text: "cause"}
+        - content: {text: "异常原因"}
+        - content: {text: "TRAP primary field"}
+      - - content: {text: "mode"}
+        - content: {text: "当前特权级"}
+        - content: {text: "EVT_PRIV for privilege changes"}
+      - - content: {text: "rd_addr / rd_wdata"}
+        - content: {text: "目的寄存器地址和写回数据"}
+        - content: {text: "SYSCALL_ENTRY a0-a7 来源"}
+      - - content: {text: "valid"}
+        - content: {text: "提交有效"}
+        - content: {text: "commit_valid = valid || trap"}
+  - elementId: bottom-note-bg
+    elementType: shape
+    bounds: [60, 480, 1160, 80]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "#EFF6FF"
+  - elementId: bottom-note-text
+    elementType: text
+    bounds: [80, 490, 1120, 60]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, middle]
+      text: |
+        <p><strong>cva6_rvfi_trace_adapter.sv</strong> 从 RVFI 信号中提取这些信息，生成 12 种事件类型的 trace_packet_t。适配器为 旁路采集，不修改 CVA6 状态。</p>
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>29</p>

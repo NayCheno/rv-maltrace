@@ -1,0 +1,150 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>01 当前研究的问题</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>核心问题：恶意软件分析中的"观察困境"</strong></p>
+  - elementId: left-card-bg
+    elementType: shape
+    bounds: [60, 110, 560, 280]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "$light"
+  - elementId: left-card-title
+    elementType: text
+    bounds: [80, 120, 520, 30]
+    content:
+      fontSize: 18
+      color: "$danger"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>软件观察者的局限</strong></p>
+  - elementId: left-card-body
+    elementType: text
+    bounds: [80, 155, 520, 220]
+    content:
+      fontSize: 16
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.6
+      align: [left, top]
+      text: |
+        <p>strace、eBPF、QEMU 可以给出丰富的语义信息</p>
+        <p>但 <strong>观察者本身处在 workload 可以感知和影响的边界内</strong></p>
+        <p style="margin-top:6px">• <strong>反调试</strong>：检测 strace/ptrace，改变行为</p>
+        <p>• <strong>反沙箱</strong>：检测 QEMU 虚拟化，拒绝核心逻辑</p>
+        <p>• <strong>Hook 绕过</strong>：修改 syscall 路径，绕过软件拦截</p>
+        <p>• <strong>Observer Effect</strong>：被观察改变行为</p>
+  - elementId: right-card-bg
+    elementType: shape
+    bounds: [640, 110, 580, 280]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "$light"
+  - elementId: right-card-title
+    elementType: text
+    bounds: [660, 120, 540, 30]
+    content:
+      fontSize: 18
+      color: "$success"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>硬件辅助的核心价值</strong></p>
+  - elementId: right-card-body
+    elementType: text
+    bounds: [660, 155, 540, 220]
+    content:
+      fontSize: 16
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.6
+      align: [left, top]
+      text: |
+        <p>证据来源下沉到<strong>处理器提交路径</strong></p>
+        <p>workload <strong>不直接控制</strong> trace packet 生成</p>
+        <p>workload <strong>不控制</strong> 标记窗口准入检查 判定</p>
+        <p>workload <strong>不控制</strong> drop/wrap 计数和数据溯源</p>
+        <p style="margin-top:6px">不是"日志说发生了什么"</p>
+        <p>而是"<strong>处理器硬件实际提交了哪些事件</strong>"</p>
+  - elementId: bottom-insight
+    elementType: text
+    bounds: [60, 410, 1160, 50]
+    content:
+      fontSize: 16
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, middle]
+      text: |
+        <p><strong>研究问题的本质</strong>：如何建立一条 workload 难以感知、难以伪造、可被独立审查的行为证据路径？</p>
+  - elementId: bottom-note-bg
+    elementType: shape
+    bounds: [60, 470, 1160, 80]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "#FEF3C7"
+  - elementId: bottom-note-text
+    elementType: text
+    bounds: [80, 480, 1120, 60]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, middle]
+      text: |
+        <p>软件-only 路径的问题不是"没有信息"，而是最终证据的可信边界弱——日志本身可能被 workload 欺骗、规避或改变。</p>
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>04</p>

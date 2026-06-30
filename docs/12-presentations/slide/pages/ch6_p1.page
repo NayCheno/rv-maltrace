@@ -1,0 +1,114 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>06 必要的技术背景知识</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>RISC-V Linux Syscall/Trap 路径</strong></p>
+  - elementId: path-bg
+    elementType: shape
+    bounds: [60, 110, 1160, 260]
+    shapeName: roundRect
+    adjustments: [4000]
+    fill:
+      type: solid
+      color: "$light"
+  - elementId: path-title
+    elementType: text
+    bounds: [80, 120, 400, 30]
+    content:
+      fontSize: 16
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>用户态程序发 syscall 的完整硬件路径</strong></p>
+  - elementId: path-body
+    elementType: text
+    bounds: [80, 160, 1120, 200]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.6
+      align: [left, top]
+      text: |
+        <p>① <strong>U-mode 执行 ECALL</strong> 指令</p>
+        <p>② 处理器进入 <strong>S-mode trap handler</strong></p>
+        <p>③ 内核读取寄存器：a7 = syscall number，a0-a7 = 参数</p>
+        <p>④ 内核处理完，通过 <strong>SRET</strong> 返回 U-mode</p>
+        <p>⑤ 返回值放在 a0</p>
+  - elementId: capture-title
+    elementType: text
+    bounds: [60, 390, 400, 30]
+    content:
+      fontSize: 16
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>RV-MalTrace 捕获的两个关键事件</strong></p>
+  - elementId: capture-table
+    elementType: table
+    bounds: [60, 430, 1160, 200]
+    columnWidths: [0.2, 0.4, 0.4]
+    rowHeights: [0.15, 0.28, 0.28, 0.29]
+    style: "$default"
+    rows:
+      - - content: {text: "事件"}
+        - content: {text: "捕获时机"}
+        - content: {text: "捕获内容"}
+      - - content: {text: "SYSCALL_ENTRY"}
+        - content: {text: "trap path 上"}
+        - content: {text: "PC, instr, cause, privilege, a0-a7"}
+      - - content: {text: "SYSCALL_RET"}
+        - content: {text: "SRET 返回时"}
+        - content: {text: "a0 (return value), return target"}
+      - - content: {text: "配对"}
+        - content: {text: "通过 syscall_id 配对"}
+        - content: {text: "duration 也可以记录"}
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>28</p>

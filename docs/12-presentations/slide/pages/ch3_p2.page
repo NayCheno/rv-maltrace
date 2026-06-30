@@ -1,0 +1,181 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>03 提出的解决方案</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>架构分层：RTL 层 + 主机层 + 数据溯源层</strong></p>
+  - elementId: rtl-bg
+    elementType: shape
+    bounds: [60, 110, 370, 280]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "#DBEAFE"
+  - elementId: rtl-title
+    elementType: text
+    bounds: [80, 120, 330, 30]
+    content:
+      fontSize: 16
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>RTL 层（硬件）</strong></p>
+  - elementId: rtl-body
+    elementType: text
+    bounds: [80, 155, 330, 220]
+    content:
+      fontSize: 13
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>cva6_rvfi_trace_adapter.sv</p>
+        <p>trace_bram_ring.sv</p>
+        <p>trace_board_minimal_ctrl.sv</p>
+        <p style="margin-top:6px">职责：只给事实</p>
+        <p>• 12 种事件类型</p>
+        <p>• sequence + counters</p>
+        <p>• marker 窗口管理</p>
+        <p>• 不修改 CVA6 状态</p>
+  - elementId: host-bg
+    elementType: shape
+    bounds: [450, 110, 370, 280]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "#ECFDF5"
+  - elementId: host-title
+    elementType: text
+    bounds: [470, 120, 330, 30]
+    content:
+      fontSize: 16
+      color: "$success"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>主机层（软件）</strong></p>
+  - elementId: host-body
+    elementType: text
+    bounds: [470, 155, 330, 220]
+    content:
+      fontSize: 13
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>tools/join_trace_code_map.py</p>
+        <p>tools/recover_behavior.py</p>
+        <p>tools/build_code_map.py</p>
+        <p style="margin-top:6px">职责：恢复语义</p>
+        <p>• ELF/Runtime 绑定</p>
+        <p>• Syscall pairing</p>
+        <p>• FD/Process graph</p>
+        <p>• 数据溯源过滤</p>
+  - elementId: prov-bg
+    elementType: shape
+    bounds: [840, 110, 380, 280]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "#FEF3C7"
+  - elementId: prov-title
+    elementType: text
+    bounds: [860, 120, 340, 30]
+    content:
+      fontSize: 16
+      color: "$accent"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>数据溯源层</strong></p>
+  - elementId: prov-body
+    elementType: text
+    bounds: [860, 155, 340, 220]
+    content:
+      fontSize: 13
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>4 类来源标签：</p>
+        <p>• hardware ✅</p>
+        <p>• exact_elf ✅</p>
+        <p>• runtime_os_map ✅</p>
+        <p>• validation_oracle ❌</p>
+        <p style="margin-top:6px">职责：决定可报告性</p>
+        <p>只有前 3 类可进入 report</p>
+  - elementId: artifact-table
+    elementType: table
+    bounds: [60, 410, 1160, 220]
+    columnWidths: [0.3, 0.7]
+    rowHeights: [0.12, 0.15, 0.15, 0.15, 0.15, 0.15, 0.13]
+    style: "$default"
+    rows:
+      - - content: {text: "Artifact"}
+        - content: {text: "功能"}
+      - - content: {text: "p0_bram_trace_summary.json"}
+        - content: {text: "P0 样本的 trace 汇总"}
+      - - content: {text: "drop_accounting_summary.json"}
+        - content: {text: "无 drop/wrap 质量账本"}
+      - - content: {text: "semantic_events.json"}
+        - content: {text: "语义恢复后的结构化事件"}
+      - - content: {text: "behavior_graph.json"}
+        - content: {text: "行为摘要图"}
+      - - content: {text: "fd_path_graph.json"}
+        - content: {text: "文件描述符和路径关系图"}
+      - - content: {text: "semantic_provenance_summary.json"}
+        - content: {text: "字段来源检查"}
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>14</p>

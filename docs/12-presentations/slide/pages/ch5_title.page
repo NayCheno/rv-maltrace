@@ -1,0 +1,36 @@
+pageType: chapter
+background:
+  type: solid
+  color: "$primary"
+elements:
+  - elementId: ch5-label
+    elementType: text
+    bounds: [100, 240, 300, 40]
+    content:
+      fontSize: 18
+      color: "#FFFFFF99"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>PART 05</p>
+  - elementId: ch5-title
+    elementType: text
+    bounds: [100, 290, 800, 70]
+    content:
+      style: "$chapterTitle"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>应对这些挑战的方法/策略</strong></p>
+  - elementId: ch5-subtitle
+    elementType: text
+    bounds: [100, 370, 800, 40]
+    content:
+      fontSize: 20
+      color: "#FFFFFFCC"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>Marker gate、Provenance、Pointer 约束s、Process attribution</p>

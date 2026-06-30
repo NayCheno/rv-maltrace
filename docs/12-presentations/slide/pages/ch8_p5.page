@@ -1,0 +1,152 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>08 Related Work</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>HART（ESORICS'20）与 μAFL（ICSE'22）</strong></p>
+  - elementId: left-card-bg
+    elementType: shape
+    bounds: [60, 110, 565, 280]
+    shapeName: roundRect
+    adjustments: [4000]
+    fill:
+      type: solid
+      color: "$light"
+  - elementId: left-card-title
+    elementType: text
+    bounds: [80, 120, 525, 35]
+    content:
+      fontSize: 20
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>HART</strong> <span style="font-size:14px; color:$secondary;">内核模块追踪</span></p>
+  - elementId: left-card-body
+    elementType: text
+    bounds: [80, 160, 525, 215]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.6
+      align: [left, top]
+      text: |
+        <p><strong>目标</strong>：Linux 内核模块（binary-only）动态追踪与保护</p>
+        <p><strong>平台</strong>：ARM Cortex-A8（i.MX53）</p>
+        <p><strong>机制</strong>：ETM + ETB + PMU；小 ETB 的连续 trace 备份</p>
+        <p><strong>用途</strong>：在线 kernel module protection（HASAN）</p>
+        <p><strong>评测</strong>：overhead 5-6%，检测 6 个 heap CVE</p>
+        <p><span style="color:$danger;"><strong>≠ 我们</strong></span>：我们不检测 kernel CVE，不保护内核模块</p>
+  - elementId: right-card-bg
+    elementType: shape
+    bounds: [655, 110, 565, 280]
+    shapeName: roundRect
+    adjustments: [4000]
+    fill:
+      type: solid
+      color: "$light"
+  - elementId: right-card-title
+    elementType: text
+    bounds: [675, 120, 525, 35]
+    content:
+      fontSize: 20
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>μAFL</strong> <span style="font-size:14px; color:$secondary;">固件 fuzzing</span></p>
+  - elementId: right-card-body
+    elementType: text
+    bounds: [675, 160, 525, 215]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.6
+      align: [left, top]
+      text: |
+        <p><strong>目标</strong>：MCU 固件非侵入式 feedback-driven fuzzing</p>
+        <p><strong>平台</strong>：ARM Cortex-M（NXP/STM32）</p>
+        <p><strong>机制</strong>：ETM 指令 trace → coverage bitmap；DWT 过滤</p>
+        <p><strong>用途</strong>：fuzzing 漏洞发现（13 zero-day, 8 CVE）</p>
+        <p><strong>评测</strong>：bugs/CVEs 发现数量</p>
+        <p><span style="color:$danger;"><strong>≠ 我们</strong></span>：我们不 fuzzing，不发现漏洞</p>
+  - elementId: bottom-bg
+    elementType: shape
+    bounds: [60, 410, 1160, 220]
+    shapeName: roundRect
+    adjustments: [4000]
+    fill:
+      type: solid
+      color: "#FEF3C7"
+  - elementId: bottom-title
+    elementType: text
+    bounds: [80, 420, 1120, 30]
+    content:
+      fontSize: 16
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>核心差异总结</strong></p>
+  - elementId: bottom-body
+    elementType: text
+    bounds: [80, 455, 1120, 165]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.6
+      align: [left, top]
+      text: |
+        <p><strong>HART</strong>：面向内核模块（kernel space），必须修改内核模块加载过程（wrapper 注入）。我们是用户空间（user space），零内核修改。</p>
+        <p><strong>μAFL</strong>：安全测试工具（找 bug），输出是 AFL 覆盖率 bitmap。我们是行为审计证据链（追行为），输出是 JSONL trace 流 + 行为图 + 审计规则。</p>
+        <p><strong>共性</strong>：两者都利用硬件 trace 实现非侵入式监控，但 HART 监控内核，μAFL 利用覆盖率，我们构建 OS 语义事件。</p>
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>44</p>

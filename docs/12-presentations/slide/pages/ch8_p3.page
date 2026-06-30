@@ -1,0 +1,125 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>08 Related Work</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>Raft（RAID'23）—— 同平台最直接的对比</strong></p>
+  - elementId: highlight-bg
+    elementType: shape
+    bounds: [60, 110, 1160, 50]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "#DBEAFE"
+  - elementId: highlight-text
+    elementType: text
+    bounds: [80, 110, 1120, 50]
+    content:
+      fontSize: 16
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, middle]
+      text: |
+        <p><strong>Raft 和 RV-MalTrace 都基于 RISC-V，但两者是正交技术：Raft 做数据流安全（DIFT），我们做行为流审计（Behavioral Trace）。</strong></p>
+  - elementId: diff-table
+    elementType: table
+    bounds: [60, 175, 1160, 380]
+    columnWidths: [0.22, 0.39, 0.39]
+    rowHeights: [0.10, 0.12, 0.12, 0.12, 0.12, 0.12, 0.12, 0.18]
+    style: "$default"
+    rows:
+      - - content: {text: "维度"}
+        - content: {text: "Raft"}
+        - content: {text: "RV-MalTrace"}
+      - - content: {text: "核心目标"}
+        - content: {text: "运行时数据流防护（DIFT）"}
+        - content: {text: "行为流审计（Behavioral Trace）"}
+      - - content: {text: "硬件架构"}
+        - content: {text: "协处理器（RoCC），主核可停顿"}
+        - content: {text: "片上 trace tap（旁路捕获，非主核停顿）"}
+      - - content: {text: "追踪对象"}
+        - content: {text: "数据流（taint propagation）"}
+        - content: {text: "控制流 + OS 语义事件（syscall、trap、priv）"}
+      - - content: {text: "系统修改"}
+        - content: {text: "自定义指令 + 编译器插桩 + 内核修改"}
+        - content: {text: "无需编译器插桩，无需内核修改"}
+      - - content: {text: "对程序透明"}
+        - content: {text: "不透明（需插桩）"}
+        - content: {text: "对程序完全透明（无插桩、无内核修改）"}
+      - - content: {text: "用途"}
+        - content: {text: "在线 enforcement（实时阻止违规）"}
+        - content: {text: "离线审计（行为解释和证据链）"}
+      - - content:
+            text: |
+              <p><strong>一句话</strong></p>
+        - content:
+            text: |
+              <p>Raft 防止恶意输入到达敏感操作</p>
+        - content:
+            text: |
+              <p><span style="color:$primary;"><strong>RV-MalTrace 解释程序做了什么 syscall、如何操作文件</strong></span></p>
+  - elementId: quote-bg
+    elementType: shape
+    bounds: [60, 570, 1160, 60]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "$light"
+  - elementId: quote-text
+    elementType: text
+    bounds: [80, 570, 1120, 60]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, middle]
+      text: |
+        <p><strong>推荐写法</strong>：Raft demonstrates low-overhead RISC-V DIFT by propagating tags in a coprocessor. RV-MalTrace targets a different abstraction: it exports committed syscall, trap, privilege, marker, drop, and bounded pointer events from a RISC-V/CVA6 trace path, then reconstructs Linux behavior provenance offline.</p>
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>42</p>

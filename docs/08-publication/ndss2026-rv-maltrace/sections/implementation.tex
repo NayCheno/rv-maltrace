@@ -1,21 +1,66 @@
 \section{Implementation}
+\label{sec:implementation}
 
-The implementation has three components.
+\subsection{CVA6 Trace Adapter}
+\label{subsec:trace-adapter}
 
-\textbf{CVA6 trace adapter.} The adapter converts execution and control
-signals into a compact event stream. The directed trace-correctness fixtures
-exercise trap/retire separation, strict syscall entry/return pairing,
-same-cycle ordering, dual-commit ordering, privilege transitions, and negative
-cases for unqualified SRET events.
+We modify the CVA6 core to export a set of committed execution signals that capture the architectural events needed for behavioral analysis. The adapter is implemented as a set of Verilog changes that siphon off trap, privilege, branch, and syscall information close to instruction retirement, then package them into compact trace records.
 
-\textbf{Genesys2 trace path.} The current board evidence uses a BRAM trace
-buffer for controlled marker windows. Production streaming or DMA transport is
-not evaluated in this draft; it requires separate measurements for transport
-design, clocking, host reception, parsing, drop accounting, timing, resource
-use, and interference.
+\textbf{Event encoding.}
+The adapter emits a compact record format with one record per significant event. Each record carries a type tag and a small payload:
+\begin{itemize}
+\item \textit{Retire}: program counter and privilege mode of the committed instruction;
+\item \textit{Trap}: trap cause, trap PC, and privilege level at the time of the trap;
+\item \textit{Syscall}: entry and return records for \texttt{ecall} transitions, with a strict entry/return pairing rule;
+\item \textit{Privilege}: privilege-level transitions, recorded at the instruction that causes the change;
+\item \textit{Branch/Jump}: target PC for taken control-flow changes;
+\item \textit{Context}: pointer-byte snapshots that capture register and memory state relevant to process identity;
+\item \textit{Marker}: hardware-controlled begin/end signals that bound the measured workload window.
+\end{itemize}
 
-\textbf{Offline reconstruction tools.} The Python tooling parses trace records,
-builds ELF code maps, joins trace PCs to code ranges, recovers process and
-file/path summaries where evidence permits, and emits machine-readable
-summaries. The artifact checks require each reported result to point to a file
-in the evidence directory and to match its recorded SHA-256 digest.
+The evaluated configuration uses strict SRET qualification for user-mode returns: a return record is emitted only when the instruction is unambiguously an SRET crossing from supervisor to user mode. This prevents a relaxed timing rule from widening the return evidence.
+
+\textbf{Directed trace-correctness fixtures.}
+We built a directed test bench that exercises the adapter against every event category and several edge cases. The fixture tests cover: (1) trap/retire separation, ensuring that a trap and the following instruction are recorded as distinct events; (2) strict syscall entry/return pairing, verifying that every syscall entry is matched by a corresponding return record; (3) same-cycle ordering, checking that events emitted in the same cycle appear in the correct program order; (4) dual-commit ordering, verifying that the record order respects the architectural commit order when the pipeline retires two instructions in the same cycle; (5) privilege transitions, confirming that privilege-level changes are recorded at the correct instruction boundary; and (6) negative relaxed-SRET cases, ensuring that instructions that are not unqualified SRETs do not generate spurious return records.
+
+\subsection{Genesys2 Board Path}
+\label{subsec:board-path}
+
+The trace adapter connects to a BRAM trace buffer on the Genesys2 FPGA board. The buffer stores trace records between a begin marker and an end marker, giving us controlled measurement windows for synthetic and malware-like workloads. The begin marker clears the buffer and starts recording; the end marker stops recording and preserves the window. This design lets the analysis distinguish the intended workload from boot and background activity.
+
+Board integration produces a single FPGA bitstream that contains the CVA6 core with the trace adapter, the marker protocol, and the BRAM buffer. The current prototype is evaluated with controlled workloads; production trace streaming and DMA transport are left for future work.
+
+\subsection{Offline Reconstruction Pipeline}
+\label{subsec:reconstruction-pipeline}
+
+The reconstruction pipeline turns raw trace records into machine-readable behavior summaries. It is implemented in Python and runs offline on the host that collects the trace buffer.
+
+\textbf{Trace parser.} The parser reads the compact trace records emitted by the CVA6 adapter and expands them into a typed event stream with validated field ordering and entry/return pairing.
+
+\textbf{ELF code-map builder.} The builder reads the ELF binaries of the traced workload and its dynamic objects, computes SHA-256 identities, and builds a per-binary code-range map. This map is the basis for attributing a trace PC to the executable that owns it.
+
+\textbf{PC-to-code-range joiner.} The joiner takes each trace PC (retire, branch, jump, trap) and looks it up in the code-range map. If the PC falls within a known range, the joiner attaches the owning binary, its load bias, and its ELF identity to the event. If the PC falls outside any known range, the event is marked as unattributed.
+
+\textbf{Process/file summary generator.} The generator reads the runtime process map and combines it with the attributed event stream to produce process-level and file-level summaries. Each summary field---syscall number, file path, executable identity, process ID, or parent-child relationship---carries a provenance label that states whether the field came from the hardware trace, ELF metadata, runtime map, or a reference log.
+
+\textbf{Output format.}
+The final output is a JSON-line behavior summary in which every field is a pair \texttt{(value, source)}. The source is one of \texttt{hw\_trace}, \texttt{elf\_meta}, \texttt{runtime\_map}, or \texttt{ref\_log}. This design makes the evidence source explicit and auditable.
+
+\subsection{Artifact Package}
+\label{subsec:artifact-package}
+
+We package the hardware design, the reconstruction tools, and the evaluation evidence as a single artifact. The artifact root contains a canonical evidence directory with machine-readable manifests. Every reported result points to a file in this directory and carries a SHA-256 path check.
+
+Reproduction is supported by two commands:
+
+\begin{verbatim}
+uv run rvmt repro:quick
+\end{verbatim}
+
+This command runs the quick local reproduction path, validating the trace parser, code-map builder, and attribution fixtures on a small synthetic workload. The full Docker-local reproduction path is:
+
+\begin{verbatim}
+uv run rvmt ndss:docker-full
+\end{verbatim}
+
+This command rebuilds the reconstruction pipeline, reruns all directed correctness tests, and verifies every SHA-256 digest against the manifest. Both commands are documented in the artifact README and are exercised before submission.

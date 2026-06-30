@@ -1,0 +1,351 @@
+pageType: table_of_contents
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: toc-title
+    elementType: text
+    bounds: [60, 40, 600, 50]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>汇报结构</strong></p>
+  - elementId: toc-line
+    elementType: shape
+    bounds: [60, 95, 1160, 2]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$border"
+  - elementId: ch1-num
+    elementType: text
+    bounds: [60, 110, 60, 40]
+    content:
+      fontSize: 28
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>01</strong></p>
+  - elementId: ch1-title
+    elementType: text
+    bounds: [130, 110, 400, 40]
+    content:
+      fontSize: 18
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>当前研究的问题</strong></p>
+  - elementId: ch1-desc
+    elementType: text
+    bounds: [130, 150, 400, 25]
+    content:
+      fontSize: 14
+      color: "$secondary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>观察困境、硬件辅助、证据路径分离</p>
+  - elementId: ch2-num
+    elementType: text
+    bounds: [60, 190, 60, 40]
+    content:
+      fontSize: 28
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>02</strong></p>
+  - elementId: ch2-title
+    elementType: text
+    bounds: [130, 190, 400, 40]
+    content:
+      fontSize: 18
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>解决这个问题的难点</strong></p>
+  - elementId: ch2-desc
+    elementType: text
+    bounds: [130, 230, 400, 25]
+    content:
+      fontSize: 14
+      color: "$secondary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>硬件低语义、PC/指针无上下文、BRAM有限</p>
+  - elementId: ch3-num
+    elementType: text
+    bounds: [60, 270, 60, 40]
+    content:
+      fontSize: 28
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>03</strong></p>
+  - elementId: ch3-title
+    elementType: text
+    bounds: [130, 270, 400, 40]
+    content:
+      fontSize: 18
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>提出的解决方案</strong></p>
+  - elementId: ch3-desc
+    elementType: text
+    bounds: [130, 310, 400, 25]
+    content:
+      fontSize: 14
+      color: "$secondary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>五阶段流水线、架构分层、失败保留</p>
+  - elementId: ch4-num
+    elementType: text
+    bounds: [60, 350, 60, 40]
+    content:
+      fontSize: 28
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>04</strong></p>
+  - elementId: ch4-title
+    elementType: text
+    bounds: [130, 350, 400, 40]
+    content:
+      fontSize: 18
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>实现该方案的挑战</strong></p>
+  - elementId: ch4-desc
+    elementType: text
+    bounds: [130, 390, 400, 25]
+    content:
+      fontSize: 14
+      color: "$secondary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>Claim边界、BRAM有限、窗口完整性、Pointer</p>
+  - elementId: ch5-num
+    elementType: text
+    bounds: [60, 430, 60, 40]
+    content:
+      fontSize: 28
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>05</strong></p>
+  - elementId: ch5-title
+    elementType: text
+    bounds: [130, 430, 400, 40]
+    content:
+      fontSize: 18
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>应对这些挑战的方法/策略</strong></p>
+  - elementId: ch5-desc
+    elementType: text
+    bounds: [130, 470, 400, 25]
+    content:
+      fontSize: 14
+      color: "$secondary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>Marker gate、Provenance、Pointer 约束s、Process</p>
+  - elementId: ch6-num
+    elementType: text
+    bounds: [660, 110, 60, 40]
+    content:
+      fontSize: 28
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>06</strong></p>
+  - elementId: ch6-title
+    elementType: text
+    bounds: [730, 110, 400, 40]
+    content:
+      fontSize: 18
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>必要的技术背景知识</strong></p>
+  - elementId: ch6-desc
+    elementType: text
+    bounds: [730, 150, 400, 25]
+    content:
+      fontSize: 14
+      color: "$secondary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>Syscall-Trap路径、CVA6-RVFI、事件枚举、数据溯源</p>
+  - elementId: ch7-num
+    elementType: text
+    bounds: [660, 190, 60, 40]
+    content:
+      fontSize: 28
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>07</strong></p>
+  - elementId: ch7-title
+    elementType: text
+    bounds: [730, 190, 400, 40]
+    content:
+      fontSize: 18
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>具体方案/方法细节</strong></p>
+  - elementId: ch7-desc
+    elementType: text
+    bounds: [730, 230, 400, 25]
+    content:
+      fontSize: 14
+      color: "$secondary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>Context binding、Semantic recovery、Artifact、Results</p>
+  - elementId: ch8-num
+    elementType: text
+    bounds: [660, 270, 60, 40]
+    content:
+      fontSize: 28
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>08</strong></p>
+  - elementId: ch8-title
+    elementType: text
+    bounds: [730, 270, 400, 40]
+    content:
+      fontSize: 18
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>Related Work</strong></p>
+  - elementId: ch8-desc
+    elementType: text
+    bounds: [730, 310, 400, 25]
+    content:
+      fontSize: 14
+      color: "$secondary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>五篇 A 会论文的差异对比与定位</p>
+  - elementId: ch9-num
+    elementType: text
+    bounds: [660, 350, 60, 40]
+    content:
+      fontSize: 28
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>09</strong></p>
+  - elementId: ch9-title
+    elementType: text
+    bounds: [730, 350, 400, 40]
+    content:
+      fontSize: 18
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>结果与边界</strong></p>
+  - elementId: ch9-desc
+    elementType: text
+    bounds: [730, 390, 400, 25]
+    content:
+      fontSize: 14
+      color: "$secondary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>128/142、Evidence Matrix、Open Questions</p>
+  - elementId: ch10-num
+    elementType: text
+    bounds: [660, 430, 60, 40]
+    content:
+      fontSize: 28
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>10</strong></p>
+  - elementId: ch10-title
+    elementType: text
+    bounds: [730, 430, 400, 40]
+    content:
+      fontSize: 18
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>Q&A 备忘</strong></p>
+  - elementId: ch10-desc
+    elementType: text
+    bounds: [730, 470, 400, 25]
+    content:
+      fontSize: 14
+      color: "$secondary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>导师可能追问的 8 个问题</p>

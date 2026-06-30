@@ -1,0 +1,120 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>06 必要的技术背景知识</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>Event Enum 与 BRAM Compact Record</strong></p>
+  - elementId: event-table
+    elementType: table
+    bounds: [60, 110, 1160, 400]
+    columnWidths: [0.15, 0.25, 0.3, 0.3]
+    rowHeights: [0.07, 0.077, 0.077, 0.077, 0.077, 0.077, 0.077, 0.077, 0.077, 0.077, 0.077, 0.077, 0.083]
+    style: "$default"
+    rows:
+      - - content: {text: "事件"}
+        - content: {text: "含义"}
+        - content: {text: "BRAM primary"}
+        - content: {text: "BRAM aux"}
+      - - content: {text: "MARKER"}
+        - content: {text: "窗口标记"}
+        - content: {text: "marker value"}
+        - content: {text: "begin=0xb..., end=0xe..."}
+      - - content: {text: "SYSCALL_ENTRY"}
+        - content: {text: "Syscall 进入"}
+        - content: {text: "syscall number (a7)"}
+        - content: {text: "syscall id"}
+      - - content: {text: "SYSCALL_RET"}
+        - content: {text: "Syscall 返回"}
+        - content: {text: "syscall id"}
+        - content: {text: "return value (a0)"}
+      - - content: {text: "TRAP"}
+        - content: {text: "异常"}
+        - content: {text: "cause"}
+        - content: {text: "tval"}
+      - - content: {text: "PRIV"}
+        - content: {text: "特权级切换"}
+        - content: {text: "old_priv"}
+        - content: {text: "new_priv"}
+      - - content: {text: "ARG_MEM"}
+        - content: {text: "指针快照"}
+        - content: {text: "compact addr/data"}
+        - content: {text: "full 64-bit 字段"}
+      - - content: {text: "DROP"}
+        - content: {text: "丢包计数"}
+        - content: {text: "drop count"}
+        - content: {text: "overflow accounting"}
+      - - content: {text: "RETIRE"}
+        - content: {text: "指令提交"}
+        - content: {text: "PC"}
+        - content: {text: "instr, priv"}
+      - - content: {text: "BRANCH"}
+        - content: {text: "分支跳转"}
+        - content: {text: "PC"}
+        - content: {text: "taken, target"}
+      - - content: {text: "JUMP"}
+        - content: {text: "无条件跳转"}
+        - content: {text: "PC"}
+        - content: {text: "target"}
+      - - content: {text: "CSR"}
+        - content: {text: "CSR 写入"}
+        - content: {text: "csr"}
+        - content: {text: "value, PC"}
+      - - content: {text: "SATP"}
+        - content: {text: "页表切换"}
+        - content: {text: "satp"}
+        - content: {text: "value, PC"}
+  - elementId: bottom-note
+    elementType: text
+    bounds: [60, 525, 1160, 50]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, middle]
+      text: |
+        <p>BRAM 中每条记录还有 <strong>seq</strong>（递增 sequence number），用于判断是否有缺口。不同事件携带有针对性的专属 payload，进入不同的分析管道。</p>
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>30</p>

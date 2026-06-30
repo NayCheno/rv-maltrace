@@ -1,0 +1,132 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>09 结果与边界</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>Evidence Matrix 详细版</strong></p>
+  - elementId: matrix-table
+    elementType: table
+    bounds: [60, 110, 1160, 480]
+    columnWidths: [0.25, 0.25, 0.25, 0.25]
+    rowHeights: [0.09, 0.09, 0.09, 0.09, 0.09, 0.09, 0.09, 0.09, 0.09, 0.09, 0.10]
+    style: "$default"
+    rows:
+      - - content: {text: "Claim 类别"}
+        - content: {text: "证据级别"}
+        - content: {text: "支撑 Artifact"}
+        - content: {text: "边界说明"}
+      - - content: {text: "Hardware trace events"}
+        - content:
+            text: |
+              <p><span style="color:#10B981;"><strong>Reportable ✅</strong></span></p>
+        - content: {text: "RVFI 提交级信号 + BRAM records"}
+        - content: {text: "旁路采集, 不修改 CVA6"}
+      - - content: {text: "ELF code attribution"}
+        - content:
+            text: |
+              <p><span style="color:#10B981;"><strong>Reportable ✅</strong></span></p>
+        - content: {text: "exact_elf + build-id"}
+        - content: {text: "Static analysis, 非 board-native"}
+      - - content: {text: "Runtime OS map"}
+        - content:
+            text: |
+              <p><span style="color:#10B981;"><strong>Reportable ✅</strong></span></p>
+        - content: {text: "/proc/pid/maps + exe hash"}
+        - content: {text: "受控程序, 非 in-the-wild"}
+      - - content: {text: "Source-line attribution"}
+        - content:
+            text: |
+              <p><span style="color:#10B981;"><strong>Reportable ✅</strong></span></p>
+        - content: {text: ".debug_line + DWARF"}
+        - content: {text: "Debug ELF, 非 stripped binary"}
+      - - content: {text: "qemu / strace 验证基准"}
+        - content:
+            text: |
+              <p><span style="color:#64748B;"><strong>Validation ⚠️</strong></span></p>
+        - content: {text: "qemu/strace transcript"}
+        - content: {text: "仅验证，不作为 hardware claim"}
+      - - content: {text: "Companion string (full)"}
+        - content:
+            text: |
+              <p><span style="color:#64748B;"><strong>Validation ⚠️</strong></span></p>
+        - content: {text: "Host-side read"}
+        - content: {text: "Not hardware-derived string"}
+      - - content: {text: "Streaming/DMA throughput"}
+        - content:
+            text: |
+              <p><span style="color:#EF4444;"><strong>Open ❌</strong></span></p>
+        - content: {text: "None"}
+        - content: {text: "Future work, 当前 sustained=0"}
+      - - content: {text: "Cycle-level runtime overhead"}
+        - content:
+            text: |
+              <p><span style="color:#EF4444;"><strong>Open ❌</strong></span></p>
+        - content: {text: "None"}
+        - content: {text: "静态资源 delta ≠ runtime slowdown"}
+      - - content: {text: "Real malware detection"}
+        - content:
+            text: |
+              <p><span style="color:#EF4444;"><strong>Open ❌</strong></span></p>
+        - content: {text: "None"}
+        - content: {text: "Safe surrogates only, 非 real malware"}
+      - - content: {text: "Malware family coverage"}
+        - content:
+            text: |
+              <p><span style="color:#EF4444;"><strong>Open ❌</strong></span></p>
+        - content: {text: "None"}
+        - content: {text: "12 workloads, 非 production coverage"}
+  - elementId: bottom-note
+    elementType: text
+    bounds: [60, 605, 1160, 50]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, middle]
+      text: |
+        <p><strong>读法提示</strong>：蓝色 ✅ = 可报告硬证据；灰绿 ⚠️ = 验证辅助；红色 ❌ = 开放边界。每个报告项都必须能追到 artifact 与 数据溯源标签。</p>
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>49</p>

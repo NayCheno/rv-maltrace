@@ -1,0 +1,36 @@
+pageType: chapter
+background:
+  type: solid
+  color: "$primary"
+elements:
+  - elementId: ch2-label
+    elementType: text
+    bounds: [100, 240, 300, 40]
+    content:
+      fontSize: 18
+      color: "#FFFFFF99"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>PART 02</p>
+  - elementId: ch2-title
+    elementType: text
+    bounds: [100, 290, 800, 70]
+    content:
+      style: "$chapterTitle"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>解决这个问题的难点</strong></p>
+  - elementId: ch2-subtitle
+    elementType: text
+    bounds: [100, 370, 800, 40]
+    content:
+      fontSize: 20
+      color: "#FFFFFFCC"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>硬件低语义、PC/指针无上下文、BRAM有限、验证基准易污染</p>

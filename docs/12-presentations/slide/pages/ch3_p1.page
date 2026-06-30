@@ -1,0 +1,105 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>03 提出的解决方案</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>总体方案：五阶段可检查流水线</strong></p>
+  - elementId: pipeline-bg
+    elementType: shape
+    bounds: [60, 110, 1160, 280]
+    shapeName: roundRect
+    adjustments: [4000]
+    fill:
+      type: solid
+      color: "$light"
+  - elementId: pipeline-text
+    elementType: text
+    bounds: [80, 120, 1120, 260]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.6
+      align: [left, top]
+      text: |
+        <p><strong>① Marker 限定窗口</strong>：用户态 marker syscall (a7=1023, a0=0xb0000a01/e0000a01) 标记 begin/end</p>
+        <p><strong>② CVA6 RVFI 捕获</strong>：cva6_rvfi_trace_adapter.sv → trace_packet_t（12 种事件类型）</p>
+        <p><strong>③ BRAM Ring 存储</strong>：trace_bram_ring.sv → trace_compact_record_t（1024 深度，sequence + counters）</p>
+        <p><strong>④ 主机 Gate 检查</strong>：ILA/JTAG readout → decode → 标记窗口准入检查（完整性检查）</p>
+        <p><strong>⑤ 语义恢复</strong>：目标 ELF 精确映射 code map + Runtime process map → PC 绑定</p>
+        <p>　　　　　→ Semantic recovery → syscall sequence / fd-path graph / 行为图</p>
+        <p>　　　　　→ Field 来源标签过滤 → Reportable Scoped Claims</p>
+  - elementId: principle-title
+    elementType: text
+    bounds: [60, 410, 400, 30]
+    content:
+      fontSize: 16
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>核心设计原则：硬件给事实，离线给语义，数据溯源决定 claim</strong></p>
+  - elementId: principle-table
+    elementType: table
+    bounds: [60, 450, 1160, 180]
+    columnWidths: [0.25, 0.35, 0.4]
+    rowHeights: [0.2, 0.27, 0.27, 0.26]
+    style: "$default"
+    rows:
+      - - content: {text: "层级"}
+        - content: {text: "职责"}
+        - content: {text: "产出"}
+      - - content: {text: "硬件侧（RTL）"}
+        - content: {text: "只捕获提交级事件，不尝试理解语义"}
+        - content: {text: "trace_packet_t / compact record"}
+      - - content: {text: "主机侧（Python）"}
+        - content: {text: "低层事件绑定 ELF/runtime 上下文，恢复语义"}
+        - content: {text: "annotated events / semantic_events / behavior_graph"}
+      - - content: {text: "数据溯源层"}
+        - content: {text: "给每个字段贴来源标签，决定哪些能进 claim"}
+        - content: {text: "semantic_provenance_summary.json"}
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>13</p>

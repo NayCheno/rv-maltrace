@@ -1,0 +1,125 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>05 应对这些挑战的方法/策略</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>策略二：字段级数据溯源</strong></p>
+  - elementId: intro
+    elementType: text
+    bounds: [60, 110, 1160, 40]
+    content:
+      fontSize: 16
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      text: |
+        <p>每个字段在生成时就被强制贴上来源标签，checker 会拒绝任何不合法的标签组合。</p>
+  - elementId: label-table
+    elementType: table
+    bounds: [60, 160, 1160, 250]
+    columnWidths: [0.2, 0.4, 0.2, 0.2]
+    rowHeights: [0.15, 0.2, 0.2, 0.2, 0.25]
+    style: "$default"
+    rows:
+      - - content: {text: "标签"}
+        - content: {text: "含义"}
+        - content: {text: "能否 Claim"}
+        - content: {text: "数量"}
+      - - content: {text: "hardware"}
+        - content: {text: "板级 trace 的事件、trap、syscall、marker、counter"}
+        - content:
+            text: |
+              <p><span style="color:#10B981;"><strong>✅</strong></span></p>
+        - content: {text: "12 个数据溯源"}
+      - - content: {text: "exact_elf"}
+        - content: {text: "被分析 ELF 的 section、symbol、hash"}
+        - content:
+            text: |
+              <p><span style="color:#10B981;"><strong>✅</strong></span></p>
+        - content: {text: "—"}
+      - - content: {text: "runtime_os_map"}
+        - content: {text: "/proc/<pid>/maps 等运行时进程归属"}
+        - content:
+            text: |
+              <p><span style="color:#10B981;"><strong>✅</strong></span></p>
+        - content: {text: "—"}
+      - - content: {text: "validation_oracle"}
+        - content: {text: "qemu/strace、host/control、expected label"}
+        - content:
+            text: |
+              <p><span style="color:#EF4444;"><strong>❌</strong></span></p>
+        - content: {text: "276 字段"}
+  - elementId: bottom-note-bg
+    elementType: shape
+    bounds: [60, 430, 1160, 80]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "#FEF3C7"
+  - elementId: bottom-note-text
+    elementType: text
+    bounds: [80, 440, 1120, 60]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, middle]
+      text: |
+        <p>276 个 验证基准字段被明确挡在 验证通道。这意味着，大量高层字段（如 expected syscall order、path accuracy、外部补充字符串）被系统性地排除在 claim 之外。</p>
+  - elementId: checker-note
+    elementType: text
+    bounds: [60, 530, 1160, 80]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p><strong>Checker 规则</strong>：验证基准值 field 不能被标为 hardware-only。checker 会拒绝任何不合法的标签组合。</p>
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>24</p>

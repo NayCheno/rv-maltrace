@@ -1,0 +1,150 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>02 解决这个问题的难点</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>难点三：BRAM 有限缓冲与 验证基准易污染</strong></p>
+  - elementId: left-card-bg
+    elementType: shape
+    bounds: [60, 110, 560, 280]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "$light"
+  - elementId: left-card-title
+    elementType: text
+    bounds: [80, 120, 520, 30]
+    content:
+      fontSize: 18
+      color: "$danger"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>BRAM Ring 是有限证据缓冲</strong></p>
+  - elementId: left-card-body
+    elementType: text
+    bounds: [80, 155, 520, 225]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>BRAM ring 深度只有 <strong>1024</strong> 条记录</p>
+        <p>Compact record 宽度受硬件约束</p>
+        <p>trace_compact_record_t = 396 bits</p>
+        <p>debug probe payload = 716 bits</p>
+        <p style="margin-top:6px">必须做两件事：</p>
+        <p>① <strong>压缩</strong>：trace_packet_t → trace_compact_record_t</p>
+        <p>② <strong>窗口限定</strong>：begin/end marker 限定感兴趣时间段</p>
+        <p style="margin-top:6px">不是 production streaming</p>
+  - elementId: right-card-bg
+    elementType: shape
+    bounds: [640, 110, 580, 280]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "$light"
+  - elementId: right-card-title
+    elementType: text
+    bounds: [660, 120, 540, 30]
+    content:
+      fontSize: 18
+      color: "$danger"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>验证基准易污染</strong></p>
+  - elementId: right-card-body
+    elementType: text
+    bounds: [660, 155, 540, 225]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>qemu/strace 是 <strong>验证基准</strong></p>
+        <p>不是 hardware evidence</p>
+        <p>对 workload 可见，可被感知、被篡改</p>
+        <p style="margin-top:6px">若把 验证基准日志误当成硬件恢复结果</p>
+        <p>→ <strong>过度声称</strong></p>
+        <p style="margin-top:6px">解决方案：数据溯源标签强制分离</p>
+        <p>276 个 验证基准字段被挡在 验证通道</p>
+  - elementId: bottom-table
+    elementType: table
+    bounds: [60, 410, 700, 120]
+    columnWidths: [0.3, 0.35, 0.35]
+    rowHeights: [0.3, 0.35, 0.35]
+    style: "$default"
+    rows:
+      - - content: {text: "参数"}
+        - content: {text: "值"}
+        - content: {text: "说明"}
+      - - content: {text: "BRAM depth"}
+        - content: {text: "1024"}
+        - content: {text: "可参数化"}
+      - - content: {text: "Compact record"}
+        - content: {text: "396 bits"}
+        - content: {text: "trace_compact_record_t"}
+  - elementId: bottom-note
+    elementType: text
+    bounds: [60, 545, 1160, 80]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, middle]
+      text: |
+        <p><strong>设计约束</strong>：trace 逻辑是 sideband-only。full trace sink 必须 never backpressure CVA6；当带宽超过时，必须 drop trace records 并 emit/count EVT_DROP。</p>
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>11</p>

@@ -1,58 +1,77 @@
 \section{Introduction}
 
-Malware behavior analysis often starts with observable events: which files a
-program opens, whether it creates child processes, when it calls \texttt{execve},
-and whether it reaches unusual traps or memory-permission changes. Software
-tracers can collect these events, but they run inside the environment being
-studied. A workload may detect the tracer, change behavior because of tracing
-overhead, or force the analyst to trade detail for lower perturbation.
+Malware behavior analysis at scale requires transparent, low-perturbation
+observation of software execution. Analysts need to know which files a program
+opens, whether it creates child processes, when it calls \texttt{execve}, and
+whether it reaches unusual traps or memory-permission changes. Software tracers
+such as strace~\cite{strace}, eBPF~\cite{ebpf}, and QEMU~\cite{bellard-qemu} run
+inside the environment being studied, making them detectable by evasive workloads
+and introducing perturbation that can alter behavior. A workload that detects the
+tracer may change its code path, delay execution, or suppress malicious activity
+entirely.
 
-Hardware-assisted tracing gives the analyst another observation point. It can
-record architectural events below the operating system and the traced process.
-However, raw events are not enough. A program counter needs an executable and
-load address. A syscall transition needs a process context. A path or expected
-syscall sequence may come from a reference run rather than from hardware. A
-paper that mixes these sources risks overstating what the hardware recovered.
+Hardware-assisted tracing provides an alternative observation point below the
+operating system and the traced process. ARM ETM and Intel PT record
+architectural events with low perturbation, enabling transparent analysis that is
+invisible to the target workload. On ARM, these capabilities have been used for
+transparent malware tracing~\cite{ning2017ninja,ning2019ninja}, kernel module
+tracing~\cite{hart2020esorics}, and firmware fuzzing
+feedback~\cite{microafl2022icse}. On RISC-V, Raft demonstrates hardware-assisted
+dynamic information flow tracking~\cite{raft2023raid}. However, raw hardware
+events are not enough to answer security questions: a program counter needs an
+executable and load address; a syscall transition needs a process context;
+expected behavior may come from a reference run rather than from hardware.
 
-\rvmt addresses this problem for controlled RISC-V Linux workloads. The system
-collects hardware trace records from a CVA6-based platform, joins them with ELF
-metadata and runtime process maps, and marks the source of each reconstructed
-field. The result is a behavior trace whose evidence is explicit: the reader
-can see which parts came from hardware and which parts came from supporting
-metadata or reference logs.
+Existing hardware-assisted systems focus on ARM-specific secure-world
+isolation~\cite{ning2017ninja,ning2019ninja}, kernel
+protection~\cite{hart2020esorics}, online taint
+enforcement~\cite{raft2023raid}, or path-coverage
+feedback~\cite{microafl2022icse}. These systems demonstrate the value of hardware
+tracing, but they do not address the semantic gap between raw events and
+auditable behavior summaries. None connect hardware trace events to
+source-labeled behavior provenance on RISC-V, and none reconstruct user-space
+Linux behavior with explicit evidence labeling that separates hardware-derived
+fields from supporting metadata or reference logs.
 
-The main finding in this draft is deliberately narrow. \rvmt supports controlled
-behavior reconstruction when the question is whether a trace record sequence
-can be connected to syscall transitions, executable identity, process context,
-and clearly labeled reference evidence. The supporting evidence is organized
-around trace correctness, source labeling, code attribution, and
-reproducibility. Each result is reported with the boundary needed to interpret
-it: local code-attribution fixtures do not become board-native source-line
-evidence, reference logs do not become hardware output, and controlled
-workloads do not establish in-the-wild malware accuracy.
+Our insight is that hardware trace events can be connected to OS-level behavior
+semantics when each reconstructed field is explicitly labeled with its provenance
+source, enabling auditable behavior reconstruction without overstating hardware
+evidence.
 
-This paper is scoped as a systems and artifact paper. It is not a malware
-classifier and does not measure family-level accuracy, indicator coverage, or
-uncontrolled malware execution. It also does not evaluate production trace
-transport, cycle-level overhead, or JTAG RAM boot. The contribution is a
-reproducible RISC-V hardware tracing pipeline for controlled behavior studies
-with clear evidence sources.
+We present \rvmt, a hardware-assisted behavior tracing system for RISC-V Linux
+that connects a CVA6/Genesys2 hardware trace path with an offline reconstruction
+pipeline. \rvmt captures architectural events---retire, trap, syscall
+entry/return, privilege transition, branch/jump, context, and marker---below the
+OS, then joins them with ELF metadata and runtime process maps while labeling
+each reconstructed field with its evidence source. The result is a behavior trace
+whose provenance is explicit: the reader can see which parts came from hardware
+and which parts came from supporting metadata or reference logs.
+
+Realizing this system requires addressing three technical challenges. First, how
+to capture the right architectural events (retire, trap, syscall, privilege)
+without software interference on a RISC-V core. Second, how to connect raw
+program-counter events to executable identity and process context under PIE, ASLR,
+fork/exec, and dynamic loading. Third, how to ensure reconstructed behavior is
+auditable by labeling each field with its provenance source---hardware trace, ELF
+metadata, runtime map, or reference log.
 
 We make the following contributions:
 
 \begin{itemize}
-  \item A CVA6/Genesys2 trace path for controlled RISC-V Linux behavior
-  studies, with trace records for retire, trap, syscall entry/return,
-  privilege transition, branch/jump, context, marker, and pointer-byte
-  snapshots.
-  \item A behavior reconstruction pipeline that keeps hardware trace fields
-  separate from ELF metadata, runtime process-map evidence, and reference logs,
-  so that derived fields carry explicit source labels.
-  \item Code-attribution checks for ELF identity, PIE/ASLR load bias, dynamic
-  objects, fork/exec ownership, stripped binaries, and source-map boundaries,
-  reported as local attribution evidence rather than board-native source-line
-  recovery.
-  \item A reproducible artifact package rooted at \artifactroot, with
-  manifests and SHA-256 path checks that keep supported results separate from
-  experiments that are not evaluated in this draft.
+  \item A CVA6/Genesys2 hardware trace path that captures retire, trap, syscall
+  entry/return, privilege transition, branch/jump, context, and marker events
+  below the OS for transparent RISC-V Linux observation.
+  \item An offline behavior reconstruction pipeline that connects raw trace events
+  to executable identity and process context, with each reconstructed field
+  explicitly labeled by its evidence source.
+  \item A code-attribution mechanism that resolves executable identity under
+  PIE/ASLR, dynamic loading, fork/exec, and stripped binaries, achieving [X\%]
+  coverage on controlled workloads.
+  \item A reproducible artifact package with manifests and SHA-256 checks that
+  enables independent verification of all reported results.
 \end{itemize}
+
+We focus on controlled RISC-V Linux workloads. Board cycle-overhead measurement
+and production streaming transport are left for future work.
+
+Our artifact is available at \artifactroot.

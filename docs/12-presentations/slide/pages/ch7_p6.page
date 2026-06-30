@@ -1,0 +1,142 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>07 具体方案/方法细节</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>FPGA 资源成本与 Timing</strong></p>
+  - elementId: intro
+    elementType: text
+    bounds: [60, 110, 1160, 40]
+    content:
+      fontSize: 16
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      text: |
+        <p>来自 Vivado post-implementation routed report：</p>
+  - elementId: resource-table
+    elementType: table
+    bounds: [60, 160, 700, 200]
+    columnWidths: [0.25, 0.25, 0.25, 0.25]
+    rowHeights: [0.17, 0.17, 0.17, 0.17, 0.17, 0.15]
+    style: "$default"
+    rows:
+      - - content: {text: "Resource"}
+        - content: {text: "Baseline"}
+        - content: {text: "Trace-enabled"}
+        - content: {text: "Delta"}
+      - - content: {text: "LUT"}
+        - content: {text: "84,923"}
+        - content: {text: "106,428"}
+        - content: {text: "+25.32%"}
+      - - content: {text: "FF"}
+        - content: {text: "56,491"}
+        - content: {text: "65,634"}
+        - content: {text: "+16.18%"}
+      - - content: {text: "BRAM18"}
+        - content: {text: "108"}
+        - content: {text: "114"}
+        - content: {text: "+5.56%"}
+      - - content: {text: "DSP"}
+        - content: {text: "27"}
+        - content: {text: "27"}
+        - content: {text: "+0%"}
+      - - content: {text: "Timing"}
+        - content: {text: "—"}
+        - content: {text: "MET"}
+        - content: {text: "slack 0.177 ns"}
+  - elementId: boundary-note-bg
+    elementType: shape
+    bounds: [60, 380, 1160, 80]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "#FEF3C7"
+  - elementId: boundary-note-text
+    elementType: text
+    bounds: [80, 390, 1120, 60]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, middle]
+      text: |
+        <p><strong>边界说明</strong>：这是静态 FPGA resource 增量，不是 cycle-level runtime overhead。生产环境的 runtime overhead 尚未 claim。</p>
+  - elementId: next-steps-bg
+    elementType: shape
+    bounds: [60, 480, 1160, 140]
+    shapeName: roundRect
+    adjustments: [4000]
+    fill:
+      type: solid
+      color: "$light"
+  - elementId: next-steps-title
+    elementType: text
+    bounds: [80, 490, 400, 28]
+    content:
+      fontSize: 16
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>下一步建议</strong></p>
+  - elementId: next-steps-body
+    elementType: text
+    bounds: [80, 525, 1120, 80]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p><strong>短期</strong>：按 scoped claim 提交 artifact，完成 figures、source citations、scoped disclosures、reproducibility path</p>
+        <p><strong>中期</strong>：请 1–2 位 reviewer 按 artifact package 复查 evidence root 和 checker suite</p>
+        <p><strong>长期</strong>：deployment overhead、streaming/DMA、real malware generalization 留作下一阶段</p>
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>38</p>

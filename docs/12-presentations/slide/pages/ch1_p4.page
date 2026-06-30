@@ -1,0 +1,110 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>01 当前研究的问题</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>目标：建立可独立审查的行为证据链</strong></p>
+  - elementId: evidence-chain-bg
+    elementType: shape
+    bounds: [60, 110, 1160, 300]
+    shapeName: roundRect
+    adjustments: [4000]
+    fill:
+      type: solid
+      color: "$light"
+  - elementId: evidence-chain-title
+    elementType: text
+    bounds: [80, 120, 400, 30]
+    content:
+      fontSize: 18
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>证据链的完整路径</strong></p>
+  - elementId: evidence-chain-body
+    elementType: text
+    bounds: [80, 160, 1120, 240]
+    content:
+      fontSize: 15
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.6
+      align: [left, top]
+      text: |
+        <p><strong>① 硬件事实</strong>：CVA6/RVFI 提交级事件 → cva6_rvfi_trace_adapter.sv → trace_packet_t</p>
+        <p><strong>② 存储质量</strong>：trace_bram_ring.sv → 1024 深度 ring + sequence + drop/wrap counters</p>
+        <p><strong>③ 窗口验证</strong>：标记窗口准入检查 → begin/end + seq 连续 + wrap=0 + drop=0</p>
+        <p><strong>④ 语义绑定</strong>：目标 ELF 精确映射 + runtime OS map → PC → binary/function/process</p>
+        <p><strong>⑤ 行为恢复</strong>：syscall pairing + fd/path graph + 行为图</p>
+        <p><strong>⑥ 来源过滤</strong>：字段来源标签 → hardware/exact_elf/runtime_os_map vs validation_oracle</p>
+  - elementId: bottom-table
+    elementType: table
+    bounds: [60, 430, 1160, 200]
+    columnWidths: [0.2, 0.4, 0.4]
+    rowHeights: [0.15, 0.17, 0.17, 0.17, 0.17, 0.17]
+    style: "$default"
+    rows:
+      - - content: {text: "审查问题"}
+        - content: {text: "回应机制"}
+        - content: {text: "对应 Artifact"}
+      - - content: {text: "数据被篡改？"}
+        - content: {text: "硬件 旁路采集，不修改 CVA6 状态"}
+        - content: {text: "trace_pkg.sv + trace_bram_ring.sv"}
+      - - content: {text: "窗口不完整？"}
+        - content: {text: "accepted_window gate 拒绝不完整窗口"}
+        - content: {text: "p0_bram_trace_summary.json"}
+      - - content: {text: "语义来源不清？"}
+        - content: {text: "字段级 数据溯源标签"}
+        - content: {text: "semantic_provenance_summary.json"}
+      - - content: {text: "验证基准污染？"}
+        - content: {text: "验证基准字段被系统性地排除在 claim 外"}
+        - content: {text: "validation_oracle 标签"}
+      - - content: {text: "选择性偏差？"}
+        - content: {text: "14 个失败尝试完整保留，参与 robustness 统计"}
+        - content: {text: "statistical_robustness_summary.json"}
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>07</p>

@@ -1,0 +1,157 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>07 具体方案/方法细节</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>Artifact Package：可复查的产物结构</strong></p>
+  - elementId: tree-bg
+    elementType: shape
+    bounds: [60, 110, 600, 400]
+    shapeName: roundRect
+    adjustments: [4000]
+    fill:
+      type: solid
+      color: "$light"
+  - elementId: tree-title
+    elementType: text
+    bounds: [80, 120, 400, 28]
+    content:
+      fontSize: 16
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>核心 Artifacts</strong></p>
+  - elementId: tree-body
+    elementType: text
+    bounds: [80, 155, 560, 340]
+    content:
+      fontSize: 13
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p><span style="color:$primary;"><strong>📁 results/evaluation/genesys2-cva6/current/</strong></span></p>
+        <p>├── p0_bram_trace_summary.json</p>
+        <p>├── safe_surrogate_bram_trace_summary.json</p>
+        <p>├── drop_accounting_summary.json</p>
+        <p>├── semantic_reconstruction_summary.json</p>
+        <p>├── semantic_provenance_summary.json</p>
+        <p>├── process_elf_ownership_summary.json</p>
+        <p>├── source_line_attribution_summary.json</p>
+        <p>├── hardware_pointer_prefix_summary.json</p>
+        <p>├── statistical_robustness_summary.json</p>
+        <p>└── case_study_manifest.json</p>
+  - elementId: reviewer-bg
+    elementType: shape
+    bounds: [680, 110, 540, 280]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "#ECFDF5"
+  - elementId: reviewer-title
+    elementType: text
+    bounds: [700, 120, 500, 28]
+    content:
+      fontSize: 16
+      color: "$success"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>Reviewer 复查路径</strong></p>
+  - elementId: reviewer-body
+    elementType: text
+    bounds: [700, 155, 500, 220]
+    content:
+      fontSize: 13
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>1. manifest checks：artifact 存在性 + SHA-256</p>
+        <p>2. schema checks：JSON 结构符合预期</p>
+        <p>3. claim/non-claim audit：标签与边界对齐</p>
+        <p>4. checker 命令：</p>
+        <p>   uv run python tools/run_check_suite.py</p>
+        <p>   --suite genesys2-current</p>
+        <p style="margin-top:6px">复查路径：manifest → raw board root</p>
+        <p>→ per-sample artifact → checker suite</p>
+  - elementId: per-sample-bg
+    elementType: shape
+    bounds: [680, 410, 540, 100]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "#FEF3C7"
+  - elementId: per-sample-title
+    elementType: text
+    bounds: [700, 420, 500, 28]
+    content:
+      fontSize: 16
+      color: "$accent"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>Per-Sample 输出</strong></p>
+  - elementId: per-sample-body
+    elementType: text
+    bounds: [700, 455, 500, 40]
+    content:
+      fontSize: 13
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>semantic_events.json / behavior_graph.json / fd_path_graph.json / case_study_summary.json</p>
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>36</p>

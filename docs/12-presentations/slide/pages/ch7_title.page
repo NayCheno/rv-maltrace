@@ -1,0 +1,36 @@
+pageType: chapter
+background:
+  type: solid
+  color: "$primary"
+elements:
+  - elementId: ch7-label
+    elementType: text
+    bounds: [100, 240, 300, 40]
+    content:
+      fontSize: 18
+      color: "#FFFFFF99"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>PART 07</p>
+  - elementId: ch7-title
+    elementType: text
+    bounds: [100, 290, 800, 70]
+    content:
+      style: "$chapterTitle"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>具体方案/方法细节</strong></p>
+  - elementId: ch7-subtitle
+    elementType: text
+    bounds: [100, 370, 800, 40]
+    content:
+      fontSize: 20
+      color: "#FFFFFFCC"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>Context binding、Semantic recovery、Artifact、Results</p>

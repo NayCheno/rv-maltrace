@@ -1,0 +1,36 @@
+pageType: chapter
+background:
+  type: solid
+  color: "$primary"
+elements:
+  - elementId: ch6-label
+    elementType: text
+    bounds: [100, 240, 300, 40]
+    content:
+      fontSize: 18
+      color: "#FFFFFF99"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>PART 06</p>
+  - elementId: ch6-title
+    elementType: text
+    bounds: [100, 290, 800, 70]
+    content:
+      style: "$chapterTitle"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>必要的技术背景知识</strong></p>
+  - elementId: ch6-subtitle
+    elementType: text
+    bounds: [100, 370, 800, 40]
+    content:
+      fontSize: 20
+      color: "#FFFFFFCC"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>Syscall-Trap路径、CVA6-RVFI、事件枚举、数据溯源标签</p>

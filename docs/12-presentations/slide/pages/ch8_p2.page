@@ -1,0 +1,161 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>08 Related Work</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>综合差异矩阵</strong></p>
+  - elementId: matrix-table
+    elementType: table
+    bounds: [60, 105, 1160, 500]
+    columnWidths: [0.17, 0.14, 0.14, 0.14, 0.14, 0.27]
+    rowHeights: [0.067, 0.067, 0.067, 0.067, 0.067, 0.067, 0.067, 0.067, 0.067, 0.067, 0.067, 0.067, 0.067, 0.067, 0.062]
+    style: "$default"
+    rows:
+      - - content: {text: "维度"}
+        - content: {text: "Ninja"}
+        - content: {text: "HART"}
+        - content: {text: "Raft"}
+        - content: {text: "μAFL"}
+        - content:
+            text: |
+              <p><span style="color:$primary;"><strong>RV-MalTrace</strong></span></p>
+      - - content: {text: "核心目标"}
+        - content: {text: "透明分析"}
+        - content: {text: "内核保护"}
+        - content: {text: "DIFT 防护"}
+        - content: {text: "固件 fuzzing"}
+        - content:
+            text: |
+              <p><span style="color:$primary;"><strong>行为审计</strong></span></p>
+      - - content: {text: "ISA"}
+        - content: {text: "ARMv8"}
+        - content: {text: "ARM Cortex-A"}
+        - content: {text: "RISC-V Rocket"}
+        - content: {text: "ARM Cortex-M"}
+        - content:
+            text: |
+              <p><span style="color:$primary;"><strong>RISC-V CVA6</strong></span></p>
+      - - content: {text: "OS"}
+        - content: {text: "Android/Linux"}
+        - content: {text: "Linux 内核"}
+        - content: {text: "Linux/嵌入式"}
+        - content: {text: "裸机/RTOS"}
+        - content:
+            text: |
+              <p><span style="color:$primary;"><strong>Linux 用户态</strong></span></p>
+      - - content: {text: "硬件机制"}
+        - content: {text: "TZ + PMU + ETM"}
+        - content: {text: "ETM + ETB + PMU"}
+        - content: {text: "RoCC 协处理器"}
+        - content: {text: "ETM + DWT"}
+        - content:
+            text: |
+              <p><span style="color:$primary;"><strong>RTL trace tap</strong></span></p>
+      - - content: {text: "系统修改"}
+        - content: {text: "TrustZone 固件"}
+        - content: {text: "内核 wrapper"}
+        - content: {text: "编译器+内核"}
+        - content: {text: "零修改"}
+        - content:
+            text: |
+              <p><span style="color:$primary;"><strong>零修改</strong></span></p>
+      - - content: {text: "透明性"}
+        - content: {text: "TZ 隔离"}
+        - content: {text: "部分侵入"}
+        - content: {text: "需插桩"}
+        - content: {text: "裸机透明"}
+        - content:
+            text: |
+              <p><span style="color:$primary;"><strong>RTL 旁路</strong></span></p>
+      - - content: {text: "事件粒度"}
+        - content: {text: "指令/syscall/API"}
+        - content: {text: "指令+内存"}
+        - content: {text: "数据流操作"}
+        - content: {text: "指令级分支"}
+        - content:
+            text: |
+              <p><span style="color:$primary;"><strong>OS 语义事件</strong></span></p>
+      - - content: {text: "语义恢复"}
+        - content: {text: "指令/syscall/API"}
+        - content: {text: "指令+内存"}
+        - content: {text: "无（仅 taint）"}
+        - content: {text: "无（仅覆盖率）"}
+        - content:
+            text: |
+              <p><span style="color:$primary;"><strong>syscall+参数+fd/path+进程</strong></span></p>
+      - - content: {text: "在线/离线"}
+        - content: {text: "在线 trace/debug"}
+        - content: {text: "在线 trace + HASAN"}
+        - content: {text: "在线 enforcement"}
+        - content: {text: "在线+离线"}
+        - content:
+            text: |
+              <p><span style="color:$primary;"><strong>硬件采集+离线重建</strong></span></p>
+      - - content: {text: "抗规避"}
+        - content: {text: "核心目标"}
+        - content: {text: "非目标"}
+        - content: {text: "非目标"}
+        - content: {text: "非目标"}
+        - content:
+            text: |
+              <p><span style="color:$primary;"><strong>核心目标</strong></span></p>
+      - - content: {text: "评估重点"}
+        - content: {text: "透明度+malware"}
+        - content: {text: "overhead+CVE"}
+        - content: {text: "overhead+硬件"}
+        - content: {text: "bugs/CVEs"}
+        - content:
+            text: |
+              <p><span style="color:$primary;"><strong>行为正确性+抗规避</strong></span></p>
+      - - content: {text: "输出形式"}
+        - content: {text: "trace + debug"}
+        - content: {text: "解码指令 trace"}
+        - content: {text: "安全违规中断"}
+        - content: {text: "AFL bitmap"}
+        - content:
+            text: |
+              <p><span style="color:$primary;"><strong>JSONL+行为图+审计</strong></span></p>
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>41</p>

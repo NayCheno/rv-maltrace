@@ -1,0 +1,130 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>02 解决这个问题的难点</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>难点一：硬件 trace 的语义极其低</strong></p>
+  - elementId: intro
+    elementType: text
+    bounds: [60, 110, 1160, 40]
+    content:
+      fontSize: 16
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      text: |
+        <p>硬件直接输出的不是"这个程序 open 了某个文件"，而是一串低层事件。以下是 12 种 RTL 事件类型：</p>
+  - elementId: event-table
+    elementType: table
+    bounds: [60, 160, 1160, 400]
+    columnWidths: [0.18, 0.35, 0.22, 0.25]
+    rowHeights: [0.07, 0.077, 0.077, 0.077, 0.077, 0.077, 0.077, 0.077, 0.077, 0.077, 0.077, 0.077, 0.083]
+    style: "$default"
+    rows:
+      - - content: {text: "RTL 事件"}
+        - content: {text: "硬件输出字段"}
+        - content: {text: "直观语义"}
+        - content: {text: "语义缺失"}
+      - - content: {text: "SYSCALL_ENTRY"}
+        - content: {text: "PC, a7, a0-a7"}
+        - content: {text: "ECALL 进入 trap"}
+        - content: {text: "不说明进程/Binary"}
+      - - content: {text: "SYSCALL_RET"}
+        - content: {text: "PC, target, a0, duration"}
+        - content: {text: "SRET 返回 U-mode"}
+        - content: {text: "不关联到哪个 entry"}
+      - - content: {text: "TRAP"}
+        - content: {text: "cause, tval, PC"}
+        - content: {text: "异常/中断"}
+        - content: {text: "不说明触发上下文"}
+      - - content: {text: "ARG_MEM"}
+        - content: {text: "addr, data, size, last"}
+        - content: {text: "内存片段"}
+        - content: {text: "不是完整字符串"}
+      - - content: {text: "PRIV"}
+        - content: {text: "old_priv, new_priv"}
+        - content: {text: "特权切换"}
+        - content: {text: "不说明原因/进程"}
+      - - content: {text: "RETIRE"}
+        - content: {text: "PC, instr, priv"}
+        - content: {text: "指令提交"}
+        - content: {text: "不说明函数/行为"}
+      - - content: {text: "BRANCH"}
+        - content: {text: "PC, taken, target"}
+        - content: {text: "分支跳转"}
+        - content: {text: "不说明控制流意图"}
+      - - content: {text: "JUMP"}
+        - content: {text: "PC, target"}
+        - content: {text: "无条件跳转"}
+        - content: {text: "不说明调用关系"}
+      - - content: {text: "CSR"}
+        - content: {text: "csr, value, PC"}
+        - content: {text: "CSR 写入"}
+        - content: {text: "不说明上下文变化"}
+      - - content: {text: "SATP"}
+        - content: {text: "satp, value, PC"}
+        - content: {text: "页表切换"}
+        - content: {text: "不说明进程切换"}
+      - - content: {text: "MARKER"}
+        - content: {text: "value"}
+        - content: {text: "窗口标记"}
+        - content: {text: "不说明行为语义"}
+      - - content: {text: "DROP"}
+        - content: {text: "value (drop count)"}
+        - content: {text: "溢出丢弃"}
+        - content: {text: "不说明哪些事件丢失"}
+  - elementId: bottom-note
+    elementType: text
+    bounds: [60, 575, 1160, 50]
+    content:
+      fontSize: 16
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, middle]
+      text: |
+        <p>核心观察：裸 trace 只能说明低层事件；binary/function/process owner 依赖 ELF + ASLR/PIE + runtime map 绑定。</p>
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>09</p>

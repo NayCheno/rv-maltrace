@@ -1,0 +1,144 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>04 实现该方案的挑战</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>挑战二：BRAM 存储极其有限</strong></p>
+  - elementId: left-card-bg
+    elementType: shape
+    bounds: [60, 110, 560, 280]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "$light"
+  - elementId: left-card-title
+    elementType: text
+    bounds: [80, 120, 520, 30]
+    content:
+      fontSize: 18
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>BRAM 参数</strong></p>
+  - elementId: left-card-body
+    elementType: text
+    bounds: [80, 155, 520, 225]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>BRAM ring 深度 = <strong>1024</strong></p>
+        <p>Compact record 宽度受硬件约束</p>
+        <p>trace_compact_record_t = 396 bits</p>
+        <p>debug probe payload = 716 bits</p>
+        <p style="margin-top:6px">计数器：</p>
+        <p>• sequence（连续性检查）</p>
+        <p>• captured_count（实际记录数）</p>
+        <p>• dropped_count（丢包数）</p>
+        <p>• wrap_count（覆盖数）</p>
+  - elementId: right-card-bg
+    elementType: shape
+    bounds: [640, 110, 580, 280]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "$light"
+  - elementId: right-card-title
+    elementType: text
+    bounds: [660, 120, 540, 30]
+    content:
+      fontSize: 18
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>压缩与窗口限定</strong></p>
+  - elementId: right-card-body
+    elementType: text
+    bounds: [660, 155, 540, 225]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>① <strong>压缩</strong>：</p>
+        <p>trace_packet_t（完整）→ trace_compact_record_t（compact）</p>
+        <p style="margin-top:6px">② <strong>窗口限定</strong>：</p>
+        <p>begin/end marker 限定只记录感兴趣时间段</p>
+        <p style="margin-top:6px">这意味着：</p>
+        <p>• 不能无差别记录所有 retired instruction</p>
+        <p>• 必须维护质量计数器</p>
+        <p>• 不是 production streaming</p>
+  - elementId: bottom-note-bg
+    elementType: shape
+    bounds: [60, 410, 1160, 80]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "#FEF3C7"
+  - elementId: bottom-note-text
+    elementType: text
+    bounds: [80, 420, 1120, 60]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, middle]
+      text: |
+        <p><strong>设计约束</strong>：trace 逻辑是 sideband-only。full trace sink 必须 never backpressure CVA6；当带宽超过时，必须 drop trace records 并 emit/count EVT_DROP。</p>
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>19</p>

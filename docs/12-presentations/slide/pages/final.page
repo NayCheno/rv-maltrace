@@ -1,0 +1,76 @@
+pageType: final
+background:
+  type: solid
+  color: "$primary"
+elements:
+  - elementId: final-label
+    elementType: text
+    bounds: [100, 160, 300, 30]
+    content:
+      fontSize: 16
+      color: "#FFFFFF99"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>CONCLUSION</p>
+  - elementId: final-title
+    elementType: text
+    bounds: [100, 200, 900, 60]
+    content:
+      fontSize: 36
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>核心结论</strong></p>
+  - elementId: final-divider
+    elementType: shape
+    bounds: [100, 275, 80, 4]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$accent"
+  - elementId: final-body
+    elementType: text
+    bounds: [100, 300, 1000, 220]
+    content:
+      fontSize: 18
+      color: "#FFFFFFDD"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.7
+      align: [left, top]
+      text: |
+        <p>RV-MalTrace 当前闭合的是一条<strong>受控板级行为重建证据链</strong></p>
+        <p>硬件侧在 CVA6/RVFI 提交路径捕获 marker、trap、privilege、syscall 和 bounded ARG_MEM 事件</p>
+        <p>BRAM ring 记录 sequence 和 drop/wrap counters</p>
+        <p>主机侧先用 标记窗口准入检查 接受 128/142 次 board attempts 中的完整窗口，并保留 14 个失败尝试</p>
+        <p>再用 目标 ELF 精确映射 和 runtime process map 把 PC 绑定到具体 binary 和 process</p>
+        <p>然后恢复 syscall sequence、fd/path graph 和 行为图</p>
+        <p>最后用 字段来源标签 区分 hardware、exact_elf、runtime_os_map 和 validation_oracle</p>
+        <p>当前支持 <strong>controlled 基于硬件迹的语义重建</strong></p>
+        <p>不支持 malware detector、production streaming/DMA 或 cycle-level overhead claim</p>
+  - elementId: final-dimensions
+    elementType: text
+    bounds: [100, 540, 600, 80]
+    content:
+      fontSize: 14
+      color: "#FFFFFF88"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>本汇报覆盖 8 个维度 + Q&A 备忘</p>
+        <p>所有内容基于 rtl/trace/、docs/ 和 tools/ 中的真实代码与文档</p>
+  - elementId: final-thanks
+    elementType: text
+    bounds: [100, 640, 400, 40]
+    content:
+      fontSize: 20
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>谢谢老师</strong></p>

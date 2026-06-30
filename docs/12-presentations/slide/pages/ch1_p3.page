@@ -1,0 +1,153 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>01 当前研究的问题</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>研究范围与当前边界</strong></p>
+  - elementId: intro
+    elementType: text
+    bounds: [60, 110, 1160, 40]
+    content:
+      fontSize: 16
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      text: |
+        <p>讨论阶段需要明确：我们目前做了哪些尝试，验证了哪些方向，还有哪些是待探索的？</p>
+  - elementId: claim-table
+    elementType: table
+    bounds: [60, 160, 1160, 370]
+    columnWidths: [0.3, 0.35, 0.35]
+    rowHeights: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
+    style: "$default"
+    rows:
+      - - content: {text: "方向"}
+        - content: {text: "我们目前正在做 ✅"}
+        - content: {text: "目前尚未做到 ❌"}
+      - - content:
+            text: |
+              <p><strong>研究目标</strong></p>
+        - content:
+            text: |
+              <p><span style="color:#10B981;"><strong>受控样本上的行为重建</strong></span></p>
+        - content:
+            text: |
+              <p><span style="color:#EF4444;"><strong>Malware detector（恶意/良性分类）</strong></span></p>
+      - - content:
+            text: |
+              <p><strong>输出</strong></p>
+        - content:
+            text: |
+              <p>带数据溯源标签的行为摘要</p>
+        - content:
+            text: |
+              <p>"恶意/良性"分类</p>
+      - - content:
+            text: |
+              <p><strong>证据来源</strong></p>
+        - content:
+            text: |
+              <p>Hardware trace + ELF + Runtime map</p>
+        - content:
+            text: |
+              <p>Signature / ML model</p>
+      - - content:
+            text: |
+              <p><strong>覆盖范围</strong></p>
+        - content:
+            text: |
+              <p>受控程序 (12个)</p>
+        - content:
+            text: |
+              <p>In-the-wild malware family</p>
+      - - content:
+            text: |
+              <p><strong>实验进展</strong></p>
+        - content:
+            text: |
+              <p>128/142 次 board 重复通过</p>
+        - content:
+            text: |
+              <p>Detection accuracy / FP rate</p>
+      - - content:
+            text: |
+              <p><strong>数据传输</strong></p>
+        - content:
+            text: |
+              <p>Marker-window BRAM 缓存</p>
+        - content:
+            text: |
+              <p>Production DMA streaming</p>
+      - - content:
+            text: |
+              <p><strong>运行时开销</strong></p>
+        - content:
+            text: |
+              <p>静态 FPGA 资源增量</p>
+        - content:
+            text: |
+              <p>Cycle-level 运行时开销</p>
+      - - content:
+            text: |
+              <p><strong>路径字符串</strong></p>
+        - content:
+            text: |
+              <p>截断前缀（硬件捕获）</p>
+        - content:
+            text: |
+              <p>完整路径自动恢复</p>
+  - elementId: bottom-note
+    elementType: text
+    bounds: [60, 545, 1160, 80]
+    content:
+      fontSize: 16
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, middle]
+      text: |
+        <p><strong>讨论阶段的原则：先把有证据的方向做扎实，不急于扩展到还没有验证的领域。</strong>这不是说"不能"，而是"目前还没做、证据不够"，需要后续继续探索。</p>
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>06</p>

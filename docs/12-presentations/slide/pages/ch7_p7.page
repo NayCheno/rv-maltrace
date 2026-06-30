@@ -1,0 +1,81 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>07 讨论中的问题与思考</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>讨论中的问题与思考</strong></p>
+  - elementId: intro
+    elementType: text
+    bounds: [60, 110, 1160, 40]
+    content:
+      fontSize: 16
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      text: |
+        <p>这些是在讨论中经常会被问到的问题，我们目前的理解和思考如下（供讨论，不是最终结论）：</p>
+  - elementId: qa-table
+    elementType: table
+    bounds: [60, 155, 1160, 455]
+    columnWidths: [0.25, 0.75]
+    rowHeights: [0.08, 0.15, 0.15, 0.15, 0.15, 0.15, 0.17]
+    style: "$default"
+    rows:
+      - - content: {text: "问题"}
+        - content: {text: "我们的思考与讨论方向"}
+      - - content: {text: "qemu/strace 对验证的影响？"}
+        - content: {text: "我们统一标注 qemu 为验证基准，checker 会拒绝纯 hardware-only 标签。后续可讨论：如何在数据上进一步消除这种依赖"}
+      - - content: {text: "Accepted-window 是否有选择性偏差？"}
+        - content: {text: "14 个失败尝试被完整保留，参与统计。可讨论：是否需要更系统的统计方法来评估"}
+      - - content: {text: "受控程序能否代表真实 malware？"}
+        - content: {text: "目前明确是讨论阶段，未扩展到真实 malware。可讨论：下一步的迁移方向"}
+      - - content: {text: "资源增量是否意味着 runtime slowdown？"}
+        - content: {text: "目前只有静态资源数据，cycle-level 开销尚未测量。可讨论：是否需要补充运行时代价分析"}
+      - - content: {text: "Marker 对 workload 的影响？"}
+        - content: {text: "Marker 只约束观测窗口，不约束硬件执行。可讨论：如何在设计上进一步降低观测效应"}
+      - - content: {text: "与 NCScope 的关系？"}
+        - content: {text: "NCScope 是早期参考的问题原型。我们平台、目标和证据链完全不同，是参考而非比较对象。可讨论：是否需要补充其他相关工作"}
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>39</p>

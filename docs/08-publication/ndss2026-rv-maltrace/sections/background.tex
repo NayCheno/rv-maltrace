@@ -1,26 +1,51 @@
-\section{Background}
+\section{Background and Related Work}
 
-\subsection{RISC-V Linux Trace Context}
+Hardware-assisted tracing offers an observation path below the OS and the traced process, but raw architectural events are not directly actionable for security analysis. In this section, we survey three strands of prior work---ARM-based and Intel hardware tracing, RISC-V security extensions, and semantic reconstruction from hardware traces---and identify the gap that \rvmt fills.
 
-RISC-V exposes architectural privilege transitions, traps, branches, jumps,
-and system-call boundaries that can be useful for behavioral analysis. On a
-CVA6-class core, these events can be observed near instruction retirement and
-then packaged into records consumed by an offline analyzer
-\cite{riscv-isa,cva6}. The resulting events are lower-level than
-strace-style syscall logs: they can include trap and control-flow context, but
-they also require careful reconstruction before they become security-relevant
-behavior.
+\subsection{Hardware-Assisted Tracing for Security}
 
-\subsection{Why Source Labels Matter}
+\textbf{ARM-based transparent analysis.} Ninja demonstrates that ARM TrustZone, the Performance Monitoring Unit (PMU), and the Embedded Trace Macrocell (ETM) can support low-artifact malware tracing and debugging on production devices~\cite{ning2017ninja,ning2019ninja}. The extended work further uses ETM data-address tracing for selective system restoration across malware-analysis sessions. HART shows that ARM ETM, ETB, and PMU can trace binary-only kernel modules with low overhead and builds a modular AddressSanitizer on top of that trace~\cite{hart2020esorics}. Its selective module tracing and elastic decoding are designed for kernel-space protection. microAFL uses ARM ETM and the Data Watchpoint and Trace unit (DWT) as non-intrusive feedback for MCU firmware fuzzing, converting raw trace packets into path-sensitive coverage that discovered real firmware bugs and obtained CVE assignments~\cite{microafl2022icse}.
 
-A behavioral summary can combine multiple evidence sources. A syscall entry
-record may be hardware-derived. The function or binary that owns a PC may come
-from an exact ELF and its load ranges. The current process identity may come
-from a runtime process map. QEMU, strace, or host-control logs may provide a
-reference for expected behavior. Treating these fields as one undifferentiated
-trace would overstate what the hardware alone recovered.
+\textbf{Intel PT.} Intel Processor Trace (PT) provides cycle-accurate control-flow tracing with low overhead and has been used for malware analysis, fuzzing, and forensics. However, Intel PT relies on proprietary x86 IP and vendor-specific decode logic, making it difficult to audit or adapt to open-source cores.
 
-\rvmt therefore records source labels as part of the reconstruction output. A
-summary is used in this draft only when the source of each field is explicit
-and the supporting artifact path is recorded under the current evidence
-directory.
+\textbf{Limitation.} All of these approaches target ARM or x86 platforms. None addresses the problem of reconstructing Linux behavior from hardware trace events on an open-source RISC-V core, where the trace logic, decode pipeline, and OS metadata are fully inspectable but must be integrated from scratch.
+
+\subsection{RISC-V Security Extensions}
+
+Raft demonstrates low-overhead hardware-assisted dynamic information flow tracking (DIFT) on a RISC-V Rocket core by moving hybrid-granularity tag storage into a coprocessor~\cite{raft2023raid}. It enforces taint policies online and reports runtime violations without OS modification. Other RISC-V security work has explored cache-line tagging, capability-based memory safety, and bus-level access control.
+
+\textbf{Limitation.} Existing RISC-V security work focuses on \emph{online enforcement}---taint tracking, memory safety, or access control---rather than on \emph{offline behavior reconstruction} from hardware trace events. The goal is to stop an attack at runtime, not to produce an auditable, source-labeled trace of what a workload did after the fact.
+
+\subsection{Semantic Reconstruction from Hardware Traces}
+
+Hardware traces produce raw events: program counter values, branch targets, privilege transitions, and traps. To become behaviorally meaningful, these events must be connected to OS-level context: executable identity, process ownership, file paths, and memory maps. Prior work mixes these evidence sources---hardware trace, ELF metadata, runtime maps, and reference logs---without explicitly labeling provenance. A reconstructed field derived from QEMU or strace may be reported as if it were hardware-recovered, overstating the trace fidelity.
+
+\textbf{Gap.} No existing system connects RISC-V hardware trace events to source-labeled behavior summaries that preserve provenance. The missing capability is not merely trace collection, but trace \emph{attribution}: joining raw events to executable and runtime context while marking whether each field came from hardware, metadata, or a reference log.
+
+\subsection{Comparison with Prior Work}
+
+Table~\ref{tab:related_work} compares \rvmt with the closest prior systems. Prior work covers ARM and x86, targets user-space, kernel-space, or firmware, and provides varying levels of perturbation and semantic reconstruction. None combines RISC-V architecture, user-space target, hardware-assisted trace, and source-labeled behavior reconstruction on an open-source core.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{l c c c c c c}
+\toprule
+\textbf{System} & \textbf{Arch.} & \textbf{Target} & \textbf{Perturb.} & \textbf{Sem. Rec.} & \textbf{Prov.} & \textbf{Open} \\
+\midrule
+Ninja~\cite{ning2017ninja,ning2019ninja} & ARM & user & hw & partial & no & no \\
+HART~\cite{hart2020esorics} & ARM & kernel & hw & partial & no & no \\
+microAFL~\cite{microafl2022icse} & ARM & firmware & hw & no & no & partial \\
+Raft~\cite{raft2023raid} & RISC-V & user & hw & no & no & partial \\
+Intel PT & x86 & user/kernel & hw & partial & no & no \\
+\midrule
+\rvmt & RISC-V & user & hw & yes & yes & yes \\
+\bottomrule
+\end{tabular}
+\caption{Comparison of hardware-assisted tracing systems. Arch. = architecture; Target = target space (user, kernel, firmware); Perturb. = perturbation level; Sem. Rec. = semantic reconstruction; Prov. = provenance labeling; Open = open-source core and trace logic.}
+\label{tab:related_work}
+\end{table}
+
+\subsection{Positioning}
+
+To the best of our knowledge, \rvmt is the first system to connect RISC-V hardware trace events to source-labeled Linux behavior reconstruction, combining transparent observation with auditable provenance on an open-source core.

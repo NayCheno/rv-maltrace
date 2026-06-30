@@ -1,0 +1,124 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>05 应对这些挑战的方法/策略</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>策略四：强 Process Attribution</strong></p>
+  - elementId: intro
+    elementType: text
+    bounds: [60, 110, 1160, 40]
+    content:
+      fontSize: 16
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      text: |
+        <p>Context binding 需要同时满足四个条件，才能把一个 event 标为"强证据"：</p>
+  - elementId: condition-table
+    elementType: table
+    bounds: [60, 160, 1160, 250]
+    columnWidths: [0.1, 0.4, 0.25, 0.25]
+    rowHeights: [0.15, 0.17, 0.17, 0.17, 0.17, 0.17]
+    style: "$default"
+    rows:
+      - - content: {text: "#"}
+        - content: {text: "条件"}
+        - content: {text: "检查内容"}
+        - content: {text: "失败处理"}
+      - - content: {text: "1"}
+        - content: {text: "Trace window 的 marker scope 有效"}
+        - content: {text: "accepted_window gate 通过"}
+        - content: {text: "不进入 claim"}
+      - - content: {text: "2"}
+        - content: {text: "Runtime process map 状态为 PASS"}
+        - content: {text: "/proc/pid/maps 完整匹配"}
+        - content: {text: "降级或 block"}
+      - - content: {text: "3"}
+        - content: {text: "Event PC 落在 target child 的 runtime map 中"}
+        - content: {text: "PC 属于目标进程"}
+        - content: {text: "降级或 block"}
+      - - content: {text: "4"}
+        - content: {text: "Event PC 能匹配 target code map site"}
+        - content: {text: "静态 ELF 范围匹配"}
+        - content: {text: "降级或 block"}
+      - - content: {text: "结果"}
+        - content: {text: "所有 4 个条件同时满足"}
+        - content: {text: "强证据标签"}
+        - content: {text: "reportable claim"}
+  - elementId: bottom-note-bg
+    elementType: shape
+    bounds: [60, 430, 1160, 80]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "#EFF6FF"
+  - elementId: bottom-note-text
+    elementType: text
+    bounds: [80, 440, 1120, 60]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, middle]
+      text: |
+        <p>对于 PIE/ASLR/dynamic libs/fork/exec 链，如果缺少 runtime evidence，<strong>不强行 claim</strong>，而是 downgrade 或 block。降级后的字段仍保留在 artifact 中，但标签变为 validation_oracle 或 lower-confidence。</p>
+  - elementId: challenge-map
+    elementType: text
+    bounds: [60, 530, 1160, 100]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p><strong>Challenge → Mechanism → Artifact 对照</strong>：</p>
+        <p>低语义 raw trace → ELF + Runtime context binding → semantic_events.json + 数据溯源标签</p>
+        <p>Pointer 过度声称 → Bounded ARG_MEM prefix + 约束s → hardware_pointer_prefix_summary.json</p>
+        <p>Oracle 污染 → Provenance filter (4-class labels) → validation_oracle 字段不进入 report</p>
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>26</p>

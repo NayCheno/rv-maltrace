@@ -1,0 +1,125 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>08 Related Work</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>Ninja（SEC'17 / TIFS'19）—— 同方向最接近的对手</strong></p>
+  - elementId: highlight-bg
+    elementType: shape
+    bounds: [60, 110, 1160, 50]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "#DBEAFE"
+  - elementId: highlight-text
+    elementType: text
+    bounds: [80, 110, 1120, 50]
+    content:
+      fontSize: 16
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, middle]
+      text: |
+        <p><strong>Ninja 和 RV-MalTrace 都关注恶意软件分析，都强调低侵入/抗规避，但实现路径截然不同。</strong></p>
+  - elementId: diff-table
+    elementType: table
+    bounds: [60, 175, 1160, 360]
+    columnWidths: [0.22, 0.39, 0.39]
+    rowHeights: [0.10, 0.12, 0.12, 0.12, 0.12, 0.12, 0.12, 0.18]
+    style: "$default"
+    rows:
+      - - content: {text: "维度"}
+        - content: {text: "Ninja"}
+        - content: {text: "RV-MalTrace"}
+      - - content: {text: "目标"}
+        - content: {text: "ARM 透明 malware 分析/调试"}
+        - content: {text: "RISC-V/Linux 行为语义证据链"}
+      - - content: {text: "隔离机制"}
+        - content: {text: "TrustZone 安全域（EL3 vs normal）"}
+        - content: {text: "无安全域；RTL 旁路捕获"}
+      - - content: {text: "Trace 源"}
+        - content: {text: "ARM 标准 ETM packet（指令流）"}
+        - content: {text: "自定义 committed behavior event schema"}
+      - - content: {text: "系统修改"}
+        - content: {text: "需定制 TrustZone 固件（ATF）"}
+        - content: {text: "零修改任何系统软件"}
+      - - content: {text: "分析方式"}
+        - content: {text: "在线 trace + 人工 debug（GDB-like）"}
+        - content: {text: "离线 trace 分析 + 自动化行为规则匹配"}
+      - - content: {text: "威胁模型"}
+        - content: {text: "面向 evasive + 部分 privileged malware"}
+        - content: {text: "trusted kernel、user-mode malware-like"}
+      - - content:
+            text: |
+              <p><strong>一句话</strong></p>
+        - content:
+            text: |
+              <p>Ninja 是分析工具（trace + debug 供人工分析）</p>
+        - content:
+            text: |
+              <p><span style="color:$primary;"><strong>RV-MalTrace 是证据生成器（自动化行为规则匹配 + 审计证据链）</strong></span></p>
+  - elementId: avoid-bg
+    elementType: shape
+    bounds: [60, 550, 1160, 80]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "#FEE2E2"
+  - elementId: avoid-text
+    elementType: text
+    bounds: [80, 550, 1120, 80]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, middle]
+      text: |
+        <p><span style="color:$danger;"><strong>避免的说法</strong></span>：RV-MalTrace is transparent like Ninja. / RV-MalTrace can analyze privileged malware like Ninja. / RV-MalTrace achieves Ninja-level overhead.</p>
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>43</p>

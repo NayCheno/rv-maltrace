@@ -1,0 +1,150 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>04 实现该方案的挑战</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>挑战四：Pointer string 容易 过度声称</strong></p>
+  - elementId: left-card-bg
+    elementType: shape
+    bounds: [60, 110, 560, 280]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "$light"
+  - elementId: left-card-title
+    elementType: text
+    bounds: [80, 120, 520, 30]
+    content:
+      fontSize: 18
+      color: "$danger"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>硬件捕获到的是有限字节片段</strong></p>
+  - elementId: left-card-body
+    elementType: text
+    bounds: [80, 155, 520, 225]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>ARG_MEM 只给用户指针附近有限字节</p>
+        <p>不是完整内存转储</p>
+        <p>不是完整路径字符串</p>
+        <p style="margin-top:6px">如果直接说"硬件恢复了完整路径名"</p>
+        <p>→ 这就是 <strong>过度声称</strong></p>
+        <p style="margin-top:6px">截断前缀 是硬件产物</p>
+        <p>Full string 是外部产物</p>
+        <p>必须严格区分</p>
+  - elementId: right-card-bg
+    elementType: shape
+    bounds: [640, 110, 580, 280]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "$light"
+  - elementId: right-card-title
+    elementType: text
+    bounds: [660, 120, 540, 30]
+    content:
+      fontSize: 18
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>当前 Artifact 数据</strong></p>
+  - elementId: right-card-body
+    elementType: text
+    bounds: [660, 155, 540, 225]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>hardware_pointer_prefix_summary.json：</p>
+        <p>• 30 个 BRAM pointer-snapshot repetitions</p>
+        <p>• 51 个 pointer groups</p>
+        <p>• 1156 captured bytes</p>
+        <p>• hardware_pointer_strings_claimed = false</p>
+        <p>• full_string_claimed = false</p>
+        <p style="margin-top:6px"><strong>正确表述</strong>：</p>
+        <p>硬件支持的是 <strong>截断前缀 bytes</strong></p>
+        <p>不是 <strong>full path string</strong></p>
+  - elementId: bottom-table
+    elementType: table
+    bounds: [60, 410, 1160, 200]
+    columnWidths: [0.25, 0.35, 0.4]
+    rowHeights: [0.15, 0.17, 0.17, 0.17, 0.17, 0.17]
+    style: "$default"
+    rows:
+      - - content: {text: "约束"}
+        - content: {text: "说明"}
+        - content: {text: "边界"}
+      - - content: {text: "只选特定 syscall"}
+        - content: {text: "openat / write / execve 的指针参数"}
+        - content: {text: "不是所有 syscall"}
+      - - content: {text: "只读 user 空间"}
+        - content: {text: "不读 kernel address"}
+        - content: {text: "user pointer 有效"}
+      - - content: {text: "有长度限制"}
+        - content: {text: "MAX_POINTER_SNAPSHOT_BYTES"}
+        - content: {text: "bounded fragments"}
+      - - content: {text: "有时间限制"}
+        - content: {text: "MAX_POINTER_WATCH_CYCLES"}
+        - content: {text: "窗口内"}
+      - - content: {text: "遇 NUL 终止"}
+        - content: {text: "字符串结束符自动停止"}
+        - content: {text: "prefix 不是完整"}
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>21</p>

@@ -1,0 +1,36 @@
+pageType: chapter
+background:
+  type: solid
+  color: "$primary"
+elements:
+  - elementId: ch1-label
+    elementType: text
+    bounds: [100, 240, 300, 40]
+    content:
+      fontSize: 18
+      color: "#FFFFFF99"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>PART 01</p>
+  - elementId: ch1-title
+    elementType: text
+    bounds: [100, 290, 800, 70]
+    content:
+      style: "$chapterTitle"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>当前研究的问题</strong></p>
+  - elementId: ch1-subtitle
+    elementType: text
+    bounds: [100, 370, 800, 40]
+    content:
+      fontSize: 20
+      color: "#FFFFFFCC"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>恶意软件分析中的观察困境与硬件辅助破局点</p>

@@ -1,0 +1,134 @@
+pageType: cover
+background:
+  type: solid
+  color: "$primary"
+elements:
+  - elementId: cover-title
+    elementType: text
+    bounds: [80, 160, 700, 120]
+    content:
+      style: "$hero"
+      align: [left, top]
+      text: |
+        <p><strong>RV-MalTrace</strong></p>
+        <p>深度技术汇报</p>
+  - elementId: cover-subtitle
+    elementType: text
+    bounds: [80, 290, 700, 80]
+    content:
+      fontSize: 20
+      color: "#FFFFFFCC"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>受控 RISC-V Linux Workload 的硬件辅助行为重建证据链</p>
+        <p>Genesys2 / CVA6 / RVFI</p>
+  - elementId: cover-divider
+    elementType: shape
+    bounds: [80, 390, 80, 4]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$accent"
+  - elementId: cover-claim
+    elementType: text
+    bounds: [80, 410, 700, 120]
+    content:
+      fontSize: 16
+      color: "#FFFFFFBB"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.6
+      align: [left, top]
+      text: |
+        <p><strong>核心主张</strong>：不是 malware detector 的检测准确率实验，</p>
+        <p>而是闭合的一条硬件辅助行为重建证据链。</p>
+        <p>硬件捕获处理器提交级事件，通过 标记窗口准入检查、</p>
+        <p>ELF/runtime binding、semantic recovery 和 字段来源标签，</p>
+        <p>把低层硬件事实恢复成可审查的行为语义。</p>
+  - elementId: card-bg-1
+    elementType: shape
+    bounds: [800, 160, 420, 120]
+    shapeName: roundRect
+    adjustments: [8000]
+    fill:
+      type: solid
+      color: "#FFFFFF"
+  - elementId: card-num-1
+    elementType: text
+    bounds: [820, 175, 200, 55]
+    content:
+      style: "$dataNumber"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>128</strong></p>
+  - elementId: card-label-1
+    elementType: text
+    bounds: [820, 230, 200, 30]
+    content:
+      style: "$dataLabel"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>BOARD REPS ACCEPTED</p>
+  - elementId: card-bg-2
+    elementType: shape
+    bounds: [800, 300, 200, 100]
+    shapeName: roundRect
+    adjustments: [8000]
+    fill:
+      type: solid
+      color: "#1E293B"
+  - elementId: card-num-2
+    elementType: text
+    bounds: [820, 315, 160, 40]
+    content:
+      fontSize: 36
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>142</strong></p>
+  - elementId: card-label-2
+    elementType: text
+    bounds: [820, 355, 160, 25]
+    content:
+      fontSize: 12
+      color: "#FFFFFF99"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>BOARD ATTEMPTS</p>
+  - elementId: card-bg-3
+    elementType: shape
+    bounds: [1020, 300, 200, 100]
+    shapeName: roundRect
+    adjustments: [8000]
+    fill:
+      type: solid
+      color: "$light"
+  - elementId: card-num-3
+    elementType: text
+    bounds: [1040, 315, 160, 40]
+    content:
+      fontSize: 36
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>12</strong></p>
+  - elementId: card-label-3
+    elementType: text
+    bounds: [1040, 355, 160, 25]
+    content:
+      fontSize: 12
+      color: "$secondary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>WORKLOADS</p>

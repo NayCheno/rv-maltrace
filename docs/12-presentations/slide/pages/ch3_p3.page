@@ -1,0 +1,104 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>03 提出的解决方案</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>每个阶段都有失败处理机制</strong></p>
+  - elementId: intro
+    elementType: text
+    bounds: [60, 110, 1160, 40]
+    content:
+      fontSize: 16
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      text: |
+        <p>工程上的关键设计是<strong>失败保留（failure retention）</strong>，而不是失败丢弃：</p>
+  - elementId: failure-table
+    elementType: table
+    bounds: [60, 160, 1160, 280]
+    columnWidths: [0.25, 0.35, 0.4]
+    rowHeights: [0.14, 0.17, 0.17, 0.17, 0.17, 0.18]
+    style: "$default"
+    rows:
+      - - content: {text: "失败类型"}
+        - content: {text: "处理方式"}
+        - content: {text: "产物"}
+      - - content: {text: "Capture 失败"}
+        - content: {text: "保留 BRAM dump 和失败原因"}
+        - content: {text: "raw dump + failure log"}
+      - - content: {text: "Gate 失败"}
+        - content: {text: "marker 不完整 / seq 缺口 / drop/wrap"}
+        - content: {text: "retained_failed_attempts，不进入 PASS"}
+      - - content: {text: "Context binding 失败"}
+        - content: {text: "ELF/runtime 缺失或歧义"}
+        - content: {text: "降级或 block，不强行 claim"}
+      - - content: {text: "Semantic recovery 失败"}
+        - content: {text: "syscall 不可配对 / 字段不可解释"}
+        - content: {text: "boundary evidence"}
+      - - content: {text: "数据溯源检查失败"}
+        - content: {text: "验证基准字段被标为 hardware-only"}
+        - content: {text: "checker 拒绝，不进入 report"}
+  - elementId: bottom-note-bg
+    elementType: shape
+    bounds: [60, 460, 1160, 80]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "#FEF3C7"
+  - elementId: bottom-note-text
+    elementType: text
+    bounds: [80, 470, 1120, 60]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, middle]
+      text: |
+        <p>这直接回应了"成功是不是事后挑选出来的"这一质疑：14 个失败尝试被完整保留，它们不参与 accepted 统计，但参与 robustness 审计。</p>
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>15</p>

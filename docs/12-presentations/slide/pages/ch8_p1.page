@@ -1,0 +1,116 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>08 Related Work</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>五篇 A 会论文总览</strong></p>
+  - elementId: overview-table
+    elementType: table
+    bounds: [60, 110, 1160, 480]
+    columnWidths: [0.18, 0.12, 0.25, 0.22, 0.23]
+    rowHeights: [0.10, 0.18, 0.18, 0.18, 0.18, 0.18]
+    style: "$default"
+    rows:
+      - - content: {text: "论文"}
+        - content: {text: "会议"}
+        - content: {text: "核心目标"}
+        - content: {text: "平台"}
+        - content: {text: "关键技术"}
+      - - content:
+            text: |
+              <p><strong>Ninja</strong></p>
+        - content: {text: "SEC'17 / TIFS'19"}
+        - content: {text: "ARM 透明 malware 分析"}
+        - content: {text: "ARMv8 Juno / i.MX53"}
+        - content: {text: "TrustZone + PMU + ETM"}
+      - - content:
+            text: |
+              <p><strong>HART</strong></p>
+        - content: {text: "ESORICS'20"}
+        - content: {text: "内核模块动态追踪/保护"}
+        - content: {text: "ARM Cortex-A8 (i.MX53)"}
+        - content: {text: "ETM + ETB + PMU + HASAN"}
+      - - content:
+            text: |
+              <p><strong>Raft</strong></p>
+        - content: {text: "RAID'23"}
+        - content: {text: "运行时数据流防护 (DIFT)"}
+        - content: {text: "RISC-V Rocket Core"}
+        - content: {text: "RoCC 协处理器 + tag storage"}
+      - - content:
+            text: |
+              <p><strong>μAFL</strong></p>
+        - content: {text: "ICSE'22"}
+        - content: {text: "固件 fuzzing（覆盖率反馈）"}
+        - content: {text: "ARM Cortex-M (NXP/STM32)"}
+        - content: {text: "ETM + DWT + debug dongle"}
+      - - content:
+            text: |
+              <p><span style="color:$primary;"><strong>RV-MalTrace</strong></span></p>
+        - content:
+            text: |
+              <p><span style="color:$primary;"><strong>NDSS'26</strong></span></p>
+        - content:
+            text: |
+              <p><span style="color:$primary;"><strong>行为审计证据链</strong></span></p>
+        - content:
+            text: |
+              <p><span style="color:$primary;"><strong>RISC-V CVA6 / 35T</strong></span></p>
+        - content:
+            text: |
+              <p><span style="color:$primary;"><strong>自定义 RTL trace tap</strong></span></p>
+  - elementId: bottom-note
+    elementType: text
+    bounds: [60, 605, 1160, 50]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, middle]
+      text: |
+        <p><strong>核心定位</strong>：这些论文共同说明"硬件辅助低侵入观测"是成熟方向；我们的差异不在于也用了硬件 trace，而在于面向 <strong>RISC-V/Linux committed behavior event 的语义重建、证据链和 bounded malware-like behavior audit</strong>。</p>
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>40</p>

@@ -1,0 +1,130 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>07 具体方案/方法细节</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>Context Binding：从 Raw PC 到 Annotated Event</strong></p>
+  - elementId: input-bg
+    elementType: shape
+    bounds: [60, 110, 1160, 80]
+    shapeName: roundRect
+    adjustments: [4000]
+    fill:
+      type: solid
+      color: "$light"
+  - elementId: input-title
+    elementType: text
+    bounds: [80, 118, 200, 28]
+    content:
+      fontSize: 16
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>输入</strong></p>
+  - elementId: input-body
+    elementType: text
+    bounds: [80, 150, 1120, 28]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, middle]
+      text: |
+        <p>Trace event 中的 PC 和 syscall id  +  目标 ELF 精确映射 code map（sections, symbols, source） +  Runtime OS map（process, loaded object）</p>
+  - elementId: process-table
+    elementType: table
+    bounds: [60, 205, 1160, 280]
+    columnWidths: [0.1, 0.25, 0.35, 0.3]
+    rowHeights: [0.12, 0.17, 0.17, 0.17, 0.17, 0.2]
+    style: "$default"
+    rows:
+      - - content: {text: "Step"}
+        - content: {text: "处理"}
+        - content: {text: "检查内容"}
+        - content: {text: "输出"}
+      - - content: {text: "1"}
+        - content: {text: "静态匹配"}
+        - content: {text: "PC 是否落在 target ELF 的 load range、section、symbol"}
+        - content: {text: "binary, section, symbol"}
+      - - content: {text: "2"}
+        - content: {text: "运行时归属"}
+        - content: {text: "PC 属于 target_child / runner_parent / kernel / ambiguous"}
+        - content: {text: "process_owner"}
+      - - content: {text: "3"}
+        - content: {text: "ASLR/PIE 偏移"}
+        - content: {text: "pc - load_base = offset"}
+        - content: {text: "effective PC range"}
+      - - content: {text: "4"}
+        - content: {text: "fork/exec 跟踪"}
+        - content: {text: "进程切换后 owner 更新"}
+        - content: {text: "updated owner mapping"}
+      - - content: {text: "结果"}
+        - content: {text: "Annotated event"}
+        - content: {text: "包含 binary, symbol, process_owner, source label"}
+        - content: {text: "reportable / downgraded / blocked"}
+  - elementId: bottom-note-bg
+    elementType: shape
+    bounds: [60, 505, 1160, 80]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "#FEF3C7"
+  - elementId: bottom-note-text
+    elementType: text
+    bounds: [80, 515, 1120, 60]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, middle]
+      text: |
+        <p><strong>约束</strong>：静态 annotation 只能说明"PC 在 target ELF 范围内"，不等于"这个事件属于 target child"。对于 fork/exec 链，必须有完整的 runtime map 证据。</p>
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>33</p>

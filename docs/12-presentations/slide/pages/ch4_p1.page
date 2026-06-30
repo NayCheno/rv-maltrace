@@ -1,0 +1,108 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>04 实现该方案的挑战</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>挑战一：研究边界——目前能验证什么，还有哪些做不到</strong></p>
+  - elementId: intro
+    elementType: text
+    bounds: [60, 110, 1160, 40]
+    content:
+      fontSize: 16
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      text: |
+        <p>研究过程中，我们不断遇到一个核心问题：哪些结论有证据支撑，哪些还做不到？</p>
+  - elementId: boundary-table
+    elementType: table
+    bounds: [60, 160, 1160, 380]
+    columnWidths: [0.3, 0.35, 0.35]
+    rowHeights: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
+    style: "$default"
+    rows:
+      - - content: {text: "方向"}
+        - content: {text: "目前已验证 ✅"}
+        - content: {text: "目前尚未验证 ❌"}
+      - - content: {text: "研究目标"}
+        - content: {text: "在受控样本上重建硬件迹的行为语义"}
+        - content: {text: "Malware detector（恶意/良性分类）"}
+      - - content: {text: "数据传输方式"}
+        - content: {text: "Marker-window BRAM 缓存"}
+        - content: {text: "生产级 streaming / DMA 传输"}
+      - - content: {text: "运行时开销"}
+        - content: {text: "静态 FPGA 资源增量"}
+        - content: {text: "Cycle-level 运行时开销"}
+      - - content: {text: "路径字符串"}
+        - content: {text: "截断前缀（硬件捕获）"}
+        - content: {text: "完整路径字符串自动恢复"}
+      - - content: {text: "源码定位"}
+        - content: {text: "函数级（带 debug 信息的 ELF）"}
+        - content: {text: "板级原生 DWARF 解析"}
+      - - content: {text: "覆盖范围"}
+        - content: {text: "12 个受控程序"}
+        - content: {text: "真实 malware 家族覆盖"}
+      - - content: {text: "实验数据"}
+        - content: {text: "128/142 次 board 重复通过"}
+        - content: {text: "Detection accuracy / FP rate"}
+      - - content: {text: "泛化能力"}
+        - content: {text: "安全代理程序（surrogates）"}
+        - content: {text: "真实 malware 检测"}
+      - - content: {text: "证据支撑"}
+        - content: {text: "语义摘要 + 数据溯源标签"}
+        - content: {text: "Malware family coverage"}
+  - elementId: bottom-note
+    elementType: text
+    bounds: [60, 555, 1160, 80]
+    content:
+      fontSize: 16
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, middle]
+      text: |
+        <p><strong>目前我们的方向是：先把有证据支撑的部分做扎实，不急于扩展到还没有验证的领域。</strong>这不是说"不能"，而是说"目前还没做、证据不够"。</p>
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>18</p>

@@ -1,0 +1,141 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bg
+    elementType: shape
+    bounds: [0, 0, 1280, 40]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-text
+    elementType: text
+    bounds: [60, 0, 400, 40]
+    content:
+      fontSize: 14
+      color: "$white"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>01 当前研究的问题</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 55, 900, 40]
+    content:
+      style: "$title"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>关键洞察：两条证据路径必须分开</strong></p>
+  - elementId: hw-path-bg
+    elementType: shape
+    bounds: [60, 110, 560, 280]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "#DBEAFE"
+  - elementId: hw-path-title
+    elementType: text
+    bounds: [80, 120, 300, 30]
+    content:
+      fontSize: 18
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>蓝色路径（可报告证据）</strong></p>
+  - elementId: hw-path-body
+    elementType: text
+    bounds: [80, 155, 520, 220]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p><strong>来源</strong>：硬件 trace、目标 ELF 精确映射、runtime OS map</p>
+        <p><strong>用途</strong>：<strong>支撑报告结论</strong></p>
+        <p><strong>产物</strong>：带有来源标注的 semantic events</p>
+        <p style="margin-top:6px">数据溯源机制是安全阀：</p>
+        <p>确保每字段来源可追溯到具体 artifact</p>
+        <p style="margin-top:6px">最终结论只能从蓝色路径和</p>
+        <p>明确标注的 目标 ELF 精确映射/runtime map 来</p>
+  - elementId: oracle-path-bg
+    elementType: shape
+    bounds: [640, 110, 580, 280]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "#F1F5F9"
+  - elementId: oracle-path-title
+    elementType: text
+    bounds: [660, 120, 300, 30]
+    content:
+      fontSize: 18
+      color: "$secondary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>灰色路径（验证神谕）</strong></p>
+  - elementId: oracle-path-body
+    elementType: text
+    bounds: [660, 155, 540, 220]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p><strong>来源</strong>：qemu/strace、host/control transcript</p>
+        <p><strong>用途</strong>：确认 expected order、辅助调试</p>
+        <p><strong>限制</strong>：对 workload 可见</p>
+        <p><strong>标签</strong>：validation_oracle</p>
+        <p style="margin-top:6px">276 个 验证基准字段被挡在</p>
+        <p>验证通道，不会进入 report</p>
+        <p style="margin-top:6px">验证基准字段必须被 数据溯源机制明确拦住</p>
+  - elementId: marker-note-bg
+    elementType: shape
+    bounds: [60, 410, 1160, 80]
+    shapeName: roundRect
+    adjustments: [6000]
+    fill:
+      type: solid
+      color: "#EFF6FF"
+  - elementId: marker-note-text
+    elementType: text
+    bounds: [80, 420, 1120, 60]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, middle]
+      text: |
+        <p><strong>Marker 只约束观测窗口，不约束硬件执行</strong>。begin/end marker 决定哪些硬件事件进入 证据链路；窗口外事件不参与 claim。它给低语义硬件事件加了可验证边界。</p>
+  - elementId: footer
+    elementType: text
+    bounds: [60, 680, 400, 30]
+    content:
+      style: "$caption"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>RV-MalTrace 深度技术汇报</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 680, 60, 30]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>05</p>
