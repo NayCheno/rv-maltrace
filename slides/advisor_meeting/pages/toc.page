@@ -1,0 +1,187 @@
+pageType: table_of_contents
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: toc-label
+    elementType: text
+    bounds: [60, 80, 400, 50]
+    content:
+      fontSize: 14
+      color: "$secondary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      letterSpacing: 4
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>CONTENTS</strong></p>
+  - elementId: toc-title
+    elementType: text
+    bounds: [60, 130, 400, 60]
+    content:
+      style: "$heading"
+      fontSize: 36
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>汇报提纲</strong></p>
+  - elementId: toc-accent-line
+    elementType: shape
+    bounds: [60, 200, 80, 3]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$accent"
+  - elementId: toc-item1-num
+    elementType: text
+    bounds: [60, 260, 80, 50]
+    content:
+      fontSize: 32
+      color: "$accent"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>01</strong></p>
+  - elementId: toc-item1-title
+    elementType: text
+    bounds: [140, 260, 500, 50]
+    content:
+      fontSize: 22
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>研究背景与问题</strong></p>
+  - elementId: toc-item1-desc
+    elementType: text
+    bounds: [140, 310, 500, 30]
+    content:
+      fontSize: 14
+      color: "$secondary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>当前研究问题与动机</p>
+  - elementId: toc-divider1
+    elementType: shape
+    bounds: [60, 360, 540, 1]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "#E2E5EA"
+  - elementId: toc-item2-num
+    elementType: text
+    bounds: [60, 380, 80, 50]
+    content:
+      fontSize: 32
+      color: "$accent"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>02</strong></p>
+  - elementId: toc-item2-title
+    elementType: text
+    bounds: [140, 380, 500, 50]
+    content:
+      fontSize: 22
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>难点与挑战</strong></p>
+  - elementId: toc-item2-desc
+    elementType: text
+    bounds: [140, 430, 500, 30]
+    content:
+      fontSize: 14
+      color: "$secondary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>技术难点与实现挑战</p>
+  - elementId: toc-divider2
+    elementType: shape
+    bounds: [60, 480, 540, 1]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "#E2E5EA"
+  - elementId: toc-item3-num
+    elementType: text
+    bounds: [60, 500, 80, 50]
+    content:
+      fontSize: 32
+      color: "$accent"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>03</strong></p>
+  - elementId: toc-item3-title
+    elementType: text
+    bounds: [140, 500, 500, 50]
+    content:
+      fontSize: 22
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>解决方案</strong></p>
+  - elementId: toc-item3-desc
+    elementType: text
+    bounds: [140, 550, 500, 30]
+    content:
+      fontSize: 14
+      color: "$secondary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>系统架构与应对策略</p>
+  - elementId: toc-divider3
+    elementType: shape
+    bounds: [60, 600, 540, 1]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "#E2E5EA"
+  - elementId: toc-item4-num
+    elementType: text
+    bounds: [60, 620, 80, 50]
+    content:
+      fontSize: 32
+      color: "$accent"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>04</strong></p>
+  - elementId: toc-item4-title
+    elementType: text
+    bounds: [140, 620, 500, 50]
+    content:
+      fontSize: 22
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>技术细节与评估</strong></p>
+  - elementId: toc-item4-desc
+    elementType: text
+    bounds: [140, 670, 500, 30]
+    content:
+      fontSize: 14
+      color: "$secondary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p>架构细节、评估框架与当前进展</p>

@@ -1,0 +1,220 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bar
+    elementType: shape
+    bounds: [0, 0, 1280, 50]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-active
+    elementType: shape
+    bounds: [960, 46, 320, 4]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "#FFFFFF"
+  - elementId: nav-text1
+    elementType: text
+    bounds: [0, 0, 320, 50]
+    content:
+      style: "$nav"
+      color: "#FFFFFFAA"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>研究背景与问题</p>
+  - elementId: nav-text2
+    elementType: text
+    bounds: [320, 0, 320, 50]
+    content:
+      style: "$nav"
+      color: "#FFFFFFAA"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>难点与挑战</p>
+  - elementId: nav-text3
+    elementType: text
+    bounds: [640, 0, 320, 50]
+    content:
+      style: "$nav"
+      color: "#FFFFFFAA"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>解决方案</p>
+  - elementId: nav-text4
+    elementType: text
+    bounds: [960, 0, 320, 50]
+    content:
+      style: "$nav"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p><strong>技术细节与评估</strong></p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 70, 900, 40]
+    content:
+      style: "$heading"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>具体方案细节 — 硬件架构</strong></p>
+  - elementId: title-accent
+    elementType: shape
+    bounds: [60, 115, 80, 3]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$accent"
+  - elementId: left-block
+    elementType: shape
+    bounds: [60, 140, 360, 380]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$surface"
+    border:
+      style: solid
+      width: 1
+      color: "#E2E5EA"
+  - elementId: left-title
+    elementType: text
+    bounds: [80, 150, 320, 30]
+    content:
+      fontSize: 18
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>事件类型（13 种）</strong></p>
+  - elementId: left-body
+    elementType: text
+    bounds: [80, 185, 320, 325]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p><span style="color:$accent;">●</span> EVT_RETIRE / BRANCH / JUMP</p>
+        <p><span style="color:$accent;">●</span> EVT_SYSCALL_ENTRY / RET</p>
+        <p><span style="color:$accent;">●</span> EVT_TRAP / CSR / SATP / PRIV</p>
+        <p><span style="color:$accent;">●</span> EVT_ARG_MEM（指针快照）</p>
+        <p><span style="color:$accent;">●</span> EVT_DROP / MARKER</p>
+        <p style="margin-top:8px"><span style="color:$secondary;">统一结构体 trace_packet_t，包含 cycle, pc, instr, target, taken, priv, satp, csr, value, cause, tval, syscall_id, duration, a0-a7, arg_index, mem_addr, mem_data, mem_size, mem_last</span></p>
+  - elementId: mid-block
+    elementType: shape
+    bounds: [440, 140, 380, 380]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$surface"
+    border:
+      style: solid
+      width: 1
+      color: "#E2E5EA"
+  - elementId: mid-title
+    elementType: text
+    bounds: [460, 150, 340, 30]
+    content:
+      fontSize: 18
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>Tap 模块与仲裁</strong></p>
+  - elementId: mid-body
+    elementType: text
+    bounds: [460, 185, 340, 325]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p><span style="color:$accent;">●</span> retire_tap：commit_valid && !exception && !kill</p>
+        <p><span style="color:$accent;">●</span> branch_tap：decode opcode + next_pc 推导</p>
+        <p><span style="color:$accent;">●</span> syscall_tap：U-mode ECALL + SRET-to-U</p>
+        <p><span style="color:$accent;">●</span> trap_tap：trap_valid + cause + tval</p>
+        <p><span style="color:$accent;">●</span> context_tap：privilege change + CSR write</p>
+        <p><span style="color:$accent;">●</span> arg_mem_tap：syscall pointer snapshot</p>
+        <p style="margin-top:8px"><span style="color:$secondary;">仲裁优先级：TRAP > SYSCALL > ARG_MEM > CONTEXT > BRANCH > RETIRE</span></p>
+  - elementId: right-block
+    elementType: shape
+    bounds: [840, 140, 380, 380]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$surface"
+    border:
+      style: solid
+      width: 1
+      color: "#E2E5EA"
+  - elementId: right-title
+    elementType: text
+    bounds: [860, 150, 340, 30]
+    content:
+      fontSize: 18
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>Filter 与 Queue</strong></p>
+  - elementId: right-body
+    elementType: text
+    bounds: [860, 185, 340, 325]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p><span style="color:$accent;">●</span> trace_filter.sv：enable/disable 各事件类型</p>
+        <p><span style="color:$accent;">●</span> PC range filter：trace_pc_start ~ trace_pc_end</p>
+        <p><span style="color:$accent;">●</span> Privilege mask filter：priv_mask 控制特权级</p>
+        <p><span style="color:$accent;">●</span> EVENT_QUEUE_DEPTH = 8，pending FIFO</p>
+        <p><span style="color:$accent;">●</span> Queue 满时 emit EVT_DROP，计数但不丢数据</p>
+        <p style="margin-top:8px"><span style="color:$secondary;">PIPELINE_INPUTS 参数控制输入打拍，平衡时序与延迟</span></p>
+  - elementId: bottom-code
+    elementType: shape
+    bounds: [60, 540, 1160, 100]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$lightbg"
+    border:
+      style: solid
+      width: 1
+      color: "#E2E5EA"
+  - elementId: bottom-code-text
+    elementType: text
+    bounds: [80, 545, 1120, 90]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, middle]
+      text: |
+        <p><strong>trace_top.sv 核心逻辑：</strong>always_comb 仲裁 6 个 source_valid，若 drop_count_q 非零则先 emit DROP；否则若 pending queue 非空则出队；否则扫描 source 输出最高优先级事件。同周期未选中事件入 pending queue。</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 690, 60, 20]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>14</p>

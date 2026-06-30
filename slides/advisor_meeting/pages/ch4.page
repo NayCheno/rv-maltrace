@@ -1,0 +1,45 @@
+pageType: chapter
+background:
+  type: solid
+  color: "$primary"
+elements:
+  - elementId: ch4-num-bg
+    elementType: text
+    bounds: [440, 180, 400, 200]
+    content:
+      fontSize: 160
+      color: "#FFFFFF15"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>04</p>
+  - elementId: ch4-title
+    elementType: text
+    bounds: [240, 280, 800, 70]
+    content:
+      fontSize: 40
+      color: "#FFFFFF"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p><strong>技术细节与评估</strong></p>
+  - elementId: ch4-accent
+    elementType: shape
+    bounds: [580, 370, 120, 3]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$accent"
+  - elementId: ch4-subtitle
+    elementType: text
+    bounds: [240, 400, 800, 50]
+    content:
+      fontSize: 20
+      color: "#FFFFFFBB"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>架构、背景与证据</p>

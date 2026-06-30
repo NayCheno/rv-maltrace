@@ -1,0 +1,228 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bar
+    elementType: shape
+    bounds: [0, 0, 1280, 50]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-active
+    elementType: shape
+    bounds: [960, 46, 320, 4]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "#FFFFFF"
+  - elementId: nav-text1
+    elementType: text
+    bounds: [0, 0, 320, 50]
+    content:
+      style: "$nav"
+      color: "#FFFFFFAA"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>研究背景与问题</p>
+  - elementId: nav-text2
+    elementType: text
+    bounds: [320, 0, 320, 50]
+    content:
+      style: "$nav"
+      color: "#FFFFFFAA"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>难点与挑战</p>
+  - elementId: nav-text3
+    elementType: text
+    bounds: [640, 0, 320, 50]
+    content:
+      style: "$nav"
+      color: "#FFFFFFAA"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>解决方案</p>
+  - elementId: nav-text4
+    elementType: text
+    bounds: [960, 0, 320, 50]
+    content:
+      style: "$nav"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p><strong>技术细节与评估</strong></p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 70, 900, 40]
+    content:
+      style: "$heading"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>必要的技术背景知识</strong></p>
+  - elementId: title-accent
+    elementType: shape
+    bounds: [60, 115, 80, 3]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$accent"
+  - elementId: bg1-bar
+    elementType: shape
+    bounds: [60, 140, 5, 110]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$accent"
+  - elementId: bg1-title
+    elementType: text
+    bounds: [80, 140, 500, 26]
+    content:
+      fontSize: 18
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>RISC-V 特权架构</strong></p>
+  - elementId: bg1-text
+    elementType: text
+    bounds: [80, 170, 500, 80]
+    content:
+      fontSize: 15
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>U-mode (User) / S-mode (Supervisor) / M-mode (Machine)。ECALL 从 U-mode 陷入 S-mode 的 trap handler，处理完成后通过 SRET 返回 U-mode。</p>
+  - elementId: bg2-bar
+    elementType: shape
+    bounds: [660, 140, 5, 110]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$accent"
+  - elementId: bg2-title
+    elementType: text
+    bounds: [680, 140, 520, 26]
+    content:
+      fontSize: 18
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>CVA6 RVFI 接口</strong></p>
+  - elementId: bg2-text
+    elementType: text
+    bounds: [680, 170, 520, 80]
+    content:
+      fontSize: 15
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>RISC-V Formal Interface，每周期输出最多 2 个 commit port 的 valid、pc、insn、trap、cause、mode、rd_addr、rd_wdata 等信号，是 trace tap 的数据源。</p>
+  - elementId: bg3-bar
+    elementType: shape
+    bounds: [60, 270, 5, 110]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$accent"
+  - elementId: bg3-title
+    elementType: text
+    bounds: [80, 270, 500, 26]
+    content:
+      fontSize: 18
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>Syscall ABI</strong></p>
+  - elementId: bg3-text
+    elementType: text
+    bounds: [80, 300, 500, 80]
+    content:
+      fontSize: 15
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>RISC-V Linux 中 a7 为 syscall number，a0-a5 为参数，a0 为返回值。openat/write/execve 等 syscall 携带指针参数，需要额外恢复机制。</p>
+  - elementId: bg4-bar
+    elementType: shape
+    bounds: [660, 270, 5, 110]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$accent"
+  - elementId: bg4-title
+    elementType: text
+    bounds: [680, 270, 520, 26]
+    content:
+      fontSize: 18
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>硬件 vs 软件 Tracing</strong></p>
+  - elementId: bg4-text
+    elementType: text
+    bounds: [680, 300, 520, 80]
+    content:
+      fontSize: 15
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>软件 tracer 通过 ptrace/eBPF/动态插桩获取信息，可被检测；硬件 tracer 通过 sideband 观察 committed state，目标不可感知，提供独立证据源。</p>
+  - elementId: bg5-bar
+    elementType: shape
+    bounds: [60, 400, 5, 110]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$accent"
+  - elementId: bg5-title
+    elementType: text
+    bounds: [80, 400, 1120, 26]
+    content:
+      fontSize: 18
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>行为图模型（Behavior Graph）</strong></p>
+  - elementId: bg5-text
+    elementType: text
+    bounds: [80, 430, 1120, 80]
+    content:
+      fontSize: 15
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>节点为 process / file / socket / memory region，边为 syscall 关系（open/read/write/exec/clone 等）。用于 malware behavior audit 和规则匹配，而非简单的"检测/未检测"二元判断。</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 690, 60, 20]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>13</p>

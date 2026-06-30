@@ -1,0 +1,229 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bar
+    elementType: shape
+    bounds: [0, 0, 1280, 50]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-active
+    elementType: shape
+    bounds: [960, 46, 320, 4]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "#FFFFFF"
+  - elementId: nav-text1
+    elementType: text
+    bounds: [0, 0, 320, 50]
+    content:
+      style: "$nav"
+      color: "#FFFFFFAA"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>研究背景与问题</p>
+  - elementId: nav-text2
+    elementType: text
+    bounds: [320, 0, 320, 50]
+    content:
+      style: "$nav"
+      color: "#FFFFFFAA"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>难点与挑战</p>
+  - elementId: nav-text3
+    elementType: text
+    bounds: [640, 0, 320, 50]
+    content:
+      style: "$nav"
+      color: "#FFFFFFAA"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>解决方案</p>
+  - elementId: nav-text4
+    elementType: text
+    bounds: [960, 0, 320, 50]
+    content:
+      style: "$nav"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p><strong>技术细节与评估</strong></p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 70, 900, 40]
+    content:
+      style: "$heading"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>具体方案细节 — 语义重建流水线</strong></p>
+  - elementId: title-accent
+    elementType: shape
+    bounds: [60, 115, 80, 3]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$accent"
+  - elementId: stage1-box
+    elementType: shape
+    bounds: [60, 140, 220, 200]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: stage1-text
+    elementType: text
+    bounds: [70, 150, 200, 180]
+    content:
+      fontSize: 14
+      color: "#FFFFFF"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p><strong>Stage 1</strong></p>
+        <p><strong>硬件解析</strong></p>
+        <p style="margin-top:6px">trace.jsonl → 按事件分类，提取 cycle, pc, instr, syscall_id, a0-a7, cause</p>
+  - elementId: arrow1
+    elementType: shape
+    bounds: [280, 230, 40, 0]
+    shapeName: straightConnector1
+    arrow: [null, "arrow"]
+    border: {style: solid, width: 2, color: "$secondary"}
+  - elementId: stage2-box
+    elementType: shape
+    bounds: [320, 140, 220, 200]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: stage2-text
+    elementType: text
+    bounds: [330, 150, 200, 180]
+    content:
+      fontSize: 14
+      color: "#FFFFFF"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p><strong>Stage 2</strong></p>
+        <p><strong>代码归因</strong></p>
+        <p style="margin-top:6px">join ELF .symtab + .debug_line + 反汇编，pc → 函数名/源文件行；PIE/ASLR 基址重定位</p>
+  - elementId: arrow2
+    elementType: shape
+    bounds: [540, 230, 40, 0]
+    shapeName: straightConnector1
+    arrow: [null, "arrow"]
+    border: {style: solid, width: 2, color: "$secondary"}
+  - elementId: stage3-box
+    elementType: shape
+    bounds: [580, 140, 220, 200]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: stage3-text
+    elementType: text
+    bounds: [590, 150, 200, 180]
+    content:
+      fontSize: 14
+      color: "#FFFFFF"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p><strong>Stage 3</strong></p>
+        <p><strong>运行时映射</strong></p>
+        <p style="margin-top:6px">识别进程边界（fork/exec/clone）、fd-to-path 关系、内存映射；构建 fd graph 和 process tree</p>
+  - elementId: arrow3
+    elementType: shape
+    bounds: [800, 230, 40, 0]
+    shapeName: straightConnector1
+    arrow: [null, "arrow"]
+    border: {style: solid, width: 2, color: "$secondary"}
+  - elementId: stage4-box
+    elementType: shape
+    bounds: [840, 140, 220, 210]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$accent"
+  - elementId: stage4-text
+    elementType: text
+    bounds: [850, 150, 200, 200]
+    content:
+      fontSize: 14
+      color: "#FFFFFF"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p><strong>Stage 4</strong></p>
+        <p><strong>行为重建</strong></p>
+        <p style="margin-top:6px">syscall 序列 → 行为规则匹配（anti_debug、file_scan 等）→ behavior_graph.json</p>
+  - elementId: stage5-box
+    elementType: shape
+    bounds: [60, 370, 1160, 80]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$lightbg"
+    border:
+      style: solid
+      width: 1
+      color: "#E2E5EA"
+  - elementId: stage5-text
+    elementType: text
+    bounds: [80, 375, 1120, 70]
+    content:
+      fontSize: 15
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, middle]
+      text: |
+        <p><strong>Stage 5 证据标记：</strong>每个输出字段标注来源 — <span style="color:$primary;">hardware_derived</span>（来自 trace）、<span style="color:$primary;">elf_mapped</span>（来自 ELF）、<span style="color:$primary;">runtime_inferred</span>（来自运行时映射）、<span style="color:$secondary;">reference_oracle</span>（仅用于对比）</p>
+  - elementId: output-title
+    elementType: text
+    bounds: [60, 470, 300, 26]
+    content:
+      fontSize: 18
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>输出产物</strong></p>
+  - elementId: output-body
+    elementType: text
+    bounds: [60, 500, 1160, 150]
+    content:
+      fontSize: 15
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p><span style="color:$accent;">●</span> semantic_events.json — 结构化语义事件序列</p>
+        <p><span style="color:$accent;">●</span> behavior_graph.json — 进程/文件/内存关系图</p>
+        <p><span style="color:$accent;">●</span> recovery_report.md — 人工可读的恢复报告</p>
+        <p><span style="color:$accent;">●</span> timeline.html / graph.html — 可视化时间线和关系图</p>
+        <p><span style="color:$accent;">●</span> scorecard.md — 行为匹配评分卡（明确标注非检测器准确率）</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 690, 60, 20]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>15</p>

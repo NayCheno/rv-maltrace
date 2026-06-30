@@ -1,0 +1,154 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bar
+    elementType: shape
+    bounds: [0, 0, 1280, 50]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-active
+    elementType: shape
+    bounds: [640, 46, 320, 4]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "#FFFFFF"
+  - elementId: nav-text1
+    elementType: text
+    bounds: [0, 0, 320, 50]
+    content:
+      style: "$nav"
+      color: "#FFFFFFAA"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>研究背景与问题</p>
+  - elementId: nav-text2
+    elementType: text
+    bounds: [320, 0, 320, 50]
+    content:
+      style: "$nav"
+      color: "#FFFFFFAA"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>难点与挑战</p>
+  - elementId: nav-text3
+    elementType: text
+    bounds: [640, 0, 320, 50]
+    content:
+      style: "$nav"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p><strong>解决方案</strong></p>
+  - elementId: nav-text4
+    elementType: text
+    bounds: [960, 0, 320, 50]
+    content:
+      style: "$nav"
+      color: "#FFFFFFAA"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>技术细节与评估</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 70, 900, 40]
+    content:
+      style: "$heading"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>应对挑战的方法与策略</strong></p>
+  - elementId: title-accent
+    elementType: shape
+    bounds: [60, 115, 80, 3]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$accent"
+  - elementId: strat-table
+    elementType: table
+    bounds: [60, 140, 1160, 430]
+    columnWidths: [0.22, 0.38, 0.40]
+    rowHeights: [0.1, 0.18, 0.18, 0.18, 0.18, 0.18]
+    style: "$default"
+    rows:
+      - - content:
+            text: |
+              <p><strong>挑战</strong></p>
+        - content:
+            text: |
+              <p><strong>策略</strong></p>
+        - content:
+            text: |
+              <p><strong>具体措施</strong></p>
+      - - content:
+            text: |
+              <p>信号定位</p>
+        - content:
+            text: |
+              <p>基于 RVFI 建立信号映射</p>
+        - content:
+            text: |
+              <p>signal_map.md 记录每个 commit port 的 valid/pc/instr/trap/cause，RVFI 适配器处理双端口和压缩指令</p>
+      - - content:
+            text: |
+              <p>无侵入设计</p>
+        - content:
+            text: |
+              <p>Shadow register + Drop mode</p>
+        - content:
+            text: |
+              <p>arg_shadow 监听 writeback 跟踪 a0-a7，不增加 RF 端口；FIFO 溢出时 emit EVT_DROP 并计数，绝不 backpressure</p>
+      - - content:
+            text: |
+              <p>Trace 导出</p>
+        - content:
+            text: |
+              <p>分阶段导出策略</p>
+        - content:
+            text: |
+              <p>Phase 1: BRAM ring + ILA/JTAG（证明 packet shape）；Phase 2: UART streaming；Phase 3: AXI DMA（未来）</p>
+      - - content:
+            text: |
+              <p>验证矩阵</p>
+        - content:
+            text: |
+              <p>受控分层验证</p>
+        - content:
+            text: |
+              <p>bare-metal smoke → branch/jump/ecall/trap/CSR → board 验证 → Linux workload → controlled surrogate</p>
+      - - content:
+            text: |
+              <p>资源/时序</p>
+        - content:
+            text: |
+              <p>增量对比 + 时序闭合</p>
+        - content:
+            text: |
+              <p>trace-enabled bitstream vs baseline bitstream 对比 LUT/FF/BRAM 增量；当前 Slack = 0.177 ns，0 routing errors</p>
+  - elementId: bottom-note
+    elementType: text
+    bounds: [60, 590, 1160, 60]
+    content:
+      style: "$body"
+      fontSize: 16
+      lineHeight: 1.5
+      align: [left, middle]
+      text: |
+        <p><strong>核心原则：</strong>每个策略都对应可检查的 artifact 和 gate，不依赖主观判断或不可复现的手动步骤。</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 690, 60, 20]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>11</p>

@@ -1,0 +1,201 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bar
+    elementType: shape
+    bounds: [0, 0, 1280, 50]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-active
+    elementType: shape
+    bounds: [0, 46, 320, 4]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "#FFFFFF"
+  - elementId: nav-text1
+    elementType: text
+    bounds: [0, 0, 320, 50]
+    content:
+      style: "$nav"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p><strong>研究背景与问题</strong></p>
+  - elementId: nav-text2
+    elementType: text
+    bounds: [320, 0, 320, 50]
+    content:
+      style: "$nav"
+      color: "#FFFFFFAA"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>难点与挑战</p>
+  - elementId: nav-text3
+    elementType: text
+    bounds: [640, 0, 320, 50]
+    content:
+      style: "$nav"
+      color: "#FFFFFFAA"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>解决方案</p>
+  - elementId: nav-text4
+    elementType: text
+    bounds: [960, 0, 320, 50]
+    content:
+      style: "$nav"
+      color: "#FFFFFFAA"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>技术细节与评估</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 70, 900, 40]
+    content:
+      style: "$heading"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>研究动机与价值</strong></p>
+  - elementId: title-accent
+    elementType: shape
+    bounds: [60, 115, 80, 3]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$accent"
+  - elementId: left-card
+    elementType: shape
+    bounds: [60, 140, 560, 280]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$surface"
+    border:
+      style: solid
+      width: 1
+      color: "#E2E5EA"
+  - elementId: left-card-title
+    elementType: text
+    bounds: [80, 150, 520, 30]
+    content:
+      fontSize: 20
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>软件 Tracing 的局限</strong></p>
+  - elementId: left-card-line
+    elementType: shape
+    bounds: [80, 185, 520, 1]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "#E2E5EA"
+  - elementId: left-card-body
+    elementType: text
+    bounds: [80, 195, 520, 210]
+    content:
+      style: "$body"
+      fontSize: 16
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p><span style="color:$accent;">●</span> 软件 tracer 是测量系统的一部分，可被目标检测</p>
+        <p><span style="color:$accent;">●</span> Anti-debug：检测 ptrace 附加状态</p>
+        <p><span style="color:$accent;">●</span> Timing check：测量系统调用耗时差异发现 tracer</p>
+        <p><span style="color:$accent;">●</span> Direct syscall：绕过 libc 直接调用内核，避开用户态 hook</p>
+        <p><span style="color:$accent;">●</span> Packed code：在运行时解密，静态分析失效</p>
+  - elementId: right-card
+    elementType: shape
+    bounds: [660, 140, 560, 280]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$surface"
+    border:
+      style: solid
+      width: 1
+      color: "#E2E5EA"
+  - elementId: right-card-title
+    elementType: text
+    bounds: [680, 150, 520, 30]
+    content:
+      fontSize: 20
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>硬件 Trace 的价值</strong></p>
+  - elementId: right-card-line
+    elementType: shape
+    bounds: [680, 185, 520, 1]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "#E2E5EA"
+  - elementId: right-card-body
+    elementType: text
+    bounds: [680, 195, 520, 210]
+    content:
+      style: "$body"
+      fontSize: 16
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p><span style="color:$accent;">●</span> 独立于被测程序，无法被检测或绕过</p>
+        <p><span style="color:$accent;">●</span> 记录 committed architectural state，不可抵赖</p>
+        <p><span style="color:$accent;">●</span> 不依赖 OS 内核支持，适用于裸机到 Linux 全栈</p>
+        <p><span style="color:$accent;">●</span> 为对抗性分析提供可信的独立证据源</p>
+        <p><span style="color:$accent;">●</span> 填补"硬件可信但语义缺失"的研究空白</p>
+  - elementId: bottom-note
+    elementType: text
+    bounds: [60, 440, 1160, 80]
+    content:
+      style: "$body"
+      fontSize: 16
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p><strong>核心洞察：</strong>软件 tracing 不是没用，而是不适合单独承担对抗性 workload 的全部证据链。硬件 trace 提供独立观察点，但必须补上<span style="color:$accent;">归因（attribution）</span>和<span style="color:$accent;">边界（boundary）</span>机制，才能支撑可信的行为声称。</p>
+  - elementId: value-flow-diagram
+    elementType: shape
+    bounds: [60, 540, 1160, 55]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$lightbg"
+    border:
+      style: solid
+      width: 1
+      color: "#E2E5EA"
+  - elementId: value-flow-text
+    elementType: text
+    bounds: [80, 540, 1120, 55]
+    content:
+      fontSize: 16
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [center, middle]
+      text: |
+        <p><strong>软件 Tracing</strong>  <span style="color:$secondary;">→ 参考日志 / 易检测</span> 　　<strong>硬件 Trace</strong>  <span style="color:$secondary;">→ 独立证据 / 语义缺失</span> 　　<strong>RV-MalTrace</strong>  <span style="color:$accent;">→ 硬件可信 + 语义重建</span></p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 690, 60, 20]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>05</p>

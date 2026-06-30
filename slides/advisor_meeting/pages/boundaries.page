@@ -1,0 +1,208 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bar
+    elementType: shape
+    bounds: [0, 0, 1280, 50]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-active
+    elementType: shape
+    bounds: [960, 46, 320, 4]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "#FFFFFF"
+  - elementId: nav-text1
+    elementType: text
+    bounds: [0, 0, 320, 50]
+    content:
+      style: "$nav"
+      color: "#FFFFFFAA"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>研究背景与问题</p>
+  - elementId: nav-text2
+    elementType: text
+    bounds: [320, 0, 320, 50]
+    content:
+      style: "$nav"
+      color: "#FFFFFFAA"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>难点与挑战</p>
+  - elementId: nav-text3
+    elementType: text
+    bounds: [640, 0, 320, 50]
+    content:
+      style: "$nav"
+      color: "#FFFFFFAA"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>解决方案</p>
+  - elementId: nav-text4
+    elementType: text
+    bounds: [960, 0, 320, 50]
+    content:
+      style: "$nav"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p><strong>技术细节与评估</strong></p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 70, 900, 40]
+    content:
+      style: "$heading"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>当前进展与边界</strong></p>
+  - elementId: title-accent
+    elementType: shape
+    bounds: [60, 115, 80, 3]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$accent"
+  - elementId: done-card
+    elementType: shape
+    bounds: [60, 140, 560, 280]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$surface"
+    border:
+      style: solid
+      width: 1
+      color: "#E2E5EA"
+  - elementId: done-title
+    elementType: text
+    bounds: [80, 150, 520, 30]
+    content:
+      fontSize: 20
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>已完成</strong></p>
+  - elementId: done-line
+    elementType: shape
+    bounds: [80, 185, 520, 1]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "#E2E5EA"
+  - elementId: done-body
+    elementType: text
+    bounds: [80, 195, 520, 210]
+    content:
+      fontSize: 15
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p><span style="color:$accent;">●</span> CVA6 Vivado simulation MVP</p>
+        <p><span style="color:$accent;">●</span> trace_pkg / trace_top / tap 实现</p>
+        <p><span style="color:$accent;">●</span> Genesys2 board baseline bring-up</p>
+        <p><span style="color:$accent;">●</span> First-board trace validation</p>
+        <p><span style="color:$accent;">●</span> Behavior demo 语义重建</p>
+        <p><span style="color:$accent;">●</span> Controlled safe surrogate 评估</p>
+  - elementId: boundary-card
+    elementType: shape
+    bounds: [660, 140, 560, 280]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$surface"
+    border:
+      style: solid
+      width: 1
+      color: "#E2E5EA"
+  - elementId: boundary-title
+    elementType: text
+    bounds: [680, 150, 520, 30]
+    content:
+      fontSize: 20
+      color: "$accent"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>明确边界（非声称）</strong></p>
+  - elementId: boundary-line
+    elementType: shape
+    bounds: [680, 185, 520, 1]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "#E2E5EA"
+  - elementId: boundary-body
+    elementType: text
+    bounds: [680, 195, 520, 210]
+    content:
+      fontSize: 15
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p><span style="color:$accent;">✗</span> 真实 malware detection accuracy</p>
+        <p><span style="color:$accent;">✗</span> Production streaming/DMA throughput</p>
+        <p><span style="color:$accent;">✗</span> 完整硬件指针字符串（bounded only）</p>
+        <p><span style="color:$accent;">✗</span> Cycle-level overhead（smoke only）</p>
+        <p><span style="color:$accent;">✗</span> Board-native DWARF source lines</p>
+  - elementId: todo-box
+    elementType: shape
+    bounds: [60, 440, 1160, 160]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$lightbg"
+    border:
+      style: solid
+      width: 1
+      color: "#E2E5EA"
+  - elementId: todo-title
+    elementType: text
+    bounds: [80, 450, 1120, 26]
+    content:
+      fontSize: 16
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>待关闭的外部项（External Closure）</strong></p>
+  - elementId: todo-body
+    elementType: text
+    bounds: [80, 480, 1120, 110]
+    content:
+      fontSize: 15
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p><span style="color:$accent;">1.</span> board_native_dwarf_source_lines — 需要 board 上重新编译带 .debug_line 的 ELF 并跑 trace</p>
+        <p><span style="color:$accent;">2.</span> full_hardware_pointer_strings — 需要 CVA6 LSU/user-copy hook 支持连续指针组边界和 mem_last</p>
+        <p><span style="color:$accent;">3.</span> production_streaming_dma_trace_sink — 需要 AXI DMA 或 Ethernet 集成和带宽验证</p>
+        <p><span style="color:$accent;">4.</span> genesys2_board_benign_control — 需要 board 上跑 benign Linux workload 并对比 strace</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 690, 60, 20]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>17</p>

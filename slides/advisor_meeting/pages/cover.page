@@ -1,0 +1,41 @@
+pageType: cover
+background:
+  type: solid
+  color: "$primary"
+elements:
+  - elementId: cover-title
+    elementType: text
+    bounds: [140, 220, 1000, 120]
+    content:
+      style: "$title"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p><strong>RV-MalTrace</strong></p>
+  - elementId: cover-subtitle
+    elementType: text
+    bounds: [140, 360, 1000, 80]
+    content:
+      style: "$subtitle"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>RISC-V 硬件辅助恶意软件行为追踪</p>
+  - elementId: cover-accent-line
+    elementType: shape
+    bounds: [580, 350, 120, 3]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$accent"
+  - elementId: cover-info
+    elementType: text
+    bounds: [140, 470, 1000, 60]
+    content:
+      fontSize: 18
+      color: "#FFFFFF99"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>博士课题进展汇报  |  与导师第一次会议  |  2025年7月</p>

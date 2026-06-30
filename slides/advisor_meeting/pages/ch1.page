@@ -1,0 +1,45 @@
+pageType: chapter
+background:
+  type: solid
+  color: "$primary"
+elements:
+  - elementId: ch1-num-bg
+    elementType: text
+    bounds: [440, 180, 400, 200]
+    content:
+      fontSize: 160
+      color: "#FFFFFF15"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>01</p>
+  - elementId: ch1-title
+    elementType: text
+    bounds: [240, 280, 800, 70]
+    content:
+      fontSize: 40
+      color: "#FFFFFF"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p><strong>研究背景与问题</strong></p>
+  - elementId: ch1-accent
+    elementType: shape
+    bounds: [580, 370, 120, 3]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$accent"
+  - elementId: ch1-subtitle
+    elementType: text
+    bounds: [240, 400, 800, 50]
+    content:
+      fontSize: 20
+      color: "#FFFFFFBB"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>为什么需要硬件层的行为追踪？</p>

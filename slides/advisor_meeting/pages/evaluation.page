@@ -1,0 +1,219 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bar
+    elementType: shape
+    bounds: [0, 0, 1280, 50]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-active
+    elementType: shape
+    bounds: [960, 46, 320, 4]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "#FFFFFF"
+  - elementId: nav-text1
+    elementType: text
+    bounds: [0, 0, 320, 50]
+    content:
+      style: "$nav"
+      color: "#FFFFFFAA"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>研究背景与问题</p>
+  - elementId: nav-text2
+    elementType: text
+    bounds: [320, 0, 320, 50]
+    content:
+      style: "$nav"
+      color: "#FFFFFFAA"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>难点与挑战</p>
+  - elementId: nav-text3
+    elementType: text
+    bounds: [640, 0, 320, 50]
+    content:
+      style: "$nav"
+      color: "#FFFFFFAA"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>解决方案</p>
+  - elementId: nav-text4
+    elementType: text
+    bounds: [960, 0, 320, 50]
+    content:
+      style: "$nav"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p><strong>技术细节与评估</strong></p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 70, 900, 40]
+    content:
+      style: "$heading"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>评估框架与证据</strong></p>
+  - elementId: title-accent
+    elementType: shape
+    bounds: [60, 115, 80, 3]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$accent"
+  - elementId: rq-table
+    elementType: table
+    bounds: [60, 140, 700, 280]
+    columnWidths: [0.12, 0.28, 0.60]
+    rowHeights: [0.12, 0.176, 0.176, 0.176, 0.176, 0.176]
+    style: "$default"
+    rows:
+      - - content:
+            text: |
+              <p><strong>RQ</strong></p>
+        - content:
+            text: |
+              <p><strong>研究问题</strong></p>
+        - content:
+            text: |
+              <p><strong>当前状态</strong></p>
+      - - content:
+            text: |
+              <p>RQ1</p>
+        - content:
+            text: |
+              <p>正确性</p>
+        - content:
+            text: |
+              <p>Simulation PASS, 20 tests golden match</p>
+      - - content:
+            text: |
+              <p>RQ2</p>
+        - content:
+            text: |
+              <p>语义重建</p>
+        - content:
+            text: |
+              <p>Bounded semantics PASS, pointer prefix accepted</p>
+      - - content:
+            text: |
+              <p>RQ3</p>
+        - content:
+            text: |
+              <p>低扰动</p>
+        - content:
+            text: |
+              <p>UART smoke only, cycle overhead open</p>
+      - - content:
+            text: |
+              <p>RQ4</p>
+        - content:
+            text: |
+              <p>抗绕过性</p>
+        - content:
+            text: |
+              <p>Controlled safe surrogate PASS</p>
+      - - content:
+            text: |
+              <p>RQ5</p>
+        - content:
+            text: |
+              <p>硬件开销</p>
+        - content:
+            text: |
+              <p>BRAM cost PASS, streaming DMA open</p>
+  - elementId: metric-box
+    elementType: shape
+    bounds: [60, 440, 700, 140]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$lightbg"
+    border:
+      style: solid
+      width: 1
+      color: "#E2E5EA"
+  - elementId: metric-title
+    elementType: text
+    bounds: [80, 445, 660, 26]
+    content:
+      fontSize: 16
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>关键指标</strong></p>
+  - elementId: metric-body
+    elementType: text
+    bounds: [80, 475, 660, 95]
+    content:
+      fontSize: 14
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>syscall precision/recall | argument accuracy | path accuracy | fd graph accuracy</p>
+        <p>runtime overhead | trace drop rate | LUT/FF/BRAM/Fmax</p>
+  - elementId: right-evidence
+    elementType: shape
+    bounds: [780, 140, 440, 440]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$surface"
+    border:
+      style: solid
+      width: 1
+      color: "#E2E5EA"
+  - elementId: right-title
+    elementType: text
+    bounds: [800, 150, 400, 30]
+    content:
+      fontSize: 18
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>当前核心证据</strong></p>
+  - elementId: right-body
+    elementType: text
+    bounds: [800, 190, 400, 375]
+    content:
+      fontSize: 15
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p><span style="color:$accent;">●</span> Simulation: 20 expected tests PASS</p>
+        <p><span style="color:$accent;">●</span> Board baseline: clock/UART/bare-metal PASS</p>
+        <p><span style="color:$accent;">●</span> Board trace: 122 accepted windows</p>
+        <p><span style="color:$accent;">●</span> 0 drops / 0 wraps / 0 gaps in accepted</p>
+        <p><span style="color:$accent;">●</span> 4 failed attempts retained and audited</p>
+        <p><span style="color:$accent;">●</span> Slack = 0.177 ns, 0 routing errors</p>
+        <p><span style="color:$accent;">●</span> Semantic reconstruction: bounded</p>
+        <p><span style="color:$accent;">●</span> Safe surrogate behavior audit: 1.0/0.0</p>
+        <p style="margin-top:8px"><span style="color:$secondary; font-size:13px;">注：1.0/0.0 是 reconstruction 指标，不是检测器准确率</span></p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 690, 60, 20]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>16</p>

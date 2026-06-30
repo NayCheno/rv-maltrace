@@ -1,0 +1,228 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bar
+    elementType: shape
+    bounds: [0, 0, 1280, 50]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-active
+    elementType: shape
+    bounds: [320, 46, 320, 4]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "#FFFFFF"
+  - elementId: nav-text1
+    elementType: text
+    bounds: [0, 0, 320, 50]
+    content:
+      style: "$nav"
+      color: "#FFFFFFAA"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>研究背景与问题</p>
+  - elementId: nav-text2
+    elementType: text
+    bounds: [320, 0, 320, 50]
+    content:
+      style: "$nav"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p><strong>难点与挑战</strong></p>
+  - elementId: nav-text3
+    elementType: text
+    bounds: [640, 0, 320, 50]
+    content:
+      style: "$nav"
+      color: "#FFFFFFAA"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>解决方案</p>
+  - elementId: nav-text4
+    elementType: text
+    bounds: [960, 0, 320, 50]
+    content:
+      style: "$nav"
+      color: "#FFFFFFAA"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>技术细节与评估</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 70, 900, 40]
+    content:
+      style: "$heading"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>解决该问题的技术难点</strong></p>
+  - elementId: title-accent
+    elementType: shape
+    bounds: [60, 115, 80, 3]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$accent"
+  - elementId: diff1-bar
+    elementType: shape
+    bounds: [60, 140, 5, 100]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$accent"
+  - elementId: diff1-title
+    elementType: text
+    bounds: [80, 140, 500, 28]
+    content:
+      fontSize: 18
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>语义鸿沟（Semantic Gap）</strong></p>
+  - elementId: diff1-text
+    elementType: text
+    bounds: [80, 170, 500, 70]
+    content:
+      fontSize: 15
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>硬件只记录 committed instruction / register / CSR，而行为分析需要 syscall 参数、文件路径、进程树等高层语义。</p>
+  - elementId: diff2-bar
+    elementType: shape
+    bounds: [660, 140, 5, 100]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$accent"
+  - elementId: diff2-title
+    elementType: text
+    bounds: [680, 140, 500, 28]
+    content:
+      fontSize: 18
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>归因难题（Attribution）</strong></p>
+  - elementId: diff2-text
+    elementType: text
+    bounds: [680, 170, 500, 70]
+    content:
+      fontSize: 15
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>同一物理 trace 可能来自多个进程（fork/exec）；PIE/ASLR 使静态 ELF 分析不足以定位代码；动态库加载改变地址空间。</p>
+  - elementId: diff3-bar
+    elementType: shape
+    bounds: [60, 260, 5, 100]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$accent"
+  - elementId: diff3-title
+    elementType: text
+    bounds: [80, 260, 500, 28]
+    content:
+      fontSize: 18
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>证据混淆风险（Evidence Confusion）</strong></p>
+  - elementId: diff3-text
+    elementType: text
+    bounds: [80, 290, 500, 70]
+    content:
+      fontSize: 15
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>软件参考日志（strace）容易与硬件 trace 混淆，导致"看似正确"实则错误的声称。必须标记每个字段的来源。</p>
+  - elementId: diff4-bar
+    elementType: shape
+    bounds: [660, 260, 5, 100]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$accent"
+  - elementId: diff4-title
+    elementType: text
+    bounds: [680, 260, 500, 28]
+    content:
+      fontSize: 18
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>指针语义恢复（Pointer Reconstruction）</strong></p>
+  - elementId: diff4-text
+    elementType: text
+    bounds: [680, 290, 500, 70]
+    content:
+      fontSize: 15
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>syscall 参数中的指针（如 openat 的路径字符串）需要额外的内存快照机制，但不能对 core 产生 backpressure。</p>
+  - elementId: diff5-bar
+    elementType: shape
+    bounds: [60, 380, 5, 100]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$accent"
+  - elementId: diff5-title
+    elementType: text
+    bounds: [80, 380, 1120, 28]
+    content:
+      fontSize: 18
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>反分析对抗（Anti-Analysis Evasion）</strong></p>
+  - elementId: diff5-text
+    elementType: text
+    bounds: [80, 410, 1120, 70]
+    content:
+      fontSize: 15
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>Anti-debug、timing check、direct-syscall、packed code 等样本专门检测并绕过软件 tracer。硬件 tracer 天然免疫，但重建后的行为声称仍需受控验证，不能直接等同于"检测器准确率"。</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 690, 60, 20]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>07</p>

@@ -1,0 +1,215 @@
+pageType: content
+background:
+  type: solid
+  color: "$background"
+elements:
+  - elementId: nav-bar
+    elementType: shape
+    bounds: [0, 0, 1280, 50]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$primary"
+  - elementId: nav-active
+    elementType: shape
+    bounds: [320, 46, 320, 4]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "#FFFFFF"
+  - elementId: nav-text1
+    elementType: text
+    bounds: [0, 0, 320, 50]
+    content:
+      style: "$nav"
+      color: "#FFFFFFAA"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>研究背景与问题</p>
+  - elementId: nav-text2
+    elementType: text
+    bounds: [320, 0, 320, 50]
+    content:
+      style: "$nav"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p><strong>难点与挑战</strong></p>
+  - elementId: nav-text3
+    elementType: text
+    bounds: [640, 0, 320, 50]
+    content:
+      style: "$nav"
+      color: "#FFFFFFAA"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>解决方案</p>
+  - elementId: nav-text4
+    elementType: text
+    bounds: [960, 0, 320, 50]
+    content:
+      style: "$nav"
+      color: "#FFFFFFAA"
+      align: [center, middle]
+      wrap: false
+      text: |
+        <p>技术细节与评估</p>
+  - elementId: page-title
+    elementType: text
+    bounds: [60, 70, 900, 40]
+    content:
+      style: "$heading"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>实现该方案的挑战</strong></p>
+  - elementId: title-accent
+    elementType: shape
+    bounds: [60, 115, 80, 3]
+    shapeName: rect
+    fill:
+      type: solid
+      color: "$accent"
+  - elementId: chal1-title
+    elementType: text
+    bounds: [60, 140, 560, 26]
+    content:
+      fontSize: 18
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>CVA6 信号定位与 commit 语义</strong></p>
+  - elementId: chal1-text
+    elementType: text
+    bounds: [60, 170, 560, 90]
+    content:
+      fontSize: 15
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>CVA6 有双 commit port，ECALL 走 trap path 而非正常 retire。需要区分 valid commit、trap、flush/kill 三种状态，并从 RVFI 接口提取正确的 pc、instr、cause、mode。</p>
+  - elementId: chal2-title
+    elementType: text
+    bounds: [660, 140, 560, 26]
+    content:
+      fontSize: 18
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>Syscall Entry/Return 关联</strong></p>
+  - elementId: chal2-text
+    elementType: text
+    bounds: [660, 170, 560, 90]
+    content:
+      fontSize: 15
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>EVT_SYSCALL_ENTRY 仅在 U-mode ECALL 时触发；EVT_SYSCALL_RET 需要 SRET 返回 U-mode 且存在 outstanding syscall 时才触发。需要维护 per-hart syscall 状态机。</p>
+  - elementId: chal3-title
+    elementType: text
+    bounds: [60, 280, 560, 26]
+    content:
+      fontSize: 18
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>无侵入 Sideband-Only 设计</strong></p>
+  - elementId: chal3-text
+    elementType: text
+    bounds: [60, 310, 560, 90]
+    content:
+      fontSize: 15
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>Trace tap 不能增加 CVA6 寄存器堆读端口，不能 backpressure commit stage，不能改变关键路径时序。通过 shadow register 监听 writeback 实现 syscall 参数跟踪。</p>
+  - elementId: chal4-title
+    elementType: text
+    bounds: [660, 280, 560, 26]
+    content:
+      fontSize: 18
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>FPGA 资源与时序约束</strong></p>
+  - elementId: chal4-text
+    elementType: text
+    bounds: [660, 310, 560, 90]
+    content:
+      fontSize: 15
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>Genesys2 (Kintex-7 325T) 上 CVA6 已占用大量 LUT/FF/BRAM。Trace logic 必须在时序闭合（Slack > 0）前提下增加最小资源开销。当前 trace-enabled build Slack = 0.177 ns。</p>
+  - elementId: chal5-title
+    elementType: text
+    bounds: [60, 420, 560, 26]
+    content:
+      fontSize: 18
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>Trace 导出与存储瓶颈</strong></p>
+  - elementId: chal5-text
+    elementType: text
+    bounds: [60, 450, 560, 90]
+    content:
+      fontSize: 15
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>BRAM 容量有限，适合 marker window 级别的捕获；UART 带宽低（~921600 baud），需要 aggressive filtering；AXI DMA 集成复杂，尚未完成。当前采用分阶段策略。</p>
+  - elementId: chal6-title
+    elementType: text
+    bounds: [660, 420, 560, 26]
+    content:
+      fontSize: 18
+      color: "$primary"
+      fontFamily: "QuattrocentoSans, MiSans"
+      align: [left, middle]
+      wrap: false
+      text: |
+        <p><strong>Linux 工作负载验证链</strong></p>
+  - elementId: chal6-text
+    elementType: text
+    bounds: [660, 450, 560, 90]
+    content:
+      fontSize: 15
+      color: "$text"
+      fontFamily: "QuattrocentoSans, MiSans"
+      lineHeight: 1.5
+      align: [left, top]
+      text: |
+        <p>从 bare-metal 到 Linux 用户态需要完整链条：bootloader → OpenSBI → Linux kernel → 用户态 ELF 加载 → 代码映射 → 运行时映射。每一步都是独立的验证关卡。</p>
+  - elementId: page-num
+    elementType: text
+    bounds: [1180, 690, 60, 20]
+    content:
+      style: "$caption"
+      align: [right, middle]
+      wrap: false
+      text: |
+        <p>08</p>
