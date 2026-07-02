@@ -2,15 +2,15 @@
   "artifacts": {
     "bram_records": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership/bram_records.jsonl",
-      "sha256": "ea00fc8d95ca2a59b0c1f07446a88da1aa368f9761d489b388c843c5a741bca9",
-      "size_bytes": 85942
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership-pid-marker-live/bram_records.jsonl",
+      "sha256": "596894d227b5f699669f02905f9ce6ef0e9740247d303fcdb2f4be39f86bddd9",
+      "size_bytes": 88106
     },
     "bram_summary": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership/bram_summary.json",
-      "sha256": "f07b09ae80a5be254cf93a8d5c60315944cec37f52c404493090786bf3667321",
-      "size_bytes": 1012
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership-pid-marker-live/bram_summary.json",
+      "sha256": "eb92e36162fa5ad7c480ad589005f599078623dcc538bf174297c340cea874c3",
+      "size_bytes": 1034
     },
     "build_manifest": {
       "exists": true,
@@ -20,105 +20,105 @@
     },
     "capture_csv": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership/capture.csv",
-      "sha256": "888ce965b7e56d68d652a8116a6fc048a0dad23962bf682bcebec47d6c5f6836",
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership-pid-marker-live/capture.csv",
+      "sha256": "23605d43e50cfdab3f1f1d08a0db725794e033a64036506b9eb977686df27e1d",
       "size_bytes": 2095924
     },
     "capture_err_log": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership/capture.err.log",
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership-pid-marker-live/capture.err.log",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "size_bytes": 0
     },
     "capture_log": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership/capture.log",
-      "sha256": "f7e984c14f55e29155cd5f063370e87083b26b1cd3166d2d4864458fda597fa3",
-      "size_bytes": 9422
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership-pid-marker-live/capture.log",
+      "sha256": "6e93322e3e7a40d227c5fb535bbe3e59aac77ffdc56ceb09f5a3741e6a4c0776",
+      "size_bytes": 9543
     },
     "proc_snapshots": {
       "child_exe_post": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership/proc_snapshots/fork_exec/child_exe_post.txt",
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership-pid-marker-live/proc_snapshots/fork_exec/child_exe_post.txt",
         "sha256": "faf05c4d26db6db0dfdee8d27468f68e4e07cb32d2ba9891e8167e8f7b6b4edf",
         "size_bytes": 13
       },
       "child_exe_pre": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership/proc_snapshots/fork_exec/child_exe_pre.txt",
-        "sha256": "f8bc6d12c388f93f385d79538be26628be161666f47a8e2629885e0653a4aa51",
-        "size_bytes": 122
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership-pid-marker-live/proc_snapshots/fork_exec/child_exe_pre.txt",
+        "sha256": "29986b7097d21145e43f96461b26331822e769c98741a3801e39cc278505e951",
+        "size_bytes": 123
       },
       "child_maps_post": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership/proc_snapshots/fork_exec/child_maps_post.txt",
-        "sha256": "c1e7d0f699079f9d462edd809a3285b799496c17b15a280ac584b0eb79cd7fbf",
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership-pid-marker-live/proc_snapshots/fork_exec/child_maps_post.txt",
+        "sha256": "234e39481bedc0899702175b2281b1a09bdc6e79cb04a39b09641f17ce180cf5",
         "size_bytes": 1540
       },
       "child_maps_pre": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership/proc_snapshots/fork_exec/child_maps_pre.txt",
-        "sha256": "c0611212b45c7113b582c3b7c475e049b02aca48009f0fc489df705f2d63f939",
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership-pid-marker-live/proc_snapshots/fork_exec/child_maps_pre.txt",
+        "sha256": "4fb65a84b38f275323ed97e4f2b600cab9cca6f771fb58ce2aee201a92384d55",
         "size_bytes": 701
       },
       "child_status_post": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership/proc_snapshots/fork_exec/child_status_post.txt",
-        "sha256": "e5c50ec1d170e8a7b680f61986087c62292b5b733fbc96e70a95a682d7c209d2",
-        "size_bytes": 1053
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership-pid-marker-live/proc_snapshots/fork_exec/child_status_post.txt",
+        "sha256": "0060c87c48b54f6a052cb3d49a623c525fbed6491ea0afe282dc72d4ccbc2f5c",
+        "size_bytes": 1058
       },
       "child_status_pre": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership/proc_snapshots/fork_exec/child_status_pre.txt",
-        "sha256": "b01dc4886ad0afc0d07404882d725a835a2849f84635c76fb84369231fbc99da",
-        "size_bytes": 1060
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership-pid-marker-live/proc_snapshots/fork_exec/child_status_pre.txt",
+        "sha256": "c26950b011ae2c30991892e07f62830bd632a380f512d8cee402e24d80a2895e",
+        "size_bytes": 1066
       },
       "parent_maps_pre": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership/proc_snapshots/fork_exec/parent_maps_pre.txt",
-        "sha256": "c0611212b45c7113b582c3b7c475e049b02aca48009f0fc489df705f2d63f939",
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership-pid-marker-live/proc_snapshots/fork_exec/parent_maps_pre.txt",
+        "sha256": "4fb65a84b38f275323ed97e4f2b600cab9cca6f771fb58ce2aee201a92384d55",
         "size_bytes": 701
       },
       "parent_status_pre": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership/proc_snapshots/fork_exec/parent_status_pre.txt",
-        "sha256": "631b6d319cae1d37ad4b5ee55a299bb86c08db6e10f0599ef5e9fc8e43481954",
-        "size_bytes": 1057
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership-pid-marker-live/proc_snapshots/fork_exec/parent_status_pre.txt",
+        "sha256": "47bac8107da05a6079bb9b8002964904282166af0ee8583198b11bd8f0761e04",
+        "size_bytes": 1062
       }
     },
     "transfer_log": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership/fork_exec_transfer.log",
-      "sha256": "3e1b1da2187d046ce3d0793b00a8b2472cf14b9c3a2dbfedfce461bda03e76f9",
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership-pid-marker-live/fork_exec_transfer.log",
+      "sha256": "e81d7703091a7da28417a3f72f2b74acca091bd9697237739d50462aec6cb9b0",
       "size_bytes": 23405
     },
     "uart_log": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership/uart.log",
-      "sha256": "5496378c54d81c88317b90096c47f52c0fc0301fea7ce442636e1cea9a11a19f",
-      "size_bytes": 11833
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership-pid-marker-live/uart.log",
+      "sha256": "7fd6248a696c18fb96474bc4e556ef1f7c3de38bb78ebb3f924276ff22d62ff1",
+      "size_bytes": 11993
     }
   },
-  "blocked_reason": null,
+  "blocked_reason": "current BRAM payload records hardware events and PCs but does not expose PID/TGID and did not capture the marker-assisted PID/TGID boundary records",
   "bram_ring": {
-    "captured_count": 100,
+    "captured_count": 102,
     "dropped_count": 0,
-    "event_count": 100,
+    "event_count": 102,
     "wrap_count": 0
   },
   "claim_boundary": {
     "cycle_level_overhead_claimed": false,
-    "fork_exec_process_ownership_claimed": true,
-    "hardware_pid_tgid_required_for_strict_pairing": false,
-    "marker_assisted_pid_tgid_pairing": true,
+    "fork_exec_process_ownership_claimed": false,
+    "hardware_pid_tgid_required_for_strict_pairing": true,
+    "marker_assisted_pid_tgid_pairing": false,
     "qemu_or_strace_substitution_used": false,
     "real_malware_validation_claimed": false,
-    "runtime_map_inference_not_promoted_to_pid_pairing": false,
+    "runtime_map_inference_not_promoted_to_pid_pairing": true,
     "runtime_proc_snapshots_captured": true
   },
   "host_done": {
-    "child": 1447,
-    "parent": 1445,
+    "child": 13718,
+    "parent": 13716,
     "rc": 0
   },
   "marker_window": {
@@ -137,8 +137,8 @@
       "raw_label": "fork_parent_pid",
       "sequence_number": null,
       "source": "bram_arg_mem_stdout",
-      "syscall_id": "0x0002cc55",
-      "value": 1445
+      "syscall_id": "0x00162b64",
+      "value": 13716
     },
     {
       "kind": 2,
@@ -147,8 +147,8 @@
       "raw_label": "fork_parent_tgid",
       "sequence_number": null,
       "source": "bram_arg_mem_stdout",
-      "syscall_id": "0x0002cc58",
-      "value": 1445
+      "syscall_id": "0x00162b67",
+      "value": 13716
     },
     {
       "kind": 3,
@@ -157,8 +157,8 @@
       "raw_label": "fork_child_pid",
       "sequence_number": null,
       "source": "bram_arg_mem_stdout",
-      "syscall_id": "0x0002cc5b",
-      "value": 1447
+      "syscall_id": "0x00162b6a",
+      "value": 13718
     },
     {
       "kind": 4,
@@ -167,8 +167,8 @@
       "raw_label": "fork_child_tgid",
       "sequence_number": null,
       "source": "bram_arg_mem_stdout",
-      "syscall_id": "0x0002cc5d",
-      "value": 1447
+      "syscall_id": "0x00162b6c",
+      "value": 13718
     },
     {
       "kind": 5,
@@ -177,8 +177,8 @@
       "raw_label": "fork_child_pre_exec_pid",
       "sequence_number": null,
       "source": "bram_arg_mem_stdout",
-      "syscall_id": "0x0002cc60",
-      "value": 1447
+      "syscall_id": "0x00162b6f",
+      "value": 13718
     },
     {
       "kind": 6,
@@ -187,21 +187,21 @@
       "raw_label": "fork_child_pre_exec_tgid",
       "sequence_number": null,
       "source": "bram_arg_mem_stdout",
-      "syscall_id": "0x0002cc69",
-      "value": 1447
+      "syscall_id": "0x00162b72",
+      "value": 1371
     }
   ],
   "pids": {
-    "child": 1447,
-    "parent": 1445
+    "child": 13718,
+    "parent": 13716
   },
   "probe_done": {
-    "child_pid": 1447,
-    "parent_pid": 1445,
+    "child_pid": 13718,
+    "parent_pid": 13716,
     "raw_status": 0,
     "rc": 0
   },
-  "run_root": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership",
+  "run_root": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership-pid-marker-live",
   "runtime_snapshots": {
     "child_post_exec_exe_matches_busybox": true,
     "child_post_exec_map_entry_count": 19,
@@ -211,8 +211,8 @@
   },
   "schema": "rvmt.genesys2.official_image_fork_exec_ownership.v1",
   "sequence_gap_count": 0,
-  "status": "PASS",
+  "status": "BLOCKED_TRACE_PID_TGID_NOT_EXPOSED_IN_BRAM_RECORDS",
   "target": "/tmp/rvmt_official/official_image_probe",
   "trace_pid_tgid_fields_present": false,
-  "trace_pid_tgid_marker_fields_present": true
+  "trace_pid_tgid_marker_fields_present": false
 }

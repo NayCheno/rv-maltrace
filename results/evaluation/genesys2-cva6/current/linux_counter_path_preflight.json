@@ -365,8 +365,11 @@
       "candidate_results": [
         {
           "candidate": "results/evaluation/genesys2-cva6/current/sdcard_image_manifest.json",
-          "exists": false,
-          "kind": "missing"
+          "exists": true,
+          "kind": "file",
+          "path": "results/evaluation/genesys2-cva6/current/sdcard_image_manifest.json",
+          "sha256": "5756fc9303b62203f51f71c9e2a110659f67661d080b5e2ee904aceb1908ccd2",
+          "size_bytes": 2482
         },
         {
           "candidate": "board/genesys2-cva6/linux/sdcard_manifest.json",
@@ -393,7 +396,7 @@
           "exists": true,
           "kind": "file",
           "path": "results/evaluation/genesys2-cva6/current/sdcard_linux_manifest.json",
-          "sha256": "af2c8d58d457493c074fc0de81c933e967f20693af595458ed842684570a9374",
+          "sha256": "4194adc31c9a709bb02623f8464058aa11108dcfe01d136e4b08ac5a871c205d",
           "size_bytes": 10439
         }
       ],
@@ -402,11 +405,19 @@
       "mode": "path",
       "present_candidates": [
         {
+          "candidate": "results/evaluation/genesys2-cva6/current/sdcard_image_manifest.json",
+          "exists": true,
+          "kind": "file",
+          "path": "results/evaluation/genesys2-cva6/current/sdcard_image_manifest.json",
+          "sha256": "5756fc9303b62203f51f71c9e2a110659f67661d080b5e2ee904aceb1908ccd2",
+          "size_bytes": 2482
+        },
+        {
           "candidate": "results/evaluation/genesys2-cva6/current/sdcard_linux_manifest.json",
           "exists": true,
           "kind": "file",
           "path": "results/evaluation/genesys2-cva6/current/sdcard_linux_manifest.json",
-          "sha256": "af2c8d58d457493c074fc0de81c933e967f20693af595458ed842684570a9374",
+          "sha256": "4194adc31c9a709bb02623f8464058aa11108dcfe01d136e4b08ac5a871c205d",
           "size_bytes": 10439
         }
       ],
@@ -762,7 +773,7 @@
       "id": "sdcard_linux_manifest",
       "path": "results/evaluation/genesys2-cva6/current/sdcard_linux_manifest.json",
       "schema": "rvmt.genesys2.sdcard_linux_manifest.v1",
-      "sha256": "af2c8d58d457493c074fc0de81c933e967f20693af595458ed842684570a9374",
+      "sha256": "4194adc31c9a709bb02623f8464058aa11108dcfe01d136e4b08ac5a871c205d",
       "size_bytes": 10439,
       "status": "PASS"
     },

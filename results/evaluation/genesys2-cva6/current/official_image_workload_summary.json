@@ -14,8 +14,8 @@
     },
     "launcher_transfer_log": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/launcher_transfer.log",
-      "sha256": "fa656cd5e5caa3277e8b3f4fcff6a06a01ca66db8f0a6a4a120e1803196d70cb",
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/launcher_transfer.log",
+      "sha256": "9c4ab29a7126e169a4efd4bfc44be55dc64ef8019f3f230ad00c04db1dcac5ee",
       "size_bytes": 23405
     },
     "ltx": {
@@ -27,7 +27,7 @@
     "sdcard_linux_manifest": {
       "exists": true,
       "path": "results/evaluation/genesys2-cva6/current/sdcard_linux_manifest.json",
-      "sha256": "af2c8d58d457493c074fc0de81c933e967f20693af595458ed842684570a9374",
+      "sha256": "4194adc31c9a709bb02623f8464058aa11108dcfe01d136e4b08ac5a871c205d",
       "size_bytes": 10439
     }
   },
@@ -60,7 +60,7 @@
     "native_ls_proc",
     "native_sha256sum"
   ],
-  "run_root": "results/board/genesys2_trace_validation/20260702-official-image-workloads",
+  "run_root": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live",
   "samples": [
     {
       "attempt_count": 1,
@@ -72,52 +72,52 @@
           "artifacts": {
             "bram_records": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_sh/rep_01/bram_records.jsonl",
-              "sha256": "fd2ecaed73367dd090ddfd80fd97446d4a245a4acd65ecb71cba92cec8bb2060",
-              "size_bytes": 143344
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_sh/rep_01/bram_records.jsonl",
+              "sha256": "f228e11b3588bbe283dd6fcb9fa42be1ab065cee3a03cb3e769fde3493f0c5ca",
+              "size_bytes": 173048
             },
             "bram_summary": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_sh/rep_01/bram_summary.json",
-              "sha256": "fecaffa720ba7c502775b85ed1787aa7504a88ee6d8bf8dc99c45913ba341d96",
-              "size_bytes": 997
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_sh/rep_01/bram_summary.json",
+              "sha256": "62bbd2e0fe723f5173221e448cdcbf6163c9e035984f9877e17f1b0f7da898bd",
+              "size_bytes": 1002
             },
             "capture_csv": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_sh/rep_01/capture.csv",
-              "sha256": "f715e2939d41d395e9591db95d9a6eb854f68c5614d69598f510e3bc5c07c24e",
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_sh/rep_01/capture.csv",
+              "sha256": "1e1e34d5adc9383b29eb4fa28d292be9fbf7da9b8be914c4ba6f9c191a2dc69e",
               "size_bytes": 2095924
             },
             "capture_err_log": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_sh/rep_01/capture.err.log",
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_sh/rep_01/capture.err.log",
               "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
               "size_bytes": 0
             },
             "capture_log": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_sh/rep_01/capture.log",
-              "sha256": "9a1301653664970cb5d46615acc5af5a9896d282c2c1babdc7d9d2a5c1504972",
-              "size_bytes": 9507
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_sh/rep_01/capture.log",
+              "sha256": "56a2fd5b40e95f111852ca7b68101a7ffbbacdcc1f308fbba79514c160104ed5",
+              "size_bytes": 9527
             },
             "uart_log": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_sh/rep_01/uart.log",
-              "sha256": "3dda008249ef06d7e6f0acd9062186bd0fd25e4b0dbc40a4c8fff081ed01e52d",
-              "size_bytes": 1114
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_sh/rep_01/uart.log",
+              "sha256": "85c461b3e08bfc605947cbce0d4b8c6909b3bef72e4c220c3c7931eea4bb7f70",
+              "size_bytes": 1111
             }
           },
           "blocked_reason": null,
           "bram_ring": {
             "dropped_count": 0,
-            "event_count": 179,
+            "event_count": 216,
             "wrap_count": 0
           },
           "event_counts": {
-            "ARG_MEM": 53,
+            "ARG_MEM": 64,
             "MARKER": 2,
-            "SYSCALL_ENTRY": 62,
-            "SYSCALL_RET": 62
+            "SYSCALL_ENTRY": 75,
+            "SYSCALL_RET": 75
           },
           "markers": {
             "begin_count": 1,
@@ -130,12 +130,12 @@
             ]
           },
           "rep": "rep_01",
-          "run_root": "results/board/genesys2_trace_validation/20260702-official-image-workloads",
+          "run_root": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live",
           "sequence_gap_count": 0,
           "status": "PASS",
           "uart": {
             "capture_rc": 0,
-            "child_pid": 1070,
+            "child_pid": 9685,
             "child_rc": 0,
             "done_seen": true,
             "done_source": "strict_capture_done",
@@ -156,39 +156,39 @@
           "artifacts": {
             "bram_records": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_cat_proc/rep_01/bram_records.jsonl",
-              "sha256": "76c64b4f3eccd6cafa397ee671b934111ae5f2bd5e198d735d8d09e8538be7bf",
-              "size_bytes": 140464
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_cat_proc/rep_01/bram_records.jsonl",
+              "sha256": "a2d68dec162b1e4e2f1a6b1c84c54b68cc4b60939a3a3a36307e4c5ced6d7917",
+              "size_bytes": 140296
             },
             "bram_summary": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_cat_proc/rep_01/bram_summary.json",
-              "sha256": "4d1eab01ec1bc67447b3c46c2f0d3d54f76927fb118bde9fea6d39bca71ead8b",
-              "size_bytes": 1009
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_cat_proc/rep_01/bram_summary.json",
+              "sha256": "7ee0375af42884ff250b5acca01adac0363ab786193fe0765caa3bfbb1099780",
+              "size_bytes": 1010
             },
             "capture_csv": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_cat_proc/rep_01/capture.csv",
-              "sha256": "7f7cb87300846abf90461b34ccaa25ecbf14658ecb2532f479d95d8e0a432d82",
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_cat_proc/rep_01/capture.csv",
+              "sha256": "b87142b6e2c30b96467bab735184062dd8c32dee3f956c0be50c807735e022b8",
               "size_bytes": 2095924
             },
             "capture_err_log": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_cat_proc/rep_01/capture.err.log",
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_cat_proc/rep_01/capture.err.log",
               "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
               "size_bytes": 0
             },
             "capture_log": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_cat_proc/rep_01/capture.log",
-              "sha256": "ce32cf2d9dc7a5d73792d1565d9b3710e77acf8ee61fd85bb11daea915464d82",
-              "size_bytes": 9191
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_cat_proc/rep_01/capture.log",
+              "sha256": "8745b845049b273347c6d1eb53acf37716c4cb27c50b092dcb1c677329ccc9cf",
+              "size_bytes": 9211
             },
             "uart_log": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_cat_proc/rep_01/uart.log",
-              "sha256": "da515a1a5cfc7a46d1e46de73089220e195b4185e58db98741045ca4a59e0ab6",
-              "size_bytes": 1145
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_cat_proc/rep_01/uart.log",
+              "sha256": "5efd93d4834e42e6896f0b5b47b1de364c00b0c78ac7385e7a99134e55bb2824",
+              "size_bytes": 1154
             }
           },
           "blocked_reason": null,
@@ -214,12 +214,12 @@
             ]
           },
           "rep": "rep_01",
-          "run_root": "results/board/genesys2_trace_validation/20260702-official-image-workloads",
+          "run_root": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live",
           "sequence_gap_count": 0,
           "status": "PASS",
           "uart": {
             "capture_rc": 0,
-            "child_pid": 1114,
+            "child_pid": 9729,
             "child_rc": 0,
             "done_seen": true,
             "done_source": "strict_capture_done",
@@ -231,7 +231,7 @@
       "status": "PASS"
     },
     {
-      "attempt_count": 2,
+      "attempt_count": 1,
       "blocked_repetitions": 0,
       "minimum_repetitions": 1,
       "pass_repetitions": 1,
@@ -240,123 +240,49 @@
           "artifacts": {
             "bram_records": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_ls_proc/rep_01/bram_records.jsonl",
-              "sha256": "51bb45b781155d8cc58ea261e382436f3bc067fb54c273c831d4a87fd2601b6c",
-              "size_bytes": 385902
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_ls_proc/rep_01/bram_records.jsonl",
+              "sha256": "10b4f7f44be56a0470a6ec0b44df69d72d59cf6eb271089477aaa869b88ce1e5",
+              "size_bytes": 394870
             },
             "bram_summary": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_ls_proc/rep_01/bram_summary.json",
-              "sha256": "04e73007c1bf661add13ad6a17214703d4ddf5bcb54ee795ec528c4771ee0d6f",
-              "size_bytes": 1014
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_ls_proc/rep_01/bram_summary.json",
+              "sha256": "5ec1b1eb45cbd5e62b2075ca49b822e45cb754199ff261a840cb7692470fac12",
+              "size_bytes": 1019
             },
             "capture_csv": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_ls_proc/rep_01/capture.csv",
-              "sha256": "96518094c4012f14d8597377d0d28bca275058b14e77a7b586179e83a5e5edd3",
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_ls_proc/rep_01/capture.csv",
+              "sha256": "b7b2e4b0cf89d49683bb6b13db0225a9651d4bcafce0e4b82d214d85463bd91d",
               "size_bytes": 2095924
             },
             "capture_err_log": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_ls_proc/rep_01/capture.err.log",
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_ls_proc/rep_01/capture.err.log",
               "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
               "size_bytes": 0
             },
             "capture_log": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_ls_proc/rep_01/capture.log",
-              "sha256": "4bd9be00ff467f719fdb34d04a1615918439593530acfc6780cc044a64af33ba",
-              "size_bytes": 9187
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_ls_proc/rep_01/capture.log",
+              "sha256": "5a61044a48eef5ac2e9e2b87d3628823043d6cb6d884e4b0bbbdc1ffc4196edb",
+              "size_bytes": 9547
             },
             "uart_log": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_ls_proc/rep_01/uart.log",
-              "sha256": "54a0faee5f8f0c2c10d501a8181a1ca3cf21dfd27af3f178d1223f089efd3675",
-              "size_bytes": 2444
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_ls_proc/rep_01/uart.log",
+              "sha256": "e3f2fb66ab4aca9270ddeb1aab9ef3bb09feae078fcf1e06937587d3faef1a91",
+              "size_bytes": 2389
             }
           },
           "blocked_reason": null,
           "bram_ring": {
             "dropped_count": 0,
-            "event_count": 468,
+            "event_count": 476,
             "wrap_count": 0
           },
           "event_counts": {
-            "ARG_MEM": 172,
-            "MARKER": 2,
-            "SYSCALL_ENTRY": 146,
-            "SYSCALL_RET": 147
-          },
-          "markers": {
-            "begin_count": 1,
-            "begin_marker": "0xb0000b03",
-            "end_count": 1,
-            "end_marker": "0xe0000b03",
-            "markers_seen": [
-              "0xb0000b03",
-              "0xe0000b03"
-            ]
-          },
-          "rep": "rep_01",
-          "run_root": "results/board/genesys2_trace_validation/20260702-official-image-workloads",
-          "sequence_gap_count": 1,
-          "status": "FAIL",
-          "uart": {
-            "capture_rc": 0,
-            "child_pid": 1158,
-            "child_rc": 0,
-            "done_seen": true,
-            "done_source": "strict_capture_done",
-            "start_seen": true
-          }
-        },
-        {
-          "artifacts": {
-            "bram_records": {
-              "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_ls_proc/rep_02/bram_records.jsonl",
-              "sha256": "1beebf56376d239f2662232ff87dd759397c4730bd9506b9abea0f2a819ba66d",
-              "size_bytes": 386608
-            },
-            "bram_summary": {
-              "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_ls_proc/rep_02/bram_summary.json",
-              "sha256": "8030346a04f2909d5ca927f59bbfce94695bdc1125863d216bc2f6cf1ee52907",
-              "size_bytes": 1014
-            },
-            "capture_csv": {
-              "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_ls_proc/rep_02/capture.csv",
-              "sha256": "40f78de40438ff690fbd41aa8d48e96d1b8c4637f20b80083712db9e1543b82d",
-              "size_bytes": 2095924
-            },
-            "capture_err_log": {
-              "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_ls_proc/rep_02/capture.err.log",
-              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-              "size_bytes": 0
-            },
-            "capture_log": {
-              "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_ls_proc/rep_02/capture.log",
-              "sha256": "2fe86d65f0357b1f0ec853fc6b28bc8e67b9d4118d1a781fd4110122bac395d5",
-              "size_bytes": 9363
-            },
-            "uart_log": {
-              "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_ls_proc/rep_02/uart.log",
-              "sha256": "41aab09f997cd9600ce263d4397a37241aa18b0a50c478f281a5a8bec7bcb497",
-              "size_bytes": 2460
-            }
-          },
-          "blocked_reason": null,
-          "bram_ring": {
-            "dropped_count": 0,
-            "event_count": 468,
-            "wrap_count": 0
-          },
-          "event_counts": {
-            "ARG_MEM": 172,
+            "ARG_MEM": 180,
             "MARKER": 2,
             "SYSCALL_ENTRY": 147,
             "SYSCALL_RET": 147
@@ -371,13 +297,13 @@
               "0xe0000b03"
             ]
           },
-          "rep": "rep_02",
-          "run_root": "results/board/genesys2_trace_validation/20260702-official-image-workloads",
+          "rep": "rep_01",
+          "run_root": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live",
           "sequence_gap_count": 0,
           "status": "PASS",
           "uart": {
             "capture_rc": 0,
-            "child_pid": 1433,
+            "child_pid": 9824,
             "child_rc": 0,
             "done_seen": true,
             "done_source": "strict_capture_done",
@@ -398,49 +324,49 @@
           "artifacts": {
             "bram_records": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_dd_tmp/rep_01/bram_records.jsonl",
-              "sha256": "7b00fbe3026757b98a774565fbb53ca7a26581d559b6c1290d5bd7ba0ce430e7",
-              "size_bytes": 246361
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_dd_tmp/rep_01/bram_records.jsonl",
+              "sha256": "5fe5ec720e7a4e67e5145d83b37c4bebd59cb8956f6c79305d43af701be89232",
+              "size_bytes": 245330
             },
             "bram_summary": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_dd_tmp/rep_01/bram_summary.json",
-              "sha256": "e29582c98b20fd56c3f8f444f51bb53ba53b5cdd6effb8f1edae0cfe59829d98",
-              "size_bytes": 1010
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_dd_tmp/rep_01/bram_summary.json",
+              "sha256": "659445a4bfc5adfcd559e0d630af34b91cca83ca30cb5c3ebccb5da5f6ef2421",
+              "size_bytes": 1015
             },
             "capture_csv": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_dd_tmp/rep_01/capture.csv",
-              "sha256": "733779090450ab700739b0423ff48fd03b08f8c7a98e6fcf59d3cba4e15e560a",
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_dd_tmp/rep_01/capture.csv",
+              "sha256": "212bae332c23e17189859adb1f676d0c38657325bee5c2f3945e380808fa8907",
               "size_bytes": 2095924
             },
             "capture_err_log": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_dd_tmp/rep_01/capture.err.log",
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_dd_tmp/rep_01/capture.err.log",
               "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
               "size_bytes": 0
             },
             "capture_log": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_dd_tmp/rep_01/capture.log",
-              "sha256": "a64b9e6153ffb1c161b577177e5bd8cddd3813b8e82cdcb8a3519e938f6be6cc",
-              "size_bytes": 9183
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_dd_tmp/rep_01/capture.log",
+              "sha256": "401abc98d08839652d3aaf2d546d7306ad18d98a831e8d802c32d6ca55addc25",
+              "size_bytes": 9203
             },
             "uart_log": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_dd_tmp/rep_01/uart.log",
-              "sha256": "b8bc966c03eb215c7bc9beb9be917d8598d251232bbc03127ad8b610282dedf8",
-              "size_bytes": 1235
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_dd_tmp/rep_01/uart.log",
+              "sha256": "89617d8d8cb329a7a5bd4cb0fe44480c623143c5aabd96325fc08c9410c6fa6e",
+              "size_bytes": 1242
             }
           },
           "blocked_reason": null,
           "bram_ring": {
             "dropped_count": 0,
-            "event_count": 295,
+            "event_count": 294,
             "wrap_count": 0
           },
           "event_counts": {
-            "ARG_MEM": 117,
+            "ARG_MEM": 116,
             "MARKER": 2,
             "SYSCALL_ENTRY": 88,
             "SYSCALL_RET": 88
@@ -456,12 +382,12 @@
             ]
           },
           "rep": "rep_01",
-          "run_root": "results/board/genesys2_trace_validation/20260702-official-image-workloads",
+          "run_root": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live",
           "sequence_gap_count": 0,
           "status": "PASS",
           "uart": {
             "capture_rc": 0,
-            "child_pid": 1202,
+            "child_pid": 9868,
             "child_rc": 0,
             "done_seen": true,
             "done_source": "strict_capture_done",
@@ -482,52 +408,52 @@
           "artifacts": {
             "bram_records": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_grep/rep_01/bram_records.jsonl",
-              "sha256": "d63b53c57e6f6b8ffabbe0bd2e8b5a53d169bfcbe218120ca3a5bbe39040f706",
-              "size_bytes": 261289
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_grep/rep_01/bram_records.jsonl",
+              "sha256": "e9510e3d837e570a2794285e1915810de4fea4a287f718b9e1f884b5a59c223f",
+              "size_bytes": 157378
             },
             "bram_summary": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_grep/rep_01/bram_summary.json",
-              "sha256": "1c5bdb7ad23484131b4b7b0c7bf72f5e3341e97dffc77caf13f438d044f50403",
-              "size_bytes": 1008
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_grep/rep_01/bram_summary.json",
+              "sha256": "e49d65e262d5ab65c32abca0e9c6d6cd610588f47c6bb31689e5968bbb23cff3",
+              "size_bytes": 1010
             },
             "capture_csv": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_grep/rep_01/capture.csv",
-              "sha256": "134e85eedc2be515e9d8ffe25e1f1a9b6a437da11f93b45931c8b09541f7db64",
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_grep/rep_01/capture.csv",
+              "sha256": "a169626318d5b7e85e160feaed0105c7a727664b996c59708c04792fa3c84cca",
               "size_bytes": 2095924
             },
             "capture_err_log": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_grep/rep_01/capture.err.log",
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_grep/rep_01/capture.err.log",
               "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
               "size_bytes": 0
             },
             "capture_log": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_grep/rep_01/capture.log",
-              "sha256": "7fd04ce414dbcaff23be0a66345637fcd5386d1fb4d1702f817070ed2e041f5b",
-              "size_bytes": 9175
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_grep/rep_01/capture.log",
+              "sha256": "d13c7238099eb1d160d72ff0a94b6bf776da0e1c078b084da142f59aa3179dc3",
+              "size_bytes": 9195
             },
             "uart_log": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_grep/rep_01/uart.log",
-              "sha256": "0340b5eab8b4a89b5b0a5bf35c503e98dc1724e7b6d75f1a7f5a7a466d74086d",
-              "size_bytes": 1206
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_grep/rep_01/uart.log",
+              "sha256": "96b7b3b08b78260e5ff89ea0d4ae35a9e18dcb320ec217d5cbb6cac8879be92f",
+              "size_bytes": 1157
             }
           },
           "blocked_reason": null,
           "bram_ring": {
             "dropped_count": 0,
-            "event_count": 317,
+            "event_count": 188,
             "wrap_count": 0
           },
           "event_counts": {
-            "ARG_MEM": 115,
+            "ARG_MEM": 76,
             "MARKER": 2,
-            "SYSCALL_ENTRY": 100,
-            "SYSCALL_RET": 100
+            "SYSCALL_ENTRY": 55,
+            "SYSCALL_RET": 55
           },
           "markers": {
             "begin_count": 1,
@@ -540,15 +466,15 @@
             ]
           },
           "rep": "rep_01",
-          "run_root": "results/board/genesys2_trace_validation/20260702-official-image-workloads",
+          "run_root": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live",
           "sequence_gap_count": 0,
           "status": "PASS",
           "uart": {
             "capture_rc": 0,
-            "child_pid": 1246,
+            "child_pid": 9911,
             "child_rc": 0,
             "done_seen": true,
-            "done_source": "loose_uart_rc0",
+            "done_source": "strict_capture_done",
             "start_seen": true
           }
         }
@@ -566,52 +492,52 @@
           "artifacts": {
             "bram_records": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_sha256sum/rep_01/bram_records.jsonl",
-              "sha256": "7b3b2bfbd9f350c696f12282baf9c9661b0a16f5c3c5e2c9314bbe30f010dde8",
-              "size_bytes": 405158
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_sha256sum/rep_01/bram_records.jsonl",
+              "sha256": "9b155f773b85177bef1303c7ad3b76bdd2d35e9fc41af3192fd336ecdd17b20d",
+              "size_bytes": 551458
             },
             "bram_summary": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_sha256sum/rep_01/bram_summary.json",
-              "sha256": "9c24403048caad2894b12d1f23e1e6c17d0ed3ec071d617d7b44efba4cccc5a6",
-              "size_bytes": 1017
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_sha256sum/rep_01/bram_summary.json",
+              "sha256": "e2d7c4e0c4d8e4ab0e597dfef2310756042238f495daaa55d2c16acedc931ae0",
+              "size_bytes": 1019
             },
             "capture_csv": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_sha256sum/rep_01/capture.csv",
-              "sha256": "947ff5f82852189a87348637e6b97ee31c270f63eb1da69952b9ed46ef541d14",
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_sha256sum/rep_01/capture.csv",
+              "sha256": "10d631f2774307d3e909b718622b374dd16395a583a8c6c7811aa77884e75833",
               "size_bytes": 2095924
             },
             "capture_err_log": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_sha256sum/rep_01/capture.err.log",
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_sha256sum/rep_01/capture.err.log",
               "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
               "size_bytes": 0
             },
             "capture_log": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_sha256sum/rep_01/capture.log",
-              "sha256": "23a9cc1cc07605ce55b54bd872d7c5c5daf027fdf08ebc95eb785babf5c0bfae",
-              "size_bytes": 9195
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_sha256sum/rep_01/capture.log",
+              "sha256": "336884c43586e6c1bfadd2c339f700afa9056c646ce4264fbbfff6649a7888ca",
+              "size_bytes": 9215
             },
             "uart_log": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_sha256sum/rep_01/uart.log",
-              "sha256": "217a4579911564b097168fd1ce816a74731c04fc2a8d81e32d264ac7cd915929",
-              "size_bytes": 1189
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_sha256sum/rep_01/uart.log",
+              "sha256": "59d2a44c3f9e152fdf9d577d94b3bf591573708ee75681d01e51145a369e53d2",
+              "size_bytes": 1266
             }
           },
           "blocked_reason": null,
           "bram_ring": {
             "dropped_count": 0,
-            "event_count": 544,
+            "event_count": 728,
             "wrap_count": 0
           },
           "event_counts": {
-            "ARG_MEM": 64,
+            "ARG_MEM": 116,
             "MARKER": 2,
-            "SYSCALL_ENTRY": 239,
-            "SYSCALL_RET": 239
+            "SYSCALL_ENTRY": 305,
+            "SYSCALL_RET": 305
           },
           "markers": {
             "begin_count": 1,
@@ -624,15 +550,15 @@
             ]
           },
           "rep": "rep_01",
-          "run_root": "results/board/genesys2_trace_validation/20260702-official-image-workloads",
+          "run_root": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live",
           "sequence_gap_count": 0,
           "status": "PASS",
           "uart": {
             "capture_rc": 0,
-            "child_pid": 1290,
+            "child_pid": 9954,
             "child_rc": 0,
             "done_seen": true,
-            "done_source": "loose_uart_rc0",
+            "done_source": "strict_capture_done",
             "start_seen": true
           }
         }
@@ -650,52 +576,52 @@
           "artifacts": {
             "bram_records": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_mount_read/rep_01/bram_records.jsonl",
-              "sha256": "636437abaf10a2482b134e6563f83787d2a7264b97a916f96764554dc659c803",
-              "size_bytes": 114809
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_mount_read/rep_01/bram_records.jsonl",
+              "sha256": "7853ad944577b57263f8b9b31cec5f4f8427fcac38021a1cecc1f1ccdefeeb43",
+              "size_bytes": 252822
             },
             "bram_summary": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_mount_read/rep_01/bram_summary.json",
-              "sha256": "0ece762b24002dea84c9782b9f16336211c6690ee53816bd7aa6185951e6cadf",
-              "size_bytes": 1017
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_mount_read/rep_01/bram_summary.json",
+              "sha256": "9ab473476dff082bb2eba8c1e9a85689e2b5463877f7ae7232e56feed786d1d4",
+              "size_bytes": 1021
             },
             "capture_csv": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_mount_read/rep_01/capture.csv",
-              "sha256": "601582aca9ec7d6ac34bbabd7c694eb0b498338be88624d4ad15553535bbcf3e",
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_mount_read/rep_01/capture.csv",
+              "sha256": "77ce7e6f216bf7062cc0dadb1c37f175c7d1c04945cad69cc602b555c78b9ba6",
               "size_bytes": 2095924
             },
             "capture_err_log": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_mount_read/rep_01/capture.err.log",
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_mount_read/rep_01/capture.err.log",
               "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
               "size_bytes": 0
             },
             "capture_log": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_mount_read/rep_01/capture.log",
-              "sha256": "ad9fba7fbf1b3f7976aee671c4ae71a65f023e3daac4216c31d84352c766b5ea",
-              "size_bytes": 8228
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_mount_read/rep_01/capture.log",
+              "sha256": "7971af3021b56959be9338107dffd6a740e12bea64afe69c6b7fcf3d6c59ca03",
+              "size_bytes": 9219
             },
             "uart_log": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_mount_read/rep_01/uart.log",
-              "sha256": "7cd3e2d133b01268309706bbb3dd4601f576d0e6e0ad318057bfa37562eb98ac",
-              "size_bytes": 1324
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_mount_read/rep_01/uart.log",
+              "sha256": "fb18a146049edf34df73d15ee86b12475a454c674034a6a0af240212b1474fd4",
+              "size_bytes": 1205
             }
           },
           "blocked_reason": null,
           "bram_ring": {
             "dropped_count": 0,
-            "event_count": 143,
+            "event_count": 311,
             "wrap_count": 0
           },
           "event_counts": {
-            "ARG_MEM": 43,
+            "ARG_MEM": 103,
             "MARKER": 2,
-            "SYSCALL_ENTRY": 49,
-            "SYSCALL_RET": 49
+            "SYSCALL_ENTRY": 103,
+            "SYSCALL_RET": 103
           },
           "markers": {
             "begin_count": 1,
@@ -708,12 +634,12 @@
             ]
           },
           "rep": "rep_01",
-          "run_root": "results/board/genesys2_trace_validation/20260702-official-image-workloads",
+          "run_root": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live",
           "sequence_gap_count": 0,
           "status": "PASS",
           "uart": {
             "capture_rc": 0,
-            "child_pid": 1334,
+            "child_pid": 9998,
             "child_rc": 0,
             "done_seen": true,
             "done_source": "strict_capture_done",
@@ -734,52 +660,52 @@
           "artifacts": {
             "bram_records": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_file_rw/rep_01/bram_records.jsonl",
-              "sha256": "342b7cf6371555b35e0ca45c176eb49133e578d1ce74f4a02160ba3ce224fc82",
-              "size_bytes": 428762
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_file_rw/rep_01/bram_records.jsonl",
+              "sha256": "df2d41cd13d3ef0b38bf732b4837d1e331fb0d68d85d069cc2967c1017613fb1",
+              "size_bytes": 563226
             },
             "bram_summary": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_file_rw/rep_01/bram_summary.json",
-              "sha256": "dd97849258c87b6ae989695a7370cf0513343f77101afac07cfa0dec68df7323",
-              "size_bytes": 1010
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_file_rw/rep_01/bram_summary.json",
+              "sha256": "30b4b7c85776f6cd4643004fa8f5a7cd66c57052c6f45773542fcd26ce5fe96a",
+              "size_bytes": 1015
             },
             "capture_csv": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_file_rw/rep_01/capture.csv",
-              "sha256": "69ea0e9d6c71747556bb9465baaf7bdcb09b0ee594efe043717dc58e6ed602fc",
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_file_rw/rep_01/capture.csv",
+              "sha256": "bb108204cfbc77f7e333d792d7f181196fd47508d72ed888bc3d1543939fb99a",
               "size_bytes": 2095924
             },
             "capture_err_log": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_file_rw/rep_01/capture.err.log",
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_file_rw/rep_01/capture.err.log",
               "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
               "size_bytes": 0
             },
             "capture_log": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_file_rw/rep_01/capture.log",
-              "sha256": "f9e6a864f2eb041bcd751ece4d63c721fa538b4384ede9f0eb2aee95e761831a",
-              "size_bytes": 9527
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_file_rw/rep_01/capture.log",
+              "sha256": "c3eac043c9fb7b6138b3f7a8460b9e4821d3f54020da2f3f8c33c438f302990e",
+              "size_bytes": 9207
             },
             "uart_log": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads/native_file_rw/rep_01/uart.log",
-              "sha256": "22135edd45842558a9b795099fc41fc05a731ab2a27961f18336e8599be0a422",
-              "size_bytes": 1416
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live/native_file_rw/rep_01/uart.log",
+              "sha256": "7d2b0e29249a3d590f4f775c2416b52993760288e754d86e1eda85ca5485e236",
+              "size_bytes": 1424
             }
           },
           "blocked_reason": null,
           "bram_ring": {
             "dropped_count": 0,
-            "event_count": 539,
+            "event_count": 711,
             "wrap_count": 0
           },
           "event_counts": {
-            "ARG_MEM": 149,
+            "ARG_MEM": 189,
             "MARKER": 2,
-            "SYSCALL_ENTRY": 194,
-            "SYSCALL_RET": 194
+            "SYSCALL_ENTRY": 260,
+            "SYSCALL_RET": 260
           },
           "markers": {
             "begin_count": 1,
@@ -792,12 +718,12 @@
             ]
           },
           "rep": "rep_01",
-          "run_root": "results/board/genesys2_trace_validation/20260702-official-image-workloads",
+          "run_root": "results/board/genesys2_trace_validation/20260702-official-image-workloads-live",
           "sequence_gap_count": 0,
           "status": "PASS",
           "uart": {
             "capture_rc": 0,
-            "child_pid": 1383,
+            "child_pid": 10042,
             "child_rc": 0,
             "done_seen": true,
             "done_source": "strict_capture_done",

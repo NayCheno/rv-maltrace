@@ -1,41 +1,581 @@
 {
-  "run_root": "results/board/genesys2_trace_validation/20260613-board-native-dwarf-source-lines",
+  "run_root": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live",
   "samples": [
     {
-      "id": "hello_write"
+      "accepted_attempt": "attempt_01",
+      "board_trace_claimed": true,
+      "bram_records": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/hello_write/attempt_01/bram_records.jsonl",
+      "bram_summary": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/hello_write/attempt_01/bram_summary.json",
+      "capture_csv": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/hello_write/attempt_01/capture.csv",
+      "captured_elf_sha256": "fba5fc5929141ee34b308d84dda1200e4972f3501addefd46163256dcb81e615",
+      "debug_elf_path": "build/debug_elf_readiness/hello_write/hello_write.debug.riscv64",
+      "debug_elf_sha256": "fba5fc5929141ee34b308d84dda1200e4972f3501addefd46163256dcb81e615",
+      "dropped_count": 0,
+      "event_count": 34,
+      "genesys2_cva6_board_trace_claimed": true,
+      "id": "hello_write",
+      "joined_trace_code_map": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/hello_write/joined_trace_code_map_manifest.json",
+      "joined_trace_code_map_summary": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/hello_write/joined_trace_code_map_summary.json",
+      "key_event_count": 2,
+      "marker_begin": "0xb0000a01",
+      "marker_end": "0xe0000a01",
+      "marker_scope": {
+        "begin_index": 0,
+        "end_index": 33,
+        "markers": [
+          {
+            "event_index": 0,
+            "kind": "begin",
+            "value": "0x00000000b0000a01"
+          },
+          {
+            "event_index": 33,
+            "kind": "end",
+            "value": "0x00000000e0000a01"
+          }
+        ],
+        "status": "PASS"
+      },
+      "marker_window_passed": true,
+      "runtime_path": "/tmp/rvmt_debug/hello_write",
+      "sample_dir": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/hello_write",
+      "schema": "rvmt.genesys2.board_native_dwarf_capture.v1",
+      "source_line_basis": "board BRAM marker-window trace joined to exact debug/no-PIE ELF code map",
+      "source_line_event_count": 2,
+      "source_line_rate": 1.0,
+      "transport": "bram_jtag_marker_window",
+      "unaccounted_drop": 0,
+      "unknown_key_events": 0,
+      "wrap_count": 0,
+      "wrapper_runtime_path": "/tmp/rvmt_debug_wrappers/hello_write_marker_wrap"
     },
     {
-      "id": "file_open_read_write"
+      "accepted_attempt": "attempt_01",
+      "board_trace_claimed": true,
+      "bram_records": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/file_open_read_write/attempt_01/bram_records.jsonl",
+      "bram_summary": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/file_open_read_write/attempt_01/bram_summary.json",
+      "capture_csv": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/file_open_read_write/attempt_01/capture.csv",
+      "captured_elf_sha256": "1210533bc6c0066b304c8b345e84e4c3a72f7634fc592a310b2e1b314307e7e9",
+      "debug_elf_path": "build/debug_elf_readiness/file_open_read_write/file_open_read_write.debug.riscv64",
+      "debug_elf_sha256": "1210533bc6c0066b304c8b345e84e4c3a72f7634fc592a310b2e1b314307e7e9",
+      "dropped_count": 0,
+      "event_count": 95,
+      "genesys2_cva6_board_trace_claimed": true,
+      "id": "file_open_read_write",
+      "joined_trace_code_map": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/file_open_read_write/joined_trace_code_map_manifest.json",
+      "joined_trace_code_map_summary": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/file_open_read_write/joined_trace_code_map_summary.json",
+      "key_event_count": 8,
+      "marker_begin": "0xb0000a02",
+      "marker_end": "0xe0000a02",
+      "marker_scope": {
+        "begin_index": 0,
+        "end_index": 94,
+        "markers": [
+          {
+            "event_index": 0,
+            "kind": "begin",
+            "value": "0x00000000b0000a02"
+          },
+          {
+            "event_index": 94,
+            "kind": "end",
+            "value": "0x00000000e0000a02"
+          }
+        ],
+        "status": "PASS"
+      },
+      "marker_window_passed": true,
+      "runtime_path": "/tmp/rvmt_debug/file_open_read_write",
+      "sample_dir": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/file_open_read_write",
+      "schema": "rvmt.genesys2.board_native_dwarf_capture.v1",
+      "source_line_basis": "board BRAM marker-window trace joined to exact debug/no-PIE ELF code map",
+      "source_line_event_count": 8,
+      "source_line_rate": 1.0,
+      "transport": "bram_jtag_marker_window",
+      "unaccounted_drop": 0,
+      "unknown_key_events": 0,
+      "wrap_count": 0,
+      "wrapper_runtime_path": "/tmp/rvmt_debug_wrappers/file_open_read_write_marker_wrap"
     },
     {
-      "id": "fork_exec"
+      "accepted_attempt": "attempt_01",
+      "board_trace_claimed": true,
+      "bram_records": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/fork_exec/attempt_01/bram_records.jsonl",
+      "bram_summary": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/fork_exec/attempt_01/bram_summary.json",
+      "capture_csv": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/fork_exec/attempt_01/capture.csv",
+      "captured_elf_sha256": "a5607a27666dd3147ecfdc64ecc04d13c5261f67cdf16a2417ba67c723dc7238",
+      "debug_elf_path": "build/debug_elf_readiness/fork_exec/fork_exec.debug.riscv64",
+      "debug_elf_sha256": "a5607a27666dd3147ecfdc64ecc04d13c5261f67cdf16a2417ba67c723dc7238",
+      "dropped_count": 0,
+      "event_count": 89,
+      "genesys2_cva6_board_trace_claimed": true,
+      "id": "fork_exec",
+      "joined_trace_code_map": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/fork_exec/joined_trace_code_map_manifest.json",
+      "joined_trace_code_map_summary": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/fork_exec/joined_trace_code_map_summary.json",
+      "key_event_count": 4,
+      "marker_begin": "0xb0000a03",
+      "marker_end": "0xe0000a03",
+      "marker_scope": {
+        "begin_index": 0,
+        "end_index": 88,
+        "markers": [
+          {
+            "event_index": 0,
+            "kind": "begin",
+            "value": "0x00000000b0000a03"
+          },
+          {
+            "event_index": 88,
+            "kind": "end",
+            "value": "0x00000000e0000a03"
+          }
+        ],
+        "status": "PASS"
+      },
+      "marker_window_passed": true,
+      "runtime_path": "/tmp/rvmt_debug/fork_exec",
+      "sample_dir": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/fork_exec",
+      "schema": "rvmt.genesys2.board_native_dwarf_capture.v1",
+      "source_line_basis": "board BRAM marker-window trace joined to exact debug/no-PIE ELF code map",
+      "source_line_event_count": 4,
+      "source_line_rate": 1.0,
+      "transport": "bram_jtag_marker_window",
+      "unaccounted_drop": 0,
+      "unknown_key_events": 0,
+      "wrap_count": 0,
+      "wrapper_runtime_path": "/tmp/rvmt_debug_wrappers/fork_exec_marker_wrap"
     },
     {
-      "id": "illegal_instruction"
+      "accepted_attempt": "attempt_01",
+      "board_trace_claimed": true,
+      "bram_records": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/illegal_instruction/attempt_01/bram_records.jsonl",
+      "bram_summary": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/illegal_instruction/attempt_01/bram_summary.json",
+      "capture_csv": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/illegal_instruction/attempt_01/capture.csv",
+      "captured_elf_sha256": "2deb001fc3f9080112f0d9cca92c90ef2559bc195e1be4b6ccae660171f959ee",
+      "debug_elf_path": "build/debug_elf_readiness/illegal_instruction/illegal_instruction.debug.riscv64",
+      "debug_elf_sha256": "2deb001fc3f9080112f0d9cca92c90ef2559bc195e1be4b6ccae660171f959ee",
+      "dropped_count": 0,
+      "event_count": 33,
+      "genesys2_cva6_board_trace_claimed": true,
+      "id": "illegal_instruction",
+      "joined_trace_code_map": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/illegal_instruction/joined_trace_code_map_manifest.json",
+      "joined_trace_code_map_summary": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/illegal_instruction/joined_trace_code_map_summary.json",
+      "key_event_count": 3,
+      "marker_begin": "0xb0000a04",
+      "marker_end": "0xe0000a04",
+      "marker_scope": {
+        "begin_index": 0,
+        "end_index": 32,
+        "markers": [
+          {
+            "event_index": 0,
+            "kind": "begin",
+            "value": "0x00000000b0000a04"
+          },
+          {
+            "event_index": 32,
+            "kind": "end",
+            "value": "0x00000000e0000a04"
+          }
+        ],
+        "status": "PASS"
+      },
+      "marker_window_passed": true,
+      "runtime_path": "/tmp/rvmt_debug/illegal_instruction",
+      "sample_dir": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/illegal_instruction",
+      "schema": "rvmt.genesys2.board_native_dwarf_capture.v1",
+      "source_line_basis": "board BRAM marker-window trace joined to exact debug/no-PIE ELF code map",
+      "source_line_event_count": 3,
+      "source_line_rate": 1.0,
+      "transport": "bram_jtag_marker_window",
+      "unaccounted_drop": 0,
+      "unknown_key_events": 0,
+      "wrap_count": 0,
+      "wrapper_runtime_path": "/tmp/rvmt_debug_wrappers/illegal_instruction_marker_wrap"
     },
     {
-      "id": "file_scan"
+      "accepted_attempt": "attempt_01",
+      "board_trace_claimed": true,
+      "bram_records": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/file_scan/attempt_01/bram_records.jsonl",
+      "bram_summary": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/file_scan/attempt_01/bram_summary.json",
+      "capture_csv": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/file_scan/attempt_01/capture.csv",
+      "captured_elf_sha256": "242679372b2d48833e90c8e452c90cc244f7e98c2b19c13bbf97fb212a392238",
+      "debug_elf_path": "build/debug_elf_readiness/file_scan/file_scan.debug.riscv64",
+      "debug_elf_sha256": "242679372b2d48833e90c8e452c90cc244f7e98c2b19c13bbf97fb212a392238",
+      "dropped_count": 0,
+      "event_count": 24,
+      "genesys2_cva6_board_trace_claimed": true,
+      "id": "file_scan",
+      "joined_trace_code_map": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/file_scan/joined_trace_code_map_manifest.json",
+      "joined_trace_code_map_summary": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/file_scan/joined_trace_code_map_summary.json",
+      "key_event_count": 2,
+      "marker_begin": "0xb0000a11",
+      "marker_end": "0xe0000a11",
+      "marker_scope": {
+        "begin_index": 0,
+        "end_index": 23,
+        "markers": [
+          {
+            "event_index": 0,
+            "kind": "begin",
+            "value": "0x00000000b0000a11"
+          },
+          {
+            "event_index": 23,
+            "kind": "end",
+            "value": "0x00000000e0000a11"
+          }
+        ],
+        "status": "PASS"
+      },
+      "marker_window_passed": true,
+      "runtime_path": "/tmp/rvmt_debug/file_scan",
+      "sample_dir": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/file_scan",
+      "schema": "rvmt.genesys2.board_native_dwarf_capture.v1",
+      "source_line_basis": "board BRAM marker-window trace joined to exact debug/no-PIE ELF code map",
+      "source_line_event_count": 2,
+      "source_line_rate": 1.0,
+      "transport": "bram_jtag_marker_window",
+      "unaccounted_drop": 0,
+      "unknown_key_events": 0,
+      "wrap_count": 0,
+      "wrapper_runtime_path": "/tmp/rvmt_debug_wrappers/file_scan_marker_wrap"
     },
     {
-      "id": "batch_open_read_write"
+      "accepted_attempt": "attempt_01",
+      "board_trace_claimed": true,
+      "bram_records": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/batch_open_read_write/attempt_01/bram_records.jsonl",
+      "bram_summary": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/batch_open_read_write/attempt_01/bram_summary.json",
+      "capture_csv": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/batch_open_read_write/attempt_01/capture.csv",
+      "captured_elf_sha256": "1a2e54d1dd164f598520d6e7723a1968dad90455e26d852ed34c372af23e8870",
+      "debug_elf_path": "build/debug_elf_readiness/batch_open_read_write/batch_open_read_write.debug.riscv64",
+      "debug_elf_sha256": "1a2e54d1dd164f598520d6e7723a1968dad90455e26d852ed34c372af23e8870",
+      "dropped_count": 0,
+      "event_count": 25,
+      "genesys2_cva6_board_trace_claimed": true,
+      "id": "batch_open_read_write",
+      "joined_trace_code_map": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/batch_open_read_write/joined_trace_code_map_manifest.json",
+      "joined_trace_code_map_summary": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/batch_open_read_write/joined_trace_code_map_summary.json",
+      "key_event_count": 2,
+      "marker_begin": "0xb0000a11",
+      "marker_end": "0xe0000a11",
+      "marker_scope": {
+        "begin_index": 0,
+        "end_index": 24,
+        "markers": [
+          {
+            "event_index": 0,
+            "kind": "begin",
+            "value": "0x00000000b0000a11"
+          },
+          {
+            "event_index": 24,
+            "kind": "end",
+            "value": "0x00000000e0000a11"
+          }
+        ],
+        "status": "PASS"
+      },
+      "marker_window_passed": true,
+      "runtime_path": "/tmp/rvmt_debug/batch_open_read_write",
+      "sample_dir": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/batch_open_read_write",
+      "schema": "rvmt.genesys2.board_native_dwarf_capture.v1",
+      "source_line_basis": "board BRAM marker-window trace joined to exact debug/no-PIE ELF code map",
+      "source_line_event_count": 2,
+      "source_line_rate": 1.0,
+      "transport": "bram_jtag_marker_window",
+      "unaccounted_drop": 0,
+      "unknown_key_events": 0,
+      "wrap_count": 0,
+      "wrapper_runtime_path": "/tmp/rvmt_debug_wrappers/batch_open_read_write_marker_wrap"
     },
     {
-      "id": "self_copy_sim"
+      "accepted_attempt": "attempt_01",
+      "board_trace_claimed": true,
+      "bram_records": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/self_copy_sim/attempt_01/bram_records.jsonl",
+      "bram_summary": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/self_copy_sim/attempt_01/bram_summary.json",
+      "capture_csv": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/self_copy_sim/attempt_01/capture.csv",
+      "captured_elf_sha256": "7c684a20ab25e51698604b38343162c4d287ba78b51e8196c3b1c6d426c28520",
+      "debug_elf_path": "build/debug_elf_readiness/self_copy_sim/self_copy_sim.debug.riscv64",
+      "debug_elf_sha256": "7c684a20ab25e51698604b38343162c4d287ba78b51e8196c3b1c6d426c28520",
+      "dropped_count": 0,
+      "event_count": 61,
+      "genesys2_cva6_board_trace_claimed": true,
+      "id": "self_copy_sim",
+      "joined_trace_code_map": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/self_copy_sim/joined_trace_code_map_manifest.json",
+      "joined_trace_code_map_summary": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/self_copy_sim/joined_trace_code_map_summary.json",
+      "key_event_count": 7,
+      "marker_begin": "0xb0000a11",
+      "marker_end": "0xe0000a11",
+      "marker_scope": {
+        "begin_index": 0,
+        "end_index": 60,
+        "markers": [
+          {
+            "event_index": 0,
+            "kind": "begin",
+            "value": "0x00000000b0000a11"
+          },
+          {
+            "event_index": 60,
+            "kind": "end",
+            "value": "0x00000000e0000a11"
+          }
+        ],
+        "status": "PASS"
+      },
+      "marker_window_passed": true,
+      "runtime_path": "/tmp/rvmt_debug/self_copy_sim",
+      "sample_dir": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/self_copy_sim",
+      "schema": "rvmt.genesys2.board_native_dwarf_capture.v1",
+      "source_line_basis": "board BRAM marker-window trace joined to exact debug/no-PIE ELF code map",
+      "source_line_event_count": 7,
+      "source_line_rate": 1.0,
+      "transport": "bram_jtag_marker_window",
+      "unaccounted_drop": 0,
+      "unknown_key_events": 0,
+      "wrap_count": 0,
+      "wrapper_runtime_path": "/tmp/rvmt_debug_wrappers/self_copy_sim_marker_wrap"
     },
     {
-      "id": "abnormal_syscall_sequence"
+      "accepted_attempt": "attempt_01",
+      "board_trace_claimed": true,
+      "bram_records": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/abnormal_syscall_sequence/attempt_01/bram_records.jsonl",
+      "bram_summary": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/abnormal_syscall_sequence/attempt_01/bram_summary.json",
+      "capture_csv": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/abnormal_syscall_sequence/attempt_01/capture.csv",
+      "captured_elf_sha256": "babc523b3ebe2b8e3174c452b2f7f7c953e7268f37ab70e0a00c472e710225ed",
+      "debug_elf_path": "build/debug_elf_readiness/abnormal_syscall_sequence/abnormal_syscall_sequence.debug.riscv64",
+      "debug_elf_sha256": "babc523b3ebe2b8e3174c452b2f7f7c953e7268f37ab70e0a00c472e710225ed",
+      "dropped_count": 0,
+      "event_count": 32,
+      "genesys2_cva6_board_trace_claimed": true,
+      "id": "abnormal_syscall_sequence",
+      "joined_trace_code_map": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/abnormal_syscall_sequence/joined_trace_code_map_manifest.json",
+      "joined_trace_code_map_summary": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/abnormal_syscall_sequence/joined_trace_code_map_summary.json",
+      "key_event_count": 7,
+      "marker_begin": "0xb0000a11",
+      "marker_end": "0xe0000a11",
+      "marker_scope": {
+        "begin_index": 0,
+        "end_index": 31,
+        "markers": [
+          {
+            "event_index": 0,
+            "kind": "begin",
+            "value": "0x00000000b0000a11"
+          },
+          {
+            "event_index": 31,
+            "kind": "end",
+            "value": "0x00000000e0000a11"
+          }
+        ],
+        "status": "PASS"
+      },
+      "marker_window_passed": true,
+      "runtime_path": "/tmp/rvmt_debug/abnormal_syscall_sequence",
+      "sample_dir": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/abnormal_syscall_sequence",
+      "schema": "rvmt.genesys2.board_native_dwarf_capture.v1",
+      "source_line_basis": "board BRAM marker-window trace joined to exact debug/no-PIE ELF code map",
+      "source_line_event_count": 7,
+      "source_line_rate": 1.0,
+      "transport": "bram_jtag_marker_window",
+      "unaccounted_drop": 0,
+      "unknown_key_events": 0,
+      "wrap_count": 0,
+      "wrapper_runtime_path": "/tmp/rvmt_debug_wrappers/abnormal_syscall_sequence_marker_wrap"
     },
     {
-      "id": "illegal_trap"
+      "accepted_attempt": "attempt_01",
+      "board_trace_claimed": true,
+      "bram_records": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/illegal_trap/attempt_01/bram_records.jsonl",
+      "bram_summary": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/illegal_trap/attempt_01/bram_summary.json",
+      "capture_csv": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/illegal_trap/attempt_01/capture.csv",
+      "captured_elf_sha256": "d71dfe7408b65bbc0712b7c7e79a79034748d3c9b34432ce5b401401e6aa8438",
+      "debug_elf_path": "build/debug_elf_readiness/illegal_trap/illegal_trap.debug.riscv64",
+      "debug_elf_sha256": "d71dfe7408b65bbc0712b7c7e79a79034748d3c9b34432ce5b401401e6aa8438",
+      "dropped_count": 0,
+      "event_count": 35,
+      "genesys2_cva6_board_trace_claimed": true,
+      "id": "illegal_trap",
+      "joined_trace_code_map": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/illegal_trap/joined_trace_code_map_manifest.json",
+      "joined_trace_code_map_summary": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/illegal_trap/joined_trace_code_map_summary.json",
+      "key_event_count": 3,
+      "marker_begin": "0xb0000a11",
+      "marker_end": "0xe0000a11",
+      "marker_scope": {
+        "begin_index": 0,
+        "end_index": 34,
+        "markers": [
+          {
+            "event_index": 0,
+            "kind": "begin",
+            "value": "0x00000000b0000a11"
+          },
+          {
+            "event_index": 34,
+            "kind": "end",
+            "value": "0x00000000e0000a11"
+          }
+        ],
+        "status": "PASS"
+      },
+      "marker_window_passed": true,
+      "runtime_path": "/tmp/rvmt_debug/illegal_trap",
+      "sample_dir": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/illegal_trap",
+      "schema": "rvmt.genesys2.board_native_dwarf_capture.v1",
+      "source_line_basis": "board BRAM marker-window trace joined to exact debug/no-PIE ELF code map",
+      "source_line_event_count": 3,
+      "source_line_rate": 1.0,
+      "transport": "bram_jtag_marker_window",
+      "unaccounted_drop": 0,
+      "unknown_key_events": 0,
+      "wrap_count": 0,
+      "wrapper_runtime_path": "/tmp/rvmt_debug_wrappers/illegal_trap_marker_wrap"
     },
     {
-      "id": "process_chain"
+      "accepted_attempt": "attempt_01",
+      "board_trace_claimed": true,
+      "bram_records": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/process_chain/attempt_01/bram_records.jsonl",
+      "bram_summary": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/process_chain/attempt_01/bram_summary.json",
+      "capture_csv": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/process_chain/attempt_01/capture.csv",
+      "captured_elf_sha256": "0aee8082d3653b37ef6a59ffb17643ef03f3c8b82cbd92dd9b5fec665c3e67bc",
+      "debug_elf_path": "build/debug_elf_readiness/process_chain/process_chain.debug.riscv64",
+      "debug_elf_sha256": "0aee8082d3653b37ef6a59ffb17643ef03f3c8b82cbd92dd9b5fec665c3e67bc",
+      "dropped_count": 0,
+      "event_count": 164,
+      "genesys2_cva6_board_trace_claimed": true,
+      "id": "process_chain",
+      "joined_trace_code_map": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/process_chain/joined_trace_code_map_manifest.json",
+      "joined_trace_code_map_summary": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/process_chain/joined_trace_code_map_summary.json",
+      "key_event_count": 7,
+      "marker_begin": "0xb0000a11",
+      "marker_end": "0xe0000a11",
+      "marker_scope": {
+        "begin_index": 0,
+        "end_index": 163,
+        "markers": [
+          {
+            "event_index": 0,
+            "kind": "begin",
+            "value": "0x00000000b0000a11"
+          },
+          {
+            "event_index": 163,
+            "kind": "end",
+            "value": "0x00000000e0000a11"
+          }
+        ],
+        "status": "PASS"
+      },
+      "marker_window_passed": true,
+      "runtime_path": "/tmp/rvmt_debug/process_chain",
+      "sample_dir": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/process_chain",
+      "schema": "rvmt.genesys2.board_native_dwarf_capture.v1",
+      "source_line_basis": "board BRAM marker-window trace joined to exact debug/no-PIE ELF code map",
+      "source_line_event_count": 7,
+      "source_line_rate": 1.0,
+      "transport": "bram_jtag_marker_window",
+      "unaccounted_drop": 0,
+      "unknown_key_events": 0,
+      "wrap_count": 0,
+      "wrapper_runtime_path": "/tmp/rvmt_debug_wrappers/process_chain_marker_wrap"
     },
     {
-      "id": "dynamic_executable_memory"
+      "accepted_attempt": "attempt_01",
+      "board_trace_claimed": true,
+      "bram_records": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/dynamic_executable_memory/attempt_01/bram_records.jsonl",
+      "bram_summary": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/dynamic_executable_memory/attempt_01/bram_summary.json",
+      "capture_csv": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/dynamic_executable_memory/attempt_01/capture.csv",
+      "captured_elf_sha256": "70e27784484a6f6f3fb3c20b10272e53cbfb51428503845340f5aedb40301029",
+      "debug_elf_path": "build/debug_elf_readiness/dynamic_executable_memory/dynamic_executable_memory.debug.riscv64",
+      "debug_elf_sha256": "70e27784484a6f6f3fb3c20b10272e53cbfb51428503845340f5aedb40301029",
+      "dropped_count": 0,
+      "event_count": 24,
+      "genesys2_cva6_board_trace_claimed": true,
+      "id": "dynamic_executable_memory",
+      "joined_trace_code_map": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/dynamic_executable_memory/joined_trace_code_map_manifest.json",
+      "joined_trace_code_map_summary": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/dynamic_executable_memory/joined_trace_code_map_summary.json",
+      "key_event_count": 5,
+      "marker_begin": "0xb0000a11",
+      "marker_end": "0xe0000a11",
+      "marker_scope": {
+        "begin_index": 0,
+        "end_index": 23,
+        "markers": [
+          {
+            "event_index": 0,
+            "kind": "begin",
+            "value": "0x00000000b0000a11"
+          },
+          {
+            "event_index": 23,
+            "kind": "end",
+            "value": "0x00000000e0000a11"
+          }
+        ],
+        "status": "PASS"
+      },
+      "marker_window_passed": true,
+      "runtime_path": "/tmp/rvmt_debug/dynamic_executable_memory",
+      "sample_dir": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/dynamic_executable_memory",
+      "schema": "rvmt.genesys2.board_native_dwarf_capture.v1",
+      "source_line_basis": "board BRAM marker-window trace joined to exact debug/no-PIE ELF code map",
+      "source_line_event_count": 5,
+      "source_line_rate": 1.0,
+      "transport": "bram_jtag_marker_window",
+      "unaccounted_drop": 0,
+      "unknown_key_events": 0,
+      "wrap_count": 0,
+      "wrapper_runtime_path": "/tmp/rvmt_debug_wrappers/dynamic_executable_memory_marker_wrap"
     },
     {
-      "id": "anti_debug_like"
+      "accepted_attempt": "attempt_01",
+      "board_trace_claimed": true,
+      "bram_records": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/anti_debug_like/attempt_01/bram_records.jsonl",
+      "bram_summary": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/anti_debug_like/attempt_01/bram_summary.json",
+      "capture_csv": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/anti_debug_like/attempt_01/capture.csv",
+      "captured_elf_sha256": "7fa8de686d5dc277d3668843d83fe14fb95bd9e303eb4604936faf464e316af5",
+      "debug_elf_path": "build/debug_elf_readiness/anti_debug_like/anti_debug_like.debug.riscv64",
+      "debug_elf_sha256": "7fa8de686d5dc277d3668843d83fe14fb95bd9e303eb4604936faf464e316af5",
+      "dropped_count": 0,
+      "event_count": 29,
+      "genesys2_cva6_board_trace_claimed": true,
+      "id": "anti_debug_like",
+      "joined_trace_code_map": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/anti_debug_like/joined_trace_code_map_manifest.json",
+      "joined_trace_code_map_summary": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/anti_debug_like/joined_trace_code_map_summary.json",
+      "key_event_count": 7,
+      "marker_begin": "0xb0000a11",
+      "marker_end": "0xe0000a11",
+      "marker_scope": {
+        "begin_index": 0,
+        "end_index": 28,
+        "markers": [
+          {
+            "event_index": 0,
+            "kind": "begin",
+            "value": "0x00000000b0000a11"
+          },
+          {
+            "event_index": 28,
+            "kind": "end",
+            "value": "0x00000000e0000a11"
+          }
+        ],
+        "status": "PASS"
+      },
+      "marker_window_passed": true,
+      "runtime_path": "/tmp/rvmt_debug/anti_debug_like",
+      "sample_dir": "results/board/genesys2_trace_validation/20260702-board-native-dwarf-source-lines-freestanding-live/anti_debug_like",
+      "schema": "rvmt.genesys2.board_native_dwarf_capture.v1",
+      "source_line_basis": "board BRAM marker-window trace joined to exact debug/no-PIE ELF code map",
+      "source_line_event_count": 7,
+      "source_line_rate": 1.0,
+      "transport": "bram_jtag_marker_window",
+      "unaccounted_drop": 0,
+      "unknown_key_events": 0,
+      "wrap_count": 0,
+      "wrapper_runtime_path": "/tmp/rvmt_debug_wrappers/anti_debug_like_marker_wrap"
     }
   ]
 }

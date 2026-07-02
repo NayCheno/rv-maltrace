@@ -8,14 +8,14 @@
     },
     "dynamic_pie_transfer_log": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie/dynamic_pie_transfer.log",
-      "sha256": "aea49c59afd9f42f9c71760a7ca889cbabde9e4e40575a0b2ddeb0b85ee9176d",
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie-live/dynamic_pie_transfer.log",
+      "sha256": "59167d4064760cfe6b77f22af72f12456d1899952008369fa947adbf23ef6f99",
       "size_bytes": 1841
     },
     "static_exec_transfer_log": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie/static_exec_transfer.log",
-      "sha256": "abaa26b626bd8c3cb3dcf6607a0213daad7068889dd517345c561ff32549ccf1",
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie-live/static_exec_transfer.log",
+      "sha256": "fa39ec973c6de9b81c197dcc44c776413fd7bcf550567beaa42d46756ab44ac4",
       "size_bytes": 23405
     }
   },
@@ -34,158 +34,12 @@
     "Dynamic PIE claims require repeated board /proc map captures; failed dynamic execution is reported as BLOCKED."
   ],
   "repetitions_requested": 4,
-  "run_root": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie",
+  "run_root": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie-live",
   "schema": "rvmt.genesys2.official_image_aslr_pie.v1",
   "static_pie_build_status": "BLOCKED_BUILD_FAILED",
   "status": "PASS",
   "variants": {
     "dynamic_pie": {
-      "attempt_count": 4,
-      "pass_count": 3,
-      "samples": [
-        {
-          "artifacts": {
-            "proc_snapshots": {
-              "exe": {
-                "exists": true,
-                "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie/dynamic_pie/rep_01/proc_snapshots/exe.txt",
-                "sha256": "b0dd79b4f194a92d2da537b7fe02af312d184bff91a90e973d2deccadf8bb446",
-                "size_bytes": 134
-              },
-              "maps": {
-                "exists": true,
-                "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie/dynamic_pie/rep_01/proc_snapshots/maps.txt",
-                "sha256": "bb9ee6f0e15aa19a0027cfc02c2c17554815fb9cfdd379a293b36c78f9d45b7a",
-                "size_bytes": 1368
-              }
-            },
-            "uart_log": {
-              "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie/dynamic_pie/rep_01/uart.log",
-              "sha256": "93ecbd77405a0c2781214bee7dcf9dbe0ea420461dc9798ed6ef415d092255f5",
-              "size_bytes": 4814
-            }
-          },
-          "blocked_reason": null,
-          "board_proc_exe_sha256": "95d00eb194571d77f35a8ee440a00096c50b127e9a683a45d3f9f94ec14ce6b6",
-          "executable_base": "0x0000002abdfc1000",
-          "executable_base_int": 183576039424,
-          "expected_sha256": "95d00eb194571d77f35a8ee440a00096c50b127e9a683a45d3f9f94ec14ce6b6",
-          "hash_match": true,
-          "map_entry_count": 15,
-          "pid": 1823,
-          "randomize_va_space": "1",
-          "rep": "rep_01",
-          "status": "PASS"
-        },
-        {
-          "artifacts": {
-            "proc_snapshots": {
-              "exe": {
-                "exists": true,
-                "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie/dynamic_pie/rep_02/proc_snapshots/exe.txt",
-                "sha256": "cacc8a1b32f3663289ae683c2c0936e09e2975179fb013f6733ce625691963e8",
-                "size_bytes": 134
-              }
-            },
-            "uart_log": {
-              "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie/dynamic_pie/rep_02/uart.log",
-              "sha256": "6c5a60c7079605fb940c9537a1f534d020ac2b20a91cb944a81855feaeb903e6",
-              "size_bytes": 4974
-            }
-          },
-          "blocked_reason": "target did not stay alive long enough for /proc map capture",
-          "board_proc_exe_sha256": "95d00eb194571d77f35a8ee440a00096c50b127e9a683a45d3f9f94ec14ce6b6",
-          "executable_base": null,
-          "executable_base_int": null,
-          "expected_sha256": "95d00eb194571d77f35a8ee440a00096c50b127e9a683a45d3f9f94ec14ce6b6",
-          "hash_match": true,
-          "map_entry_count": 0,
-          "pid": 1833,
-          "randomize_va_space": "1",
-          "rep": "rep_02",
-          "status": "BLOCKED_SAMPLE_NOT_EXECUTABLE"
-        },
-        {
-          "artifacts": {
-            "proc_snapshots": {
-              "exe": {
-                "exists": true,
-                "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie/dynamic_pie/rep_03/proc_snapshots/exe.txt",
-                "sha256": "296e71284812558a3e9f28404fa2f290595e80f7de779110bf6586f298599a84",
-                "size_bytes": 587
-              },
-              "maps": {
-                "exists": true,
-                "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie/dynamic_pie/rep_03/proc_snapshots/maps.txt",
-                "sha256": "7f4209de1ae5f9de83f8753cf2d3023fcf16807633743373492e694aa8373772",
-                "size_bytes": 1368
-              }
-            },
-            "uart_log": {
-              "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie/dynamic_pie/rep_03/uart.log",
-              "sha256": "8559c6f3d8fbc2187f649d13a08ffd849bbbae2bc1983686da5214636ce43392",
-              "size_bytes": 5037
-            }
-          },
-          "blocked_reason": null,
-          "board_proc_exe_sha256": "95d00eb194571d77f35a8ee440a00096c50b127e9a683a45d3f9f94ec14ce6b6",
-          "executable_base": "0x0000002aacd35000",
-          "executable_base_int": 183288156160,
-          "expected_sha256": "95d00eb194571d77f35a8ee440a00096c50b127e9a683a45d3f9f94ec14ce6b6",
-          "hash_match": true,
-          "map_entry_count": 15,
-          "pid": 1844,
-          "randomize_va_space": "1",
-          "rep": "rep_03",
-          "status": "PASS"
-        },
-        {
-          "artifacts": {
-            "proc_snapshots": {
-              "exe": {
-                "exists": true,
-                "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie/dynamic_pie/rep_04/proc_snapshots/exe.txt",
-                "sha256": "ca6131daab27280e80f03eaec910c2d46cf7351ce66a4b1b4cfad1a8d95368c1",
-                "size_bytes": 134
-              },
-              "maps": {
-                "exists": true,
-                "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie/dynamic_pie/rep_04/proc_snapshots/maps.txt",
-                "sha256": "2f2f5599d54d2881ef5dae991927e8a7055007acc9b52ac70b6be7da93b53b9c",
-                "size_bytes": 1368
-              }
-            },
-            "uart_log": {
-              "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie/dynamic_pie/rep_04/uart.log",
-              "sha256": "097466d4516f406264c05d88cdc68f4be36d7de83e42aa880ec24dbe3e10f43c",
-              "size_bytes": 4814
-            }
-          },
-          "blocked_reason": null,
-          "board_proc_exe_sha256": "95d00eb194571d77f35a8ee440a00096c50b127e9a683a45d3f9f94ec14ce6b6",
-          "executable_base": "0x0000002abb92b000",
-          "executable_base_int": 183535579136,
-          "expected_sha256": "95d00eb194571d77f35a8ee440a00096c50b127e9a683a45d3f9f94ec14ce6b6",
-          "hash_match": true,
-          "map_entry_count": 15,
-          "pid": 1855,
-          "randomize_va_space": "1",
-          "rep": "rep_04",
-          "status": "PASS"
-        }
-      ],
-      "unique_base_count": 3,
-      "unique_executable_bases": [
-        "0x0000002aacd35000",
-        "0x0000002abb92b000",
-        "0x0000002abdfc1000"
-      ]
-    },
-    "static_exec": {
       "attempt_count": 4,
       "pass_count": 4,
       "samples": [
@@ -194,32 +48,32 @@
             "proc_snapshots": {
               "exe": {
                 "exists": true,
-                "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie/static_exec/rep_01/proc_snapshots/exe.txt",
-                "sha256": "c78609c53f9f4c1624de90332762436ecaf1bde52ca8c748f73181f1806a3ff4",
-                "size_bytes": 575
+                "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie-live/dynamic_pie/rep_01/proc_snapshots/exe.txt",
+                "sha256": "9eab0a725329f033c9eccd3d27afa437e76706bb7adb9b5de64819c78d42ffb3",
+                "size_bytes": 135
               },
               "maps": {
                 "exists": true,
-                "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie/static_exec/rep_01/proc_snapshots/maps.txt",
-                "sha256": "3e669c395876e99a49cf8d70b6dac6ef44c001789e258ca3869854768b27fe48",
-                "size_bytes": 894
+                "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie-live/dynamic_pie/rep_01/proc_snapshots/maps.txt",
+                "sha256": "cabf040dc9e080a8cfb31d8584891724cdd4a865a386ca23936040eca7bdf872",
+                "size_bytes": 1821
               }
             },
             "uart_log": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie/static_exec/rep_01/uart.log",
-              "sha256": "cda64fffa7d174d28bc3e6ba6d926a6e9b744e75799f570da6c2d52dbf8b56ea",
-              "size_bytes": 4507
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie-live/dynamic_pie/rep_01/uart.log",
+              "sha256": "0ffbbeabc8ab0e8ca5939ccd19955f32eeb25ecff6dc39005713b68726fec851",
+              "size_bytes": 5239
             }
           },
           "blocked_reason": null,
-          "board_proc_exe_sha256": "e3d913bd859badb7a5ad4401237e406ba6ebaa2b6ae03c35dca3f388dde39144",
-          "executable_base": "0x0000000000010000",
-          "executable_base_int": 65536,
-          "expected_sha256": "e3d913bd859badb7a5ad4401237e406ba6ebaa2b6ae03c35dca3f388dde39144",
+          "board_proc_exe_sha256": "95d00eb194571d77f35a8ee440a00096c50b127e9a683a45d3f9f94ec14ce6b6",
+          "executable_base": "0x0000002ac2da0000",
+          "executable_base_int": 183657693184,
+          "expected_sha256": "95d00eb194571d77f35a8ee440a00096c50b127e9a683a45d3f9f94ec14ce6b6",
           "hash_match": true,
-          "map_entry_count": 8,
-          "pid": 1780,
+          "map_entry_count": 15,
+          "pid": 11123,
           "randomize_va_space": "1",
           "rep": "rep_01",
           "status": "PASS"
@@ -229,32 +83,32 @@
             "proc_snapshots": {
               "exe": {
                 "exists": true,
-                "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie/static_exec/rep_02/proc_snapshots/exe.txt",
-                "sha256": "4234057a91eed6598f7bf460cde94d94abdb6ee6ae69b15689c879f06217080d",
-                "size_bytes": 575
+                "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie-live/dynamic_pie/rep_02/proc_snapshots/exe.txt",
+                "sha256": "1fe1d7a31aa3b871aed53ddd4581379ed9a68e492a7048432deff3e3cc5e23e6",
+                "size_bytes": 135
               },
               "maps": {
                 "exists": true,
-                "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie/static_exec/rep_02/proc_snapshots/maps.txt",
-                "sha256": "c3c108b4fa998d793dc12ad77e9eb3afc450103133c60669f0b4f77a00c08737",
-                "size_bytes": 701
+                "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie-live/dynamic_pie/rep_02/proc_snapshots/maps.txt",
+                "sha256": "53a5284dda47ddda95c01f1b930266f901bebf6aa2e75d37169c677b770fdd56",
+                "size_bytes": 1821
               }
             },
             "uart_log": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie/static_exec/rep_02/uart.log",
-              "sha256": "239f7353f49419befa87cbdd703a3078caf0f4dfc439a9de9667b1e0aa8116bd",
-              "size_bytes": 4312
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie-live/dynamic_pie/rep_02/uart.log",
+              "sha256": "1ed9e8c73993b57cda54f2678b82142c0ad6ecc276864e98ead4170e35ec0f5e",
+              "size_bytes": 4920
             }
           },
           "blocked_reason": null,
-          "board_proc_exe_sha256": "e3d913bd859badb7a5ad4401237e406ba6ebaa2b6ae03c35dca3f388dde39144",
-          "executable_base": "0x0000000000010000",
-          "executable_base_int": 65536,
-          "expected_sha256": "e3d913bd859badb7a5ad4401237e406ba6ebaa2b6ae03c35dca3f388dde39144",
+          "board_proc_exe_sha256": "95d00eb194571d77f35a8ee440a00096c50b127e9a683a45d3f9f94ec14ce6b6",
+          "executable_base": "0x0000002ace16e000",
+          "executable_base_int": 183846232064,
+          "expected_sha256": "95d00eb194571d77f35a8ee440a00096c50b127e9a683a45d3f9f94ec14ce6b6",
           "hash_match": true,
-          "map_entry_count": 8,
-          "pid": 1791,
+          "map_entry_count": 15,
+          "pid": 11134,
           "randomize_va_space": "1",
           "rep": "rep_02",
           "status": "PASS"
@@ -264,32 +118,32 @@
             "proc_snapshots": {
               "exe": {
                 "exists": true,
-                "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie/static_exec/rep_03/proc_snapshots/exe.txt",
-                "sha256": "fabeb5632fea2d7a68c1ae8886162bc9c60a0f0c71e02b521db0717483c676bf",
-                "size_bytes": 122
+                "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie-live/dynamic_pie/rep_03/proc_snapshots/exe.txt",
+                "sha256": "f29cb3ba2b369a16b8c7f2f91abde9afde79f59a76372768288a6f2de674aa3a",
+                "size_bytes": 135
               },
               "maps": {
                 "exists": true,
-                "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie/static_exec/rep_03/proc_snapshots/maps.txt",
-                "sha256": "3108e3840fbe2f148d3e3dedcb0809013ce0ce424d68da8d1a1e7ede37fab9df",
-                "size_bytes": 701
+                "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie-live/dynamic_pie/rep_03/proc_snapshots/maps.txt",
+                "sha256": "f54fe4adeeb7e3f2575068753fb21e556cda567fb169c314413290882f10b524",
+                "size_bytes": 1821
               }
             },
             "uart_log": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie/static_exec/rep_03/uart.log",
-              "sha256": "5ccbbb9807090450794a854bbe1b9d8a062302a119f837ca835ff4cc07a93d7c",
-              "size_bytes": 4089
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie-live/dynamic_pie/rep_03/uart.log",
+              "sha256": "41a03ad944e01a3e83c3dc9165de9906e4ee563adcceadc69b18d6bf10328546",
+              "size_bytes": 5239
             }
           },
           "blocked_reason": null,
-          "board_proc_exe_sha256": "e3d913bd859badb7a5ad4401237e406ba6ebaa2b6ae03c35dca3f388dde39144",
-          "executable_base": "0x0000000000010000",
-          "executable_base_int": 65536,
-          "expected_sha256": "e3d913bd859badb7a5ad4401237e406ba6ebaa2b6ae03c35dca3f388dde39144",
+          "board_proc_exe_sha256": "95d00eb194571d77f35a8ee440a00096c50b127e9a683a45d3f9f94ec14ce6b6",
+          "executable_base": "0x0000002aca4e8000",
+          "executable_base_int": 183782768640,
+          "expected_sha256": "95d00eb194571d77f35a8ee440a00096c50b127e9a683a45d3f9f94ec14ce6b6",
           "hash_match": true,
-          "map_entry_count": 8,
-          "pid": 1801,
+          "map_entry_count": 15,
+          "pid": 11144,
           "randomize_va_space": "1",
           "rep": "rep_03",
           "status": "PASS"
@@ -299,22 +153,105 @@
             "proc_snapshots": {
               "exe": {
                 "exists": true,
-                "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie/static_exec/rep_04/proc_snapshots/exe.txt",
-                "sha256": "1795fc1eb0cbf5601c28f5a292833f66724fb23b62389817ab9caf8f37cad738",
-                "size_bytes": 575
+                "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie-live/dynamic_pie/rep_04/proc_snapshots/exe.txt",
+                "sha256": "d663ec584b7e8d55d8d76bd22a845ce32202a6766f41f7a1e27c66889ea145d2",
+                "size_bytes": 135
               },
               "maps": {
                 "exists": true,
-                "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie/static_exec/rep_04/proc_snapshots/maps.txt",
-                "sha256": "d666c4a13101e515e8ad40666586404bff3c4040d45d82643a1862591901643f",
-                "size_bytes": 1098
+                "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie-live/dynamic_pie/rep_04/proc_snapshots/maps.txt",
+                "sha256": "68f5e360242e817a5e28473a648f4873569109fff7bc7f8c3e146538b924f2b2",
+                "size_bytes": 1821
               }
             },
             "uart_log": {
               "exists": true,
-              "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie/static_exec/rep_04/uart.log",
-              "sha256": "edb5bd05d85f41df2470aa8bec9fadd6b829e76f0d7ea7a0c8c478840b5e520f",
-              "size_bytes": 4507
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie-live/dynamic_pie/rep_04/uart.log",
+              "sha256": "28592db2082fd4cce42d570c11dbdc5777b4f538c6e09fad980a1f5e90185f74",
+              "size_bytes": 5239
+            }
+          },
+          "blocked_reason": null,
+          "board_proc_exe_sha256": "95d00eb194571d77f35a8ee440a00096c50b127e9a683a45d3f9f94ec14ce6b6",
+          "executable_base": "0x0000002adfb0a000",
+          "executable_base_int": 184141520896,
+          "expected_sha256": "95d00eb194571d77f35a8ee440a00096c50b127e9a683a45d3f9f94ec14ce6b6",
+          "hash_match": true,
+          "map_entry_count": 15,
+          "pid": 11155,
+          "randomize_va_space": "1",
+          "rep": "rep_04",
+          "status": "PASS"
+        }
+      ],
+      "unique_base_count": 4,
+      "unique_executable_bases": [
+        "0x0000002ac2da0000",
+        "0x0000002aca4e8000",
+        "0x0000002ace16e000",
+        "0x0000002adfb0a000"
+      ]
+    },
+    "static_exec": {
+      "attempt_count": 4,
+      "pass_count": 2,
+      "samples": [
+        {
+          "artifacts": {
+            "proc_snapshots": {
+              "exe": {
+                "exists": true,
+                "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie-live/static_exec/rep_01/proc_snapshots/exe.txt",
+                "sha256": "f00c7ecef16a9da5c35a002cea262481dd65b81746f7204a50c5850de49ff176",
+                "size_bytes": 123
+              },
+              "maps": {
+                "exists": true,
+                "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie-live/static_exec/rep_01/proc_snapshots/maps.txt",
+                "sha256": "8916a01ad451e79f4afb2c932d3cb43efa65e4155e9146edb1d1bc632b3e2676",
+                "size_bytes": 934
+              }
+            },
+            "uart_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie-live/static_exec/rep_01/uart.log",
+              "sha256": "5c29d8afed95d8d05f725ba81ef3e1742c22460ff4263f7ea421e8519ec792b1",
+              "size_bytes": 4291
+            }
+          },
+          "blocked_reason": "target did not stay alive long enough for /proc map capture",
+          "board_proc_exe_sha256": "e3d913bd859badb7a5ad4401237e406ba6ebaa2b6ae03c35dca3f388dde39144",
+          "executable_base": null,
+          "executable_base_int": null,
+          "expected_sha256": "e3d913bd859badb7a5ad4401237e406ba6ebaa2b6ae03c35dca3f388dde39144",
+          "hash_match": true,
+          "map_entry_count": 7,
+          "pid": 11079,
+          "randomize_va_space": "1",
+          "rep": "rep_01",
+          "status": "BLOCKED_SAMPLE_NOT_EXECUTABLE"
+        },
+        {
+          "artifacts": {
+            "proc_snapshots": {
+              "exe": {
+                "exists": true,
+                "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie-live/static_exec/rep_02/proc_snapshots/exe.txt",
+                "sha256": "1bfafd59d73f6a66f722f9dc9cf8fa6e5cb8cf830c7e35d83f51e2cc90e7a106",
+                "size_bytes": 123
+              },
+              "maps": {
+                "exists": true,
+                "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie-live/static_exec/rep_02/proc_snapshots/maps.txt",
+                "sha256": "2bb668e452f2b8f055c697fe9ad055fb2be34e86f7b4cf4b2c88312eabe8afd7",
+                "size_bytes": 933
+              }
+            },
+            "uart_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie-live/static_exec/rep_02/uart.log",
+              "sha256": "49a38a358e8021415c79a2083276fa2c3fda4349f489b0125ef56adc941d0d8c",
+              "size_bytes": 4291
             }
           },
           "blocked_reason": null,
@@ -324,10 +261,80 @@
           "expected_sha256": "e3d913bd859badb7a5ad4401237e406ba6ebaa2b6ae03c35dca3f388dde39144",
           "hash_match": true,
           "map_entry_count": 8,
-          "pid": 1812,
+          "pid": 11090,
+          "randomize_va_space": null,
+          "rep": "rep_02",
+          "status": "PASS"
+        },
+        {
+          "artifacts": {
+            "proc_snapshots": {
+              "exe": {
+                "exists": true,
+                "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie-live/static_exec/rep_03/proc_snapshots/exe.txt",
+                "sha256": "78d314d30a30159aeb9b3fb481101c4d245870abfc0fc0548a62963c989184b6",
+                "size_bytes": 123
+              },
+              "maps": {
+                "exists": true,
+                "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie-live/static_exec/rep_03/proc_snapshots/maps.txt",
+                "sha256": "39bfc0121b4d081c5c8189ac0d088e8d6ef279d1768da73aece96b0b65f10caa",
+                "size_bytes": 701
+              }
+            },
+            "uart_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie-live/static_exec/rep_03/uart.log",
+              "sha256": "dde1a278c43c43b9eb1ba39dff8d7eb28d76b251d5701bc15c004282b65fccad",
+              "size_bytes": 4041
+            }
+          },
+          "blocked_reason": null,
+          "board_proc_exe_sha256": "e3d913bd859badb7a5ad4401237e406ba6ebaa2b6ae03c35dca3f388dde39144",
+          "executable_base": "0x0000000000010000",
+          "executable_base_int": 65536,
+          "expected_sha256": "e3d913bd859badb7a5ad4401237e406ba6ebaa2b6ae03c35dca3f388dde39144",
+          "hash_match": true,
+          "map_entry_count": 8,
+          "pid": 11101,
+          "randomize_va_space": "1",
+          "rep": "rep_03",
+          "status": "PASS"
+        },
+        {
+          "artifacts": {
+            "proc_snapshots": {
+              "exe": {
+                "exists": true,
+                "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie-live/static_exec/rep_04/proc_snapshots/exe.txt",
+                "sha256": "ceeb4255a009947f1d652607f981e039a9cf5060d3c36b8e5f4a1a401c3e126d",
+                "size_bytes": 123
+              },
+              "maps": {
+                "exists": true,
+                "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie-live/static_exec/rep_04/proc_snapshots/maps.txt",
+                "sha256": "856564bea8f790ca2fd2025d5cb64bb617c1e35ff38ad95a571520b403f47ef1",
+                "size_bytes": 934
+              }
+            },
+            "uart_log": {
+              "exists": true,
+              "path": "results/board/genesys2_trace_validation/20260702-official-image-aslr-pie-live/static_exec/rep_04/uart.log",
+              "sha256": "86d0e8d1df484ad2afb26191e3ab7eb3c5859345ffbd166049ed15a8271db3eb",
+              "size_bytes": 4338
+            }
+          },
+          "blocked_reason": "target did not stay alive long enough for /proc map capture",
+          "board_proc_exe_sha256": "e3d913bd859badb7a5ad4401237e406ba6ebaa2b6ae03c35dca3f388dde39144",
+          "executable_base": null,
+          "executable_base_int": null,
+          "expected_sha256": "e3d913bd859badb7a5ad4401237e406ba6ebaa2b6ae03c35dca3f388dde39144",
+          "hash_match": true,
+          "map_entry_count": 7,
+          "pid": 11112,
           "randomize_va_space": "1",
           "rep": "rep_04",
-          "status": "PASS"
+          "status": "BLOCKED_SAMPLE_NOT_EXECUTABLE"
         }
       ],
       "unique_base_count": 1,

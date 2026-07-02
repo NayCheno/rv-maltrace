@@ -52,8 +52,8 @@
   "raw_uart_log": {
     "exists": true,
     "path": "results/board/genesys2_trace_validation/20260623-sdcard-linux-manifest/uart.log",
-    "sha256": "78137326602e93e74da2452ca951c25e75f7920ca91b9b1c8af2838b0eae3dc1",
-    "size_bytes": 16562
+    "sha256": "bfa560adc0870d43345716d172f8833eaba6396d88de97260fb9b385cd064ee5",
+    "size_bytes": 16780
   },
   "schema": "rvmt.genesys2.sdcard_linux_manifest.v1",
   "scope": "live Genesys2/CVA6 SD-card Linux identity manifest captured over UART",
@@ -63,7 +63,7 @@
       "first_nonempty_line": "Filesystem           Type       1K-blocks      Used Available Use% Mounted on",
       "id": "block_inventory",
       "line_count": 16,
-      "sha256": "a23d9a57f116efbb1b1e7b7f6e8e18ca350c84660c8cd911138cb2cdb5538976"
+      "sha256": "0342b997515706f1297522eaa558a888b4dc146f908e9173a4a0744d61de65e8"
     },
     {
       "first_nonempty_line": "RVMT_BOOT_DIR_MISSING /boot",
@@ -74,14 +74,14 @@
     {
       "first_nonempty_line": "RVMT_DTB_FILE 4b70cf601f7b2b772e125c0f76a9d1d53e15764d97fce8f8e33437087bcec1ad 18 /proc/device-tree/compatible",
       "id": "dtb_identity_hashes",
-      "line_count": 7,
-      "sha256": "134cbb6ac5e2c45ec645efb2f96c9e12c3fa5a93dc3fa7026730e1be1c47993b"
+      "line_count": 9,
+      "sha256": "01bdddd26d53a049674685512173fe5c2832fe350b78009acc26fcff610e40aa"
     },
     {
       "first_nonempty_line": "RVMT_DTB_VALUE_FILE /proc/device-tree/compatible",
       "id": "dtb_readable_identity",
-      "line_count": 24,
-      "sha256": "d6e43d22b78eb3a420624683fdea4fd749a97f44de6e0952c19cc9ceebee03e8"
+      "line_count": 22,
+      "sha256": "3d9abe4da3b4aea6865fadb02aa8124b89a3ef1d5b53f0cb2971f5357c0831af"
     },
     {
       "first_nonempty_line": "NAME=Buildroot",
@@ -140,8 +140,8 @@
     {
       "first_nonempty_line": "[    0.000000] Linux version 6.19.6 (root@buildkitsandbox) (riscv64-buildroot-linux-gnu-gcc.br_real (Buildroot 2026.02) 14.3.0, GNU ld (GNU Binutils) 2.44) #1 Tue Jun  9 06:02:04 UTC 2026",
       "id": "sbi_pmu_dmesg_probe",
-      "line_count": 16,
-      "sha256": "59a90ed05b87690f4c84fbb5a1b9bcbc1e49667b613dc3f01fa3a4552b26ac2c"
+      "line_count": 18,
+      "sha256": "0351aa1e34172ba718c6f0fcd2457bae2013ed04ea09ef0745875afe4e6fb084"
     },
     {
       "first_nonempty_line": "Linux buildroot 6.19.6 #1 Tue Jun  9 06:02:04 UTC 2026 riscv64 GNU/Linux",

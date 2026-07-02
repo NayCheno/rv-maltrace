@@ -1,0 +1,180 @@
+{
+  "code_map": {
+    "attribution_limitations": [
+      "PC-in-ELF is static code-range evidence, not complete process attribution.",
+      "Runtime load-base, PIE/ASLR, and exact board runtime ELF must be accounted for before strong process ownership claims.",
+      "Target/process ownership still requires marker scope, PID/SATP/ASID, or runtime load-map evidence."
+    ],
+    "binary_role": "linux_user_benign_syscall_only",
+    "elf": "results/board/genesys2_trace_validation/20260702-board-benign-control-live/hello/00_benign_syscall_elf/hello.riscv64",
+    "elf_header": {
+      "class": "ELF64",
+      "entry": "0x0000000000010100",
+      "machine": 243,
+      "type": "EXEC"
+    },
+    "elf_type": "EXEC",
+    "load_base_assumption": "fixed_vaddr_exec",
+    "load_ranges": 2,
+    "process_attribution": "not_proven",
+    "runtime_path": "/tmp/rvmt_benign_syscall/hello",
+    "sample_id": "hello",
+    "sha256": "cffad61a6cdbcc06ae986506e1bbce845351f0ae51f4279f9c8aff0e485c6a2a",
+    "source": "results/board/genesys2_trace_validation/20260702-board-benign-control-live/hello/00_benign_syscall_elf/code_map/code_map.json",
+    "syscall_sites": 5,
+    "trap_sites": 0
+  },
+  "control_flow_segments": [],
+  "marker_scope": {
+    "begin_index": 0,
+    "end_index": 21,
+    "markers": [
+      {
+        "event_index": 0,
+        "kind": "begin",
+        "value": "0x00000000b0000b11"
+      },
+      {
+        "event_index": 21,
+        "kind": "end",
+        "value": "0x00000000e0000b11"
+      }
+    ],
+    "status": "PASS"
+  },
+  "network_required": false,
+  "parser_warnings": {
+    "corrupt_record_count": 0,
+    "unknown_event_count": 0,
+    "warning_counts": {}
+  },
+  "privilege_boundaries": [
+    {
+      "attribution_confidence": "runtime_process_map_missing",
+      "callsite_kind": "syscall_site",
+      "code_attribution_basis": "static_elf_vaddr_range",
+      "code_confidence": "pc_in_target_elf",
+      "cycle": 2249615312,
+      "elf": "results/board/genesys2_trace_validation/20260702-board-benign-control-live/hello/00_benign_syscall_elf/hello.riscv64",
+      "evt": "SYSCALL_ENTRY",
+      "index": 1,
+      "kind": "syscall_entry",
+      "load_base_assumption": "fixed_vaddr_exec",
+      "pc": "0x0001014c",
+      "pc_owner": "target_sample",
+      "pc_owner_static": "target_sample",
+      "priv": null,
+      "process_attribution": "not_proven",
+      "process_confidence": "runtime_process_map_missing",
+      "process_owner": "unknown",
+      "section": ".text",
+      "symbol": "_start",
+      "symbol_offset": "0x4c"
+    },
+    {
+      "attribution_confidence": "runtime_process_map_missing",
+      "callsite_kind": "unknown",
+      "code_confidence": "pc_not_in_target_elf",
+      "cycle": 2249656342,
+      "evt": "SYSCALL_RET",
+      "index": 20,
+      "kind": "syscall_return",
+      "pc": "0x803d3226",
+      "pc_owner": "unknown",
+      "pc_owner_static": "unknown",
+      "priv": null,
+      "process_attribution": "not_proven",
+      "process_confidence": "runtime_process_map_missing",
+      "process_owner": "unknown"
+    }
+  ],
+  "runtime_process_map": null,
+  "sample_class": "benign",
+  "sample_id": "hello",
+  "schema": "rvmt.behavior.semantic.v1",
+  "source": "results/board/genesys2_trace_validation/20260702-board-benign-control-live/hello/rep_01/bram_records.jsonl",
+  "status": "DERIVED",
+  "syscall_sequence": [
+    {
+      "a7": "0x0000000000000040",
+      "args": {
+        "a0": null,
+        "a1": null,
+        "a2": null,
+        "a3": null,
+        "a4": null,
+        "a5": null,
+        "a6": null,
+        "a7": "0x0000000000000040"
+      },
+      "attribution_confidence": "runtime_process_map_missing",
+      "callsite_kind": "syscall_site",
+      "code_attribution_basis": "static_elf_vaddr_range",
+      "code_confidence": "pc_in_target_elf",
+      "confidence": "paired_target_ecall_return",
+      "cycle": 2249615312,
+      "drop_after": 0,
+      "drop_before": 0,
+      "duration": null,
+      "elf": "results/board/genesys2_trace_validation/20260702-board-benign-control-live/hello/00_benign_syscall_elf/hello.riscv64",
+      "entry_pc": "0x000000000001014c",
+      "evt": "SYSCALL_ENTRY",
+      "index": 1,
+      "load_base_assumption": "fixed_vaddr_exec",
+      "name": "write",
+      "nr": 64,
+      "number": 64,
+      "number_source": "target_boundary_nr",
+      "pc": "0x0001014c",
+      "pc_owner": "target_sample",
+      "pc_owner_static": "target_sample",
+      "priv": null,
+      "process_attribution": "not_proven",
+      "process_confidence": "runtime_process_map_missing",
+      "process_owner": "unknown",
+      "return": {
+        "a7": null,
+        "args": {
+          "a0": "0x0000000080c92880",
+          "a1": null,
+          "a2": null,
+          "a3": null,
+          "a4": null,
+          "a5": null,
+          "a6": null,
+          "a7": null
+        },
+        "attribution_confidence": "runtime_process_map_missing",
+        "callsite_kind": "unknown",
+        "code_confidence": "pc_not_in_target_elf",
+        "cycle": 2249656342,
+        "duration": null,
+        "evt": "SYSCALL_RET",
+        "index": 20,
+        "pc": "0x803d3226",
+        "pc_owner": "unknown",
+        "pc_owner_static": "unknown",
+        "process_attribution": "not_proven",
+        "process_confidence": "runtime_process_map_missing",
+        "process_owner": "unknown",
+        "return_attribution_confidence": "missing_pc",
+        "return_code_confidence": "missing_pc",
+        "return_pc": null,
+        "return_pc_owner": "unknown",
+        "return_pc_owner_static": "unknown",
+        "return_process_confidence": "missing_pc",
+        "return_process_owner": "unknown",
+        "return_value": "0x0000000080c92880"
+      },
+      "return_pc": null,
+      "return_value": "0x0000000080c92880",
+      "section": ".text",
+      "seq": 0,
+      "source_evt": "SYSCALL_ENTRY",
+      "symbol": "_start",
+      "symbol_offset": "0x4c",
+      "syscall_id": "0x0000000000129be8"
+    }
+  ],
+  "trap_context_transitions": []
+}

@@ -1,12 +1,12 @@
 {
   "aggregate": {
     "benign_false_positive_rate": 0.0,
-    "genesys2_board_trace_claimed": false,
+    "genesys2_board_trace_claimed": true,
     "sample_count": 5,
     "unexpected_false_positive_count": 0
   },
   "claim_boundary": {
-    "genesys2_board_benign_control_claimed": false,
+    "genesys2_board_benign_control_claimed": true,
     "local_linux_benign_substituted": false,
     "real_malware_validation_claimed": false
   },
@@ -15,132 +15,86 @@
       "id": "behavior_audit_manifest",
       "kind": "behavior_audit_manifest",
       "path": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/behavior_audit_manifest.json",
-      "sha256": "4e37ee8ea2b335d0ef6b7596b0b9aaac15ced2bdbceca730a7ce55bb2512a1ce"
+      "sha256": "d9cc0ad043ff6d515c9e75ebb0360d5ecea769ba80d4fb14fd300c9a57e1a5d0"
     },
     {
       "id": "behavior_graph_manifest",
       "kind": "behavior_graph_manifest",
       "path": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/behavior_graph_manifest.json",
-      "sha256": "4e37ee8ea2b335d0ef6b7596b0b9aaac15ced2bdbceca730a7ce55bb2512a1ce"
+      "sha256": "6f3f6d3e6d91db45f0288e5e89f53836126998012a01f2cd9c9b13cce802a674"
     },
     {
       "id": "board_capture_manifest",
       "kind": "board_capture_manifest",
       "path": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/board_capture_manifest.json",
-      "sha256": "deb0113e04b0c880f192c5f477ff7ce7a6607a1cd6b20be45e7625a5a01e7030"
+      "sha256": "f2c15bedd6e0c98cf8cb8292c83735c97f986e0390dd72edc5bd3b43aff92471"
     },
     {
       "id": "false_positive_report",
       "kind": "false_positive_report",
       "path": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/false_positive_report.json",
-      "sha256": "488c54183103d6f6bef34d5a15dd19bd8c36d2ef06b55dc3386a56c383c2231f"
+      "sha256": "9684fe25bc08f1aebb5c6c54f307ab4b2308553bc23be10e5e10d599476482e7"
     },
     {
       "id": "semantic_events_manifest",
       "kind": "semantic_events_manifest",
       "path": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/semantic_events_manifest.json",
-      "sha256": "4e37ee8ea2b335d0ef6b7596b0b9aaac15ced2bdbceca730a7ce55bb2512a1ce"
+      "sha256": "dc61cf6ffc8ec9be0d87081870c4b46c7cbd6d4ba8c4a64fad78c992aff6a22a"
     }
   ],
-  "failed_attempts": [
-    "hello: missing board capture manifest",
-    "hello: capture manifest does not claim Genesys2/CVA6 board trace",
-    "hello: missing semantic_events.json",
-    "hello: missing behavior_graph.json",
-    "hello: missing behavior_audit.json",
-    "hello: semantic sample_class is not benign",
-    "hello: graph sample_class is not benign",
-    "hello: audit sample_class is not benign",
-    "hello: sample is not proven non-network",
-    "ls: missing board capture manifest",
-    "ls: capture manifest does not claim Genesys2/CVA6 board trace",
-    "ls: missing semantic_events.json",
-    "ls: missing behavior_graph.json",
-    "ls: missing behavior_audit.json",
-    "ls: semantic sample_class is not benign",
-    "ls: graph sample_class is not benign",
-    "ls: audit sample_class is not benign",
-    "ls: sample is not proven non-network",
-    "cat: missing board capture manifest",
-    "cat: capture manifest does not claim Genesys2/CVA6 board trace",
-    "cat: missing semantic_events.json",
-    "cat: missing behavior_graph.json",
-    "cat: missing behavior_audit.json",
-    "cat: semantic sample_class is not benign",
-    "cat: graph sample_class is not benign",
-    "cat: audit sample_class is not benign",
-    "cat: sample is not proven non-network",
-    "cp: missing board capture manifest",
-    "cp: capture manifest does not claim Genesys2/CVA6 board trace",
-    "cp: missing semantic_events.json",
-    "cp: missing behavior_graph.json",
-    "cp: missing behavior_audit.json",
-    "cp: semantic sample_class is not benign",
-    "cp: graph sample_class is not benign",
-    "cp: audit sample_class is not benign",
-    "cp: sample is not proven non-network",
-    "sha256sum: missing board capture manifest",
-    "sha256sum: capture manifest does not claim Genesys2/CVA6 board trace",
-    "sha256sum: missing semantic_events.json",
-    "sha256sum: missing behavior_graph.json",
-    "sha256sum: missing behavior_audit.json",
-    "sha256sum: semantic sample_class is not benign",
-    "sha256sum: graph sample_class is not benign",
-    "sha256sum: audit sample_class is not benign",
-    "sha256sum: sample is not proven non-network"
-  ],
+  "failed_attempts": [],
   "record_root": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control",
   "samples": [
     {
-      "behavior_audit": "",
-      "behavior_graph": "",
-      "genesys2_cva6_board_trace_claimed": false,
+      "behavior_audit": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/hello/behavior_audit.json",
+      "behavior_graph": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/hello/behavior_graph.json",
+      "genesys2_cva6_board_trace_claimed": true,
       "id": "hello",
-      "non_network": false,
-      "semantic_events": "",
+      "non_network": true,
+      "semantic_events": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/hello/semantic_events.json",
       "unexpected_false_positive": false
     },
     {
-      "behavior_audit": "",
-      "behavior_graph": "",
-      "genesys2_cva6_board_trace_claimed": false,
+      "behavior_audit": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/ls/behavior_audit.json",
+      "behavior_graph": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/ls/behavior_graph.json",
+      "genesys2_cva6_board_trace_claimed": true,
       "id": "ls",
-      "non_network": false,
-      "semantic_events": "",
+      "non_network": true,
+      "semantic_events": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/ls/semantic_events.json",
       "unexpected_false_positive": false
     },
     {
-      "behavior_audit": "",
-      "behavior_graph": "",
-      "genesys2_cva6_board_trace_claimed": false,
+      "behavior_audit": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/cat/behavior_audit.json",
+      "behavior_graph": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/cat/behavior_graph.json",
+      "genesys2_cva6_board_trace_claimed": true,
       "id": "cat",
-      "non_network": false,
-      "semantic_events": "",
+      "non_network": true,
+      "semantic_events": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/cat/semantic_events.json",
       "unexpected_false_positive": false
     },
     {
-      "behavior_audit": "",
-      "behavior_graph": "",
-      "genesys2_cva6_board_trace_claimed": false,
+      "behavior_audit": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/cp/behavior_audit.json",
+      "behavior_graph": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/cp/behavior_graph.json",
+      "genesys2_cva6_board_trace_claimed": true,
       "id": "cp",
-      "non_network": false,
-      "semantic_events": "",
+      "non_network": true,
+      "semantic_events": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/cp/semantic_events.json",
       "unexpected_false_positive": false
     },
     {
-      "behavior_audit": "",
-      "behavior_graph": "",
-      "genesys2_cva6_board_trace_claimed": false,
+      "behavior_audit": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/sha256sum/behavior_audit.json",
+      "behavior_graph": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/sha256sum/behavior_graph.json",
+      "genesys2_cva6_board_trace_claimed": true,
       "id": "sha256sum",
-      "non_network": false,
-      "semantic_events": "",
+      "non_network": true,
+      "semantic_events": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/sha256sum/semantic_events.json",
       "unexpected_false_positive": false
     }
   ],
   "schema": "rvmt.genesys2.board_benign_control.v1",
-  "status": "FAIL",
+  "status": "PASS",
   "validation_commands": [
-    "uv run python tools/package_genesys2_board_benign_control.py --run-root results/board/genesys2_trace_validation/20260613-board-benign-control-direct",
+    "uv run python tools/package_genesys2_board_benign_control.py --run-root results/board/genesys2_trace_validation/20260702-board-benign-control-live",
     "uv run python tools/check_genesys2_board_benign_control.py --root ."
   ]
 }

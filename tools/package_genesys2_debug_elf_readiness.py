@@ -111,8 +111,10 @@ def docker_script(build_root: Path) -> str:
             [
                 f"mkdir -p {code_map_dir}",
                 (
-                    "riscv64-linux-gnu-gcc -g -O0 -static -fno-pie -no-pie "
-                    f"-Wl,--build-id=none -o {elf} {source}"
+                    "riscv64-linux-gnu-gcc -g -O0 -static -nostdlib -ffreestanding -fno-builtin "
+                    "-fno-pie -no-pie -Wl,--build-id=none "
+                    "-include tools/rvmt_freestanding_syscall.h "
+                    f"-o {elf} {source}"
                 ),
                 f"riscv64-linux-gnu-readelf -S {elf} > {sample_dir}/{sample_id}.readelf_sections.txt",
                 f"riscv64-linux-gnu-nm -n {elf} > {sample_dir}/{sample_id}.nm.txt",

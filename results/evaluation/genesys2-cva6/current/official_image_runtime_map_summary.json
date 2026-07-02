@@ -8,33 +8,33 @@
     },
     "bram_records": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map/bram_records.jsonl",
-      "sha256": "b73c78df26e0cfdbfa2ff8a345581118d1529a0128e634b3437700971c55ba41",
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map-live/bram_records.jsonl",
+      "sha256": "1863f5d8d434311cbe92ea8d61cb8a84ed7ac4913fc276a7a67ba6c42ed03aab",
       "size_bytes": 35946
     },
     "bram_summary": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map/bram_summary.json",
-      "sha256": "1d88649d3a9cdaffc1132ae9f30a3f7160e8939fcc79ce958d3bce423711fe66",
-      "size_bytes": 993
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map-live/bram_summary.json",
+      "sha256": "97602fb0ccd4ec61e5beac464186b0a862915c93334c41d8ee4d39f1fc38dce5",
+      "size_bytes": 998
     },
     "capture_csv": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map/capture.csv",
-      "sha256": "782e617a9700f481c3365546b3f82bf4c0cc44063fb99d1f6620758fc3d61743",
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map-live/capture.csv",
+      "sha256": "626f3852dcfb3b8c2b65324dbe0445de2081aff9db78ddec43350b88d28f624b",
       "size_bytes": 2095924
     },
     "capture_err_log": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map/capture.err.log",
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map-live/capture.err.log",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "size_bytes": 0
     },
     "capture_log": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map/capture.log",
-      "sha256": "8d2a402a32531f0a6678079b43296ded34eb9c89dd9bb6175e60b8488bdc0e68",
-      "size_bytes": 9447
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map-live/capture.log",
+      "sha256": "c8e3a55a478bebb35d3fb5324b50f2970bff832821f24479feab46449b052cef",
+      "size_bytes": 9467
     },
     "ltx": {
       "exists": true,
@@ -45,52 +45,52 @@
     "proc_snapshots": {
       "cmdline": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map/proc_snapshots/720/cmdline.txt",
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map-live/proc_snapshots/10385/cmdline.txt",
         "sha256": "343a800abacab575effa6f5e3f830e671942e23ce88747de7172d97ac2a4c6bb",
         "size_bytes": 86
       },
       "exe_readlink": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map/proc_snapshots/720/exe_readlink.txt",
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map-live/proc_snapshots/10385/exe_readlink.txt",
         "sha256": "31156e05eab7b7f4ddb0229735efe6b6af9e3e65b589b6e34fb1f3bfdcd09994",
         "size_bytes": 40
       },
       "exe_sha256": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map/proc_snapshots/720/exe_sha256.txt",
-        "sha256": "81d6048507a42bb28ef1b449d148de3a11acd22aa2c26c4a450fdc4148a89914",
-        "size_bytes": 80
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map-live/proc_snapshots/10385/exe_sha256.txt",
+        "sha256": "1478145fd7589ac17351c7db01fe9790d5b2a6f21f4b20bf52c6844e073ec43c",
+        "size_bytes": 82
       },
       "maps": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map/proc_snapshots/720/maps.txt",
-        "sha256": "1f73cf297ed2504cab0a6c6660ab9f803b0585c571958e5b80b8ff7e127b10cc",
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map-live/proc_snapshots/10385/maps.txt",
+        "sha256": "ab2ffc79bb460c5a024947913a2141d73a21957b8df0433aa3b3da6dcd999b46",
         "size_bytes": 701
       },
       "stat": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map/proc_snapshots/720/stat.txt",
-        "sha256": "fb7c7ba2c483bca8b281638324a68af27f925d86a96b25ede0d455791fa99de3",
-        "size_bytes": 249
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map-live/proc_snapshots/10385/stat.txt",
+        "sha256": "ecbc7c84204cad200e03028a5dbb341a244da7416bb7559662f5243d17f0c7d2",
+        "size_bytes": 257
       },
       "status": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map/proc_snapshots/720/status.txt",
-        "sha256": "20fc602fbd89b834ff16f651dfa960761c6c72f5736863de6c3220c99ef373cd",
-        "size_bytes": 1053
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map-live/proc_snapshots/10385/status.txt",
+        "sha256": "d8326ac710623385647b783b95d826af80504b6412f27d563cfc61994fa57da5",
+        "size_bytes": 1063
       }
     },
     "transfer_log": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map/runtime_map_transfer.log",
-      "sha256": "9ec6f3de8fde6b4840f369d042246b1a2e8a4ae8538a94d8203dd34113fb8175",
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map-live/runtime_map_transfer.log",
+      "sha256": "7a08933bed6c34a23ea178a870496512cafc45fdbcb30207e23ed9461b044d18",
       "size_bytes": 23405
     },
     "uart_log": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map/uart.log",
-      "sha256": "031da825c7bbc488ba802d9a479f4ad73631ba3399e92027fb219a95725285fb",
-      "size_bytes": 5615
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map-live/uart.log",
+      "sha256": "b24e49d7bbd3679e66f9d32d66d4f74a3198cd598c8a6d365d343c40f365dc4f",
+      "size_bytes": 5688
     }
   },
   "blocked_reason": null,
@@ -174,8 +174,8 @@
       "sequence_number": 36
     }
   ],
-  "pid": 720,
-  "run_root": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map",
+  "pid": 10385,
+  "run_root": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map-live",
   "runtime_maps": {
     "entries": [
       {
@@ -184,7 +184,7 @@
         "offset": "00000000",
         "path": "/tmp/rvmt_official/official_image_probe",
         "perms": "r-xp",
-        "raw": "00010000-00081000 r-xp 00000000 00:10 8                                  /tmp/rvmt_official/official_image_probe",
+        "raw": "00010000-00081000 r-xp 00000000 00:10 55                                 /tmp/rvmt_official/official_image_probe",
         "start": 65536,
         "start_hex": "0x0000000000010000"
       },
@@ -194,7 +194,7 @@
         "offset": "00071000",
         "path": "/tmp/rvmt_official/official_image_probe",
         "perms": "r--p",
-        "raw": "00081000-00085000 r--p 00071000 00:10 8                                  /tmp/rvmt_official/official_image_probe",
+        "raw": "00081000-00085000 r--p 00071000 00:10 55                                 /tmp/rvmt_official/official_image_probe",
         "start": 528384,
         "start_hex": "0x0000000000081000"
       },
@@ -204,7 +204,7 @@
         "offset": "00075000",
         "path": "/tmp/rvmt_official/official_image_probe",
         "perms": "rw-p",
-        "raw": "00085000-00087000 rw-p 00075000 00:10 8                                  /tmp/rvmt_official/official_image_probe",
+        "raw": "00085000-00087000 rw-p 00075000 00:10 55                                 /tmp/rvmt_official/official_image_probe",
         "start": 544768,
         "start_hex": "0x0000000000085000"
       },
@@ -229,34 +229,34 @@
         "start_hex": "0x000000000008d000"
       },
       {
-        "end": 273662873600,
-        "end_hex": "0x0000003fb7941000",
+        "end": 273218486272,
+        "end_hex": "0x0000003f9d174000",
         "offset": "00000000",
         "path": "[vvar]",
         "perms": "r--p",
-        "raw": "3fb793d000-3fb7941000 r--p 00000000 00:00 0                              [vvar]",
-        "start": 273662857216,
-        "start_hex": "0x0000003fb793d000"
+        "raw": "3f9d170000-3f9d174000 r--p 00000000 00:00 0                              [vvar]",
+        "start": 273218469888,
+        "start_hex": "0x0000003f9d170000"
       },
       {
-        "end": 273662881792,
-        "end_hex": "0x0000003fb7943000",
+        "end": 273218494464,
+        "end_hex": "0x0000003f9d176000",
         "offset": "00000000",
         "path": "[vdso]",
         "perms": "r-xp",
-        "raw": "3fb7941000-3fb7943000 r-xp 00000000 00:00 0                              [vdso]",
-        "start": 273662873600,
-        "start_hex": "0x0000003fb7941000"
+        "raw": "3f9d174000-3f9d176000 r-xp 00000000 00:00 0                              [vdso]",
+        "start": 273218486272,
+        "start_hex": "0x0000003f9d174000"
       },
       {
-        "end": 273992937472,
-        "end_hex": "0x0000003fcb407000",
+        "end": 274840977408,
+        "end_hex": "0x0000003ffdcc8000",
         "offset": "00000000",
         "path": "[stack]",
         "perms": "rw-p",
-        "raw": "3fcb3e6000-3fcb407000 rw-p 00000000 00:00 0                              [stack]",
-        "start": 273992802304,
-        "start_hex": "0x0000003fcb3e6000"
+        "raw": "3ffdca7000-3ffdcc8000 rw-p 00000000 00:00 0                              [stack]",
+        "start": 274840842240,
+        "start_hex": "0x0000003ffdca7000"
       }
     ],
     "entry_count": 8,
@@ -267,7 +267,7 @@
   "status": "PASS",
   "target": "/tmp/rvmt_official/official_image_probe",
   "uart_done": {
-    "pid": 720,
+    "pid": 10385,
     "rc": 0,
     "ready": 1
   }

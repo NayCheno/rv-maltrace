@@ -1,1 +1,729 @@
-MISSING readelf --debug-dump=decodedline transcripts
+===== hello_write: build/debug_elf_readiness/hello_write/hello_write.readelf_decodedline.txt =====
+Contents of the .debug_line section:
+
+hello_write.c:
+File name                        Line number    Starting address    View    Stmt
+rvmt_freestanding_syscall.h               94             0x10120               x
+rvmt_freestanding_syscall.h               95             0x1012a       1       x
+rvmt_freestanding_syscall.h               97             0x10136       2       x
+rvmt_freestanding_syscall.h              103             0x1013c       3       x
+rvmt_freestanding_syscall.h              104             0x10150       4       x
+rvmt_freestanding_syscall.h              105             0x10158       5       x
+rvmt_freestanding_syscall.h              105             0x1015c       6       x
+rvmt_freestanding_syscall.h              106             0x1015e       7       x
+rvmt_freestanding_syscall.h              106             0x10168       8       x
+rvmt_freestanding_syscall.h              106             0x10170       9       x
+rvmt_freestanding_syscall.h              105             0x10174      10       x
+rvmt_freestanding_syscall.h              105             0x1017e      11       x
+rvmt_freestanding_syscall.h              108             0x1018a      12       x
+rvmt_freestanding_syscall.h              109             0x1018e      13       x
+rvmt_freestanding_syscall.h              111             0x10196      14       x
+rvmt_freestanding_syscall.h              112             0x101a8      15       x
+rvmt_freestanding_syscall.h              113             0x101b0      16       x
+rvmt_freestanding_syscall.h              114             0x101b8      17       x
+rvmt_freestanding_syscall.h              114             0x101bc      18       x
+rvmt_freestanding_syscall.h              115             0x101be      19       x
+rvmt_freestanding_syscall.h              115             0x101c8      20       x
+rvmt_freestanding_syscall.h              115             0x101d2      21       x
+rvmt_freestanding_syscall.h              115             0x101d6      22       x
+rvmt_freestanding_syscall.h              114             0x101da      23       x
+rvmt_freestanding_syscall.h              114             0x101e4      24       x
+rvmt_freestanding_syscall.h              117             0x101f0      25       x
+rvmt_freestanding_syscall.h              118             0x101f4      26       x
+rvmt_freestanding_syscall.h              128             0x101fc      27       x
+rvmt_freestanding_syscall.h              129             0x10208      28       x
+rvmt_freestanding_syscall.h              129             0x1020e      29       x
+rvmt_freestanding_syscall.h              130             0x10212      30       x
+rvmt_freestanding_syscall.h              131             0x1021c      31       x
+rvmt_freestanding_syscall.h              132             0x10230      32       x
+
+board/trace_validation/programs/hello_write.c:
+hello_write.c                              5             0x10240      33       x
+hello_write.c                              7             0x10246      34       x
+hello_write.c                              7             0x1025c      35       x
+hello_write.c                              8             0x10260      36       x
+hello_write.c                              9             0x10270      37       x
+hello_write.c                              -             0x10278
+
+
+
+
+===== file_open_read_write: build/debug_elf_readiness/file_open_read_write/file_open_read_write.readelf_decodedline.txt =====
+Contents of the .debug_line section:
+
+file_open_read_write.c:
+File name                        Line number    Starting address    View    Stmt
+rvmt_freestanding_syscall.h               94             0x10120               x
+rvmt_freestanding_syscall.h               95             0x1012a       1       x
+rvmt_freestanding_syscall.h               97             0x10136       2       x
+rvmt_freestanding_syscall.h              103             0x1013c       3       x
+rvmt_freestanding_syscall.h              104             0x10150       4       x
+rvmt_freestanding_syscall.h              105             0x10158       5       x
+rvmt_freestanding_syscall.h              105             0x1015c       6       x
+rvmt_freestanding_syscall.h              106             0x1015e       7       x
+rvmt_freestanding_syscall.h              106             0x10168       8       x
+rvmt_freestanding_syscall.h              106             0x10170       9       x
+rvmt_freestanding_syscall.h              105             0x10174      10       x
+rvmt_freestanding_syscall.h              105             0x1017e      11       x
+rvmt_freestanding_syscall.h              108             0x1018a      12       x
+rvmt_freestanding_syscall.h              109             0x1018e      13       x
+rvmt_freestanding_syscall.h              111             0x10196      14       x
+rvmt_freestanding_syscall.h              112             0x101a8      15       x
+rvmt_freestanding_syscall.h              113             0x101b0      16       x
+rvmt_freestanding_syscall.h              114             0x101b8      17       x
+rvmt_freestanding_syscall.h              114             0x101bc      18       x
+rvmt_freestanding_syscall.h              115             0x101be      19       x
+rvmt_freestanding_syscall.h              115             0x101c8      20       x
+rvmt_freestanding_syscall.h              115             0x101d2      21       x
+rvmt_freestanding_syscall.h              115             0x101d6      22       x
+rvmt_freestanding_syscall.h              114             0x101da      23       x
+rvmt_freestanding_syscall.h              114             0x101e4      24       x
+rvmt_freestanding_syscall.h              117             0x101f0      25       x
+rvmt_freestanding_syscall.h              118             0x101f4      26       x
+rvmt_freestanding_syscall.h              128             0x101fc      27       x
+rvmt_freestanding_syscall.h              129             0x10208      28       x
+rvmt_freestanding_syscall.h              129             0x1020e      29       x
+rvmt_freestanding_syscall.h              130             0x10212      30       x
+rvmt_freestanding_syscall.h              131             0x1021c      31       x
+rvmt_freestanding_syscall.h              132             0x10230      32       x
+
+board/trace_validation/programs/file_open_read_write.c:
+file_open_read_write.c                     6             0x10240      33       x
+file_open_read_write.c                    11             0x10246      34       x
+file_open_read_write.c                    11             0x10268      35       x
+file_open_read_write.c                    12             0x1026c      36       x
+file_open_read_write.c                    13             0x10274      37       x
+file_open_read_write.c                    15             0x10278      38       x
+file_open_read_write.c                    15             0x10294      39       x
+file_open_read_write.c                    16             0x10298      40       x
+file_open_read_write.c                    17             0x102a8      41       x
+file_open_read_write.c                    18             0x102b2      42       x
+file_open_read_write.c                    21             0x102b6      43       x
+file_open_read_write.c                    21             0x102d2      44       x
+file_open_read_write.c                    22             0x102d6      45       x
+file_open_read_write.c                    23             0x102de      46       x
+file_open_read_write.c                    25             0x102e2      47       x
+file_open_read_write.c                    25             0x102fe      48       x
+file_open_read_write.c                    26             0x10302      49       x
+file_open_read_write.c                    27             0x1030a      50       x
+file_open_read_write.c                    28             0x1031a      51       x
+file_open_read_write.c                    30             0x1031e      52       x
+file_open_read_write.c                    31             0x10332      53       x
+file_open_read_write.c                    32             0x10342      54       x
+file_open_read_write.c                    33             0x10344      55       x
+file_open_read_write.c                     -             0x1034c
+
+
+
+
+===== fork_exec: build/debug_elf_readiness/fork_exec/fork_exec.readelf_decodedline.txt =====
+Contents of the .debug_line section:
+
+fork_exec.c:
+File name                        Line number    Starting address    View    Stmt
+rvmt_freestanding_syscall.h               94             0x10120               x
+rvmt_freestanding_syscall.h               95             0x1012a       1       x
+rvmt_freestanding_syscall.h               97             0x10136       2       x
+rvmt_freestanding_syscall.h              103             0x1013c       3       x
+rvmt_freestanding_syscall.h              104             0x10150       4       x
+rvmt_freestanding_syscall.h              105             0x10158       5       x
+rvmt_freestanding_syscall.h              105             0x1015c       6       x
+rvmt_freestanding_syscall.h              106             0x1015e       7       x
+rvmt_freestanding_syscall.h              106             0x10168       8       x
+rvmt_freestanding_syscall.h              106             0x10170       9       x
+rvmt_freestanding_syscall.h              105             0x10174      10       x
+rvmt_freestanding_syscall.h              105             0x1017e      11       x
+rvmt_freestanding_syscall.h              108             0x1018a      12       x
+rvmt_freestanding_syscall.h              109             0x1018e      13       x
+rvmt_freestanding_syscall.h              111             0x10196      14       x
+rvmt_freestanding_syscall.h              112             0x101a8      15       x
+rvmt_freestanding_syscall.h              113             0x101b0      16       x
+rvmt_freestanding_syscall.h              114             0x101b8      17       x
+rvmt_freestanding_syscall.h              114             0x101bc      18       x
+rvmt_freestanding_syscall.h              115             0x101be      19       x
+rvmt_freestanding_syscall.h              115             0x101c8      20       x
+rvmt_freestanding_syscall.h              115             0x101d2      21       x
+rvmt_freestanding_syscall.h              115             0x101d6      22       x
+rvmt_freestanding_syscall.h              114             0x101da      23       x
+rvmt_freestanding_syscall.h              114             0x101e4      24       x
+rvmt_freestanding_syscall.h              117             0x101f0      25       x
+rvmt_freestanding_syscall.h              118             0x101f4      26       x
+rvmt_freestanding_syscall.h              128             0x101fc      27       x
+rvmt_freestanding_syscall.h              129             0x10208      28       x
+rvmt_freestanding_syscall.h              129             0x1020e      29       x
+rvmt_freestanding_syscall.h              130             0x10212      30       x
+rvmt_freestanding_syscall.h              131             0x1021c      31       x
+rvmt_freestanding_syscall.h              132             0x10230      32       x
+
+board/trace_validation/programs/fork_exec.c:
+fork_exec.c                               11             0x10240      33       x
+fork_exec.c                               12             0x10248      34       x
+fork_exec.c                               12             0x1025c      35       x
+fork_exec.c                               13             0x10260      36       x
+fork_exec.c                               14             0x10266      37       x
+fork_exec.c                               15             0x10274      38       x
+fork_exec.c                               16             0x10290      39       x
+fork_exec.c                               18             0x10298      40       x
+fork_exec.c                               19             0x102a0      41       x
+fork_exec.c                               22             0x102a4      42       x
+fork_exec.c                               23             0x102a8      43       x
+fork_exec.c                               23             0x102c0      44       x
+fork_exec.c                               24             0x102c4      45       x
+fork_exec.c                               24             0x102d0      46       x
+fork_exec.c                               24             0x102da      47       x
+fork_exec.c                               24             0x102dc      48       x
+fork_exec.c                               24             0x102de      49
+fork_exec.c                               24             0x102e0      50
+fork_exec.c                               25             0x102e2      51       x
+fork_exec.c                                -             0x102ec
+
+
+
+
+===== illegal_instruction: build/debug_elf_readiness/illegal_instruction/illegal_instruction.readelf_decodedline.txt =====
+Contents of the .debug_line section:
+
+illegal_instruction.c:
+File name                        Line number    Starting address    View    Stmt
+rvmt_freestanding_syscall.h               94             0x10120               x
+rvmt_freestanding_syscall.h               95             0x1012a       1       x
+rvmt_freestanding_syscall.h               97             0x10136       2       x
+rvmt_freestanding_syscall.h              103             0x1013c       3       x
+rvmt_freestanding_syscall.h              104             0x10150       4       x
+rvmt_freestanding_syscall.h              105             0x10158       5       x
+rvmt_freestanding_syscall.h              105             0x1015c       6       x
+rvmt_freestanding_syscall.h              106             0x1015e       7       x
+rvmt_freestanding_syscall.h              106             0x10168       8       x
+rvmt_freestanding_syscall.h              106             0x10170       9       x
+rvmt_freestanding_syscall.h              105             0x10174      10       x
+rvmt_freestanding_syscall.h              105             0x1017e      11       x
+rvmt_freestanding_syscall.h              108             0x1018a      12       x
+rvmt_freestanding_syscall.h              109             0x1018e      13       x
+rvmt_freestanding_syscall.h              111             0x10196      14       x
+rvmt_freestanding_syscall.h              112             0x101a8      15       x
+rvmt_freestanding_syscall.h              113             0x101b0      16       x
+rvmt_freestanding_syscall.h              114             0x101b8      17       x
+rvmt_freestanding_syscall.h              114             0x101bc      18       x
+rvmt_freestanding_syscall.h              115             0x101be      19       x
+rvmt_freestanding_syscall.h              115             0x101c8      20       x
+rvmt_freestanding_syscall.h              115             0x101d2      21       x
+rvmt_freestanding_syscall.h              115             0x101d6      22       x
+rvmt_freestanding_syscall.h              114             0x101da      23       x
+rvmt_freestanding_syscall.h              114             0x101e4      24       x
+rvmt_freestanding_syscall.h              117             0x101f0      25       x
+rvmt_freestanding_syscall.h              118             0x101f4      26       x
+rvmt_freestanding_syscall.h              128             0x101fc      27       x
+rvmt_freestanding_syscall.h              129             0x10208      28       x
+rvmt_freestanding_syscall.h              129             0x1020e      29       x
+rvmt_freestanding_syscall.h              130             0x10212      30       x
+rvmt_freestanding_syscall.h              131             0x1021c      31       x
+rvmt_freestanding_syscall.h              132             0x10230      32       x
+
+board/trace_validation/programs/illegal_instruction.c:
+illegal_instruction.c                      5             0x10240      33       x
+illegal_instruction.c                      8             0x1024e      34       x
+illegal_instruction.c                      9             0x10262      35       x
+illegal_instruction.c                     12             0x10268      36       x
+illegal_instruction.c                     14             0x10270      37       x
+illegal_instruction.c                     15             0x1027a      38       x
+illegal_instruction.c                     16             0x1028c      39       x
+illegal_instruction.c                     17             0x10290      40       x
+illegal_instruction.c                     19             0x102a8      41       x
+illegal_instruction.c                     20             0x102a8      42       x
+illegal_instruction.c                     21             0x102aa      43       x
+illegal_instruction.c                      -             0x102b4
+
+
+
+
+===== file_scan: build/debug_elf_readiness/file_scan/file_scan.readelf_decodedline.txt =====
+Contents of the .debug_line section:
+
+file_scan.c:
+File name                        Line number    Starting address    View    Stmt
+rvmt_freestanding_syscall.h               94             0x10120               x
+rvmt_freestanding_syscall.h               95             0x1012a       1       x
+rvmt_freestanding_syscall.h               97             0x10136       2       x
+rvmt_freestanding_syscall.h              103             0x1013c       3       x
+rvmt_freestanding_syscall.h              104             0x10150       4       x
+rvmt_freestanding_syscall.h              105             0x10158       5       x
+rvmt_freestanding_syscall.h              105             0x1015c       6       x
+rvmt_freestanding_syscall.h              106             0x1015e       7       x
+rvmt_freestanding_syscall.h              106             0x10168       8       x
+rvmt_freestanding_syscall.h              106             0x10170       9       x
+rvmt_freestanding_syscall.h              105             0x10174      10       x
+rvmt_freestanding_syscall.h              105             0x1017e      11       x
+rvmt_freestanding_syscall.h              108             0x1018a      12       x
+rvmt_freestanding_syscall.h              109             0x1018e      13       x
+rvmt_freestanding_syscall.h              111             0x10196      14       x
+rvmt_freestanding_syscall.h              112             0x101a8      15       x
+rvmt_freestanding_syscall.h              113             0x101b0      16       x
+rvmt_freestanding_syscall.h              114             0x101b8      17       x
+rvmt_freestanding_syscall.h              114             0x101bc      18       x
+rvmt_freestanding_syscall.h              115             0x101be      19       x
+rvmt_freestanding_syscall.h              115             0x101c8      20       x
+rvmt_freestanding_syscall.h              115             0x101d2      21       x
+rvmt_freestanding_syscall.h              115             0x101d6      22       x
+rvmt_freestanding_syscall.h              114             0x101da      23       x
+rvmt_freestanding_syscall.h              114             0x101e4      24       x
+rvmt_freestanding_syscall.h              117             0x101f0      25       x
+rvmt_freestanding_syscall.h              118             0x101f4      26       x
+rvmt_freestanding_syscall.h              128             0x101fc      27       x
+rvmt_freestanding_syscall.h              129             0x10208      28       x
+rvmt_freestanding_syscall.h              129             0x1020e      29       x
+rvmt_freestanding_syscall.h              130             0x10212      30       x
+rvmt_freestanding_syscall.h              131             0x1021c      31       x
+rvmt_freestanding_syscall.h              132             0x10230      32       x
+
+experiments/linux_behavior/malware_like/programs/file_scan.c:
+file_scan.c                                9             0x10240      33       x
+file_scan.c                               13             0x1024a      34       x
+file_scan.c                               13             0x10266      35       x
+file_scan.c                               14             0x1026a      36       x
+file_scan.c                               15             0x10272      37       x
+file_scan.c                               17             0x10276      38       x
+file_scan.c                               17             0x1027a      39       x
+file_scan.c                               18             0x1027c      40       x
+file_scan.c                               18             0x10298      41       x
+file_scan.c                               19             0x1029c      42       x
+file_scan.c                               17             0x102a4      43       x
+file_scan.c                               17             0x102ae      44       x
+file_scan.c                               20             0x102be      45       x
+file_scan.c                               23             0x102c0      46       x
+file_scan.c                               24             0x102d0      47       x
+file_scan.c                               25             0x102d2      48       x
+file_scan.c                                -             0x102de
+
+
+
+
+===== batch_open_read_write: build/debug_elf_readiness/batch_open_read_write/batch_open_read_write.readelf_decodedline.txt =====
+Contents of the .debug_line section:
+
+batch_open_read_write.c:
+File name                        Line number    Starting address    View    Stmt
+rvmt_freestanding_syscall.h               94             0x10120               x
+rvmt_freestanding_syscall.h               95             0x1012a       1       x
+rvmt_freestanding_syscall.h               97             0x10136       2       x
+rvmt_freestanding_syscall.h              103             0x1013c       3       x
+rvmt_freestanding_syscall.h              104             0x10150       4       x
+rvmt_freestanding_syscall.h              105             0x10158       5       x
+rvmt_freestanding_syscall.h              105             0x1015c       6       x
+rvmt_freestanding_syscall.h              106             0x1015e       7       x
+rvmt_freestanding_syscall.h              106             0x10168       8       x
+rvmt_freestanding_syscall.h              106             0x10170       9       x
+rvmt_freestanding_syscall.h              105             0x10174      10       x
+rvmt_freestanding_syscall.h              105             0x1017e      11       x
+rvmt_freestanding_syscall.h              108             0x1018a      12       x
+rvmt_freestanding_syscall.h              109             0x1018e      13       x
+rvmt_freestanding_syscall.h              111             0x10196      14       x
+rvmt_freestanding_syscall.h              112             0x101a8      15       x
+rvmt_freestanding_syscall.h              113             0x101b0      16       x
+rvmt_freestanding_syscall.h              114             0x101b8      17       x
+rvmt_freestanding_syscall.h              114             0x101bc      18       x
+rvmt_freestanding_syscall.h              115             0x101be      19       x
+rvmt_freestanding_syscall.h              115             0x101c8      20       x
+rvmt_freestanding_syscall.h              115             0x101d2      21       x
+rvmt_freestanding_syscall.h              115             0x101d6      22       x
+rvmt_freestanding_syscall.h              114             0x101da      23       x
+rvmt_freestanding_syscall.h              114             0x101e4      24       x
+rvmt_freestanding_syscall.h              117             0x101f0      25       x
+rvmt_freestanding_syscall.h              118             0x101f4      26       x
+rvmt_freestanding_syscall.h              128             0x101fc      27       x
+rvmt_freestanding_syscall.h              129             0x10208      28       x
+rvmt_freestanding_syscall.h              129             0x1020e      29       x
+rvmt_freestanding_syscall.h              130             0x10212      30       x
+rvmt_freestanding_syscall.h              131             0x1021c      31       x
+rvmt_freestanding_syscall.h              132             0x10230      32       x
+
+experiments/linux_behavior/malware_like/programs/batch_open_read_write.c:
+batch_open_read_write.c                   11             0x10240      33       x
+batch_open_read_write.c                   13             0x10246      34       x
+batch_open_read_write.c                   13             0x1024a      35       x
+batch_open_read_write.c                   14             0x1024c      36       x
+batch_open_read_write.c                   14             0x10272      37       x
+batch_open_read_write.c                   15             0x10276      38       x
+batch_open_read_write.c                   16             0x1027e      39       x
+batch_open_read_write.c                   18             0x10282      40       x
+batch_open_read_write.c                   18             0x1029e      41       x
+batch_open_read_write.c                   19             0x102a2      42       x
+batch_open_read_write.c                   20             0x102b2      43       x
+batch_open_read_write.c                   21             0x102ba      44       x
+batch_open_read_write.c                   24             0x102be      45       x
+batch_open_read_write.c                   24             0x102e0      46       x
+batch_open_read_write.c                   25             0x102e4      47       x
+batch_open_read_write.c                   26             0x102ec      48       x
+batch_open_read_write.c                   28             0x102f0      49       x
+batch_open_read_write.c                   29             0x1030a      50       x
+batch_open_read_write.c                   13             0x1031a      51       x
+batch_open_read_write.c                   13             0x10324      52       x
+batch_open_read_write.c                   31             0x10332      53       x
+batch_open_read_write.c                   32             0x10334      54       x
+batch_open_read_write.c                    -             0x1033c
+
+
+
+
+===== self_copy_sim: build/debug_elf_readiness/self_copy_sim/self_copy_sim.readelf_decodedline.txt =====
+Contents of the .debug_line section:
+
+self_copy_sim.c:
+File name                        Line number    Starting address    View    Stmt
+rvmt_freestanding_syscall.h               94             0x10120               x
+rvmt_freestanding_syscall.h               95             0x1012a       1       x
+rvmt_freestanding_syscall.h               97             0x10136       2       x
+rvmt_freestanding_syscall.h              103             0x1013c       3       x
+rvmt_freestanding_syscall.h              104             0x10150       4       x
+rvmt_freestanding_syscall.h              105             0x10158       5       x
+rvmt_freestanding_syscall.h              105             0x1015c       6       x
+rvmt_freestanding_syscall.h              106             0x1015e       7       x
+rvmt_freestanding_syscall.h              106             0x10168       8       x
+rvmt_freestanding_syscall.h              106             0x10170       9       x
+rvmt_freestanding_syscall.h              105             0x10174      10       x
+rvmt_freestanding_syscall.h              105             0x1017e      11       x
+rvmt_freestanding_syscall.h              108             0x1018a      12       x
+rvmt_freestanding_syscall.h              109             0x1018e      13       x
+rvmt_freestanding_syscall.h              111             0x10196      14       x
+rvmt_freestanding_syscall.h              112             0x101a8      15       x
+rvmt_freestanding_syscall.h              113             0x101b0      16       x
+rvmt_freestanding_syscall.h              114             0x101b8      17       x
+rvmt_freestanding_syscall.h              114             0x101bc      18       x
+rvmt_freestanding_syscall.h              115             0x101be      19       x
+rvmt_freestanding_syscall.h              115             0x101c8      20       x
+rvmt_freestanding_syscall.h              115             0x101d2      21       x
+rvmt_freestanding_syscall.h              115             0x101d6      22       x
+rvmt_freestanding_syscall.h              114             0x101da      23       x
+rvmt_freestanding_syscall.h              114             0x101e4      24       x
+rvmt_freestanding_syscall.h              117             0x101f0      25       x
+rvmt_freestanding_syscall.h              118             0x101f4      26       x
+rvmt_freestanding_syscall.h              128             0x101fc      27       x
+rvmt_freestanding_syscall.h              129             0x10208      28       x
+rvmt_freestanding_syscall.h              129             0x1020e      29       x
+rvmt_freestanding_syscall.h              130             0x10212      30       x
+rvmt_freestanding_syscall.h              131             0x1021c      31       x
+rvmt_freestanding_syscall.h              132             0x10230      32       x
+
+experiments/linux_behavior/malware_like/programs/self_copy_sim.c:
+self_copy_sim.c                            6             0x10240      33       x
+self_copy_sim.c                            7             0x10250      34       x
+self_copy_sim.c                            7             0x1025a      35
+self_copy_sim.c                            7             0x10262      36
+self_copy_sim.c                            7             0x10268      37       x
+self_copy_sim.c                           10             0x1026c      38       x
+self_copy_sim.c                           10             0x10286      39       x
+self_copy_sim.c                           11             0x1028a      40       x
+self_copy_sim.c                           12             0x10292      41       x
+self_copy_sim.c                           12             0x102ae      42       x
+self_copy_sim.c                           14             0x102b2      43       x
+self_copy_sim.c                           15             0x102ba      44       x
+self_copy_sim.c                           18             0x102be      45       x
+self_copy_sim.c                           18             0x102e0      46       x
+self_copy_sim.c                           19             0x102e4      47       x
+self_copy_sim.c                           20             0x102ec      48       x
+self_copy_sim.c                           21             0x102fc      49       x
+self_copy_sim.c                           24             0x10300      50       x
+self_copy_sim.c                           24             0x1031c      51       x
+self_copy_sim.c                           25             0x10320      52       x
+self_copy_sim.c                           26             0x10328      53       x
+self_copy_sim.c                           28             0x10342      54       x
+self_copy_sim.c                           29             0x10352      55       x
+self_copy_sim.c                           30             0x10362      56       x
+self_copy_sim.c                           30             0x1036a      57
+self_copy_sim.c                           30             0x1036c      58
+self_copy_sim.c                           30             0x1036e      59
+self_copy_sim.c                           31             0x10370      60       x
+self_copy_sim.c                            -             0x10378
+
+
+
+
+===== abnormal_syscall_sequence: build/debug_elf_readiness/abnormal_syscall_sequence/abnormal_syscall_sequence.readelf_decodedline.txt =====
+Contents of the .debug_line section:
+
+abnormal_syscall_sequence.c:
+File name                        Line number    Starting address    View    Stmt
+rvmt_freestanding_syscall.h               94             0x10120               x
+rvmt_freestanding_syscall.h               95             0x1012a       1       x
+rvmt_freestanding_syscall.h               97             0x10136       2       x
+rvmt_freestanding_syscall.h              103             0x1013c       3       x
+rvmt_freestanding_syscall.h              104             0x10150       4       x
+rvmt_freestanding_syscall.h              105             0x10158       5       x
+rvmt_freestanding_syscall.h              105             0x1015c       6       x
+rvmt_freestanding_syscall.h              106             0x1015e       7       x
+rvmt_freestanding_syscall.h              106             0x10168       8       x
+rvmt_freestanding_syscall.h              106             0x10170       9       x
+rvmt_freestanding_syscall.h              105             0x10174      10       x
+rvmt_freestanding_syscall.h              105             0x1017e      11       x
+rvmt_freestanding_syscall.h              108             0x1018a      12       x
+rvmt_freestanding_syscall.h              109             0x1018e      13       x
+rvmt_freestanding_syscall.h              111             0x10196      14       x
+rvmt_freestanding_syscall.h              112             0x101a8      15       x
+rvmt_freestanding_syscall.h              113             0x101b0      16       x
+rvmt_freestanding_syscall.h              114             0x101b8      17       x
+rvmt_freestanding_syscall.h              114             0x101bc      18       x
+rvmt_freestanding_syscall.h              115             0x101be      19       x
+rvmt_freestanding_syscall.h              115             0x101c8      20       x
+rvmt_freestanding_syscall.h              115             0x101d2      21       x
+rvmt_freestanding_syscall.h              115             0x101d6      22       x
+rvmt_freestanding_syscall.h              114             0x101da      23       x
+rvmt_freestanding_syscall.h              114             0x101e4      24       x
+rvmt_freestanding_syscall.h              117             0x101f0      25       x
+rvmt_freestanding_syscall.h              118             0x101f4      26       x
+rvmt_freestanding_syscall.h              128             0x101fc      27       x
+rvmt_freestanding_syscall.h              129             0x10208      28       x
+rvmt_freestanding_syscall.h              129             0x1020e      29       x
+rvmt_freestanding_syscall.h              130             0x10212      30       x
+rvmt_freestanding_syscall.h              131             0x1021c      31       x
+rvmt_freestanding_syscall.h              132             0x10230      32       x
+
+experiments/linux_behavior/malware_like/programs/abnormal_syscall_sequence.c:
+abnormal_syscall_sequence.c                5             0x10240      33       x
+abnormal_syscall_sequence.c                6             0x10246      34       x
+abnormal_syscall_sequence.c                6             0x1024a      35       x
+abnormal_syscall_sequence.c                7             0x1024c      36       x
+abnormal_syscall_sequence.c                6             0x10260      37       x
+abnormal_syscall_sequence.c                6             0x1026a      38       x
+abnormal_syscall_sequence.c                9             0x10278      39       x
+abnormal_syscall_sequence.c               10             0x10292      40       x
+abnormal_syscall_sequence.c               11             0x102a0      41       x
+abnormal_syscall_sequence.c               12             0x102b4      42       x
+abnormal_syscall_sequence.c               13             0x102b6      43       x
+abnormal_syscall_sequence.c                -             0x102be
+
+
+
+
+===== illegal_trap: build/debug_elf_readiness/illegal_trap/illegal_trap.readelf_decodedline.txt =====
+Contents of the .debug_line section:
+
+illegal_trap.c:
+File name                        Line number    Starting address    View    Stmt
+rvmt_freestanding_syscall.h               94             0x10120               x
+rvmt_freestanding_syscall.h               95             0x1012a       1       x
+rvmt_freestanding_syscall.h               97             0x10136       2       x
+rvmt_freestanding_syscall.h              103             0x1013c       3       x
+rvmt_freestanding_syscall.h              104             0x10150       4       x
+rvmt_freestanding_syscall.h              105             0x10158       5       x
+rvmt_freestanding_syscall.h              105             0x1015c       6       x
+rvmt_freestanding_syscall.h              106             0x1015e       7       x
+rvmt_freestanding_syscall.h              106             0x10168       8       x
+rvmt_freestanding_syscall.h              106             0x10170       9       x
+rvmt_freestanding_syscall.h              105             0x10174      10       x
+rvmt_freestanding_syscall.h              105             0x1017e      11       x
+rvmt_freestanding_syscall.h              108             0x1018a      12       x
+rvmt_freestanding_syscall.h              109             0x1018e      13       x
+rvmt_freestanding_syscall.h              111             0x10196      14       x
+rvmt_freestanding_syscall.h              112             0x101a8      15       x
+rvmt_freestanding_syscall.h              113             0x101b0      16       x
+rvmt_freestanding_syscall.h              114             0x101b8      17       x
+rvmt_freestanding_syscall.h              114             0x101bc      18       x
+rvmt_freestanding_syscall.h              115             0x101be      19       x
+rvmt_freestanding_syscall.h              115             0x101c8      20       x
+rvmt_freestanding_syscall.h              115             0x101d2      21       x
+rvmt_freestanding_syscall.h              115             0x101d6      22       x
+rvmt_freestanding_syscall.h              114             0x101da      23       x
+rvmt_freestanding_syscall.h              114             0x101e4      24       x
+rvmt_freestanding_syscall.h              117             0x101f0      25       x
+rvmt_freestanding_syscall.h              118             0x101f4      26       x
+rvmt_freestanding_syscall.h              128             0x101fc      27       x
+rvmt_freestanding_syscall.h              129             0x10208      28       x
+rvmt_freestanding_syscall.h              129             0x1020e      29       x
+rvmt_freestanding_syscall.h              130             0x10212      30       x
+rvmt_freestanding_syscall.h              131             0x1021c      31       x
+rvmt_freestanding_syscall.h              132             0x10230      32       x
+
+experiments/linux_behavior/malware_like/programs/illegal_trap.c:
+illegal_trap.c                             5             0x10240      33       x
+illegal_trap.c                             8             0x1024e      34       x
+illegal_trap.c                             9             0x10262      35       x
+illegal_trap.c                            12             0x10268      36       x
+illegal_trap.c                            14             0x10270      37       x
+illegal_trap.c                            15             0x1027a      38       x
+illegal_trap.c                            16             0x1028c      39       x
+illegal_trap.c                            17             0x10290      40       x
+illegal_trap.c                            18             0x102a8      41       x
+illegal_trap.c                            19             0x102a8      42       x
+illegal_trap.c                            20             0x102aa      43       x
+illegal_trap.c                             -             0x102b4
+
+
+
+
+===== process_chain: build/debug_elf_readiness/process_chain/process_chain.readelf_decodedline.txt =====
+Contents of the .debug_line section:
+
+process_chain.c:
+File name                        Line number    Starting address    View    Stmt
+rvmt_freestanding_syscall.h               94             0x10120               x
+rvmt_freestanding_syscall.h               95             0x1012a       1       x
+rvmt_freestanding_syscall.h               97             0x10136       2       x
+rvmt_freestanding_syscall.h              103             0x1013c       3       x
+rvmt_freestanding_syscall.h              104             0x10150       4       x
+rvmt_freestanding_syscall.h              105             0x10158       5       x
+rvmt_freestanding_syscall.h              105             0x1015c       6       x
+rvmt_freestanding_syscall.h              106             0x1015e       7       x
+rvmt_freestanding_syscall.h              106             0x10168       8       x
+rvmt_freestanding_syscall.h              106             0x10170       9       x
+rvmt_freestanding_syscall.h              105             0x10174      10       x
+rvmt_freestanding_syscall.h              105             0x1017e      11       x
+rvmt_freestanding_syscall.h              108             0x1018a      12       x
+rvmt_freestanding_syscall.h              109             0x1018e      13       x
+rvmt_freestanding_syscall.h              111             0x10196      14       x
+rvmt_freestanding_syscall.h              112             0x101a8      15       x
+rvmt_freestanding_syscall.h              113             0x101b0      16       x
+rvmt_freestanding_syscall.h              114             0x101b8      17       x
+rvmt_freestanding_syscall.h              114             0x101bc      18       x
+rvmt_freestanding_syscall.h              115             0x101be      19       x
+rvmt_freestanding_syscall.h              115             0x101c8      20       x
+rvmt_freestanding_syscall.h              115             0x101d2      21       x
+rvmt_freestanding_syscall.h              115             0x101d6      22       x
+rvmt_freestanding_syscall.h              114             0x101da      23       x
+rvmt_freestanding_syscall.h              114             0x101e4      24       x
+rvmt_freestanding_syscall.h              117             0x101f0      25       x
+rvmt_freestanding_syscall.h              118             0x101f4      26       x
+rvmt_freestanding_syscall.h              128             0x101fc      27       x
+rvmt_freestanding_syscall.h              129             0x10208      28       x
+rvmt_freestanding_syscall.h              129             0x1020e      29       x
+rvmt_freestanding_syscall.h              130             0x10212      30       x
+rvmt_freestanding_syscall.h              131             0x1021c      31       x
+rvmt_freestanding_syscall.h              132             0x10230      32       x
+
+experiments/linux_behavior/malware_like/programs/process_chain.c:
+process_chain.c                           12             0x10240      33       x
+process_chain.c                           13             0x10248      34       x
+process_chain.c                           13             0x1024c      35       x
+process_chain.c                           14             0x1024e      36       x
+process_chain.c                           14             0x10262      37       x
+process_chain.c                           15             0x10266      38       x
+process_chain.c                           16             0x1026c      39       x
+process_chain.c                           17             0x1027a      40       x
+process_chain.c                           18             0x10296      41       x
+process_chain.c                           20             0x1029e      42       x
+process_chain.c                           21             0x102a6      43       x
+process_chain.c                           24             0x102aa      44       x
+process_chain.c                           25             0x102ba      45       x
+process_chain.c                           25             0x102d4      46       x
+process_chain.c                           25             0x102d6      47       x
+process_chain.c                           25             0x102da      48       x
+process_chain.c                           26             0x102e2      49       x
+process_chain.c                           13             0x102e6      50       x
+process_chain.c                           13             0x102f0      51       x
+process_chain.c                           29             0x102fe      52       x
+process_chain.c                           30             0x10300      53       x
+process_chain.c                            -             0x1030a
+
+
+
+
+===== dynamic_executable_memory: build/debug_elf_readiness/dynamic_executable_memory/dynamic_executable_memory.readelf_decodedline.txt =====
+Contents of the .debug_line section:
+
+dynamic_executable_memory.c:
+File name                        Line number    Starting address    View    Stmt
+rvmt_freestanding_syscall.h               94             0x10120               x
+rvmt_freestanding_syscall.h               95             0x1012a       1       x
+rvmt_freestanding_syscall.h               97             0x10136       2       x
+rvmt_freestanding_syscall.h              103             0x1013c       3       x
+rvmt_freestanding_syscall.h              104             0x10150       4       x
+rvmt_freestanding_syscall.h              105             0x10158       5       x
+rvmt_freestanding_syscall.h              105             0x1015c       6       x
+rvmt_freestanding_syscall.h              106             0x1015e       7       x
+rvmt_freestanding_syscall.h              106             0x10168       8       x
+rvmt_freestanding_syscall.h              106             0x10170       9       x
+rvmt_freestanding_syscall.h              105             0x10174      10       x
+rvmt_freestanding_syscall.h              105             0x1017e      11       x
+rvmt_freestanding_syscall.h              108             0x1018a      12       x
+rvmt_freestanding_syscall.h              109             0x1018e      13       x
+rvmt_freestanding_syscall.h              111             0x10196      14       x
+rvmt_freestanding_syscall.h              112             0x101a8      15       x
+rvmt_freestanding_syscall.h              113             0x101b0      16       x
+rvmt_freestanding_syscall.h              114             0x101b8      17       x
+rvmt_freestanding_syscall.h              114             0x101bc      18       x
+rvmt_freestanding_syscall.h              115             0x101be      19       x
+rvmt_freestanding_syscall.h              115             0x101c8      20       x
+rvmt_freestanding_syscall.h              115             0x101d2      21       x
+rvmt_freestanding_syscall.h              115             0x101d6      22       x
+rvmt_freestanding_syscall.h              114             0x101da      23       x
+rvmt_freestanding_syscall.h              114             0x101e4      24       x
+rvmt_freestanding_syscall.h              117             0x101f0      25       x
+rvmt_freestanding_syscall.h              118             0x101f4      26       x
+rvmt_freestanding_syscall.h              128             0x101fc      27       x
+rvmt_freestanding_syscall.h              129             0x10208      28       x
+rvmt_freestanding_syscall.h              129             0x1020e      29       x
+rvmt_freestanding_syscall.h              130             0x10212      30       x
+rvmt_freestanding_syscall.h              131             0x1021c      31       x
+rvmt_freestanding_syscall.h              132             0x10230      32       x
+
+experiments/linux_behavior/malware_like/programs/dynamic_executable_memory.c:
+dynamic_executable_memory.c               16             0x10240      33       x
+dynamic_executable_memory.c               17             0x10248      34       x
+dynamic_executable_memory.c               18             0x1024e      35       x
+dynamic_executable_memory.c               18             0x1026a      36       x
+dynamic_executable_memory.c               20             0x1026e      37       x
+dynamic_executable_memory.c               21             0x10278      38       x
+dynamic_executable_memory.c               25             0x1027c      39       x
+dynamic_executable_memory.c               27             0x1028c      40       x
+dynamic_executable_memory.c               27             0x102a4      41       x
+dynamic_executable_memory.c               28             0x102a8      42       x
+dynamic_executable_memory.c               29             0x102bc      43       x
+dynamic_executable_memory.c               32             0x102c0      44       x
+dynamic_executable_memory.c               33             0x102d6      45       x
+dynamic_executable_memory.c               34             0x102ea      46       x
+dynamic_executable_memory.c               35             0x102ec      47       x
+dynamic_executable_memory.c                -             0x102f6
+
+
+
+
+===== anti_debug_like: build/debug_elf_readiness/anti_debug_like/anti_debug_like.readelf_decodedline.txt =====
+Contents of the .debug_line section:
+
+anti_debug_like.c:
+File name                        Line number    Starting address    View    Stmt
+rvmt_freestanding_syscall.h               94             0x10120               x
+rvmt_freestanding_syscall.h               95             0x1012a       1       x
+rvmt_freestanding_syscall.h               97             0x10136       2       x
+rvmt_freestanding_syscall.h              103             0x1013c       3       x
+rvmt_freestanding_syscall.h              104             0x10150       4       x
+rvmt_freestanding_syscall.h              105             0x10158       5       x
+rvmt_freestanding_syscall.h              105             0x1015c       6       x
+rvmt_freestanding_syscall.h              106             0x1015e       7       x
+rvmt_freestanding_syscall.h              106             0x10168       8       x
+rvmt_freestanding_syscall.h              106             0x10170       9       x
+rvmt_freestanding_syscall.h              105             0x10174      10       x
+rvmt_freestanding_syscall.h              105             0x1017e      11       x
+rvmt_freestanding_syscall.h              108             0x1018a      12       x
+rvmt_freestanding_syscall.h              109             0x1018e      13       x
+rvmt_freestanding_syscall.h              111             0x10196      14       x
+rvmt_freestanding_syscall.h              112             0x101a8      15       x
+rvmt_freestanding_syscall.h              113             0x101b0      16       x
+rvmt_freestanding_syscall.h              114             0x101b8      17       x
+rvmt_freestanding_syscall.h              114             0x101bc      18       x
+rvmt_freestanding_syscall.h              115             0x101be      19       x
+rvmt_freestanding_syscall.h              115             0x101c8      20       x
+rvmt_freestanding_syscall.h              115             0x101d2      21       x
+rvmt_freestanding_syscall.h              115             0x101d6      22       x
+rvmt_freestanding_syscall.h              114             0x101da      23       x
+rvmt_freestanding_syscall.h              114             0x101e4      24       x
+rvmt_freestanding_syscall.h              117             0x101f0      25       x
+rvmt_freestanding_syscall.h              118             0x101f4      26       x
+rvmt_freestanding_syscall.h              128             0x101fc      27       x
+rvmt_freestanding_syscall.h              129             0x10208      28       x
+rvmt_freestanding_syscall.h              129             0x1020e      29       x
+rvmt_freestanding_syscall.h              130             0x10212      30       x
+rvmt_freestanding_syscall.h              131             0x1021c      31       x
+rvmt_freestanding_syscall.h              132             0x10230      32       x
+
+experiments/linux_behavior/malware_like/programs/anti_debug_like.c:
+anti_debug_like.c                         18             0x10240      33       x
+anti_debug_like.c                         23             0x10246      34       x
+anti_debug_like.c                         24             0x10256      35       x
+anti_debug_like.c                         26             0x10266      36       x
+anti_debug_like.c                         26             0x10282      37       x
+anti_debug_like.c                         27             0x10286      38       x
+anti_debug_like.c                         28             0x1028e      39       x
+anti_debug_like.c                         29             0x102a8      40       x
+anti_debug_like.c                         32             0x102b8      41       x
+anti_debug_like.c                         33             0x102c8      42       x
+anti_debug_like.c                         34             0x102ca      43       x
+anti_debug_like.c                          -             0x102d2

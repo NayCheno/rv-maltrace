@@ -47,7 +47,7 @@
           "id": "debug_elf_readiness_summary",
           "path": "results/evaluation/genesys2-cva6/current/debug_elf_readiness_summary.json",
           "schema": "rvmt.genesys2.debug_elf_readiness.v1",
-          "sha256": "9a5c98a3917985eafe932cdd372bec493a0408c109efc2e8b6146415d923a14c",
+          "sha256": "328f385e144caf979c2d0c56ffb6c242e979165b617f5d1de9a9480d21817b73",
           "status": "PASS"
         },
         {

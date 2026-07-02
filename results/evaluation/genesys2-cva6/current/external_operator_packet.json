@@ -1,9 +1,9 @@
 {
-  "accepted_external_blocker_count": 0,
+  "accepted_external_blocker_count": 2,
   "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",
   "claim_boundary": {
-    "accepted_external_summaries_hash_validated_by_intake": false,
-    "accepted_external_summaries_present": false,
+    "accepted_external_summaries_hash_validated_by_intake": true,
+    "accepted_external_summaries_present": true,
     "all_non_real_external_blockers_closed": false,
     "external_artifact_paths_record_scoped": true,
     "external_artifact_paths_scoped_to_external_closure": true,
@@ -17,7 +17,7 @@
     "templates_treated_as_evidence": false
   },
   "closure_status": "OPEN_EXTERNAL_ARTIFACTS_REQUIRED",
-  "invalid_external_blocker_count": 4,
+  "invalid_external_blocker_count": 2,
   "non_claims": [
     "This packet does not itself create board-native DWARF source-line attribution evidence; only the accepted intake summary closes that item.",
     "This packet does not itself create full hardware pointer-string reconstruction evidence; only accepted intake summaries close that item.",
@@ -46,10 +46,10 @@
         "marker windows, syscall entry/return pairing, wrap count, and unaccounted DROP criteria still pass",
         "current sidecar-only source lines are not substituted for DWARF-derived board trace source lines"
       ],
-      "accepted_summary_must_remain_hash_valid": false,
-      "accepted_summary_supersedes_plan_readiness": false,
-      "completion_evidence_valid": false,
-      "completion_requires_external_state": true,
+      "accepted_summary_must_remain_hash_valid": true,
+      "accepted_summary_supersedes_plan_readiness": true,
+      "completion_evidence_valid": true,
+      "completion_requires_external_state": false,
       "execution_steps": [
         {
           "commands": [
@@ -93,7 +93,7 @@
           "phase": "intake_acceptance"
         }
       ],
-      "execution_steps_required_to_close_record": true,
+      "execution_steps_required_to_close_record": false,
       "exit_criteria": [
         "external_summary_exists=true in external_closure_intake.json",
         "completion_status=EXTERNAL_SUMMARY_ACCEPTED for this record",
@@ -102,7 +102,7 @@
       ],
       "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/board_native_source_lines_summary.json",
       "id": "board_native_dwarf_source_lines",
-      "intake_completion_status": "EXTERNAL_SUMMARY_PRESENT_INVALID",
+      "intake_completion_status": "EXTERNAL_SUMMARY_ACCEPTED",
       "no_substitution_rule": "Toolchain probes and source-equivalent sidecars must not be substituted for board-native DWARF source-line attribution.",
       "operator_inputs": [
         "Genesys2/CVA6 board access with the current trace bitstream or a recorded equivalent bitstream hash",
@@ -119,9 +119,9 @@
       ],
       "order": 1,
       "plan_readiness_status": "EXTERNAL_BOARD_RERUN_READY_NOT_EXECUTED",
-      "plan_status": "NEEDS_EXTERNAL_SUMMARY_CORRECTION",
-      "readiness_status": "EXTERNAL_SUMMARY_PRESENT_INVALID_REQUIRES_RERUN_OR_REPAIR",
-      "record_status": "EXTERNAL_SUMMARY_PRESENT_INVALID_REQUIRES_RERUN_OR_REPAIR",
+      "plan_status": "EXTERNAL_SUMMARY_ACCEPTED",
+      "readiness_status": "EXTERNAL_SUMMARY_ACCEPTED_ARTIFACT_BACKED",
+      "record_status": "EXTERNAL_SUMMARY_ACCEPTED_ARTIFACT_BACKED",
       "required_evidence_artifact_kinds": [
         "board_capture_manifest",
         "debug_elf_manifest",
@@ -350,10 +350,10 @@
         "allowed rule overlaps are explicitly listed and do not count as unexpected false positives",
         "board benign evidence is kept distinct from local Linux strace control evidence"
       ],
-      "accepted_summary_must_remain_hash_valid": false,
-      "accepted_summary_supersedes_plan_readiness": false,
-      "completion_evidence_valid": false,
-      "completion_requires_external_state": true,
+      "accepted_summary_must_remain_hash_valid": true,
+      "accepted_summary_supersedes_plan_readiness": true,
+      "completion_evidence_valid": true,
+      "completion_requires_external_state": false,
       "execution_steps": [
         {
           "commands": [
@@ -395,7 +395,7 @@
           "phase": "intake_acceptance"
         }
       ],
-      "execution_steps_required_to_close_record": true,
+      "execution_steps_required_to_close_record": false,
       "exit_criteria": [
         "external_summary_exists=true in external_closure_intake.json",
         "completion_status=EXTERNAL_SUMMARY_ACCEPTED for this record",
@@ -404,7 +404,7 @@
       ],
       "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/board_benign_control_summary.json",
       "id": "genesys2_board_benign_control",
-      "intake_completion_status": "EXTERNAL_SUMMARY_PRESENT_INVALID",
+      "intake_completion_status": "EXTERNAL_SUMMARY_ACCEPTED",
       "no_substitution_rule": "Local Linux benign strace/control evidence must not be substituted for Genesys2 board benign false-positive evidence.",
       "operator_inputs": [
         "At least five non-network benign workloads staged on the Genesys2/CVA6 target",
@@ -421,9 +421,9 @@
       ],
       "order": 4,
       "plan_readiness_status": "BOARD_BENIGN_CONTROL_RUN_REQUIRED_NOT_EXECUTED",
-      "plan_status": "NEEDS_EXTERNAL_SUMMARY_CORRECTION",
-      "readiness_status": "EXTERNAL_SUMMARY_PRESENT_INVALID_REQUIRES_RERUN_OR_REPAIR",
-      "record_status": "EXTERNAL_SUMMARY_PRESENT_INVALID_REQUIRES_RERUN_OR_REPAIR",
+      "plan_status": "EXTERNAL_SUMMARY_ACCEPTED",
+      "readiness_status": "EXTERNAL_SUMMARY_ACCEPTED_ARTIFACT_BACKED",
+      "record_status": "EXTERNAL_SUMMARY_ACCEPTED_ARTIFACT_BACKED",
       "required_evidence_artifact_kinds": [
         "behavior_audit_manifest",
         "behavior_graph_manifest",
@@ -450,7 +450,7 @@
       "expected_schema": "rvmt.genesys2.external_closure_intake.v1",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_intake.json",
       "schema": "rvmt.genesys2.external_closure_intake.v1",
-      "sha256": "a1403d04f6c30d12ed0908fcea9c1db8fb6d3428f9593b5fb972372824ea2224",
+      "sha256": "d2a976326ce07e008199aee99fe69d0ab1f794d7492e4e76f0ab22791250c2cf",
       "status": "BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED"
     },
     "external_closure_plan": {
@@ -459,7 +459,7 @@
       "expected_schema": "rvmt.genesys2.external_closure_plan.v1",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_plan.json",
       "schema": "rvmt.genesys2.external_closure_plan.v1",
-      "sha256": "10e80210afe90f848a67c7792d6d4ab025d58d3a629dd84c23b6f2c74e39188a",
+      "sha256": "30472f34a2ea83c7392be753da04ac99d2fc13b9bb57c5f5bd9b63b20273e733",
       "status": "PASS"
     },
     "external_closure_preflight": {
@@ -468,7 +468,7 @@
       "expected_schema": "rvmt.genesys2.external_closure_preflight.v1",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_preflight.json",
       "schema": "rvmt.genesys2.external_closure_preflight.v1",
-      "sha256": "3d37c6cd5a605dfda641b8965f3d027a2bb163bcecb820c0d95667816f6abfe0",
+      "sha256": "817d8dc5df1ab4671dfab2d77971f53789d80a373d9a24f3b263543457f21d97",
       "status": "PASS"
     },
     "external_closure_readiness": {
@@ -477,7 +477,7 @@
       "expected_schema": "rvmt.genesys2.external_closure_readiness.v1",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_readiness.json",
       "schema": "rvmt.genesys2.external_closure_readiness.v1",
-      "sha256": "44bc7d96aa2126b89d255603a95baf7ba7c8003aab561d01faf0b89944cd125d",
+      "sha256": "94091299e872762080cf14593159adc2ab671cd8d01c801bd6bc969a63c86fce",
       "status": "PASS"
     }
   },

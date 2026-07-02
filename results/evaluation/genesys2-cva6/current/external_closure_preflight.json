@@ -1,5 +1,5 @@
 {
-  "accepted_external_blocker_count": 0,
+  "accepted_external_blocker_count": 2,
   "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",
   "claim_boundary": {
     "all_non_real_external_blockers_closed": false,
@@ -16,7 +16,7 @@
     "It does not execute board, RTL, host receiver, or reviewer work and must not close external blockers by itself.",
     "The intake gate remains authoritative for accepting any future external summaries."
   ],
-  "invalid_external_blocker_count": 4,
+  "invalid_external_blocker_count": 2,
   "objective_exclusions": [
     "real_malware_validation"
   ],
@@ -86,9 +86,9 @@
           "script_exists": true
         }
       ],
-      "completion_status": "EXTERNAL_SUMMARY_PRESENT_INVALID",
-      "current_blocker": true,
-      "external_execution_still_required": true,
+      "completion_status": "EXTERNAL_SUMMARY_ACCEPTED",
+      "current_blocker": false,
+      "external_execution_still_required": false,
       "external_summary_exists": true,
       "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/board_native_source_lines_summary.json",
       "id": "board_native_dwarf_source_lines",
@@ -635,9 +635,9 @@
           "script_exists": true
         }
       ],
-      "completion_status": "EXTERNAL_SUMMARY_PRESENT_INVALID",
-      "current_blocker": true,
-      "external_execution_still_required": true,
+      "completion_status": "EXTERNAL_SUMMARY_ACCEPTED",
+      "current_blocker": false,
+      "external_execution_still_required": false,
       "external_summary_exists": true,
       "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/board_benign_control_summary.json",
       "id": "genesys2_board_benign_control",
@@ -783,7 +783,7 @@
       "expected_schema": "rvmt.genesys2.external_closure_plan.v1",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_plan.json",
       "schema": "rvmt.genesys2.external_closure_plan.v1",
-      "sha256": "10e80210afe90f848a67c7792d6d4ab025d58d3a629dd84c23b6f2c74e39188a",
+      "sha256": "30472f34a2ea83c7392be753da04ac99d2fc13b9bb57c5f5bd9b63b20273e733",
       "status": "PASS"
     },
     {
@@ -791,7 +791,7 @@
       "expected_schema": "rvmt.genesys2.external_closure_intake.v1",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_intake.json",
       "schema": "rvmt.genesys2.external_closure_intake.v1",
-      "sha256": "a1403d04f6c30d12ed0908fcea9c1db8fb6d3428f9593b5fb972372824ea2224",
+      "sha256": "d2a976326ce07e008199aee99fe69d0ab1f794d7492e4e76f0ab22791250c2cf",
       "status": "BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED"
     }
   ],

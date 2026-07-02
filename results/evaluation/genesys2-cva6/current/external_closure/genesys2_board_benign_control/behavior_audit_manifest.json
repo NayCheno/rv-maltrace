@@ -1,29 +1,29 @@
 {
   "samples": [
     {
-      "copied": null,
+      "copied": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/hello/behavior_audit.json",
       "id": "hello",
-      "source": null
+      "source": "results/board/genesys2_trace_validation/20260702-board-benign-control-live/hello/behavior_audit.json"
     },
     {
-      "copied": null,
+      "copied": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/ls/behavior_audit.json",
       "id": "ls",
-      "source": null
+      "source": "results/board/genesys2_trace_validation/20260702-board-benign-control-live/ls/behavior_audit.json"
     },
     {
-      "copied": null,
+      "copied": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/cat/behavior_audit.json",
       "id": "cat",
-      "source": null
+      "source": "results/board/genesys2_trace_validation/20260702-board-benign-control-live/cat/behavior_audit.json"
     },
     {
-      "copied": null,
+      "copied": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/cp/behavior_audit.json",
       "id": "cp",
-      "source": null
+      "source": "results/board/genesys2_trace_validation/20260702-board-benign-control-live/cp/behavior_audit.json"
     },
     {
-      "copied": null,
+      "copied": "results/evaluation/genesys2-cva6/current/external_closure/genesys2_board_benign_control/sha256sum/behavior_audit.json",
       "id": "sha256sum",
-      "source": null
+      "source": "results/board/genesys2_trace_validation/20260702-board-benign-control-live/sha256sum/behavior_audit.json"
     }
   ]
 }

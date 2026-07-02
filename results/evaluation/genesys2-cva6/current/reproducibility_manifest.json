@@ -7,9 +7,9 @@
     "dated_roots_are_provenance_only": true,
     "debug_no_pie_elf_readiness_available": true,
     "debug_toolchain_source_line_probe_available": true,
-    "external_board_native_source_line_summary_accepted": false,
+    "external_board_native_source_line_summary_accepted": true,
     "external_full_hardware_pointer_strings_summary_accepted": false,
-    "external_genesys2_board_benign_control_summary_accepted": false,
+    "external_genesys2_board_benign_control_summary_accepted": true,
     "genesys2_board_benign_control_claimed": false,
     "hardware_full_pointer_strings_claimed": false,
     "pointer_string_readiness_available": true,
@@ -580,7 +580,7 @@
       "id": "debug_elf_readiness",
       "path": "results/evaluation/genesys2-cva6/current/debug_elf_readiness_summary.json",
       "schema": "rvmt.genesys2.debug_elf_readiness.v1",
-      "sha256": "9a5c98a3917985eafe932cdd372bec493a0408c109efc2e8b6146415d923a14c",
+      "sha256": "328f385e144caf979c2d0c56ffb6c242e979165b617f5d1de9a9480d21817b73",
       "status": "PASS"
     },
     {
@@ -588,7 +588,7 @@
       "id": "external_closure_readiness",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_readiness.json",
       "schema": "rvmt.genesys2.external_closure_readiness.v1",
-      "sha256": "44bc7d96aa2126b89d255603a95baf7ba7c8003aab561d01faf0b89944cd125d",
+      "sha256": "94091299e872762080cf14593159adc2ab671cd8d01c801bd6bc969a63c86fce",
       "status": "PASS"
     },
     {
@@ -596,7 +596,7 @@
       "id": "external_closure_intake",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_intake.json",
       "schema": "rvmt.genesys2.external_closure_intake.v1",
-      "sha256": "a1403d04f6c30d12ed0908fcea9c1db8fb6d3428f9593b5fb972372824ea2224",
+      "sha256": "d2a976326ce07e008199aee99fe69d0ab1f794d7492e4e76f0ab22791250c2cf",
       "status": "BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED"
     },
     {
@@ -604,7 +604,7 @@
       "id": "external_closure_plan",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_plan.json",
       "schema": "rvmt.genesys2.external_closure_plan.v1",
-      "sha256": "10e80210afe90f848a67c7792d6d4ab025d58d3a629dd84c23b6f2c74e39188a",
+      "sha256": "30472f34a2ea83c7392be753da04ac99d2fc13b9bb57c5f5bd9b63b20273e733",
       "status": "PASS"
     },
     {
@@ -612,7 +612,7 @@
       "id": "external_closure_preflight",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_preflight.json",
       "schema": "rvmt.genesys2.external_closure_preflight.v1",
-      "sha256": "3d37c6cd5a605dfda641b8965f3d027a2bb163bcecb820c0d95667816f6abfe0",
+      "sha256": "817d8dc5df1ab4671dfab2d77971f53789d80a373d9a24f3b263543457f21d97",
       "status": "PASS"
     },
     {
@@ -620,7 +620,7 @@
       "id": "external_operator_packet",
       "path": "results/evaluation/genesys2-cva6/current/external_operator_packet.json",
       "schema": "rvmt.genesys2.external_operator_packet.v1",
-      "sha256": "3f7e5b2514ea6f3b892580c3598a819dcd3df955da65a2989cb13ca03b9bd71d",
+      "sha256": "55ecce3e652a96ae9ed3287fdd6eb91fac63a0e98333ee5f9a2092824489efa5",
       "status": "PASS"
     },
     {
@@ -628,8 +628,8 @@
       "id": "external_board_native_source_lines",
       "path": "results/evaluation/genesys2-cva6/current/external_closure/board_native_source_lines_summary.json",
       "schema": "rvmt.genesys2.board_native_source_lines.v1",
-      "sha256": "2836f8295904cd9512095ad0f3e5b04d13869322e598cfb26053310df5761643",
-      "status": "FAIL"
+      "sha256": "34814103bb344bbd9df012b4e6678aa5c88f98bcdf0a2a1af0ee2f051ead6442",
+      "status": "PASS"
     },
     {
       "checker_command": "uv run python tools/check_genesys2_hardware_pointer_strings.py --root .",
@@ -644,8 +644,8 @@
       "id": "external_board_benign_control",
       "path": "results/evaluation/genesys2-cva6/current/external_closure/board_benign_control_summary.json",
       "schema": "rvmt.genesys2.board_benign_control.v1",
-      "sha256": "22b610241d1bfdb0b26cdb18f9fa429149ea5009eb127167463af12b859e27d7",
-      "status": "FAIL"
+      "sha256": "da5d0dde6ae2850de32ec118c86573cdcdcd15ff409c7466f91b356a001cfa1e",
+      "status": "PASS"
     },
     {
       "checker_command": "uv run python tools/prepare_genesys2_external_summary.py --check-templates",
@@ -732,7 +732,7 @@
       "id": "review_closure_audit",
       "path": "results/evaluation/genesys2-cva6/current/review_closure_audit.json",
       "schema": "rvmt.genesys2.review_closure_audit.v1",
-      "sha256": "09226acea8f21f5c2b46099342d4537e6fe857cf2d2d2446b5a424ca3a426989",
+      "sha256": "5560e4bd95c99b2bea0ea388fdf808e917c766d5f89217d13e95fd23038ccf25",
       "status": "PASS"
     },
     {
@@ -780,7 +780,7 @@
       "id": "sdcard_linux_manifest",
       "path": "results/evaluation/genesys2-cva6/current/sdcard_linux_manifest.json",
       "schema": "rvmt.genesys2.sdcard_linux_manifest.v1",
-      "sha256": "af2c8d58d457493c074fc0de81c933e967f20693af595458ed842684570a9374",
+      "sha256": "4194adc31c9a709bb02623f8464058aa11108dcfe01d136e4b08ac5a871c205d",
       "status": "PASS"
     },
     {
@@ -804,7 +804,7 @@
       "id": "linux_counter_path_preflight",
       "path": "results/evaluation/genesys2-cva6/current/linux_counter_path_preflight.json",
       "schema": "rvmt.genesys2.linux_counter_path_preflight.v1",
-      "sha256": "7ce133b4209f367b353f8d3b68cb16d4c9dd2619aa7eda70b92f65c10cbf47a6",
+      "sha256": "45d57a64cdc7239c54455caa549d3d680f132cd288072fbb5f59dfb7a6cee1ed",
       "status": "BLOCKED_SD_CARD_LINUX_SOURCE_MISSING"
     },
     {
@@ -836,7 +836,7 @@
       "id": "official_image_capability_matrix",
       "path": "results/evaluation/genesys2-cva6/current/official_image_capability_matrix.json",
       "schema": "rvmt.genesys2.official_image_capability_matrix.v1",
-      "sha256": "19c07641eedaf3b08e76cfb51eb6f38eb6404d60a122a44209cc78ae91842f0b",
+      "sha256": "74b8141def887f0ad10d8de066bad5427fe10b5c23f2eb3d3786700373d568b9",
       "status": "PASS"
     },
     {
@@ -844,7 +844,7 @@
       "id": "official_image_workloads",
       "path": "results/evaluation/genesys2-cva6/current/official_image_workload_summary.json",
       "schema": "rvmt.genesys2.official_image_workloads.v1",
-      "sha256": "29705613be655caffafc6d9f62944f8403e56747f53c516c6ff5c77e87bb1e7e",
+      "sha256": "6b5c7b53622b8b61206da176236ef2ab782a0be18ce0e123d5b4f3cfbdd9b559",
       "status": "PASS"
     },
     {
@@ -852,7 +852,7 @@
       "id": "official_image_runtime_map",
       "path": "results/evaluation/genesys2-cva6/current/official_image_runtime_map_summary.json",
       "schema": "rvmt.genesys2.official_image_runtime_map.v1",
-      "sha256": "12c9fdaa7ad16785580a8cfafe7fb3502bae1504878faf3170136cb2fa30c6c1",
+      "sha256": "bcefa5d85dcf887d77ce632c1d27dfe74ec418881ce2be66a36098a8d4c8d8e6",
       "status": "PASS"
     },
     {
@@ -860,15 +860,15 @@
       "id": "official_image_fork_exec_ownership",
       "path": "results/evaluation/genesys2-cva6/current/official_image_fork_exec_ownership_summary.json",
       "schema": "rvmt.genesys2.official_image_fork_exec_ownership.v1",
-      "sha256": "56cfbddf80cbaa552d2a0a731744a3ab6272e7461b453df5e3cd6d31d532c7f2",
-      "status": "PASS"
+      "sha256": "1017dc7f4f735d417e77a65a799b26990c5c2bc17a61ae040982909264b7f9e5",
+      "status": "BLOCKED_TRACE_PID_TGID_NOT_EXPOSED_IN_BRAM_RECORDS"
     },
     {
       "checker_command": "uv run python tools/check_genesys2_aslr_pie_probe.py --root .",
       "id": "official_image_aslr_pie",
       "path": "results/evaluation/genesys2-cva6/current/official_image_aslr_pie_summary.json",
       "schema": "rvmt.genesys2.official_image_aslr_pie.v1",
-      "sha256": "16b6fba2b39b333cb5e7b2b7227ab8656025adc33283675d0fe6f589a1500861",
+      "sha256": "f648575633a5cba923d73b76aecf54ea1b6a752618cda33ace163591888775a3",
       "status": "PASS"
     },
     {
@@ -876,7 +876,7 @@
       "id": "official_image_repeatability",
       "path": "results/evaluation/genesys2-cva6/current/official_image_repeatability_summary.json",
       "schema": "rvmt.genesys2.official_image_repeatability_drop_wrap.v1",
-      "sha256": "cd937190857a2565253783d6ddbe2e50917dd067b39c1ee4ae98844305f3d467",
+      "sha256": "87ad7be5a15dbe68372ee5a6fe0add1f503a4975bcb89f00ed3ac05176527b45",
       "status": "PASS"
     },
     {

@@ -58,8 +58,8 @@ experiment is marked PASS.
 
 - Raw artifact release candidate:
   `build/ndss_artifacts/rv-maltrace-genesys2-cva6-current-raw-artifacts.zip`
-  SHA256 `e1ce91a74071b91fad4fec3a4fb622a21f8832754658fc9a032cfd32bef90b85`,
-  file count 1666, size 284971567 bytes.
+  SHA256 `d88dc671ca2ab90d72a6b5d6340a6726d98572a41988b9f1ca499e4fff6eac04`,
+  file count 1998, size 285238085 bytes.
 - Host LaTeX skeleton build:
   `results/evaluation/genesys2-cva6/current/host_latex_build_summary.json`
   SHA256 `b5a30117261a9f58529ef93248adacf1b4607e49f9dec980767b3fe60438b135`;
