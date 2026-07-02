@@ -37,7 +37,7 @@
   "hardware_trace": {
     "continuous_trace": true,
     "summary": "results/evaluation/genesys2-cva6/current/safe_surrogate_bram_trace_summary.json",
-    "trace": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort/abnormal_syscall_sequence/rep_01/bram_records.jsonl",
+    "trace": "results/board/genesys2_trace_validation/20260702-current-safe-surrogate-cohort/abnormal_syscall_sequence/rep_01/bram_records.jsonl",
     "trace_scope": "Genesys2/CVA6 BRAM marker-window controlled evidence",
     "unaccounted_drop": 0
   },
@@ -50,7 +50,7 @@
     "board_trace_source_line_available": false,
     "function_attribution_available": true,
     "process_elf_ownership_summary": "results/evaluation/genesys2-cva6/current/process_elf_ownership_summary.json",
-    "runtime_process_map": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map/abnormal_syscall_sequence/runtime_process_map.json",
+    "runtime_process_map": "results/board/genesys2_trace_validation/20260702-current-safe-runtime-map/abnormal_syscall_sequence/runtime_process_map.json",
     "source_line_attribution_summary": "results/evaluation/genesys2-cva6/current/source_line_attribution_summary.json",
     "source_line_sidecar": "results/evaluation/genesys2-cva6/current/source_line_sidecar.json",
     "target_elf_attributed_events": 6
@@ -67,7 +67,7 @@
     "checker_command": "uv run python tools/check_ccfa_case_study_manifest.py --root .",
     "required_artifacts": [
       "results/evaluation/genesys2-cva6/current/safe_surrogate_bram_trace_summary.json",
-      "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort/abnormal_syscall_sequence/rep_01/bram_records.jsonl",
+      "results/board/genesys2_trace_validation/20260702-current-safe-surrogate-cohort/abnormal_syscall_sequence/rep_01/bram_records.jsonl",
       "results/evaluation/genesys2-cva6/current/samples/abnormal_syscall_sequence/semantic_events.json",
       "results/evaluation/genesys2-cva6/current/samples/abnormal_syscall_sequence/behavior_graph.json",
       "results/evaluation/genesys2-cva6/current/samples/abnormal_syscall_sequence/behavior_mapping.json",
@@ -81,7 +81,7 @@
       "results/evaluation/genesys2-cva6/current/semantic_reconstruction_summary.json",
       "results/evaluation/genesys2-cva6/current/fd_path_graph_summary.json",
       "results/evaluation/genesys2-cva6/current/baseline_alignment_summary.json",
-      "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map/abnormal_syscall_sequence/runtime_process_map.json",
+      "results/board/genesys2_trace_validation/20260702-current-safe-runtime-map/abnormal_syscall_sequence/runtime_process_map.json",
       "results/evaluation/genesys2-cva6/current/source_line_sidecar.json"
     ]
   },

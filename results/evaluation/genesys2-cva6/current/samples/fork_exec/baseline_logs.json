@@ -1,27 +1,27 @@
 {
   "evidence": {
-    "behavior_graph": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/03_fork_exec/behavior_graph.json",
-    "behavior_mapping": "DERIVED_CURRENT_SAMPLE_ARTIFACT",
-    "code_map": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/03_fork_exec/trace_code_map/code_map.json",
-    "integrated_validation": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/03_fork_exec/integrated_validation.json",
-    "runtime_process_map": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/03_fork_exec/runtime_process_map.json",
-    "semantic_events": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/03_fork_exec/semantic_events.json",
-    "source_attribution": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/03_fork_exec/trace_code_map/source_attribution_summary.json",
-    "trace": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/03_fork_exec/trace.jsonl"
+    "behavior_graph": "results/evaluation/genesys2-cva6/current/samples/fork_exec/behavior_graph.json",
+    "behavior_mapping": "results/evaluation/genesys2-cva6/current/samples/fork_exec/behavior_mapping.json",
+    "code_map": "results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/03_fork_exec/trace_code_map/code_map.json",
+    "integrated_validation": "results/evaluation/genesys2-cva6/current/samples/fork_exec/integrated_validation.json",
+    "runtime_process_map": "results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/03_fork_exec/runtime_process_map.json",
+    "semantic_events": "results/evaluation/genesys2-cva6/current/samples/fork_exec/semantic_events.json",
+    "source_attribution": "results/evaluation/genesys2-cva6/current/source_line_attribution_summary.json",
+    "trace": "results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/03_fork_exec/trace.jsonl"
   },
   "host_strace": {
     "execve_paths": [
       "/bin/true",
-      "results/demo/ccfa-p0-20260611/fork_exec/00_build/fork_exec.host_control"
+      "results/demo/ccfa-p0-20260611/fork_exec/00_build/fork_exec.host"
     ],
     "fd_edges": [
       {
-        "line": "execve(\"results/demo/ccfa-p0-20260611/fork_exec/00_build/fork_exec.host_control\", [\"results/demo/ccfa-p0-20260611/fo\"...], 0x7ffe1dfd2050 /* 9 vars */) = 0",
+        "line": "execve(\"results/demo/ccfa-p0-20260611/fork_exec/00_build/fork_exec.host\", [\"results/demo/ccfa-p0-20260611/fo\"...], 0x7ffe223b73f8 /* 9 vars */) = 0",
         "op": "execve",
-        "path": "results/demo/ccfa-p0-20260611/fork_exec/00_build/fork_exec.host_control"
+        "path": "results/demo/ccfa-p0-20260611/fork_exec/00_build/fork_exec.host"
       },
       {
-        "line": "mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7e54ee5ad000",
+        "line": "mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7ca41c1c1000",
         "op": "mmap"
       },
       {
@@ -31,7 +31,7 @@
         "path": "/etc/ld.so.cache"
       },
       {
-        "line": "mmap(NULL, 12899, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7e54ee5a9000",
+        "line": "mmap(NULL, 13959, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7ca41c1bd000",
         "op": "mmap"
       },
       {
@@ -53,23 +53,23 @@
         "path": "/lib/x86_64-linux-gnu/libc.so.6"
       },
       {
-        "line": "mmap(NULL, 2170256, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7e54ee397000",
+        "line": "mmap(NULL, 2170256, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7ca41bfab000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x7e54ee3bf000, 1605632, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x7e54ee3bf000",
+        "line": "mmap(0x7ca41bfd3000, 1605632, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x7ca41bfd3000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x7e54ee547000, 323584, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b0000) = 0x7e54ee547000",
+        "line": "mmap(0x7ca41c15b000, 323584, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b0000) = 0x7ca41c15b000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x7e54ee596000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1fe000) = 0x7e54ee596000",
+        "line": "mmap(0x7ca41c1aa000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1fe000) = 0x7ca41c1aa000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x7e54ee59c000, 52624, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7e54ee59c000",
+        "line": "mmap(0x7ca41c1b0000, 52624, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7ca41c1b0000",
         "op": "mmap"
       },
       {
@@ -79,40 +79,40 @@
         "path": "/lib/x86_64-linux-gnu/libc.so.6"
       },
       {
-        "line": "mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7e54ee394000",
+        "line": "mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7ca41bfa8000",
         "op": "mmap"
       },
       {
-        "line": "mprotect(0x7e54ee596000, 16384, PROT_READ) = 0",
+        "line": "mprotect(0x7ca41c1aa000, 16384, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "mprotect(0x403000, 4096, PROT_READ) = 0",
+        "line": "mprotect(0x5ab1688ab000, 4096, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "mprotect(0x7e54ee5e5000, 8192, PROT_READ) = 0",
+        "line": "mprotect(0x7ca41c1f9000, 8192, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "munmap(0x7e54ee5a9000, 12899)     = 0",
+        "line": "munmap(0x7ca41c1bd000, 13959)     = 0",
         "op": "munmap"
       },
       {
-        "line": "clone(child_stack=NULL, flags=SIGCHLD) = 44",
+        "line": "clone(child_stack=NULL, flags=SIGCHLD) = 85",
         "op": "clone"
       },
       {
-        "line": "execve(\"/bin/true\", [\"/bin/true\"], 0x7ffea3684668 /* 9 vars */ <unfinished ...>",
+        "line": "execve(\"/bin/true\", [\"/bin/true\"], 0x7fffa92d2998 /* 9 vars */ <unfinished ...>",
         "op": "execve",
         "path": "/bin/true"
       },
       {
-        "line": "wait4(44,  <unfinished ...>",
+        "line": "wait4(85,  <unfinished ...>",
         "op": "wait4"
       },
       {
-        "line": "mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7e4e688e9000",
+        "line": "mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x71ede2833000",
         "op": "mmap"
       },
       {
@@ -122,7 +122,7 @@
         "path": "/etc/ld.so.cache"
       },
       {
-        "line": "mmap(NULL, 12899, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7e4e688e5000",
+        "line": "mmap(NULL, 13959, PROT_READ, MAP_PRIVATE, 3, 0) = 0x71ede282f000",
         "op": "mmap"
       },
       {
@@ -144,23 +144,23 @@
         "path": "/lib/x86_64-linux-gnu/libc.so.6"
       },
       {
-        "line": "mmap(NULL, 2170256, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7e4e686d3000",
+        "line": "mmap(NULL, 2170256, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x71ede261d000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x7e4e686fb000, 1605632, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x7e4e686fb000",
+        "line": "mmap(0x71ede2645000, 1605632, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x71ede2645000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x7e4e68883000, 323584, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b0000) = 0x7e4e68883000",
+        "line": "mmap(0x71ede27cd000, 323584, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b0000) = 0x71ede27cd000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x7e4e688d2000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1fe000) = 0x7e4e688d2000",
+        "line": "mmap(0x71ede281c000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1fe000) = 0x71ede281c000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x7e4e688d8000, 52624, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7e4e688d8000",
+        "line": "mmap(0x71ede2822000, 52624, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x71ede2822000",
         "op": "mmap"
       },
       {
@@ -170,27 +170,27 @@
         "path": "/lib/x86_64-linux-gnu/libc.so.6"
       },
       {
-        "line": "mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7e4e686d0000",
+        "line": "mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x71ede261a000",
         "op": "mmap"
       },
       {
-        "line": "mprotect(0x7e4e688d2000, 16384, PROT_READ) = 0",
+        "line": "mprotect(0x71ede281c000, 16384, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "mprotect(0x60f43800a000, 4096, PROT_READ) = 0",
+        "line": "mprotect(0x5fd3585a1000, 4096, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "mprotect(0x7e4e68921000, 8192, PROT_READ) = 0",
+        "line": "mprotect(0x71ede286b000, 8192, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "munmap(0x7e4e688e5000, 12899)     = 0",
+        "line": "munmap(0x71ede282f000, 13959)     = 0",
         "op": "munmap"
       }
     ],
-    "line_count": 65,
+    "line_count": 67,
     "openat_paths": [
       "/etc/ld.so.cache",
       "/lib/x86_64-linux-gnu/libc.so.6"
@@ -198,7 +198,7 @@
     "path": "results/demo/ccfa-p0-20260611/fork_exec/01_ground_truth/host_control.strace.log",
     "present": true,
     "signals": [
-      "43    --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=44, si_uid=0, si_status=0, si_utime=0, si_stime=0} ---"
+      "84    --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=85, si_uid=0, si_status=0, si_utime=0, si_stime=0} ---"
     ],
     "syscalls": {
       "access": 2,
@@ -230,28 +230,39 @@
     ],
     "fd_edges": [
       {
-        "line": "clone(0x11,child_stack=0x0000000000000000,parent_tidptr=0x0000000000000000,tls=0x0000000000000000,child_tidptr=0x0000000000000000) = 18 =",
+        "line": "mprotect(0x000000000007e000,16384,PROT_READ) = 0",
+        "op": "mprotect"
+      },
+      {
+        "line": "clone(0x11,child_stack=0x0000000000000000,parent_tidptr=0x0000000000000000,tls=0x0000000000000000,child_tidptr=0x0000000000000000) =  = 091",
         "op": "clone"
       },
       {
-        "line": "wait4(18,0x12080,0,(nil))18",
+        "line": "wait4(91,0x2aaaab2abaf4,0,(nil))91",
         "op": "wait4"
       },
       {
-        "line": "execve(\"/bin/true\",{\"/bin/true\",NULL}) = 18",
+        "line": "execve(\"/bin/true\",{\"/bin/true\",NULL}) = 91",
         "op": "execve",
         "path": "/bin/true"
       }
     ],
-    "line_count": 6,
+    "line_count": 15,
     "openat_paths": [],
     "path": "results/demo/ccfa-p0-20260611/fork_exec/01_ground_truth/qemu-riscv64.strace.log",
     "present": true,
     "signals": [],
     "syscalls": {
+      "brk": 5,
       "clone": 1,
       "execve": 1,
-      "exit": 1,
+      "exit_group": 1,
+      "getrandom": 1,
+      "mprotect": 1,
+      "prlimit64": 1,
+      "readlinkat": 1,
+      "set_robust_list": 1,
+      "set_tid_address": 1,
       "wait4": 1
     },
     "unresolved_fd_count": 0,

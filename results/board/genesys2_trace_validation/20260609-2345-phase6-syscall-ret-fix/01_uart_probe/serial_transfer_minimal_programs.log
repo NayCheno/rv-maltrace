@@ -1,6 +1,0 @@
-RVMT_TRANSFER port=COM7 baud=115200 target=/tmp/rvmt_phase6
-program=hello_write source=D:\Code\research\rv-maltrace\build\board\genesys2_cva6_phase6_linux_user_minimal\hello_write.riscv64 bytes=984 base64_lines=18
-program=file_open_read_write source=D:\Code\research\rv-maltrace\build\board\genesys2_cva6_phase6_linux_user_minimal\file_open_read_write.riscv64 bytes=1240 base64_lines=22
-program=fork_exec source=D:\Code\research\rv-maltrace\build\board\genesys2_cva6_phase6_linux_user_minimal\fork_exec.riscv64 bytes=4840 base64_lines=85
-program=illegal_instruction source=D:\Code\research\rv-maltrace\build\board\genesys2_cva6_phase6_linux_user_minimal\illegal_instruction.riscv64 bytes=984 base64_lines=18
-RVMT_TRANSFER_DONE

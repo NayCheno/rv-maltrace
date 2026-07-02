@@ -94,7 +94,7 @@
       "id": "streaming_dma_target",
       "path": "results/evaluation/genesys2-cva6/current/streaming_dma_target_summary.json",
       "schema": "rvmt.genesys2.streaming_dma_target.v1",
-      "sha256": "2cf7edb7679ff329e3a10ccfe35f3fbfd47443583ff6e6c3fe23fb59fd5956fa",
+      "sha256": "84cd03c8231b386346eab493831ebb73888641c68828ea2b3cd40dec321719bb",
       "status": "PASS"
     },
     {
@@ -120,7 +120,7 @@
       "id": "trace_sink_summary",
       "path": "results/evaluation/genesys2-cva6/current/trace_sink_summary.json",
       "schema": "rvmt.genesys2.bram_trace_sink.v1",
-      "sha256": "ecf226cbac00400c423dd636b6acaae3b5995b70bdd094ef4e76b5886f15359b",
+      "sha256": "0b2301ec1d619ec8bb9bcf08dc93e52d2367968160ff0e2669d1d73a992fe951",
       "status": "PASS"
     },
     {
@@ -128,7 +128,7 @@
       "id": "drop_accounting_summary",
       "path": "results/evaluation/genesys2-cva6/current/drop_accounting_summary.json",
       "schema": "rvmt.trace_drop_accounting.v1",
-      "sha256": "0fdd718cbd091abac3e4d26436b7fed3510d4e5d778e59e370d6d4e5c05debbe",
+      "sha256": "cc194cb0be2e9ad289c8dfce6a16fca25e0a40503b8377ae5ed43bef8452ebb8",
       "status": "PASS"
     },
     {
@@ -136,7 +136,7 @@
       "id": "p0_bram_trace",
       "path": "results/evaluation/genesys2-cva6/current/p0_bram_trace_summary.json",
       "schema": "rvmt.genesys2.p0_bram_trace.v1",
-      "sha256": "ab4ca5875a92ae0c885c269e43b59214f6d9e049cac27a8f898b7508e7a99747",
+      "sha256": "8a4f39631f92fbc0d05e5ceee9f216c8b682b11b655ca6550333c695cd40fca7",
       "status": "PASS"
     },
     {
@@ -144,7 +144,7 @@
       "id": "safe_surrogate_bram_trace",
       "path": "results/evaluation/genesys2-cva6/current/safe_surrogate_bram_trace_summary.json",
       "schema": "rvmt.genesys2.safe_surrogate_bram_trace.v1",
-      "sha256": "774e966cefdf068f3b0785c984c59a2240080bde2d498feab4d1711312141cc7",
+      "sha256": "abac75a6d47d691644b78864429d3921057f7872f9a992a2db111d1baa05f67b",
       "status": "PASS"
     },
     {
@@ -152,27 +152,27 @@
       "id": "production_runtime_benchmark",
       "path": "results/evaluation/genesys2-cva6/current/production_runtime_benchmark.json",
       "schema": "rvmt.genesys2.production_runtime_benchmark.v1",
-      "sha256": "c433123bd5e6a2d10c3158a4f67335e3a84f06554e8dc014dab08ac2c5c15f25",
+      "sha256": "cc437b66957fddd39042005a0beb4eb9c9df28c7ce8439e55e7d8612a393b8af",
       "status": "PASS"
     }
   ],
   "status": "PASS",
   "target_baseline": {
-    "accepted_repetition_count": 128,
+    "accepted_repetition_count": 130,
     "board_sample_count": 12,
     "bytes_per_second_formula": "1.5 * p99_event_bytes_per_cycle * exact_streaming_bitstream_trace_clock_hz",
     "exact_clock_hz_required": true,
     "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/streaming_dma_throughput_summary.json",
-    "max_observed_event_bytes_per_cycle": 0.022086593951113394,
+    "max_observed_event_bytes_per_cycle": 0.021370519791849382,
     "metric": "compact_trace_event_bytes_per_marker_window_cycle",
     "minimum_sustained_throughput_multiplier": 1.5,
-    "p50_event_bytes_per_cycle": 0.006881422752679868,
-    "p95_event_bytes_per_cycle": 0.019884233572264043,
-    "p99_event_bytes_per_cycle": 0.021575514300050176,
+    "p50_event_bytes_per_cycle": 0.007594752314611953,
+    "p95_event_bytes_per_cycle": 0.019625255305923097,
+    "p99_event_bytes_per_cycle": 0.021279692594317653,
     "record_width_bits": 136,
     "record_width_bytes": 17,
     "required_external_summary_schema": "rvmt.genesys2.streaming_dma_throughput.v1",
-    "required_sustained_event_bytes_per_cycle": 0.03236327145007527
+    "required_sustained_event_bytes_per_cycle": 0.03191953889147648
   },
   "validation_commands": [
     "uv run python tools/package_genesys2_streaming_dma_readiness.py",

@@ -26,16 +26,16 @@
     "binary_sha256": "bbce854f41d23cdb32543b757041d301c459ca5613d7fcc3d7bb0801de7b1a5e",
     "bram_records": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/hello_write/rep_01/bram_records.jsonl",
-      "sha256": "f5a5376659157d1aab606f64e52a5af15a0ef123deefdc21aa57f7ccf9508d63",
-      "size_bytes": 64012
+      "path": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/hello_write/rep_01/bram_records.jsonl",
+      "sha256": "dd1fa5feedb3b655555ef7598c434c9b5eeb01dec23287137637db82fb82e852",
+      "size_bytes": 62089
     },
     "exact_elf_match": true,
     "p0_summary": {
       "exists": true,
       "path": "results/evaluation/genesys2-cva6/current/p0_bram_trace_summary.json",
-      "sha256": "ab4ca5875a92ae0c885c269e43b59214f6d9e049cac27a8f898b7508e7a99747",
-      "size_bytes": 457510
+      "sha256": "8a4f39631f92fbc0d05e5ceee9f216c8b682b11b655ca6550333c695cd40fca7",
+      "size_bytes": 379011
     },
     "summary_binary_sha256": "bbce854f41d23cdb32543b757041d301c459ca5613d7fcc3d7bb0801de7b1a5e",
     "syscalls": [
@@ -56,31 +56,31 @@
     "artifacts": {
       "command": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260625-official-image-hardware-oracle-differential/qemu/command.txt",
-        "sha256": "a900792f0e713f2eb325de7424995c939b52155c55777d6fa45becf253d722c7",
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-hardware-oracle-differential/qemu/command.txt",
+        "sha256": "9ff83db923db69642e43a96224e8733aa2afe4b75af6e4ce3c4115cd8938ad55",
         "size_bytes": 704
       },
       "qemu_version": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260625-official-image-hardware-oracle-differential/qemu/qemu.version.txt",
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-hardware-oracle-differential/qemu/qemu.version.txt",
         "sha256": "dfa5b140954f6812762667d2f8e24ad257d7ce6418b0468fb1ac6ed67829179c",
         "size_bytes": 59
       },
       "returncode": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260625-official-image-hardware-oracle-differential/qemu/returncode.txt",
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-hardware-oracle-differential/qemu/returncode.txt",
         "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
         "size_bytes": 2
       },
       "stdout": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260625-official-image-hardware-oracle-differential/qemu/stdout.txt",
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-hardware-oracle-differential/qemu/stdout.txt",
         "sha256": "101ffc310e10afd2ad86579667b20425a56ecec6daa5c49a05e1c648e7702b86",
         "size_bytes": 20
       },
       "strace": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260625-official-image-hardware-oracle-differential/qemu/strace.txt",
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-hardware-oracle-differential/qemu/strace.txt",
         "sha256": "e111362d3110a4d1b17ed2dddd7bb1d84738ae84db04fa055361e4cfef57c897",
         "size_bytes": 87
       }
@@ -92,7 +92,7 @@
       "exit"
     ]
   },
-  "run_root": "results/board/genesys2_trace_validation/20260625-official-image-hardware-oracle-differential",
+  "run_root": "results/board/genesys2_trace_validation/20260702-official-image-hardware-oracle-differential",
   "sample_id": "hello_write",
   "schema": "rvmt.genesys2.hardware_oracle_differential.v1",
   "status": "PASS"

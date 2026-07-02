@@ -31,7 +31,7 @@
     "sample_id": "hello_write",
     "semantic_source": "trusted_qemu_guest_strace_companion",
     "syscall_precision": 1.0,
-    "trace_source": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/01_hello_write/trace.jsonl",
+    "trace_source": "results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/01_hello_write/trace.jsonl",
     "write_buffer_prefix_recovered": true,
     "write_buffer_prefix_source": "host_or_control_strace",
     "write_buffer_prefixes": [

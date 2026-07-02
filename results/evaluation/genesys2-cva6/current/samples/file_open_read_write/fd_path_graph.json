@@ -1,38 +1,42 @@
 {
   "edges": [
     {
-      "fd": 3,
-      "line": "openat(AT_FDCWD,\"/tmp/rvmt_p0_file_open_read_write.txt\",O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC,0644) = 3",
-      "op": "openat",
-      "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+      "line": "mprotect(0x000000000007e000,16384,PROT_READ) = 0",
+      "op": "mprotect"
     },
     {
       "fd": 3,
-      "line": "write(3,0x10248,24) = 24",
+      "line": "openat(AT_FDCWD,\"/tmp/rvmt_trace_validation_input.txt\",O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC,0644) = 3",
+      "op": "openat",
+      "path": "/tmp/rvmt_trace_validation_input.txt"
+    },
+    {
+      "fd": 3,
+      "line": "write(3,0x52db0,28) = 28",
       "op": "write",
-      "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+      "path": "/tmp/rvmt_trace_validation_input.txt"
     },
     {
       "fd": 3,
       "line": "close(3) = 0",
       "op": "close",
-      "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+      "path": "/tmp/rvmt_trace_validation_input.txt"
     },
     {
       "fd": 3,
-      "line": "openat(AT_FDCWD,\"/tmp/rvmt_p0_file_open_read_write.txt\",O_RDONLY|O_CLOEXEC) = 3",
+      "line": "openat(AT_FDCWD,\"/tmp/rvmt_trace_validation_input.txt\",O_RDONLY|O_CLOEXEC) = 3",
       "op": "openat",
-      "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+      "path": "/tmp/rvmt_trace_validation_input.txt"
     },
     {
       "fd": 3,
-      "line": "read(3,0x12000,128) = 24",
+      "line": "read(3,0xab2aba58,128) = 28",
       "op": "read",
-      "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+      "path": "/tmp/rvmt_trace_validation_input.txt"
     },
     {
       "fd": 1,
-      "line": "write(1,0x12000,24) = 24",
+      "line": "write(1,0xab2aba58,28) = 28",
       "op": "write",
       "path": "<stdout>"
     }
@@ -44,44 +48,48 @@
     "graph": {
       "edges": [
         {
-          "fd": 3,
-          "line": "openat(AT_FDCWD,\"/tmp/rvmt_p0_file_open_read_write.txt\",O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC,0644) = 3",
-          "op": "openat",
-          "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+          "line": "mprotect(0x000000000007e000,16384,PROT_READ) = 0",
+          "op": "mprotect"
         },
         {
           "fd": 3,
-          "line": "write(3,0x10248,24) = 24",
+          "line": "openat(AT_FDCWD,\"/tmp/rvmt_trace_validation_input.txt\",O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC,0644) = 3",
+          "op": "openat",
+          "path": "/tmp/rvmt_trace_validation_input.txt"
+        },
+        {
+          "fd": 3,
+          "line": "write(3,0x52db0,28) = 28",
           "op": "write",
-          "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+          "path": "/tmp/rvmt_trace_validation_input.txt"
         },
         {
           "fd": 3,
           "line": "close(3) = 0",
           "op": "close",
-          "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+          "path": "/tmp/rvmt_trace_validation_input.txt"
         },
         {
           "fd": 3,
-          "line": "openat(AT_FDCWD,\"/tmp/rvmt_p0_file_open_read_write.txt\",O_RDONLY|O_CLOEXEC) = 3",
+          "line": "openat(AT_FDCWD,\"/tmp/rvmt_trace_validation_input.txt\",O_RDONLY|O_CLOEXEC) = 3",
           "op": "openat",
-          "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+          "path": "/tmp/rvmt_trace_validation_input.txt"
         },
         {
           "fd": 3,
-          "line": "read(3,0x12000,128) = 24",
+          "line": "read(3,0xab2aba58,128) = 28",
           "op": "read",
-          "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+          "path": "/tmp/rvmt_trace_validation_input.txt"
         },
         {
           "fd": 1,
-          "line": "write(1,0x12000,24) = 24",
+          "line": "write(1,0xab2aba58,28) = 28",
           "op": "write",
           "path": "<stdout>"
         }
       ],
       "nodes": [
-        "/tmp/rvmt_p0_file_open_read_write.txt"
+        "/tmp/rvmt_trace_validation_input.txt"
       ],
       "unresolved_fd_count_observed_in_raw_parse": 0
     },

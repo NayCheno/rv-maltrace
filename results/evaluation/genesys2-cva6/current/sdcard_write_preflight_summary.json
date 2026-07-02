@@ -1,5 +1,5 @@
 {
-  "blocked_reason": "No enumerated host disk satisfies the read-only SD-card target safety preflight",
+  "blocked_reason": "SD-card image is missing or does not match the expected hash",
   "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",
   "claim_boundary": {
     "board_cycle_source_claimed": false,
@@ -10,7 +10,7 @@
     "physical_sd_card_written": false,
     "sdcard_write_target_preflight_ready": false
   },
-  "generated_utc": "2026-06-24T01:31:53+00:00",
+  "generated_utc": "2026-07-01T20:44:26+00:00",
   "host_disk_inventory": {
     "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -Command $ErrorActionPreference = 'Stop'; Get-Disk | Sort-Object Number | Select-Object Number,FriendlyName,SerialNumber,OperationalStatus,Size,BusType,PartitionStyle,IsBoot,IsSystem,IsOffline,IsReadOnly | ConvertTo-Json -Depth 4",
     "disk_count": 3,
@@ -88,11 +88,9 @@
     "safe_candidate_count": 0
   },
   "image": {
-    "exists": true,
-    "expected_sha256": "be3bf82f7c0fea386e3d1748e8c5bf72c5849ffc1344b9820f60772d39c87c79",
-    "path": "build/linux/genesys2-cva6/sdcard.img",
-    "sha256": "be3bf82f7c0fea386e3d1748e8c5bf72c5849ffc1344b9820f60772d39c87c79",
-    "size_bytes": 558907904
+    "exists": false,
+    "expected_sha256": null,
+    "path": "build/linux/genesys2-cva6/sdcard.img"
   },
   "non_claims": [
     "This preflight performs no physical SD-card write and runs only read-only host disk inventory.",
@@ -102,7 +100,7 @@
   "schema": "rvmt.genesys2.sdcard_write_preflight.v1",
   "scope": "read-only host preflight for selecting a physical SD-card target for the Genesys2/CVA6 image",
   "selected_disk": null,
-  "status": "BLOCKED_NO_SAFE_SDCARD_TARGET",
+  "status": "BLOCKED_SDCARD_IMAGE_MISSING",
   "target_policy": {
     "accepted_bus_types": [
       "MMC",

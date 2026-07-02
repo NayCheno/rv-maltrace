@@ -8,20 +8,20 @@
     },
     "capability_probe_uart_log": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260625-020000-official-image-capability-matrix/capability_probe_uart.log",
-      "sha256": "1be1be02d52e699649a543d21562af31b3e45f70f38e1225bf84609108a9fa34",
-      "size_bytes": 1055
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-capability-matrix/capability_probe_uart.log",
+      "sha256": "3838ee47332503d12c670459f2a45e02ec3377439a6d6357a2610d1be3d9a809",
+      "size_bytes": 1051
     },
     "capability_shell_log": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260625-020000-official-image-capability-matrix/capability_shell.log",
-      "sha256": "3a46d0ae0600de387f9152685a00ba208acba8c9f7aaf22ec05f30bd01303e5d",
-      "size_bytes": 7473
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-capability-matrix/capability_shell.log",
+      "sha256": "8c23b1661a9f2753cfb7d20d880842ebf93df6591e03370a3d2c6967ad6836dd",
+      "size_bytes": 7383
     },
     "transfer_log": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260625-020000-official-image-capability-matrix/capability_probe_transfer.log",
-      "sha256": "9517d8bd61e7a4c5926678a57ce84606027ea2eba7089e92a8f662481c2caf5f",
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-capability-matrix/capability_probe_transfer.log",
+      "sha256": "f24f5eda98ac362a54b7c760fbb3156d0ffae12fc0afe9cffd1f85a655fb5c3a",
       "size_bytes": 23405
     }
   },
@@ -46,18 +46,14 @@
       "raw_line": "RVMT_CAP_PROBE name=bpf_null status=SYSCALL_ENOSYS rc=-1 errno=38",
       "status": "SYSCALL_ENOSYS"
     },
-    "bpftool": {
-      "note": "tool presence is not kernel capability",
-      "status": "MISSING_TOOL_ONLY"
-    },
     "clock_gettime_monotonic": {
       "raw_fields": {
         "errno": "0",
-        "nsec": "539762480",
+        "nsec": "874528800",
         "rc": "0",
-        "sec": "2913"
+        "sec": "208"
       },
-      "raw_line": "RVMT_CAP_PROBE name=clock_gettime_monotonic status=AVAILABLE rc=0 errno=0 sec=2913 nsec=539762480",
+      "raw_line": "RVMT_CAP_PROBE name=clock_gettime_monotonic status=AVAILABLE rc=0 errno=0 sec=208 nsec=874528800",
       "status": "AVAILABLE"
     },
     "perf_event_open_null": {
@@ -104,11 +100,11 @@
     },
     "rdtime": {
       "raw_fields": {
-        "delta": "871",
-        "value0": "76201499773",
-        "value1": "76201500644"
+        "delta": "898",
+        "value0": "8585177126",
+        "value1": "8585178024"
       },
-      "raw_line": "RVMT_CAP_PROBE name=rdtime status=AVAILABLE value0=76201499773 value1=76201500644 delta=871",
+      "raw_line": "RVMT_CAP_PROBE name=rdtime status=AVAILABLE value0=8585177126 value1=8585178024 delta=898",
       "status": "AVAILABLE"
     }
   },
@@ -124,7 +120,7 @@
     "rdtime and clock_gettime availability are non-cycle timing observations and do not close cycle-overhead claims.",
     "A missing perf or bpftool binary is not treated as kernel feature absence without the syscall/path probe rows."
   ],
-  "run_root": "results/board/genesys2_trace_validation/20260625-020000-official-image-capability-matrix",
+  "run_root": "results/board/genesys2_trace_validation/20260702-official-image-capability-matrix",
   "schema": "rvmt.genesys2.official_image_capability_matrix.v1",
   "shell_probe": {
     "begin_seen": true,
@@ -165,9 +161,6 @@
       "base64": {
         "path": "/bin/base64",
         "status": "AVAILABLE"
-      },
-      "bpftool": {
-        "status": "MISSING_TOOL_ONLY"
       },
       "busybox": {
         "path": "/bin/busybox",
@@ -241,11 +234,11 @@
       "clock_gettime_monotonic": {
         "raw_fields": {
           "errno": "0",
-          "nsec": "539762480",
+          "nsec": "874528800",
           "rc": "0",
-          "sec": "2913"
+          "sec": "208"
         },
-        "raw_line": "RVMT_CAP_PROBE name=clock_gettime_monotonic status=AVAILABLE rc=0 errno=0 sec=2913 nsec=539762480",
+        "raw_line": "RVMT_CAP_PROBE name=clock_gettime_monotonic status=AVAILABLE rc=0 errno=0 sec=208 nsec=874528800",
         "status": "AVAILABLE"
       },
       "perf_event_open_null": {
@@ -288,11 +281,11 @@
       },
       "rdtime": {
         "raw_fields": {
-          "delta": "871",
-          "value0": "76201499773",
-          "value1": "76201500644"
+          "delta": "898",
+          "value0": "8585177126",
+          "value1": "8585178024"
         },
-        "raw_line": "RVMT_CAP_PROBE name=rdtime status=AVAILABLE value0=76201499773 value1=76201500644 delta=871",
+        "raw_line": "RVMT_CAP_PROBE name=rdtime status=AVAILABLE value0=8585177126 value1=8585178024 delta=898",
         "status": "AVAILABLE"
       }
     },

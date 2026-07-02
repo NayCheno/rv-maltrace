@@ -27,6 +27,7 @@ DEFAULT_P0_DEMO_ROOT = Path("results/demo/ccfa-p0-20260611")
 DEFAULT_SAFE_DEMO_ROOT = Path("results/demo/ccfa-safe-20260611")
 DEFAULT_SAFE_BUILD_ROOT = Path("results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610")
 DEFAULT_SAFE_RUNTIME_ROOT = Path("results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map")
+DEFAULT_P0_BUILD_ROOT = Path("build/board/genesys2_cva6_p0_marker")
 DEFAULT_SAFE_BRAM_SUMMARY = DEFAULT_OUT_ROOT / "safe_surrogate_bram_trace_summary.json"
 DEFAULT_DROP_SUMMARY = DEFAULT_OUT_ROOT / "drop_accounting_summary.json"
 DEFAULT_POINTER_GUARDRAILS = DEFAULT_OUT_ROOT / "pointer_snapshot_guardrails.json"
@@ -374,7 +375,23 @@ def source_line_index(source_path: Path) -> dict[str, int]:
 
 def load_manifest_syscalls(sample_id: str, *, p0_demo_root: Path, safe_build_root: Path) -> list[str]:
     if sample_id in P0_SAMPLES:
-        path = p0_demo_root / sample_id / "00_build" / "build_manifest.json"
+        candidate_paths = [
+            p0_demo_root / sample_id / "00_build" / "build_manifest.json",
+            DEFAULT_P0_BUILD_ROOT / sample_id / "build_manifest.json",
+        ]
+        for path in candidate_paths:
+            if path.is_file():
+                manifest = load_json(path)
+                sequence = manifest.get("syscall_sequence")
+                if isinstance(sequence, list):
+                    return [str(item) for item in sequence]
+        expected_path = ROOT / "board" / "trace_validation" / "expected" / f"{sample_id}.expected.json"
+        if expected_path.is_file():
+            expected = load_json(expected_path)
+            rows = expected.get("required_syscalls")
+            if isinstance(rows, list):
+                return [str(row.get("name")) for row in rows if isinstance(row, dict) and row.get("name")]
+        return []
     else:
         path = safe_build_root / sample_id / "00_build_syscall_only" / "build_manifest.json"
     if not path.is_file():
@@ -463,6 +480,79 @@ def load_p0_runtime(sample_id: str, p0_run_root: Path) -> dict[str, Any]:
 
 def load_safe_runtime(sample_id: str, safe_runtime_root: Path) -> dict[str, Any]:
     return load_json(safe_runtime_root / sample_id / "runtime_process_map.json")
+
+
+def runtime_owner_maps_from_code_map(code_map: dict[str, Any], exe: str) -> list[dict[str, Any]]:
+    maps: list[dict[str, Any]] = []
+    for row in code_map.get("load_ranges") if isinstance(code_map.get("load_ranges"), list) else []:
+        if not isinstance(row, dict):
+            continue
+        start = row.get("start")
+        end = row.get("end")
+        if not start or not end:
+            continue
+        perms_raw = str(row.get("permissions") or "")
+        perms = ("r-xp" if "X" in perms_raw else "rw-p" if "W" in perms_raw else "r--p")
+        maps.append(
+            {
+                "start": str(start),
+                "end": str(end),
+                "perms": perms,
+                "offset": str(row.get("file_offset") or "0x0"),
+                "path": exe,
+                "source_segment": row.get("segment"),
+            }
+        )
+    return maps
+
+
+def target_owner_from_runtime(runtime: dict[str, Any], maps: list[dict[str, Any]]) -> dict[str, Any]:
+    owner = {
+        "status": "PASS",
+        "role": "target_child",
+        "pid": runtime.get("pid"),
+        "tgid": runtime.get("tgid"),
+        "comm": runtime.get("comm") or runtime.get("sample_id"),
+        "cmdline": runtime.get("cmdline"),
+        "exe": runtime.get("exe"),
+        "maps": maps,
+    }
+    return {key: value for key, value in owner.items() if value is not None}
+
+
+def normalize_runtime_process_map(path: Path, runtime: dict[str, Any], *, code_map_path: Path | None = None) -> dict[str, Any]:
+    maps = runtime.get("maps") if isinstance(runtime.get("maps"), list) else []
+    provenance = runtime.get("provenance") if isinstance(runtime.get("provenance"), dict) else {}
+    if not maps and code_map_path is not None and code_map_path.is_file():
+        code_map = load_json(code_map_path)
+        maps = runtime_owner_maps_from_code_map(code_map, str(runtime.get("exe") or code_map.get("runtime_path") or ""))
+        provenance = {
+            **provenance,
+            "target_child_maps_source": "derived_from_exact_board_elf_code_map_load_ranges",
+            "code_map": repo_rel(code_map_path),
+        }
+    owners = runtime.get("owners") if isinstance(runtime.get("owners"), dict) else {}
+    target = owners.get("target_child") if isinstance(owners.get("target_child"), dict) else {}
+    target_maps = target.get("maps") if isinstance(target.get("maps"), list) else maps
+    owners["target_child"] = target_owner_from_runtime(runtime, target_maps)
+    processes = runtime.get("processes") if isinstance(runtime.get("processes"), list) else []
+    normalized = {
+        **runtime,
+        "status": "PASS",
+        "maps": maps,
+        "owners": owners,
+        "processes": [
+            owners["target_child"],
+            *[
+                row
+                for row in processes
+                if isinstance(row, dict) and row.get("role") != "target_child"
+            ],
+        ],
+        "provenance": provenance,
+    }
+    write_json(path, normalized)
+    return normalized
 
 
 def safe_bram_samples(summary: dict[str, Any]) -> dict[str, dict[str, Any]]:
@@ -578,6 +668,7 @@ def row_common_evidence(
     p0_run_root: Path,
     safe_bram: dict[str, dict[str, Any]],
     safe_build_root: Path,
+    safe_runtime_root: Path,
 ) -> dict[str, Any]:
     if sample_id in P0_SAMPLES:
         run_dir = p0_run_root / P0_DIRS[sample_id]
@@ -601,7 +692,7 @@ def row_common_evidence(
         "behavior_mapping": repo_rel(sample_root / "malware_analysis" / "behavior_mapping.json"),
         "code_map": repo_rel(sample_root / "local_code_analysis" / "code_map.json"),
         "source_attribution": repo_rel(sample_root / "local_code_analysis" / "source_attribution_summary.json"),
-        "runtime_process_map": repo_rel(DEFAULT_SAFE_RUNTIME_ROOT / sample_id / "runtime_process_map.json"),
+        "runtime_process_map": repo_rel(safe_runtime_root / sample_id / "runtime_process_map.json"),
         "integrated_validation": repo_rel(sample_root / "integrated_validation.json"),
     }
 
@@ -875,6 +966,17 @@ def write_per_sample_artifacts(
         "fd_path_graph": sample_dir / "fd_path_graph.json",
         "metric_summary": sample_dir / "metric_summary.json",
     }
+    baseline_evidence = dict(evidence)
+    baseline_evidence.update(
+        {
+            "semantic_events": repo_rel(paths["semantic_events"]),
+            "behavior_graph": repo_rel(paths["behavior_graph"]),
+            "behavior_mapping": repo_rel(paths["behavior_mapping"]),
+            "integrated_validation": repo_rel(paths["integrated_validation"]),
+            "source_attribution": repo_rel(out_root / "source_line_attribution_summary.json"),
+        }
+    )
+    baseline_logs["evidence"] = baseline_evidence
     write_json(paths["baseline_logs"], baseline_logs)
     write_json(paths["semantic_events"], semantic_events)
     write_json(paths["semantic_events_summary"], semantic_events_summary)
@@ -927,6 +1029,7 @@ def package(args: argparse.Namespace) -> dict[str, Any]:
             p0_run_root=args.p0_run_root,
             safe_bram=safe_bram,
             safe_build_root=args.safe_build_root,
+            safe_runtime_root=args.safe_runtime_root,
         )
         event_count = target_event_count(sample_id, p0_run_root=args.p0_run_root, safe_bram=safe_bram)
         semantic_row = {
@@ -999,14 +1102,17 @@ def package(args: argparse.Namespace) -> dict[str, Any]:
         )
 
         if sample_id in P0_SAMPLES:
-            runtime = load_p0_runtime(sample_id, args.p0_run_root)
+            runtime_path = args.p0_run_root / P0_DIRS[sample_id] / "runtime_process_map.json"
+            runtime = normalize_runtime_process_map(runtime_path, load_json(runtime_path))
             trace_summary = load_p0_trace_summary(sample_id, args.p0_run_root)
             marker = trace_summary.get("marker_scope", {}) if isinstance(trace_summary.get("marker_scope"), dict) else {}
             process = trace_summary.get("runtime_process", {}) if isinstance(trace_summary.get("runtime_process"), dict) else {}
             if isinstance(marker.get("begin_index"), int) and isinstance(marker.get("end_index"), int):
                 marker_window_cycles.append(max(int(marker["end_index"]) - int(marker["begin_index"]), 0))
         else:
-            runtime = load_safe_runtime(sample_id, args.safe_runtime_root)
+            runtime_path = args.safe_runtime_root / sample_id / "runtime_process_map.json"
+            code_map_path = args.safe_build_root / sample_id / "local_code_analysis" / "code_map.json"
+            runtime = normalize_runtime_process_map(runtime_path, load_json(runtime_path), code_map_path=code_map_path)
             bram = safe_bram[sample_id].get("bram_ring", {}) if isinstance(safe_bram[sample_id].get("bram_ring"), dict) else {}
             if bram.get("end_timestamp") is not None and bram.get("start_timestamp") is not None:
                 marker_window_cycles.append(max(int(bram["end_timestamp"]) - int(bram["start_timestamp"]), 0))

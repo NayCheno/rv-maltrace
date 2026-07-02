@@ -45,11 +45,11 @@ build/ndss_artifacts/rv-maltrace-genesys2-cva6-current-raw-artifacts.zip
 SHA256:
 
 ```text
-c839d5ff2e184683d1950d2e5b1a2f7e0389749bf18e85016d70375641ea41c9
+e1ce91a74071b91fad4fec3a4fb622a21f8832754658fc9a032cfd32bef90b85
 ```
 
 `results/evaluation/genesys2-cva6/current/raw_artifact_release_manifest.json`
-records `file_count: 3375` and `size_bytes: 326810249` and is checked by:
+records `file_count: 1666` and `size_bytes: 284971567` and is checked by:
 
 ```powershell
 uv run python tools/check_genesys2_raw_artifact_release.py --root .

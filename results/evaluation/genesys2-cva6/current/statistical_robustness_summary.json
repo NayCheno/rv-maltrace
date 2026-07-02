@@ -1,9 +1,9 @@
 {
   "aggregate": {
-    "accepted_board_repetitions": 128,
+    "accepted_board_repetitions": 130,
     "benign_control_sample_count": 5,
     "benign_false_positive_rate": 0.0,
-    "board_attempt_count": 142,
+    "board_attempt_count": 138,
     "board_sample_count": 12,
     "case_study_count": 12,
     "max_accepted_bram_dropped_count": 0,
@@ -11,16 +11,16 @@
     "max_accepted_wrap_count": 0,
     "min_accepted_repetitions_per_board_sample": 10,
     "p0_sample_count": 4,
-    "retained_failed_attempt_count": 14,
+    "retained_failed_attempt_count": 8,
     "safe_surrogate_sample_count": 8,
     "sequence_gap_sample_count": 0,
     "unexpected_benign_false_positive_count": 0,
     "workload_class_count": 3
   },
   "allowed_claims": [
-    "The current controlled Genesys2/CVA6 board evidence contains 128 accepted marker-window repetitions across 12 safe/surrogate board samples, with at least 10 accepted repetitions per board sample.",
+    "The current controlled Genesys2/CVA6 board evidence contains 130 accepted marker-window repetitions across 12 safe/surrogate board samples, with at least 10 accepted repetitions per board sample.",
     "Accepted board repetitions have zero unaccounted DROP, zero BRAM wrap, and no sequence-gap samples under the captured-window criteria.",
-    "14 failed board attempt(s) are retained as failure evidence and are not counted as accepted PASS repetitions.",
+    "8 failed board attempt(s) are retained as failure evidence and are not counted as accepted PASS repetitions.",
     "The current local benign-control set contains at least five benign workloads with zero unexpected false positives under the controlled local Linux audit."
   ],
   "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",
@@ -36,18 +36,18 @@
   },
   "cohorts": [
     {
-      "accepted_repetitions": 48,
-      "attempt_count": 62,
-      "failed_attempt_count": 14,
+      "accepted_repetitions": 50,
+      "attempt_count": 58,
+      "failed_attempt_count": 8,
       "id": "p0_bram_repetitions",
       "label": "P0 safe synthetic board marker-window repetitions",
       "max_accepted_bram_dropped_count": 0,
-      "max_accepted_repetitions_per_sample": 17,
+      "max_accepted_repetitions_per_sample": 15,
       "max_accepted_unaccounted_drop": 0,
       "max_accepted_wrap_count": 0,
       "min_accepted_repetitions_per_sample": 10,
       "minimum_repetitions_per_sample": 10,
-      "run_root": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret",
+      "run_root": "results/board/genesys2_trace_validation/20260702-current-p0-cohort",
       "sample_count": 4,
       "sample_ids": [
         "hello_write",
@@ -68,8 +68,8 @@
       "max_accepted_unaccounted_drop": 0,
       "max_accepted_wrap_count": 0,
       "min_accepted_repetitions_per_sample": 10,
-      "minimum_repetitions_per_sample": 1,
-      "run_root": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort",
+      "minimum_repetitions_per_sample": 10,
+      "run_root": "results/board/genesys2_trace_validation/20260702-current-safe-surrogate-cohort",
       "sample_count": 8,
       "sample_ids": [
         "file_scan",
@@ -93,28 +93,10 @@
   ],
   "retained_failed_attempts": [
     {
-      "bram_dropped_count": 0,
-      "bram_records": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/file_open_read_write/rep_03/bram_records.jsonl",
-      "bram_summary": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/file_open_read_write/rep_03/bram_summary.json",
-      "capture_log": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/file_open_read_write/rep_03/capture.log",
-      "cohort_id": "p0_bram_repetitions",
-      "reason": [
-        "parse_success_false",
-        "unaccounted_drop_nonzero",
-        "sequence_gaps_present"
-      ],
-      "repetition": "rep_03",
-      "sample_class": "p0_safe_synthetic",
-      "sample_id": "file_open_read_write",
-      "uart_log": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/file_open_read_write/rep_03/uart.log",
-      "unaccounted_drop": 1,
-      "wrap_count": 0
-    },
-    {
-      "bram_dropped_count": 3585,
-      "bram_records": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_01/bram_records.jsonl",
-      "bram_summary": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_01/bram_summary.json",
-      "capture_log": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_01/capture.log",
+      "bram_dropped_count": 3032,
+      "bram_records": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/hello_write/rep_04/bram_records.jsonl",
+      "bram_summary": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/hello_write/rep_04/bram_summary.json",
+      "capture_log": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/hello_write/rep_04/capture.log",
       "cohort_id": "p0_bram_repetitions",
       "reason": [
         "parse_success_false",
@@ -124,93 +106,18 @@
         "bram_dropped_count_nonzero",
         "unaccounted_drop_nonzero"
       ],
-      "repetition": "rep_01",
+      "repetition": "rep_04",
       "sample_class": "p0_safe_synthetic",
-      "sample_id": "fork_exec",
-      "uart_log": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_01/uart.log",
-      "unaccounted_drop": 3585,
-      "wrap_count": 4
+      "sample_id": "hello_write",
+      "uart_log": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/hello_write/rep_04/uart.log",
+      "unaccounted_drop": 3032,
+      "wrap_count": 3
     },
     {
       "bram_dropped_count": 0,
-      "bram_records": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_02/bram_records.jsonl",
-      "bram_summary": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_02/bram_summary.json",
-      "capture_log": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_02/capture.log",
-      "cohort_id": "p0_bram_repetitions",
-      "reason": [
-        "parse_success_false",
-        "unaccounted_drop_nonzero",
-        "sequence_gaps_present"
-      ],
-      "repetition": "rep_02",
-      "sample_class": "p0_safe_synthetic",
-      "sample_id": "fork_exec",
-      "uart_log": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_02/uart.log",
-      "unaccounted_drop": 1,
-      "wrap_count": 0
-    },
-    {
-      "bram_dropped_count": 0,
-      "bram_records": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_03/bram_records.jsonl",
-      "bram_summary": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_03/bram_summary.json",
-      "capture_log": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_03/capture.log",
-      "cohort_id": "p0_bram_repetitions",
-      "reason": [
-        "parse_success_false",
-        "unaccounted_drop_nonzero",
-        "sequence_gaps_present"
-      ],
-      "repetition": "rep_03",
-      "sample_class": "p0_safe_synthetic",
-      "sample_id": "fork_exec",
-      "uart_log": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_03/uart.log",
-      "unaccounted_drop": 1,
-      "wrap_count": 0
-    },
-    {
-      "bram_dropped_count": 0,
-      "bram_records": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_06/bram_records.jsonl",
-      "bram_summary": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_06/bram_summary.json",
-      "capture_log": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_06/capture.log",
-      "cohort_id": "p0_bram_repetitions",
-      "reason": [
-        "parse_success_false",
-        "unaccounted_drop_nonzero",
-        "sequence_gaps_present"
-      ],
-      "repetition": "rep_06",
-      "sample_class": "p0_safe_synthetic",
-      "sample_id": "fork_exec",
-      "uart_log": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_06/uart.log",
-      "unaccounted_drop": 1,
-      "wrap_count": 0
-    },
-    {
-      "bram_dropped_count": 3604,
-      "bram_records": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_07/bram_records.jsonl",
-      "bram_summary": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_07/bram_summary.json",
-      "capture_log": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_07/capture.log",
-      "cohort_id": "p0_bram_repetitions",
-      "reason": [
-        "parse_success_false",
-        "begin_marker_count_not_one",
-        "bram_ring_full",
-        "bram_wrap_count_nonzero",
-        "bram_dropped_count_nonzero",
-        "unaccounted_drop_nonzero"
-      ],
-      "repetition": "rep_07",
-      "sample_class": "p0_safe_synthetic",
-      "sample_id": "fork_exec",
-      "uart_log": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_07/uart.log",
-      "unaccounted_drop": 3604,
-      "wrap_count": 4
-    },
-    {
-      "bram_dropped_count": 0,
-      "bram_records": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_09/bram_records.jsonl",
-      "bram_summary": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_09/bram_summary.json",
-      "capture_log": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_09/capture.log",
+      "bram_records": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/hello_write/rep_09/bram_records.jsonl",
+      "bram_summary": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/hello_write/rep_09/bram_summary.json",
+      "capture_log": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/hello_write/rep_09/capture.log",
       "cohort_id": "p0_bram_repetitions",
       "reason": [
         "parse_success_false",
@@ -219,16 +126,34 @@
       ],
       "repetition": "rep_09",
       "sample_class": "p0_safe_synthetic",
-      "sample_id": "fork_exec",
-      "uart_log": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_09/uart.log",
+      "sample_id": "hello_write",
+      "uart_log": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/hello_write/rep_09/uart.log",
       "unaccounted_drop": 1,
       "wrap_count": 0
     },
     {
-      "bram_dropped_count": 3568,
-      "bram_records": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_11/bram_records.jsonl",
-      "bram_summary": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_11/bram_summary.json",
-      "capture_log": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_11/capture.log",
+      "bram_dropped_count": 0,
+      "bram_records": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/file_open_read_write/rep_06/bram_records.jsonl",
+      "bram_summary": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/file_open_read_write/rep_06/bram_summary.json",
+      "capture_log": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/file_open_read_write/rep_06/capture.log",
+      "cohort_id": "p0_bram_repetitions",
+      "reason": [
+        "parse_success_false",
+        "unaccounted_drop_nonzero",
+        "sequence_gaps_present"
+      ],
+      "repetition": "rep_06",
+      "sample_class": "p0_safe_synthetic",
+      "sample_id": "file_open_read_write",
+      "uart_log": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/file_open_read_write/rep_06/uart.log",
+      "unaccounted_drop": 1,
+      "wrap_count": 0
+    },
+    {
+      "bram_dropped_count": 3559,
+      "bram_records": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/fork_exec/rep_02/bram_records.jsonl",
+      "bram_summary": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/fork_exec/rep_02/bram_summary.json",
+      "capture_log": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/fork_exec/rep_02/capture.log",
       "cohort_id": "p0_bram_repetitions",
       "reason": [
         "parse_success_false",
@@ -238,18 +163,54 @@
         "bram_dropped_count_nonzero",
         "unaccounted_drop_nonzero"
       ],
-      "repetition": "rep_11",
+      "repetition": "rep_02",
       "sample_class": "p0_safe_synthetic",
       "sample_id": "fork_exec",
-      "uart_log": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_11/uart.log",
-      "unaccounted_drop": 3568,
+      "uart_log": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/fork_exec/rep_02/uart.log",
+      "unaccounted_drop": 3559,
       "wrap_count": 4
     },
     {
-      "bram_dropped_count": 3599,
-      "bram_records": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_15/bram_records.jsonl",
-      "bram_summary": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_15/bram_summary.json",
-      "capture_log": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_15/capture.log",
+      "bram_dropped_count": 0,
+      "bram_records": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/fork_exec/rep_03/bram_records.jsonl",
+      "bram_summary": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/fork_exec/rep_03/bram_summary.json",
+      "capture_log": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/fork_exec/rep_03/capture.log",
+      "cohort_id": "p0_bram_repetitions",
+      "reason": [
+        "parse_success_false",
+        "unaccounted_drop_nonzero",
+        "sequence_gaps_present"
+      ],
+      "repetition": "rep_03",
+      "sample_class": "p0_safe_synthetic",
+      "sample_id": "fork_exec",
+      "uart_log": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/fork_exec/rep_03/uart.log",
+      "unaccounted_drop": 1,
+      "wrap_count": 0
+    },
+    {
+      "bram_dropped_count": 0,
+      "bram_records": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/fork_exec/rep_05/bram_records.jsonl",
+      "bram_summary": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/fork_exec/rep_05/bram_summary.json",
+      "capture_log": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/fork_exec/rep_05/capture.log",
+      "cohort_id": "p0_bram_repetitions",
+      "reason": [
+        "parse_success_false",
+        "unaccounted_drop_nonzero",
+        "sequence_gaps_present"
+      ],
+      "repetition": "rep_05",
+      "sample_class": "p0_safe_synthetic",
+      "sample_id": "fork_exec",
+      "uart_log": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/fork_exec/rep_05/uart.log",
+      "unaccounted_drop": 1,
+      "wrap_count": 0
+    },
+    {
+      "bram_dropped_count": 3835,
+      "bram_records": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/fork_exec/rep_08/bram_records.jsonl",
+      "bram_summary": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/fork_exec/rep_08/bram_summary.json",
+      "capture_log": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/fork_exec/rep_08/capture.log",
       "cohort_id": "p0_bram_repetitions",
       "reason": [
         "parse_success_false",
@@ -259,130 +220,51 @@
         "bram_dropped_count_nonzero",
         "unaccounted_drop_nonzero"
       ],
-      "repetition": "rep_15",
+      "repetition": "rep_08",
       "sample_class": "p0_safe_synthetic",
       "sample_id": "fork_exec",
-      "uart_log": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_15/uart.log",
-      "unaccounted_drop": 3599,
+      "uart_log": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/fork_exec/rep_08/uart.log",
+      "unaccounted_drop": 3835,
       "wrap_count": 4
     },
     {
-      "bram_dropped_count": 3611,
-      "bram_records": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_16/bram_records.jsonl",
-      "bram_summary": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_16/bram_summary.json",
-      "capture_log": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_16/capture.log",
+      "bram_dropped_count": 0,
+      "bram_records": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/fork_exec/rep_16/bram_records.jsonl",
+      "bram_summary": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/fork_exec/rep_16/bram_summary.json",
+      "capture_log": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/fork_exec/rep_16/capture.log",
       "cohort_id": "p0_bram_repetitions",
       "reason": [
         "parse_success_false",
-        "begin_marker_count_not_one",
-        "bram_ring_full",
-        "bram_wrap_count_nonzero",
-        "bram_dropped_count_nonzero",
-        "unaccounted_drop_nonzero"
+        "unaccounted_drop_nonzero",
+        "sequence_gaps_present"
       ],
       "repetition": "rep_16",
       "sample_class": "p0_safe_synthetic",
       "sample_id": "fork_exec",
-      "uart_log": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_16/uart.log",
-      "unaccounted_drop": 3611,
-      "wrap_count": 4
-    },
-    {
-      "bram_dropped_count": 0,
-      "bram_records": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_18/bram_records.jsonl",
-      "bram_summary": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_18/bram_summary.json",
-      "capture_log": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_18/capture.log",
-      "cohort_id": "p0_bram_repetitions",
-      "reason": [
-        "parse_success_false",
-        "unaccounted_drop_nonzero",
-        "sequence_gaps_present"
-      ],
-      "repetition": "rep_18",
-      "sample_class": "p0_safe_synthetic",
-      "sample_id": "fork_exec",
-      "uart_log": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_18/uart.log",
-      "unaccounted_drop": 2,
-      "wrap_count": 0
-    },
-    {
-      "bram_dropped_count": 3614,
-      "bram_records": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_19/bram_records.jsonl",
-      "bram_summary": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_19/bram_summary.json",
-      "capture_log": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_19/capture.log",
-      "cohort_id": "p0_bram_repetitions",
-      "reason": [
-        "parse_success_false",
-        "begin_marker_count_not_one",
-        "bram_ring_full",
-        "bram_wrap_count_nonzero",
-        "bram_dropped_count_nonzero",
-        "unaccounted_drop_nonzero",
-        "sequence_gaps_present"
-      ],
-      "repetition": "rep_19",
-      "sample_class": "p0_safe_synthetic",
-      "sample_id": "fork_exec",
-      "uart_log": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_19/uart.log",
-      "unaccounted_drop": 3615,
-      "wrap_count": 4
-    },
-    {
-      "bram_dropped_count": 0,
-      "bram_records": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_28/bram_records.jsonl",
-      "bram_summary": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_28/bram_summary.json",
-      "capture_log": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_28/capture.log",
-      "cohort_id": "p0_bram_repetitions",
-      "reason": [
-        "parse_success_false",
-        "unaccounted_drop_nonzero",
-        "sequence_gaps_present"
-      ],
-      "repetition": "rep_28",
-      "sample_class": "p0_safe_synthetic",
-      "sample_id": "fork_exec",
-      "uart_log": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_28/uart.log",
-      "unaccounted_drop": 1,
-      "wrap_count": 0
-    },
-    {
-      "bram_dropped_count": 0,
-      "bram_records": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_30/bram_records.jsonl",
-      "bram_summary": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_30/bram_summary.json",
-      "capture_log": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_30/capture.log",
-      "cohort_id": "p0_bram_repetitions",
-      "reason": [
-        "parse_success_false",
-        "unaccounted_drop_nonzero",
-        "sequence_gaps_present"
-      ],
-      "repetition": "rep_30",
-      "sample_class": "p0_safe_synthetic",
-      "sample_id": "fork_exec",
-      "uart_log": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret/fork_exec/rep_30/uart.log",
+      "uart_log": "results/board/genesys2_trace_validation/20260702-current-p0-cohort/fork_exec/rep_16/uart.log",
       "unaccounted_drop": 1,
       "wrap_count": 0
     }
   ],
   "sample_repetition_rows": [
     {
-      "accepted_repetitions": 10,
-      "attempt_count": 10,
+      "accepted_repetitions": 13,
+      "attempt_count": 15,
       "cohort_id": "p0_bram_repetitions",
       "event_count_stats": {
-        "max": 110.0,
+        "max": 4056.0,
         "median": 82.0,
-        "min": 51.0,
+        "min": 82.0,
         "p95": 110.0,
-        "variance": 231.65
+        "variance": 979518.9955555556
       },
-      "failed_attempt_count": 0,
+      "failed_attempt_count": 2,
       "marker_window_cycle_stats": {
-        "max": 179312.0,
-        "median": 151708.5,
-        "min": 55453.0,
-        "p95": 179312.0,
-        "variance": 1041002668.96
+        "max": 591102.0,
+        "median": 164860.0,
+        "min": 126469.0,
+        "p95": 190060.0,
+        "variance": 12224535942.755556
       },
       "max_accepted_bram_dropped_count": 0,
       "max_accepted_unaccounted_drop": 0,
@@ -393,23 +275,23 @@
       "sequence_gap_repetition_count": 0
     },
     {
-      "accepted_repetitions": 11,
-      "attempt_count": 12,
+      "accepted_repetitions": 12,
+      "attempt_count": 13,
       "cohort_id": "p0_bram_repetitions",
       "event_count_stats": {
-        "max": 179.0,
+        "max": 182.0,
         "median": 176.0,
         "min": 151.0,
         "p95": 179.0,
-        "variance": 159.72222222222223
+        "variance": 155.25443786982248
       },
       "failed_attempt_count": 1,
       "marker_window_cycle_stats": {
-        "max": 383647.0,
-        "median": 356500.5,
-        "min": 322773.0,
-        "p95": 379896.0,
-        "variance": 312421218.2222222
+        "max": 398871.0,
+        "median": 374020.0,
+        "min": 317308.0,
+        "p95": 394755.0,
+        "variance": 681487235.6923077
       },
       "max_accepted_bram_dropped_count": 0,
       "max_accepted_unaccounted_drop": 0,
@@ -420,23 +302,23 @@
       "sequence_gap_repetition_count": 0
     },
     {
-      "accepted_repetitions": 17,
-      "attempt_count": 30,
+      "accepted_repetitions": 15,
+      "attempt_count": 20,
       "cohort_id": "p0_bram_repetitions",
       "event_count_stats": {
-        "max": 4638.0,
-        "median": 648.5,
-        "min": 637.0,
-        "p95": 4635.0,
-        "variance": 2525675.512222222
+        "max": 4859.0,
+        "median": 649.5,
+        "min": 633.0,
+        "p95": 4583.0,
+        "variance": 1490125.05
       },
-      "failed_attempt_count": 13,
+      "failed_attempt_count": 5,
       "marker_window_cycle_stats": {
-        "max": 5156988.0,
-        "median": 5021837.0,
-        "min": 613352.0,
-        "p95": 5094758.0,
-        "variance": 829733417698.45
+        "max": 6088299.0,
+        "median": 5068163.0,
+        "min": 649504.0,
+        "p95": 5182581.0,
+        "variance": 1001585182167.74
       },
       "max_accepted_bram_dropped_count": 0,
       "max_accepted_unaccounted_drop": 0,
@@ -451,19 +333,19 @@
       "attempt_count": 10,
       "cohort_id": "p0_bram_repetitions",
       "event_count_stats": {
-        "max": 142.0,
-        "median": 89.5,
-        "min": 83.0,
-        "p95": 142.0,
-        "variance": 333.76
+        "max": 120.0,
+        "median": 102.0,
+        "min": 89.0,
+        "p95": 120.0,
+        "variance": 189.0
       },
       "failed_attempt_count": 0,
       "marker_window_cycle_stats": {
-        "max": 564537.0,
-        "median": 201901.0,
-        "min": 128930.0,
-        "p95": 564537.0,
-        "variance": 13283213582.24
+        "max": 251514.0,
+        "median": 233423.0,
+        "min": 168640.0,
+        "p95": 251514.0,
+        "variance": 572178328.25
       },
       "max_accepted_bram_dropped_count": 0,
       "max_accepted_unaccounted_drop": 0,
@@ -483,7 +365,7 @@
       "max_accepted_bram_dropped_count": 0,
       "max_accepted_unaccounted_drop": 0,
       "max_accepted_wrap_count": 0,
-      "minimum_repetitions": 1,
+      "minimum_repetitions": 10,
       "sample_class": "malware_like_synthetic_syscall_only",
       "sample_id": "file_scan",
       "sequence_gap_repetition_count": 0
@@ -498,7 +380,7 @@
       "max_accepted_bram_dropped_count": 0,
       "max_accepted_unaccounted_drop": 0,
       "max_accepted_wrap_count": 0,
-      "minimum_repetitions": 1,
+      "minimum_repetitions": 10,
       "sample_class": "malware_like_synthetic_syscall_only",
       "sample_id": "batch_open_read_write",
       "sequence_gap_repetition_count": 0
@@ -513,7 +395,7 @@
       "max_accepted_bram_dropped_count": 0,
       "max_accepted_unaccounted_drop": 0,
       "max_accepted_wrap_count": 0,
-      "minimum_repetitions": 1,
+      "minimum_repetitions": 10,
       "sample_class": "malware_like_synthetic_syscall_only",
       "sample_id": "self_copy_sim",
       "sequence_gap_repetition_count": 0
@@ -528,7 +410,7 @@
       "max_accepted_bram_dropped_count": 0,
       "max_accepted_unaccounted_drop": 0,
       "max_accepted_wrap_count": 0,
-      "minimum_repetitions": 1,
+      "minimum_repetitions": 10,
       "sample_class": "malware_like_synthetic_syscall_only",
       "sample_id": "abnormal_syscall_sequence",
       "sequence_gap_repetition_count": 0
@@ -543,7 +425,7 @@
       "max_accepted_bram_dropped_count": 0,
       "max_accepted_unaccounted_drop": 0,
       "max_accepted_wrap_count": 0,
-      "minimum_repetitions": 1,
+      "minimum_repetitions": 10,
       "sample_class": "malware_like_synthetic_syscall_only",
       "sample_id": "illegal_trap",
       "sequence_gap_repetition_count": 0
@@ -558,7 +440,7 @@
       "max_accepted_bram_dropped_count": 0,
       "max_accepted_unaccounted_drop": 0,
       "max_accepted_wrap_count": 0,
-      "minimum_repetitions": 1,
+      "minimum_repetitions": 10,
       "sample_class": "malware_like_synthetic_syscall_only",
       "sample_id": "process_chain",
       "sequence_gap_repetition_count": 0
@@ -573,7 +455,7 @@
       "max_accepted_bram_dropped_count": 0,
       "max_accepted_unaccounted_drop": 0,
       "max_accepted_wrap_count": 0,
-      "minimum_repetitions": 1,
+      "minimum_repetitions": 10,
       "sample_class": "malware_like_synthetic_syscall_only",
       "sample_id": "dynamic_executable_memory",
       "sequence_gap_repetition_count": 0
@@ -588,7 +470,7 @@
       "max_accepted_bram_dropped_count": 0,
       "max_accepted_unaccounted_drop": 0,
       "max_accepted_wrap_count": 0,
-      "minimum_repetitions": 1,
+      "minimum_repetitions": 10,
       "sample_class": "malware_like_synthetic_syscall_only",
       "sample_id": "anti_debug_like",
       "sequence_gap_repetition_count": 0

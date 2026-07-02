@@ -1,15 +1,19 @@
 {
   "edges": [
     {
-      "line": "clone(0x11,child_stack=0x0000000000000000,parent_tidptr=0x0000000000000000,tls=0x0000000000000000,child_tidptr=0x0000000000000000) = 18 =",
+      "line": "mprotect(0x000000000007e000,16384,PROT_READ) = 0",
+      "op": "mprotect"
+    },
+    {
+      "line": "clone(0x11,child_stack=0x0000000000000000,parent_tidptr=0x0000000000000000,tls=0x0000000000000000,child_tidptr=0x0000000000000000) =  = 091",
       "op": "clone"
     },
     {
-      "line": "wait4(18,0x12080,0,(nil))18",
+      "line": "wait4(91,0x2aaaab2abaf4,0,(nil))91",
       "op": "wait4"
     },
     {
-      "line": "execve(\"/bin/true\",{\"/bin/true\",NULL}) = 18",
+      "line": "execve(\"/bin/true\",{\"/bin/true\",NULL}) = 91",
       "op": "execve",
       "path": "/bin/true"
     }
@@ -21,15 +25,19 @@
     "graph": {
       "edges": [
         {
-          "line": "clone(0x11,child_stack=0x0000000000000000,parent_tidptr=0x0000000000000000,tls=0x0000000000000000,child_tidptr=0x0000000000000000) = 18 =",
+          "line": "mprotect(0x000000000007e000,16384,PROT_READ) = 0",
+          "op": "mprotect"
+        },
+        {
+          "line": "clone(0x11,child_stack=0x0000000000000000,parent_tidptr=0x0000000000000000,tls=0x0000000000000000,child_tidptr=0x0000000000000000) =  = 091",
           "op": "clone"
         },
         {
-          "line": "wait4(18,0x12080,0,(nil))18",
+          "line": "wait4(91,0x2aaaab2abaf4,0,(nil))91",
           "op": "wait4"
         },
         {
-          "line": "execve(\"/bin/true\",{\"/bin/true\",NULL}) = 18",
+          "line": "execve(\"/bin/true\",{\"/bin/true\",NULL}) = 91",
           "op": "execve",
           "path": "/bin/true"
         }

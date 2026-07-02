@@ -3,38 +3,38 @@
     "bitstream": {
       "exists": true,
       "path": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker-syscall/work-fpga/ariane_xilinx.bit",
-      "sha256": "af4e4462ddfa5bfc34114b44820f10f28e4293591d488b082cf715e4bd7c5cc3",
+      "sha256": "6e3566a8777045a4225b8cd161b5d37afa3bbf4b391b72aa61da1187c342631b",
       "size_bytes": 11443738
     },
     "bram_records": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/bram_records.jsonl",
-      "sha256": "c99417f9a0805678ad3de6df1543ea193e4a0c5d0c5efb2c12cd427beb5cfa82",
-      "size_bytes": 35909
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map/bram_records.jsonl",
+      "sha256": "b73c78df26e0cfdbfa2ff8a345581118d1529a0128e634b3437700971c55ba41",
+      "size_bytes": 35946
     },
     "bram_summary": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/bram_summary.json",
-      "sha256": "08e9cb56e278d0b94983f1464007eb16e10d6a0ad07ca4d2b8099c9af7342f99",
-      "size_bytes": 1000
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map/bram_summary.json",
+      "sha256": "1d88649d3a9cdaffc1132ae9f30a3f7160e8939fcc79ce958d3bce423711fe66",
+      "size_bytes": 993
     },
     "capture_csv": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/capture.csv",
-      "sha256": "dd61e013adf92fe033ca8611846044b61fef1b8e3651a29d614b1a9225605fb8",
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map/capture.csv",
+      "sha256": "782e617a9700f481c3365546b3f82bf4c0cc44063fb99d1f6620758fc3d61743",
       "size_bytes": 2095924
     },
     "capture_err_log": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/capture.err.log",
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map/capture.err.log",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "size_bytes": 0
     },
     "capture_log": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/capture.log",
-      "sha256": "0ebbd75e28f86079424021fb9c653bd8c2b3e82533f9544acebaaa6de4d3d42f",
-      "size_bytes": 9434
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map/capture.log",
+      "sha256": "8d2a402a32531f0a6678079b43296ded34eb9c89dd9bb6175e60b8488bdc0e68",
+      "size_bytes": 9447
     },
     "ltx": {
       "exists": true,
@@ -45,52 +45,52 @@
     "proc_snapshots": {
       "cmdline": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/proc_snapshots/3194/cmdline.txt",
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map/proc_snapshots/720/cmdline.txt",
         "sha256": "343a800abacab575effa6f5e3f830e671942e23ce88747de7172d97ac2a4c6bb",
         "size_bytes": 86
       },
       "exe_readlink": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/proc_snapshots/3194/exe_readlink.txt",
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map/proc_snapshots/720/exe_readlink.txt",
         "sha256": "31156e05eab7b7f4ddb0229735efe6b6af9e3e65b589b6e34fb1f3bfdcd09994",
         "size_bytes": 40
       },
       "exe_sha256": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/proc_snapshots/3194/exe_sha256.txt",
-        "sha256": "46e22b4ae429bd855d36a3862b8b5ae05aacf493d524fbb5c8453238228dda39",
-        "size_bytes": 81
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map/proc_snapshots/720/exe_sha256.txt",
+        "sha256": "81d6048507a42bb28ef1b449d148de3a11acd22aa2c26c4a450fdc4148a89914",
+        "size_bytes": 80
       },
       "maps": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/proc_snapshots/3194/maps.txt",
-        "sha256": "0db681df16e080548517690b418f9a46d15463946b533699ae05bae46e610374",
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map/proc_snapshots/720/maps.txt",
+        "sha256": "1f73cf297ed2504cab0a6c6660ab9f803b0585c571958e5b80b8ff7e127b10cc",
         "size_bytes": 701
       },
       "stat": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/proc_snapshots/3194/stat.txt",
-        "sha256": "5b48f1ac25980798db5e78991ac08a489d53265150de21cc19a9e0007631c52e",
-        "size_bytes": 256
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map/proc_snapshots/720/stat.txt",
+        "sha256": "fb7c7ba2c483bca8b281638324a68af27f925d86a96b25ede0d455791fa99de3",
+        "size_bytes": 249
       },
       "status": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/proc_snapshots/3194/status.txt",
-        "sha256": "9e2a41800c191f6ddbcc007dcc9c6b72d288b8aeecb5b047ded979c3bdf78632",
-        "size_bytes": 1060
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map/proc_snapshots/720/status.txt",
+        "sha256": "20fc602fbd89b834ff16f651dfa960761c6c72f5736863de6c3220c99ef373cd",
+        "size_bytes": 1053
       }
     },
     "transfer_log": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/runtime_map_transfer.log",
-      "sha256": "702183974d40b8c274fdecc1014a10d5243bd77aa7a8d2624fbcbfc97d201fa1",
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map/runtime_map_transfer.log",
+      "sha256": "9ec6f3de8fde6b4840f369d042246b1a2e8a4ae8538a94d8203dd34113fb8175",
       "size_bytes": 23405
     },
     "uart_log": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map/uart.log",
-      "sha256": "9cfc9eb29aebec51cfde9c5b4abff089f2a18496397d488ea9c7df100b5de330",
-      "size_bytes": 5676
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map/uart.log",
+      "sha256": "031da825c7bbc488ba802d9a479f4ad73631ba3399e92027fb219a95725285fb",
+      "size_bytes": 5615
     }
   },
   "blocked_reason": null,
@@ -174,8 +174,8 @@
       "sequence_number": 36
     }
   ],
-  "pid": 3194,
-  "run_root": "results/board/genesys2_trace_validation/20260625-direct-fix-official-image-runtime-map",
+  "pid": 720,
+  "run_root": "results/board/genesys2_trace_validation/20260702-official-image-runtime-map",
   "runtime_maps": {
     "entries": [
       {
@@ -184,7 +184,7 @@
         "offset": "00000000",
         "path": "/tmp/rvmt_official/official_image_probe",
         "perms": "r-xp",
-        "raw": "00010000-00081000 r-xp 00000000 00:10 28                                 /tmp/rvmt_official/official_image_probe",
+        "raw": "00010000-00081000 r-xp 00000000 00:10 8                                  /tmp/rvmt_official/official_image_probe",
         "start": 65536,
         "start_hex": "0x0000000000010000"
       },
@@ -194,7 +194,7 @@
         "offset": "00071000",
         "path": "/tmp/rvmt_official/official_image_probe",
         "perms": "r--p",
-        "raw": "00081000-00085000 r--p 00071000 00:10 28                                 /tmp/rvmt_official/official_image_probe",
+        "raw": "00081000-00085000 r--p 00071000 00:10 8                                  /tmp/rvmt_official/official_image_probe",
         "start": 528384,
         "start_hex": "0x0000000000081000"
       },
@@ -204,7 +204,7 @@
         "offset": "00075000",
         "path": "/tmp/rvmt_official/official_image_probe",
         "perms": "rw-p",
-        "raw": "00085000-00087000 rw-p 00075000 00:10 28                                 /tmp/rvmt_official/official_image_probe",
+        "raw": "00085000-00087000 rw-p 00075000 00:10 8                                  /tmp/rvmt_official/official_image_probe",
         "start": 544768,
         "start_hex": "0x0000000000085000"
       },
@@ -229,34 +229,34 @@
         "start_hex": "0x000000000008d000"
       },
       {
-        "end": 273309425664,
-        "end_hex": "0x0000003fa282e000",
+        "end": 273662873600,
+        "end_hex": "0x0000003fb7941000",
         "offset": "00000000",
         "path": "[vvar]",
         "perms": "r--p",
-        "raw": "3fa282a000-3fa282e000 r--p 00000000 00:00 0                              [vvar]",
-        "start": 273309409280,
-        "start_hex": "0x0000003fa282a000"
+        "raw": "3fb793d000-3fb7941000 r--p 00000000 00:00 0                              [vvar]",
+        "start": 273662857216,
+        "start_hex": "0x0000003fb793d000"
       },
       {
-        "end": 273309433856,
-        "end_hex": "0x0000003fa2830000",
+        "end": 273662881792,
+        "end_hex": "0x0000003fb7943000",
         "offset": "00000000",
         "path": "[vdso]",
         "perms": "r-xp",
-        "raw": "3fa282e000-3fa2830000 r-xp 00000000 00:00 0                              [vdso]",
-        "start": 273309425664,
-        "start_hex": "0x0000003fa282e000"
+        "raw": "3fb7941000-3fb7943000 r-xp 00000000 00:00 0                              [vdso]",
+        "start": 273662873600,
+        "start_hex": "0x0000003fb7941000"
       },
       {
-        "end": 273839656960,
-        "end_hex": "0x0000003fc21d9000",
+        "end": 273992937472,
+        "end_hex": "0x0000003fcb407000",
         "offset": "00000000",
         "path": "[stack]",
         "perms": "rw-p",
-        "raw": "3fc21b8000-3fc21d9000 rw-p 00000000 00:00 0                              [stack]",
-        "start": 273839521792,
-        "start_hex": "0x0000003fc21b8000"
+        "raw": "3fcb3e6000-3fcb407000 rw-p 00000000 00:00 0                              [stack]",
+        "start": 273992802304,
+        "start_hex": "0x0000003fcb3e6000"
       }
     ],
     "entry_count": 8,
@@ -267,7 +267,7 @@
   "status": "PASS",
   "target": "/tmp/rvmt_official/official_image_probe",
   "uart_done": {
-    "pid": 3194,
+    "pid": 720,
     "rc": 0,
     "ready": 1
   }

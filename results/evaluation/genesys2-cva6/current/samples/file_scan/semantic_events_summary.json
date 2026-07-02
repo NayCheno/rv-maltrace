@@ -38,7 +38,7 @@
     "sample_id": "file_scan",
     "semantic_source": "trusted_qemu_guest_strace_companion",
     "syscall_precision": 1.0,
-    "trace_source": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort/file_scan/rep_01/bram_records.jsonl",
+    "trace_source": "results/board/genesys2_trace_validation/20260702-current-safe-surrogate-cohort/file_scan/rep_01/bram_records.jsonl",
     "write_buffer_prefix_recovered": true,
     "write_buffer_prefix_source": "NOT_OBSERVED",
     "write_buffer_prefixes": []

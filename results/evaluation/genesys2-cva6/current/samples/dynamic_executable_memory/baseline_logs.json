@@ -1,13 +1,13 @@
 {
   "evidence": {
-    "behavior_graph": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/behavior/behavior_graph.json",
-    "behavior_mapping": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/malware_analysis/behavior_mapping.json",
+    "behavior_graph": "results/evaluation/genesys2-cva6/current/samples/dynamic_executable_memory/behavior_graph.json",
+    "behavior_mapping": "results/evaluation/genesys2-cva6/current/samples/dynamic_executable_memory/behavior_mapping.json",
     "code_map": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/local_code_analysis/code_map.json",
-    "integrated_validation": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/integrated_validation.json",
-    "runtime_process_map": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map/dynamic_executable_memory/runtime_process_map.json",
-    "semantic_events": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/behavior/semantic_events.json",
-    "source_attribution": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/dynamic_executable_memory/local_code_analysis/source_attribution_summary.json",
-    "trace": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort/dynamic_executable_memory/rep_01/bram_records.jsonl"
+    "integrated_validation": "results/evaluation/genesys2-cva6/current/samples/dynamic_executable_memory/integrated_validation.json",
+    "runtime_process_map": "results/board/genesys2_trace_validation/20260702-current-safe-runtime-map/dynamic_executable_memory/runtime_process_map.json",
+    "semantic_events": "results/evaluation/genesys2-cva6/current/samples/dynamic_executable_memory/semantic_events.json",
+    "source_attribution": "results/evaluation/genesys2-cva6/current/source_line_attribution_summary.json",
+    "trace": "results/board/genesys2_trace_validation/20260702-current-safe-surrogate-cohort/dynamic_executable_memory/rep_01/bram_records.jsonl"
   },
   "host_strace": {
     "execve_paths": [
@@ -15,12 +15,12 @@
     ],
     "fd_edges": [
       {
-        "line": "execve(\"results/demo/ccfa-safe-20260611/dynamic_executable_memory/00_build/dynamic_executable_memory.host\", [\"results/demo/ccfa-safe-20260611/\"...], 0x7ffc80990398 /* 9 vars */) = 0",
+        "line": "execve(\"results/demo/ccfa-safe-20260611/dynamic_executable_memory/00_build/dynamic_executable_memory.host\", [\"results/demo/ccfa-safe-20260611/\"...], 0x7fff4c9ef4b8 /* 9 vars */) = 0",
         "op": "execve",
         "path": "results/demo/ccfa-safe-20260611/dynamic_executable_memory/00_build/dynamic_executable_memory.host"
       },
       {
-        "line": "mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7dca77934000",
+        "line": "mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7874464b5000",
         "op": "mmap"
       },
       {
@@ -30,7 +30,7 @@
         "path": "/etc/ld.so.cache"
       },
       {
-        "line": "mmap(NULL, 12899, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7dca77930000",
+        "line": "mmap(NULL, 13959, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7874464b1000",
         "op": "mmap"
       },
       {
@@ -52,23 +52,23 @@
         "path": "/lib/x86_64-linux-gnu/libc.so.6"
       },
       {
-        "line": "mmap(NULL, 2170256, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7dca7771e000",
+        "line": "mmap(NULL, 2170256, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x78744629f000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x7dca77746000, 1605632, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x7dca77746000",
+        "line": "mmap(0x7874462c7000, 1605632, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x7874462c7000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x7dca778ce000, 323584, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b0000) = 0x7dca778ce000",
+        "line": "mmap(0x78744644f000, 323584, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b0000) = 0x78744644f000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x7dca7791d000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1fe000) = 0x7dca7791d000",
+        "line": "mmap(0x78744649e000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1fe000) = 0x78744649e000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x7dca77923000, 52624, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7dca77923000",
+        "line": "mmap(0x7874464a4000, 52624, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7874464a4000",
         "op": "mmap"
       },
       {
@@ -78,39 +78,39 @@
         "path": "/lib/x86_64-linux-gnu/libc.so.6"
       },
       {
-        "line": "mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7dca7771b000",
+        "line": "mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x78744629c000",
         "op": "mmap"
       },
       {
-        "line": "mprotect(0x7dca7791d000, 16384, PROT_READ) = 0",
+        "line": "mprotect(0x78744649e000, 16384, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "mprotect(0x59a517b1c000, 4096, PROT_READ) = 0",
+        "line": "mprotect(0x5d2aa1eaf000, 4096, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "mprotect(0x7dca7796c000, 8192, PROT_READ) = 0",
+        "line": "mprotect(0x7874464ed000, 8192, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "munmap(0x7dca77930000, 12899)     = 0",
+        "line": "munmap(0x7874464b1000, 13959)     = 0",
         "op": "munmap"
       },
       {
-        "line": "mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7dca77933000",
+        "line": "mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7874464b4000",
         "op": "mmap"
       },
       {
-        "line": "mprotect(0x7dca77933000, 4096, PROT_READ|PROT_EXEC) = 0",
+        "line": "mprotect(0x7874464b4000, 4096, PROT_READ|PROT_EXEC) = 0",
         "op": "mprotect"
       },
       {
-        "line": "mprotect(0x7dca77933000, 4096, PROT_READ) = 0",
+        "line": "mprotect(0x7874464b4000, 4096, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "munmap(0x7dca77933000, 4096)      = 0",
+        "line": "munmap(0x7874464b4000, 4096)      = 0",
         "op": "munmap"
       }
     ],

@@ -69,10 +69,10 @@ throughput claim.
 
 | Sample | Evidence root | Same-window marker | Raw syscall-id pairing | Runtime process attribution | Drop accounting | Blocking item |
 | --- | --- | --- | --- | --- | --- | --- |
-| `hello_write` | `results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/01_hello_write` | PASS | PASS | PASS | PASS, no DROP | none |
-| `file_open_read_write` | `results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/02_file_open_read_write` | PASS | PASS | PASS | PASS, no DROP | none |
-| `fork_exec` | `results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/03_fork_exec` | PASS | PASS | PASS | PASS, no DROP | none |
-| `illegal_instruction` | `results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/04_illegal_instruction` | PASS | PASS | PASS | PASS, no DROP | none |
+| `hello_write` | `results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/01_hello_write` | PASS | PASS | PASS | PASS, no DROP | none |
+| `file_open_read_write` | `results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/02_file_open_read_write` | PASS | PASS | PASS | PASS, no DROP | none |
+| `fork_exec` | `results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/03_fork_exec` | PASS | PASS | PASS | PASS, no DROP | none |
+| `illegal_instruction` | `results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/04_illegal_instruction` | PASS | PASS | PASS | PASS, no DROP | none |
 
 Each evidence root contains:
 

@@ -109,7 +109,7 @@
       "strace_log": {
         "path": "build/tracer_visibility_baseline/native_strace.trace",
         "role": "software_strace_log",
-        "sha256": "9e7c34e3bf188db5120956d2685d2b75dbf99d644a1a2d60efe04dee3c9bf276",
+        "sha256": "ada260254da0ab1891dde2c5009a7e5ccabb27659be386c6fc25b05bfeedec0e",
         "size_bytes": 3607
       }
     },

@@ -1,8 +1,12 @@
 {
   "edges": [
     {
+      "line": "mprotect(0x000000000007e000,16384,PROT_READ) = 0",
+      "op": "mprotect"
+    },
+    {
       "fd": 1,
-      "line": "write(1,0x10170,20) = 20",
+      "line": "write(1,0x52ca8,18) = 18",
       "op": "write",
       "path": "<stdout>"
     }
@@ -14,8 +18,12 @@
     "graph": {
       "edges": [
         {
+          "line": "mprotect(0x000000000007e000,16384,PROT_READ) = 0",
+          "op": "mprotect"
+        },
+        {
           "fd": 1,
-          "line": "write(1,0x10170,20) = 20",
+          "line": "write(1,0x52ca8,18) = 18",
           "op": "write",
           "path": "<stdout>"
         }

@@ -1,8 +1,0 @@
-RVMT_SERIAL_DIRECT_COMMAND_CAPTURE port=COM7 baud=115200 start=2026-06-10T00:46:19+0800
-
-RVMT_SEND 'sleep 22; exec /tmp/rvmt_phase6/fork_exec'
-sleep 22; exec /tmp/rvmt_phase6/fork_exec
-
-Welcome to Buildroot
-buildroot login: 
-RVMT_SERIAL_DIRECT_COMMAND_CAPTURE_DONE

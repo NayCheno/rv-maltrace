@@ -2,29 +2,29 @@
   "accepted_capture": {
     "bram_records": {
       "path": "results/board/genesys2_trace_validation/20260624-strict-sret-current-bitstream/hello_write/rep_02/bram_records.jsonl",
-      "sha256": "b79b90f9efa5f65d95e16f0f55164354343efb6df26badbfe21bb19b62e8d479",
-      "size_bytes": 85247
+      "sha256": "338b4593fab07c6830c6dc0fc181455dcb4c4fe43be702ea4eb2b33e131dc968",
+      "size_bytes": 62089
     },
     "bram_summary": {
-      "captured_count": 116,
+      "captured_count": 82,
       "dropped_count": 0,
-      "event_count": 116,
+      "event_count": 82,
       "event_counts": {
         "ARG_MEM": 20,
         "MARKER": 2,
-        "PRIV": 60,
+        "PRIV": 38,
         "SYSCALL_ENTRY": 1,
         "SYSCALL_RET": 1,
-        "TRAP": 32
+        "TRAP": 20
       },
       "sequence_first": 0,
-      "sequence_last": 115,
+      "sequence_last": 81,
       "trigger_marker_seen": true,
       "wrap_count": 0
     },
     "capture_csv": {
       "path": "results/board/genesys2_trace_validation/20260624-strict-sret-current-bitstream/hello_write/rep_02/capture.csv",
-      "sha256": "dfdd27733de1c1ef671b7d4e376fdcf661f49365289b8464f2703e2983bca481",
+      "sha256": "ab5e2d02df9e96cc02d0ba5ad30d0f3aa38f1444bff27a6fd858ecd2f1c43034",
       "size_bytes": 2095924
     },
     "capture_err_log": {
@@ -34,8 +34,8 @@
     },
     "capture_log": {
       "path": "results/board/genesys2_trace_validation/20260624-strict-sret-current-bitstream/hello_write/rep_02/capture.log",
-      "sha256": "87889cb288b940510d21e2a6536e3eeb04229f2b9cd77c8aea96b1d77b8b298b",
-      "size_bytes": 9179
+      "sha256": "4449c0174271b42dd296d0bf3506a2b5dc5cfc8c2c4fd9fce8c6bab85fd1b00c",
+      "size_bytes": 9131
     },
     "marker_window": {
       "begin_count": 1,
@@ -43,19 +43,19 @@
       "begin_sequence": 0,
       "end_count": 1,
       "end_marker": "0xe0000a01",
-      "end_sequence": 115,
+      "end_sequence": 81,
       "markers_seen": [
         {
-          "cycle": 965110001,
+          "cycle": 3091107524,
           "pc": "0x00010128",
           "primary": "0xb0000a01",
           "sequence_number": 0
         },
         {
-          "cycle": 965341851,
+          "cycle": 3091233993,
           "pc": "0x0001015c",
           "primary": "0xe0000a01",
-          "sequence_number": 115
+          "sequence_number": 81
         }
       ],
       "post_end_tail_event_count": 0
@@ -67,20 +67,20 @@
         "entry_index": 4,
         "entry_sequence": 4,
         "number": 64,
-        "return_index": 66,
-        "return_sequence": 66,
-        "syscall_id": "0x00009efc"
+        "return_index": 63,
+        "return_sequence": 63,
+        "syscall_id": "0x0009701f"
       }
     ],
     "summary": {
       "path": "results/board/genesys2_trace_validation/20260624-strict-sret-current-bitstream/hello_write/rep_02/bram_summary.json",
-      "sha256": "d483e5d4eae893c167e5d732840e891b1f64be23d88c54eb595f406a59aa2495",
-      "size_bytes": 1035
+      "sha256": "8756f481782bccb67bbe20ecad09b4be39b7a74da3c5b7ad59e527f30ca0faed",
+      "size_bytes": 1020
     },
     "uart_log": {
       "path": "results/board/genesys2_trace_validation/20260624-strict-sret-current-bitstream/hello_write/rep_02/uart.log",
-      "sha256": "85c44224e04f0074f6327f3c917dd36713492903bc20184741a6cbe0c140f64d",
-      "size_bytes": 608
+      "sha256": "414f30c0b8bc7d81e0241b927ace2fef6711a8fec6cee5dc15b3fc1afa5e3b83",
+      "size_bytes": 631
     }
   },
   "allowed_claims": [
@@ -89,7 +89,7 @@
   "bitstream": {
     "bitstream": {
       "path": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.bit",
-      "sha256": "92eef73290ec20d11a58d38bbec89e0528724df3764327d597a6aadb78e44655",
+      "sha256": "04dbd5bf4b661427628bd2142e619c2b2526b7fd0598ffeb6df954fc5811b354",
       "size_bytes": 11443738
     },
     "ltx": {
@@ -99,7 +99,7 @@
     },
     "manifest": {
       "path": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/rvmt_trace_marker_build_manifest.json",
-      "sha256": "4af9bcff7a6b138f3f0d05732781214f41c8cb634f73ff2c21b0510c534f7b7c",
+      "sha256": "ffbe6885e87186ece3d0671244ce9207402460bd5944a0a2989c9c6f9325ee19",
       "size_bytes": 3042
     },
     "source_hash_status": "PASS",
@@ -135,7 +135,7 @@
       "uart_log": "results/board/genesys2_trace_validation/20260624-strict-sret-current-bitstream/hello_write/rep_01/uart.log"
     }
   ],
-  "generated_utc": "2026-06-30T12:02:54.659288+00:00",
+  "generated_utc": "2026-07-01T20:38:01.746525+00:00",
   "non_claims": [
     "This is one strict-SRET smoke sample and does not replace the full 40/40 P0 repetition cohort.",
     "This does not claim boot from the newly generated SD-card image.",
@@ -147,8 +147,8 @@
     "status": "PASS_TRACE_MARKER_PROGRAMMED",
     "summary": {
       "path": "results/evaluation/genesys2-cva6/current/trace_marker_programming_summary.json",
-      "sha256": "7adc370db8b444950eb8dbb8de3fec493f1f311ecaa7e8d7d284367ae9724ce6",
-      "size_bytes": 3812
+      "sha256": "61f68dd2c7786c8d56449315caab1321b009c7ded2b07a16c38b0209ef093cef",
+      "size_bytes": 3800
     },
     "target": "localhost:3121/xilinx_tcf/Digilent/200300B81858B"
   },
@@ -169,13 +169,13 @@
     },
     "setup_log": {
       "path": "results/board/genesys2_trace_validation/20260624-strict-sret-current-bitstream/uart_login_probe_3.log",
-      "sha256": "760d0764083fe4b99cd7b51a65acea60ac34b04c110557c0bbdaee44f62c8fc3",
-      "size_bytes": 860
+      "sha256": "43093338389cb401f6d8d54e163270cc2d29d136a6115102b99fb333abafa2d4",
+      "size_bytes": 243
     },
     "transfer_log": {
       "path": "results/board/genesys2_trace_validation/20260624-strict-sret-current-bitstream/hello_write_transfer.log",
-      "sha256": "e589d42dbca2df5c0425f68f993db76a320dd62583e5a26099f0502dc61c5696",
-      "size_bytes": 1899
+      "sha256": "8981c241da99227c43f8838f294f3d68fe72c4dab2dbffcabf6830d75db9b22f",
+      "size_bytes": 1477
     }
   },
   "schema": "rvmt.genesys2.strict_sret_board_smoke.v1",
@@ -184,20 +184,20 @@
   "validation": {
     "begin_marker_count": 1,
     "bram_summary_pass": true,
-    "captured_count": 116,
+    "captured_count": 82,
     "dropped_count": 0,
     "end_marker_count": 1,
-    "event_count": 116,
+    "event_count": 82,
     "ila_capture_done": true,
     "ila_device_seen": true,
     "ila_target_seen": true,
-    "priv_transition_count": 60,
+    "priv_transition_count": 38,
     "programming_summary_pass": true,
     "runtime_binary_sha256_seen_on_board": true,
     "sequence_gap_count": 0,
     "strict_pairable_syscall_entries": 1,
     "trace_marker_scope": true,
-    "trap_event_count": 32,
+    "trap_event_count": 20,
     "uart_rc_zero": true,
     "wrap_count": 0
   }

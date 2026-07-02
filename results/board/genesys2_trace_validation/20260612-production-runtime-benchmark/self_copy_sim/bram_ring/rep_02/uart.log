@@ -1,7 +1,0 @@
-RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART port=COM7 baud=115200 start=2026-06-12T02:27:10+0800
-
-RVMT_SEND 'now_ns() {\n  ns=$(date +%s%N 2>/dev/null || true)\n  case "$ns" in\n    ""|*N*) s=$(date +%s 2>/dev/null || echo 0); printf \'%s000000000\\n\' "$s" ;;\n    *) printf \'%s\\n\' "$ns" ;;\n  esac\n}\nsample_id=\'self_copy_sim\'\nmode=\'bram_ring\'\nrep=\'rep_02\'\nruntime_path=\'/tmp/rvmt_p2/self_copy_sim\'\nstart_ns=$(now_ns)\nprintf \'RVMT_RUNTIME_BENCH_START sample=%s mode=%s rep=%s ns=%s\\n\' "$sample_id" "$mode" "$rep" "$start_ns"\n"$runtime_path" >/tmp/rvmt_runtime_bench_stdout 2>/tmp/rvmt_runtime_bench_stderr\nrc=$?\ndone_ns=$(now_ns)\nprintf \'RVMT_RUNTIME_BENCH_DONE sample=%s mode=%s rep=%s rc=%s ns=%s\\n\' "$sample_id" "$mode" "$rep" "$rc" "$done_ns"\n'
-> > > > > > # # # # # # RVMT_RUNTIME_BENCH_START sample=self_copy_sim mode=bram_ring rep=rep_02 ns=14319000000000
-# # # # RVMT_RUNTIME_BENCH_DONE sample=self_copy_sim mode=bram_ring rep=rep_02 rc=0 ns=14327000000000
-# # # 
-RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART_DONE

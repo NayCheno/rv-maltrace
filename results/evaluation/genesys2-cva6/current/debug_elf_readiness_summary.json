@@ -11,8 +11,8 @@
   "docker": {
     "returncode": 0,
     "stderr_tail": [
-      " Container rv-maltrace-linux-behavior-run-ef03f95b9aac Creating",
-      " Container rv-maltrace-linux-behavior-run-ef03f95b9aac Created"
+      " Container rv-maltrace-linux-behavior-run-9eb9ede1f22a Creating",
+      " Container rv-maltrace-linux-behavior-run-9eb9ede1f22a Created"
     ],
     "stdout_tail": [
       "[PASS] code map written: build/debug_elf_readiness/hello_write/code_map/hello_write.code_map.json",
@@ -451,7 +451,7 @@
     "addr2line": "GNU addr2line (GNU Binutils for Ubuntu) 2.42",
     "compiler": "riscv64-linux-gnu-gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
     "docker_service": "linux-behavior",
-    "qemu": "qemu-riscv64 version 8.2.2 (Debian 1:8.2.2+ds-0ubuntu1.16)",
+    "qemu": "qemu-riscv64 version 8.2.2 (Debian 1:8.2.2+ds-0ubuntu1.17)",
     "readelf": "GNU readelf (GNU Binutils for Ubuntu) 2.42",
     "strace": "strace -- version 6.8"
   },

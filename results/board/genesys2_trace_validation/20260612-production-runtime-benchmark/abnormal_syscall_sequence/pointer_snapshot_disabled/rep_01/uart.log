@@ -1,7 +1,0 @@
-RVMT_GENESYS2_RUNTIME_BENCH_UART port=COM7 baud=115200 sample=abnormal_syscall_sequence mode=pointer_snapshot_disabled rep=rep_01 start=2026-06-12T02:30:25+0800
-
-RVMT_SEND_RUNTIME_BENCH sample=abnormal_syscall_sequence mode=pointer_snapshot_disabled rep=rep_01
-> > > > > > # # # # # # RVMT_RUNTIME_BENCH_START sample=abnormal_syscall_sequence mode=pointer_snapshot_disabled rep=rep_01 ns=14515000000000
-# # # # RVMT_RUNTIME_BENCH_DONE sample=abnormal_syscall_sequence mode=pointer_snapshot_disabled rep=rep_01 rc=0 ns=14523000000000
-# # # 
-RVMT_GENESYS2_RUNTIME_BENCH_UART_DONE

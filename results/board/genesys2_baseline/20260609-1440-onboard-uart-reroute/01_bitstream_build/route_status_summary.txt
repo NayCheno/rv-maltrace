@@ -1,4 +1,0 @@
-# source=build/vivado/genesys2-cv64a6_imafdc_sv39/work-fpga/ariane_xilinx_route_status.rpt
-       # of routable nets..................... :      130576 :
-           # of fully routed nets............. :      130576 :
-       # of nets with routing errors.......... :           0 :

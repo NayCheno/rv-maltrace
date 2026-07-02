@@ -59,7 +59,7 @@
     "id": "benign_control_summary",
     "path": "results/evaluation/genesys2-cva6/current/benign_control_summary.json",
     "schema": "rvmt.genesys2.benign_control_summary.v1",
-    "sha256": "7256ece3a71e99b389be36e98ff2f06e86ecfbcb05587bfcef94f82e19269c34",
+    "sha256": "9657072a125ab73d2289049d14a8eeecc4d59f170eea858011e10bf58d15269b",
     "status": "PASS"
   },
   "local_linux_control_aggregate": {
@@ -151,7 +151,7 @@
           "exists": true,
           "id": "strace_log",
           "path": "build/benign_control/ls/host.strace.log",
-          "sha256": "a188e851873a9643d00e23842043e6f1a3b0731dd6a2fce1431a47804627beae"
+          "sha256": "72dc4f9d239187ebc113a976b450a5fa8513761649b3139a205f49ddf5a3fa31"
         },
         {
           "exists": true,
@@ -170,7 +170,7 @@
           "id": "semantic_events",
           "path": "build/benign_control/ls/semantic_events.json",
           "schema": "rvmt.behavior.semantic.v1",
-          "sha256": "8de5f9536a17d30ee8dd4e63be6e4f0ae9536a1f8f564e9a96742930cc523b3e",
+          "sha256": "887b530f0ac81d6f4d473e8338523fb406514724e2ccfb1deb74332d252040ea",
           "status": "DERIVED_SEMANTIC_EVENTS"
         },
         {
@@ -448,7 +448,7 @@
       "id": "latest_manifest",
       "path": "results/evaluation/genesys2-cva6/current/latest_manifest.json",
       "schema": "rvmt.genesys2.latest_manifest.v1",
-      "sha256": "3d9cdc6b6917118ebdcba5b738b0ee432b4af8cbdb1f3031d5e917c145e78d4e",
+      "sha256": "8d3036e6b8c9015c40cc098034e95388e260166e228154eab0201cf02416c822",
       "status": "PASS"
     },
     {
@@ -456,7 +456,7 @@
       "id": "trace_sink",
       "path": "results/evaluation/genesys2-cva6/current/trace_sink_summary.json",
       "schema": "rvmt.genesys2.bram_trace_sink.v1",
-      "sha256": "ecf226cbac00400c423dd636b6acaae3b5995b70bdd094ef4e76b5886f15359b",
+      "sha256": "0b2301ec1d619ec8bb9bcf08dc93e52d2367968160ff0e2669d1d73a992fe951",
       "status": "PASS"
     },
     {
@@ -464,7 +464,7 @@
       "id": "p0_bram_trace",
       "path": "results/evaluation/genesys2-cva6/current/p0_bram_trace_summary.json",
       "schema": "rvmt.genesys2.p0_bram_trace.v1",
-      "sha256": "ab4ca5875a92ae0c885c269e43b59214f6d9e049cac27a8f898b7508e7a99747",
+      "sha256": "8a4f39631f92fbc0d05e5ceee9f216c8b682b11b655ca6550333c695cd40fca7",
       "status": "PASS"
     },
     {
@@ -472,7 +472,7 @@
       "id": "safe_surrogate_bram_trace",
       "path": "results/evaluation/genesys2-cva6/current/safe_surrogate_bram_trace_summary.json",
       "schema": "rvmt.genesys2.safe_surrogate_bram_trace.v1",
-      "sha256": "774e966cefdf068f3b0785c984c59a2240080bde2d498feab4d1711312141cc7",
+      "sha256": "abac75a6d47d691644b78864429d3921057f7872f9a992a2db111d1baa05f67b",
       "status": "PASS"
     },
     {
@@ -480,7 +480,7 @@
       "id": "drop_accounting",
       "path": "results/evaluation/genesys2-cva6/current/drop_accounting_summary.json",
       "schema": "rvmt.trace_drop_accounting.v1",
-      "sha256": "0fdd718cbd091abac3e4d26436b7fed3510d4e5d778e59e370d6d4e5c05debbe",
+      "sha256": "cc194cb0be2e9ad289c8dfce6a16fca25e0a40503b8377ae5ed43bef8452ebb8",
       "status": "PASS"
     },
     {
@@ -488,7 +488,7 @@
       "id": "behavior_audit_metrics",
       "path": "results/evaluation/genesys2-cva6/current/behavior_audit_metrics.json",
       "schema": "rvmt.behavior_audit_metrics.v1",
-      "sha256": "b77dd561037330cf25893ed1438e4de2d0a4003edaa313d7ef309229d84bb1fc",
+      "sha256": "ea0377eece6526af1fe54dbcecebe4bbddab48d11b94fb01c212ca515cb3f74a",
       "status": "PASS"
     }
   ],

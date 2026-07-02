@@ -181,7 +181,7 @@
     "sample_id": "batch_open_read_write",
     "semantic_source": "trusted_qemu_guest_strace_companion",
     "syscall_precision": 1.0,
-    "trace_source": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort/batch_open_read_write/rep_01/bram_records.jsonl",
+    "trace_source": "results/board/genesys2_trace_validation/20260702-current-safe-surrogate-cohort/batch_open_read_write/rep_01/bram_records.jsonl",
     "write_buffer_prefix_recovered": true,
     "write_buffer_prefix_source": "host_or_control_strace",
     "write_buffer_prefixes": [
@@ -193,5 +193,5 @@
   "sample_id": "batch_open_read_write",
   "schema": "rvmt.sample.semantic_events.v1",
   "source_artifact": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/batch_open_read_write/behavior/semantic_events.json",
-  "trace_source": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort/batch_open_read_write/rep_01/bram_records.jsonl"
+  "trace_source": "results/board/genesys2_trace_validation/20260702-current-safe-surrogate-cohort/batch_open_read_write/rep_01/bram_records.jsonl"
 }

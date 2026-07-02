@@ -1,3 +1,0 @@
-[PASS] forbidden RETIRE: absent
-[PASS] required event present: TRAP
-[PASS] syscall write (0x40): entry count 1 >= 1

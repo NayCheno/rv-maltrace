@@ -1,7 +1,0 @@
-[PASS] forbidden RETIRE: absent
-[PASS] required event present: SYSCALL_ENTRY
-[PASS] required event present: SYSCALL_RET
-[PASS] required event present: PRIV
-[PASS] syscall clone (0xdc): entry count 1 >= 1
-[PASS] syscall execve (0xdd): entry count 1 >= 1
-[PASS] syscall wait4 (0x104): entry count 1 >= 1

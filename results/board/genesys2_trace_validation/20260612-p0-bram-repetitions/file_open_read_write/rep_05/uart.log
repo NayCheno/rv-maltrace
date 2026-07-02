@@ -1,6 +1,0 @@
-RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART port=COM7 baud=115200 start=2026-06-12T16:35:48+0800
-
-RVMT_SEND 'printf \'RVMT_P0_BRAM_START sample=file_open_read_write rep=rep_05\\n\'; /tmp/rvmt_p0/file_open_read_write; rc=$?; printf \'RVMT_P0_BRAM_DONE sample=file_open_read_write rep=rep_05 rc=%s\\n\' "$rc"'
-RVMT_P0_BRAM_START sample=file_open_read_write rep=rep_05
-
-RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART_DONE

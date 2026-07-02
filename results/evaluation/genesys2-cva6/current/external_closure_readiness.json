@@ -39,7 +39,7 @@
           "id": "source_line_toolchain_probe",
           "path": "results/evaluation/genesys2-cva6/current/source_line_toolchain_probe.json",
           "schema": "rvmt.genesys2.source_line_toolchain_probe.v1",
-          "sha256": "67cb78ef4d415b946fb02d52ed584c9a063bec58b47619815d03068930cc20bb",
+          "sha256": "0741e13748565757db67147604b44b0b78a121fb737aab080f4053db44dbc862",
           "status": "PASS"
         },
         {
@@ -47,7 +47,7 @@
           "id": "debug_elf_readiness_summary",
           "path": "results/evaluation/genesys2-cva6/current/debug_elf_readiness_summary.json",
           "schema": "rvmt.genesys2.debug_elf_readiness.v1",
-          "sha256": "d96cc9a1f1b6a17d98bd0aa9bcb12a1665041c5eeca459f006a65aa93bae9bfc",
+          "sha256": "9a5c98a3917985eafe932cdd372bec493a0408c109efc2e8b6146415d923a14c",
           "status": "PASS"
         },
         {
@@ -55,7 +55,7 @@
           "id": "source_line_attribution_summary",
           "path": "results/evaluation/genesys2-cva6/current/source_line_attribution_summary.json",
           "schema": "rvmt.source_line_attribution.v1",
-          "sha256": "717fa1bb7f372048f00a51278ed174a3cc70f568cde15519ccedf2796abfe18b",
+          "sha256": "f954a9ca0431ffa012902e2d4f39744be5ec564ee5d77968a35a7053687f6b0d",
           "status": "PASS"
         },
         {
@@ -206,7 +206,7 @@
           "id": "hardware_pointer_prefix_summary",
           "path": "results/evaluation/genesys2-cva6/current/hardware_pointer_prefix_summary.json",
           "schema": "rvmt.hardware_pointer_prefixes.v1",
-          "sha256": "ac9147537748f14af252fc6de3562e963f12e885bfd4b90e5ab961c76ae78196",
+          "sha256": "5b21fc62d352e56741f0b897dbf6e9ceea0c884770bd1f7331644c04a1706ac1",
           "status": "PASS"
         },
         {
@@ -214,7 +214,7 @@
           "id": "pointer_string_readiness",
           "path": "results/evaluation/genesys2-cva6/current/pointer_string_readiness_summary.json",
           "schema": "rvmt.genesys2.pointer_string_readiness.v1",
-          "sha256": "eeb3ca32d8cd96075dbcb8793d232c99ff578c046c8df5c8283efe7da51bdbe5",
+          "sha256": "966b676ea75e89f711f71e94b958abcd47d93996a4f7cd38fbd0fefddd5ec5b7",
           "status": "PASS"
         },
         {
@@ -222,7 +222,7 @@
           "id": "pointer_snapshot_guardrails",
           "path": "results/evaluation/genesys2-cva6/current/pointer_snapshot_guardrails.json",
           "schema": "rvmt.pointer_snapshot_guardrails.v1",
-          "sha256": "a01c91c047ceb434263f95c48db4d93dcd6344b7a4df299a8c479d853e2ad237",
+          "sha256": "605d879eb75142a39823e5c39449f9a0cb2f1910ffb20615fe3c37d5cf2ef3f2",
           "status": "PASS"
         },
         {
@@ -312,7 +312,7 @@
           "id": "trace_sink_summary",
           "path": "results/evaluation/genesys2-cva6/current/trace_sink_summary.json",
           "schema": "rvmt.genesys2.bram_trace_sink.v1",
-          "sha256": "ecf226cbac00400c423dd636b6acaae3b5995b70bdd094ef4e76b5886f15359b",
+          "sha256": "0b2301ec1d619ec8bb9bcf08dc93e52d2367968160ff0e2669d1d73a992fe951",
           "status": "PASS"
         },
         {
@@ -320,7 +320,7 @@
           "id": "drop_accounting_summary",
           "path": "results/evaluation/genesys2-cva6/current/drop_accounting_summary.json",
           "schema": "rvmt.trace_drop_accounting.v1",
-          "sha256": "0fdd718cbd091abac3e4d26436b7fed3510d4e5d778e59e370d6d4e5c05debbe",
+          "sha256": "cc194cb0be2e9ad289c8dfce6a16fca25e0a40503b8377ae5ed43bef8452ebb8",
           "status": "PASS"
         },
         {
@@ -328,7 +328,7 @@
           "id": "streaming_dma_target_summary",
           "path": "results/evaluation/genesys2-cva6/current/streaming_dma_target_summary.json",
           "schema": "rvmt.genesys2.streaming_dma_target.v1",
-          "sha256": "2cf7edb7679ff329e3a10ccfe35f3fbfd47443583ff6e6c3fe23fb59fd5956fa",
+          "sha256": "84cd03c8231b386346eab493831ebb73888641c68828ea2b3cd40dec321719bb",
           "status": "PASS"
         },
         {
@@ -336,7 +336,7 @@
           "id": "streaming_dma_readiness",
           "path": "results/evaluation/genesys2-cva6/current/streaming_dma_readiness_summary.json",
           "schema": "rvmt.genesys2.streaming_dma_readiness.v1",
-          "sha256": "151b4c54628f458694e5701660060d2402b7bd9e24269bab67470f28a9bcf606",
+          "sha256": "e8f69683fdf969bedd48cc07e86aac04c9c8567c110a49313e02e6794e99e6e8",
           "status": "PASS"
         },
         {
@@ -344,7 +344,7 @@
           "id": "production_runtime_benchmark",
           "path": "results/evaluation/genesys2-cva6/current/production_runtime_benchmark.json",
           "schema": "rvmt.genesys2.production_runtime_benchmark.v1",
-          "sha256": "c433123bd5e6a2d10c3158a4f67335e3a84f06554e8dc014dab08ac2c5c15f25",
+          "sha256": "cc437b66957fddd39042005a0beb4eb9c9df28c7ce8439e55e7d8612a393b8af",
           "status": "PASS"
         },
         {
@@ -404,7 +404,7 @@
           "id": "benign_control_summary",
           "path": "results/evaluation/genesys2-cva6/current/benign_control_summary.json",
           "schema": "rvmt.genesys2.benign_control_summary.v1",
-          "sha256": "7256ece3a71e99b389be36e98ff2f06e86ecfbcb05587bfcef94f82e19269c34",
+          "sha256": "9657072a125ab73d2289049d14a8eeecc4d59f170eea858011e10bf58d15269b",
           "status": "PASS"
         },
         {
@@ -412,7 +412,7 @@
           "id": "board_benign_readiness",
           "path": "results/evaluation/genesys2-cva6/current/board_benign_readiness_summary.json",
           "schema": "rvmt.genesys2.board_benign_readiness.v1",
-          "sha256": "2ef4647be03cdc2ac5cbaf1bcfcbeb93eb74c4557676577e73523e7e10742ffe",
+          "sha256": "d5222f40a6fbbb00377d0d7f6a132238c53d7834a2c13eb4fce108eb1ad5cfac",
           "status": "PASS"
         },
         {
@@ -420,7 +420,7 @@
           "id": "behavior_audit_metrics",
           "path": "results/evaluation/genesys2-cva6/current/behavior_audit_metrics.json",
           "schema": "rvmt.behavior_audit_metrics.v1",
-          "sha256": "b77dd561037330cf25893ed1438e4de2d0a4003edaa313d7ef309229d84bb1fc",
+          "sha256": "ea0377eece6526af1fe54dbcecebe4bbddab48d11b94fb01c212ca515cb3f74a",
           "status": "PASS"
         },
         {

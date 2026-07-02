@@ -9,13 +9,13 @@
     "real_malware_validation_claimed": false
   },
   "drop_accounting": {
-    "p0_bram_run_root": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret",
-    "safe_surrogate_bram_run_root": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort",
+    "p0_bram_run_root": "results/board/genesys2_trace_validation/20260702-current-p0-cohort",
+    "safe_surrogate_bram_run_root": "results/board/genesys2_trace_validation/20260702-current-safe-surrogate-cohort",
     "summary": {
       "exists": true,
       "path": "results/evaluation/genesys2-cva6/current/drop_accounting_summary.json",
-      "sha256": "0fdd718cbd091abac3e4d26436b7fed3510d4e5d778e59e370d6d4e5c05debbe",
-      "size_bytes": 182388
+      "sha256": "cc194cb0be2e9ad289c8dfce6a16fca25e0a40503b8377ae5ed43bef8452ebb8",
+      "size_bytes": 172013
     }
   },
   "non_claims": [
@@ -47,7 +47,7 @@
         "status": "PASS"
       },
       {
-        "attempt_count": 1,
+        "attempt_count": 2,
         "blocked_repetitions": 0,
         "max_drop_count": 0,
         "max_wrap_count": 0,
@@ -111,36 +111,36 @@
     "summary": {
       "exists": true,
       "path": "results/evaluation/genesys2-cva6/current/official_image_workload_summary.json",
-      "sha256": "5b2888363b051045f6f83ebbff2b09345d7f39f95b1ad6580633c74fc9fa6f6b",
-      "size_bytes": 30181
+      "sha256": "29705613be655caffafc6d9f62944f8403e56747f53c516c6ff5c77e87bb1e7e",
+      "size_bytes": 32331
     }
   },
   "p0_repeatability": {
     "sample_count": 4,
     "samples": [
       {
-        "attempt_count": 10,
-        "max_unaccounted_drop": 0,
-        "max_wrap_count": 0,
-        "pass_repetitions": 10,
+        "attempt_count": 15,
+        "max_unaccounted_drop": 3032,
+        "max_wrap_count": 3,
+        "pass_repetitions": 13,
         "sample_id": "hello_write",
         "source": "p0_bram_trace_summary",
         "status": "PASS"
       },
       {
-        "attempt_count": 12,
+        "attempt_count": 13,
         "max_unaccounted_drop": 1,
         "max_wrap_count": 0,
-        "pass_repetitions": 11,
+        "pass_repetitions": 12,
         "sample_id": "file_open_read_write",
         "source": "p0_bram_trace_summary",
         "status": "PASS"
       },
       {
-        "attempt_count": 30,
-        "max_unaccounted_drop": 3615,
+        "attempt_count": 20,
+        "max_unaccounted_drop": 3835,
         "max_wrap_count": 4,
-        "pass_repetitions": 17,
+        "pass_repetitions": 15,
         "sample_id": "fork_exec",
         "source": "p0_bram_trace_summary",
         "status": "PASS"
@@ -159,8 +159,8 @@
     "summary": {
       "exists": true,
       "path": "results/evaluation/genesys2-cva6/current/p0_bram_trace_summary.json",
-      "sha256": "ab4ca5875a92ae0c885c269e43b59214f6d9e049cac27a8f898b7508e7a99747",
-      "size_bytes": 457510
+      "sha256": "8a4f39631f92fbc0d05e5ceee9f216c8b682b11b655ca6550333c695cd40fca7",
+      "size_bytes": 379011
     }
   },
   "schema": "rvmt.genesys2.official_image_repeatability_drop_wrap.v1",

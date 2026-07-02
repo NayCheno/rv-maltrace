@@ -1,13 +1,13 @@
 {
   "evidence": {
-    "behavior_graph": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/behavior/behavior_graph.json",
-    "behavior_mapping": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/malware_analysis/behavior_mapping.json",
+    "behavior_graph": "results/evaluation/genesys2-cva6/current/samples/self_copy_sim/behavior_graph.json",
+    "behavior_mapping": "results/evaluation/genesys2-cva6/current/samples/self_copy_sim/behavior_mapping.json",
     "code_map": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/local_code_analysis/code_map.json",
-    "integrated_validation": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/integrated_validation.json",
-    "runtime_process_map": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map/self_copy_sim/runtime_process_map.json",
-    "semantic_events": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/behavior/semantic_events.json",
-    "source_attribution": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/self_copy_sim/local_code_analysis/source_attribution_summary.json",
-    "trace": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort/self_copy_sim/rep_01/bram_records.jsonl"
+    "integrated_validation": "results/evaluation/genesys2-cva6/current/samples/self_copy_sim/integrated_validation.json",
+    "runtime_process_map": "results/board/genesys2_trace_validation/20260702-current-safe-runtime-map/self_copy_sim/runtime_process_map.json",
+    "semantic_events": "results/evaluation/genesys2-cva6/current/samples/self_copy_sim/semantic_events.json",
+    "source_attribution": "results/evaluation/genesys2-cva6/current/source_line_attribution_summary.json",
+    "trace": "results/board/genesys2_trace_validation/20260702-current-safe-surrogate-cohort/self_copy_sim/rep_01/bram_records.jsonl"
   },
   "host_strace": {
     "execve_paths": [
@@ -15,12 +15,12 @@
     ],
     "fd_edges": [
       {
-        "line": "execve(\"results/demo/ccfa-safe-20260611/self_copy_sim/00_build/self_copy_sim.host\", [\"results/demo/ccfa-safe-20260611/\"...], 0x7fffca3e1bb8 /* 9 vars */) = 0",
+        "line": "execve(\"results/demo/ccfa-safe-20260611/self_copy_sim/00_build/self_copy_sim.host\", [\"results/demo/ccfa-safe-20260611/\"...], 0x7ffda25f4028 /* 9 vars */) = 0",
         "op": "execve",
         "path": "results/demo/ccfa-safe-20260611/self_copy_sim/00_build/self_copy_sim.host"
       },
       {
-        "line": "mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x73cdd4c16000",
+        "line": "mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x75bc1669f000",
         "op": "mmap"
       },
       {
@@ -30,7 +30,7 @@
         "path": "/etc/ld.so.cache"
       },
       {
-        "line": "mmap(NULL, 12899, PROT_READ, MAP_PRIVATE, 3, 0) = 0x73cdd4c12000",
+        "line": "mmap(NULL, 13959, PROT_READ, MAP_PRIVATE, 3, 0) = 0x75bc1669b000",
         "op": "mmap"
       },
       {
@@ -52,23 +52,23 @@
         "path": "/lib/x86_64-linux-gnu/libc.so.6"
       },
       {
-        "line": "mmap(NULL, 2170256, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x73cdd4a00000",
+        "line": "mmap(NULL, 2170256, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x75bc16489000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x73cdd4a28000, 1605632, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x73cdd4a28000",
+        "line": "mmap(0x75bc164b1000, 1605632, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x75bc164b1000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x73cdd4bb0000, 323584, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b0000) = 0x73cdd4bb0000",
+        "line": "mmap(0x75bc16639000, 323584, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b0000) = 0x75bc16639000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x73cdd4bff000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1fe000) = 0x73cdd4bff000",
+        "line": "mmap(0x75bc16688000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1fe000) = 0x75bc16688000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x73cdd4c05000, 52624, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x73cdd4c05000",
+        "line": "mmap(0x75bc1668e000, 52624, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x75bc1668e000",
         "op": "mmap"
       },
       {
@@ -78,23 +78,23 @@
         "path": "/lib/x86_64-linux-gnu/libc.so.6"
       },
       {
-        "line": "mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x73cdd49fd000",
+        "line": "mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x75bc16486000",
         "op": "mmap"
       },
       {
-        "line": "mprotect(0x73cdd4bff000, 16384, PROT_READ) = 0",
+        "line": "mprotect(0x75bc16688000, 16384, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "mprotect(0x59b8c8da0000, 4096, PROT_READ) = 0",
+        "line": "mprotect(0x62a8bf370000, 4096, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "mprotect(0x73cdd4c4e000, 8192, PROT_READ) = 0",
+        "line": "mprotect(0x75bc166d7000, 8192, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "munmap(0x73cdd4c12000, 12899)     = 0",
+        "line": "munmap(0x75bc1669b000, 13959)     = 0",
         "op": "munmap"
       },
       {

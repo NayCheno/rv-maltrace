@@ -12,7 +12,7 @@
     },
     "run_log": {
       "path": "results/board/genesys2_trace_validation/20260623-cycle-counter-smoke/uart.log",
-      "sha256": "4d54e8566a2e0e846035dcdf74479787d9cfdcdef54cbf0d53ffa150b6ae4cc8",
+      "sha256": "d8a4c656032c1cbe823035961361dd92aca0ff9d71d65ddb8540e52e9ef9158f",
       "size_bytes": 1870
     },
     "source": {
@@ -22,7 +22,7 @@
     },
     "transfer_log": {
       "path": "results/board/genesys2_trace_validation/20260623-cycle-counter-smoke/transfer.log",
-      "sha256": "b3ec915c5c578673886b6847ecd119b63fd4c5513dd5cff816fedd294d1564b2",
+      "sha256": "a1c9ebd4644b097798273b88aaafd5662ea5e64c9cdafdc477b7654d761105f3",
       "size_bytes": 1134
     }
   },

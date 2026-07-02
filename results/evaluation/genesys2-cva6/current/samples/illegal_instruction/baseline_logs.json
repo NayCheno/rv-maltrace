@@ -1,26 +1,26 @@
 {
   "evidence": {
-    "behavior_graph": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/04_illegal_instruction/behavior_graph.json",
-    "behavior_mapping": "DERIVED_CURRENT_SAMPLE_ARTIFACT",
-    "code_map": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/04_illegal_instruction/trace_code_map/code_map.json",
-    "integrated_validation": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/04_illegal_instruction/integrated_validation.json",
-    "runtime_process_map": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/04_illegal_instruction/runtime_process_map.json",
-    "semantic_events": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/04_illegal_instruction/semantic_events.json",
-    "source_attribution": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/04_illegal_instruction/trace_code_map/source_attribution_summary.json",
-    "trace": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/04_illegal_instruction/trace.jsonl"
+    "behavior_graph": "results/evaluation/genesys2-cva6/current/samples/illegal_instruction/behavior_graph.json",
+    "behavior_mapping": "results/evaluation/genesys2-cva6/current/samples/illegal_instruction/behavior_mapping.json",
+    "code_map": "results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/04_illegal_instruction/trace_code_map/code_map.json",
+    "integrated_validation": "results/evaluation/genesys2-cva6/current/samples/illegal_instruction/integrated_validation.json",
+    "runtime_process_map": "results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/04_illegal_instruction/runtime_process_map.json",
+    "semantic_events": "results/evaluation/genesys2-cva6/current/samples/illegal_instruction/semantic_events.json",
+    "source_attribution": "results/evaluation/genesys2-cva6/current/source_line_attribution_summary.json",
+    "trace": "results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/04_illegal_instruction/trace.jsonl"
   },
   "host_strace": {
     "execve_paths": [
-      "results/demo/ccfa-p0-20260611/illegal_instruction/00_build/illegal_instruction.host_control"
+      "results/demo/ccfa-p0-20260611/illegal_instruction/00_build/illegal_instruction.host"
     ],
     "fd_edges": [
       {
-        "line": "execve(\"results/demo/ccfa-p0-20260611/illegal_instruction/00_build/illegal_instruction.host_control\", [\"results/demo/ccfa-p0-20260611/il\"...], 0x7fff70a27650 /* 9 vars */) = 0",
+        "line": "execve(\"results/demo/ccfa-p0-20260611/illegal_instruction/00_build/illegal_instruction.host\", [\"results/demo/ccfa-p0-20260611/il\"...], 0x7ffc393c0688 /* 9 vars */) = 0",
         "op": "execve",
-        "path": "results/demo/ccfa-p0-20260611/illegal_instruction/00_build/illegal_instruction.host_control"
+        "path": "results/demo/ccfa-p0-20260611/illegal_instruction/00_build/illegal_instruction.host"
       },
       {
-        "line": "mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x78dbffaab000",
+        "line": "mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7b33b15e4000",
         "op": "mmap"
       },
       {
@@ -30,7 +30,7 @@
         "path": "/etc/ld.so.cache"
       },
       {
-        "line": "mmap(NULL, 12899, PROT_READ, MAP_PRIVATE, 3, 0) = 0x78dbffaa7000",
+        "line": "mmap(NULL, 13959, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7b33b15e0000",
         "op": "mmap"
       },
       {
@@ -52,23 +52,23 @@
         "path": "/lib/x86_64-linux-gnu/libc.so.6"
       },
       {
-        "line": "mmap(NULL, 2170256, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x78dbff895000",
+        "line": "mmap(NULL, 2170256, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7b33b13ce000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x78dbff8bd000, 1605632, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x78dbff8bd000",
+        "line": "mmap(0x7b33b13f6000, 1605632, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x7b33b13f6000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x78dbffa45000, 323584, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b0000) = 0x78dbffa45000",
+        "line": "mmap(0x7b33b157e000, 323584, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b0000) = 0x7b33b157e000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x78dbffa94000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1fe000) = 0x78dbffa94000",
+        "line": "mmap(0x7b33b15cd000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1fe000) = 0x7b33b15cd000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x78dbffa9a000, 52624, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x78dbffa9a000",
+        "line": "mmap(0x7b33b15d3000, 52624, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7b33b15d3000",
         "op": "mmap"
       },
       {
@@ -78,23 +78,23 @@
         "path": "/lib/x86_64-linux-gnu/libc.so.6"
       },
       {
-        "line": "mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x78dbff892000",
+        "line": "mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7b33b13cb000",
         "op": "mmap"
       },
       {
-        "line": "mprotect(0x78dbffa94000, 16384, PROT_READ) = 0",
+        "line": "mprotect(0x7b33b15cd000, 16384, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "mprotect(0x403000, 4096, PROT_READ) = 0",
+        "line": "mprotect(0x59481e9dd000, 4096, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "mprotect(0x78dbffae3000, 8192, PROT_READ) = 0",
+        "line": "mprotect(0x7b33b161c000, 8192, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "munmap(0x78dbffaa7000, 12899)     = 0",
+        "line": "munmap(0x7b33b15e0000, 13959)     = 0",
         "op": "munmap"
       },
       {
@@ -104,7 +104,7 @@
         "path": "<stdout>"
       }
     ],
-    "line_count": 33,
+    "line_count": 34,
     "openat_paths": [
       "/etc/ld.so.cache",
       "/lib/x86_64-linux-gnu/libc.so.6"
@@ -112,7 +112,7 @@
     "path": "results/demo/ccfa-p0-20260611/illegal_instruction/01_ground_truth/host_control.strace.log",
     "present": true,
     "signals": [
-      "55    --- SIGILL {si_signo=SIGILL, si_code=ILL_ILLOPN, si_addr=0x401249} ---"
+      "114   --- SIGILL {si_signo=SIGILL, si_code=ILL_ILLOPN, si_addr=0x59481e9db12f} ---"
     ],
     "syscalls": {
       "access": 1,
@@ -144,22 +144,33 @@
     "execve_paths": [],
     "fd_edges": [
       {
+        "line": "mprotect(0x000000000007e000,16384,PROT_READ) = 0",
+        "op": "mprotect"
+      },
+      {
         "fd": 1,
-        "line": "write(1,0x10210,17) = 17",
+        "line": "write(1,0x52d18,14) = 14",
         "op": "write",
         "path": "<stdout>"
       }
     ],
-    "line_count": 6,
+    "line_count": 15,
     "openat_paths": [],
     "path": "results/demo/ccfa-p0-20260611/illegal_instruction/01_ground_truth/qemu-riscv64.strace.log",
     "present": true,
     "signals": [
-      "--- SIGILL {si_signo=SIGILL, si_code=1, si_addr=0x0000000000010148} ---"
+      "--- SIGILL {si_signo=SIGILL, si_code=1, si_addr=0x00000000000104c4} ---"
     ],
     "syscalls": {
-      "exit": 1,
+      "brk": 5,
+      "exit_group": 1,
+      "getrandom": 1,
+      "mprotect": 1,
+      "prlimit64": 1,
+      "readlinkat": 1,
       "rt_sigaction": 1,
+      "set_robust_list": 1,
+      "set_tid_address": 1,
       "write": 1
     },
     "unresolved_fd_count": 0,

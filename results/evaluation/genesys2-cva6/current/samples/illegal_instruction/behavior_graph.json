@@ -13,5 +13,5 @@
   "sample_class": "p0_safe_synthetic",
   "sample_id": "illegal_instruction",
   "schema": "rvmt.sample.behavior_graph.v1",
-  "source_artifact": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/04_illegal_instruction/behavior_graph.json"
+  "source_artifact": "results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/04_illegal_instruction/behavior_graph.json"
 }

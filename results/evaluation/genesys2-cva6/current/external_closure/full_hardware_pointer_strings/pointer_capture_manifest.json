@@ -1,5 +1,10 @@
 {
-  "failed_attempts": [],
+  "failed_attempts": [
+    "file_scan: accepted repetitions 0 < 10",
+    "batch_open_read_write: accepted repetitions 0 < 10",
+    "process_chain: accepted repetitions 0 < 10",
+    "resource_timing_report: missing production bitstream resource/timing report"
+  ],
   "required_reps_per_sample": 10,
   "required_samples": [
     "file_scan",
@@ -9,23 +14,23 @@
   "run_root": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings",
   "samples": [
     {
-      "accepted_repetitions": 10,
+      "accepted_repetitions": 0,
       "id": "file_scan",
-      "pointer_group_count": 10,
+      "pointer_group_count": 0,
       "required_repetitions": 10,
       "sample_dir": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/file_scan"
     },
     {
-      "accepted_repetitions": 10,
+      "accepted_repetitions": 0,
       "id": "batch_open_read_write",
-      "pointer_group_count": 29,
+      "pointer_group_count": 0,
       "required_repetitions": 10,
       "sample_dir": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/batch_open_read_write"
     },
     {
-      "accepted_repetitions": 10,
+      "accepted_repetitions": 0,
       "id": "process_chain",
-      "pointer_group_count": 13,
+      "pointer_group_count": 0,
       "required_repetitions": 10,
       "sample_dir": "results/board/genesys2_trace_validation/20260613-v3-full-pointer-strings/process_chain"
     }

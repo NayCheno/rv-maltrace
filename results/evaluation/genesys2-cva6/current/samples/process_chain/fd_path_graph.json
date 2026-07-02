@@ -5,11 +5,11 @@
       "op": "mprotect"
     },
     {
-      "line": "clone(0x11,child_stack=0x0000000000000000,parent_tidptr=0x0000000000000000,tls=0x0000000000000000,child_tidptr=0x0000000000000000) = 35",
+      "line": "clone(0x11,child_stack=0x0000000000000000,parent_tidptr=0x0000000000000000,tls=0x0000000000000000,child_tidptr=0x0000000000000000) =  = 035",
       "op": "clone"
     },
     {
-      "line": "waitid(0x1,35,0x2aaaab2aba58,0x4)",
+      "line": "waitid(0x1,35,0x2aaaab2aba58,0x4)35",
       "op": "waitid"
     },
     {
@@ -18,11 +18,11 @@
       "path": "/bin/true"
     },
     {
-      "line": "clone(0x11,child_stack=0x0000000000000000,parent_tidptr=0x0000000000000000,tls=0x0000000000000000,child_tidptr=0x0000000000000000) = 37",
+      "line": "clone(0x11,child_stack=0x0000000000000000,parent_tidptr=0x0000000000000000,tls=0x0000000000000000,child_tidptr=0x0000000000000000) =  = 037",
       "op": "clone"
     },
     {
-      "line": "waitid(0x1,37,0x2aaaab2aba58,0x4)",
+      "line": "waitid(0x1,37,0x2aaaab2aba58,0x4)37",
       "op": "waitid"
     }
   ],
@@ -37,11 +37,11 @@
           "op": "mprotect"
         },
         {
-          "line": "clone(0x11,child_stack=0x0000000000000000,parent_tidptr=0x0000000000000000,tls=0x0000000000000000,child_tidptr=0x0000000000000000) = 35",
+          "line": "clone(0x11,child_stack=0x0000000000000000,parent_tidptr=0x0000000000000000,tls=0x0000000000000000,child_tidptr=0x0000000000000000) =  = 035",
           "op": "clone"
         },
         {
-          "line": "waitid(0x1,35,0x2aaaab2aba58,0x4)",
+          "line": "waitid(0x1,35,0x2aaaab2aba58,0x4)35",
           "op": "waitid"
         },
         {
@@ -50,11 +50,11 @@
           "path": "/bin/true"
         },
         {
-          "line": "clone(0x11,child_stack=0x0000000000000000,parent_tidptr=0x0000000000000000,tls=0x0000000000000000,child_tidptr=0x0000000000000000) = 37",
+          "line": "clone(0x11,child_stack=0x0000000000000000,parent_tidptr=0x0000000000000000,tls=0x0000000000000000,child_tidptr=0x0000000000000000) =  = 037",
           "op": "clone"
         },
         {
-          "line": "waitid(0x1,37,0x2aaaab2aba58,0x4)",
+          "line": "waitid(0x1,37,0x2aaaab2aba58,0x4)37",
           "op": "waitid"
         }
       ],

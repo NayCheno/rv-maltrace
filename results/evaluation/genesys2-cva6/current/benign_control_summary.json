@@ -17,8 +17,8 @@
   "docker": {
     "returncode": 0,
     "stderr_tail": [
-      " Container rv-maltrace-linux-behavior-run-ab15f3bf3c3b Creating ",
-      " Container rv-maltrace-linux-behavior-run-ab15f3bf3c3b Created "
+      " Container rv-maltrace-linux-behavior-run-08548781912d Creating ",
+      " Container rv-maltrace-linux-behavior-run-08548781912d Created "
     ],
     "stdout_tail": []
   },

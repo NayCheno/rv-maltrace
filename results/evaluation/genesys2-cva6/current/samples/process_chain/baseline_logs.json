@@ -1,13 +1,13 @@
 {
   "evidence": {
-    "behavior_graph": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/behavior/behavior_graph.json",
-    "behavior_mapping": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/malware_analysis/behavior_mapping.json",
+    "behavior_graph": "results/evaluation/genesys2-cva6/current/samples/process_chain/behavior_graph.json",
+    "behavior_mapping": "results/evaluation/genesys2-cva6/current/samples/process_chain/behavior_mapping.json",
     "code_map": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/local_code_analysis/code_map.json",
-    "integrated_validation": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/integrated_validation.json",
-    "runtime_process_map": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map/process_chain/runtime_process_map.json",
-    "semantic_events": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/behavior/semantic_events.json",
-    "source_attribution": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/process_chain/local_code_analysis/source_attribution_summary.json",
-    "trace": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort/process_chain/rep_01/bram_records.jsonl"
+    "integrated_validation": "results/evaluation/genesys2-cva6/current/samples/process_chain/integrated_validation.json",
+    "runtime_process_map": "results/board/genesys2_trace_validation/20260702-current-safe-runtime-map/process_chain/runtime_process_map.json",
+    "semantic_events": "results/evaluation/genesys2-cva6/current/samples/process_chain/semantic_events.json",
+    "source_attribution": "results/evaluation/genesys2-cva6/current/source_line_attribution_summary.json",
+    "trace": "results/board/genesys2_trace_validation/20260702-current-safe-surrogate-cohort/process_chain/rep_01/bram_records.jsonl"
   },
   "host_strace": {
     "execve_paths": [
@@ -16,12 +16,12 @@
     ],
     "fd_edges": [
       {
-        "line": "execve(\"results/demo/ccfa-safe-20260611/process_chain/00_build/process_chain.host\", [\"results/demo/ccfa-safe-20260611/\"...], 0x7ffe37909918 /* 9 vars */) = 0",
+        "line": "execve(\"results/demo/ccfa-safe-20260611/process_chain/00_build/process_chain.host\", [\"results/demo/ccfa-safe-20260611/\"...], 0x7ffedf595268 /* 9 vars */) = 0",
         "op": "execve",
         "path": "results/demo/ccfa-safe-20260611/process_chain/00_build/process_chain.host"
       },
       {
-        "line": "mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7b917f3a9000",
+        "line": "mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x77abc81fa000",
         "op": "mmap"
       },
       {
@@ -31,7 +31,7 @@
         "path": "/etc/ld.so.cache"
       },
       {
-        "line": "mmap(NULL, 12899, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7b917f3a5000",
+        "line": "mmap(NULL, 13959, PROT_READ, MAP_PRIVATE, 3, 0) = 0x77abc81f6000",
         "op": "mmap"
       },
       {
@@ -53,23 +53,23 @@
         "path": "/lib/x86_64-linux-gnu/libc.so.6"
       },
       {
-        "line": "mmap(NULL, 2170256, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7b917f193000",
+        "line": "mmap(NULL, 2170256, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x77abc7fe4000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x7b917f1bb000, 1605632, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x7b917f1bb000",
+        "line": "mmap(0x77abc800c000, 1605632, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x77abc800c000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x7b917f343000, 323584, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b0000) = 0x7b917f343000",
+        "line": "mmap(0x77abc8194000, 323584, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b0000) = 0x77abc8194000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x7b917f392000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1fe000) = 0x7b917f392000",
+        "line": "mmap(0x77abc81e3000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1fe000) = 0x77abc81e3000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x7b917f398000, 52624, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7b917f398000",
+        "line": "mmap(0x77abc81e9000, 52624, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x77abc81e9000",
         "op": "mmap"
       },
       {
@@ -79,23 +79,23 @@
         "path": "/lib/x86_64-linux-gnu/libc.so.6"
       },
       {
-        "line": "mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7b917f190000",
+        "line": "mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x77abc7fe1000",
         "op": "mmap"
       },
       {
-        "line": "mprotect(0x7b917f392000, 16384, PROT_READ) = 0",
+        "line": "mprotect(0x77abc81e3000, 16384, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "mprotect(0x61119d00c000, 4096, PROT_READ) = 0",
+        "line": "mprotect(0x640010072000, 4096, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "mprotect(0x7b917f3e1000, 8192, PROT_READ) = 0",
+        "line": "mprotect(0x77abc8232000, 8192, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "munmap(0x7b917f3a5000, 12899)     = 0",
+        "line": "munmap(0x77abc81f6000, 13959)     = 0",
         "op": "munmap"
       },
       {
@@ -103,7 +103,7 @@
         "op": "clone"
       },
       {
-        "line": "execve(\"/bin/true\", [\"/bin/true\"], 0x7ffe60b7f738 /* 9 vars */ <unfinished ...>",
+        "line": "execve(\"/bin/true\", [\"/bin/true\"], 0x7fff93e8dcb8 /* 9 vars */ <unfinished ...>",
         "op": "execve",
         "path": "/bin/true"
       },
@@ -112,7 +112,7 @@
         "op": "waitid"
       },
       {
-        "line": "mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x74a4a88ee000",
+        "line": "mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7a4ff7e27000",
         "op": "mmap"
       },
       {
@@ -122,7 +122,7 @@
         "path": "/etc/ld.so.cache"
       },
       {
-        "line": "mmap(NULL, 12899, PROT_READ, MAP_PRIVATE, 3, 0) = 0x74a4a88ea000",
+        "line": "mmap(NULL, 13959, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7a4ff7e23000",
         "op": "mmap"
       },
       {
@@ -144,23 +144,23 @@
         "path": "/lib/x86_64-linux-gnu/libc.so.6"
       },
       {
-        "line": "mmap(NULL, 2170256, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x74a4a86d8000",
+        "line": "mmap(NULL, 2170256, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7a4ff7c11000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x74a4a8700000, 1605632, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x74a4a8700000",
+        "line": "mmap(0x7a4ff7c39000, 1605632, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x7a4ff7c39000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x74a4a8888000, 323584, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b0000) = 0x74a4a8888000",
+        "line": "mmap(0x7a4ff7dc1000, 323584, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b0000) = 0x7a4ff7dc1000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x74a4a88d7000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1fe000) = 0x74a4a88d7000",
+        "line": "mmap(0x7a4ff7e10000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1fe000) = 0x7a4ff7e10000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x74a4a88dd000, 52624, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x74a4a88dd000",
+        "line": "mmap(0x7a4ff7e16000, 52624, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7a4ff7e16000",
         "op": "mmap"
       },
       {
@@ -170,23 +170,23 @@
         "path": "/lib/x86_64-linux-gnu/libc.so.6"
       },
       {
-        "line": "mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x74a4a86d5000",
+        "line": "mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7a4ff7c0e000",
         "op": "mmap"
       },
       {
-        "line": "mprotect(0x74a4a88d7000, 16384, PROT_READ) = 0",
+        "line": "mprotect(0x7a4ff7e10000, 16384, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "mprotect(0x62f91acfa000, 4096, PROT_READ) = 0",
+        "line": "mprotect(0x643721398000, 4096, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "mprotect(0x74a4a8926000, 8192, PROT_READ) = 0",
+        "line": "mprotect(0x7a4ff7e5f000, 8192, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "munmap(0x74a4a88ea000, 12899)     = 0",
+        "line": "munmap(0x7a4ff7e23000, 13959)     = 0",
         "op": "munmap"
       },
       {
@@ -194,7 +194,7 @@
         "op": "clone"
       },
       {
-        "line": "execve(\"/bin/true\", [\"/bin/true\"], 0x7ffe60b7f738 /* 9 vars */ <unfinished ...>",
+        "line": "execve(\"/bin/true\", [\"/bin/true\"], 0x7fff93e8dcb8 /* 9 vars */ <unfinished ...>",
         "op": "execve",
         "path": "/bin/true"
       },
@@ -203,7 +203,7 @@
         "op": "waitid"
       },
       {
-        "line": "mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x79b545669000",
+        "line": "mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x772a1be0d000",
         "op": "mmap"
       },
       {
@@ -213,7 +213,7 @@
         "path": "/etc/ld.so.cache"
       },
       {
-        "line": "mmap(NULL, 12899, PROT_READ, MAP_PRIVATE, 3, 0) = 0x79b545665000",
+        "line": "mmap(NULL, 13959, PROT_READ, MAP_PRIVATE, 3, 0) = 0x772a1be09000",
         "op": "mmap"
       },
       {
@@ -235,23 +235,23 @@
         "path": "/lib/x86_64-linux-gnu/libc.so.6"
       },
       {
-        "line": "mmap(NULL, 2170256, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x79b545453000",
+        "line": "mmap(NULL, 2170256, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x772a1bbf7000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x79b54547b000, 1605632, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x79b54547b000",
+        "line": "mmap(0x772a1bc1f000, 1605632, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x772a1bc1f000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x79b545603000, 323584, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b0000) = 0x79b545603000",
+        "line": "mmap(0x772a1bda7000, 323584, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b0000) = 0x772a1bda7000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x79b545652000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1fe000) = 0x79b545652000",
+        "line": "mmap(0x772a1bdf6000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1fe000) = 0x772a1bdf6000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x79b545658000, 52624, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x79b545658000",
+        "line": "mmap(0x772a1bdfc000, 52624, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x772a1bdfc000",
         "op": "mmap"
       },
       {
@@ -261,23 +261,23 @@
         "path": "/lib/x86_64-linux-gnu/libc.so.6"
       },
       {
-        "line": "mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x79b545450000",
+        "line": "mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x772a1bbf4000",
         "op": "mmap"
       },
       {
-        "line": "mprotect(0x79b545652000, 16384, PROT_READ) = 0",
+        "line": "mprotect(0x772a1bdf6000, 16384, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "mprotect(0x5777d4bd8000, 4096, PROT_READ) = 0",
+        "line": "mprotect(0x5dcde7937000, 4096, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "mprotect(0x79b5456a1000, 8192, PROT_READ) = 0",
+        "line": "mprotect(0x772a1be45000, 8192, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "munmap(0x79b545665000, 12899)     = 0",
+        "line": "munmap(0x772a1be09000, 13959)     = 0",
         "op": "munmap"
       }
     ],
@@ -326,11 +326,11 @@
         "op": "mprotect"
       },
       {
-        "line": "clone(0x11,child_stack=0x0000000000000000,parent_tidptr=0x0000000000000000,tls=0x0000000000000000,child_tidptr=0x0000000000000000) = 35",
+        "line": "clone(0x11,child_stack=0x0000000000000000,parent_tidptr=0x0000000000000000,tls=0x0000000000000000,child_tidptr=0x0000000000000000) =  = 035",
         "op": "clone"
       },
       {
-        "line": "waitid(0x1,35,0x2aaaab2aba58,0x4)",
+        "line": "waitid(0x1,35,0x2aaaab2aba58,0x4)35",
         "op": "waitid"
       },
       {
@@ -339,11 +339,11 @@
         "path": "/bin/true"
       },
       {
-        "line": "clone(0x11,child_stack=0x0000000000000000,parent_tidptr=0x0000000000000000,tls=0x0000000000000000,child_tidptr=0x0000000000000000) = 37",
+        "line": "clone(0x11,child_stack=0x0000000000000000,parent_tidptr=0x0000000000000000,tls=0x0000000000000000,child_tidptr=0x0000000000000000) =  = 037",
         "op": "clone"
       },
       {
-        "line": "waitid(0x1,37,0x2aaaab2aba58,0x4)",
+        "line": "waitid(0x1,37,0x2aaaab2aba58,0x4)37",
         "op": "waitid"
       },
       {

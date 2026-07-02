@@ -11,8 +11,12 @@
       "graph": {
         "edges": [
           {
+            "line": "mprotect(0x000000000007e000,16384,PROT_READ) = 0",
+            "op": "mprotect"
+          },
+          {
             "fd": 1,
-            "line": "write(1,0x10170,20) = 20",
+            "line": "write(1,0x52ca8,18) = 18",
             "op": "write",
             "path": "<stdout>"
           }
@@ -34,44 +38,48 @@
       "graph": {
         "edges": [
           {
-            "fd": 3,
-            "line": "openat(AT_FDCWD,\"/tmp/rvmt_p0_file_open_read_write.txt\",O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC,0644) = 3",
-            "op": "openat",
-            "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+            "line": "mprotect(0x000000000007e000,16384,PROT_READ) = 0",
+            "op": "mprotect"
           },
           {
             "fd": 3,
-            "line": "write(3,0x10248,24) = 24",
+            "line": "openat(AT_FDCWD,\"/tmp/rvmt_trace_validation_input.txt\",O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC,0644) = 3",
+            "op": "openat",
+            "path": "/tmp/rvmt_trace_validation_input.txt"
+          },
+          {
+            "fd": 3,
+            "line": "write(3,0x52db0,28) = 28",
             "op": "write",
-            "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+            "path": "/tmp/rvmt_trace_validation_input.txt"
           },
           {
             "fd": 3,
             "line": "close(3) = 0",
             "op": "close",
-            "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+            "path": "/tmp/rvmt_trace_validation_input.txt"
           },
           {
             "fd": 3,
-            "line": "openat(AT_FDCWD,\"/tmp/rvmt_p0_file_open_read_write.txt\",O_RDONLY|O_CLOEXEC) = 3",
+            "line": "openat(AT_FDCWD,\"/tmp/rvmt_trace_validation_input.txt\",O_RDONLY|O_CLOEXEC) = 3",
             "op": "openat",
-            "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+            "path": "/tmp/rvmt_trace_validation_input.txt"
           },
           {
             "fd": 3,
-            "line": "read(3,0x12000,128) = 24",
+            "line": "read(3,0xab2aba58,128) = 28",
             "op": "read",
-            "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+            "path": "/tmp/rvmt_trace_validation_input.txt"
           },
           {
             "fd": 1,
-            "line": "write(1,0x12000,24) = 24",
+            "line": "write(1,0xab2aba58,28) = 28",
             "op": "write",
             "path": "<stdout>"
           }
         ],
         "nodes": [
-          "/tmp/rvmt_p0_file_open_read_write.txt"
+          "/tmp/rvmt_trace_validation_input.txt"
         ],
         "unresolved_fd_count_observed_in_raw_parse": 0
       },
@@ -89,15 +97,19 @@
       "graph": {
         "edges": [
           {
-            "line": "clone(0x11,child_stack=0x0000000000000000,parent_tidptr=0x0000000000000000,tls=0x0000000000000000,child_tidptr=0x0000000000000000) = 18 =",
+            "line": "mprotect(0x000000000007e000,16384,PROT_READ) = 0",
+            "op": "mprotect"
+          },
+          {
+            "line": "clone(0x11,child_stack=0x0000000000000000,parent_tidptr=0x0000000000000000,tls=0x0000000000000000,child_tidptr=0x0000000000000000) =  = 091",
             "op": "clone"
           },
           {
-            "line": "wait4(18,0x12080,0,(nil))18",
+            "line": "wait4(91,0x2aaaab2abaf4,0,(nil))91",
             "op": "wait4"
           },
           {
-            "line": "execve(\"/bin/true\",{\"/bin/true\",NULL}) = 18",
+            "line": "execve(\"/bin/true\",{\"/bin/true\",NULL}) = 91",
             "op": "execve",
             "path": "/bin/true"
           }
@@ -121,8 +133,12 @@
       "graph": {
         "edges": [
           {
+            "line": "mprotect(0x000000000007e000,16384,PROT_READ) = 0",
+            "op": "mprotect"
+          },
+          {
             "fd": 1,
-            "line": "write(1,0x10210,17) = 17",
+            "line": "write(1,0x52d18,14) = 14",
             "op": "write",
             "path": "<stdout>"
           }
@@ -420,11 +436,11 @@
             "op": "mprotect"
           },
           {
-            "line": "clone(0x11,child_stack=0x0000000000000000,parent_tidptr=0x0000000000000000,tls=0x0000000000000000,child_tidptr=0x0000000000000000) = 35",
+            "line": "clone(0x11,child_stack=0x0000000000000000,parent_tidptr=0x0000000000000000,tls=0x0000000000000000,child_tidptr=0x0000000000000000) =  = 035",
             "op": "clone"
           },
           {
-            "line": "waitid(0x1,35,0x2aaaab2aba58,0x4)",
+            "line": "waitid(0x1,35,0x2aaaab2aba58,0x4)35",
             "op": "waitid"
           },
           {
@@ -433,11 +449,11 @@
             "path": "/bin/true"
           },
           {
-            "line": "clone(0x11,child_stack=0x0000000000000000,parent_tidptr=0x0000000000000000,tls=0x0000000000000000,child_tidptr=0x0000000000000000) = 37",
+            "line": "clone(0x11,child_stack=0x0000000000000000,parent_tidptr=0x0000000000000000,tls=0x0000000000000000,child_tidptr=0x0000000000000000) =  = 037",
             "op": "clone"
           },
           {
-            "line": "waitid(0x1,37,0x2aaaab2aba58,0x4)",
+            "line": "waitid(0x1,37,0x2aaaab2aba58,0x4)37",
             "op": "waitid"
           }
         ],
@@ -501,7 +517,7 @@
             "op": "mprotect"
           },
           {
-            "line": "clock_gettime(CLOCK_MONOTONIC,0x00002aaaab2ab9c8) = 0 ({tv_sec = 147504,tv_nsec = 571170473})",
+            "line": "clock_gettime(CLOCK_MONOTONIC,0x00002aaaab2ab9c8) = 0 ({tv_sec = 1560768,tv_nsec = 210983076})",
             "op": "clock_gettime"
           },
           {
@@ -527,7 +543,7 @@
             "path": "/proc/self/status"
           },
           {
-            "line": "clock_gettime(CLOCK_MONOTONIC,0x00002aaaab2ab9d8) = 0 ({tv_sec = 147504,tv_nsec = 577860036})",
+            "line": "clock_gettime(CLOCK_MONOTONIC,0x00002aaaab2ab9d8) = 0 ({tv_sec = 1560768,tv_nsec = 216440259})",
             "op": "clock_gettime"
           }
         ],

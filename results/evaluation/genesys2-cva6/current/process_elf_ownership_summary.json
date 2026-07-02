@@ -2,147 +2,171 @@
   "samples": [
     {
       "child_process_target_attribution_proven": false,
-      "cmdline": "/tmp/rvmt_p0/hello_write",
+      "cmdline": [
+        "/tmp/rvmt_p0/hello_write"
+      ],
       "dynamic_library_events_correctly_separated": true,
       "executable_path": "/tmp/rvmt_p0/hello_write",
-      "pid": 527,
+      "pid": 1,
       "runtime_process_attribution_proven": true,
-      "runtime_process_map": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/01_hello_write/runtime_process_map.json",
+      "runtime_process_map": "results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/01_hello_write/runtime_process_map.json",
       "sample_id": "hello_write",
-      "target_elf_attributed_events": 10,
-      "tgid": 527
+      "target_elf_attributed_events": 7,
+      "tgid": 1
     },
     {
       "child_process_target_attribution_proven": false,
-      "cmdline": "/tmp/rvmt_p0/file_open_read_write",
+      "cmdline": [
+        "/tmp/rvmt_p0/file_open_read_write"
+      ],
       "dynamic_library_events_correctly_separated": true,
       "executable_path": "/tmp/rvmt_p0/file_open_read_write",
-      "pid": 595,
+      "pid": 1,
       "runtime_process_attribution_proven": true,
-      "runtime_process_map": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/02_file_open_read_write/runtime_process_map.json",
+      "runtime_process_map": "results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/02_file_open_read_write/runtime_process_map.json",
       "sample_id": "file_open_read_write",
-      "target_elf_attributed_events": 28,
-      "tgid": 595
+      "target_elf_attributed_events": 25,
+      "tgid": 1
     },
     {
       "child_process_target_attribution_proven": true,
-      "cmdline": "/tmp/rvmt_p0/fork_exec",
+      "cmdline": [
+        "/tmp/rvmt_p0/fork_exec"
+      ],
       "dynamic_library_events_correctly_separated": true,
       "executable_path": "/tmp/rvmt_p0/fork_exec",
-      "pid": 663,
+      "pid": 1,
       "runtime_process_attribution_proven": true,
-      "runtime_process_map": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/03_fork_exec/runtime_process_map.json",
+      "runtime_process_map": "results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/03_fork_exec/runtime_process_map.json",
       "sample_id": "fork_exec",
-      "target_elf_attributed_events": 18,
-      "tgid": 663
+      "target_elf_attributed_events": 15,
+      "tgid": 1
     },
     {
       "child_process_target_attribution_proven": false,
-      "cmdline": "/tmp/rvmt_p0/illegal_instruction",
+      "cmdline": [
+        "/tmp/rvmt_p0/illegal_instruction"
+      ],
       "dynamic_library_events_correctly_separated": true,
       "executable_path": "/tmp/rvmt_p0/illegal_instruction",
-      "pid": 733,
+      "pid": 1,
       "runtime_process_attribution_proven": true,
-      "runtime_process_map": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/04_illegal_instruction/runtime_process_map.json",
+      "runtime_process_map": "results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/04_illegal_instruction/runtime_process_map.json",
       "sample_id": "illegal_instruction",
-      "target_elf_attributed_events": 15,
-      "tgid": 733
+      "target_elf_attributed_events": 12,
+      "tgid": 1
     },
     {
       "child_process_target_attribution_proven": false,
-      "cmdline": "/tmp/rvmt_p2/file_scan",
+      "cmdline": [
+        "/tmp/rvmt_p2/file_scan"
+      ],
       "dynamic_library_events_correctly_separated": true,
       "executable_path": "/tmp/rvmt_p2/file_scan",
-      "pid": 1346,
+      "pid": 1,
       "runtime_process_attribution_proven": true,
-      "runtime_process_map": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map/file_scan/runtime_process_map.json",
+      "runtime_process_map": "results/board/genesys2_trace_validation/20260702-current-safe-runtime-map/file_scan/runtime_process_map.json",
       "sample_id": "file_scan",
       "target_elf_attributed_events": 6,
-      "tgid": 1346
+      "tgid": 1
     },
     {
       "child_process_target_attribution_proven": false,
-      "cmdline": "/tmp/rvmt_p2/batch_open_read_write",
+      "cmdline": [
+        "/tmp/rvmt_p2/batch_open_read_write"
+      ],
       "dynamic_library_events_correctly_separated": true,
       "executable_path": "/tmp/rvmt_p2/batch_open_read_write",
-      "pid": 1416,
+      "pid": 1,
       "runtime_process_attribution_proven": true,
-      "runtime_process_map": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map/batch_open_read_write/runtime_process_map.json",
+      "runtime_process_map": "results/board/genesys2_trace_validation/20260702-current-safe-runtime-map/batch_open_read_write/runtime_process_map.json",
       "sample_id": "batch_open_read_write",
       "target_elf_attributed_events": 6,
-      "tgid": 1416
+      "tgid": 1
     },
     {
       "child_process_target_attribution_proven": false,
-      "cmdline": "/tmp/rvmt_p2/self_copy_sim",
+      "cmdline": [
+        "/tmp/rvmt_p2/self_copy_sim"
+      ],
       "dynamic_library_events_correctly_separated": true,
       "executable_path": "/tmp/rvmt_p2/self_copy_sim",
-      "pid": 1486,
+      "pid": 1,
       "runtime_process_attribution_proven": true,
-      "runtime_process_map": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map/self_copy_sim/runtime_process_map.json",
+      "runtime_process_map": "results/board/genesys2_trace_validation/20260702-current-safe-runtime-map/self_copy_sim/runtime_process_map.json",
       "sample_id": "self_copy_sim",
       "target_elf_attributed_events": 6,
-      "tgid": 1486
+      "tgid": 1
     },
     {
       "child_process_target_attribution_proven": false,
-      "cmdline": "/tmp/rvmt_p2/abnormal_syscall_sequence",
+      "cmdline": [
+        "/tmp/rvmt_p2/abnormal_syscall_sequence"
+      ],
       "dynamic_library_events_correctly_separated": true,
       "executable_path": "/tmp/rvmt_p2/abnormal_syscall_sequence",
-      "pid": 1556,
+      "pid": 1,
       "runtime_process_attribution_proven": true,
-      "runtime_process_map": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map/abnormal_syscall_sequence/runtime_process_map.json",
+      "runtime_process_map": "results/board/genesys2_trace_validation/20260702-current-safe-runtime-map/abnormal_syscall_sequence/runtime_process_map.json",
       "sample_id": "abnormal_syscall_sequence",
       "target_elf_attributed_events": 6,
-      "tgid": 1556
+      "tgid": 1
     },
     {
       "child_process_target_attribution_proven": false,
-      "cmdline": "/tmp/rvmt_p2/illegal_trap",
+      "cmdline": [
+        "/tmp/rvmt_p2/illegal_trap"
+      ],
       "dynamic_library_events_correctly_separated": true,
       "executable_path": "/tmp/rvmt_p2/illegal_trap",
-      "pid": 1626,
+      "pid": 1,
       "runtime_process_attribution_proven": true,
-      "runtime_process_map": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map/illegal_trap/runtime_process_map.json",
+      "runtime_process_map": "results/board/genesys2_trace_validation/20260702-current-safe-runtime-map/illegal_trap/runtime_process_map.json",
       "sample_id": "illegal_trap",
       "target_elf_attributed_events": 2,
-      "tgid": 1626
+      "tgid": 1
     },
     {
       "child_process_target_attribution_proven": true,
-      "cmdline": "/tmp/rvmt_p2/process_chain",
+      "cmdline": [
+        "/tmp/rvmt_p2/process_chain"
+      ],
       "dynamic_library_events_correctly_separated": true,
       "executable_path": "/tmp/rvmt_p2/process_chain",
-      "pid": 1696,
+      "pid": 1,
       "runtime_process_attribution_proven": true,
-      "runtime_process_map": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map/process_chain/runtime_process_map.json",
+      "runtime_process_map": "results/board/genesys2_trace_validation/20260702-current-safe-runtime-map/process_chain/runtime_process_map.json",
       "sample_id": "process_chain",
-      "target_elf_attributed_events": 3,
-      "tgid": 1696
+      "target_elf_attributed_events": 4,
+      "tgid": 1
     },
     {
       "child_process_target_attribution_proven": false,
-      "cmdline": "/tmp/rvmt_p2/dynamic_executable_memory",
+      "cmdline": [
+        "/tmp/rvmt_p2/dynamic_executable_memory"
+      ],
       "dynamic_library_events_correctly_separated": true,
       "executable_path": "/tmp/rvmt_p2/dynamic_executable_memory",
-      "pid": 1767,
+      "pid": 1,
       "runtime_process_attribution_proven": true,
-      "runtime_process_map": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map/dynamic_executable_memory/runtime_process_map.json",
+      "runtime_process_map": "results/board/genesys2_trace_validation/20260702-current-safe-runtime-map/dynamic_executable_memory/runtime_process_map.json",
       "sample_id": "dynamic_executable_memory",
       "target_elf_attributed_events": 3,
-      "tgid": 1767
+      "tgid": 1
     },
     {
       "child_process_target_attribution_proven": false,
-      "cmdline": "/tmp/rvmt_p2/anti_debug_like",
+      "cmdline": [
+        "/tmp/rvmt_p2/anti_debug_like"
+      ],
       "dynamic_library_events_correctly_separated": true,
       "executable_path": "/tmp/rvmt_p2/anti_debug_like",
-      "pid": 1838,
+      "pid": 1,
       "runtime_process_attribution_proven": true,
-      "runtime_process_map": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map/anti_debug_like/runtime_process_map.json",
+      "runtime_process_map": "results/board/genesys2_trace_validation/20260702-current-safe-runtime-map/anti_debug_like/runtime_process_map.json",
       "sample_id": "anti_debug_like",
       "target_elf_attributed_events": 5,
-      "tgid": 1838
+      "tgid": 1
     }
   ],
   "schema": "rvmt.process_elf_ownership.v1",

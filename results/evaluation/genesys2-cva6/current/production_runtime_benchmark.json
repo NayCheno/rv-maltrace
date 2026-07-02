@@ -6,34 +6,34 @@
   "mode_stats": {
     "bram_ring": {
       "count": 24,
-      "max_ns": 9000000000,
-      "median_ns": 8000000000.0,
+      "max_ns": 10000000000,
+      "median_ns": 9000000000.0,
       "min_ns": 8000000000,
-      "p95_ns": 8849999999.999998,
-      "variance_ns2": 7.63888888888889e+16
+      "p95_ns": 10000000000.0,
+      "variance_ns2": 1.9270833333333334e+17
     },
     "event_only": {
       "count": 24,
-      "max_ns": 9000000000,
-      "median_ns": 8000000000.0,
+      "max_ns": 10000000000,
+      "median_ns": 9000000000.0,
       "min_ns": 8000000000,
-      "p95_ns": 8000000000.0,
-      "variance_ns2": 3.993055555555555e+16
+      "p95_ns": 10000000000.0,
+      "variance_ns2": 2.065972222222222e+17
     },
     "pointer_snapshot_disabled": {
       "count": 24,
-      "max_ns": 9000000000,
-      "median_ns": 8000000000.0,
-      "min_ns": 7000000000,
-      "p95_ns": 8849999999.999998,
-      "variance_ns2": 1.232638888888889e+17
+      "max_ns": 10000000000,
+      "median_ns": 9000000000.0,
+      "min_ns": 9000000000,
+      "p95_ns": 9849999999.999998,
+      "variance_ns2": 7.63888888888889e+16
     },
     "trace_off": {
       "count": 24,
-      "max_ns": 8000000000,
-      "median_ns": 8000000000.0,
-      "min_ns": 7000000000,
-      "p95_ns": 8000000000.0,
+      "max_ns": 10000000000,
+      "median_ns": 9000000000.0,
+      "min_ns": 9000000000,
+      "p95_ns": 9000000000.0,
       "variance_ns2": 3.993055555555555e+16
     }
   },
@@ -49,967 +49,967 @@
   ],
   "raw_repetitions": [
     {
-      "done_ns": 13853000000000,
-      "duration_ns": 8000000000,
-      "mode": "trace_off",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/file_scan/trace_off/rep_01/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_01",
-      "sample_id": "file_scan",
-      "start_ns": 13845000000000
-    },
-    {
-      "done_ns": 13861000000000,
-      "duration_ns": 8000000000,
-      "mode": "trace_off",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/file_scan/trace_off/rep_02/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_02",
-      "sample_id": "file_scan",
-      "start_ns": 13853000000000
-    },
-    {
-      "done_ns": 13870000000000,
-      "duration_ns": 8000000000,
-      "mode": "trace_off",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/file_scan/trace_off/rep_03/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_03",
-      "sample_id": "file_scan",
-      "start_ns": 13862000000000
-    },
-    {
-      "done_ns": 13888000000000,
-      "duration_ns": 8000000000,
-      "mode": "event_only",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/file_scan/event_only/rep_01/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_01",
-      "sample_id": "file_scan",
-      "start_ns": 13880000000000
-    },
-    {
-      "done_ns": 13907000000000,
-      "duration_ns": 8000000000,
-      "mode": "event_only",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/file_scan/event_only/rep_02/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_02",
-      "sample_id": "file_scan",
-      "start_ns": 13899000000000
-    },
-    {
-      "done_ns": 13926000000000,
-      "duration_ns": 8000000000,
-      "mode": "event_only",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/file_scan/event_only/rep_03/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_03",
-      "sample_id": "file_scan",
-      "start_ns": 13918000000000
-    },
-    {
-      "done_ns": 13945000000000,
-      "duration_ns": 8000000000,
-      "mode": "bram_ring",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/file_scan/bram_ring/rep_01/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_01",
-      "sample_id": "file_scan",
-      "start_ns": 13937000000000
-    },
-    {
-      "done_ns": 13964000000000,
-      "duration_ns": 8000000000,
-      "mode": "bram_ring",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/file_scan/bram_ring/rep_02/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_02",
-      "sample_id": "file_scan",
-      "start_ns": 13956000000000
-    },
-    {
-      "done_ns": 13982000000000,
-      "duration_ns": 8000000000,
-      "mode": "bram_ring",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/file_scan/bram_ring/rep_03/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_03",
-      "sample_id": "file_scan",
-      "start_ns": 13974000000000
-    },
-    {
-      "done_ns": 13991000000000,
-      "duration_ns": 7000000000,
-      "mode": "pointer_snapshot_disabled",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/file_scan/pointer_snapshot_disabled/rep_01/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_01",
-      "sample_id": "file_scan",
-      "start_ns": 13984000000000
-    },
-    {
-      "done_ns": 14000000000000,
-      "duration_ns": 8000000000,
-      "mode": "pointer_snapshot_disabled",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/file_scan/pointer_snapshot_disabled/rep_02/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_02",
-      "sample_id": "file_scan",
-      "start_ns": 13992000000000
-    },
-    {
-      "done_ns": 14009000000000,
-      "duration_ns": 8000000000,
-      "mode": "pointer_snapshot_disabled",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/file_scan/pointer_snapshot_disabled/rep_03/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_03",
-      "sample_id": "file_scan",
-      "start_ns": 14001000000000
-    },
-    {
-      "done_ns": 14049000000000,
-      "duration_ns": 8000000000,
-      "mode": "trace_off",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/batch_open_read_write/trace_off/rep_01/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_01",
-      "sample_id": "batch_open_read_write",
-      "start_ns": 14041000000000
-    },
-    {
-      "done_ns": 14058000000000,
-      "duration_ns": 8000000000,
-      "mode": "trace_off",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/batch_open_read_write/trace_off/rep_02/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_02",
-      "sample_id": "batch_open_read_write",
-      "start_ns": 14050000000000
-    },
-    {
-      "done_ns": 14067000000000,
-      "duration_ns": 7000000000,
-      "mode": "trace_off",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/batch_open_read_write/trace_off/rep_03/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_03",
-      "sample_id": "batch_open_read_write",
-      "start_ns": 14060000000000
-    },
-    {
-      "done_ns": 14086000000000,
-      "duration_ns": 8000000000,
-      "mode": "event_only",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/batch_open_read_write/event_only/rep_01/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_01",
-      "sample_id": "batch_open_read_write",
-      "start_ns": 14078000000000
-    },
-    {
-      "done_ns": 14105000000000,
-      "duration_ns": 8000000000,
-      "mode": "event_only",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/batch_open_read_write/event_only/rep_02/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_02",
-      "sample_id": "batch_open_read_write",
-      "start_ns": 14097000000000
-    },
-    {
-      "done_ns": 14123000000000,
-      "duration_ns": 8000000000,
-      "mode": "event_only",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/batch_open_read_write/event_only/rep_03/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_03",
-      "sample_id": "batch_open_read_write",
-      "start_ns": 14115000000000
-    },
-    {
-      "done_ns": 14142000000000,
-      "duration_ns": 8000000000,
-      "mode": "bram_ring",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/batch_open_read_write/bram_ring/rep_01/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_01",
-      "sample_id": "batch_open_read_write",
-      "start_ns": 14134000000000
-    },
-    {
-      "done_ns": 14160000000000,
-      "duration_ns": 8000000000,
-      "mode": "bram_ring",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/batch_open_read_write/bram_ring/rep_02/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_02",
-      "sample_id": "batch_open_read_write",
-      "start_ns": 14152000000000
-    },
-    {
-      "done_ns": 14179000000000,
-      "duration_ns": 8000000000,
-      "mode": "bram_ring",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/batch_open_read_write/bram_ring/rep_03/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_03",
-      "sample_id": "batch_open_read_write",
-      "start_ns": 14171000000000
-    },
-    {
-      "done_ns": 14189000000000,
-      "duration_ns": 8000000000,
-      "mode": "pointer_snapshot_disabled",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/batch_open_read_write/pointer_snapshot_disabled/rep_01/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_01",
-      "sample_id": "batch_open_read_write",
-      "start_ns": 14181000000000
-    },
-    {
-      "done_ns": 14198000000000,
-      "duration_ns": 8000000000,
-      "mode": "pointer_snapshot_disabled",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/batch_open_read_write/pointer_snapshot_disabled/rep_02/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_02",
-      "sample_id": "batch_open_read_write",
-      "start_ns": 14190000000000
-    },
-    {
-      "done_ns": 14207000000000,
-      "duration_ns": 8000000000,
-      "mode": "pointer_snapshot_disabled",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/batch_open_read_write/pointer_snapshot_disabled/rep_03/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_03",
-      "sample_id": "batch_open_read_write",
-      "start_ns": 14199000000000
-    },
-    {
-      "done_ns": 14216000000000,
-      "duration_ns": 8000000000,
-      "mode": "trace_off",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/self_copy_sim/trace_off/rep_01/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_01",
-      "sample_id": "self_copy_sim",
-      "start_ns": 14208000000000
-    },
-    {
-      "done_ns": 14225000000000,
-      "duration_ns": 8000000000,
-      "mode": "trace_off",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/self_copy_sim/trace_off/rep_02/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_02",
-      "sample_id": "self_copy_sim",
-      "start_ns": 14217000000000
-    },
-    {
-      "done_ns": 14234000000000,
-      "duration_ns": 8000000000,
-      "mode": "trace_off",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/self_copy_sim/trace_off/rep_03/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_03",
-      "sample_id": "self_copy_sim",
-      "start_ns": 14226000000000
-    },
-    {
-      "done_ns": 14252000000000,
-      "duration_ns": 8000000000,
-      "mode": "event_only",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/self_copy_sim/event_only/rep_01/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_01",
-      "sample_id": "self_copy_sim",
-      "start_ns": 14244000000000
-    },
-    {
-      "done_ns": 14271000000000,
-      "duration_ns": 8000000000,
-      "mode": "event_only",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/self_copy_sim/event_only/rep_02/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_02",
-      "sample_id": "self_copy_sim",
-      "start_ns": 14263000000000
-    },
-    {
-      "done_ns": 14290000000000,
-      "duration_ns": 8000000000,
-      "mode": "event_only",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/self_copy_sim/event_only/rep_03/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_03",
-      "sample_id": "self_copy_sim",
-      "start_ns": 14282000000000
-    },
-    {
-      "done_ns": 14309000000000,
-      "duration_ns": 8000000000,
-      "mode": "bram_ring",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/self_copy_sim/bram_ring/rep_01/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_01",
-      "sample_id": "self_copy_sim",
-      "start_ns": 14301000000000
-    },
-    {
-      "done_ns": 14327000000000,
-      "duration_ns": 8000000000,
-      "mode": "bram_ring",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/self_copy_sim/bram_ring/rep_02/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_02",
-      "sample_id": "self_copy_sim",
-      "start_ns": 14319000000000
-    },
-    {
-      "done_ns": 14345000000000,
-      "duration_ns": 8000000000,
-      "mode": "bram_ring",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/self_copy_sim/bram_ring/rep_03/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_03",
-      "sample_id": "self_copy_sim",
-      "start_ns": 14337000000000
-    },
-    {
-      "done_ns": 14355000000000,
+      "done_ns": 6168000000000,
       "duration_ns": 9000000000,
-      "mode": "pointer_snapshot_disabled",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/self_copy_sim/pointer_snapshot_disabled/rep_01/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_01",
-      "sample_id": "self_copy_sim",
-      "start_ns": 14346000000000
-    },
-    {
-      "done_ns": 14364000000000,
-      "duration_ns": 8000000000,
-      "mode": "pointer_snapshot_disabled",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/self_copy_sim/pointer_snapshot_disabled/rep_02/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_02",
-      "sample_id": "self_copy_sim",
-      "start_ns": 14356000000000
-    },
-    {
-      "done_ns": 14373000000000,
-      "duration_ns": 8000000000,
-      "mode": "pointer_snapshot_disabled",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/self_copy_sim/pointer_snapshot_disabled/rep_03/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_03",
-      "sample_id": "self_copy_sim",
-      "start_ns": 14365000000000
-    },
-    {
-      "done_ns": 14382000000000,
-      "duration_ns": 8000000000,
       "mode": "trace_off",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/abnormal_syscall_sequence/trace_off/rep_01/uart.log",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/file_scan/trace_off/rep_01/uart.log",
       "rc": 0,
       "repetition_id": "rep_01",
-      "sample_id": "abnormal_syscall_sequence",
-      "start_ns": 14374000000000
+      "sample_id": "file_scan",
+      "start_ns": 6159000000000
     },
     {
-      "done_ns": 14392000000000,
-      "duration_ns": 8000000000,
-      "mode": "trace_off",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/abnormal_syscall_sequence/trace_off/rep_02/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_02",
-      "sample_id": "abnormal_syscall_sequence",
-      "start_ns": 14384000000000
-    },
-    {
-      "done_ns": 14401000000000,
-      "duration_ns": 8000000000,
-      "mode": "trace_off",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/abnormal_syscall_sequence/trace_off/rep_03/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_03",
-      "sample_id": "abnormal_syscall_sequence",
-      "start_ns": 14393000000000
-    },
-    {
-      "done_ns": 14419000000000,
-      "duration_ns": 8000000000,
-      "mode": "event_only",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/abnormal_syscall_sequence/event_only/rep_01/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_01",
-      "sample_id": "abnormal_syscall_sequence",
-      "start_ns": 14411000000000
-    },
-    {
-      "done_ns": 14438000000000,
-      "duration_ns": 8000000000,
-      "mode": "event_only",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/abnormal_syscall_sequence/event_only/rep_02/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_02",
-      "sample_id": "abnormal_syscall_sequence",
-      "start_ns": 14430000000000
-    },
-    {
-      "done_ns": 14457000000000,
-      "duration_ns": 8000000000,
-      "mode": "event_only",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/abnormal_syscall_sequence/event_only/rep_03/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_03",
-      "sample_id": "abnormal_syscall_sequence",
-      "start_ns": 14449000000000
-    },
-    {
-      "done_ns": 14476000000000,
-      "duration_ns": 8000000000,
-      "mode": "bram_ring",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/abnormal_syscall_sequence/bram_ring/rep_01/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_01",
-      "sample_id": "abnormal_syscall_sequence",
-      "start_ns": 14468000000000
-    },
-    {
-      "done_ns": 14495000000000,
+      "done_ns": 6180000000000,
       "duration_ns": 9000000000,
-      "mode": "bram_ring",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/abnormal_syscall_sequence/bram_ring/rep_02/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_02",
-      "sample_id": "abnormal_syscall_sequence",
-      "start_ns": 14486000000000
-    },
-    {
-      "done_ns": 14513000000000,
-      "duration_ns": 8000000000,
-      "mode": "bram_ring",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/abnormal_syscall_sequence/bram_ring/rep_03/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_03",
-      "sample_id": "abnormal_syscall_sequence",
-      "start_ns": 14505000000000
-    },
-    {
-      "done_ns": 14523000000000,
-      "duration_ns": 8000000000,
-      "mode": "pointer_snapshot_disabled",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/abnormal_syscall_sequence/pointer_snapshot_disabled/rep_01/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_01",
-      "sample_id": "abnormal_syscall_sequence",
-      "start_ns": 14515000000000
-    },
-    {
-      "done_ns": 14532000000000,
-      "duration_ns": 8000000000,
-      "mode": "pointer_snapshot_disabled",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/abnormal_syscall_sequence/pointer_snapshot_disabled/rep_02/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_02",
-      "sample_id": "abnormal_syscall_sequence",
-      "start_ns": 14524000000000
-    },
-    {
-      "done_ns": 14541000000000,
-      "duration_ns": 8000000000,
-      "mode": "pointer_snapshot_disabled",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/abnormal_syscall_sequence/pointer_snapshot_disabled/rep_03/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_03",
-      "sample_id": "abnormal_syscall_sequence",
-      "start_ns": 14533000000000
-    },
-    {
-      "done_ns": 14551000000000,
-      "duration_ns": 8000000000,
       "mode": "trace_off",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/illegal_trap/trace_off/rep_01/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_01",
-      "sample_id": "illegal_trap",
-      "start_ns": 14543000000000
-    },
-    {
-      "done_ns": 14560000000000,
-      "duration_ns": 8000000000,
-      "mode": "trace_off",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/illegal_trap/trace_off/rep_02/uart.log",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/file_scan/trace_off/rep_02/uart.log",
       "rc": 0,
       "repetition_id": "rep_02",
-      "sample_id": "illegal_trap",
-      "start_ns": 14552000000000
+      "sample_id": "file_scan",
+      "start_ns": 6171000000000
     },
     {
-      "done_ns": 14569000000000,
-      "duration_ns": 8000000000,
-      "mode": "trace_off",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/illegal_trap/trace_off/rep_03/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_03",
-      "sample_id": "illegal_trap",
-      "start_ns": 14561000000000
-    },
-    {
-      "done_ns": 14587000000000,
-      "duration_ns": 8000000000,
-      "mode": "event_only",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/illegal_trap/event_only/rep_01/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_01",
-      "sample_id": "illegal_trap",
-      "start_ns": 14579000000000
-    },
-    {
-      "done_ns": 14606000000000,
-      "duration_ns": 8000000000,
-      "mode": "event_only",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/illegal_trap/event_only/rep_02/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_02",
-      "sample_id": "illegal_trap",
-      "start_ns": 14598000000000
-    },
-    {
-      "done_ns": 14625000000000,
-      "duration_ns": 8000000000,
-      "mode": "event_only",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/illegal_trap/event_only/rep_03/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_03",
-      "sample_id": "illegal_trap",
-      "start_ns": 14617000000000
-    },
-    {
-      "done_ns": 14644000000000,
-      "duration_ns": 8000000000,
-      "mode": "bram_ring",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/illegal_trap/bram_ring/rep_01/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_01",
-      "sample_id": "illegal_trap",
-      "start_ns": 14636000000000
-    },
-    {
-      "done_ns": 14663000000000,
-      "duration_ns": 8000000000,
-      "mode": "bram_ring",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/illegal_trap/bram_ring/rep_02/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_02",
-      "sample_id": "illegal_trap",
-      "start_ns": 14655000000000
-    },
-    {
-      "done_ns": 14681000000000,
-      "duration_ns": 8000000000,
-      "mode": "bram_ring",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/illegal_trap/bram_ring/rep_03/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_03",
-      "sample_id": "illegal_trap",
-      "start_ns": 14673000000000
-    },
-    {
-      "done_ns": 14691000000000,
-      "duration_ns": 8000000000,
-      "mode": "pointer_snapshot_disabled",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/illegal_trap/pointer_snapshot_disabled/rep_01/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_01",
-      "sample_id": "illegal_trap",
-      "start_ns": 14683000000000
-    },
-    {
-      "done_ns": 14700000000000,
-      "duration_ns": 8000000000,
-      "mode": "pointer_snapshot_disabled",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/illegal_trap/pointer_snapshot_disabled/rep_02/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_02",
-      "sample_id": "illegal_trap",
-      "start_ns": 14692000000000
-    },
-    {
-      "done_ns": 14709000000000,
-      "duration_ns": 8000000000,
-      "mode": "pointer_snapshot_disabled",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/illegal_trap/pointer_snapshot_disabled/rep_03/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_03",
-      "sample_id": "illegal_trap",
-      "start_ns": 14701000000000
-    },
-    {
-      "done_ns": 14718000000000,
-      "duration_ns": 8000000000,
-      "mode": "trace_off",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/process_chain/trace_off/rep_01/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_01",
-      "sample_id": "process_chain",
-      "start_ns": 14710000000000
-    },
-    {
-      "done_ns": 14728000000000,
-      "duration_ns": 8000000000,
-      "mode": "trace_off",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/process_chain/trace_off/rep_02/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_02",
-      "sample_id": "process_chain",
-      "start_ns": 14720000000000
-    },
-    {
-      "done_ns": 14737000000000,
-      "duration_ns": 8000000000,
-      "mode": "trace_off",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/process_chain/trace_off/rep_03/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_03",
-      "sample_id": "process_chain",
-      "start_ns": 14729000000000
-    },
-    {
-      "done_ns": 14755000000000,
-      "duration_ns": 8000000000,
-      "mode": "event_only",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/process_chain/event_only/rep_01/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_01",
-      "sample_id": "process_chain",
-      "start_ns": 14747000000000
-    },
-    {
-      "done_ns": 14774000000000,
-      "duration_ns": 8000000000,
-      "mode": "event_only",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/process_chain/event_only/rep_02/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_02",
-      "sample_id": "process_chain",
-      "start_ns": 14766000000000
-    },
-    {
-      "done_ns": 14793000000000,
-      "duration_ns": 8000000000,
-      "mode": "event_only",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/process_chain/event_only/rep_03/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_03",
-      "sample_id": "process_chain",
-      "start_ns": 14785000000000
-    },
-    {
-      "done_ns": 14812000000000,
-      "duration_ns": 8000000000,
-      "mode": "bram_ring",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/process_chain/bram_ring/rep_01/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_01",
-      "sample_id": "process_chain",
-      "start_ns": 14804000000000
-    },
-    {
-      "done_ns": 14830000000000,
-      "duration_ns": 8000000000,
-      "mode": "bram_ring",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/process_chain/bram_ring/rep_02/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_02",
-      "sample_id": "process_chain",
-      "start_ns": 14822000000000
-    },
-    {
-      "done_ns": 14849000000000,
-      "duration_ns": 8000000000,
-      "mode": "bram_ring",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/process_chain/bram_ring/rep_03/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_03",
-      "sample_id": "process_chain",
-      "start_ns": 14841000000000
-    },
-    {
-      "done_ns": 14859000000000,
-      "duration_ns": 8000000000,
-      "mode": "pointer_snapshot_disabled",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/process_chain/pointer_snapshot_disabled/rep_01/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_01",
-      "sample_id": "process_chain",
-      "start_ns": 14851000000000
-    },
-    {
-      "done_ns": 14868000000000,
-      "duration_ns": 8000000000,
-      "mode": "pointer_snapshot_disabled",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/process_chain/pointer_snapshot_disabled/rep_02/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_02",
-      "sample_id": "process_chain",
-      "start_ns": 14860000000000
-    },
-    {
-      "done_ns": 14877000000000,
-      "duration_ns": 8000000000,
-      "mode": "pointer_snapshot_disabled",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/process_chain/pointer_snapshot_disabled/rep_03/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_03",
-      "sample_id": "process_chain",
-      "start_ns": 14869000000000
-    },
-    {
-      "done_ns": 14886000000000,
-      "duration_ns": 8000000000,
-      "mode": "trace_off",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/dynamic_executable_memory/trace_off/rep_01/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_01",
-      "sample_id": "dynamic_executable_memory",
-      "start_ns": 14878000000000
-    },
-    {
-      "done_ns": 14896000000000,
-      "duration_ns": 8000000000,
-      "mode": "trace_off",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/dynamic_executable_memory/trace_off/rep_02/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_02",
-      "sample_id": "dynamic_executable_memory",
-      "start_ns": 14888000000000
-    },
-    {
-      "done_ns": 14905000000000,
-      "duration_ns": 8000000000,
-      "mode": "trace_off",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/dynamic_executable_memory/trace_off/rep_03/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_03",
-      "sample_id": "dynamic_executable_memory",
-      "start_ns": 14897000000000
-    },
-    {
-      "done_ns": 14923000000000,
-      "duration_ns": 8000000000,
-      "mode": "event_only",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/dynamic_executable_memory/event_only/rep_01/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_01",
-      "sample_id": "dynamic_executable_memory",
-      "start_ns": 14915000000000
-    },
-    {
-      "done_ns": 14942000000000,
-      "duration_ns": 8000000000,
-      "mode": "event_only",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/dynamic_executable_memory/event_only/rep_02/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_02",
-      "sample_id": "dynamic_executable_memory",
-      "start_ns": 14934000000000
-    },
-    {
-      "done_ns": 14961000000000,
-      "duration_ns": 8000000000,
-      "mode": "event_only",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/dynamic_executable_memory/event_only/rep_03/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_03",
-      "sample_id": "dynamic_executable_memory",
-      "start_ns": 14953000000000
-    },
-    {
-      "done_ns": 14980000000000,
-      "duration_ns": 8000000000,
-      "mode": "bram_ring",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/dynamic_executable_memory/bram_ring/rep_01/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_01",
-      "sample_id": "dynamic_executable_memory",
-      "start_ns": 14972000000000
-    },
-    {
-      "done_ns": 14998000000000,
-      "duration_ns": 8000000000,
-      "mode": "bram_ring",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/dynamic_executable_memory/bram_ring/rep_02/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_02",
-      "sample_id": "dynamic_executable_memory",
-      "start_ns": 14990000000000
-    },
-    {
-      "done_ns": 15016000000000,
-      "duration_ns": 8000000000,
-      "mode": "bram_ring",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/dynamic_executable_memory/bram_ring/rep_03/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_03",
-      "sample_id": "dynamic_executable_memory",
-      "start_ns": 15008000000000
-    },
-    {
-      "done_ns": 15026000000000,
-      "duration_ns": 8000000000,
-      "mode": "pointer_snapshot_disabled",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/dynamic_executable_memory/pointer_snapshot_disabled/rep_01/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_01",
-      "sample_id": "dynamic_executable_memory",
-      "start_ns": 15018000000000
-    },
-    {
-      "done_ns": 15035000000000,
-      "duration_ns": 8000000000,
-      "mode": "pointer_snapshot_disabled",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/dynamic_executable_memory/pointer_snapshot_disabled/rep_02/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_02",
-      "sample_id": "dynamic_executable_memory",
-      "start_ns": 15027000000000
-    },
-    {
-      "done_ns": 15045000000000,
+      "done_ns": 6192000000000,
       "duration_ns": 9000000000,
-      "mode": "pointer_snapshot_disabled",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/dynamic_executable_memory/pointer_snapshot_disabled/rep_03/uart.log",
+      "mode": "trace_off",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/file_scan/trace_off/rep_03/uart.log",
       "rc": 0,
       "repetition_id": "rep_03",
-      "sample_id": "dynamic_executable_memory",
-      "start_ns": 15036000000000
+      "sample_id": "file_scan",
+      "start_ns": 6183000000000
     },
     {
-      "done_ns": 15054000000000,
-      "duration_ns": 8000000000,
-      "mode": "trace_off",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/anti_debug_like/trace_off/rep_01/uart.log",
+      "done_ns": 6218000000000,
+      "duration_ns": 10000000000,
+      "mode": "event_only",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/file_scan/event_only/rep_01/uart.log",
       "rc": 0,
       "repetition_id": "rep_01",
-      "sample_id": "anti_debug_like",
-      "start_ns": 15046000000000
+      "sample_id": "file_scan",
+      "start_ns": 6208000000000
     },
     {
-      "done_ns": 15063000000000,
-      "duration_ns": 8000000000,
-      "mode": "trace_off",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/anti_debug_like/trace_off/rep_02/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_02",
-      "sample_id": "anti_debug_like",
-      "start_ns": 15055000000000
-    },
-    {
-      "done_ns": 15073000000000,
-      "duration_ns": 8000000000,
-      "mode": "trace_off",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/anti_debug_like/trace_off/rep_03/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_03",
-      "sample_id": "anti_debug_like",
-      "start_ns": 15065000000000
-    },
-    {
-      "done_ns": 15091000000000,
+      "done_ns": 6244000000000,
       "duration_ns": 9000000000,
       "mode": "event_only",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/anti_debug_like/event_only/rep_01/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_01",
-      "sample_id": "anti_debug_like",
-      "start_ns": 15082000000000
-    },
-    {
-      "done_ns": 15109000000000,
-      "duration_ns": 8000000000,
-      "mode": "event_only",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/anti_debug_like/event_only/rep_02/uart.log",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/file_scan/event_only/rep_02/uart.log",
       "rc": 0,
       "repetition_id": "rep_02",
-      "sample_id": "anti_debug_like",
-      "start_ns": 15101000000000
+      "sample_id": "file_scan",
+      "start_ns": 6235000000000
     },
     {
-      "done_ns": 15128000000000,
-      "duration_ns": 8000000000,
+      "done_ns": 6267000000000,
+      "duration_ns": 9000000000,
       "mode": "event_only",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/anti_debug_like/event_only/rep_03/uart.log",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/file_scan/event_only/rep_03/uart.log",
       "rc": 0,
       "repetition_id": "rep_03",
-      "sample_id": "anti_debug_like",
-      "start_ns": 15120000000000
+      "sample_id": "file_scan",
+      "start_ns": 6258000000000
     },
     {
-      "done_ns": 15146000000000,
-      "duration_ns": 8000000000,
-      "mode": "bram_ring",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/anti_debug_like/bram_ring/rep_01/uart.log",
-      "rc": 0,
-      "repetition_id": "rep_01",
-      "sample_id": "anti_debug_like",
-      "start_ns": 15138000000000
-    },
-    {
-      "done_ns": 15165000000000,
+      "done_ns": 6289000000000,
       "duration_ns": 9000000000,
       "mode": "bram_ring",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/anti_debug_like/bram_ring/rep_02/uart.log",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/file_scan/bram_ring/rep_01/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_01",
+      "sample_id": "file_scan",
+      "start_ns": 6280000000000
+    },
+    {
+      "done_ns": 6312000000000,
+      "duration_ns": 9000000000,
+      "mode": "bram_ring",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/file_scan/bram_ring/rep_02/uart.log",
       "rc": 0,
       "repetition_id": "rep_02",
-      "sample_id": "anti_debug_like",
-      "start_ns": 15156000000000
+      "sample_id": "file_scan",
+      "start_ns": 6303000000000
     },
     {
-      "done_ns": 15183000000000,
-      "duration_ns": 8000000000,
+      "done_ns": 6335000000000,
+      "duration_ns": 10000000000,
       "mode": "bram_ring",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/anti_debug_like/bram_ring/rep_03/uart.log",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/file_scan/bram_ring/rep_03/uart.log",
       "rc": 0,
       "repetition_id": "rep_03",
-      "sample_id": "anti_debug_like",
-      "start_ns": 15175000000000
+      "sample_id": "file_scan",
+      "start_ns": 6325000000000
     },
     {
-      "done_ns": 15192000000000,
-      "duration_ns": 8000000000,
+      "done_ns": 6347000000000,
+      "duration_ns": 9000000000,
       "mode": "pointer_snapshot_disabled",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/anti_debug_like/pointer_snapshot_disabled/rep_01/uart.log",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/file_scan/pointer_snapshot_disabled/rep_01/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_01",
+      "sample_id": "file_scan",
+      "start_ns": 6338000000000
+    },
+    {
+      "done_ns": 6359000000000,
+      "duration_ns": 9000000000,
+      "mode": "pointer_snapshot_disabled",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/file_scan/pointer_snapshot_disabled/rep_02/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_02",
+      "sample_id": "file_scan",
+      "start_ns": 6350000000000
+    },
+    {
+      "done_ns": 6371000000000,
+      "duration_ns": 9000000000,
+      "mode": "pointer_snapshot_disabled",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/file_scan/pointer_snapshot_disabled/rep_03/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_03",
+      "sample_id": "file_scan",
+      "start_ns": 6362000000000
+    },
+    {
+      "done_ns": 6382000000000,
+      "duration_ns": 9000000000,
+      "mode": "trace_off",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/batch_open_read_write/trace_off/rep_01/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_01",
+      "sample_id": "batch_open_read_write",
+      "start_ns": 6373000000000
+    },
+    {
+      "done_ns": 6395000000000,
+      "duration_ns": 10000000000,
+      "mode": "trace_off",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/batch_open_read_write/trace_off/rep_02/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_02",
+      "sample_id": "batch_open_read_write",
+      "start_ns": 6385000000000
+    },
+    {
+      "done_ns": 6406000000000,
+      "duration_ns": 9000000000,
+      "mode": "trace_off",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/batch_open_read_write/trace_off/rep_03/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_03",
+      "sample_id": "batch_open_read_write",
+      "start_ns": 6397000000000
+    },
+    {
+      "done_ns": 6431000000000,
+      "duration_ns": 9000000000,
+      "mode": "event_only",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/batch_open_read_write/event_only/rep_01/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_01",
+      "sample_id": "batch_open_read_write",
+      "start_ns": 6422000000000
+    },
+    {
+      "done_ns": 6454000000000,
+      "duration_ns": 10000000000,
+      "mode": "event_only",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/batch_open_read_write/event_only/rep_02/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_02",
+      "sample_id": "batch_open_read_write",
+      "start_ns": 6444000000000
+    },
+    {
+      "done_ns": 6477000000000,
+      "duration_ns": 9000000000,
+      "mode": "event_only",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/batch_open_read_write/event_only/rep_03/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_03",
+      "sample_id": "batch_open_read_write",
+      "start_ns": 6468000000000
+    },
+    {
+      "done_ns": 6499000000000,
+      "duration_ns": 9000000000,
+      "mode": "bram_ring",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/batch_open_read_write/bram_ring/rep_01/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_01",
+      "sample_id": "batch_open_read_write",
+      "start_ns": 6490000000000
+    },
+    {
+      "done_ns": 6522000000000,
+      "duration_ns": 10000000000,
+      "mode": "bram_ring",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/batch_open_read_write/bram_ring/rep_02/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_02",
+      "sample_id": "batch_open_read_write",
+      "start_ns": 6512000000000
+    },
+    {
+      "done_ns": 6544000000000,
+      "duration_ns": 9000000000,
+      "mode": "bram_ring",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/batch_open_read_write/bram_ring/rep_03/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_03",
+      "sample_id": "batch_open_read_write",
+      "start_ns": 6535000000000
+    },
+    {
+      "done_ns": 6556000000000,
+      "duration_ns": 9000000000,
+      "mode": "pointer_snapshot_disabled",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/batch_open_read_write/pointer_snapshot_disabled/rep_01/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_01",
+      "sample_id": "batch_open_read_write",
+      "start_ns": 6547000000000
+    },
+    {
+      "done_ns": 6568000000000,
+      "duration_ns": 9000000000,
+      "mode": "pointer_snapshot_disabled",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/batch_open_read_write/pointer_snapshot_disabled/rep_02/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_02",
+      "sample_id": "batch_open_read_write",
+      "start_ns": 6559000000000
+    },
+    {
+      "done_ns": 6580000000000,
+      "duration_ns": 9000000000,
+      "mode": "pointer_snapshot_disabled",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/batch_open_read_write/pointer_snapshot_disabled/rep_03/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_03",
+      "sample_id": "batch_open_read_write",
+      "start_ns": 6571000000000
+    },
+    {
+      "done_ns": 6592000000000,
+      "duration_ns": 9000000000,
+      "mode": "trace_off",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/self_copy_sim/trace_off/rep_01/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_01",
+      "sample_id": "self_copy_sim",
+      "start_ns": 6583000000000
+    },
+    {
+      "done_ns": 6604000000000,
+      "duration_ns": 9000000000,
+      "mode": "trace_off",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/self_copy_sim/trace_off/rep_02/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_02",
+      "sample_id": "self_copy_sim",
+      "start_ns": 6595000000000
+    },
+    {
+      "done_ns": 6616000000000,
+      "duration_ns": 9000000000,
+      "mode": "trace_off",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/self_copy_sim/trace_off/rep_03/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_03",
+      "sample_id": "self_copy_sim",
+      "start_ns": 6607000000000
+    },
+    {
+      "done_ns": 6641000000000,
+      "duration_ns": 9000000000,
+      "mode": "event_only",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/self_copy_sim/event_only/rep_01/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_01",
+      "sample_id": "self_copy_sim",
+      "start_ns": 6632000000000
+    },
+    {
+      "done_ns": 6667000000000,
+      "duration_ns": 9000000000,
+      "mode": "event_only",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/self_copy_sim/event_only/rep_02/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_02",
+      "sample_id": "self_copy_sim",
+      "start_ns": 6658000000000
+    },
+    {
+      "done_ns": 6689000000000,
+      "duration_ns": 9000000000,
+      "mode": "event_only",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/self_copy_sim/event_only/rep_03/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_03",
+      "sample_id": "self_copy_sim",
+      "start_ns": 6680000000000
+    },
+    {
+      "done_ns": 6711000000000,
+      "duration_ns": 9000000000,
+      "mode": "bram_ring",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/self_copy_sim/bram_ring/rep_01/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_01",
+      "sample_id": "self_copy_sim",
+      "start_ns": 6702000000000
+    },
+    {
+      "done_ns": 6734000000000,
+      "duration_ns": 10000000000,
+      "mode": "bram_ring",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/self_copy_sim/bram_ring/rep_02/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_02",
+      "sample_id": "self_copy_sim",
+      "start_ns": 6724000000000
+    },
+    {
+      "done_ns": 6756000000000,
+      "duration_ns": 9000000000,
+      "mode": "bram_ring",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/self_copy_sim/bram_ring/rep_03/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_03",
+      "sample_id": "self_copy_sim",
+      "start_ns": 6747000000000
+    },
+    {
+      "done_ns": 6768000000000,
+      "duration_ns": 9000000000,
+      "mode": "pointer_snapshot_disabled",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/self_copy_sim/pointer_snapshot_disabled/rep_01/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_01",
+      "sample_id": "self_copy_sim",
+      "start_ns": 6759000000000
+    },
+    {
+      "done_ns": 6780000000000,
+      "duration_ns": 10000000000,
+      "mode": "pointer_snapshot_disabled",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/self_copy_sim/pointer_snapshot_disabled/rep_02/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_02",
+      "sample_id": "self_copy_sim",
+      "start_ns": 6770000000000
+    },
+    {
+      "done_ns": 6791000000000,
+      "duration_ns": 9000000000,
+      "mode": "pointer_snapshot_disabled",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/self_copy_sim/pointer_snapshot_disabled/rep_03/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_03",
+      "sample_id": "self_copy_sim",
+      "start_ns": 6782000000000
+    },
+    {
+      "done_ns": 6803000000000,
+      "duration_ns": 9000000000,
+      "mode": "trace_off",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/abnormal_syscall_sequence/trace_off/rep_01/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_01",
+      "sample_id": "abnormal_syscall_sequence",
+      "start_ns": 6794000000000
+    },
+    {
+      "done_ns": 6815000000000,
+      "duration_ns": 9000000000,
+      "mode": "trace_off",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/abnormal_syscall_sequence/trace_off/rep_02/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_02",
+      "sample_id": "abnormal_syscall_sequence",
+      "start_ns": 6806000000000
+    },
+    {
+      "done_ns": 6826000000000,
+      "duration_ns": 9000000000,
+      "mode": "trace_off",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/abnormal_syscall_sequence/trace_off/rep_03/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_03",
+      "sample_id": "abnormal_syscall_sequence",
+      "start_ns": 6817000000000
+    },
+    {
+      "done_ns": 6852000000000,
+      "duration_ns": 9000000000,
+      "mode": "event_only",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/abnormal_syscall_sequence/event_only/rep_01/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_01",
+      "sample_id": "abnormal_syscall_sequence",
+      "start_ns": 6843000000000
+    },
+    {
+      "done_ns": 6878000000000,
+      "duration_ns": 9000000000,
+      "mode": "event_only",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/abnormal_syscall_sequence/event_only/rep_02/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_02",
+      "sample_id": "abnormal_syscall_sequence",
+      "start_ns": 6869000000000
+    },
+    {
+      "done_ns": 6901000000000,
+      "duration_ns": 10000000000,
+      "mode": "event_only",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/abnormal_syscall_sequence/event_only/rep_03/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_03",
+      "sample_id": "abnormal_syscall_sequence",
+      "start_ns": 6891000000000
+    },
+    {
+      "done_ns": 6923000000000,
+      "duration_ns": 9000000000,
+      "mode": "bram_ring",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/abnormal_syscall_sequence/bram_ring/rep_01/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_01",
+      "sample_id": "abnormal_syscall_sequence",
+      "start_ns": 6914000000000
+    },
+    {
+      "done_ns": 6945000000000,
+      "duration_ns": 9000000000,
+      "mode": "bram_ring",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/abnormal_syscall_sequence/bram_ring/rep_02/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_02",
+      "sample_id": "abnormal_syscall_sequence",
+      "start_ns": 6936000000000
+    },
+    {
+      "done_ns": 6967000000000,
+      "duration_ns": 9000000000,
+      "mode": "bram_ring",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/abnormal_syscall_sequence/bram_ring/rep_03/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_03",
+      "sample_id": "abnormal_syscall_sequence",
+      "start_ns": 6958000000000
+    },
+    {
+      "done_ns": 6979000000000,
+      "duration_ns": 9000000000,
+      "mode": "pointer_snapshot_disabled",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/abnormal_syscall_sequence/pointer_snapshot_disabled/rep_01/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_01",
+      "sample_id": "abnormal_syscall_sequence",
+      "start_ns": 6970000000000
+    },
+    {
+      "done_ns": 6991000000000,
+      "duration_ns": 9000000000,
+      "mode": "pointer_snapshot_disabled",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/abnormal_syscall_sequence/pointer_snapshot_disabled/rep_02/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_02",
+      "sample_id": "abnormal_syscall_sequence",
+      "start_ns": 6982000000000
+    },
+    {
+      "done_ns": 7002000000000,
+      "duration_ns": 9000000000,
+      "mode": "pointer_snapshot_disabled",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/abnormal_syscall_sequence/pointer_snapshot_disabled/rep_03/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_03",
+      "sample_id": "abnormal_syscall_sequence",
+      "start_ns": 6993000000000
+    },
+    {
+      "done_ns": 7014000000000,
+      "duration_ns": 9000000000,
+      "mode": "trace_off",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/illegal_trap/trace_off/rep_01/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_01",
+      "sample_id": "illegal_trap",
+      "start_ns": 7005000000000
+    },
+    {
+      "done_ns": 7026000000000,
+      "duration_ns": 9000000000,
+      "mode": "trace_off",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/illegal_trap/trace_off/rep_02/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_02",
+      "sample_id": "illegal_trap",
+      "start_ns": 7017000000000
+    },
+    {
+      "done_ns": 7037000000000,
+      "duration_ns": 9000000000,
+      "mode": "trace_off",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/illegal_trap/trace_off/rep_03/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_03",
+      "sample_id": "illegal_trap",
+      "start_ns": 7028000000000
+    },
+    {
+      "done_ns": 7062000000000,
+      "duration_ns": 9000000000,
+      "mode": "event_only",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/illegal_trap/event_only/rep_01/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_01",
+      "sample_id": "illegal_trap",
+      "start_ns": 7053000000000
+    },
+    {
+      "done_ns": 7088000000000,
+      "duration_ns": 8000000000,
+      "mode": "event_only",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/illegal_trap/event_only/rep_02/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_02",
+      "sample_id": "illegal_trap",
+      "start_ns": 7080000000000
+    },
+    {
+      "done_ns": 7111000000000,
+      "duration_ns": 9000000000,
+      "mode": "event_only",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/illegal_trap/event_only/rep_03/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_03",
+      "sample_id": "illegal_trap",
+      "start_ns": 7102000000000
+    },
+    {
+      "done_ns": 7133000000000,
+      "duration_ns": 9000000000,
+      "mode": "bram_ring",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/illegal_trap/bram_ring/rep_01/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_01",
+      "sample_id": "illegal_trap",
+      "start_ns": 7124000000000
+    },
+    {
+      "done_ns": 7154000000000,
+      "duration_ns": 9000000000,
+      "mode": "bram_ring",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/illegal_trap/bram_ring/rep_02/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_02",
+      "sample_id": "illegal_trap",
+      "start_ns": 7145000000000
+    },
+    {
+      "done_ns": 7176000000000,
+      "duration_ns": 9000000000,
+      "mode": "bram_ring",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/illegal_trap/bram_ring/rep_03/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_03",
+      "sample_id": "illegal_trap",
+      "start_ns": 7167000000000
+    },
+    {
+      "done_ns": 7188000000000,
+      "duration_ns": 9000000000,
+      "mode": "pointer_snapshot_disabled",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/illegal_trap/pointer_snapshot_disabled/rep_01/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_01",
+      "sample_id": "illegal_trap",
+      "start_ns": 7179000000000
+    },
+    {
+      "done_ns": 7199000000000,
+      "duration_ns": 9000000000,
+      "mode": "pointer_snapshot_disabled",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/illegal_trap/pointer_snapshot_disabled/rep_02/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_02",
+      "sample_id": "illegal_trap",
+      "start_ns": 7190000000000
+    },
+    {
+      "done_ns": 7210000000000,
+      "duration_ns": 9000000000,
+      "mode": "pointer_snapshot_disabled",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/illegal_trap/pointer_snapshot_disabled/rep_03/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_03",
+      "sample_id": "illegal_trap",
+      "start_ns": 7201000000000
+    },
+    {
+      "done_ns": 7221000000000,
+      "duration_ns": 9000000000,
+      "mode": "trace_off",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/process_chain/trace_off/rep_01/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_01",
+      "sample_id": "process_chain",
+      "start_ns": 7212000000000
+    },
+    {
+      "done_ns": 7232000000000,
+      "duration_ns": 9000000000,
+      "mode": "trace_off",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/process_chain/trace_off/rep_02/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_02",
+      "sample_id": "process_chain",
+      "start_ns": 7223000000000
+    },
+    {
+      "done_ns": 7244000000000,
+      "duration_ns": 9000000000,
+      "mode": "trace_off",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/process_chain/trace_off/rep_03/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_03",
+      "sample_id": "process_chain",
+      "start_ns": 7235000000000
+    },
+    {
+      "done_ns": 7268000000000,
+      "duration_ns": 9000000000,
+      "mode": "event_only",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/process_chain/event_only/rep_01/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_01",
+      "sample_id": "process_chain",
+      "start_ns": 7259000000000
+    },
+    {
+      "done_ns": 7293000000000,
+      "duration_ns": 8000000000,
+      "mode": "event_only",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/process_chain/event_only/rep_02/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_02",
+      "sample_id": "process_chain",
+      "start_ns": 7285000000000
+    },
+    {
+      "done_ns": 7315000000000,
+      "duration_ns": 9000000000,
+      "mode": "event_only",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/process_chain/event_only/rep_03/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_03",
+      "sample_id": "process_chain",
+      "start_ns": 7306000000000
+    },
+    {
+      "done_ns": 7337000000000,
+      "duration_ns": 9000000000,
+      "mode": "bram_ring",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/process_chain/bram_ring/rep_01/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_01",
+      "sample_id": "process_chain",
+      "start_ns": 7328000000000
+    },
+    {
+      "done_ns": 7359000000000,
+      "duration_ns": 10000000000,
+      "mode": "bram_ring",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/process_chain/bram_ring/rep_02/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_02",
+      "sample_id": "process_chain",
+      "start_ns": 7349000000000
+    },
+    {
+      "done_ns": 7380000000000,
+      "duration_ns": 8000000000,
+      "mode": "bram_ring",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/process_chain/bram_ring/rep_03/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_03",
+      "sample_id": "process_chain",
+      "start_ns": 7372000000000
+    },
+    {
+      "done_ns": 7392000000000,
+      "duration_ns": 9000000000,
+      "mode": "pointer_snapshot_disabled",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/process_chain/pointer_snapshot_disabled/rep_01/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_01",
+      "sample_id": "process_chain",
+      "start_ns": 7383000000000
+    },
+    {
+      "done_ns": 7404000000000,
+      "duration_ns": 9000000000,
+      "mode": "pointer_snapshot_disabled",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/process_chain/pointer_snapshot_disabled/rep_02/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_02",
+      "sample_id": "process_chain",
+      "start_ns": 7395000000000
+    },
+    {
+      "done_ns": 7415000000000,
+      "duration_ns": 9000000000,
+      "mode": "pointer_snapshot_disabled",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/process_chain/pointer_snapshot_disabled/rep_03/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_03",
+      "sample_id": "process_chain",
+      "start_ns": 7406000000000
+    },
+    {
+      "done_ns": 7426000000000,
+      "duration_ns": 9000000000,
+      "mode": "trace_off",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/dynamic_executable_memory/trace_off/rep_01/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_01",
+      "sample_id": "dynamic_executable_memory",
+      "start_ns": 7417000000000
+    },
+    {
+      "done_ns": 7437000000000,
+      "duration_ns": 9000000000,
+      "mode": "trace_off",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/dynamic_executable_memory/trace_off/rep_02/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_02",
+      "sample_id": "dynamic_executable_memory",
+      "start_ns": 7428000000000
+    },
+    {
+      "done_ns": 7449000000000,
+      "duration_ns": 9000000000,
+      "mode": "trace_off",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/dynamic_executable_memory/trace_off/rep_03/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_03",
+      "sample_id": "dynamic_executable_memory",
+      "start_ns": 7440000000000
+    },
+    {
+      "done_ns": 7473000000000,
+      "duration_ns": 9000000000,
+      "mode": "event_only",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/dynamic_executable_memory/event_only/rep_01/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_01",
+      "sample_id": "dynamic_executable_memory",
+      "start_ns": 7464000000000
+    },
+    {
+      "done_ns": 7499000000000,
+      "duration_ns": 9000000000,
+      "mode": "event_only",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/dynamic_executable_memory/event_only/rep_02/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_02",
+      "sample_id": "dynamic_executable_memory",
+      "start_ns": 7490000000000
+    },
+    {
+      "done_ns": 7520000000000,
+      "duration_ns": 9000000000,
+      "mode": "event_only",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/dynamic_executable_memory/event_only/rep_03/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_03",
+      "sample_id": "dynamic_executable_memory",
+      "start_ns": 7511000000000
+    },
+    {
+      "done_ns": 7542000000000,
+      "duration_ns": 9000000000,
+      "mode": "bram_ring",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/dynamic_executable_memory/bram_ring/rep_01/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_01",
+      "sample_id": "dynamic_executable_memory",
+      "start_ns": 7533000000000
+    },
+    {
+      "done_ns": 7563000000000,
+      "duration_ns": 9000000000,
+      "mode": "bram_ring",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/dynamic_executable_memory/bram_ring/rep_02/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_02",
+      "sample_id": "dynamic_executable_memory",
+      "start_ns": 7554000000000
+    },
+    {
+      "done_ns": 7585000000000,
+      "duration_ns": 9000000000,
+      "mode": "bram_ring",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/dynamic_executable_memory/bram_ring/rep_03/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_03",
+      "sample_id": "dynamic_executable_memory",
+      "start_ns": 7576000000000
+    },
+    {
+      "done_ns": 7597000000000,
+      "duration_ns": 9000000000,
+      "mode": "pointer_snapshot_disabled",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/dynamic_executable_memory/pointer_snapshot_disabled/rep_01/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_01",
+      "sample_id": "dynamic_executable_memory",
+      "start_ns": 7588000000000
+    },
+    {
+      "done_ns": 7608000000000,
+      "duration_ns": 9000000000,
+      "mode": "pointer_snapshot_disabled",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/dynamic_executable_memory/pointer_snapshot_disabled/rep_02/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_02",
+      "sample_id": "dynamic_executable_memory",
+      "start_ns": 7599000000000
+    },
+    {
+      "done_ns": 7619000000000,
+      "duration_ns": 9000000000,
+      "mode": "pointer_snapshot_disabled",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/dynamic_executable_memory/pointer_snapshot_disabled/rep_03/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_03",
+      "sample_id": "dynamic_executable_memory",
+      "start_ns": 7610000000000
+    },
+    {
+      "done_ns": 7631000000000,
+      "duration_ns": 9000000000,
+      "mode": "trace_off",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/anti_debug_like/trace_off/rep_01/uart.log",
       "rc": 0,
       "repetition_id": "rep_01",
       "sample_id": "anti_debug_like",
-      "start_ns": 15184000000000
+      "start_ns": 7622000000000
     },
     {
-      "done_ns": 15202000000000,
-      "duration_ns": 8000000000,
-      "mode": "pointer_snapshot_disabled",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/anti_debug_like/pointer_snapshot_disabled/rep_02/uart.log",
+      "done_ns": 7642000000000,
+      "duration_ns": 9000000000,
+      "mode": "trace_off",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/anti_debug_like/trace_off/rep_02/uart.log",
       "rc": 0,
       "repetition_id": "rep_02",
       "sample_id": "anti_debug_like",
-      "start_ns": 15194000000000
+      "start_ns": 7633000000000
     },
     {
-      "done_ns": 15211000000000,
-      "duration_ns": 8000000000,
-      "mode": "pointer_snapshot_disabled",
-      "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/anti_debug_like/pointer_snapshot_disabled/rep_03/uart.log",
+      "done_ns": 7653000000000,
+      "duration_ns": 9000000000,
+      "mode": "trace_off",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/anti_debug_like/trace_off/rep_03/uart.log",
       "rc": 0,
       "repetition_id": "rep_03",
       "sample_id": "anti_debug_like",
-      "start_ns": 15203000000000
+      "start_ns": 7644000000000
+    },
+    {
+      "done_ns": 7677000000000,
+      "duration_ns": 9000000000,
+      "mode": "event_only",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/anti_debug_like/event_only/rep_01/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_01",
+      "sample_id": "anti_debug_like",
+      "start_ns": 7668000000000
+    },
+    {
+      "done_ns": 7703000000000,
+      "duration_ns": 9000000000,
+      "mode": "event_only",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/anti_debug_like/event_only/rep_02/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_02",
+      "sample_id": "anti_debug_like",
+      "start_ns": 7694000000000
+    },
+    {
+      "done_ns": 7724000000000,
+      "duration_ns": 9000000000,
+      "mode": "event_only",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/anti_debug_like/event_only/rep_03/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_03",
+      "sample_id": "anti_debug_like",
+      "start_ns": 7715000000000
+    },
+    {
+      "done_ns": 7746000000000,
+      "duration_ns": 9000000000,
+      "mode": "bram_ring",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/anti_debug_like/bram_ring/rep_01/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_01",
+      "sample_id": "anti_debug_like",
+      "start_ns": 7737000000000
+    },
+    {
+      "done_ns": 7768000000000,
+      "duration_ns": 9000000000,
+      "mode": "bram_ring",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/anti_debug_like/bram_ring/rep_02/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_02",
+      "sample_id": "anti_debug_like",
+      "start_ns": 7759000000000
+    },
+    {
+      "done_ns": 7789000000000,
+      "duration_ns": 9000000000,
+      "mode": "bram_ring",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/anti_debug_like/bram_ring/rep_03/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_03",
+      "sample_id": "anti_debug_like",
+      "start_ns": 7780000000000
+    },
+    {
+      "done_ns": 7801000000000,
+      "duration_ns": 9000000000,
+      "mode": "pointer_snapshot_disabled",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/anti_debug_like/pointer_snapshot_disabled/rep_01/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_01",
+      "sample_id": "anti_debug_like",
+      "start_ns": 7792000000000
+    },
+    {
+      "done_ns": 7813000000000,
+      "duration_ns": 10000000000,
+      "mode": "pointer_snapshot_disabled",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/anti_debug_like/pointer_snapshot_disabled/rep_02/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_02",
+      "sample_id": "anti_debug_like",
+      "start_ns": 7803000000000
+    },
+    {
+      "done_ns": 7824000000000,
+      "duration_ns": 9000000000,
+      "mode": "pointer_snapshot_disabled",
+      "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/anti_debug_like/pointer_snapshot_disabled/rep_03/uart.log",
+      "rc": 0,
+      "repetition_id": "rep_03",
+      "sample_id": "anti_debug_like",
+      "start_ns": 7815000000000
     }
   ],
-  "run_root": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark",
+  "run_root": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark",
   "runtime_root": "/tmp/rvmt_p2",
   "samples": [
     {
@@ -1017,123 +1017,123 @@
         "bram_ring": {
           "count": 3,
           "max_ns": 9000000000,
-          "median_ns": 8000000000,
-          "min_ns": 8000000000,
-          "p95_ns": 8900000000.0,
+          "median_ns": 9000000000,
+          "min_ns": 9000000000,
+          "p95_ns": 9000000000.0,
           "repetitions": [
             {
-              "done_ns": 14476000000000,
-              "duration_ns": 8000000000,
-              "mode": "bram_ring",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/abnormal_syscall_sequence/bram_ring/rep_01/uart.log",
-              "rc": 0,
-              "repetition_id": "rep_01",
-              "sample_id": "abnormal_syscall_sequence",
-              "start_ns": 14468000000000
-            },
-            {
-              "done_ns": 14495000000000,
+              "done_ns": 6923000000000,
               "duration_ns": 9000000000,
               "mode": "bram_ring",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/abnormal_syscall_sequence/bram_ring/rep_02/uart.log",
-              "rc": 0,
-              "repetition_id": "rep_02",
-              "sample_id": "abnormal_syscall_sequence",
-              "start_ns": 14486000000000
-            },
-            {
-              "done_ns": 14513000000000,
-              "duration_ns": 8000000000,
-              "mode": "bram_ring",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/abnormal_syscall_sequence/bram_ring/rep_03/uart.log",
-              "rc": 0,
-              "repetition_id": "rep_03",
-              "sample_id": "abnormal_syscall_sequence",
-              "start_ns": 14505000000000
-            }
-          ],
-          "slowdown_vs_trace_off_median": 1.0,
-          "slowdown_vs_trace_off_p95": 1.1125,
-          "variance_ns2": 2.222222222222222e+17
-        },
-        "event_only": {
-          "count": 3,
-          "max_ns": 8000000000,
-          "median_ns": 8000000000,
-          "min_ns": 8000000000,
-          "p95_ns": 8000000000.0,
-          "repetitions": [
-            {
-              "done_ns": 14419000000000,
-              "duration_ns": 8000000000,
-              "mode": "event_only",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/abnormal_syscall_sequence/event_only/rep_01/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/abnormal_syscall_sequence/bram_ring/rep_01/uart.log",
               "rc": 0,
               "repetition_id": "rep_01",
               "sample_id": "abnormal_syscall_sequence",
-              "start_ns": 14411000000000
+              "start_ns": 6914000000000
             },
             {
-              "done_ns": 14438000000000,
-              "duration_ns": 8000000000,
-              "mode": "event_only",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/abnormal_syscall_sequence/event_only/rep_02/uart.log",
+              "done_ns": 6945000000000,
+              "duration_ns": 9000000000,
+              "mode": "bram_ring",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/abnormal_syscall_sequence/bram_ring/rep_02/uart.log",
               "rc": 0,
               "repetition_id": "rep_02",
               "sample_id": "abnormal_syscall_sequence",
-              "start_ns": 14430000000000
+              "start_ns": 6936000000000
             },
             {
-              "done_ns": 14457000000000,
-              "duration_ns": 8000000000,
-              "mode": "event_only",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/abnormal_syscall_sequence/event_only/rep_03/uart.log",
+              "done_ns": 6967000000000,
+              "duration_ns": 9000000000,
+              "mode": "bram_ring",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/abnormal_syscall_sequence/bram_ring/rep_03/uart.log",
               "rc": 0,
               "repetition_id": "rep_03",
               "sample_id": "abnormal_syscall_sequence",
-              "start_ns": 14449000000000
+              "start_ns": 6958000000000
             }
           ],
           "slowdown_vs_trace_off_median": 1.0,
           "slowdown_vs_trace_off_p95": 1.0,
           "variance_ns2": 0
         },
-        "pointer_snapshot_disabled": {
+        "event_only": {
           "count": 3,
-          "max_ns": 8000000000,
-          "median_ns": 8000000000,
-          "min_ns": 8000000000,
-          "p95_ns": 8000000000.0,
+          "max_ns": 10000000000,
+          "median_ns": 9000000000,
+          "min_ns": 9000000000,
+          "p95_ns": 9900000000.0,
           "repetitions": [
             {
-              "done_ns": 14523000000000,
-              "duration_ns": 8000000000,
-              "mode": "pointer_snapshot_disabled",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/abnormal_syscall_sequence/pointer_snapshot_disabled/rep_01/uart.log",
+              "done_ns": 6852000000000,
+              "duration_ns": 9000000000,
+              "mode": "event_only",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/abnormal_syscall_sequence/event_only/rep_01/uart.log",
               "rc": 0,
               "repetition_id": "rep_01",
               "sample_id": "abnormal_syscall_sequence",
-              "start_ns": 14515000000000
+              "start_ns": 6843000000000
             },
             {
-              "done_ns": 14532000000000,
-              "duration_ns": 8000000000,
-              "mode": "pointer_snapshot_disabled",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/abnormal_syscall_sequence/pointer_snapshot_disabled/rep_02/uart.log",
+              "done_ns": 6878000000000,
+              "duration_ns": 9000000000,
+              "mode": "event_only",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/abnormal_syscall_sequence/event_only/rep_02/uart.log",
               "rc": 0,
               "repetition_id": "rep_02",
               "sample_id": "abnormal_syscall_sequence",
-              "start_ns": 14524000000000
+              "start_ns": 6869000000000
             },
             {
-              "done_ns": 14541000000000,
-              "duration_ns": 8000000000,
-              "mode": "pointer_snapshot_disabled",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/abnormal_syscall_sequence/pointer_snapshot_disabled/rep_03/uart.log",
+              "done_ns": 6901000000000,
+              "duration_ns": 10000000000,
+              "mode": "event_only",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/abnormal_syscall_sequence/event_only/rep_03/uart.log",
               "rc": 0,
               "repetition_id": "rep_03",
               "sample_id": "abnormal_syscall_sequence",
-              "start_ns": 14533000000000
+              "start_ns": 6891000000000
+            }
+          ],
+          "slowdown_vs_trace_off_median": 1.0,
+          "slowdown_vs_trace_off_p95": 1.1,
+          "variance_ns2": 2.222222222222222e+17
+        },
+        "pointer_snapshot_disabled": {
+          "count": 3,
+          "max_ns": 9000000000,
+          "median_ns": 9000000000,
+          "min_ns": 9000000000,
+          "p95_ns": 9000000000.0,
+          "repetitions": [
+            {
+              "done_ns": 6979000000000,
+              "duration_ns": 9000000000,
+              "mode": "pointer_snapshot_disabled",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/abnormal_syscall_sequence/pointer_snapshot_disabled/rep_01/uart.log",
+              "rc": 0,
+              "repetition_id": "rep_01",
+              "sample_id": "abnormal_syscall_sequence",
+              "start_ns": 6970000000000
+            },
+            {
+              "done_ns": 6991000000000,
+              "duration_ns": 9000000000,
+              "mode": "pointer_snapshot_disabled",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/abnormal_syscall_sequence/pointer_snapshot_disabled/rep_02/uart.log",
+              "rc": 0,
+              "repetition_id": "rep_02",
+              "sample_id": "abnormal_syscall_sequence",
+              "start_ns": 6982000000000
+            },
+            {
+              "done_ns": 7002000000000,
+              "duration_ns": 9000000000,
+              "mode": "pointer_snapshot_disabled",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/abnormal_syscall_sequence/pointer_snapshot_disabled/rep_03/uart.log",
+              "rc": 0,
+              "repetition_id": "rep_03",
+              "sample_id": "abnormal_syscall_sequence",
+              "start_ns": 6993000000000
             }
           ],
           "slowdown_vs_trace_off_median": 1.0,
@@ -1142,40 +1142,40 @@
         },
         "trace_off": {
           "count": 3,
-          "max_ns": 8000000000,
-          "median_ns": 8000000000,
-          "min_ns": 8000000000,
-          "p95_ns": 8000000000.0,
+          "max_ns": 9000000000,
+          "median_ns": 9000000000,
+          "min_ns": 9000000000,
+          "p95_ns": 9000000000.0,
           "repetitions": [
             {
-              "done_ns": 14382000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6803000000000,
+              "duration_ns": 9000000000,
               "mode": "trace_off",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/abnormal_syscall_sequence/trace_off/rep_01/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/abnormal_syscall_sequence/trace_off/rep_01/uart.log",
               "rc": 0,
               "repetition_id": "rep_01",
               "sample_id": "abnormal_syscall_sequence",
-              "start_ns": 14374000000000
+              "start_ns": 6794000000000
             },
             {
-              "done_ns": 14392000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6815000000000,
+              "duration_ns": 9000000000,
               "mode": "trace_off",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/abnormal_syscall_sequence/trace_off/rep_02/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/abnormal_syscall_sequence/trace_off/rep_02/uart.log",
               "rc": 0,
               "repetition_id": "rep_02",
               "sample_id": "abnormal_syscall_sequence",
-              "start_ns": 14384000000000
+              "start_ns": 6806000000000
             },
             {
-              "done_ns": 14401000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6826000000000,
+              "duration_ns": 9000000000,
               "mode": "trace_off",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/abnormal_syscall_sequence/trace_off/rep_03/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/abnormal_syscall_sequence/trace_off/rep_03/uart.log",
               "rc": 0,
               "repetition_id": "rep_03",
               "sample_id": "abnormal_syscall_sequence",
-              "start_ns": 14393000000000
+              "start_ns": 6817000000000
             }
           ],
           "slowdown_vs_trace_off_median": 1.0,
@@ -1190,165 +1190,165 @@
         "bram_ring": {
           "count": 3,
           "max_ns": 9000000000,
-          "median_ns": 8000000000,
-          "min_ns": 8000000000,
-          "p95_ns": 8900000000.0,
+          "median_ns": 9000000000,
+          "min_ns": 9000000000,
+          "p95_ns": 9000000000.0,
           "repetitions": [
             {
-              "done_ns": 15146000000000,
-              "duration_ns": 8000000000,
-              "mode": "bram_ring",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/anti_debug_like/bram_ring/rep_01/uart.log",
-              "rc": 0,
-              "repetition_id": "rep_01",
-              "sample_id": "anti_debug_like",
-              "start_ns": 15138000000000
-            },
-            {
-              "done_ns": 15165000000000,
+              "done_ns": 7746000000000,
               "duration_ns": 9000000000,
               "mode": "bram_ring",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/anti_debug_like/bram_ring/rep_02/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/anti_debug_like/bram_ring/rep_01/uart.log",
               "rc": 0,
-              "repetition_id": "rep_02",
+              "repetition_id": "rep_01",
               "sample_id": "anti_debug_like",
-              "start_ns": 15156000000000
+              "start_ns": 7737000000000
             },
             {
-              "done_ns": 15183000000000,
-              "duration_ns": 8000000000,
-              "mode": "bram_ring",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/anti_debug_like/bram_ring/rep_03/uart.log",
-              "rc": 0,
-              "repetition_id": "rep_03",
-              "sample_id": "anti_debug_like",
-              "start_ns": 15175000000000
-            }
-          ],
-          "slowdown_vs_trace_off_median": 1.0,
-          "slowdown_vs_trace_off_p95": 1.1125,
-          "variance_ns2": 2.222222222222222e+17
-        },
-        "event_only": {
-          "count": 3,
-          "max_ns": 9000000000,
-          "median_ns": 8000000000,
-          "min_ns": 8000000000,
-          "p95_ns": 8900000000.0,
-          "repetitions": [
-            {
-              "done_ns": 15091000000000,
+              "done_ns": 7768000000000,
               "duration_ns": 9000000000,
-              "mode": "event_only",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/anti_debug_like/event_only/rep_01/uart.log",
-              "rc": 0,
-              "repetition_id": "rep_01",
-              "sample_id": "anti_debug_like",
-              "start_ns": 15082000000000
-            },
-            {
-              "done_ns": 15109000000000,
-              "duration_ns": 8000000000,
-              "mode": "event_only",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/anti_debug_like/event_only/rep_02/uart.log",
+              "mode": "bram_ring",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/anti_debug_like/bram_ring/rep_02/uart.log",
               "rc": 0,
               "repetition_id": "rep_02",
               "sample_id": "anti_debug_like",
-              "start_ns": 15101000000000
+              "start_ns": 7759000000000
             },
             {
-              "done_ns": 15128000000000,
-              "duration_ns": 8000000000,
-              "mode": "event_only",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/anti_debug_like/event_only/rep_03/uart.log",
+              "done_ns": 7789000000000,
+              "duration_ns": 9000000000,
+              "mode": "bram_ring",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/anti_debug_like/bram_ring/rep_03/uart.log",
               "rc": 0,
               "repetition_id": "rep_03",
               "sample_id": "anti_debug_like",
-              "start_ns": 15120000000000
-            }
-          ],
-          "slowdown_vs_trace_off_median": 1.0,
-          "slowdown_vs_trace_off_p95": 1.1125,
-          "variance_ns2": 2.222222222222222e+17
-        },
-        "pointer_snapshot_disabled": {
-          "count": 3,
-          "max_ns": 8000000000,
-          "median_ns": 8000000000,
-          "min_ns": 8000000000,
-          "p95_ns": 8000000000.0,
-          "repetitions": [
-            {
-              "done_ns": 15192000000000,
-              "duration_ns": 8000000000,
-              "mode": "pointer_snapshot_disabled",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/anti_debug_like/pointer_snapshot_disabled/rep_01/uart.log",
-              "rc": 0,
-              "repetition_id": "rep_01",
-              "sample_id": "anti_debug_like",
-              "start_ns": 15184000000000
-            },
-            {
-              "done_ns": 15202000000000,
-              "duration_ns": 8000000000,
-              "mode": "pointer_snapshot_disabled",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/anti_debug_like/pointer_snapshot_disabled/rep_02/uart.log",
-              "rc": 0,
-              "repetition_id": "rep_02",
-              "sample_id": "anti_debug_like",
-              "start_ns": 15194000000000
-            },
-            {
-              "done_ns": 15211000000000,
-              "duration_ns": 8000000000,
-              "mode": "pointer_snapshot_disabled",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/anti_debug_like/pointer_snapshot_disabled/rep_03/uart.log",
-              "rc": 0,
-              "repetition_id": "rep_03",
-              "sample_id": "anti_debug_like",
-              "start_ns": 15203000000000
+              "start_ns": 7780000000000
             }
           ],
           "slowdown_vs_trace_off_median": 1.0,
           "slowdown_vs_trace_off_p95": 1.0,
           "variance_ns2": 0
         },
-        "trace_off": {
+        "event_only": {
           "count": 3,
-          "max_ns": 8000000000,
-          "median_ns": 8000000000,
-          "min_ns": 8000000000,
-          "p95_ns": 8000000000.0,
+          "max_ns": 9000000000,
+          "median_ns": 9000000000,
+          "min_ns": 9000000000,
+          "p95_ns": 9000000000.0,
           "repetitions": [
             {
-              "done_ns": 15054000000000,
-              "duration_ns": 8000000000,
-              "mode": "trace_off",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/anti_debug_like/trace_off/rep_01/uart.log",
+              "done_ns": 7677000000000,
+              "duration_ns": 9000000000,
+              "mode": "event_only",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/anti_debug_like/event_only/rep_01/uart.log",
               "rc": 0,
               "repetition_id": "rep_01",
               "sample_id": "anti_debug_like",
-              "start_ns": 15046000000000
+              "start_ns": 7668000000000
             },
             {
-              "done_ns": 15063000000000,
-              "duration_ns": 8000000000,
-              "mode": "trace_off",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/anti_debug_like/trace_off/rep_02/uart.log",
+              "done_ns": 7703000000000,
+              "duration_ns": 9000000000,
+              "mode": "event_only",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/anti_debug_like/event_only/rep_02/uart.log",
               "rc": 0,
               "repetition_id": "rep_02",
               "sample_id": "anti_debug_like",
-              "start_ns": 15055000000000
+              "start_ns": 7694000000000
             },
             {
-              "done_ns": 15073000000000,
-              "duration_ns": 8000000000,
-              "mode": "trace_off",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/anti_debug_like/trace_off/rep_03/uart.log",
+              "done_ns": 7724000000000,
+              "duration_ns": 9000000000,
+              "mode": "event_only",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/anti_debug_like/event_only/rep_03/uart.log",
               "rc": 0,
               "repetition_id": "rep_03",
               "sample_id": "anti_debug_like",
-              "start_ns": 15065000000000
+              "start_ns": 7715000000000
+            }
+          ],
+          "slowdown_vs_trace_off_median": 1.0,
+          "slowdown_vs_trace_off_p95": 1.0,
+          "variance_ns2": 0
+        },
+        "pointer_snapshot_disabled": {
+          "count": 3,
+          "max_ns": 10000000000,
+          "median_ns": 9000000000,
+          "min_ns": 9000000000,
+          "p95_ns": 9900000000.0,
+          "repetitions": [
+            {
+              "done_ns": 7801000000000,
+              "duration_ns": 9000000000,
+              "mode": "pointer_snapshot_disabled",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/anti_debug_like/pointer_snapshot_disabled/rep_01/uart.log",
+              "rc": 0,
+              "repetition_id": "rep_01",
+              "sample_id": "anti_debug_like",
+              "start_ns": 7792000000000
+            },
+            {
+              "done_ns": 7813000000000,
+              "duration_ns": 10000000000,
+              "mode": "pointer_snapshot_disabled",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/anti_debug_like/pointer_snapshot_disabled/rep_02/uart.log",
+              "rc": 0,
+              "repetition_id": "rep_02",
+              "sample_id": "anti_debug_like",
+              "start_ns": 7803000000000
+            },
+            {
+              "done_ns": 7824000000000,
+              "duration_ns": 9000000000,
+              "mode": "pointer_snapshot_disabled",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/anti_debug_like/pointer_snapshot_disabled/rep_03/uart.log",
+              "rc": 0,
+              "repetition_id": "rep_03",
+              "sample_id": "anti_debug_like",
+              "start_ns": 7815000000000
+            }
+          ],
+          "slowdown_vs_trace_off_median": 1.0,
+          "slowdown_vs_trace_off_p95": 1.1,
+          "variance_ns2": 2.222222222222222e+17
+        },
+        "trace_off": {
+          "count": 3,
+          "max_ns": 9000000000,
+          "median_ns": 9000000000,
+          "min_ns": 9000000000,
+          "p95_ns": 9000000000.0,
+          "repetitions": [
+            {
+              "done_ns": 7631000000000,
+              "duration_ns": 9000000000,
+              "mode": "trace_off",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/anti_debug_like/trace_off/rep_01/uart.log",
+              "rc": 0,
+              "repetition_id": "rep_01",
+              "sample_id": "anti_debug_like",
+              "start_ns": 7622000000000
+            },
+            {
+              "done_ns": 7642000000000,
+              "duration_ns": 9000000000,
+              "mode": "trace_off",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/anti_debug_like/trace_off/rep_02/uart.log",
+              "rc": 0,
+              "repetition_id": "rep_02",
+              "sample_id": "anti_debug_like",
+              "start_ns": 7633000000000
+            },
+            {
+              "done_ns": 7653000000000,
+              "duration_ns": 9000000000,
+              "mode": "trace_off",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/anti_debug_like/trace_off/rep_03/uart.log",
+              "rc": 0,
+              "repetition_id": "rep_03",
+              "sample_id": "anti_debug_like",
+              "start_ns": 7644000000000
             }
           ],
           "slowdown_vs_trace_off_median": 1.0,
@@ -1362,166 +1362,166 @@
       "modes": {
         "bram_ring": {
           "count": 3,
-          "max_ns": 8000000000,
-          "median_ns": 8000000000,
-          "min_ns": 8000000000,
-          "p95_ns": 8000000000.0,
+          "max_ns": 10000000000,
+          "median_ns": 9000000000,
+          "min_ns": 9000000000,
+          "p95_ns": 9900000000.0,
           "repetitions": [
             {
-              "done_ns": 14142000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6499000000000,
+              "duration_ns": 9000000000,
               "mode": "bram_ring",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/batch_open_read_write/bram_ring/rep_01/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/batch_open_read_write/bram_ring/rep_01/uart.log",
               "rc": 0,
               "repetition_id": "rep_01",
               "sample_id": "batch_open_read_write",
-              "start_ns": 14134000000000
+              "start_ns": 6490000000000
             },
             {
-              "done_ns": 14160000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6522000000000,
+              "duration_ns": 10000000000,
               "mode": "bram_ring",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/batch_open_read_write/bram_ring/rep_02/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/batch_open_read_write/bram_ring/rep_02/uart.log",
               "rc": 0,
               "repetition_id": "rep_02",
               "sample_id": "batch_open_read_write",
-              "start_ns": 14152000000000
+              "start_ns": 6512000000000
             },
             {
-              "done_ns": 14179000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6544000000000,
+              "duration_ns": 9000000000,
               "mode": "bram_ring",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/batch_open_read_write/bram_ring/rep_03/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/batch_open_read_write/bram_ring/rep_03/uart.log",
               "rc": 0,
               "repetition_id": "rep_03",
               "sample_id": "batch_open_read_write",
-              "start_ns": 14171000000000
+              "start_ns": 6535000000000
             }
           ],
           "slowdown_vs_trace_off_median": 1.0,
           "slowdown_vs_trace_off_p95": 1.0,
-          "variance_ns2": 0
+          "variance_ns2": 2.222222222222222e+17
         },
         "event_only": {
           "count": 3,
-          "max_ns": 8000000000,
-          "median_ns": 8000000000,
-          "min_ns": 8000000000,
-          "p95_ns": 8000000000.0,
+          "max_ns": 10000000000,
+          "median_ns": 9000000000,
+          "min_ns": 9000000000,
+          "p95_ns": 9900000000.0,
           "repetitions": [
             {
-              "done_ns": 14086000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6431000000000,
+              "duration_ns": 9000000000,
               "mode": "event_only",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/batch_open_read_write/event_only/rep_01/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/batch_open_read_write/event_only/rep_01/uart.log",
               "rc": 0,
               "repetition_id": "rep_01",
               "sample_id": "batch_open_read_write",
-              "start_ns": 14078000000000
+              "start_ns": 6422000000000
             },
             {
-              "done_ns": 14105000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6454000000000,
+              "duration_ns": 10000000000,
               "mode": "event_only",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/batch_open_read_write/event_only/rep_02/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/batch_open_read_write/event_only/rep_02/uart.log",
               "rc": 0,
               "repetition_id": "rep_02",
               "sample_id": "batch_open_read_write",
-              "start_ns": 14097000000000
+              "start_ns": 6444000000000
             },
             {
-              "done_ns": 14123000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6477000000000,
+              "duration_ns": 9000000000,
               "mode": "event_only",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/batch_open_read_write/event_only/rep_03/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/batch_open_read_write/event_only/rep_03/uart.log",
               "rc": 0,
               "repetition_id": "rep_03",
               "sample_id": "batch_open_read_write",
-              "start_ns": 14115000000000
+              "start_ns": 6468000000000
             }
           ],
           "slowdown_vs_trace_off_median": 1.0,
           "slowdown_vs_trace_off_p95": 1.0,
-          "variance_ns2": 0
+          "variance_ns2": 2.222222222222222e+17
         },
         "pointer_snapshot_disabled": {
           "count": 3,
-          "max_ns": 8000000000,
-          "median_ns": 8000000000,
-          "min_ns": 8000000000,
-          "p95_ns": 8000000000.0,
+          "max_ns": 9000000000,
+          "median_ns": 9000000000,
+          "min_ns": 9000000000,
+          "p95_ns": 9000000000.0,
           "repetitions": [
             {
-              "done_ns": 14189000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6556000000000,
+              "duration_ns": 9000000000,
               "mode": "pointer_snapshot_disabled",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/batch_open_read_write/pointer_snapshot_disabled/rep_01/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/batch_open_read_write/pointer_snapshot_disabled/rep_01/uart.log",
               "rc": 0,
               "repetition_id": "rep_01",
               "sample_id": "batch_open_read_write",
-              "start_ns": 14181000000000
+              "start_ns": 6547000000000
             },
             {
-              "done_ns": 14198000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6568000000000,
+              "duration_ns": 9000000000,
               "mode": "pointer_snapshot_disabled",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/batch_open_read_write/pointer_snapshot_disabled/rep_02/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/batch_open_read_write/pointer_snapshot_disabled/rep_02/uart.log",
               "rc": 0,
               "repetition_id": "rep_02",
               "sample_id": "batch_open_read_write",
-              "start_ns": 14190000000000
+              "start_ns": 6559000000000
             },
             {
-              "done_ns": 14207000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6580000000000,
+              "duration_ns": 9000000000,
               "mode": "pointer_snapshot_disabled",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/batch_open_read_write/pointer_snapshot_disabled/rep_03/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/batch_open_read_write/pointer_snapshot_disabled/rep_03/uart.log",
               "rc": 0,
               "repetition_id": "rep_03",
               "sample_id": "batch_open_read_write",
-              "start_ns": 14199000000000
+              "start_ns": 6571000000000
             }
           ],
           "slowdown_vs_trace_off_median": 1.0,
-          "slowdown_vs_trace_off_p95": 1.0,
+          "slowdown_vs_trace_off_p95": 0.9090909090909091,
           "variance_ns2": 0
         },
         "trace_off": {
           "count": 3,
-          "max_ns": 8000000000,
-          "median_ns": 8000000000,
-          "min_ns": 7000000000,
-          "p95_ns": 8000000000.0,
+          "max_ns": 10000000000,
+          "median_ns": 9000000000,
+          "min_ns": 9000000000,
+          "p95_ns": 9900000000.0,
           "repetitions": [
             {
-              "done_ns": 14049000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6382000000000,
+              "duration_ns": 9000000000,
               "mode": "trace_off",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/batch_open_read_write/trace_off/rep_01/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/batch_open_read_write/trace_off/rep_01/uart.log",
               "rc": 0,
               "repetition_id": "rep_01",
               "sample_id": "batch_open_read_write",
-              "start_ns": 14041000000000
+              "start_ns": 6373000000000
             },
             {
-              "done_ns": 14058000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6395000000000,
+              "duration_ns": 10000000000,
               "mode": "trace_off",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/batch_open_read_write/trace_off/rep_02/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/batch_open_read_write/trace_off/rep_02/uart.log",
               "rc": 0,
               "repetition_id": "rep_02",
               "sample_id": "batch_open_read_write",
-              "start_ns": 14050000000000
+              "start_ns": 6385000000000
             },
             {
-              "done_ns": 14067000000000,
-              "duration_ns": 7000000000,
+              "done_ns": 6406000000000,
+              "duration_ns": 9000000000,
               "mode": "trace_off",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/batch_open_read_write/trace_off/rep_03/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/batch_open_read_write/trace_off/rep_03/uart.log",
               "rc": 0,
               "repetition_id": "rep_03",
               "sample_id": "batch_open_read_write",
-              "start_ns": 14060000000000
+              "start_ns": 6397000000000
             }
           ],
           "slowdown_vs_trace_off_median": 1.0,
@@ -1535,40 +1535,40 @@
       "modes": {
         "bram_ring": {
           "count": 3,
-          "max_ns": 8000000000,
-          "median_ns": 8000000000,
-          "min_ns": 8000000000,
-          "p95_ns": 8000000000.0,
+          "max_ns": 9000000000,
+          "median_ns": 9000000000,
+          "min_ns": 9000000000,
+          "p95_ns": 9000000000.0,
           "repetitions": [
             {
-              "done_ns": 14980000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 7542000000000,
+              "duration_ns": 9000000000,
               "mode": "bram_ring",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/dynamic_executable_memory/bram_ring/rep_01/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/dynamic_executable_memory/bram_ring/rep_01/uart.log",
               "rc": 0,
               "repetition_id": "rep_01",
               "sample_id": "dynamic_executable_memory",
-              "start_ns": 14972000000000
+              "start_ns": 7533000000000
             },
             {
-              "done_ns": 14998000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 7563000000000,
+              "duration_ns": 9000000000,
               "mode": "bram_ring",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/dynamic_executable_memory/bram_ring/rep_02/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/dynamic_executable_memory/bram_ring/rep_02/uart.log",
               "rc": 0,
               "repetition_id": "rep_02",
               "sample_id": "dynamic_executable_memory",
-              "start_ns": 14990000000000
+              "start_ns": 7554000000000
             },
             {
-              "done_ns": 15016000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 7585000000000,
+              "duration_ns": 9000000000,
               "mode": "bram_ring",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/dynamic_executable_memory/bram_ring/rep_03/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/dynamic_executable_memory/bram_ring/rep_03/uart.log",
               "rc": 0,
               "repetition_id": "rep_03",
               "sample_id": "dynamic_executable_memory",
-              "start_ns": 15008000000000
+              "start_ns": 7576000000000
             }
           ],
           "slowdown_vs_trace_off_median": 1.0,
@@ -1577,40 +1577,40 @@
         },
         "event_only": {
           "count": 3,
-          "max_ns": 8000000000,
-          "median_ns": 8000000000,
-          "min_ns": 8000000000,
-          "p95_ns": 8000000000.0,
+          "max_ns": 9000000000,
+          "median_ns": 9000000000,
+          "min_ns": 9000000000,
+          "p95_ns": 9000000000.0,
           "repetitions": [
             {
-              "done_ns": 14923000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 7473000000000,
+              "duration_ns": 9000000000,
               "mode": "event_only",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/dynamic_executable_memory/event_only/rep_01/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/dynamic_executable_memory/event_only/rep_01/uart.log",
               "rc": 0,
               "repetition_id": "rep_01",
               "sample_id": "dynamic_executable_memory",
-              "start_ns": 14915000000000
+              "start_ns": 7464000000000
             },
             {
-              "done_ns": 14942000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 7499000000000,
+              "duration_ns": 9000000000,
               "mode": "event_only",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/dynamic_executable_memory/event_only/rep_02/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/dynamic_executable_memory/event_only/rep_02/uart.log",
               "rc": 0,
               "repetition_id": "rep_02",
               "sample_id": "dynamic_executable_memory",
-              "start_ns": 14934000000000
+              "start_ns": 7490000000000
             },
             {
-              "done_ns": 14961000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 7520000000000,
+              "duration_ns": 9000000000,
               "mode": "event_only",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/dynamic_executable_memory/event_only/rep_03/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/dynamic_executable_memory/event_only/rep_03/uart.log",
               "rc": 0,
               "repetition_id": "rep_03",
               "sample_id": "dynamic_executable_memory",
-              "start_ns": 14953000000000
+              "start_ns": 7511000000000
             }
           ],
           "slowdown_vs_trace_off_median": 1.0,
@@ -1620,81 +1620,81 @@
         "pointer_snapshot_disabled": {
           "count": 3,
           "max_ns": 9000000000,
-          "median_ns": 8000000000,
-          "min_ns": 8000000000,
-          "p95_ns": 8900000000.0,
+          "median_ns": 9000000000,
+          "min_ns": 9000000000,
+          "p95_ns": 9000000000.0,
           "repetitions": [
             {
-              "done_ns": 15026000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 7597000000000,
+              "duration_ns": 9000000000,
               "mode": "pointer_snapshot_disabled",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/dynamic_executable_memory/pointer_snapshot_disabled/rep_01/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/dynamic_executable_memory/pointer_snapshot_disabled/rep_01/uart.log",
               "rc": 0,
               "repetition_id": "rep_01",
               "sample_id": "dynamic_executable_memory",
-              "start_ns": 15018000000000
+              "start_ns": 7588000000000
             },
             {
-              "done_ns": 15035000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 7608000000000,
+              "duration_ns": 9000000000,
               "mode": "pointer_snapshot_disabled",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/dynamic_executable_memory/pointer_snapshot_disabled/rep_02/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/dynamic_executable_memory/pointer_snapshot_disabled/rep_02/uart.log",
               "rc": 0,
               "repetition_id": "rep_02",
               "sample_id": "dynamic_executable_memory",
-              "start_ns": 15027000000000
+              "start_ns": 7599000000000
             },
             {
-              "done_ns": 15045000000000,
+              "done_ns": 7619000000000,
               "duration_ns": 9000000000,
               "mode": "pointer_snapshot_disabled",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/dynamic_executable_memory/pointer_snapshot_disabled/rep_03/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/dynamic_executable_memory/pointer_snapshot_disabled/rep_03/uart.log",
               "rc": 0,
               "repetition_id": "rep_03",
               "sample_id": "dynamic_executable_memory",
-              "start_ns": 15036000000000
+              "start_ns": 7610000000000
             }
           ],
           "slowdown_vs_trace_off_median": 1.0,
-          "slowdown_vs_trace_off_p95": 1.1125,
-          "variance_ns2": 2.222222222222222e+17
+          "slowdown_vs_trace_off_p95": 1.0,
+          "variance_ns2": 0
         },
         "trace_off": {
           "count": 3,
-          "max_ns": 8000000000,
-          "median_ns": 8000000000,
-          "min_ns": 8000000000,
-          "p95_ns": 8000000000.0,
+          "max_ns": 9000000000,
+          "median_ns": 9000000000,
+          "min_ns": 9000000000,
+          "p95_ns": 9000000000.0,
           "repetitions": [
             {
-              "done_ns": 14886000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 7426000000000,
+              "duration_ns": 9000000000,
               "mode": "trace_off",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/dynamic_executable_memory/trace_off/rep_01/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/dynamic_executable_memory/trace_off/rep_01/uart.log",
               "rc": 0,
               "repetition_id": "rep_01",
               "sample_id": "dynamic_executable_memory",
-              "start_ns": 14878000000000
+              "start_ns": 7417000000000
             },
             {
-              "done_ns": 14896000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 7437000000000,
+              "duration_ns": 9000000000,
               "mode": "trace_off",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/dynamic_executable_memory/trace_off/rep_02/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/dynamic_executable_memory/trace_off/rep_02/uart.log",
               "rc": 0,
               "repetition_id": "rep_02",
               "sample_id": "dynamic_executable_memory",
-              "start_ns": 14888000000000
+              "start_ns": 7428000000000
             },
             {
-              "done_ns": 14905000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 7449000000000,
+              "duration_ns": 9000000000,
               "mode": "trace_off",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/dynamic_executable_memory/trace_off/rep_03/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/dynamic_executable_memory/trace_off/rep_03/uart.log",
               "rc": 0,
               "repetition_id": "rep_03",
               "sample_id": "dynamic_executable_memory",
-              "start_ns": 14897000000000
+              "start_ns": 7440000000000
             }
           ],
           "slowdown_vs_trace_off_median": 1.0,
@@ -1708,166 +1708,166 @@
       "modes": {
         "bram_ring": {
           "count": 3,
-          "max_ns": 8000000000,
-          "median_ns": 8000000000,
-          "min_ns": 8000000000,
-          "p95_ns": 8000000000.0,
+          "max_ns": 10000000000,
+          "median_ns": 9000000000,
+          "min_ns": 9000000000,
+          "p95_ns": 9900000000.0,
           "repetitions": [
             {
-              "done_ns": 13945000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6289000000000,
+              "duration_ns": 9000000000,
               "mode": "bram_ring",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/file_scan/bram_ring/rep_01/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/file_scan/bram_ring/rep_01/uart.log",
               "rc": 0,
               "repetition_id": "rep_01",
               "sample_id": "file_scan",
-              "start_ns": 13937000000000
+              "start_ns": 6280000000000
             },
             {
-              "done_ns": 13964000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6312000000000,
+              "duration_ns": 9000000000,
               "mode": "bram_ring",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/file_scan/bram_ring/rep_02/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/file_scan/bram_ring/rep_02/uart.log",
               "rc": 0,
               "repetition_id": "rep_02",
               "sample_id": "file_scan",
-              "start_ns": 13956000000000
+              "start_ns": 6303000000000
             },
             {
-              "done_ns": 13982000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6335000000000,
+              "duration_ns": 10000000000,
               "mode": "bram_ring",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/file_scan/bram_ring/rep_03/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/file_scan/bram_ring/rep_03/uart.log",
               "rc": 0,
               "repetition_id": "rep_03",
               "sample_id": "file_scan",
-              "start_ns": 13974000000000
+              "start_ns": 6325000000000
             }
           ],
           "slowdown_vs_trace_off_median": 1.0,
-          "slowdown_vs_trace_off_p95": 1.0,
-          "variance_ns2": 0
+          "slowdown_vs_trace_off_p95": 1.1,
+          "variance_ns2": 2.222222222222222e+17
         },
         "event_only": {
           "count": 3,
-          "max_ns": 8000000000,
-          "median_ns": 8000000000,
-          "min_ns": 8000000000,
-          "p95_ns": 8000000000.0,
+          "max_ns": 10000000000,
+          "median_ns": 9000000000,
+          "min_ns": 9000000000,
+          "p95_ns": 9900000000.0,
           "repetitions": [
             {
-              "done_ns": 13888000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6218000000000,
+              "duration_ns": 10000000000,
               "mode": "event_only",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/file_scan/event_only/rep_01/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/file_scan/event_only/rep_01/uart.log",
               "rc": 0,
               "repetition_id": "rep_01",
               "sample_id": "file_scan",
-              "start_ns": 13880000000000
+              "start_ns": 6208000000000
             },
             {
-              "done_ns": 13907000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6244000000000,
+              "duration_ns": 9000000000,
               "mode": "event_only",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/file_scan/event_only/rep_02/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/file_scan/event_only/rep_02/uart.log",
               "rc": 0,
               "repetition_id": "rep_02",
               "sample_id": "file_scan",
-              "start_ns": 13899000000000
+              "start_ns": 6235000000000
             },
             {
-              "done_ns": 13926000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6267000000000,
+              "duration_ns": 9000000000,
               "mode": "event_only",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/file_scan/event_only/rep_03/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/file_scan/event_only/rep_03/uart.log",
               "rc": 0,
               "repetition_id": "rep_03",
               "sample_id": "file_scan",
-              "start_ns": 13918000000000
+              "start_ns": 6258000000000
+            }
+          ],
+          "slowdown_vs_trace_off_median": 1.0,
+          "slowdown_vs_trace_off_p95": 1.1,
+          "variance_ns2": 2.222222222222222e+17
+        },
+        "pointer_snapshot_disabled": {
+          "count": 3,
+          "max_ns": 9000000000,
+          "median_ns": 9000000000,
+          "min_ns": 9000000000,
+          "p95_ns": 9000000000.0,
+          "repetitions": [
+            {
+              "done_ns": 6347000000000,
+              "duration_ns": 9000000000,
+              "mode": "pointer_snapshot_disabled",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/file_scan/pointer_snapshot_disabled/rep_01/uart.log",
+              "rc": 0,
+              "repetition_id": "rep_01",
+              "sample_id": "file_scan",
+              "start_ns": 6338000000000
+            },
+            {
+              "done_ns": 6359000000000,
+              "duration_ns": 9000000000,
+              "mode": "pointer_snapshot_disabled",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/file_scan/pointer_snapshot_disabled/rep_02/uart.log",
+              "rc": 0,
+              "repetition_id": "rep_02",
+              "sample_id": "file_scan",
+              "start_ns": 6350000000000
+            },
+            {
+              "done_ns": 6371000000000,
+              "duration_ns": 9000000000,
+              "mode": "pointer_snapshot_disabled",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/file_scan/pointer_snapshot_disabled/rep_03/uart.log",
+              "rc": 0,
+              "repetition_id": "rep_03",
+              "sample_id": "file_scan",
+              "start_ns": 6362000000000
             }
           ],
           "slowdown_vs_trace_off_median": 1.0,
           "slowdown_vs_trace_off_p95": 1.0,
           "variance_ns2": 0
         },
-        "pointer_snapshot_disabled": {
-          "count": 3,
-          "max_ns": 8000000000,
-          "median_ns": 8000000000,
-          "min_ns": 7000000000,
-          "p95_ns": 8000000000.0,
-          "repetitions": [
-            {
-              "done_ns": 13991000000000,
-              "duration_ns": 7000000000,
-              "mode": "pointer_snapshot_disabled",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/file_scan/pointer_snapshot_disabled/rep_01/uart.log",
-              "rc": 0,
-              "repetition_id": "rep_01",
-              "sample_id": "file_scan",
-              "start_ns": 13984000000000
-            },
-            {
-              "done_ns": 14000000000000,
-              "duration_ns": 8000000000,
-              "mode": "pointer_snapshot_disabled",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/file_scan/pointer_snapshot_disabled/rep_02/uart.log",
-              "rc": 0,
-              "repetition_id": "rep_02",
-              "sample_id": "file_scan",
-              "start_ns": 13992000000000
-            },
-            {
-              "done_ns": 14009000000000,
-              "duration_ns": 8000000000,
-              "mode": "pointer_snapshot_disabled",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/file_scan/pointer_snapshot_disabled/rep_03/uart.log",
-              "rc": 0,
-              "repetition_id": "rep_03",
-              "sample_id": "file_scan",
-              "start_ns": 14001000000000
-            }
-          ],
-          "slowdown_vs_trace_off_median": 1.0,
-          "slowdown_vs_trace_off_p95": 1.0,
-          "variance_ns2": 2.222222222222222e+17
-        },
         "trace_off": {
           "count": 3,
-          "max_ns": 8000000000,
-          "median_ns": 8000000000,
-          "min_ns": 8000000000,
-          "p95_ns": 8000000000.0,
+          "max_ns": 9000000000,
+          "median_ns": 9000000000,
+          "min_ns": 9000000000,
+          "p95_ns": 9000000000.0,
           "repetitions": [
             {
-              "done_ns": 13853000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6168000000000,
+              "duration_ns": 9000000000,
               "mode": "trace_off",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/file_scan/trace_off/rep_01/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/file_scan/trace_off/rep_01/uart.log",
               "rc": 0,
               "repetition_id": "rep_01",
               "sample_id": "file_scan",
-              "start_ns": 13845000000000
+              "start_ns": 6159000000000
             },
             {
-              "done_ns": 13861000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6180000000000,
+              "duration_ns": 9000000000,
               "mode": "trace_off",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/file_scan/trace_off/rep_02/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/file_scan/trace_off/rep_02/uart.log",
               "rc": 0,
               "repetition_id": "rep_02",
               "sample_id": "file_scan",
-              "start_ns": 13853000000000
+              "start_ns": 6171000000000
             },
             {
-              "done_ns": 13870000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6192000000000,
+              "duration_ns": 9000000000,
               "mode": "trace_off",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/file_scan/trace_off/rep_03/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/file_scan/trace_off/rep_03/uart.log",
               "rc": 0,
               "repetition_id": "rep_03",
               "sample_id": "file_scan",
-              "start_ns": 13862000000000
+              "start_ns": 6183000000000
             }
           ],
           "slowdown_vs_trace_off_median": 1.0,
@@ -1881,40 +1881,40 @@
       "modes": {
         "bram_ring": {
           "count": 3,
-          "max_ns": 8000000000,
-          "median_ns": 8000000000,
-          "min_ns": 8000000000,
-          "p95_ns": 8000000000.0,
+          "max_ns": 9000000000,
+          "median_ns": 9000000000,
+          "min_ns": 9000000000,
+          "p95_ns": 9000000000.0,
           "repetitions": [
             {
-              "done_ns": 14644000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 7133000000000,
+              "duration_ns": 9000000000,
               "mode": "bram_ring",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/illegal_trap/bram_ring/rep_01/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/illegal_trap/bram_ring/rep_01/uart.log",
               "rc": 0,
               "repetition_id": "rep_01",
               "sample_id": "illegal_trap",
-              "start_ns": 14636000000000
+              "start_ns": 7124000000000
             },
             {
-              "done_ns": 14663000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 7154000000000,
+              "duration_ns": 9000000000,
               "mode": "bram_ring",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/illegal_trap/bram_ring/rep_02/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/illegal_trap/bram_ring/rep_02/uart.log",
               "rc": 0,
               "repetition_id": "rep_02",
               "sample_id": "illegal_trap",
-              "start_ns": 14655000000000
+              "start_ns": 7145000000000
             },
             {
-              "done_ns": 14681000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 7176000000000,
+              "duration_ns": 9000000000,
               "mode": "bram_ring",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/illegal_trap/bram_ring/rep_03/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/illegal_trap/bram_ring/rep_03/uart.log",
               "rc": 0,
               "repetition_id": "rep_03",
               "sample_id": "illegal_trap",
-              "start_ns": 14673000000000
+              "start_ns": 7167000000000
             }
           ],
           "slowdown_vs_trace_off_median": 1.0,
@@ -1923,82 +1923,82 @@
         },
         "event_only": {
           "count": 3,
-          "max_ns": 8000000000,
-          "median_ns": 8000000000,
+          "max_ns": 9000000000,
+          "median_ns": 9000000000,
           "min_ns": 8000000000,
-          "p95_ns": 8000000000.0,
+          "p95_ns": 9000000000.0,
           "repetitions": [
             {
-              "done_ns": 14587000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 7062000000000,
+              "duration_ns": 9000000000,
               "mode": "event_only",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/illegal_trap/event_only/rep_01/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/illegal_trap/event_only/rep_01/uart.log",
               "rc": 0,
               "repetition_id": "rep_01",
               "sample_id": "illegal_trap",
-              "start_ns": 14579000000000
+              "start_ns": 7053000000000
             },
             {
-              "done_ns": 14606000000000,
+              "done_ns": 7088000000000,
               "duration_ns": 8000000000,
               "mode": "event_only",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/illegal_trap/event_only/rep_02/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/illegal_trap/event_only/rep_02/uart.log",
               "rc": 0,
               "repetition_id": "rep_02",
               "sample_id": "illegal_trap",
-              "start_ns": 14598000000000
+              "start_ns": 7080000000000
             },
             {
-              "done_ns": 14625000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 7111000000000,
+              "duration_ns": 9000000000,
               "mode": "event_only",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/illegal_trap/event_only/rep_03/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/illegal_trap/event_only/rep_03/uart.log",
               "rc": 0,
               "repetition_id": "rep_03",
               "sample_id": "illegal_trap",
-              "start_ns": 14617000000000
+              "start_ns": 7102000000000
             }
           ],
           "slowdown_vs_trace_off_median": 1.0,
           "slowdown_vs_trace_off_p95": 1.0,
-          "variance_ns2": 0
+          "variance_ns2": 2.222222222222222e+17
         },
         "pointer_snapshot_disabled": {
           "count": 3,
-          "max_ns": 8000000000,
-          "median_ns": 8000000000,
-          "min_ns": 8000000000,
-          "p95_ns": 8000000000.0,
+          "max_ns": 9000000000,
+          "median_ns": 9000000000,
+          "min_ns": 9000000000,
+          "p95_ns": 9000000000.0,
           "repetitions": [
             {
-              "done_ns": 14691000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 7188000000000,
+              "duration_ns": 9000000000,
               "mode": "pointer_snapshot_disabled",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/illegal_trap/pointer_snapshot_disabled/rep_01/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/illegal_trap/pointer_snapshot_disabled/rep_01/uart.log",
               "rc": 0,
               "repetition_id": "rep_01",
               "sample_id": "illegal_trap",
-              "start_ns": 14683000000000
+              "start_ns": 7179000000000
             },
             {
-              "done_ns": 14700000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 7199000000000,
+              "duration_ns": 9000000000,
               "mode": "pointer_snapshot_disabled",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/illegal_trap/pointer_snapshot_disabled/rep_02/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/illegal_trap/pointer_snapshot_disabled/rep_02/uart.log",
               "rc": 0,
               "repetition_id": "rep_02",
               "sample_id": "illegal_trap",
-              "start_ns": 14692000000000
+              "start_ns": 7190000000000
             },
             {
-              "done_ns": 14709000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 7210000000000,
+              "duration_ns": 9000000000,
               "mode": "pointer_snapshot_disabled",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/illegal_trap/pointer_snapshot_disabled/rep_03/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/illegal_trap/pointer_snapshot_disabled/rep_03/uart.log",
               "rc": 0,
               "repetition_id": "rep_03",
               "sample_id": "illegal_trap",
-              "start_ns": 14701000000000
+              "start_ns": 7201000000000
             }
           ],
           "slowdown_vs_trace_off_median": 1.0,
@@ -2007,40 +2007,40 @@
         },
         "trace_off": {
           "count": 3,
-          "max_ns": 8000000000,
-          "median_ns": 8000000000,
-          "min_ns": 8000000000,
-          "p95_ns": 8000000000.0,
+          "max_ns": 9000000000,
+          "median_ns": 9000000000,
+          "min_ns": 9000000000,
+          "p95_ns": 9000000000.0,
           "repetitions": [
             {
-              "done_ns": 14551000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 7014000000000,
+              "duration_ns": 9000000000,
               "mode": "trace_off",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/illegal_trap/trace_off/rep_01/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/illegal_trap/trace_off/rep_01/uart.log",
               "rc": 0,
               "repetition_id": "rep_01",
               "sample_id": "illegal_trap",
-              "start_ns": 14543000000000
+              "start_ns": 7005000000000
             },
             {
-              "done_ns": 14560000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 7026000000000,
+              "duration_ns": 9000000000,
               "mode": "trace_off",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/illegal_trap/trace_off/rep_02/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/illegal_trap/trace_off/rep_02/uart.log",
               "rc": 0,
               "repetition_id": "rep_02",
               "sample_id": "illegal_trap",
-              "start_ns": 14552000000000
+              "start_ns": 7017000000000
             },
             {
-              "done_ns": 14569000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 7037000000000,
+              "duration_ns": 9000000000,
               "mode": "trace_off",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/illegal_trap/trace_off/rep_03/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/illegal_trap/trace_off/rep_03/uart.log",
               "rc": 0,
               "repetition_id": "rep_03",
               "sample_id": "illegal_trap",
-              "start_ns": 14561000000000
+              "start_ns": 7028000000000
             }
           ],
           "slowdown_vs_trace_off_median": 1.0,
@@ -2054,124 +2054,124 @@
       "modes": {
         "bram_ring": {
           "count": 3,
-          "max_ns": 8000000000,
-          "median_ns": 8000000000,
+          "max_ns": 10000000000,
+          "median_ns": 9000000000,
           "min_ns": 8000000000,
-          "p95_ns": 8000000000.0,
+          "p95_ns": 9900000000.0,
           "repetitions": [
             {
-              "done_ns": 14812000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 7337000000000,
+              "duration_ns": 9000000000,
               "mode": "bram_ring",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/process_chain/bram_ring/rep_01/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/process_chain/bram_ring/rep_01/uart.log",
               "rc": 0,
               "repetition_id": "rep_01",
               "sample_id": "process_chain",
-              "start_ns": 14804000000000
+              "start_ns": 7328000000000
             },
             {
-              "done_ns": 14830000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 7359000000000,
+              "duration_ns": 10000000000,
               "mode": "bram_ring",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/process_chain/bram_ring/rep_02/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/process_chain/bram_ring/rep_02/uart.log",
               "rc": 0,
               "repetition_id": "rep_02",
               "sample_id": "process_chain",
-              "start_ns": 14822000000000
+              "start_ns": 7349000000000
             },
             {
-              "done_ns": 14849000000000,
+              "done_ns": 7380000000000,
               "duration_ns": 8000000000,
               "mode": "bram_ring",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/process_chain/bram_ring/rep_03/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/process_chain/bram_ring/rep_03/uart.log",
               "rc": 0,
               "repetition_id": "rep_03",
               "sample_id": "process_chain",
-              "start_ns": 14841000000000
+              "start_ns": 7372000000000
             }
           ],
           "slowdown_vs_trace_off_median": 1.0,
-          "slowdown_vs_trace_off_p95": 1.0,
-          "variance_ns2": 0
+          "slowdown_vs_trace_off_p95": 1.1,
+          "variance_ns2": 6.666666666666666e+17
         },
         "event_only": {
           "count": 3,
-          "max_ns": 8000000000,
-          "median_ns": 8000000000,
+          "max_ns": 9000000000,
+          "median_ns": 9000000000,
           "min_ns": 8000000000,
-          "p95_ns": 8000000000.0,
+          "p95_ns": 9000000000.0,
           "repetitions": [
             {
-              "done_ns": 14755000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 7268000000000,
+              "duration_ns": 9000000000,
               "mode": "event_only",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/process_chain/event_only/rep_01/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/process_chain/event_only/rep_01/uart.log",
               "rc": 0,
               "repetition_id": "rep_01",
               "sample_id": "process_chain",
-              "start_ns": 14747000000000
+              "start_ns": 7259000000000
             },
             {
-              "done_ns": 14774000000000,
+              "done_ns": 7293000000000,
               "duration_ns": 8000000000,
               "mode": "event_only",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/process_chain/event_only/rep_02/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/process_chain/event_only/rep_02/uart.log",
               "rc": 0,
               "repetition_id": "rep_02",
               "sample_id": "process_chain",
-              "start_ns": 14766000000000
+              "start_ns": 7285000000000
             },
             {
-              "done_ns": 14793000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 7315000000000,
+              "duration_ns": 9000000000,
               "mode": "event_only",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/process_chain/event_only/rep_03/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/process_chain/event_only/rep_03/uart.log",
               "rc": 0,
               "repetition_id": "rep_03",
               "sample_id": "process_chain",
-              "start_ns": 14785000000000
+              "start_ns": 7306000000000
             }
           ],
           "slowdown_vs_trace_off_median": 1.0,
           "slowdown_vs_trace_off_p95": 1.0,
-          "variance_ns2": 0
+          "variance_ns2": 2.222222222222222e+17
         },
         "pointer_snapshot_disabled": {
           "count": 3,
-          "max_ns": 8000000000,
-          "median_ns": 8000000000,
-          "min_ns": 8000000000,
-          "p95_ns": 8000000000.0,
+          "max_ns": 9000000000,
+          "median_ns": 9000000000,
+          "min_ns": 9000000000,
+          "p95_ns": 9000000000.0,
           "repetitions": [
             {
-              "done_ns": 14859000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 7392000000000,
+              "duration_ns": 9000000000,
               "mode": "pointer_snapshot_disabled",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/process_chain/pointer_snapshot_disabled/rep_01/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/process_chain/pointer_snapshot_disabled/rep_01/uart.log",
               "rc": 0,
               "repetition_id": "rep_01",
               "sample_id": "process_chain",
-              "start_ns": 14851000000000
+              "start_ns": 7383000000000
             },
             {
-              "done_ns": 14868000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 7404000000000,
+              "duration_ns": 9000000000,
               "mode": "pointer_snapshot_disabled",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/process_chain/pointer_snapshot_disabled/rep_02/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/process_chain/pointer_snapshot_disabled/rep_02/uart.log",
               "rc": 0,
               "repetition_id": "rep_02",
               "sample_id": "process_chain",
-              "start_ns": 14860000000000
+              "start_ns": 7395000000000
             },
             {
-              "done_ns": 14877000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 7415000000000,
+              "duration_ns": 9000000000,
               "mode": "pointer_snapshot_disabled",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/process_chain/pointer_snapshot_disabled/rep_03/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/process_chain/pointer_snapshot_disabled/rep_03/uart.log",
               "rc": 0,
               "repetition_id": "rep_03",
               "sample_id": "process_chain",
-              "start_ns": 14869000000000
+              "start_ns": 7406000000000
             }
           ],
           "slowdown_vs_trace_off_median": 1.0,
@@ -2180,40 +2180,40 @@
         },
         "trace_off": {
           "count": 3,
-          "max_ns": 8000000000,
-          "median_ns": 8000000000,
-          "min_ns": 8000000000,
-          "p95_ns": 8000000000.0,
+          "max_ns": 9000000000,
+          "median_ns": 9000000000,
+          "min_ns": 9000000000,
+          "p95_ns": 9000000000.0,
           "repetitions": [
             {
-              "done_ns": 14718000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 7221000000000,
+              "duration_ns": 9000000000,
               "mode": "trace_off",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/process_chain/trace_off/rep_01/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/process_chain/trace_off/rep_01/uart.log",
               "rc": 0,
               "repetition_id": "rep_01",
               "sample_id": "process_chain",
-              "start_ns": 14710000000000
+              "start_ns": 7212000000000
             },
             {
-              "done_ns": 14728000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 7232000000000,
+              "duration_ns": 9000000000,
               "mode": "trace_off",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/process_chain/trace_off/rep_02/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/process_chain/trace_off/rep_02/uart.log",
               "rc": 0,
               "repetition_id": "rep_02",
               "sample_id": "process_chain",
-              "start_ns": 14720000000000
+              "start_ns": 7223000000000
             },
             {
-              "done_ns": 14737000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 7244000000000,
+              "duration_ns": 9000000000,
               "mode": "trace_off",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/process_chain/trace_off/rep_03/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/process_chain/trace_off/rep_03/uart.log",
               "rc": 0,
               "repetition_id": "rep_03",
               "sample_id": "process_chain",
-              "start_ns": 14729000000000
+              "start_ns": 7235000000000
             }
           ],
           "slowdown_vs_trace_off_median": 1.0,
@@ -2227,82 +2227,82 @@
       "modes": {
         "bram_ring": {
           "count": 3,
-          "max_ns": 8000000000,
-          "median_ns": 8000000000,
-          "min_ns": 8000000000,
-          "p95_ns": 8000000000.0,
+          "max_ns": 10000000000,
+          "median_ns": 9000000000,
+          "min_ns": 9000000000,
+          "p95_ns": 9900000000.0,
           "repetitions": [
             {
-              "done_ns": 14309000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6711000000000,
+              "duration_ns": 9000000000,
               "mode": "bram_ring",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/self_copy_sim/bram_ring/rep_01/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/self_copy_sim/bram_ring/rep_01/uart.log",
               "rc": 0,
               "repetition_id": "rep_01",
               "sample_id": "self_copy_sim",
-              "start_ns": 14301000000000
+              "start_ns": 6702000000000
             },
             {
-              "done_ns": 14327000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6734000000000,
+              "duration_ns": 10000000000,
               "mode": "bram_ring",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/self_copy_sim/bram_ring/rep_02/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/self_copy_sim/bram_ring/rep_02/uart.log",
               "rc": 0,
               "repetition_id": "rep_02",
               "sample_id": "self_copy_sim",
-              "start_ns": 14319000000000
+              "start_ns": 6724000000000
             },
             {
-              "done_ns": 14345000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6756000000000,
+              "duration_ns": 9000000000,
               "mode": "bram_ring",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/self_copy_sim/bram_ring/rep_03/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/self_copy_sim/bram_ring/rep_03/uart.log",
               "rc": 0,
               "repetition_id": "rep_03",
               "sample_id": "self_copy_sim",
-              "start_ns": 14337000000000
+              "start_ns": 6747000000000
             }
           ],
           "slowdown_vs_trace_off_median": 1.0,
-          "slowdown_vs_trace_off_p95": 1.0,
-          "variance_ns2": 0
+          "slowdown_vs_trace_off_p95": 1.1,
+          "variance_ns2": 2.222222222222222e+17
         },
         "event_only": {
           "count": 3,
-          "max_ns": 8000000000,
-          "median_ns": 8000000000,
-          "min_ns": 8000000000,
-          "p95_ns": 8000000000.0,
+          "max_ns": 9000000000,
+          "median_ns": 9000000000,
+          "min_ns": 9000000000,
+          "p95_ns": 9000000000.0,
           "repetitions": [
             {
-              "done_ns": 14252000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6641000000000,
+              "duration_ns": 9000000000,
               "mode": "event_only",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/self_copy_sim/event_only/rep_01/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/self_copy_sim/event_only/rep_01/uart.log",
               "rc": 0,
               "repetition_id": "rep_01",
               "sample_id": "self_copy_sim",
-              "start_ns": 14244000000000
+              "start_ns": 6632000000000
             },
             {
-              "done_ns": 14271000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6667000000000,
+              "duration_ns": 9000000000,
               "mode": "event_only",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/self_copy_sim/event_only/rep_02/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/self_copy_sim/event_only/rep_02/uart.log",
               "rc": 0,
               "repetition_id": "rep_02",
               "sample_id": "self_copy_sim",
-              "start_ns": 14263000000000
+              "start_ns": 6658000000000
             },
             {
-              "done_ns": 14290000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6689000000000,
+              "duration_ns": 9000000000,
               "mode": "event_only",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/self_copy_sim/event_only/rep_03/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/self_copy_sim/event_only/rep_03/uart.log",
               "rc": 0,
               "repetition_id": "rep_03",
               "sample_id": "self_copy_sim",
-              "start_ns": 14282000000000
+              "start_ns": 6680000000000
             }
           ],
           "slowdown_vs_trace_off_median": 1.0,
@@ -2311,82 +2311,82 @@
         },
         "pointer_snapshot_disabled": {
           "count": 3,
-          "max_ns": 9000000000,
-          "median_ns": 8000000000,
-          "min_ns": 8000000000,
-          "p95_ns": 8900000000.0,
+          "max_ns": 10000000000,
+          "median_ns": 9000000000,
+          "min_ns": 9000000000,
+          "p95_ns": 9900000000.0,
           "repetitions": [
             {
-              "done_ns": 14355000000000,
+              "done_ns": 6768000000000,
               "duration_ns": 9000000000,
               "mode": "pointer_snapshot_disabled",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/self_copy_sim/pointer_snapshot_disabled/rep_01/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/self_copy_sim/pointer_snapshot_disabled/rep_01/uart.log",
               "rc": 0,
               "repetition_id": "rep_01",
               "sample_id": "self_copy_sim",
-              "start_ns": 14346000000000
+              "start_ns": 6759000000000
             },
             {
-              "done_ns": 14364000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6780000000000,
+              "duration_ns": 10000000000,
               "mode": "pointer_snapshot_disabled",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/self_copy_sim/pointer_snapshot_disabled/rep_02/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/self_copy_sim/pointer_snapshot_disabled/rep_02/uart.log",
               "rc": 0,
               "repetition_id": "rep_02",
               "sample_id": "self_copy_sim",
-              "start_ns": 14356000000000
+              "start_ns": 6770000000000
             },
             {
-              "done_ns": 14373000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6791000000000,
+              "duration_ns": 9000000000,
               "mode": "pointer_snapshot_disabled",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/self_copy_sim/pointer_snapshot_disabled/rep_03/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/self_copy_sim/pointer_snapshot_disabled/rep_03/uart.log",
               "rc": 0,
               "repetition_id": "rep_03",
               "sample_id": "self_copy_sim",
-              "start_ns": 14365000000000
+              "start_ns": 6782000000000
             }
           ],
           "slowdown_vs_trace_off_median": 1.0,
-          "slowdown_vs_trace_off_p95": 1.1125,
+          "slowdown_vs_trace_off_p95": 1.1,
           "variance_ns2": 2.222222222222222e+17
         },
         "trace_off": {
           "count": 3,
-          "max_ns": 8000000000,
-          "median_ns": 8000000000,
-          "min_ns": 8000000000,
-          "p95_ns": 8000000000.0,
+          "max_ns": 9000000000,
+          "median_ns": 9000000000,
+          "min_ns": 9000000000,
+          "p95_ns": 9000000000.0,
           "repetitions": [
             {
-              "done_ns": 14216000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6592000000000,
+              "duration_ns": 9000000000,
               "mode": "trace_off",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/self_copy_sim/trace_off/rep_01/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/self_copy_sim/trace_off/rep_01/uart.log",
               "rc": 0,
               "repetition_id": "rep_01",
               "sample_id": "self_copy_sim",
-              "start_ns": 14208000000000
+              "start_ns": 6583000000000
             },
             {
-              "done_ns": 14225000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6604000000000,
+              "duration_ns": 9000000000,
               "mode": "trace_off",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/self_copy_sim/trace_off/rep_02/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/self_copy_sim/trace_off/rep_02/uart.log",
               "rc": 0,
               "repetition_id": "rep_02",
               "sample_id": "self_copy_sim",
-              "start_ns": 14217000000000
+              "start_ns": 6595000000000
             },
             {
-              "done_ns": 14234000000000,
-              "duration_ns": 8000000000,
+              "done_ns": 6616000000000,
+              "duration_ns": 9000000000,
               "mode": "trace_off",
-              "program_log": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark/self_copy_sim/trace_off/rep_03/uart.log",
+              "program_log": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark/self_copy_sim/trace_off/rep_03/uart.log",
               "rc": 0,
               "repetition_id": "rep_03",
               "sample_id": "self_copy_sim",
-              "start_ns": 14226000000000
+              "start_ns": 6607000000000
             }
           ],
           "slowdown_vs_trace_off_median": 1.0,

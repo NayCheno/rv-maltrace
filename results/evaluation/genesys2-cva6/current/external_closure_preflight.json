@@ -1,5 +1,5 @@
 {
-  "accepted_external_blocker_count": 3,
+  "accepted_external_blocker_count": 0,
   "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",
   "claim_boundary": {
     "all_non_real_external_blockers_closed": false,
@@ -16,7 +16,7 @@
     "It does not execute board, RTL, host receiver, or reviewer work and must not close external blockers by itself.",
     "The intake gate remains authoritative for accepting any future external summaries."
   ],
-  "invalid_external_blocker_count": 1,
+  "invalid_external_blocker_count": 4,
   "objective_exclusions": [
     "real_malware_validation"
   ],
@@ -86,9 +86,9 @@
           "script_exists": true
         }
       ],
-      "completion_status": "EXTERNAL_SUMMARY_ACCEPTED",
-      "current_blocker": false,
-      "external_execution_still_required": false,
+      "completion_status": "EXTERNAL_SUMMARY_PRESENT_INVALID",
+      "current_blocker": true,
+      "external_execution_still_required": true,
       "external_summary_exists": true,
       "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/board_native_source_lines_summary.json",
       "id": "board_native_dwarf_source_lines",
@@ -265,9 +265,9 @@
           "script_exists": false
         }
       ],
-      "completion_status": "EXTERNAL_SUMMARY_ACCEPTED",
-      "current_blocker": false,
-      "external_execution_still_required": false,
+      "completion_status": "EXTERNAL_SUMMARY_PRESENT_INVALID",
+      "current_blocker": true,
+      "external_execution_still_required": true,
       "external_summary_exists": true,
       "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/hardware_pointer_strings_summary.json",
       "id": "full_hardware_pointer_strings",
@@ -635,9 +635,9 @@
           "script_exists": true
         }
       ],
-      "completion_status": "EXTERNAL_SUMMARY_ACCEPTED",
-      "current_blocker": false,
-      "external_execution_still_required": false,
+      "completion_status": "EXTERNAL_SUMMARY_PRESENT_INVALID",
+      "current_blocker": true,
+      "external_execution_still_required": true,
       "external_summary_exists": true,
       "external_summary_path": "results/evaluation/genesys2-cva6/current/external_closure/board_benign_control_summary.json",
       "id": "genesys2_board_benign_control",
@@ -783,7 +783,7 @@
       "expected_schema": "rvmt.genesys2.external_closure_plan.v1",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_plan.json",
       "schema": "rvmt.genesys2.external_closure_plan.v1",
-      "sha256": "8761a8c9c26c03dbe1d621d0d09f72eb6f61efa91cb39ee9208c812b63842caa",
+      "sha256": "10e80210afe90f848a67c7792d6d4ab025d58d3a629dd84c23b6f2c74e39188a",
       "status": "PASS"
     },
     {
@@ -791,7 +791,7 @@
       "expected_schema": "rvmt.genesys2.external_closure_intake.v1",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_intake.json",
       "schema": "rvmt.genesys2.external_closure_intake.v1",
-      "sha256": "b5142b834d24be56ec97517c8b208255f1bfef1677c9aac48a282dff9772027a",
+      "sha256": "a1403d04f6c30d12ed0908fcea9c1db8fb6d3428f9593b5fb972372824ea2224",
       "status": "BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED"
     }
   ],

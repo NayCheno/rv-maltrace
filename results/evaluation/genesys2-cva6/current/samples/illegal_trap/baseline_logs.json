@@ -1,13 +1,13 @@
 {
   "evidence": {
-    "behavior_graph": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/behavior/behavior_graph.json",
-    "behavior_mapping": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/malware_analysis/behavior_mapping.json",
+    "behavior_graph": "results/evaluation/genesys2-cva6/current/samples/illegal_trap/behavior_graph.json",
+    "behavior_mapping": "results/evaluation/genesys2-cva6/current/samples/illegal_trap/behavior_mapping.json",
     "code_map": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/local_code_analysis/code_map.json",
-    "integrated_validation": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/integrated_validation.json",
-    "runtime_process_map": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map/illegal_trap/runtime_process_map.json",
-    "semantic_events": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/behavior/semantic_events.json",
-    "source_attribution": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/illegal_trap/local_code_analysis/source_attribution_summary.json",
-    "trace": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort/illegal_trap/rep_01/bram_records.jsonl"
+    "integrated_validation": "results/evaluation/genesys2-cva6/current/samples/illegal_trap/integrated_validation.json",
+    "runtime_process_map": "results/board/genesys2_trace_validation/20260702-current-safe-runtime-map/illegal_trap/runtime_process_map.json",
+    "semantic_events": "results/evaluation/genesys2-cva6/current/samples/illegal_trap/semantic_events.json",
+    "source_attribution": "results/evaluation/genesys2-cva6/current/source_line_attribution_summary.json",
+    "trace": "results/board/genesys2_trace_validation/20260702-current-safe-surrogate-cohort/illegal_trap/rep_01/bram_records.jsonl"
   },
   "host_strace": {
     "execve_paths": [
@@ -15,12 +15,12 @@
     ],
     "fd_edges": [
       {
-        "line": "execve(\"results/demo/ccfa-safe-20260611/illegal_trap/00_build/illegal_trap.host\", [\"results/demo/ccfa-safe-20260611/\"...], 0x7fffe5150038 /* 9 vars */) = 0",
+        "line": "execve(\"results/demo/ccfa-safe-20260611/illegal_trap/00_build/illegal_trap.host\", [\"results/demo/ccfa-safe-20260611/\"...], 0x7fffd7c8b9e8 /* 9 vars */) = 0",
         "op": "execve",
         "path": "results/demo/ccfa-safe-20260611/illegal_trap/00_build/illegal_trap.host"
       },
       {
-        "line": "mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7b6ac3d8a000",
+        "line": "mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x734c8a345000",
         "op": "mmap"
       },
       {
@@ -30,7 +30,7 @@
         "path": "/etc/ld.so.cache"
       },
       {
-        "line": "mmap(NULL, 12899, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7b6ac3d86000",
+        "line": "mmap(NULL, 13959, PROT_READ, MAP_PRIVATE, 3, 0) = 0x734c8a341000",
         "op": "mmap"
       },
       {
@@ -52,23 +52,23 @@
         "path": "/lib/x86_64-linux-gnu/libc.so.6"
       },
       {
-        "line": "mmap(NULL, 2170256, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7b6ac3b74000",
+        "line": "mmap(NULL, 2170256, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x734c8a12f000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x7b6ac3b9c000, 1605632, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x7b6ac3b9c000",
+        "line": "mmap(0x734c8a157000, 1605632, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x734c8a157000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x7b6ac3d24000, 323584, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b0000) = 0x7b6ac3d24000",
+        "line": "mmap(0x734c8a2df000, 323584, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b0000) = 0x734c8a2df000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x7b6ac3d73000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1fe000) = 0x7b6ac3d73000",
+        "line": "mmap(0x734c8a32e000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1fe000) = 0x734c8a32e000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x7b6ac3d79000, 52624, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7b6ac3d79000",
+        "line": "mmap(0x734c8a334000, 52624, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x734c8a334000",
         "op": "mmap"
       },
       {
@@ -78,23 +78,23 @@
         "path": "/lib/x86_64-linux-gnu/libc.so.6"
       },
       {
-        "line": "mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7b6ac3b71000",
+        "line": "mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x734c8a12c000",
         "op": "mmap"
       },
       {
-        "line": "mprotect(0x7b6ac3d73000, 16384, PROT_READ) = 0",
+        "line": "mprotect(0x734c8a32e000, 16384, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "mprotect(0x59b5978a2000, 4096, PROT_READ) = 0",
+        "line": "mprotect(0x614297949000, 4096, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "mprotect(0x7b6ac3dc2000, 8192, PROT_READ) = 0",
+        "line": "mprotect(0x734c8a37d000, 8192, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "munmap(0x7b6ac3d86000, 12899)     = 0",
+        "line": "munmap(0x734c8a341000, 13959)     = 0",
         "op": "munmap"
       },
       {
@@ -112,7 +112,7 @@
     "path": "results/demo/ccfa-safe-20260611/illegal_trap/01_ground_truth/host.strace.log",
     "present": true,
     "signals": [
-      "30    --- SIGILL {si_signo=SIGILL, si_code=ILL_ILLOPN, si_addr=0x59b5978a012f} ---"
+      "30    --- SIGILL {si_signo=SIGILL, si_code=ILL_ILLOPN, si_addr=0x61429794712f} ---"
     ],
     "syscalls": {
       "access": 1,

@@ -1,8 +1,8 @@
 {
-  "accepted_count_matches_data_frames": true,
-  "crc_error_count": 0,
-  "dropped_count": 0,
+  "accepted_count_matches_data_frames": null,
+  "crc_error_count": null,
+  "dropped_count": null,
   "parser_success": false,
-  "sequence_error_count": 0,
-  "status_frame_seen": false
+  "sequence_error_count": null,
+  "status_frame_seen": null
 }

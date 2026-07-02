@@ -138,7 +138,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--root", type=Path, default=Path("."))
     parser.add_argument("--quick", action="store_true", help="Run the lightweight manifest/package checks. This is the default.")
     parser.add_argument("--local", action="store_true", help="Run local CCF-A evidence-package checks without board/Vivado reruns.")
-    parser.add_argument("--full", action="store_true", help="Run the strict aggregate suites, including the current external-closure gate.")
+    parser.add_argument(
+        "--full",
+        action="store_true",
+        help="Run the strict current-local aggregate suites. External accepted-summary gates live in genesys2-external-closure-strict.",
+    )
     parser.add_argument("--dry-run", action="store_true", help="Print commands without executing them.")
     parser.add_argument("--self-test", action="store_true")
     args = parser.parse_args(argv)

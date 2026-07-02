@@ -1,6 +1,0 @@
-RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART port=COM7 baud=115200 start=2026-06-12T16:39:48+0800
-
-RVMT_SEND 'printf \'RVMT_P0_BRAM_START sample=fork_exec rep=rep_06\\n\'; /tmp/rvmt_p0/fork_exec; rc=$?; printf \'RVMT_P0_BRAM_DONE sample=fork_exec rep=rep_06 rc=%s\\n\' "$rc"'
-RVMT_P0_BRAM_START sample=fork_exec rep=rep_06
-
-RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART_DONE

@@ -32,14 +32,14 @@
     "openat_path_source": "qemu_guest_strace",
     "openat_pathname_accuracy": 1.0,
     "openat_paths": [
-      "/tmp/rvmt_p0_file_open_read_write.txt"
+      "/tmp/rvmt_trace_validation_input.txt"
     ],
     "pointer_snapshot_route": "Path A bounded hardware ARG_MEM prefix snapshots plus Path B trusted companion alignment",
     "primary_semantic_source": "qemu_guest_strace",
     "sample_id": "file_open_read_write",
     "semantic_source": "trusted_qemu_guest_strace_companion",
     "syscall_precision": 1.0,
-    "trace_source": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/02_file_open_read_write/trace.jsonl",
+    "trace_source": "results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/02_file_open_read_write/trace.jsonl",
     "write_buffer_prefix_recovered": true,
     "write_buffer_prefix_source": "host_or_control_strace",
     "write_buffer_prefixes": [

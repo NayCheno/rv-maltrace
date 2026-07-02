@@ -1,7 +1,0 @@
-RVMT_GENESYS2_RUNTIME_BENCH_UART port=COM7 baud=115200 sample=self_copy_sim mode=pointer_snapshot_disabled rep=rep_02 start=2026-06-12T02:27:47+0800
-
-RVMT_SEND_RUNTIME_BENCH sample=self_copy_sim mode=pointer_snapshot_disabled rep=rep_02
-> > > > > > # # # # # # RVMT_RUNTIME_BENCH_START sample=self_copy_sim mode=pointer_snapshot_disabled rep=rep_02 ns=14356000000000
-# # # # RVMT_RUNTIME_BENCH_DONE sample=self_copy_sim mode=pointer_snapshot_disabled rep=rep_02 rc=0 ns=14364000000000
-# # # 
-RVMT_GENESYS2_RUNTIME_BENCH_UART_DONE

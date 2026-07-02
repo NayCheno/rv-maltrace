@@ -1,7 +1,5 @@
 {
-  "accepted_sources": [
-    "hardware_bram_ring_v3"
-  ],
+  "accepted_sources": [],
   "companion_derived_strings_as_hardware": 0,
   "required_source": "hardware_bram_ring_v3"
 }

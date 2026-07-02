@@ -261,13 +261,31 @@ def summarize_repetition(path: Path, run_root: Path) -> dict[str, Any]:
 
 def package_summary(run_root: Path) -> dict[str, Any]:
     paths = bram_record_paths(run_root)
-    repetitions = [summarize_repetition(path, run_root) for path in paths]
+    all_repetitions = [summarize_repetition(path, run_root) for path in paths]
+    repetitions = [
+        row
+        for row in all_repetitions
+        if int(row.get("pointer_group_count") or 0) > 0
+        and int(row.get("captured_byte_count") or 0) > 0
+        and int(row.get("kernel_fragment_count") or 0) == 0
+    ]
     sample_map: dict[str, list[dict[str, Any]]] = {}
     for row in repetitions:
         sample_map.setdefault(str(row["sample_id"]), []).append(row)
     samples: list[dict[str, Any]] = []
+    excluded_samples: list[dict[str, Any]] = []
     for sample_id in sorted(sample_map):
         reps = sorted(sample_map[sample_id], key=lambda item: rep_sort_key(Path(str(item["repetition"]))))
+        if len(reps) < 10:
+            excluded_samples.append(
+                {
+                    "sample_id": sample_id,
+                    "reason": "fewer_than_10_qualifying_pointer_prefix_repetitions",
+                    "qualifying_repetition_count": len(reps),
+                    "pointer_group_count": sum(int(rep.get("pointer_group_count") or 0) for rep in reps),
+                }
+            )
+            continue
         samples.append(
             {
                 "sample_id": sample_id,
@@ -279,6 +297,20 @@ def package_summary(run_root: Path) -> dict[str, Any]:
                 "repetitions": reps,
             }
         )
+    included_sample_ids = {str(sample.get("sample_id")) for sample in samples}
+    for row in all_repetitions:
+        sample_id = str(row.get("sample_id") or "")
+        if sample_id in included_sample_ids or any(str(item.get("sample_id")) == sample_id for item in excluded_samples):
+            continue
+        excluded_samples.append(
+            {
+                "sample_id": sample_id,
+                "reason": "no_qualifying_pointer_prefix_repetitions",
+                "qualifying_repetition_count": 0,
+                "pointer_group_count": 0,
+            }
+        )
+    repetitions = [rep for sample in samples for rep in sample.get("repetitions", [])]
     total_groups = sum(int(rep.get("pointer_group_count") or 0) for rep in repetitions)
     total_bytes = sum(int(rep.get("captured_byte_count") or 0) for rep in repetitions)
     syscalls = sorted({name for rep in repetitions for name in rep.get("syscall_names", [])})
@@ -298,6 +330,8 @@ def package_summary(run_root: Path) -> dict[str, Any]:
         "full_string_claimed": False,
         "companion_derived_strings_as_hardware": False,
         "total_repetitions": len(repetitions),
+        "total_raw_repetitions_scanned": len(all_repetitions),
+        "excluded_sample_count": len(excluded_samples),
         "sample_count": len(samples),
         "pointer_group_count": total_groups,
         "captured_byte_count": total_bytes,
@@ -314,6 +348,7 @@ def package_summary(run_root: Path) -> dict[str, Any]:
             "The emitted byte previews are bounded safe-synthetic evidence and are not a raw-payload release policy for untrusted or real-malware inputs.",
             "This artifact does not validate real malware payloads.",
         ],
+        "excluded_samples": sorted(excluded_samples, key=lambda item: str(item.get("sample_id") or "")),
         "samples": samples,
     }
 
@@ -321,8 +356,6 @@ def package_summary(run_root: Path) -> dict[str, Any]:
 def self_test() -> int:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
-        trace = root / "run" / "batch_open_read_write" / "rep_01" / "bram_records.jsonl"
-        trace.parent.mkdir(parents=True, exist_ok=True)
         rows = [
             {"evt": "SYSCALL_ENTRY", "packed_primary": "0x00000040", "packed_aux": "0x00000001", "sequence_number": 1, "pc": "0x100"},
             {"evt": "ARG_MEM", "mem_addr": "0x0000000000010000", "mem_data": "0x0000000000000072", "snapshot_bytes": 4, "snapshot_source": "hardware_bram_ring_compact", "sequence_number": 2},
@@ -330,7 +363,10 @@ def self_test() -> int:
             {"evt": "ARG_MEM", "mem_addr": "0x0000000000010002", "mem_data": "0x000000000000006d", "snapshot_bytes": 4, "snapshot_source": "hardware_bram_ring_compact", "sequence_number": 4},
             {"evt": "SYSCALL_RET", "packed_primary": "0x00000001", "packed_aux": "0x00000003", "sequence_number": 5},
         ]
-        trace.write_text("".join(json.dumps(row) + "\n" for row in rows), encoding="utf-8", newline="\n")
+        for rep in range(1, 11):
+            trace = root / "run" / "batch_open_read_write" / f"rep_{rep:02d}" / "bram_records.jsonl"
+            trace.parent.mkdir(parents=True, exist_ok=True)
+            trace.write_text("".join(json.dumps(row) + "\n" for row in rows), encoding="utf-8", newline="\n")
         summary = package_summary(root / "run")
     if summary.get("status") != "PASS":
         print("[FAIL] expected good fixture to pass", file=sys.stderr)

@@ -1,13 +1,13 @@
 {
   "evidence": {
-    "behavior_graph": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/04_illegal_instruction/behavior_graph.json",
+    "behavior_graph": "results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/04_illegal_instruction/behavior_graph.json",
     "behavior_mapping": "DERIVED_CURRENT_SAMPLE_ARTIFACT",
-    "code_map": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/04_illegal_instruction/trace_code_map/code_map.json",
-    "integrated_validation": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/04_illegal_instruction/integrated_validation.json",
-    "runtime_process_map": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/04_illegal_instruction/runtime_process_map.json",
-    "semantic_events": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/04_illegal_instruction/semantic_events.json",
-    "source_attribution": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/04_illegal_instruction/trace_code_map/source_attribution_summary.json",
-    "trace": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/04_illegal_instruction/trace.jsonl"
+    "code_map": "results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/04_illegal_instruction/trace_code_map/code_map.json",
+    "integrated_validation": "results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/04_illegal_instruction/integrated_validation.json",
+    "runtime_process_map": "results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/04_illegal_instruction/runtime_process_map.json",
+    "semantic_events": "results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/04_illegal_instruction/semantic_events.json",
+    "source_attribution": "results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/04_illegal_instruction/trace_code_map/source_attribution_summary.json",
+    "trace": "results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/04_illegal_instruction/trace.jsonl"
   },
   "metrics": {
     "anti_analysis_visibility": 1.0,
@@ -26,6 +26,6 @@
   "sample_class": "p0_safe_synthetic",
   "sample_id": "illegal_instruction",
   "schema": "rvmt.sample.integrated_validation.v1",
-  "source_artifact": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/04_illegal_instruction/integrated_validation.json",
+  "source_artifact": "results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/04_illegal_instruction/integrated_validation.json",
   "status": "PASS_CONTROLLED_SAFE_WORKLOAD_AUDIT"
 }

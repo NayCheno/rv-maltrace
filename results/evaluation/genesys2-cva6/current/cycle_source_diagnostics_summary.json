@@ -82,7 +82,7 @@
       "[    0.000000] SBI RFENCE extension detected",
       "[    0.000000] SBI DBCN extension detected",
       "[    0.000000] SBI FWFT extension detected",
-      "[    0.369374] SBI misaligned access exception delegation ok"
+      "[    0.369779] SBI misaligned access exception delegation ok"
     ],
     "sbi_pmu_extension_observed": false
   },
@@ -94,7 +94,7 @@
     "kernel_riscv_pmu_enabled": null,
     "kernel_riscv_pmu_sbi_enabled": null,
     "linux_perf_event_source_observed": false,
-    "perf_event_open_unavailable_observed": true,
+    "perf_event_open_unavailable_observed": false,
     "required_for_kernel_perf_cycle_path": [
       "Kernel must expose perf_event_open and /sys/bus/event_source/devices.",
       "Firmware/device tree must expose a RISC-V PMU path, typically through SBI PMU plus a PMU DT node or matching kernel driver.",
@@ -121,25 +121,13 @@
     "A PASS diagnostic would only mean cycle-source infrastructure was observed, not that trace-on/off overhead was measured."
   ],
   "related_summaries": {
-    "counter_access_matrix": {
-      "path": "results/evaluation/genesys2-cva6/current/counter_access_matrix_summary.json",
-      "schema": "rvmt.genesys2.counter_access_matrix.v1",
-      "sha256": "bf19844a1ebc4253362e1b0b08221af185113c769be5a40e7c85fe3da5aff11e",
-      "size_bytes": 6188,
-      "status": "BLOCKED_BOARD_CYCLE_COUNTER_UNAVAILABLE_NONCYCLE_TIME_AVAILABLE"
-    },
-    "cycle_source_probe": {
-      "path": "results/evaluation/genesys2-cva6/current/cycle_source_probe_summary.json",
-      "schema": "rvmt.genesys2.cycle_source_probe.v1",
-      "sha256": "b0c5fc4c4e789ecff318878801ccf6cefa2d12c16d80c067c8a358fe4edae09d",
-      "size_bytes": 2147,
-      "status": "BLOCKED_BOARD_KERNEL_PERF_CYCLES_UNAVAILABLE"
-    }
+    "counter_access_matrix": null,
+    "cycle_source_probe": null
   },
   "run_log": {
-    "path": "results/board/genesys2_trace_validation/20260625-010000-official-image-cycle-diagnostics/uart.log",
-    "sha256": "4cfe76eb02d60d94bb87c2c28ae8d8a7f1d874bedb78282da61a29d477222d42",
-    "size_bytes": 9464
+    "path": "results/board/genesys2_trace_validation/20260623-cycle-source-diagnostics/uart.log",
+    "sha256": "01a166bcbeb63c05f8827602b854ae2e40cfc837bbbaff33375c67a7a19b9245",
+    "size_bytes": 9497
   },
   "schema": "rvmt.genesys2.cycle_source_diagnostics.v1",
   "status": "BLOCKED_BOARD_KERNEL_PMU_AND_USER_CYCLE_UNAVAILABLE"

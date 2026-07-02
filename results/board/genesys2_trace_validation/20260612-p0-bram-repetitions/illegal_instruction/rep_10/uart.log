@@ -1,6 +1,0 @@
-RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART port=COM7 baud=115200 start=2026-06-12T16:45:03+0800
-
-RVMT_SEND 'printf \'RVMT_P0_BRAM_START sample=illegal_instruction rep=rep_10\\n\'; /tmp/rvmt_p0/illegal_instruction; rc=$?; printf \'RVMT_P0_BRAM_DONE sample=illegal_instruction rep=rep_10 rc=%s\\n\' "$rc"'
-RVMT_P0_BRAM_START sample=illegal_instruction rep=rep_10
-
-RVMT_GENESYS2_ILA_COMMAND_CAPTURE_UART_DONE

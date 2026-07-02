@@ -5,7 +5,7 @@
       "op": "mprotect"
     },
     {
-      "line": "clock_gettime(CLOCK_MONOTONIC,0x00002aaaab2ab9c8) = 0 ({tv_sec = 147504,tv_nsec = 571170473})",
+      "line": "clock_gettime(CLOCK_MONOTONIC,0x00002aaaab2ab9c8) = 0 ({tv_sec = 1560768,tv_nsec = 210983076})",
       "op": "clock_gettime"
     },
     {
@@ -31,7 +31,7 @@
       "path": "/proc/self/status"
     },
     {
-      "line": "clock_gettime(CLOCK_MONOTONIC,0x00002aaaab2ab9d8) = 0 ({tv_sec = 147504,tv_nsec = 577860036})",
+      "line": "clock_gettime(CLOCK_MONOTONIC,0x00002aaaab2ab9d8) = 0 ({tv_sec = 1560768,tv_nsec = 216440259})",
       "op": "clock_gettime"
     }
   ],
@@ -46,7 +46,7 @@
           "op": "mprotect"
         },
         {
-          "line": "clock_gettime(CLOCK_MONOTONIC,0x00002aaaab2ab9c8) = 0 ({tv_sec = 147504,tv_nsec = 571170473})",
+          "line": "clock_gettime(CLOCK_MONOTONIC,0x00002aaaab2ab9c8) = 0 ({tv_sec = 1560768,tv_nsec = 210983076})",
           "op": "clock_gettime"
         },
         {
@@ -72,7 +72,7 @@
           "path": "/proc/self/status"
         },
         {
-          "line": "clock_gettime(CLOCK_MONOTONIC,0x00002aaaab2ab9d8) = 0 ({tv_sec = 147504,tv_nsec = 577860036})",
+          "line": "clock_gettime(CLOCK_MONOTONIC,0x00002aaaab2ab9d8) = 0 ({tv_sec = 1560768,tv_nsec = 216440259})",
           "op": "clock_gettime"
         }
       ],

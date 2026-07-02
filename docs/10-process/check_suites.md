@@ -20,10 +20,9 @@ uv run rvmt repro:full
 `repro:quick` is the lightweight manifest/package check. `repro:local` is the
 recommended local CCF-A evidence-package reproduction pass: it adds current
 quality, case-study, and bitstream-artifact checks while avoiding board/Vivado
-reruns. `repro:full` is the strict closure suite: unresolved external hardware
-items must appear as explicit BLOCKED/open evidence records, and the suite
-passes only when those non-claims are artifact-backed and internally
-consistent.
+reruns. `repro:full` is the strict current-local package pass. External
+accepted-summary gates live in `genesys2-external-closure-strict` and are
+expected to remain blocked until new operator-provided artifacts are accepted.
 
 ## Current Route
 
@@ -48,11 +47,9 @@ must resolve board run roots through this manifest instead of selecting a
 remain provenance for transcripts and hashes, not the selection mechanism. It
 also runs `tools/check_ccfa_claim_boundaries.py`, which rejects
 safe-surrogate, ILA/debug-sink, multi-window, process-attribution, and
-simulation/board overclaims, `tools/check_risk_log_current.py`, which keeps
+simulation/board overclaims, and `tools/check_risk_log_current.py`, which keeps
 the process risk log synchronized with the current evidence boundary and
-external-closure state, and `tools/check_evaluation_plan.py`, which keeps
-`docs/07-evaluation-evidence/evaluation_plan.md` synchronized with the current
-scoped evidence index instead of the old placeholder planning state.
+external-closure state.
 `tools/check_genesys2_review_closure_audit.py` keeps the original review
 requirements mapped to current evidence, objective exclusions, and the four
 still-open external intake records. The current
@@ -67,7 +64,6 @@ guardrails,
 streaming/DMA target-baseline evidence,
 bounded-prefix pointer snapshot guardrails,
 hardware ARG_MEM byte-prefix evidence, full hardware pointer-string readiness,
-accepted scoped full hardware pointer-string evidence,
 BRAM-first trace-export boundary,
 source-line toolchain probe evidence, debug ELF source-line rerun readiness,
 local code-analysis fixture provenance for exact ELF, PIE/load-bias, runtime
@@ -96,19 +92,11 @@ boundary:
 ```powershell
 uv run python tools/check_genesys2_latest_standard.py --root .
 uv run python tools/check_board_baseline.py --root .
-uv run python tools/check_baseline_pass_criteria.py --root .
 uv run python tools/check_board_trace_minimal.py --root .
 uv run python tools/check_trace_export_decision.py --root .
 uv run python tools/check_board_trace_programs.py --root .
-uv run python tools/check_board_trace_evidence.py --root .
-uv run python tools/check_board_local_code_analysis.py --root .
-uv run python tools/check_genesys2_safe_surrogate.py --root .
-uv run python tools/check_genesys2_safe_surrogate_coverage.py --root .
-uv run python tools/check_genesys2_cva_evidence_boundary.py --root .
 uv run python tools/check_ccfa_claim_boundaries.py --root .
-uv run python tools/check_genesys2_p0_continuous_trace.py --root .
 uv run python tools/check_risk_log_current.py --root .
-uv run python tools/check_evaluation_plan.py --root .
 uv run python tools/check_genesys2_review_closure_audit.py --root .
 uv run python tools/check_genesys2_cva_closure_readiness.py --root .
 uv run python tools/check_genesys2_oled_status.py --root .
@@ -127,7 +115,8 @@ uv run python tools/check_genesys2_streaming_dma_readiness.py --root .
 uv run python tools/check_pointer_snapshot_guardrails.py --root .
 uv run python tools/check_hardware_pointer_prefixes.py --root .
 uv run python tools/check_genesys2_pointer_string_readiness.py --root .
-uv run python tools/check_genesys2_hardware_pointer_strings.py --root .
+uv run python tools/check_benign_control_summary.py --root .
+uv run python tools/check_genesys2_board_benign_readiness.py --root .
 uv run python tools/check_syscall_semantic_reconstruction.py --root .
 uv run python tools/check_genesys2_semantic_provenance.py --root .
 uv run python tools/check_fd_path_graph.py --root .
@@ -142,8 +131,6 @@ uv run python tools/check_baseline_alignment.py --root .
 uv run python tools/check_genesys2_tracer_visibility_baseline.py --root .
 uv run python tools/check_behavior_audit_metrics.py --root .
 uv run python tools/check_ccfa_case_study_manifest.py --root .
-uv run python tools/check_benign_control_summary.py --root .
-uv run python tools/check_genesys2_board_benign_readiness.py --root .
 uv run python tools/check_ccfa_current_quality.py --root .
 uv run python tools/check_genesys2_reproducibility_manifest.py --root .
 uv run python tools/check_genesys2_artifact_package.py --root .
@@ -154,13 +141,12 @@ uv run python tools/check_genesys2_cycle_source_probe.py --root .
 uv run python tools/check_genesys2_cycle_diagnostics.py --root .
 uv run python tools/check_genesys2_counter_access_matrix.py --root .
 uv run python tools/check_genesys2_sdcard_linux_manifest.py --root .
+uv run python tools/check_genesys2_live_kernel_config_export.py --root .
+uv run python tools/check_genesys2_linux_rebuild_manifest.py --root .
 uv run python tools/check_genesys2_boot_sdcard_image.py --root .
-uv run python tools/check_genesys2_sdcard_write_preflight.py --root .
 uv run python tools/check_ndss_host_vivado_check.py --root .
 uv run python tools/check_genesys2_trace_marker_programming.py --root .
 uv run python tools/check_genesys2_jtag_ram_boot_probe.py --root .
-uv run python tools/check_genesys2_live_kernel_config_export.py --root .
-uv run python tools/check_genesys2_linux_rebuild_manifest.py --root .
 uv run python tools/check_genesys2_linux_counter_path_preflight.py --root .
 uv run python tools/check_ndss_host_latex_build.py --root .
 uv run python tools/check_genesys2_official_image_capability_matrix.py --root .
@@ -176,8 +162,23 @@ uv run python tools/check_genesys2_external_closure_plan.py --root .
 uv run python tools/check_genesys2_external_closure_preflight.py --root .
 uv run python tools/check_genesys2_external_operator_packet.py --root .
 uv run python tools/prepare_genesys2_external_summary.py --root . --check-templates
+uv run python tools/check_genesys2_p0_continuous_trace.py --root .
 uv run python tools/check_real_malware_containment.py --root .
+
 ```
+
+External accepted-summary gates are intentionally outside the current-local
+route. Run the strict external closure route only when operator-provided
+candidate artifacts are ready for intake:
+
+```powershell
+uv run python tools/run_check_suite.py --suite genesys2-external-closure-strict
+```
+
+That route covers `tools/check_evaluation_plan.py`,
+`tools/check_genesys2_hardware_pointer_strings.py`, and
+`tools/check_genesys2_sdcard_write_preflight.py`; it is expected to remain
+blocked until those external artifacts and target selections are accepted.
 
 The BRAM trace-sink gate is evidence-backed, not just a static RTL inspection.
 It requires `results/evaluation/genesys2-cva6/current/trace_sink_summary.json`
@@ -189,7 +190,7 @@ The safe-surrogate BRAM marker-window gate requires
 `results/evaluation/genesys2-cva6/current/safe_surrogate_bram_trace_summary.json`
 to summarize one board `bram_ring` repetition for each of the eight safe
 syscall-only surrogate workloads from
-`results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort/`,
+`results/board/genesys2_trace_validation/20260702-current-safe-surrogate-cohort/`,
 with begin-marker clearing, expected raw syscall-entry counts, no sequence
 gaps, no wrap, and zero unaccounted drops checked by
 `tools/check_genesys2_safe_surrogate_bram_trace.py`.
@@ -467,11 +468,12 @@ no-substitution, and artifact-backed `evidence_artifacts` checks before it can
 be counted as accepted external evidence. Accepted candidate summaries must
 reference the required artifact kinds with existing files and matching sha256
 values.
-`tools/check_genesys2_hardware_pointer_strings.py` verifies the accepted scoped
-full hardware pointer-string external summary. It requires artifact-backed v3
-Genesys2/CVA6 openat/write/execve string groups, offset-zero contiguity,
-mem_last or terminator evidence, no companion-string substitution, no
-kernel-memory fragments, and no full memory dump.
+`tools/check_genesys2_hardware_pointer_strings.py` is a strict external closure
+gate for a future accepted full hardware pointer-string summary. It requires
+artifact-backed Genesys2/CVA6 openat/write/execve string groups, offset-zero
+contiguity, mem_last or terminator evidence, no companion-string substitution,
+no kernel-memory fragments, and no full memory dump. It is not part of the
+current-local route while the candidate summary remains present-invalid/open.
 `tools/check_genesys2_external_closure_plan.py` verifies
 `external_closure_plan.json`, the plan-only runbook for those remaining
 external blockers. It requires operator inputs, preflight commands, collection

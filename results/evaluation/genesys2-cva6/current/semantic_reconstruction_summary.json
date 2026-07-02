@@ -177,7 +177,7 @@
       "sample_id": "hello_write",
       "semantic_source": "trusted_qemu_guest_strace_companion",
       "syscall_precision": 1.0,
-      "trace_source": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/01_hello_write/trace.jsonl",
+      "trace_source": "results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/01_hello_write/trace.jsonl",
       "write_buffer_prefix_recovered": true,
       "write_buffer_prefix_source": "host_or_control_strace",
       "write_buffer_prefixes": [
@@ -298,7 +298,7 @@
       "openat_path_source": "qemu_guest_strace",
       "openat_pathname_accuracy": 1.0,
       "openat_paths": [
-        "/tmp/rvmt_p0_file_open_read_write.txt"
+        "/tmp/rvmt_trace_validation_input.txt"
       ],
       "oracle_fields": [
         "anti_analysis_behavior_node",
@@ -329,7 +329,7 @@
       "sample_id": "file_open_read_write",
       "semantic_source": "trusted_qemu_guest_strace_companion",
       "syscall_precision": 1.0,
-      "trace_source": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/02_file_open_read_write/trace.jsonl",
+      "trace_source": "results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/02_file_open_read_write/trace.jsonl",
       "write_buffer_prefix_recovered": true,
       "write_buffer_prefix_source": "host_or_control_strace",
       "write_buffer_prefixes": [
@@ -477,7 +477,7 @@
       "sample_id": "fork_exec",
       "semantic_source": "trusted_qemu_guest_strace_companion",
       "syscall_precision": 1.0,
-      "trace_source": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/03_fork_exec/trace.jsonl",
+      "trace_source": "results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/03_fork_exec/trace.jsonl",
       "write_buffer_prefix_recovered": true,
       "write_buffer_prefix_source": "NOT_OBSERVED",
       "write_buffer_prefixes": []
@@ -620,7 +620,7 @@
       "sample_id": "illegal_instruction",
       "semantic_source": "trusted_qemu_guest_strace_companion",
       "syscall_precision": 1.0,
-      "trace_source": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/04_illegal_instruction/trace.jsonl",
+      "trace_source": "results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/04_illegal_instruction/trace.jsonl",
       "write_buffer_prefix_recovered": true,
       "write_buffer_prefix_source": "host_or_control_strace",
       "write_buffer_prefixes": [
@@ -771,7 +771,7 @@
       "sample_id": "file_scan",
       "semantic_source": "trusted_qemu_guest_strace_companion",
       "syscall_precision": 1.0,
-      "trace_source": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort/file_scan/rep_01/bram_records.jsonl",
+      "trace_source": "results/board/genesys2_trace_validation/20260702-current-safe-surrogate-cohort/file_scan/rep_01/bram_records.jsonl",
       "write_buffer_prefix_recovered": true,
       "write_buffer_prefix_source": "NOT_OBSERVED",
       "write_buffer_prefixes": []
@@ -922,7 +922,7 @@
       "sample_id": "batch_open_read_write",
       "semantic_source": "trusted_qemu_guest_strace_companion",
       "syscall_precision": 1.0,
-      "trace_source": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort/batch_open_read_write/rep_01/bram_records.jsonl",
+      "trace_source": "results/board/genesys2_trace_validation/20260702-current-safe-surrogate-cohort/batch_open_read_write/rep_01/bram_records.jsonl",
       "write_buffer_prefix_recovered": true,
       "write_buffer_prefix_source": "host_or_control_strace",
       "write_buffer_prefixes": [
@@ -1075,7 +1075,7 @@
       "sample_id": "self_copy_sim",
       "semantic_source": "trusted_qemu_guest_strace_companion",
       "syscall_precision": 1.0,
-      "trace_source": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort/self_copy_sim/rep_01/bram_records.jsonl",
+      "trace_source": "results/board/genesys2_trace_validation/20260702-current-safe-surrogate-cohort/self_copy_sim/rep_01/bram_records.jsonl",
       "write_buffer_prefix_recovered": true,
       "write_buffer_prefix_source": "host_or_control_strace",
       "write_buffer_prefixes": [
@@ -1226,7 +1226,7 @@
       "sample_id": "abnormal_syscall_sequence",
       "semantic_source": "trusted_qemu_guest_strace_companion",
       "syscall_precision": 1.0,
-      "trace_source": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort/abnormal_syscall_sequence/rep_01/bram_records.jsonl",
+      "trace_source": "results/board/genesys2_trace_validation/20260702-current-safe-surrogate-cohort/abnormal_syscall_sequence/rep_01/bram_records.jsonl",
       "write_buffer_prefix_recovered": true,
       "write_buffer_prefix_source": "host_or_control_strace",
       "write_buffer_prefixes": [
@@ -1371,7 +1371,7 @@
       "sample_id": "illegal_trap",
       "semantic_source": "trusted_qemu_guest_strace_companion",
       "syscall_precision": 1.0,
-      "trace_source": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort/illegal_trap/rep_01/bram_records.jsonl",
+      "trace_source": "results/board/genesys2_trace_validation/20260702-current-safe-surrogate-cohort/illegal_trap/rep_01/bram_records.jsonl",
       "write_buffer_prefix_recovered": true,
       "write_buffer_prefix_source": "host_or_control_strace",
       "write_buffer_prefixes": [
@@ -1519,7 +1519,7 @@
       "sample_id": "process_chain",
       "semantic_source": "trusted_qemu_guest_strace_companion",
       "syscall_precision": 1.0,
-      "trace_source": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort/process_chain/rep_01/bram_records.jsonl",
+      "trace_source": "results/board/genesys2_trace_validation/20260702-current-safe-surrogate-cohort/process_chain/rep_01/bram_records.jsonl",
       "write_buffer_prefix_recovered": true,
       "write_buffer_prefix_source": "NOT_OBSERVED",
       "write_buffer_prefixes": []
@@ -1663,7 +1663,7 @@
       "sample_id": "dynamic_executable_memory",
       "semantic_source": "trusted_qemu_guest_strace_companion",
       "syscall_precision": 1.0,
-      "trace_source": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort/dynamic_executable_memory/rep_01/bram_records.jsonl",
+      "trace_source": "results/board/genesys2_trace_validation/20260702-current-safe-surrogate-cohort/dynamic_executable_memory/rep_01/bram_records.jsonl",
       "write_buffer_prefix_recovered": true,
       "write_buffer_prefix_source": "NOT_OBSERVED",
       "write_buffer_prefixes": []
@@ -1811,7 +1811,7 @@
       "sample_id": "anti_debug_like",
       "semantic_source": "trusted_qemu_guest_strace_companion",
       "syscall_precision": 1.0,
-      "trace_source": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort/anti_debug_like/rep_01/bram_records.jsonl",
+      "trace_source": "results/board/genesys2_trace_validation/20260702-current-safe-surrogate-cohort/anti_debug_like/rep_01/bram_records.jsonl",
       "write_buffer_prefix_recovered": true,
       "write_buffer_prefix_source": "NOT_OBSERVED",
       "write_buffer_prefixes": []

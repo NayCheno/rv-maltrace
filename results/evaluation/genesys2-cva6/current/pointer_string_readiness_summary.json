@@ -16,7 +16,7 @@
     "rtl_extension_required_for_closure": true
   },
   "current_prefix_evidence": {
-    "captured_byte_count": 1156,
+    "captured_byte_count": 2003,
     "companion_derived_strings_as_hardware": false,
     "full_string_claimed": false,
     "guardrails": {
@@ -33,35 +33,35 @@
     "hardware_pointer_strings_claimed": false,
     "kernel_fragment_count": 0,
     "observed_boundaries": {
-      "bounded_prefix_group_count": 10,
+      "bounded_prefix_group_count": 20,
       "contains_gapped_groups": true,
       "contiguous_offset_zero_full_string_evidence_available": false,
-      "gapped_group_count": 41,
+      "gapped_group_count": 82,
       "groups_promoted_from_gapped_fragments": 0,
       "has_bounded_prefix_groups": true,
-      "max_contiguous_prefix_bytes": 30,
+      "max_contiguous_prefix_bytes": 33,
       "mem_last_observed": false,
-      "nul_seen_in_contiguous_prefix_count": 0,
-      "observed_group_count": 51,
+      "nul_seen_in_contiguous_prefix_count": 1,
+      "observed_group_count": 102,
       "syscall_group_counts": {
-        "execve": 11,
-        "openat": 30,
-        "write": 10
+        "execve": 12,
+        "openat": 71,
+        "write": 19
       }
     },
-    "pointer_group_count": 51,
+    "pointer_group_count": 102,
     "required_syscall_coverage": {
       "execve": true,
       "openat": true,
       "write": true
     },
-    "run_root": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram",
-    "sample_count": 3,
+    "run_root": "results/board/genesys2_trace_validation/20260702-current-safe-surrogate-cohort",
+    "sample_count": 6,
     "source_record_format": "compact_arg_mem_32bit_addr_data_prefix",
     "summary_path": "results/evaluation/genesys2-cva6/current/hardware_pointer_prefix_summary.json",
     "summary_schema": "rvmt.hardware_pointer_prefixes.v1",
     "summary_status": "PASS",
-    "total_repetitions": 30,
+    "total_repetitions": 60,
     "trace_sink_mode": "bram_ring"
   },
   "failures": [],
@@ -135,7 +135,7 @@
       "id": "hardware_pointer_prefix_summary",
       "path": "results/evaluation/genesys2-cva6/current/hardware_pointer_prefix_summary.json",
       "schema": "rvmt.hardware_pointer_prefixes.v1",
-      "sha256": "ac9147537748f14af252fc6de3562e963f12e885bfd4b90e5ab961c76ae78196",
+      "sha256": "5b21fc62d352e56741f0b897dbf6e9ceea0c884770bd1f7331644c04a1706ac1",
       "status": "PASS"
     },
     {
@@ -143,7 +143,7 @@
       "id": "pointer_snapshot_guardrails",
       "path": "results/evaluation/genesys2-cva6/current/pointer_snapshot_guardrails.json",
       "schema": "rvmt.pointer_snapshot_guardrails.v1",
-      "sha256": "a01c91c047ceb434263f95c48db4d93dcd6344b7a4df299a8c479d853e2ad237",
+      "sha256": "605d879eb75142a39823e5c39449f9a0cb2f1910ffb20615fe3c37d5cf2ef3f2",
       "status": "PASS"
     },
     {
@@ -151,7 +151,7 @@
       "id": "semantic_reconstruction_summary",
       "path": "results/evaluation/genesys2-cva6/current/semantic_reconstruction_summary.json",
       "schema": "rvmt.syscall_semantic_reconstruction.v1",
-      "sha256": "bc9df3dc901957f44b3f5c56e0741dfd6f46300dd14a1f3d8c3a390c1544e850",
+      "sha256": "ef6e218d3031b41e9777acbd3bc1bd50bca40cb0d232529957a1bef95dd62922",
       "status": "PASS"
     },
     {
@@ -159,7 +159,7 @@
       "id": "fd_path_graph_summary",
       "path": "results/evaluation/genesys2-cva6/current/fd_path_graph_summary.json",
       "schema": "rvmt.fd_path_graph.v1",
-      "sha256": "0d1fc8fc59d7ef7411d69184d7a8770c2b2f130cc38daf6175c13d23a46bf778",
+      "sha256": "7d83395c0a386c9c0a043ce7eb1c88474b0c73572ca25ee0aed9e7b5d58c9d40",
       "status": "PASS"
     },
     {
@@ -192,7 +192,7 @@
       "exists": true,
       "id": "package_hardware_pointer_prefixes",
       "path": "tools/package_hardware_pointer_prefixes.py",
-      "sha256": "4d6c83e97a18641ec29c9d7a0d8b51ba1dae0b31916eda87b1f642c7873616f9"
+      "sha256": "f955ac84f15b371761e7c4fb331e52c9ecaaf3fd57644f72545d235a57e039e9"
     },
     {
       "exists": true,

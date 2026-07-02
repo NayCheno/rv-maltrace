@@ -1,13 +1,13 @@
 {
   "evidence": {
-    "behavior_graph": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/behavior/behavior_graph.json",
-    "behavior_mapping": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/malware_analysis/behavior_mapping.json",
+    "behavior_graph": "results/evaluation/genesys2-cva6/current/samples/file_scan/behavior_graph.json",
+    "behavior_mapping": "results/evaluation/genesys2-cva6/current/samples/file_scan/behavior_mapping.json",
     "code_map": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/local_code_analysis/code_map.json",
-    "integrated_validation": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/integrated_validation.json",
-    "runtime_process_map": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map/file_scan/runtime_process_map.json",
-    "semantic_events": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/behavior/semantic_events.json",
-    "source_attribution": "results/board/genesys2_cva6_safe_surrogate/genesys2-cva6-safe-p2-20260610/file_scan/local_code_analysis/source_attribution_summary.json",
-    "trace": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort/file_scan/rep_01/bram_records.jsonl"
+    "integrated_validation": "results/evaluation/genesys2-cva6/current/samples/file_scan/integrated_validation.json",
+    "runtime_process_map": "results/board/genesys2_trace_validation/20260702-current-safe-runtime-map/file_scan/runtime_process_map.json",
+    "semantic_events": "results/evaluation/genesys2-cva6/current/samples/file_scan/semantic_events.json",
+    "source_attribution": "results/evaluation/genesys2-cva6/current/source_line_attribution_summary.json",
+    "trace": "results/board/genesys2_trace_validation/20260702-current-safe-surrogate-cohort/file_scan/rep_01/bram_records.jsonl"
   },
   "host_strace": {
     "execve_paths": [
@@ -15,12 +15,12 @@
     ],
     "fd_edges": [
       {
-        "line": "execve(\"results/demo/ccfa-safe-20260611/file_scan/00_build/file_scan.host\", [\"results/demo/ccfa-safe-20260611/\"...], 0x7ffef829e938 /* 9 vars */) = 0",
+        "line": "execve(\"results/demo/ccfa-safe-20260611/file_scan/00_build/file_scan.host\", [\"results/demo/ccfa-safe-20260611/\"...], 0x7ffd45ae6e88 /* 9 vars */) = 0",
         "op": "execve",
         "path": "results/demo/ccfa-safe-20260611/file_scan/00_build/file_scan.host"
       },
       {
-        "line": "mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x72f62a76f000",
+        "line": "mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7ced02ab9000",
         "op": "mmap"
       },
       {
@@ -30,7 +30,7 @@
         "path": "/etc/ld.so.cache"
       },
       {
-        "line": "mmap(NULL, 12899, PROT_READ, MAP_PRIVATE, 3, 0) = 0x72f62a76b000",
+        "line": "mmap(NULL, 13959, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7ced02ab5000",
         "op": "mmap"
       },
       {
@@ -52,23 +52,23 @@
         "path": "/lib/x86_64-linux-gnu/libc.so.6"
       },
       {
-        "line": "mmap(NULL, 2170256, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x72f62a559000",
+        "line": "mmap(NULL, 2170256, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7ced028a3000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x72f62a581000, 1605632, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x72f62a581000",
+        "line": "mmap(0x7ced028cb000, 1605632, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x7ced028cb000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x72f62a709000, 323584, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b0000) = 0x72f62a709000",
+        "line": "mmap(0x7ced02a53000, 323584, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b0000) = 0x7ced02a53000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x72f62a758000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1fe000) = 0x72f62a758000",
+        "line": "mmap(0x7ced02aa2000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1fe000) = 0x7ced02aa2000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x72f62a75e000, 52624, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x72f62a75e000",
+        "line": "mmap(0x7ced02aa8000, 52624, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7ced02aa8000",
         "op": "mmap"
       },
       {
@@ -78,23 +78,23 @@
         "path": "/lib/x86_64-linux-gnu/libc.so.6"
       },
       {
-        "line": "mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x72f62a556000",
+        "line": "mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7ced028a0000",
         "op": "mmap"
       },
       {
-        "line": "mprotect(0x72f62a758000, 16384, PROT_READ) = 0",
+        "line": "mprotect(0x7ced02aa2000, 16384, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "mprotect(0x5c5f1b014000, 4096, PROT_READ) = 0",
+        "line": "mprotect(0x6235bd99e000, 4096, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "mprotect(0x72f62a7a7000, 8192, PROT_READ) = 0",
+        "line": "mprotect(0x7ced02af1000, 8192, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "munmap(0x72f62a76b000, 12899)     = 0",
+        "line": "munmap(0x7ced02ab5000, 13959)     = 0",
         "op": "munmap"
       },
       {
@@ -105,13 +105,13 @@
       },
       {
         "fd": 3,
-        "line": "getdents64(3, 0x7fff0c885140 /* 4 entries */, 512) = 112",
+        "line": "getdents64(3, 0x7fff81891be0 /* 4 entries */, 512) = 112",
         "op": "getdents64",
         "path": "experiments/linux_behavior/malware_like/fixtures/scan_root"
       },
       {
         "fd": 3,
-        "line": "getdents64(3, 0x7fff0c885140 /* 0 entries */, 512) = 0",
+        "line": "getdents64(3, 0x7fff81891be0 /* 0 entries */, 512) = 0",
         "op": "getdents64",
         "path": "experiments/linux_behavior/malware_like/fixtures/scan_root"
       },

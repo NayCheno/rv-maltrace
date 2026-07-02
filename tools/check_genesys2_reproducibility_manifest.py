@@ -88,7 +88,13 @@ TEMPLATE_SUMMARY_IDS = {
     "external_template_streaming_dma_throughput",
     "external_template_board_benign_control",
 }
+EXTERNAL_OPEN_SUMMARY_IDS = {
+    "external_board_native_source_lines",
+    "external_hardware_pointer_strings",
+    "external_board_benign_control",
+}
 TRUTHFUL_NONPASS_SUMMARY_IDS = {
+    *EXTERNAL_OPEN_SUMMARY_IDS,
     "external_closure_intake",
     "dynamic_mapping_attribution",
     "cycle_counter_smoke",
@@ -127,6 +133,43 @@ REQUIRED_VALIDATION_COMMANDS = {
 
 def truthful_nonpass_summary(artifact_id: str, artifact: dict[str, Any]) -> bool:
     boundary = as_dict(artifact.get("claim_boundary"))
+    if artifact_id == "external_board_native_source_lines":
+        aggregate = as_dict(artifact.get("aggregate"))
+        return (
+            artifact.get("schema") == "rvmt.genesys2.board_native_source_lines.v1"
+            and artifact.get("status") == "FAIL"
+            and boundary.get("real_malware_validation_claimed") is False
+            and boundary.get("board_native_source_line_attribution_claimed") is False
+            and boundary.get("sidecar_source_lines_substituted") is False
+            and boundary.get("captured_elf_sha256_exact_match") is False
+            and int(aggregate.get("sample_count") or 0) > 0
+            and bool(as_list(artifact.get("failed_attempts")))
+        )
+    if artifact_id == "external_hardware_pointer_strings":
+        aggregate = as_dict(artifact.get("aggregate"))
+        return (
+            artifact.get("schema") == "rvmt.genesys2.hardware_pointer_strings.v1"
+            and artifact.get("status") == "FAIL"
+            and boundary.get("real_malware_validation_claimed") is False
+            and boundary.get("hardware_full_pointer_strings_claimed") is False
+            and boundary.get("companion_strings_substituted_as_hardware") is False
+            and boundary.get("kernel_or_full_memory_dump_claimed") is False
+            and aggregate.get("full_string_claimed") is False
+            and int(aggregate.get("full_memory_dump_count") or 0) == 0
+            and bool(as_list(artifact.get("failed_attempts")))
+        )
+    if artifact_id == "external_board_benign_control":
+        aggregate = as_dict(artifact.get("aggregate"))
+        return (
+            artifact.get("schema") == "rvmt.genesys2.board_benign_control.v1"
+            and artifact.get("status") == "FAIL"
+            and boundary.get("real_malware_validation_claimed") is False
+            and boundary.get("genesys2_board_benign_control_claimed") is False
+            and boundary.get("local_linux_benign_substituted") is False
+            and aggregate.get("genesys2_board_trace_claimed") is False
+            and int(aggregate.get("sample_count") or 0) > 0
+            and bool(as_list(artifact.get("failed_attempts")))
+        )
     if artifact_id == "external_closure_intake":
         return (
             artifact.get("schema") == "rvmt.genesys2.external_closure_intake.v1"

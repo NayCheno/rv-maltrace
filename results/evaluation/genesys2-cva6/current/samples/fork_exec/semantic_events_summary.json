@@ -35,7 +35,7 @@
     "sample_id": "fork_exec",
     "semantic_source": "trusted_qemu_guest_strace_companion",
     "syscall_precision": 1.0,
-    "trace_source": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/03_fork_exec/trace.jsonl",
+    "trace_source": "results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/03_fork_exec/trace.jsonl",
     "write_buffer_prefix_recovered": true,
     "write_buffer_prefix_source": "NOT_OBSERVED",
     "write_buffer_prefixes": []

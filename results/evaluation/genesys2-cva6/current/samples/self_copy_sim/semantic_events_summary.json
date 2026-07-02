@@ -39,7 +39,7 @@
     "sample_id": "self_copy_sim",
     "semantic_source": "trusted_qemu_guest_strace_companion",
     "syscall_precision": 1.0,
-    "trace_source": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort/self_copy_sim/rep_01/bram_records.jsonl",
+    "trace_source": "results/board/genesys2_trace_validation/20260702-current-safe-surrogate-cohort/self_copy_sim/rep_01/bram_records.jsonl",
     "write_buffer_prefix_recovered": true,
     "write_buffer_prefix_source": "host_or_control_strace",
     "write_buffer_prefixes": [

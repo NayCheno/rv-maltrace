@@ -119,7 +119,13 @@ TEMPLATE_SUMMARY_IDS = {
     "external_template_streaming_dma_throughput",
     "external_template_board_benign_control",
 }
+EXTERNAL_OPEN_SUMMARY_IDS = {
+    "external_board_native_source_lines",
+    "external_hardware_pointer_strings",
+    "external_board_benign_control",
+}
 TRUTHFUL_NONPASS_SUMMARY_IDS = {
+    *EXTERNAL_OPEN_SUMMARY_IDS,
     "external_closure_intake",
     "dynamic_mapping_attribution",
     "cycle_counter_smoke",
@@ -136,6 +142,7 @@ TRUTHFUL_NONPASS_SUMMARY_IDS = {
     "official_image_hardware_oracle_differential",
 }
 TRUTHFUL_NONPASS_STATUSES = {
+    "FAIL",
     "BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED",
     "BLOCKED_BOARD_DYNAMIC_MAPPING_CASES",
     "BLOCKED_BOARD_RDCYCLE_UNAVAILABLE",

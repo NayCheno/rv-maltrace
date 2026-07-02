@@ -12,7 +12,7 @@
     "trace_marker_bitstream_rebuilt": true
   },
   "command": "vivado -mode batch -source tools/program_genesys2_bitstream.tcl -tclargs build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.bit build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.ltx localhost:3121",
-  "generated_utc": "2026-06-30T12:02:54.397951+00:00",
+  "generated_utc": "2026-07-01T17:09:07.472643+00:00",
   "hardware": {
     "device": "xc7k325t_0",
     "hw_server_url": "localhost:3121",
@@ -22,12 +22,12 @@
   "logs": {
     "current": {
       "path": "results/evaluation/genesys2-cva6/current/trace_marker_programming.log",
-      "sha256": "ad9395078cacd6aae737b0cf5254385628ffff31fd0f9e68925f8661bdb04bb4",
+      "sha256": "ced405feddafd75446e7a7c0006d0cdafd8f988af59e5a084bcf96698ffde313",
       "size_bytes": 7384
     },
     "source": {
-      "path": "results/board/genesys2_trace_validation/20260624-trace-marker-reprogram/program_trace_marker.log",
-      "sha256": "ad9395078cacd6aae737b0cf5254385628ffff31fd0f9e68925f8661bdb04bb4",
+      "path": "results/board/genesys2_trace_validation/20260702-full-rerun/program_trace_marker.log",
+      "sha256": "ced405feddafd75446e7a7c0006d0cdafd8f988af59e5a084bcf96698ffde313",
       "size_bytes": 7384
     }
   },
@@ -43,19 +43,19 @@
   },
   "returncode": 0,
   "schema": "rvmt.genesys2.trace_marker_programming.v1",
-  "session_end": "Wed Jun 24 10:37:10 2026...",
-  "session_start": "Wed Jun 24 10:36:52 2026",
+  "session_end": "Thu Jul  2 01:08:40 2026...",
+  "session_start": "Thu Jul  2 01:08:20 2026",
   "status": "PASS_TRACE_MARKER_PROGRAMMED",
   "trace_marker_artifacts": {
     "bitstream": {
       "logged_path": "D:/Code/research/rv-maltrace/build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.bit",
       "path": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.bit",
-      "sha256": "92eef73290ec20d11a58d38bbec89e0528724df3764327d597a6aadb78e44655",
+      "sha256": "04dbd5bf4b661427628bd2142e619c2b2526b7fd0598ffeb6df954fc5811b354",
       "size_bytes": 11443738
     },
     "build_manifest": {
       "path": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/rvmt_trace_marker_build_manifest.json",
-      "sha256": "4af9bcff7a6b138f3f0d05732781214f41c8cb634f73ff2c21b0510c534f7b7c",
+      "sha256": "ffbe6885e87186ece3d0671244ce9207402460bd5944a0a2989c9c6f9325ee19",
       "size_bytes": 3042,
       "trace_marker_scope": true,
       "trace_source_line_profile": false,

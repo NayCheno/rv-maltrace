@@ -1,5 +1,5 @@
 {
-  "all_full_groups_have_mem_last": true,
-  "full_group_count": 46,
+  "all_full_groups_have_mem_last": false,
+  "full_group_count": 0,
   "groups_missing_mem_last": []
 }

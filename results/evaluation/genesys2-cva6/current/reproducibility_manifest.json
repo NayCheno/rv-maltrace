@@ -7,11 +7,11 @@
     "dated_roots_are_provenance_only": true,
     "debug_no_pie_elf_readiness_available": true,
     "debug_toolchain_source_line_probe_available": true,
-    "external_board_native_source_line_summary_accepted": true,
-    "external_full_hardware_pointer_strings_summary_accepted": true,
-    "external_genesys2_board_benign_control_summary_accepted": true,
+    "external_board_native_source_line_summary_accepted": false,
+    "external_full_hardware_pointer_strings_summary_accepted": false,
+    "external_genesys2_board_benign_control_summary_accepted": false,
     "genesys2_board_benign_control_claimed": false,
-    "hardware_full_pointer_strings_claimed": true,
+    "hardware_full_pointer_strings_claimed": false,
     "pointer_string_readiness_available": true,
     "production_streaming_dma_throughput_claimed": false,
     "real_malware_validation_claimed": false,
@@ -41,9 +41,9 @@
     {
       "exists": true,
       "file_counts": {
-        "bram_records": 62,
-        "capture_logs": 62,
-        "uart_logs": 62
+        "bram_records": 58,
+        "capture_logs": 58,
+        "uart_logs": 58
       },
       "glob_patterns": {
         "bram_records": "*/*/bram_records.jsonl",
@@ -51,7 +51,7 @@
         "uart_logs": "*/*/uart.log"
       },
       "id": "p0_bram_repetitions",
-      "path": "results/board/genesys2_trace_validation/20260625-010800-official-image-p0-strict-sret"
+      "path": "results/board/genesys2_trace_validation/20260702-current-p0-cohort"
     },
     {
       "exists": true,
@@ -66,14 +66,14 @@
         "uart_logs": "*/*/uart.log"
       },
       "id": "safe_surrogate_bram_repetitions",
-      "path": "results/board/genesys2_trace_validation/20260624-current-safe-surrogate-cohort"
+      "path": "results/board/genesys2_trace_validation/20260702-current-safe-surrogate-cohort"
     },
     {
       "exists": true,
       "file_counts": {
-        "bram_records": 30,
-        "capture_logs": 30,
-        "uart_logs": 30
+        "bram_records": 80,
+        "capture_logs": 80,
+        "uart_logs": 80
       },
       "glob_patterns": {
         "bram_records": "*/*/bram_records.jsonl",
@@ -81,7 +81,7 @@
         "uart_logs": "*/*/uart.log"
       },
       "id": "pointer_snapshot_bram",
-      "path": "results/board/genesys2_trace_validation/20260612-pointer-snapshot-bram"
+      "path": "results/board/genesys2_trace_validation/20260702-current-safe-surrogate-cohort"
     },
     {
       "exists": true,
@@ -96,12 +96,12 @@
         "uart_logs": "*/uart_run.log"
       },
       "id": "p0_continuous_trace",
-      "path": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit"
+      "path": "results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window"
     },
     {
       "exists": true,
       "file_counts": {
-        "helper_logs": 8,
+        "helper_logs": 0,
         "runtime_process_maps": 8
       },
       "glob_patterns": {
@@ -109,7 +109,7 @@
         "runtime_process_maps": "*/runtime_process_map.json"
       },
       "id": "safe_surrogate_runtime_map",
-      "path": "results/board/genesys2_trace_validation/20260611-safe-surrogate-runtime-map"
+      "path": "results/board/genesys2_trace_validation/20260702-current-safe-runtime-map"
     },
     {
       "exists": true,
@@ -120,7 +120,7 @@
         "program_logs": "**/uart.log"
       },
       "id": "production_runtime_benchmark",
-      "path": "results/board/genesys2_trace_validation/20260612-production-runtime-benchmark"
+      "path": "results/board/genesys2_trace_validation/20260702-production-runtime-benchmark"
     }
   ],
   "report_rows": [
@@ -412,7 +412,7 @@
       "id": "latest_manifest",
       "path": "results/evaluation/genesys2-cva6/current/latest_manifest.json",
       "schema": "rvmt.genesys2.latest_manifest.v1",
-      "sha256": "3d9cdc6b6917118ebdcba5b738b0ee432b4af8cbdb1f3031d5e917c145e78d4e",
+      "sha256": "8d3036e6b8c9015c40cc098034e95388e260166e228154eab0201cf02416c822",
       "status": "PASS"
     },
     {
@@ -420,7 +420,7 @@
       "id": "trace_sink",
       "path": "results/evaluation/genesys2-cva6/current/trace_sink_summary.json",
       "schema": "rvmt.genesys2.bram_trace_sink.v1",
-      "sha256": "ecf226cbac00400c423dd636b6acaae3b5995b70bdd094ef4e76b5886f15359b",
+      "sha256": "0b2301ec1d619ec8bb9bcf08dc93e52d2367968160ff0e2669d1d73a992fe951",
       "status": "PASS"
     },
     {
@@ -428,7 +428,7 @@
       "id": "safe_surrogate_bram_trace",
       "path": "results/evaluation/genesys2-cva6/current/safe_surrogate_bram_trace_summary.json",
       "schema": "rvmt.genesys2.safe_surrogate_bram_trace.v1",
-      "sha256": "774e966cefdf068f3b0785c984c59a2240080bde2d498feab4d1711312141cc7",
+      "sha256": "abac75a6d47d691644b78864429d3921057f7872f9a992a2db111d1baa05f67b",
       "status": "PASS"
     },
     {
@@ -436,7 +436,7 @@
       "id": "p0_bram_trace",
       "path": "results/evaluation/genesys2-cva6/current/p0_bram_trace_summary.json",
       "schema": "rvmt.genesys2.p0_bram_trace.v1",
-      "sha256": "ab4ca5875a92ae0c885c269e43b59214f6d9e049cac27a8f898b7508e7a99747",
+      "sha256": "8a4f39631f92fbc0d05e5ceee9f216c8b682b11b655ca6550333c695cd40fca7",
       "status": "PASS"
     },
     {
@@ -444,7 +444,7 @@
       "id": "strict_sret_board_smoke",
       "path": "results/evaluation/genesys2-cva6/current/strict_sret_board_smoke_summary.json",
       "schema": "rvmt.genesys2.strict_sret_board_smoke.v1",
-      "sha256": "84b2b787a627f5c8607398f9b2c6645dfed373b0479e4f88b1bf03c18f3e3f83",
+      "sha256": "688df6054607944fa0ad2d84ec4cfa681f8ac1e02ddbaa3aed444559fac4dc24",
       "status": "PASS"
     },
     {
@@ -452,7 +452,7 @@
       "id": "drop_accounting",
       "path": "results/evaluation/genesys2-cva6/current/drop_accounting_summary.json",
       "schema": "rvmt.trace_drop_accounting.v1",
-      "sha256": "0fdd718cbd091abac3e4d26436b7fed3510d4e5d778e59e370d6d4e5c05debbe",
+      "sha256": "cc194cb0be2e9ad289c8dfce6a16fca25e0a40503b8377ae5ed43bef8452ebb8",
       "status": "PASS"
     },
     {
@@ -460,7 +460,7 @@
       "id": "statistical_robustness",
       "path": "results/evaluation/genesys2-cva6/current/statistical_robustness_summary.json",
       "schema": "rvmt.genesys2.statistical_robustness.v1",
-      "sha256": "d4e45eb45d62cb6adcd7c5d73df07cfd12bd54dadd2e67d97c9fa41bb04a830a",
+      "sha256": "5d07b8eb5deb24243474089a31c100b4ef6c297a1f4acbadaa326f4f091772c5",
       "status": "PASS"
     },
     {
@@ -468,7 +468,7 @@
       "id": "streaming_dma_target",
       "path": "results/evaluation/genesys2-cva6/current/streaming_dma_target_summary.json",
       "schema": "rvmt.genesys2.streaming_dma_target.v1",
-      "sha256": "2cf7edb7679ff329e3a10ccfe35f3fbfd47443583ff6e6c3fe23fb59fd5956fa",
+      "sha256": "84cd03c8231b386346eab493831ebb73888641c68828ea2b3cd40dec321719bb",
       "status": "PASS"
     },
     {
@@ -476,7 +476,7 @@
       "id": "streaming_dma_readiness",
       "path": "results/evaluation/genesys2-cva6/current/streaming_dma_readiness_summary.json",
       "schema": "rvmt.genesys2.streaming_dma_readiness.v1",
-      "sha256": "151b4c54628f458694e5701660060d2402b7bd9e24269bab67470f28a9bcf606",
+      "sha256": "e8f69683fdf969bedd48cc07e86aac04c9c8567c110a49313e02e6794e99e6e8",
       "status": "PASS"
     },
     {
@@ -484,7 +484,7 @@
       "id": "pointer_snapshot_guardrails",
       "path": "results/evaluation/genesys2-cva6/current/pointer_snapshot_guardrails.json",
       "schema": "rvmt.pointer_snapshot_guardrails.v1",
-      "sha256": "a01c91c047ceb434263f95c48db4d93dcd6344b7a4df299a8c479d853e2ad237",
+      "sha256": "605d879eb75142a39823e5c39449f9a0cb2f1910ffb20615fe3c37d5cf2ef3f2",
       "status": "PASS"
     },
     {
@@ -492,7 +492,7 @@
       "id": "hardware_pointer_prefixes",
       "path": "results/evaluation/genesys2-cva6/current/hardware_pointer_prefix_summary.json",
       "schema": "rvmt.hardware_pointer_prefixes.v1",
-      "sha256": "ac9147537748f14af252fc6de3562e963f12e885bfd4b90e5ab961c76ae78196",
+      "sha256": "5b21fc62d352e56741f0b897dbf6e9ceea0c884770bd1f7331644c04a1706ac1",
       "status": "PASS"
     },
     {
@@ -500,7 +500,7 @@
       "id": "pointer_string_readiness",
       "path": "results/evaluation/genesys2-cva6/current/pointer_string_readiness_summary.json",
       "schema": "rvmt.genesys2.pointer_string_readiness.v1",
-      "sha256": "eeb3ca32d8cd96075dbcb8793d232c99ff578c046c8df5c8283efe7da51bdbe5",
+      "sha256": "966b676ea75e89f711f71e94b958abcd47d93996a4f7cd38fbd0fefddd5ec5b7",
       "status": "PASS"
     },
     {
@@ -508,7 +508,7 @@
       "id": "benign_control",
       "path": "results/evaluation/genesys2-cva6/current/benign_control_summary.json",
       "schema": "rvmt.genesys2.benign_control_summary.v1",
-      "sha256": "7256ece3a71e99b389be36e98ff2f06e86ecfbcb05587bfcef94f82e19269c34",
+      "sha256": "9657072a125ab73d2289049d14a8eeecc4d59f170eea858011e10bf58d15269b",
       "status": "PASS"
     },
     {
@@ -516,7 +516,7 @@
       "id": "board_benign_readiness",
       "path": "results/evaluation/genesys2-cva6/current/board_benign_readiness_summary.json",
       "schema": "rvmt.genesys2.board_benign_readiness.v1",
-      "sha256": "2ef4647be03cdc2ac5cbaf1bcfcbeb93eb74c4557676577e73523e7e10742ffe",
+      "sha256": "d5222f40a6fbbb00377d0d7f6a132238c53d7834a2c13eb4fce108eb1ad5cfac",
       "status": "PASS"
     },
     {
@@ -524,7 +524,7 @@
       "id": "production_runtime_benchmark",
       "path": "results/evaluation/genesys2-cva6/current/production_runtime_benchmark.json",
       "schema": "rvmt.genesys2.production_runtime_benchmark.v1",
-      "sha256": "c433123bd5e6a2d10c3158a4f67335e3a84f06554e8dc014dab08ac2c5c15f25",
+      "sha256": "cc437b66957fddd39042005a0beb4eb9c9df28c7ce8439e55e7d8612a393b8af",
       "status": "PASS"
     },
     {
@@ -532,7 +532,7 @@
       "id": "semantic_reconstruction",
       "path": "results/evaluation/genesys2-cva6/current/semantic_reconstruction_summary.json",
       "schema": "rvmt.syscall_semantic_reconstruction.v1",
-      "sha256": "bc9df3dc901957f44b3f5c56e0741dfd6f46300dd14a1f3d8c3a390c1544e850",
+      "sha256": "ef6e218d3031b41e9777acbd3bc1bd50bca40cb0d232529957a1bef95dd62922",
       "status": "PASS"
     },
     {
@@ -548,7 +548,7 @@
       "id": "fd_path_graph",
       "path": "results/evaluation/genesys2-cva6/current/fd_path_graph_summary.json",
       "schema": "rvmt.fd_path_graph.v1",
-      "sha256": "0d1fc8fc59d7ef7411d69184d7a8770c2b2f130cc38daf6175c13d23a46bf778",
+      "sha256": "7d83395c0a386c9c0a043ce7eb1c88474b0c73572ca25ee0aed9e7b5d58c9d40",
       "status": "PASS"
     },
     {
@@ -556,7 +556,7 @@
       "id": "source_line_attribution",
       "path": "results/evaluation/genesys2-cva6/current/source_line_attribution_summary.json",
       "schema": "rvmt.source_line_attribution.v1",
-      "sha256": "717fa1bb7f372048f00a51278ed174a3cc70f568cde15519ccedf2796abfe18b",
+      "sha256": "f954a9ca0431ffa012902e2d4f39744be5ec564ee5d77968a35a7053687f6b0d",
       "status": "PASS"
     },
     {
@@ -572,7 +572,7 @@
       "id": "source_line_toolchain_probe",
       "path": "results/evaluation/genesys2-cva6/current/source_line_toolchain_probe.json",
       "schema": "rvmt.genesys2.source_line_toolchain_probe.v1",
-      "sha256": "67cb78ef4d415b946fb02d52ed584c9a063bec58b47619815d03068930cc20bb",
+      "sha256": "0741e13748565757db67147604b44b0b78a121fb737aab080f4053db44dbc862",
       "status": "PASS"
     },
     {
@@ -580,7 +580,7 @@
       "id": "debug_elf_readiness",
       "path": "results/evaluation/genesys2-cva6/current/debug_elf_readiness_summary.json",
       "schema": "rvmt.genesys2.debug_elf_readiness.v1",
-      "sha256": "d96cc9a1f1b6a17d98bd0aa9bcb12a1665041c5eeca459f006a65aa93bae9bfc",
+      "sha256": "9a5c98a3917985eafe932cdd372bec493a0408c109efc2e8b6146415d923a14c",
       "status": "PASS"
     },
     {
@@ -588,7 +588,7 @@
       "id": "external_closure_readiness",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_readiness.json",
       "schema": "rvmt.genesys2.external_closure_readiness.v1",
-      "sha256": "a639e4a1d9060c47cf2261f9ff8898cd0c2a927bbef4dad4a99d44b2eece65aa",
+      "sha256": "44bc7d96aa2126b89d255603a95baf7ba7c8003aab561d01faf0b89944cd125d",
       "status": "PASS"
     },
     {
@@ -596,7 +596,7 @@
       "id": "external_closure_intake",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_intake.json",
       "schema": "rvmt.genesys2.external_closure_intake.v1",
-      "sha256": "b5142b834d24be56ec97517c8b208255f1bfef1677c9aac48a282dff9772027a",
+      "sha256": "a1403d04f6c30d12ed0908fcea9c1db8fb6d3428f9593b5fb972372824ea2224",
       "status": "BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED"
     },
     {
@@ -604,7 +604,7 @@
       "id": "external_closure_plan",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_plan.json",
       "schema": "rvmt.genesys2.external_closure_plan.v1",
-      "sha256": "8761a8c9c26c03dbe1d621d0d09f72eb6f61efa91cb39ee9208c812b63842caa",
+      "sha256": "10e80210afe90f848a67c7792d6d4ab025d58d3a629dd84c23b6f2c74e39188a",
       "status": "PASS"
     },
     {
@@ -612,7 +612,7 @@
       "id": "external_closure_preflight",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_preflight.json",
       "schema": "rvmt.genesys2.external_closure_preflight.v1",
-      "sha256": "de9acbb14180b1a7e219ad09048af288a0aecd921056be6312364320ba482053",
+      "sha256": "3d37c6cd5a605dfda641b8965f3d027a2bb163bcecb820c0d95667816f6abfe0",
       "status": "PASS"
     },
     {
@@ -620,7 +620,7 @@
       "id": "external_operator_packet",
       "path": "results/evaluation/genesys2-cva6/current/external_operator_packet.json",
       "schema": "rvmt.genesys2.external_operator_packet.v1",
-      "sha256": "1e66d87525c254aa63d368a100bdae2afcf4135e11d5520b730cca46e846accd",
+      "sha256": "3f7e5b2514ea6f3b892580c3598a819dcd3df955da65a2989cb13ca03b9bd71d",
       "status": "PASS"
     },
     {
@@ -628,24 +628,24 @@
       "id": "external_board_native_source_lines",
       "path": "results/evaluation/genesys2-cva6/current/external_closure/board_native_source_lines_summary.json",
       "schema": "rvmt.genesys2.board_native_source_lines.v1",
-      "sha256": "41688396980e37611fe36d5f76f85b4d2fc2a670c0f67c4fe698c6c24ae9b159",
-      "status": "PASS"
+      "sha256": "2836f8295904cd9512095ad0f3e5b04d13869322e598cfb26053310df5761643",
+      "status": "FAIL"
     },
     {
       "checker_command": "uv run python tools/check_genesys2_hardware_pointer_strings.py --root .",
       "id": "external_hardware_pointer_strings",
       "path": "results/evaluation/genesys2-cva6/current/external_closure/hardware_pointer_strings_summary.json",
       "schema": "rvmt.genesys2.hardware_pointer_strings.v1",
-      "sha256": "1e56115e4a2f2c63e50353e75f2409396b49936250f7e52842deadff5844110c",
-      "status": "PASS"
+      "sha256": "6eaf7398dd11bcddb33109d866d602e70e988529a03a213bf93597e54dfe21be",
+      "status": "FAIL"
     },
     {
       "checker_command": "uv run python tools/check_genesys2_board_benign_control.py --root .",
       "id": "external_board_benign_control",
       "path": "results/evaluation/genesys2-cva6/current/external_closure/board_benign_control_summary.json",
       "schema": "rvmt.genesys2.board_benign_control.v1",
-      "sha256": "ff8459209a8ce27836ffa7c90ca10fe2efe7d93f72c4d09896747ff39aa083d2",
-      "status": "PASS"
+      "sha256": "22b610241d1bfdb0b26cdb18f9fa429149ea5009eb127167463af12b859e27d7",
+      "status": "FAIL"
     },
     {
       "checker_command": "uv run python tools/prepare_genesys2_external_summary.py --check-templates",
@@ -684,7 +684,7 @@
       "id": "process_elf_ownership",
       "path": "results/evaluation/genesys2-cva6/current/process_elf_ownership_summary.json",
       "schema": "rvmt.process_elf_ownership.v1",
-      "sha256": "eaa0263e5cac84805dba6dd32f4eb074b6a21d2ace0a0d86728e7d1283b3002d",
+      "sha256": "310980625e3de79b342e3e4f6095320f90fce2375cad8ba769b9ac9f380bf9f1",
       "status": "PASS"
     },
     {
@@ -700,7 +700,7 @@
       "id": "ccfa_evaluation_matrix",
       "path": "results/evaluation/genesys2-cva6/current/ccfa_evaluation_matrix.json",
       "schema": "rvmt.ccfa_evaluation_matrix.v1",
-      "sha256": "83738b8b1681355bf875dbce81d9b7d3a446cb44f1be7097d5bc614aa3bc6e42",
+      "sha256": "090541ecc66e0de7439174eb17328557d27ba26b0bee0411905255b32e7fa190",
       "status": "PASS"
     },
     {
@@ -716,7 +716,7 @@
       "id": "behavior_audit_metrics",
       "path": "results/evaluation/genesys2-cva6/current/behavior_audit_metrics.json",
       "schema": "rvmt.behavior_audit_metrics.v1",
-      "sha256": "b77dd561037330cf25893ed1438e4de2d0a4003edaa313d7ef309229d84bb1fc",
+      "sha256": "ea0377eece6526af1fe54dbcecebe4bbddab48d11b94fb01c212ca515cb3f74a",
       "status": "PASS"
     },
     {
@@ -724,7 +724,7 @@
       "id": "case_study_manifest",
       "path": "results/evaluation/genesys2-cva6/current/case_study_manifest.json",
       "schema": "rvmt.ccfa.case_study_manifest.v1",
-      "sha256": "389c5410446a72800d67802b2ad5f4006f8b068e6f2bc1e8cdc3c9cfb1efc961",
+      "sha256": "712d434b7e5f60a507c88c2bbb6d6d8eb535033508482e6a7eb95162706e684b",
       "status": "PASS"
     },
     {
@@ -732,7 +732,7 @@
       "id": "review_closure_audit",
       "path": "results/evaluation/genesys2-cva6/current/review_closure_audit.json",
       "schema": "rvmt.genesys2.review_closure_audit.v1",
-      "sha256": "3a2eef4a3f48049d975f7db31839aa7a4ee117966884a92548332c41b2954c8b",
+      "sha256": "09226acea8f21f5c2b46099342d4537e6fe857cf2d2d2446b5a424ca3a426989",
       "status": "PASS"
     },
     {
@@ -748,7 +748,7 @@
       "id": "cycle_counter_smoke",
       "path": "results/evaluation/genesys2-cva6/current/cycle_counter_smoke_summary.json",
       "schema": "rvmt.genesys2.cycle_counter_smoke.v1",
-      "sha256": "6bdd69e98dec65f81b39fd1543f4f0d65a228b0a1115dc4d5389bb9c01b52ff9",
+      "sha256": "788a2dc9eac15f1e59833d77e06a1f7f0ea316bfdf833b20c19e47888b0c377d",
       "status": "BLOCKED_BOARD_RDCYCLE_UNAVAILABLE"
     },
     {
@@ -756,7 +756,7 @@
       "id": "cycle_source_probe",
       "path": "results/evaluation/genesys2-cva6/current/cycle_source_probe_summary.json",
       "schema": "rvmt.genesys2.cycle_source_probe.v1",
-      "sha256": "b0c5fc4c4e789ecff318878801ccf6cefa2d12c16d80c067c8a358fe4edae09d",
+      "sha256": "ccb195ca8f42c16b46d0a4566a5ca79b185f541ca15c397a1b3eaaa8a7acbd70",
       "status": "BLOCKED_BOARD_KERNEL_PERF_CYCLES_UNAVAILABLE"
     },
     {
@@ -764,7 +764,7 @@
       "id": "counter_access_matrix",
       "path": "results/evaluation/genesys2-cva6/current/counter_access_matrix_summary.json",
       "schema": "rvmt.genesys2.counter_access_matrix.v1",
-      "sha256": "bf19844a1ebc4253362e1b0b08221af185113c769be5a40e7c85fe3da5aff11e",
+      "sha256": "a4b4444ec7d7119dc9c6f9f922e01e798d0554e9c557a027e90631f6f2a27eef",
       "status": "BLOCKED_BOARD_CYCLE_COUNTER_UNAVAILABLE_NONCYCLE_TIME_AVAILABLE"
     },
     {
@@ -772,7 +772,7 @@
       "id": "cycle_source_diagnostics",
       "path": "results/evaluation/genesys2-cva6/current/cycle_source_diagnostics_summary.json",
       "schema": "rvmt.genesys2.cycle_source_diagnostics.v1",
-      "sha256": "ce513752063768b70f49534446ae8f1447192e37591fe4c7a1f1fe611040bcd5",
+      "sha256": "267a9e35393fd297190f16865e0f0d87a7202017e2416d4c84815085185f390f",
       "status": "BLOCKED_BOARD_KERNEL_PMU_AND_USER_CYCLE_UNAVAILABLE"
     },
     {
@@ -780,7 +780,7 @@
       "id": "sdcard_linux_manifest",
       "path": "results/evaluation/genesys2-cva6/current/sdcard_linux_manifest.json",
       "schema": "rvmt.genesys2.sdcard_linux_manifest.v1",
-      "sha256": "4027bdebad5c4754a931ae6f31770e546ba9416848afc320f1e7c016fe4e315d",
+      "sha256": "af2c8d58d457493c074fc0de81c933e967f20693af595458ed842684570a9374",
       "status": "PASS"
     },
     {
@@ -788,7 +788,7 @@
       "id": "live_kernel_config_export",
       "path": "results/evaluation/genesys2-cva6/current/live_kernel_config_export_summary.json",
       "schema": "rvmt.genesys2.live_kernel_config_export.v1",
-      "sha256": "dfd192c560ae8dd8df8d419be2d8bbf427b144304bd5c3a7ca476089cfefe807",
+      "sha256": "c41b741cbaa0e480a184a854d31a021be27534887d4e649937b8fa8125490b3c",
       "status": "BLOCKED_LIVE_KERNEL_CONFIG_UNAVAILABLE"
     },
     {
@@ -796,15 +796,15 @@
       "id": "sdcard_write_preflight",
       "path": "results/evaluation/genesys2-cva6/current/sdcard_write_preflight_summary.json",
       "schema": "rvmt.genesys2.sdcard_write_preflight.v1",
-      "sha256": "64f2a05944b657bab2dce82962c83e72021324e3c49e893514790cb57b283c7c",
-      "status": "BLOCKED_NO_SAFE_SDCARD_TARGET"
+      "sha256": "13454b17afe5c8f40f81a6432ae09d2a4d84b88847450474e45fecbb86ac7858",
+      "status": "BLOCKED_SDCARD_IMAGE_MISSING"
     },
     {
       "checker_command": "uv run python tools/check_genesys2_linux_counter_path_preflight.py --root .",
       "id": "linux_counter_path_preflight",
       "path": "results/evaluation/genesys2-cva6/current/linux_counter_path_preflight.json",
       "schema": "rvmt.genesys2.linux_counter_path_preflight.v1",
-      "sha256": "a28d9f3aa0aed778b6c5b834a3a57e576997253045f00d8ba133023430bf23f3",
+      "sha256": "7ce133b4209f367b353f8d3b68cb16d4c9dd2619aa7eda70b92f65c10cbf47a6",
       "status": "BLOCKED_SD_CARD_LINUX_SOURCE_MISSING"
     },
     {
@@ -812,7 +812,7 @@
       "id": "host_vivado_check",
       "path": "results/evaluation/genesys2-cva6/current/host_vivado_check_summary.json",
       "schema": "rvmt.ndss.host_vivado_check.v1",
-      "sha256": "cd91df8e5763c915cbb26b0074c65ab58f5a3e2df91d3dbb6d7e7f0e9f75f14c",
+      "sha256": "2485253e7aa864d211bf44702e6b6d70c88264ee54345a9a49ae79c8f68dba55",
       "status": "PASS_HOST_VIVADO_PREFLIGHT"
     },
     {
@@ -820,7 +820,7 @@
       "id": "trace_marker_programming",
       "path": "results/evaluation/genesys2-cva6/current/trace_marker_programming_summary.json",
       "schema": "rvmt.genesys2.trace_marker_programming.v1",
-      "sha256": "7adc370db8b444950eb8dbb8de3fec493f1f311ecaa7e8d7d284367ae9724ce6",
+      "sha256": "61f68dd2c7786c8d56449315caab1321b009c7ded2b07a16c38b0209ef093cef",
       "status": "PASS_TRACE_MARKER_PROGRAMMED"
     },
     {
@@ -828,7 +828,7 @@
       "id": "host_latex_build",
       "path": "results/evaluation/genesys2-cva6/current/host_latex_build_summary.json",
       "schema": "rvmt.ndss.host_latex_build.v1",
-      "sha256": "b5a30117261a9f58529ef93248adacf1b4607e49f9dec980767b3fe60438b135",
+      "sha256": "998c06dbdbec4f78414bec2de1407567cbfd4913975f4e600e552f48b27d0122",
       "status": "PASS"
     },
     {
@@ -836,7 +836,7 @@
       "id": "official_image_capability_matrix",
       "path": "results/evaluation/genesys2-cva6/current/official_image_capability_matrix.json",
       "schema": "rvmt.genesys2.official_image_capability_matrix.v1",
-      "sha256": "b6122e891ba2bfe5dacfa559ff82513ade885865e34b7d7f4846aedefc3b797a",
+      "sha256": "19c07641eedaf3b08e76cfb51eb6f38eb6404d60a122a44209cc78ae91842f0b",
       "status": "PASS"
     },
     {
@@ -844,7 +844,7 @@
       "id": "official_image_workloads",
       "path": "results/evaluation/genesys2-cva6/current/official_image_workload_summary.json",
       "schema": "rvmt.genesys2.official_image_workloads.v1",
-      "sha256": "5b2888363b051045f6f83ebbff2b09345d7f39f95b1ad6580633c74fc9fa6f6b",
+      "sha256": "29705613be655caffafc6d9f62944f8403e56747f53c516c6ff5c77e87bb1e7e",
       "status": "PASS"
     },
     {
@@ -852,7 +852,7 @@
       "id": "official_image_runtime_map",
       "path": "results/evaluation/genesys2-cva6/current/official_image_runtime_map_summary.json",
       "schema": "rvmt.genesys2.official_image_runtime_map.v1",
-      "sha256": "b4d28cb69e1b423f778ac78d8080d7efac6fc36c2bcb11b64f97a259cb2fd95f",
+      "sha256": "12c9fdaa7ad16785580a8cfafe7fb3502bae1504878faf3170136cb2fa30c6c1",
       "status": "PASS"
     },
     {
@@ -860,7 +860,7 @@
       "id": "official_image_fork_exec_ownership",
       "path": "results/evaluation/genesys2-cva6/current/official_image_fork_exec_ownership_summary.json",
       "schema": "rvmt.genesys2.official_image_fork_exec_ownership.v1",
-      "sha256": "1a61f5acd08b64f2149621715035dd4ae673f98f7f961b5966f14df9ca1ead41",
+      "sha256": "56cfbddf80cbaa552d2a0a731744a3ab6272e7461b453df5e3cd6d31d532c7f2",
       "status": "PASS"
     },
     {
@@ -868,7 +868,7 @@
       "id": "official_image_aslr_pie",
       "path": "results/evaluation/genesys2-cva6/current/official_image_aslr_pie_summary.json",
       "schema": "rvmt.genesys2.official_image_aslr_pie.v1",
-      "sha256": "6a2176deea056fa81f54d84fa18a6d321f1dda897891ce51f83a5a269036792b",
+      "sha256": "16b6fba2b39b333cb5e7b2b7227ab8656025adc33283675d0fe6f589a1500861",
       "status": "PASS"
     },
     {
@@ -876,7 +876,7 @@
       "id": "official_image_repeatability",
       "path": "results/evaluation/genesys2-cva6/current/official_image_repeatability_summary.json",
       "schema": "rvmt.genesys2.official_image_repeatability_drop_wrap.v1",
-      "sha256": "d6148b7b8012bc01898ac24de2ba41e1f21d1cbb050ce3db2bda1b2237674470",
+      "sha256": "cd937190857a2565253783d6ddbe2e50917dd067b39c1ee4ae98844305f3d467",
       "status": "PASS"
     },
     {
@@ -884,7 +884,7 @@
       "id": "official_image_hardware_oracle_differential",
       "path": "results/evaluation/genesys2-cva6/current/official_image_hardware_oracle_differential_summary.json",
       "schema": "rvmt.genesys2.hardware_oracle_differential.v1",
-      "sha256": "daffdcde2d0bb62b6ab4a132a1d9cb5ce4eb0362d46c29bdb4cd620d94d8bf4e",
+      "sha256": "fa292e7d8ff7228d804f2121bce73acbdc319ddbac618d84d6770f719a180ea2",
       "status": "PASS"
     },
     {
@@ -900,7 +900,7 @@
       "id": "tracer_visibility_baseline",
       "path": "results/evaluation/genesys2-cva6/current/tracer_visibility_baseline_summary.json",
       "schema": "rvmt.genesys2.tracer_visibility_baseline.v1",
-      "sha256": "45c33bea56d2488218f7881e75dff5859ddc153697ba7387fdcb03c9779e710c",
+      "sha256": "9f2685ad56393a8f80bc3863613c246cad87e532cc056175284a732312b0f9dd",
       "status": "PASS_LOCAL_SOFTWARE_TRACER_BASELINE"
     }
   ],

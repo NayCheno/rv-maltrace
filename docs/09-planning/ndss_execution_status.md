@@ -26,11 +26,11 @@ experiment is marked PASS.
   non-promotion. The local fixture summary is
   `PASS_LOCAL_CODE_ANALYSIS_FIXTURES`; it does not claim a new Genesys2 board
   run or board-native DWARF.
-- Retained accepted external summaries for board-native source lines, scoped
-  full hardware pointer strings, and Genesys2 board benign controls through
-  `external_closure_intake.json`. The intake remains
-  `BLOCKED_EXTERNAL_ARTIFACTS_REQUIRED` overall because production
-  streaming/DMA throughput is still invalid/incomplete.
+- Retained external-summary intake records for board-native source lines,
+  scoped full hardware pointer strings, production streaming/DMA throughput,
+  and Genesys2 board benign controls through `external_closure_intake.json`.
+  The intake remains `OPEN_EXTERNAL_ARTIFACTS_REQUIRED`: current candidate
+  summaries are present-invalid/open and are not completion evidence.
 - Tightened production streaming/DMA intake: accepted throughput now requires
   eight evidence artifact kinds: transport design manifest, exact streaming
   bitstream clock report, host receiver log, parser output log, drop accounting
@@ -58,8 +58,8 @@ experiment is marked PASS.
 
 - Raw artifact release candidate:
   `build/ndss_artifacts/rv-maltrace-genesys2-cva6-current-raw-artifacts.zip`
-  SHA256 `c839d5ff2e184683d1950d2e5b1a2f7e0389749bf18e85016d70375641ea41c9`,
-  file count 3375, size 326810249 bytes.
+  SHA256 `e1ce91a74071b91fad4fec3a4fb622a21f8832754658fc9a032cfd32bef90b85`,
+  file count 1666, size 284971567 bytes.
 - Host LaTeX skeleton build:
   `results/evaluation/genesys2-cva6/current/host_latex_build_summary.json`
   SHA256 `b5a30117261a9f58529ef93248adacf1b4607e49f9dec980767b3fe60438b135`;

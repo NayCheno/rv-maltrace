@@ -1,9 +1,0 @@
-Board observation notes
-Run ID: 20260609-1440-onboard-uart-reroute
-Timestamp:
-2026-06-09 15:48:45 +08:00
-- On-board USB-JTAG target opened as localhost:3121/xilinx_tcf/Digilent/200300B81858B.
-- Target device xc7k325t_0 remained visible after refresh_hw_device.
-- Vivado reported: Device xc7k325t is programmed with a design that has no supported soft debug core(s) in it.
-- This is expected for the non-trace baseline bitstream and is not a failure.
-- No external photo or oscilloscope evidence was captured for this phase; acceptance is based on the programming transcript and stable post-refresh visibility.

@@ -22,12 +22,6 @@
           "tags": ["genesys2", "cva6", "board", "baseline"]
         },
         {
-          "id": "baseline-pass-criteria",
-          "label": "Genesys2/CVA6 baseline pass criteria evidence",
-          "command": ["{python}", "tools/check_baseline_pass_criteria.py", "--root", "{root}"],
-          "tags": ["genesys2", "cva6", "board", "baseline", "claim-boundary"]
-        },
-        {
           "id": "board-trace-minimal",
           "label": "Genesys2/CVA6 minimal trace policy",
           "command": ["{python}", "tools/check_board_trace_minimal.py", "--root", "{root}"],
@@ -46,36 +40,6 @@
           "tags": ["genesys2", "cva6", "trace", "programs"]
         },
         {
-          "id": "board-trace-evidence",
-          "label": "Genesys2/CVA6 board trace validation evidence",
-          "command": ["{python}", "tools/check_board_trace_evidence.py", "--root", "{root}"],
-          "tags": ["genesys2", "cva6", "trace", "evidence"]
-        },
-        {
-          "id": "board-local-code-analysis",
-          "label": "Genesys2/CVA6 board local code analysis evidence",
-          "command": ["{python}", "tools/check_board_local_code_analysis.py", "--root", "{root}"],
-          "tags": ["genesys2", "cva6", "trace", "local-code-analysis", "evidence"]
-        },
-        {
-          "id": "safe-surrogate-evidence",
-          "label": "Genesys2/CVA6 safe surrogate evidence boundary",
-          "command": ["{python}", "tools/check_genesys2_safe_surrogate.py", "--root", "{root}"],
-          "tags": ["genesys2", "cva6", "safe-surrogate", "claim-boundary"]
-        },
-        {
-          "id": "safe-surrogate-manifest-coverage",
-          "label": "Genesys2/CVA6 safe surrogate full manifest coverage",
-          "command": ["{python}", "tools/check_genesys2_safe_surrogate_coverage.py", "--root", "{root}"],
-          "tags": ["genesys2", "cva6", "safe-surrogate", "manifest-coverage", "claim-boundary"]
-        },
-        {
-          "id": "cva-evidence-boundary",
-          "label": "Genesys2/CVA6 current evidence boundary consistency",
-          "command": ["{python}", "tools/check_genesys2_cva_evidence_boundary.py", "--root", "{root}"],
-          "tags": ["genesys2", "cva6", "claim-boundary", "resource-report"]
-        },
-        {
           "id": "ccfa-claim-boundaries",
           "label": "CCF-A readiness claim boundary consistency",
           "command": ["{python}", "tools/check_ccfa_claim_boundaries.py", "--root", "{root}"],
@@ -86,12 +50,6 @@
           "label": "Current risk log claim-boundary consistency",
           "command": ["{python}", "tools/check_risk_log_current.py", "--root", "{root}"],
           "tags": ["genesys2", "cva6", "risk-log", "claim-boundary"]
-        },
-        {
-          "id": "evaluation-plan-current",
-          "label": "Current evaluation-plan evidence index consistency",
-          "command": ["{python}", "tools/check_evaluation_plan.py", "--root", "{root}"],
-          "tags": ["genesys2", "cva6", "ccfa", "evaluation", "claim-boundary"]
         },
         {
           "id": "review-closure-audit",
@@ -200,12 +158,6 @@
           "label": "Genesys2/CVA6 full hardware pointer-string readiness evidence",
           "command": ["{python}", "tools/check_genesys2_pointer_string_readiness.py", "--root", "{root}"],
           "tags": ["genesys2", "cva6", "pointer-snapshot", "hardware-string-readiness", "claim-boundary"]
-        },
-        {
-          "id": "hardware-pointer-strings",
-          "label": "Genesys2/CVA6 scoped full hardware pointer-string evidence",
-          "command": ["{python}", "tools/check_genesys2_hardware_pointer_strings.py", "--root", "{root}"],
-          "tags": ["genesys2", "cva6", "pointer-snapshot", "hardware-string", "external-summary", "claim-boundary"]
         },
         {
           "id": "benign-control-summary",
@@ -382,12 +334,6 @@
           "tags": ["genesys2", "cva6", "linux", "sdcard", "bootrom", "claim-boundary"]
         },
         {
-          "id": "sdcard-write-preflight",
-          "label": "Genesys2/CVA6 host SD-card write-target preflight",
-          "command": ["{python}", "tools/check_genesys2_sdcard_write_preflight.py", "--root", "{root}"],
-          "tags": ["genesys2", "cva6", "linux", "sdcard", "host", "preflight", "claim-boundary"]
-        },
-        {
           "id": "host-vivado-check",
           "label": "NDSS host-side Vivado part/board preflight",
           "command": ["{python}", "tools/check_ndss_host_vivado_check.py", "--root", "{root}"],
@@ -544,18 +490,80 @@
           "label": "Genesys2/CVA6 board trace validation program plan",
           "command": ["{python}", "tools/check_board_trace_programs.py", "--root", "{root}"],
           "tags": ["genesys2", "cva6", "trace", "programs"]
+        }
+      ]
+    },
+    {
+      "id": "genesys2-legacy-provenance",
+      "title": "Historical Genesys2/CVA6 provenance checks",
+      "description": "Legacy 20260609/20260611 evidence-boundary checks retained for archival diagnostics. These are not part of the current local reproduction gate.",
+      "current": false,
+      "legacy": true,
+      "tier": "legacy-provenance",
+      "checks": [
+        {
+          "id": "baseline-pass-criteria",
+          "label": "Genesys2/CVA6 legacy baseline pass criteria evidence",
+          "command": ["{python}", "tools/check_baseline_pass_criteria.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "board", "baseline", "legacy", "claim-boundary"]
         },
         {
           "id": "board-trace-evidence",
-          "label": "Genesys2/CVA6 board trace validation evidence",
+          "label": "Genesys2/CVA6 legacy board trace validation evidence",
           "command": ["{python}", "tools/check_board_trace_evidence.py", "--root", "{root}"],
-          "tags": ["genesys2", "cva6", "trace", "evidence"]
+          "tags": ["genesys2", "cva6", "trace", "legacy", "evidence"]
         },
         {
           "id": "board-local-code-analysis",
-          "label": "Genesys2/CVA6 board local code analysis evidence",
+          "label": "Genesys2/CVA6 legacy board local code analysis evidence",
           "command": ["{python}", "tools/check_board_local_code_analysis.py", "--root", "{root}"],
-          "tags": ["genesys2", "cva6", "trace", "local-code-analysis", "evidence"]
+          "tags": ["genesys2", "cva6", "trace", "local-code-analysis", "legacy", "evidence"]
+        },
+        {
+          "id": "safe-surrogate-evidence",
+          "label": "Genesys2/CVA6 legacy safe surrogate evidence boundary",
+          "command": ["{python}", "tools/check_genesys2_safe_surrogate.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "safe-surrogate", "legacy", "claim-boundary"]
+        },
+        {
+          "id": "safe-surrogate-manifest-coverage",
+          "label": "Genesys2/CVA6 legacy safe surrogate full manifest coverage",
+          "command": ["{python}", "tools/check_genesys2_safe_surrogate_coverage.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "safe-surrogate", "manifest-coverage", "legacy", "claim-boundary"]
+        },
+        {
+          "id": "cva-evidence-boundary",
+          "label": "Genesys2/CVA6 legacy evidence boundary consistency",
+          "command": ["{python}", "tools/check_genesys2_cva_evidence_boundary.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "legacy", "claim-boundary", "resource-report"]
+        }
+      ]
+    },
+    {
+      "id": "genesys2-external-closure-strict",
+      "title": "Genesys2/CVA6 external closure strict checks",
+      "description": "Checks that require accepted external summaries or operator-selected host targets. Expected to remain blocked until the corresponding external artifacts are collected.",
+      "current": false,
+      "legacy": false,
+      "tier": "external-closure",
+      "checks": [
+        {
+          "id": "evaluation-plan-current",
+          "label": "External-closure evaluation-plan accepted-summary gate",
+          "command": ["{python}", "tools/check_evaluation_plan.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "ccfa", "evaluation", "external-closure", "claim-boundary"]
+        },
+        {
+          "id": "hardware-pointer-strings",
+          "label": "Genesys2/CVA6 scoped full hardware pointer-string accepted evidence",
+          "command": ["{python}", "tools/check_genesys2_hardware_pointer_strings.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "pointer-snapshot", "hardware-string", "external-summary", "claim-boundary"]
+        },
+        {
+          "id": "sdcard-write-preflight",
+          "label": "Genesys2/CVA6 host SD-card write-target preflight",
+          "command": ["{python}", "tools/check_genesys2_sdcard_write_preflight.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "linux", "sdcard", "host", "preflight", "operator-target", "claim-boundary"]
         }
       ]
     },

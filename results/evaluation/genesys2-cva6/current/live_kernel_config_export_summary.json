@@ -50,8 +50,8 @@
     "QEMU, strace, source-level defconfigs, and Buildroot defconfigs cannot substitute for this live board export."
   ],
   "run_log": {
-    "path": "results/board/genesys2_trace_validation/20260625-010600-official-image-live-kernel-config-export/uart.log",
-    "sha256": "35cb05a85bd070e9f0f045ee7f0a5ccdba0b8c7b4c7a7b37bb1f4ea84352c3b6",
+    "path": "results/board/genesys2_trace_validation/20260624-live-kernel-config-export/uart.log",
+    "sha256": "3f76126c0a85e1faea42514342efe864c65f29e405415738ef4efc36a0dbdf19",
     "size_bytes": 2847
   },
   "schema": "rvmt.genesys2.live_kernel_config_export.v1",

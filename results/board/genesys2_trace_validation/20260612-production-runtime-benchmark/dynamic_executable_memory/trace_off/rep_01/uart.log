@@ -1,7 +1,0 @@
-RVMT_GENESYS2_RUNTIME_BENCH_UART port=COM7 baud=115200 sample=dynamic_executable_memory mode=trace_off rep=rep_01 start=2026-06-12T02:36:29+0800
-
-RVMT_SEND_RUNTIME_BENCH sample=dynamic_executable_memory mode=trace_off rep=rep_01
-> > > > > > # # # # # # RVMT_RUNTIME_BENCH_START sample=dynamic_executable_memory mode=trace_off rep=rep_01 ns=14878000000000
-# # # # RVMT_RUNTIME_BENCH_DONE sample=dynamic_executable_memory mode=trace_off rep=rep_01 rc=0 ns=14886000000000
-# # # 
-RVMT_GENESYS2_RUNTIME_BENCH_UART_DONE

@@ -18,9 +18,9 @@
   "command": "uv run rvmt ndss:host-vivado-check",
   "expected_board_part": "digilentinc.com:genesys2:part0:1.1",
   "expected_part": "xc7k325tffg900-2",
-  "generated_utc": "2026-06-24T01:26:44+00:00",
+  "generated_utc": "2026-07-01T12:40:04+00:00",
   "log": "results/evaluation/genesys2-cva6/current/host_vivado_check.log",
-  "log_sha256": "d00f0887f408bd17f81508a648681bda8655809571cc387b99e0c1f9d1550dda",
+  "log_sha256": "3d655e85b3fffba24085558b5f397f99e1c1c472ae2b1b0268378411095798ec",
   "log_size_bytes": 640,
   "markers": {
     "RVMT_BOARD_OK": "digilentinc.com:genesys2:part0:1.1",

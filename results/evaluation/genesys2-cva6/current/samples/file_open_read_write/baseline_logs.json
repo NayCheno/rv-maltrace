@@ -1,26 +1,26 @@
 {
   "evidence": {
-    "behavior_graph": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/02_file_open_read_write/behavior_graph.json",
-    "behavior_mapping": "DERIVED_CURRENT_SAMPLE_ARTIFACT",
-    "code_map": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/02_file_open_read_write/trace_code_map/code_map.json",
-    "integrated_validation": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/02_file_open_read_write/integrated_validation.json",
-    "runtime_process_map": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/02_file_open_read_write/runtime_process_map.json",
-    "semantic_events": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/02_file_open_read_write/semantic_events.json",
-    "source_attribution": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/02_file_open_read_write/trace_code_map/source_attribution_summary.json",
-    "trace": "results/board/genesys2_trace_validation/20260611-p0-continuous-136bit/02_file_open_read_write/trace.jsonl"
+    "behavior_graph": "results/evaluation/genesys2-cva6/current/samples/file_open_read_write/behavior_graph.json",
+    "behavior_mapping": "results/evaluation/genesys2-cva6/current/samples/file_open_read_write/behavior_mapping.json",
+    "code_map": "results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/02_file_open_read_write/trace_code_map/code_map.json",
+    "integrated_validation": "results/evaluation/genesys2-cva6/current/samples/file_open_read_write/integrated_validation.json",
+    "runtime_process_map": "results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/02_file_open_read_write/runtime_process_map.json",
+    "semantic_events": "results/evaluation/genesys2-cva6/current/samples/file_open_read_write/semantic_events.json",
+    "source_attribution": "results/evaluation/genesys2-cva6/current/source_line_attribution_summary.json",
+    "trace": "results/board/genesys2_trace_validation/20260702-current-p0-continuous-single-window/02_file_open_read_write/trace.jsonl"
   },
   "host_strace": {
     "execve_paths": [
-      "results/demo/ccfa-p0-20260611/file_open_read_write/00_build/file_open_read_write.host_control"
+      "results/demo/ccfa-p0-20260611/file_open_read_write/00_build/file_open_read_write.host"
     ],
     "fd_edges": [
       {
-        "line": "execve(\"results/demo/ccfa-p0-20260611/file_open_read_write/00_build/file_open_read_write.host_control\", [\"results/demo/ccfa-p0-20260611/fi\"...], 0x7fffc0c70c70 /* 9 vars */) = 0",
+        "line": "execve(\"results/demo/ccfa-p0-20260611/file_open_read_write/00_build/file_open_read_write.host\", [\"results/demo/ccfa-p0-20260611/fi\"...], 0x7ffd665edf38 /* 9 vars */) = 0",
         "op": "execve",
-        "path": "results/demo/ccfa-p0-20260611/file_open_read_write/00_build/file_open_read_write.host_control"
+        "path": "results/demo/ccfa-p0-20260611/file_open_read_write/00_build/file_open_read_write.host"
       },
       {
-        "line": "mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7c4507f4d000",
+        "line": "mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7bc3e4855000",
         "op": "mmap"
       },
       {
@@ -30,7 +30,7 @@
         "path": "/etc/ld.so.cache"
       },
       {
-        "line": "mmap(NULL, 12899, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7c4507f49000",
+        "line": "mmap(NULL, 13959, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7bc3e4851000",
         "op": "mmap"
       },
       {
@@ -52,23 +52,23 @@
         "path": "/lib/x86_64-linux-gnu/libc.so.6"
       },
       {
-        "line": "mmap(NULL, 2170256, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7c4507d37000",
+        "line": "mmap(NULL, 2170256, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7bc3e463f000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x7c4507d5f000, 1605632, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x7c4507d5f000",
+        "line": "mmap(0x7bc3e4667000, 1605632, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x7bc3e4667000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x7c4507ee7000, 323584, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b0000) = 0x7c4507ee7000",
+        "line": "mmap(0x7bc3e47ef000, 323584, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b0000) = 0x7bc3e47ef000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x7c4507f36000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1fe000) = 0x7c4507f36000",
+        "line": "mmap(0x7bc3e483e000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1fe000) = 0x7bc3e483e000",
         "op": "mmap"
       },
       {
-        "line": "mmap(0x7c4507f3c000, 52624, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7c4507f3c000",
+        "line": "mmap(0x7bc3e4844000, 52624, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7bc3e4844000",
         "op": "mmap"
       },
       {
@@ -78,23 +78,23 @@
         "path": "/lib/x86_64-linux-gnu/libc.so.6"
       },
       {
-        "line": "mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7c4507d34000",
+        "line": "mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7bc3e463c000",
         "op": "mmap"
       },
       {
-        "line": "mprotect(0x7c4507f36000, 16384, PROT_READ) = 0",
+        "line": "mprotect(0x7bc3e483e000, 16384, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "mprotect(0x403000, 4096, PROT_READ) = 0",
+        "line": "mprotect(0x58baff4ca000, 4096, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "mprotect(0x7c4507f85000, 8192, PROT_READ) = 0",
+        "line": "mprotect(0x7bc3e488d000, 8192, PROT_READ) = 0",
         "op": "mprotect"
       },
       {
-        "line": "munmap(0x7c4507f49000, 12899)     = 0",
+        "line": "munmap(0x7bc3e4851000, 13959)     = 0",
         "op": "munmap"
       },
       {
@@ -140,7 +140,7 @@
         "path": "/tmp/rvmt_trace_validation_input.txt"
       }
     ],
-    "line_count": 37,
+    "line_count": 38,
     "openat_paths": [
       "/etc/ld.so.cache",
       "/lib/x86_64-linux-gnu/libc.so.6",
@@ -179,38 +179,42 @@
     "execve_paths": [],
     "fd_edges": [
       {
-        "fd": 3,
-        "line": "openat(AT_FDCWD,\"/tmp/rvmt_p0_file_open_read_write.txt\",O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC,0644) = 3",
-        "op": "openat",
-        "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+        "line": "mprotect(0x000000000007e000,16384,PROT_READ) = 0",
+        "op": "mprotect"
       },
       {
         "fd": 3,
-        "line": "write(3,0x10248,24) = 24",
+        "line": "openat(AT_FDCWD,\"/tmp/rvmt_trace_validation_input.txt\",O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC,0644) = 3",
+        "op": "openat",
+        "path": "/tmp/rvmt_trace_validation_input.txt"
+      },
+      {
+        "fd": 3,
+        "line": "write(3,0x52db0,28) = 28",
         "op": "write",
-        "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+        "path": "/tmp/rvmt_trace_validation_input.txt"
       },
       {
         "fd": 3,
         "line": "close(3) = 0",
         "op": "close",
-        "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+        "path": "/tmp/rvmt_trace_validation_input.txt"
       },
       {
         "fd": 3,
-        "line": "openat(AT_FDCWD,\"/tmp/rvmt_p0_file_open_read_write.txt\",O_RDONLY|O_CLOEXEC) = 3",
+        "line": "openat(AT_FDCWD,\"/tmp/rvmt_trace_validation_input.txt\",O_RDONLY|O_CLOEXEC) = 3",
         "op": "openat",
-        "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+        "path": "/tmp/rvmt_trace_validation_input.txt"
       },
       {
         "fd": 3,
-        "line": "read(3,0x12000,128) = 24",
+        "line": "read(3,0xab2aba58,128) = 28",
         "op": "read",
-        "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+        "path": "/tmp/rvmt_trace_validation_input.txt"
       },
       {
         "fd": 1,
-        "line": "write(1,0x12000,24) = 24",
+        "line": "write(1,0xab2aba58,28) = 28",
         "op": "write",
         "path": "<stdout>"
       },
@@ -218,21 +222,28 @@
         "fd": 3,
         "line": "close(3) = 0",
         "op": "close",
-        "path": "/tmp/rvmt_p0_file_open_read_write.txt"
+        "path": "/tmp/rvmt_trace_validation_input.txt"
       }
     ],
-    "line_count": 10,
+    "line_count": 19,
     "openat_paths": [
-      "/tmp/rvmt_p0_file_open_read_write.txt"
+      "/tmp/rvmt_trace_validation_input.txt"
     ],
     "path": "results/demo/ccfa-p0-20260611/file_open_read_write/01_ground_truth/qemu-riscv64.strace.log",
     "present": true,
     "signals": [],
     "syscalls": {
+      "brk": 5,
       "close": 2,
-      "exit": 1,
+      "exit_group": 1,
+      "getrandom": 1,
+      "mprotect": 1,
       "openat": 2,
+      "prlimit64": 1,
       "read": 1,
+      "readlinkat": 1,
+      "set_robust_list": 1,
+      "set_tid_address": 1,
       "write": 2
     },
     "unresolved_fd_count": 0,

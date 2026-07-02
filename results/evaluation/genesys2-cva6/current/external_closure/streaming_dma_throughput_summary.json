@@ -15,25 +15,25 @@
       "id": "host_receiver_log",
       "kind": "host_receiver_log",
       "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/host_receiver_log.json",
-      "sha256": "f9047ca909394d5360fd7a6db11811bfa9ebd184db601bac55173d5248174554"
+      "sha256": "53eb91927fd8aa0023f701cbdd196ddd6163e122662479459550af142dc119b6"
     },
     {
       "id": "noninterference_report",
       "kind": "noninterference_report",
       "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/noninterference_report.txt",
-      "sha256": "4cc97a997ef1f6fa0b2808fd628752b60e60f7835b9833052cdb0f074f5e366c"
+      "sha256": "1d42ef225c315e64a2ee6a5226898a3ff5d6b0fbc726e4757dec42ab63dc0f33"
     },
     {
       "id": "parser_output_log",
       "kind": "parser_output_log",
       "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/parser_output_log.json",
-      "sha256": "0f55f234440602cfc4de6c556075799a1aeb5a2e54c8ad4fca40404d3cd960fd"
+      "sha256": "45292b0d19d5569a55cc821ff92eff7e169a613e0a39f8482f2e5be1732c85c0"
     },
     {
       "id": "resource_report",
       "kind": "resource_report",
       "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/resource_report.txt",
-      "sha256": "1e11fc550b4f241646147e5ef1183220986eece4e79763c26692ca171e85f243"
+      "sha256": "d9aebda2dd2b4f5ddc1d53f8d80d81be1d29d130f744cc0bde35c8f13da94fbb"
     },
     {
       "id": "streaming_bitstream_clock_report",
@@ -45,7 +45,7 @@
       "id": "timing_report",
       "kind": "timing_report",
       "path": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink/timing_report.txt",
-      "sha256": "929b280d41f3ae39ecd4e741b336bda44a1cdc11fff52822e4026384b9e0273a"
+      "sha256": "9d0e26a6a2b18d3d157ce68d69042ad649e47e8e197c6dcc85a6912465b7e4fe"
     },
     {
       "id": "transport_design_manifest",
@@ -55,22 +55,28 @@
     }
   ],
   "failed_attempts": [
+    "host_receiver_log missing",
+    "host_receiver_log transport is not uart_streaming_dma",
     "host receiver parser_success is not true",
     "UART status/end frame was not observed",
-    "sustained_bytes_per_second 0.000 <= required 1.5x p99 target 1618163.573",
+    "UART status dropped_count is nonzero",
+    "UART sequence_error_count is nonzero",
+    "UART crc_error_count is nonzero",
+    "UART accepted_count does not match received data frames",
+    "sustained_bytes_per_second 0.000 <= required 1.5x p99 target 1595976.945",
     "noninterference report does not prove noninterference_passed=true"
   ],
   "failed_attempts_retained": true,
-  "host_receiver_log_present": true,
+  "host_receiver_log_present": false,
   "minimum_sustained_throughput_multiplier": 1.5,
   "noninterference_passed": false,
-  "p95_event_bytes_per_cycle": 0.019884233572264043,
-  "p95_event_bytes_per_second": 994211.6786132022,
-  "p99_event_bytes_per_cycle": 0.021575514300050176,
-  "p99_event_bytes_per_second": 1078775.7150025088,
+  "p95_event_bytes_per_cycle": 0.019625255305923097,
+  "p95_event_bytes_per_second": 981262.7652961549,
+  "p99_event_bytes_per_cycle": 0.021279692594317653,
+  "p99_event_bytes_per_second": 1063984.6297158827,
   "record_root": "results/evaluation/genesys2-cva6/current/external_closure/production_streaming_dma_trace_sink",
-  "required_sustained_bytes_per_second": 1618163.5725037633,
-  "required_sustained_event_bytes_per_cycle": 0.03236327145007527,
+  "required_sustained_bytes_per_second": 1595976.944573824,
+  "required_sustained_event_bytes_per_cycle": 0.03191953889147648,
   "resource_report_present": true,
   "schema": "rvmt.genesys2.streaming_dma_throughput.v1",
   "status": "FAIL",

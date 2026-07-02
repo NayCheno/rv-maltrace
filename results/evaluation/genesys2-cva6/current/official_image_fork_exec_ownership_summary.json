@@ -2,15 +2,15 @@
   "artifacts": {
     "bram_records": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/bram_records.jsonl",
-      "sha256": "46473d12b60bb02701dcd07bfeff18039fa82645a4f264411c4909744eedc65b",
-      "size_bytes": 77229
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership/bram_records.jsonl",
+      "sha256": "ea00fc8d95ca2a59b0c1f07446a88da1aa368f9761d489b388c843c5a741bca9",
+      "size_bytes": 85942
     },
     "bram_summary": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/bram_summary.json",
-      "sha256": "2d58d5f4daeab996400f5e89c651f936145502e9e69f98d4d1f1e0fc5c48fd46",
-      "size_bytes": 1008
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership/bram_summary.json",
+      "sha256": "f07b09ae80a5be254cf93a8d5c60315944cec37f52c404493090786bf3667321",
+      "size_bytes": 1012
     },
     "build_manifest": {
       "exists": true,
@@ -20,90 +20,90 @@
     },
     "capture_csv": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/capture.csv",
-      "sha256": "abe788a77adea029275607c9b4c01b05f0ee4001ebecb821b549a33fefa5f0da",
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership/capture.csv",
+      "sha256": "888ce965b7e56d68d652a8116a6fc048a0dad23962bf682bcebec47d6c5f6836",
       "size_bytes": 2095924
     },
     "capture_err_log": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/capture.err.log",
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership/capture.err.log",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "size_bytes": 0
     },
     "capture_log": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/capture.log",
-      "sha256": "1697bb5b5c0eb57594ad4a9a7f540b65d9edf21627b7f89fe9a848484da503d2",
-      "size_bytes": 9410
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership/capture.log",
+      "sha256": "f7e984c14f55e29155cd5f063370e87083b26b1cd3166d2d4864458fda597fa3",
+      "size_bytes": 9422
     },
     "proc_snapshots": {
       "child_exe_post": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/proc_snapshots/fork_exec/child_exe_post.txt",
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership/proc_snapshots/fork_exec/child_exe_post.txt",
         "sha256": "faf05c4d26db6db0dfdee8d27468f68e4e07cb32d2ba9891e8167e8f7b6b4edf",
         "size_bytes": 13
       },
       "child_exe_pre": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/proc_snapshots/fork_exec/child_exe_pre.txt",
-        "sha256": "e22820bc71c7e1f5395b6d8563634bbb0fc6645ac620b76aedeb315f056c248f",
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership/proc_snapshots/fork_exec/child_exe_pre.txt",
+        "sha256": "f8bc6d12c388f93f385d79538be26628be161666f47a8e2629885e0653a4aa51",
         "size_bytes": 122
       },
       "child_maps_post": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/proc_snapshots/fork_exec/child_maps_post.txt",
-        "sha256": "28f60286b2ca2281ac78867956ce95f1a41a0777b2bc21fe63d3158d1902102e",
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership/proc_snapshots/fork_exec/child_maps_post.txt",
+        "sha256": "c1e7d0f699079f9d462edd809a3285b799496c17b15a280ac584b0eb79cd7fbf",
         "size_bytes": 1540
       },
       "child_maps_pre": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/proc_snapshots/fork_exec/child_maps_pre.txt",
-        "sha256": "ae46a6fe304dd72ef0a0357697e9c5da4fa56902056850e2e1f852d6da48dc12",
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership/proc_snapshots/fork_exec/child_maps_pre.txt",
+        "sha256": "c0611212b45c7113b582c3b7c475e049b02aca48009f0fc489df705f2d63f939",
         "size_bytes": 701
       },
       "child_status_post": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/proc_snapshots/fork_exec/child_status_post.txt",
-        "sha256": "67c07a279d5fe7fe9518b57621d43a1809903e2d164ffc1edc1592ac13c94305",
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership/proc_snapshots/fork_exec/child_status_post.txt",
+        "sha256": "e5c50ec1d170e8a7b680f61986087c62292b5b733fbc96e70a95a682d7c209d2",
         "size_bytes": 1053
       },
       "child_status_pre": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/proc_snapshots/fork_exec/child_status_pre.txt",
-        "sha256": "0837e09765ed473a328ae7592f1218d6e6d18c1c892f2987bb7fb3620ffac017",
-        "size_bytes": 1061
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership/proc_snapshots/fork_exec/child_status_pre.txt",
+        "sha256": "b01dc4886ad0afc0d07404882d725a835a2849f84635c76fb84369231fbc99da",
+        "size_bytes": 1060
       },
       "parent_maps_pre": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/proc_snapshots/fork_exec/parent_maps_pre.txt",
-        "sha256": "ae46a6fe304dd72ef0a0357697e9c5da4fa56902056850e2e1f852d6da48dc12",
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership/proc_snapshots/fork_exec/parent_maps_pre.txt",
+        "sha256": "c0611212b45c7113b582c3b7c475e049b02aca48009f0fc489df705f2d63f939",
         "size_bytes": 701
       },
       "parent_status_pre": {
         "exists": true,
-        "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/proc_snapshots/fork_exec/parent_status_pre.txt",
-        "sha256": "964bb65c9dc8c1cbab882c7f93438462810b14a669fbbb06116173e78b8d28ba",
-        "size_bytes": 1059
+        "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership/proc_snapshots/fork_exec/parent_status_pre.txt",
+        "sha256": "631b6d319cae1d37ad4b5ee55a299bb86c08db6e10f0599ef5e9fc8e43481954",
+        "size_bytes": 1057
       }
     },
     "transfer_log": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/fork_exec_transfer.log",
-      "sha256": "126159c68057f1b0a45994ab0c18f3c060d1df26ca31a8527038c40d5ffb5d80",
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership/fork_exec_transfer.log",
+      "sha256": "3e1b1da2187d046ce3d0793b00a8b2472cf14b9c3a2dbfedfce461bda03e76f9",
       "size_bytes": 23405
     },
     "uart_log": {
       "exists": true,
-      "path": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec/uart.log",
-      "sha256": "e743cd664109e87527c23c3e099f4a81a03767374d3495b3e74ba8f0c5057358",
-      "size_bytes": 11741
+      "path": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership/uart.log",
+      "sha256": "5496378c54d81c88317b90096c47f52c0fc0301fea7ce442636e1cea9a11a19f",
+      "size_bytes": 11833
     }
   },
   "blocked_reason": null,
   "bram_ring": {
-    "captured_count": 88,
+    "captured_count": 100,
     "dropped_count": 0,
-    "event_count": 88,
+    "event_count": 100,
     "wrap_count": 0
   },
   "claim_boundary": {
@@ -117,8 +117,8 @@
     "runtime_proc_snapshots_captured": true
   },
   "host_done": {
-    "child": 1294,
-    "parent": 1292,
+    "child": 1447,
+    "parent": 1445,
     "rc": 0
   },
   "marker_window": {
@@ -137,8 +137,8 @@
       "raw_label": "fork_parent_pid",
       "sequence_number": null,
       "source": "bram_arg_mem_stdout",
-      "syscall_id": "0x0002acaa",
-      "value": 1292
+      "syscall_id": "0x0002cc55",
+      "value": 1445
     },
     {
       "kind": 2,
@@ -147,8 +147,8 @@
       "raw_label": "fork_parent_tgid",
       "sequence_number": null,
       "source": "bram_arg_mem_stdout",
-      "syscall_id": "0x0002acad",
-      "value": 1292
+      "syscall_id": "0x0002cc58",
+      "value": 1445
     },
     {
       "kind": 3,
@@ -157,8 +157,8 @@
       "raw_label": "fork_child_pid",
       "sequence_number": null,
       "source": "bram_arg_mem_stdout",
-      "syscall_id": "0x0002acb0",
-      "value": 1294
+      "syscall_id": "0x0002cc5b",
+      "value": 1447
     },
     {
       "kind": 4,
@@ -167,8 +167,8 @@
       "raw_label": "fork_child_tgid",
       "sequence_number": null,
       "source": "bram_arg_mem_stdout",
-      "syscall_id": "0x0002acb2",
-      "value": 1294
+      "syscall_id": "0x0002cc5d",
+      "value": 1447
     },
     {
       "kind": 5,
@@ -177,8 +177,8 @@
       "raw_label": "fork_child_pre_exec_pid",
       "sequence_number": null,
       "source": "bram_arg_mem_stdout",
-      "syscall_id": "0x0002acb5",
-      "value": 1294
+      "syscall_id": "0x0002cc60",
+      "value": 1447
     },
     {
       "kind": 6,
@@ -187,21 +187,21 @@
       "raw_label": "fork_child_pre_exec_tgid",
       "sequence_number": null,
       "source": "bram_arg_mem_stdout",
-      "syscall_id": "0x0002acb8",
-      "value": 1294
+      "syscall_id": "0x0002cc69",
+      "value": 1447
     }
   ],
   "pids": {
-    "child": 1294,
-    "parent": 1292
+    "child": 1447,
+    "parent": 1445
   },
   "probe_done": {
-    "child_pid": 1294,
-    "parent_pid": 1292,
+    "child_pid": 1447,
+    "parent_pid": 1445,
     "raw_status": 0,
     "rc": 0
   },
-  "run_root": "results/board/genesys2_trace_validation/20260625-non-sd-syscall-marker-fork-exec",
+  "run_root": "results/board/genesys2_trace_validation/20260702-official-image-fork-exec-ownership",
   "runtime_snapshots": {
     "child_post_exec_exe_matches_busybox": true,
     "child_post_exec_map_entry_count": 19,

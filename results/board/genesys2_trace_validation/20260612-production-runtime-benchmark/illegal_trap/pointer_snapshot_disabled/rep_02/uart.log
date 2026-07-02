@@ -1,7 +1,0 @@
-RVMT_GENESYS2_RUNTIME_BENCH_UART port=COM7 baud=115200 sample=illegal_trap mode=pointer_snapshot_disabled rep=rep_02 start=2026-06-12T02:33:23+0800
-
-RVMT_SEND_RUNTIME_BENCH sample=illegal_trap mode=pointer_snapshot_disabled rep=rep_02
-> > > > > > # # # # # # RVMT_RUNTIME_BENCH_START sample=illegal_trap mode=pointer_snapshot_disabled rep=rep_02 ns=14692000000000
-# # # # RVMT_RUNTIME_BENCH_DONE sample=illegal_trap mode=pointer_snapshot_disabled rep=rep_02 rc=0 ns=14700000000000
-# # # 
-RVMT_GENESYS2_RUNTIME_BENCH_UART_DONE

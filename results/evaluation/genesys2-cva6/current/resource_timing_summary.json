@@ -3,10 +3,10 @@
   "ltx": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.ltx",
   "ltx_sha256": "16360c1f20031509b61dafb4847ba638b85d1a758a1c10b96d2faacdb4ce7ee3",
   "marker_window_cycle_summary": {
-    "median": 65671.5,
-    "p95": 281199,
+    "median": 79707.0,
+    "p95": 264001,
     "unit": "trace-cycle-or-index-delta",
-    "variance": 67884391954.416664
+    "variance": 13273065304.305555
   },
   "pointer_snapshot_guardrails": "results/evaluation/genesys2-cva6/current/pointer_snapshot_guardrails.json",
   "pointer_snapshot_mode": "bounded_prefix",
@@ -32,34 +32,34 @@
     "mode_stats": {
       "bram_ring": {
         "count": 24,
-        "max_ns": 9000000000,
-        "median_ns": 8000000000.0,
+        "max_ns": 10000000000,
+        "median_ns": 9000000000.0,
         "min_ns": 8000000000,
-        "p95_ns": 8849999999.999998,
-        "variance_ns2": 7.63888888888889e+16
+        "p95_ns": 10000000000.0,
+        "variance_ns2": 1.9270833333333334e+17
       },
       "event_only": {
         "count": 24,
-        "max_ns": 9000000000,
-        "median_ns": 8000000000.0,
+        "max_ns": 10000000000,
+        "median_ns": 9000000000.0,
         "min_ns": 8000000000,
-        "p95_ns": 8000000000.0,
-        "variance_ns2": 3.993055555555555e+16
+        "p95_ns": 10000000000.0,
+        "variance_ns2": 2.065972222222222e+17
       },
       "pointer_snapshot_disabled": {
         "count": 24,
-        "max_ns": 9000000000,
-        "median_ns": 8000000000.0,
-        "min_ns": 7000000000,
-        "p95_ns": 8849999999.999998,
-        "variance_ns2": 1.232638888888889e+17
+        "max_ns": 10000000000,
+        "median_ns": 9000000000.0,
+        "min_ns": 9000000000,
+        "p95_ns": 9849999999.999998,
+        "variance_ns2": 7.63888888888889e+16
       },
       "trace_off": {
         "count": 24,
-        "max_ns": 8000000000,
-        "median_ns": 8000000000.0,
-        "min_ns": 7000000000,
-        "p95_ns": 8000000000.0,
+        "max_ns": 10000000000,
+        "median_ns": 9000000000.0,
+        "min_ns": 9000000000,
+        "p95_ns": 9000000000.0,
         "variance_ns2": 3.993055555555555e+16
       }
     },
@@ -76,5 +76,5 @@
   "schema": "rvmt.resource_timing_summary.v1",
   "status": "PASS",
   "trace_bitstream": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.bit",
-  "trace_bitstream_sha256": "92eef73290ec20d11a58d38bbec89e0528724df3764327d597a6aadb78e44655"
+  "trace_bitstream_sha256": "04dbd5bf4b661427628bd2142e619c2b2526b7fd0598ffeb6df954fc5811b354"
 }

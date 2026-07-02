@@ -12,7 +12,7 @@
     },
     "run_log": {
       "path": "results/board/genesys2_trace_validation/20260623-cycle-source-probe/uart.log",
-      "sha256": "4030b538277f7fd4901383554bbbc8791dfc43deaeb554ac63e2f9615de1f5db",
+      "sha256": "9b3871dfd527b7f3601ab5eda62dfe85fe7678f28ac48a5da4820f3e5638edec",
       "size_bytes": 583
     },
     "source": {
@@ -22,7 +22,7 @@
     },
     "transfer_log": {
       "path": "results/board/genesys2_trace_validation/20260623-cycle-source-probe/transfer.log",
-      "sha256": "ea76f08d0219ebfc3a60eb390487f719d999ffb5f497e7497a9d691667f4f61f",
+      "sha256": "19ab8a7228fcbb49afa08ad7c654fcd0a882c7a4e15bad917606459bec51e56e",
       "size_bytes": 1192
     }
   },
