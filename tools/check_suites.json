@@ -244,6 +244,12 @@
           "tags": ["genesys2", "cva6", "baseline", "anti-analysis", "software-tracer", "claim-boundary"]
         },
         {
+          "id": "evasion-comparison",
+          "label": "Software tracer failure versus RV-MalTrace reconstruction evidence",
+          "command": ["{python}", "tools/check_genesys2_evasion_comparison.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "anti-analysis", "software-tracer", "semantic", "claim-boundary"]
+        },
+        {
           "id": "behavior-audit-metrics",
           "label": "CCF-A behavior audit metrics evidence",
           "command": ["{python}", "tools/check_behavior_audit_metrics.py", "--root", "{root}"],
@@ -308,6 +314,12 @@
           "label": "Genesys2/CVA6 board counter-access matrix",
           "command": ["{python}", "tools/check_genesys2_counter_access_matrix.py", "--root", "{root}"],
           "tags": ["genesys2", "cva6", "cycle-source", "counter", "board", "claim-boundary"]
+        },
+        {
+          "id": "hardware-trace-cycle-window",
+          "label": "Genesys2/CVA6 hardware trace cycle-window evidence",
+          "command": ["{python}", "tools/check_genesys2_hardware_trace_cycle_window.py", "--root", "{root}"],
+          "tags": ["genesys2", "cva6", "cycle-source", "hardware-trace", "bram-ring", "claim-boundary"]
         },
         {
           "id": "sdcard-linux-manifest",
@@ -963,6 +975,18 @@
           "tags": ["genesys2", "baseline", "anti-analysis", "software-tracer", "self-test"]
         },
         {
+          "id": "evasion-comparison-packager-self-test",
+          "label": "Genesys2/CVA6 evasion comparison packager self-test",
+          "command": ["{python}", "tools/package_genesys2_evasion_comparison.py", "--self-test"],
+          "tags": ["genesys2", "anti-analysis", "software-tracer", "semantic", "self-test"]
+        },
+        {
+          "id": "evasion-comparison-checker-self-test",
+          "label": "Genesys2/CVA6 evasion comparison checker self-test",
+          "command": ["{python}", "tools/check_genesys2_evasion_comparison.py", "--self-test"],
+          "tags": ["genesys2", "anti-analysis", "software-tracer", "semantic", "self-test"]
+        },
+        {
           "id": "semantic-provenance-checker-self-test",
           "label": "Genesys2/CVA6 semantic provenance checker self-test",
           "command": ["{python}", "tools/check_genesys2_semantic_provenance.py", "--self-test"],
@@ -1003,6 +1027,18 @@
           "label": "Genesys2/CVA6 counter-access matrix checker self-test",
           "command": ["{python}", "tools/check_genesys2_counter_access_matrix.py", "--self-test"],
           "tags": ["genesys2", "counter", "cycle-source", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "hardware-trace-cycle-window-runner-self-test",
+          "label": "Genesys2/CVA6 hardware trace cycle-window runner self-test",
+          "command": ["{python}", "tools/run_genesys2_hardware_trace_cycle_window.py", "--self-test"],
+          "tags": ["genesys2", "hardware-trace", "cycle-source", "claim-boundary", "self-test"]
+        },
+        {
+          "id": "hardware-trace-cycle-window-checker-self-test",
+          "label": "Genesys2/CVA6 hardware trace cycle-window checker self-test",
+          "command": ["{python}", "tools/check_genesys2_hardware_trace_cycle_window.py", "--self-test"],
+          "tags": ["genesys2", "hardware-trace", "cycle-source", "claim-boundary", "self-test"]
         },
         {
           "id": "sdcard-linux-manifest-checker-self-test",
@@ -1315,6 +1351,12 @@
           "tags": ["genesys2", "p0", "trace-sink", "self-test"]
         },
         {
+          "id": "hardware-trace-cycle-window-self-test",
+          "label": "Genesys2/CVA6 hardware trace cycle-window checker self-test",
+          "command": ["{python}", "tools/check_genesys2_hardware_trace_cycle_window.py", "--self-test"],
+          "tags": ["genesys2", "hardware-trace", "cycle-source", "claim-boundary", "self-test"]
+        },
+        {
           "id": "trace-drop-accounting-self-test",
           "label": "trace drop accounting checker self-test",
           "command": ["{python}", "tools/check_trace_drop_accounting.py", "--self-test"],
@@ -1541,6 +1583,12 @@
           "label": "Genesys2/CVA6 artifact integrity checker self-test",
           "command": ["{python}", "tools/check_genesys2_artifact_integrity.py", "--self-test"],
           "tags": ["genesys2", "artifact-integrity", "self-test"]
+        },
+        {
+          "id": "evasion-comparison-self-test",
+          "label": "Genesys2/CVA6 evasion comparison checker self-test",
+          "command": ["{python}", "tools/check_genesys2_evasion_comparison.py", "--self-test"],
+          "tags": ["genesys2", "anti-analysis", "software-tracer", "semantic", "self-test"]
         },
         {
           "id": "host-latex-build-self-test",

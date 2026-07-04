@@ -19,7 +19,13 @@ Across 12 controlled workload artifacts, 288/288 provenance-tagged semantic
 fields pass source-label validation. The code-attribution pipeline attributes
 108/108 key PC events to the target ELF/function level and passes 6/6 mapping
 edge cases covering PIE/ASLR, dynamic loading, fork/exec, and stripped binaries.
-The artifact package rooted at \artifactroot records 62 summary artifacts, 228
-package files, and a 3,356-file raw-artifact archive with SHA-256 checks for
-independent verification.
+For a controlled anti-debug-like workload where software tracing is visible or
+perturbs \texttt{ptrace}, \rvmt reconstructs the syscall sequence and hardware
+\texttt{ARG\_MEM} string needed to identify the behavior. We also report the
+runtime and transport evidence boundaries: current measurements include board
+UART runtime smoke, FPGA trace-cycle marker windows, and a BRAM-derived target
+for future streaming/DMA transport, but not cycle-level slowdown or production
+throughput. The artifact package rooted at \artifactroot records 63 summary
+artifacts, 240 package files, and a 2,033-file raw-artifact archive with SHA-256
+checks for independent verification.
 \end{abstract}

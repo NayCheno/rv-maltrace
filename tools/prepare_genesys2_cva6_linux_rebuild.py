@@ -134,6 +134,38 @@ def run_command(cmd: list[str], cwd: Path, env: dict[str, str]) -> dict[str, Any
     }
 
 
+def relink_payload_with_initramfs(buildroot_source: Path, build_dir: Path, jobs: int, env: dict[str, str]) -> dict[str, Any]:
+    rootfs_cpio = build_dir / "images/rootfs.cpio"
+    linux_candidates = sorted(
+        path
+        for path in (build_dir / "build").glob("linux-*")
+        if path.is_dir() and (path / ".config").is_file() and (path / "arch/riscv/boot").is_dir()
+    )
+    linux_build = linux_candidates[-1] if linux_candidates else build_dir / "build/linux-MISSING"
+    host_prefix = build_dir / "host/bin/riscv64-buildroot-linux-gnu-"
+    script = f"""
+set -euo pipefail
+rootfs_cpio={rootfs_cpio.as_posix()}
+linux_build={linux_build.as_posix()}
+host_prefix={host_prefix.as_posix()}
+if [ ! -f "$rootfs_cpio" ]; then
+  echo "rootfs.cpio missing: $rootfs_cpio" >&2
+  exit 11
+fi
+if [ ! -f "$linux_build/.config" ]; then
+  echo "linux .config missing: $linux_build/.config" >&2
+  exit 12
+fi
+"$linux_build/scripts/config" --file "$linux_build/.config" --enable BLK_DEV_INITRD
+"$linux_build/scripts/config" --file "$linux_build/.config" --set-str INITRAMFS_SOURCE "$rootfs_cpio"
+make -C "$linux_build" ARCH=riscv CROSS_COMPILE="$host_prefix" olddefconfig
+make -C "$linux_build" ARCH=riscv CROSS_COMPILE="$host_prefix" -j{jobs} Image
+install -m 0644 -D "$linux_build/arch/riscv/boot/Image" "{(build_dir / 'images/Image').as_posix()}"
+make O={build_dir.as_posix()} opensbi-rebuild
+"""
+    return run_command(["bash", "-lc", script], cwd=buildroot_source, env=env)
+
+
 def fetch_buildroot(root: Path, work_dir: Path, version: str, url: str, expected_sha256: str | None, dry_run: bool) -> tuple[Path | None, list[dict[str, Any]], str | None]:
     source_dir = work_dir / f"buildroot-{version}"
     archive = work_dir / f"buildroot-{version}.tar.gz"
@@ -256,6 +288,10 @@ def summarize(
                 command_log.append(run_command(["make", f"O={build_dir.as_posix()}", f"-j{jobs}"], cwd=source_dir, env=env))
                 if command_log[-1]["returncode"] != 0:
                     blocked_reason = "Buildroot full build command failed"
+                else:
+                    command_log.append(relink_payload_with_initramfs(source_dir, build_dir, jobs, env))
+                    if command_log[-1]["returncode"] != 0:
+                        blocked_reason = "Buildroot initramfs payload relink command failed"
 
     output_artifacts = collect_output_artifacts(root, build_dir, artifact_out_dir)
     output_ids = {row["id"] for row in output_artifacts}

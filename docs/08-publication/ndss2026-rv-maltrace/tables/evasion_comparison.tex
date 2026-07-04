@@ -1,0 +1,24 @@
+\begin{table*}[t]
+\centering
+\caption{Software-tracer visibility versus hardware-backed reconstruction.}
+\label{tab:evasion-comparison}
+\scriptsize
+\begin{tabularx}{\textwidth}{p{0.18\textwidth}p{0.24\textwidth}p{0.38\textwidth}Y}
+\toprule
+Sample & Software baseline & \rvmt hardware evidence & Verdict \\
+\midrule
+\texttt{anti\_debug\_like} &
+\texttt{strace} is visible or perturbs \texttt{ptrace}; QEMU-user reports unsupported \texttt{ptrace} &
+BRAM trace records \texttt{clock\_gettime}, \texttt{ptrace}, \texttt{openat}, \texttt{read}, \texttt{close}; hardware \texttt{ARG\_MEM} decodes \texttt{/proc/self/status} &
+Complete failure/reconstruction row \\
+\texttt{process\_chain} &
+No software-tracer failure demonstrated &
+BRAM trace reconstructs \texttt{clone}, \texttt{execve}, and \texttt{waitid} &
+Supporting reconstruction row \\
+\texttt{dynamic\_}\newline\texttt{executable\_}\newline\texttt{memory} &
+No software-tracer failure demonstrated &
+BRAM trace reconstructs \texttt{mmap}, \texttt{mprotect}, and \texttt{munmap} &
+Supporting reconstruction row \\
+\bottomrule
+\end{tabularx}
+\end{table*}

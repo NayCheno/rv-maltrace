@@ -186,7 +186,7 @@
       "exists": true,
       "id": "rv_maltrace_cli_trace_parser",
       "path": "src/rv_maltrace/cli.py",
-      "sha256": "4c54be758d795fa72003d80ebfaf281572d65d3fa2411a7d44d44e7f97ee6e27"
+      "sha256": "ff5fdc90140487d1fdfc249fd67247417c4ac8c42e3da82242f04b93266dcef8"
     },
     {
       "exists": true,

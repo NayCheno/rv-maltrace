@@ -12,8 +12,8 @@
     },
     "run_log": {
       "path": "results/board/genesys2_trace_validation/20260623-cycle-source-probe/uart.log",
-      "sha256": "9b3871dfd527b7f3601ab5eda62dfe85fe7678f28ac48a5da4820f3e5638edec",
-      "size_bytes": 583
+      "sha256": "700948f926f7e062fd0fd54cace693b76828ba3979658229ad4349f51faa89ff",
+      "size_bytes": 584
     },
     "source": {
       "path": "board/trace_validation/programs/cycle_source_probe.c",
@@ -22,11 +22,11 @@
     },
     "transfer_log": {
       "path": "results/board/genesys2_trace_validation/20260623-cycle-source-probe/transfer.log",
-      "sha256": "19ab8a7228fcbb49afa08ad7c654fcd0a882c7a4e15bad917606459bec51e56e",
-      "size_bytes": 1192
+      "sha256": "1b8ee35f3f0cfb4841022f8985a94a451e5d38476dcaff9dc6f2e443dc5b9623",
+      "size_bytes": 4277
     }
   },
-  "blocked_reason": "perf_event_open_failed code=-38",
+  "blocked_reason": "perf_event_open_failed code=-2",
   "claim_boundary": {
     "board_kernel_perf_cycle_source_claimed": false,
     "board_rdcycle_smoke_claimed": false,

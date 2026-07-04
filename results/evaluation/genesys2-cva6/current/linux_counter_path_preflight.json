@@ -25,8 +25,8 @@
           "exists": true,
           "kind": "file",
           "path": "tools/prepare_genesys2_cva6_linux_rebuild.py",
-          "sha256": "69ed4c69aec741d1b3c3e5df63d7da8300cb09a961f50d8142e133f09196499a",
-          "size_bytes": 19167
+          "sha256": "95c0ff3518af157126f297f97ee0136183080910d1ac5fb6c65a34c1186ad56f",
+          "size_bytes": 20907
         },
         {
           "build_entrypoint_analysis": {
@@ -86,8 +86,8 @@
           "exists": true,
           "kind": "file",
           "path": "tools/prepare_genesys2_cva6_linux_rebuild.py",
-          "sha256": "69ed4c69aec741d1b3c3e5df63d7da8300cb09a961f50d8142e133f09196499a",
-          "size_bytes": 19167
+          "sha256": "95c0ff3518af157126f297f97ee0136183080910d1ac5fb6c65a34c1186ad56f",
+          "size_bytes": 20907
         },
         {
           "build_entrypoint_analysis": {
@@ -152,8 +152,8 @@
           "exists": true,
           "kind": "file",
           "path": "board/genesys2-cva6/linux/buildroot_defconfig",
-          "sha256": "45ee8394aee9ffc4f35b9da484b5179a9595021914af66da59daac6727891bfe",
-          "size_bytes": 1595
+          "sha256": "564555ca87535da0a135ec04d2fa557f2f025f6070bb9ab1acd39fbdcdf60538",
+          "size_bytes": 1625
         },
         {
           "candidate": "board/genesys2_cva6/linux/buildroot_defconfig",
@@ -185,8 +185,8 @@
           "exists": true,
           "kind": "file",
           "path": "board/genesys2-cva6/linux/buildroot_defconfig",
-          "sha256": "45ee8394aee9ffc4f35b9da484b5179a9595021914af66da59daac6727891bfe",
-          "size_bytes": 1595
+          "sha256": "564555ca87535da0a135ec04d2fa557f2f025f6070bb9ab1acd39fbdcdf60538",
+          "size_bytes": 1625
         }
       ],
       "required": true,
@@ -222,8 +222,8 @@
           "exists": true,
           "kind": "file",
           "path": "board/genesys2-cva6/linux/linux.config",
-          "sha256": "d171029c4aba5d875036edce20a505f3795382e578b5ff5e001f2e0b4ebbf5bd",
-          "size_bytes": 826
+          "sha256": "6226a182a278488b52ccb6ed5bfa2551095b4d0c64c1ff871981ca5fbd8df7ff",
+          "size_bytes": 890
         },
         {
           "candidate": "board/genesys2_cva6/linux/linux.config",
@@ -242,8 +242,26 @@
         },
         {
           "candidate": "results/evaluation/genesys2-cva6/current/live_kernel_config.txt",
-          "exists": false,
-          "kind": "missing"
+          "config_analysis": {
+            "pmu_symbol_ok": true,
+            "pmu_symbol_options": {
+              "CONFIG_HW_PERF_EVENTS": null,
+              "CONFIG_RISCV_PMU": "y",
+              "CONFIG_RISCV_PMU_SBI": "y"
+            },
+            "required_symbols": {
+              "CONFIG_IKCONFIG": "y",
+              "CONFIG_IKCONFIG_PROC": "y",
+              "CONFIG_PERF_EVENTS": "y"
+            },
+            "required_symbols_ok": true,
+            "satisfies_counter_config": true
+          },
+          "exists": true,
+          "kind": "file",
+          "path": "results/evaluation/genesys2-cva6/current/live_kernel_config.txt",
+          "sha256": "eabd035dc53d442e273f09959ef40d687bb81e520b8c59260e788e546b3acede",
+          "size_bytes": 55290
         }
       ],
       "id": "linux_kernel_counter_config",
@@ -270,8 +288,31 @@
           "exists": true,
           "kind": "file",
           "path": "board/genesys2-cva6/linux/linux.config",
-          "sha256": "d171029c4aba5d875036edce20a505f3795382e578b5ff5e001f2e0b4ebbf5bd",
-          "size_bytes": 826
+          "sha256": "6226a182a278488b52ccb6ed5bfa2551095b4d0c64c1ff871981ca5fbd8df7ff",
+          "size_bytes": 890
+        },
+        {
+          "candidate": "results/evaluation/genesys2-cva6/current/live_kernel_config.txt",
+          "config_analysis": {
+            "pmu_symbol_ok": true,
+            "pmu_symbol_options": {
+              "CONFIG_HW_PERF_EVENTS": null,
+              "CONFIG_RISCV_PMU": "y",
+              "CONFIG_RISCV_PMU_SBI": "y"
+            },
+            "required_symbols": {
+              "CONFIG_IKCONFIG": "y",
+              "CONFIG_IKCONFIG_PROC": "y",
+              "CONFIG_PERF_EVENTS": "y"
+            },
+            "required_symbols_ok": true,
+            "satisfies_counter_config": true
+          },
+          "exists": true,
+          "kind": "file",
+          "path": "results/evaluation/genesys2-cva6/current/live_kernel_config.txt",
+          "sha256": "eabd035dc53d442e273f09959ef40d687bb81e520b8c59260e788e546b3acede",
+          "size_bytes": 55290
         }
       ],
       "required": true,
@@ -368,7 +409,7 @@
           "exists": true,
           "kind": "file",
           "path": "results/evaluation/genesys2-cva6/current/sdcard_image_manifest.json",
-          "sha256": "5756fc9303b62203f51f71c9e2a110659f67661d080b5e2ee904aceb1908ccd2",
+          "sha256": "1284cbdf33cfc55112ee4cb64b953ca92a4cb9544f043520a786e106176c1fdf",
           "size_bytes": 2482
         },
         {
@@ -396,8 +437,8 @@
           "exists": true,
           "kind": "file",
           "path": "results/evaluation/genesys2-cva6/current/sdcard_linux_manifest.json",
-          "sha256": "4194adc31c9a709bb02623f8464058aa11108dcfe01d136e4b08ac5a871c205d",
-          "size_bytes": 10439
+          "sha256": "1b1d71c5921624a2dd3218eb6db630ab08d768ef4337dd104c8dbab394244108",
+          "size_bytes": 10834
         }
       ],
       "id": "sd_card_image_manifest",
@@ -409,7 +450,7 @@
           "exists": true,
           "kind": "file",
           "path": "results/evaluation/genesys2-cva6/current/sdcard_image_manifest.json",
-          "sha256": "5756fc9303b62203f51f71c9e2a110659f67661d080b5e2ee904aceb1908ccd2",
+          "sha256": "1284cbdf33cfc55112ee4cb64b953ca92a4cb9544f043520a786e106176c1fdf",
           "size_bytes": 2482
         },
         {
@@ -417,8 +458,8 @@
           "exists": true,
           "kind": "file",
           "path": "results/evaluation/genesys2-cva6/current/sdcard_linux_manifest.json",
-          "sha256": "4194adc31c9a709bb02623f8464058aa11108dcfe01d136e4b08ac5a871c205d",
-          "size_bytes": 10439
+          "sha256": "1b1d71c5921624a2dd3218eb6db630ab08d768ef4337dd104c8dbab394244108",
+          "size_bytes": 10834
         }
       ],
       "required": true,
@@ -615,20 +656,62 @@
         },
         {
           "candidate": "results/evaluation/genesys2-cva6/current/live_kernel_config.txt",
-          "exists": false,
-          "kind": "missing"
+          "config_analysis": {
+            "pmu_symbol_ok": true,
+            "pmu_symbol_options": {
+              "CONFIG_HW_PERF_EVENTS": null,
+              "CONFIG_RISCV_PMU": "y",
+              "CONFIG_RISCV_PMU_SBI": "y"
+            },
+            "required_symbols": {
+              "CONFIG_IKCONFIG": "y",
+              "CONFIG_IKCONFIG_PROC": "y",
+              "CONFIG_PERF_EVENTS": "y"
+            },
+            "required_symbols_ok": true,
+            "satisfies_counter_config": true
+          },
+          "exists": true,
+          "kind": "file",
+          "path": "results/evaluation/genesys2-cva6/current/live_kernel_config.txt",
+          "sha256": "eabd035dc53d442e273f09959ef40d687bb81e520b8c59260e788e546b3acede",
+          "size_bytes": 55290
         }
       ],
       "id": "live_kernel_config_export",
-      "missing_reason": "no acceptable live_kernel_config_export candidate is present",
+      "missing_reason": null,
       "mode": "kernel_config",
-      "present_candidates": [],
+      "present_candidates": [
+        {
+          "candidate": "results/evaluation/genesys2-cva6/current/live_kernel_config.txt",
+          "config_analysis": {
+            "pmu_symbol_ok": true,
+            "pmu_symbol_options": {
+              "CONFIG_HW_PERF_EVENTS": null,
+              "CONFIG_RISCV_PMU": "y",
+              "CONFIG_RISCV_PMU_SBI": "y"
+            },
+            "required_symbols": {
+              "CONFIG_IKCONFIG": "y",
+              "CONFIG_IKCONFIG_PROC": "y",
+              "CONFIG_PERF_EVENTS": "y"
+            },
+            "required_symbols_ok": true,
+            "satisfies_counter_config": true
+          },
+          "exists": true,
+          "kind": "file",
+          "path": "results/evaluation/genesys2-cva6/current/live_kernel_config.txt",
+          "sha256": "eabd035dc53d442e273f09959ef40d687bb81e520b8c59260e788e546b3acede",
+          "size_bytes": 55290
+        }
+      ],
       "required": true,
       "role": "exported readable kernel config from the same live SD-card image used for board cycle probes",
-      "satisfied": false
+      "satisfied": true
     }
   ],
-  "blocked_reason": "repo-local source anchors are present, but the live Genesys2/CVA6 SD-card Linux image still lacks a readable exported kernel config",
+  "blocked_reason": "local rebuild anchors are present, but live board cycle-source probes have not passed",
   "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",
   "claim_boundary": {
     "artix7_or_vexriscv_substitution_allowed": false,
@@ -678,9 +761,7 @@
       "size_bytes": 1169
     }
   ],
-  "missing_required_anchor_ids": [
-    "live_kernel_config_export"
-  ],
+  "missing_required_anchor_ids": [],
   "non_claims": [
     "This preflight does not build a new SD-card image and does not run Vivado or the Genesys2 board.",
     "A live SD-card manifest documents the booted image identity only; it is not a Buildroot, OpenSBI, kernel, or SD-card rebuild source path.",
@@ -747,10 +828,10 @@
       "CONFIG_HW_PERF_EVENTS"
     ]
   },
-  "satisfied_required_anchor_count": 6,
+  "satisfied_required_anchor_count": 7,
   "schema": "rvmt.genesys2.linux_counter_path_preflight.v1",
   "scope": "repo-local preflight for replacing or rebuilding the Genesys2/CVA6 SD-card Linux counter path",
-  "status": "BLOCKED_SD_CARD_LINUX_SOURCE_MISSING",
+  "status": "BLOCKED_BOARD_COUNTER_SOURCE_UNAVAILABLE_AFTER_REBUILD_PREFLIGHT",
   "supporting_summaries": [
     {
       "claim_boundary": {},
@@ -773,8 +854,8 @@
       "id": "sdcard_linux_manifest",
       "path": "results/evaluation/genesys2-cva6/current/sdcard_linux_manifest.json",
       "schema": "rvmt.genesys2.sdcard_linux_manifest.v1",
-      "sha256": "4194adc31c9a709bb02623f8464058aa11108dcfe01d136e4b08ac5a871c205d",
-      "size_bytes": 10439,
+      "sha256": "1b1d71c5921624a2dd3218eb6db630ab08d768ef4337dd104c8dbab394244108",
+      "size_bytes": 10834,
       "status": "PASS"
     },
     {
@@ -789,8 +870,8 @@
       "id": "cycle_counter_smoke",
       "path": "results/evaluation/genesys2-cva6/current/cycle_counter_smoke_summary.json",
       "schema": "rvmt.genesys2.cycle_counter_smoke.v1",
-      "sha256": "788a2dc9eac15f1e59833d77e06a1f7f0ea316bfdf833b20c19e47888b0c377d",
-      "size_bytes": 1950,
+      "sha256": "a276f4314b41aac0e025e042fc910fa60d7535ed3ce020a1fc573e5f97bc1a00",
+      "size_bytes": 1949,
       "status": "BLOCKED_BOARD_RDCYCLE_UNAVAILABLE"
     },
     {
@@ -806,8 +887,8 @@
       "id": "cycle_source_probe",
       "path": "results/evaluation/genesys2-cva6/current/cycle_source_probe_summary.json",
       "schema": "rvmt.genesys2.cycle_source_probe.v1",
-      "sha256": "ccb195ca8f42c16b46d0a4566a5ca79b185f541ca15c397a1b3eaaa8a7acbd70",
-      "size_bytes": 2147,
+      "sha256": "db8901db883d5bc662d836b246132151d90019cd4fa89b60c54ab676fd075337",
+      "size_bytes": 2146,
       "status": "BLOCKED_BOARD_KERNEL_PERF_CYCLES_UNAVAILABLE"
     },
     {
@@ -822,9 +903,9 @@
       "id": "cycle_source_diagnostics",
       "path": "results/evaluation/genesys2-cva6/current/cycle_source_diagnostics_summary.json",
       "schema": "rvmt.genesys2.cycle_source_diagnostics.v1",
-      "sha256": "267a9e35393fd297190f16865e0f0d87a7202017e2416d4c84815085185f390f",
-      "size_bytes": 8311,
-      "status": "BLOCKED_BOARD_KERNEL_PMU_AND_USER_CYCLE_UNAVAILABLE"
+      "sha256": "8fcf83b208fca4126ef97458696736c0884aff7c3664f9cada02acbbed77695c",
+      "size_bytes": 11809,
+      "status": "PASS"
     },
     {
       "claim_boundary": {
@@ -836,9 +917,9 @@
       "id": "live_kernel_config_export",
       "path": "results/evaluation/genesys2-cva6/current/live_kernel_config_export_summary.json",
       "schema": "rvmt.genesys2.live_kernel_config_export.v1",
-      "sha256": "c41b741cbaa0e480a184a854d31a021be27534887d4e649937b8fa8125490b3c",
-      "size_bytes": 2465,
-      "status": "BLOCKED_LIVE_KERNEL_CONFIG_UNAVAILABLE"
+      "sha256": "665a67f54a56301feb5c59c6644efb87b10268f53750822a6aaa0436223f17c2",
+      "size_bytes": 2440,
+      "status": "PASS_LIVE_KERNEL_CONFIG_EXPORTED"
     },
     {
       "claim_boundary": {
@@ -852,8 +933,8 @@
       "id": "counter_access_matrix",
       "path": "results/evaluation/genesys2-cva6/current/counter_access_matrix_summary.json",
       "schema": "rvmt.genesys2.counter_access_matrix.v1",
-      "sha256": "a4b4444ec7d7119dc9c6f9f922e01e798d0554e9c557a027e90631f6f2a27eef",
-      "size_bytes": 6139,
+      "sha256": "10c1fa4fa53c975f50b130047639773654a6c1611b99dac7c5a73768d3a98994",
+      "size_bytes": 6122,
       "status": "BLOCKED_BOARD_CYCLE_COUNTER_UNAVAILABLE_NONCYCLE_TIME_AVAILABLE"
     }
   ],

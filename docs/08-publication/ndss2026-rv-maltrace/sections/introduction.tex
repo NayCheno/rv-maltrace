@@ -33,10 +33,13 @@ source-labeled behavior provenance on RISC-V, and none reconstruct user-space
 Linux behavior with explicit evidence labeling that separates hardware-derived
 fields from supporting metadata or reference logs.
 
-Our insight is that hardware trace events can be connected to OS-level behavior
-semantics when each reconstructed field is explicitly labeled with its provenance
-source, enabling auditable behavior reconstruction without overstating hardware
-evidence.
+Our insight is that the software-observer problem and the hardware-semantic-gap
+problem should be solved together. Hardware trace events provide an observation
+point outside the target process, but they become useful for malware analysis
+only when they are connected to OS-level behavior semantics. \rvmt therefore
+labels each reconstructed field with its provenance source, enabling auditable
+behavior reconstruction without overstating which facts came directly from
+hardware.
 
 We present \rvmt, a hardware-assisted behavior tracing system for RISC-V Linux
 that connects a CVA6/Genesys2 hardware trace path with an offline reconstruction
@@ -68,11 +71,19 @@ We make the following contributions:
   PIE/ASLR, dynamic loading, fork/exec, and stripped binaries, attributing
   108/108 key PC events to the target ELF/function level and passing 6/6
   mapping edge cases on controlled workloads.
+  \item A bounded anti-analysis case study showing that, for one controlled
+  anti-debug-like workload where software tracing is visible or perturbs
+  \texttt{ptrace}, \rvmt still reconstructs the behavior from Genesys2 BRAM
+  trace records.
   \item A reproducible artifact package with manifests and SHA-256 checks that
-  enables independent verification of all reported results.
+  enables independent verification of all reported results and explicitly
+  separates supported board evidence from non-claims such as production
+  streaming/DMA throughput, cycle-level slowdown, and real-malware validation.
 \end{itemize}
 
-We focus on controlled RISC-V Linux workloads. Board cycle-overhead measurement
-and production streaming transport are left for future work.
+We focus on controlled RISC-V Linux workloads. The paper evaluates behavior
+reconstruction and observer-boundary evidence; it does not claim malware
+detection accuracy, uncontrolled real-malware validation, cycle-level
+trace-on/trace-off slowdown, or production streaming transport.
 
 Our artifact is available at \artifactroot.

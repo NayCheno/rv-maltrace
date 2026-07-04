@@ -1,7 +1,10 @@
 \section{Evaluation}
 \label{sec:evaluation}
 
-We evaluate \rvmt on four research questions: trace correctness, source-label coverage, code-attribution accuracy, and artifact reproducibility. The evaluation is organized around quantitative claims with specific metrics.
+We evaluate \rvmt on five research questions: trace correctness, source-label
+coverage, code-attribution accuracy, reconstruction under software-tracer
+visibility, and artifact reproducibility. The evaluation is organized around
+quantitative claims with specific metrics and explicit claim boundaries.
 
 \subsection{Experimental Setup}
 \label{subsec:experimental-setup}
@@ -10,13 +13,37 @@ We evaluate \rvmt on four research questions: trace correctness, source-label co
 All experiments run on a CVA6/Genesys2 FPGA board with the trace adapter described in Section~\ref{subsec:trace-adapter}. The board runs a RISC-V Linux kernel and user-space runtime. Trace records are collected through the BRAM buffer and transferred to the host for offline reconstruction.
 
 \textbf{Workload suite.}
-We use a suite of controlled synthetic and malware-like workloads that exercise the trace path and reconstruction pipeline. The workloads cover: file creation, open, read, and write operations; process creation via \texttt{fork}, \texttt{execve}, and \texttt{clone}; dynamic library loading and unloading; and syscall sequences that include \texttt{open}, \texttt{read}, \texttt{write}, \texttt{close}, \texttt{socket}, \texttt{connect}, and \texttt{execve}. These workloads are designed to test the correctness of event ordering, syscall pairing, privilege transitions, and code attribution under controlled conditions.
+We use a suite of controlled synthetic and malware-like workloads that exercise
+the trace path and reconstruction pipeline. The workloads cover: file creation,
+open, read, and write operations; process creation via \texttt{fork},
+\texttt{execve}, and \texttt{clone}; dynamic library loading and unloading;
+anti-debug-like behavior using \texttt{ptrace} and \texttt{/proc/self/status};
+and syscall sequences that include \texttt{open}, \texttt{read}, \texttt{write},
+\texttt{close}, \texttt{socket}, \texttt{connect}, and \texttt{execve}. These
+workloads are designed to test event ordering, syscall pairing, privilege
+transitions, code attribution, and controlled anti-analysis reconstruction.
 
 \textbf{Reference tools.}
 We validate trace behavior against QEMU instruction traces and \texttt{strace} syscall logs. QEMU provides an expected instruction stream for the same workload; \texttt{strace} provides an expected syscall sequence. These references are used to validate correctness, not to report hardware-derived results.
 
 \textbf{Metrics.}
-We report: (1) trace correctness---pass/fail status of directed tests; (2) source-label coverage---percentage of reconstructed fields with correct provenance labels; (3) code-attribution accuracy---percentage of PC events correctly attributed to their owning executable; and (4) reproduction time---time to complete the quick and Docker-local reproduction paths.
+We report: (1) trace correctness---pass/fail status of directed tests; (2)
+source-label coverage---percentage of reconstructed fields with correct
+provenance labels; (3) code-attribution accuracy---percentage of PC events
+correctly attributed to their owning executable; (4) software-tracer visibility
+versus hardware-backed reconstruction for controlled anti-analysis workloads;
+and (5) reproduction status and manifest coverage for the artifact package.
+
+\input{tables/evaluation_matrix}
+
+Table~\ref{tab:baseline-comparison} separates the reference tools and \rvmt
+routes used in the evaluation. This distinction is important because QEMU,
+\texttt{strace}, and source-equivalent sidecars are validation oracles, while
+only the event-only and bounded-prefix pointer-snapshot routes are hardware
+evidence. The reconstruction output preserves this separation through
+per-field provenance labels.
+
+\input{tables/baseline_comparison}
 
 \subsection{RQ1: Trace Correctness}
 \label{subsec:rq1-trace-correctness}
@@ -86,58 +113,108 @@ RV-MalTrace correctly attributes 108/108 key PC events (100\%) to the target
 ELF/function level across 12 controlled workload artifacts. Runtime process
 attribution is proven for 12/12 artifacts, and dynamic-library separation holds
 for 12/12 artifacts. The dynamic-mapping checker also passes 6/6 edge cases
-covering static executables, PIE/ASLR load bias, dynamic loader mappings,
-shared libraries, and fork/exec ownership. The test cases include:
-\begin{itemize}
-\item \textit{ELF identity matching}: the code-map builder matches the traced binary against its SHA-256 identity and rejects mismatched or modified executables;
-\item \textit{PIE/ASLR load bias resolution}: the joiner resolves the runtime load address of a position-independent executable and applies the correct bias when mapping PCs to code ranges;
-\item \textit{Dynamic object attribution}: the joiner attributes PCs within dynamically loaded shared libraries to the correct library object and version;
-\item \textit{Fork/exec ownership tracking}: the reconstruction pipeline tracks process identity across \texttt{fork} and \texttt{execve} transitions, attributing post-exec PCs to the new executable;
-\item \textit{Stripped binary handling}: the builder maps stripped binaries by
-their ELF segment headers when debug symbols are absent, degrading to
-section/offset attribution rather than source-line claims;
-\item \textit{Source-map boundary cases}: the debug/no-PIE sidecar reaches
-100\% source-line attribution locally, while the current board traces remain
-function-level unless the exact captured ELF carries DWARF.
-\end{itemize}
+covering static executables, PIE/ASLR load bias, dynamic loader mappings, shared
+libraries, stripped binaries, and fork/exec ownership. These cases test both
+identity checks---the traced binary must match its SHA-256 identity---and mapping
+logic, including load-bias resolution, library attribution, and post-\texttt{execve}
+ownership transfer. Stripped binaries degrade to segment/offset attribution
+rather than source-line claims. The debug/no-PIE sidecar reaches 100\%
+source-line attribution locally, but current board traces remain function-level
+unless the exact captured ELF carries DWARF; board-native DWARF source-line
+recovery is therefore not claimed.
 
-Most cases are handled by the reconstruction pipeline using ELF metadata and
-runtime maps. Board-native DWARF source-line recovery is not required for the
-evaluated attribution and is not claimed for the current board traces.
+\subsection{RQ4: Software-Tracer Visibility}
+\label{subsec:rq4-evasion-comparison}
 
-\subsection{RQ4: Reproducibility}
-\label{subsec:rq4-reproducibility}
+RQ4 asks whether \rvmt can still reconstruct behavior when a software tracer is
+visible to, or perturbs, a controlled anti-analysis workload. We evaluate this as
+a bounded case study rather than as a general invisibility or malware-detection
+claim. The software baseline runs the probe under native execution, native
+\texttt{strace}, QEMU-user, and QEMU-user with \texttt{strace}; the hardware
+evidence comes from the Genesys2 BRAM marker-window trace for the corresponding
+safe surrogate workload.
 
-RQ4 asks whether the reported results are independently reproducible. We evaluate this with two reproduction paths and a manifest coverage check.
+\input{tables/evasion_comparison}
 
-\textbf{Quick local reproduction.}
-The command \texttt{uv run rvmt repro:quick} is recorded as PASS and runs 17
-lightweight checks: reproducibility and artifact-package manifests, raw-artifact
-archive integrity, semantic provenance, local code-analysis fixtures, trace
-correctness, tracer visibility, cycle diagnostics, official-image workload
-summaries, runtime-map attribution, fork/exec ownership, PIE/ASLR probing,
-repeatability, hardware-oracle separation, JTAG RAM boot status, and recursive
-artifact path/hash integrity.
+The complete row is \texttt{anti\_debug\_like}. Under the software baselines,
+native \texttt{strace} is visible through \texttt{TracerPid} or
+\texttt{PTRACE\_TRACEME}, the host \texttt{strace} run records
+\texttt{ptrace(PTRACE\_TRACEME) = -1 EPERM}, and QEMU-user reports unsupported
+\texttt{ptrace}. In the hardware trace, \rvmt still reconstructs the
+anti-analysis behavior: the BRAM record stream contains the syscall sequence
+\texttt{clock\_gettime}, \texttt{ptrace}, \texttt{openat}, \texttt{read}, and
+\texttt{close}, and hardware \texttt{ARG\_MEM} bytes decode the string
+\texttt{/proc/self/status}. The trace has no sequence gaps and no unaccounted
+drops.
 
-\textbf{Docker-local reproduction.}
-The command \texttt{uv run rvmt ndss:docker-full} is recorded as PASS in the
-\texttt{linux-behavior} Docker service. It runs the full reproduction set inside
-the container with an isolated \texttt{uv} environment, including Python compile
-checks, the \texttt{genesys2-current} suite (76/76), the artifact suite, the
-\texttt{genesys2-self-test} suite (102/102), and the
-\texttt{ccfa-gate-self-test} suite (52/52).
+The other two rows in Table~\ref{tab:evasion-comparison} are intentionally
+classified as supporting reconstruction rows. They show that the current
+hardware traces reconstruct process-chain and dynamic-executable-memory
+behaviors, but they do not demonstrate software-tracer failure. We therefore
+claim one complete software-tracer-fails/\rvmt-reconstructs row in the current
+artifact, not broad evasion resistance for all tracers or workloads.
 
-\textbf{Manifest coverage.}
-All reported results are backed by SHA-256 verified files in the evidence
-directory. The reproducibility manifest records 62 summary artifacts and 7 report
-rows. The artifact-package manifest records 228 included files and references 6
-raw artifact roots. The local raw-artifact archive contains 3,356 files
-(323,142,849 bytes); the manifest records its full SHA-256 digest, with prefix
-\texttt{57f48d6e26959826} and suffix \texttt{8b22f611}.
-Any manifest mismatch causes the reproduction command to fail with a clear error
-message.
+\subsection{Runtime and Transport Boundary}
+\label{subsec:runtime-transport-boundary}
+
+The prototype is designed to observe workload behavior without inserting a
+software tracer into the target process. We therefore report the runtime and
+transport evidence that exists in the artifact, while separating it from claims
+that require stronger measurements. Table~\ref{tab:runtime-transport-boundary}
+summarizes the current runtime, cycle-window, and transport evidence, and
+Table~\ref{tab:resource-timing-cost} reports the routed FPGA resource and timing
+cost of the trace-enabled bitstream.
+
+\input{tables/runtime_transport_boundary}
+
+\input{tables/resource_timing_cost}
+
+The board runtime benchmark is useful as a smoke test: the trace-off,
+event-only, BRAM-ring, and pointer-snapshot-disabled modes all complete with the
+same 9s median UART-marker duration across the benchmarked samples. Because the
+metric is derived from board UART \texttt{date} markers, it is too coarse to
+measure cycle-level slowdown. The hardware cycle-window summary provides a
+separate cycle-domain measurement from the FPGA trace packet itself, but it is a
+single-mode marker-window duration and is not a trace-off comparison. Finally,
+the streaming/DMA summaries convert current BRAM traces into a target rate for a
+future production transport study; they explicitly do not claim that such a
+transport has been implemented or validated. The routed trace-enabled design
+adds 21,505 LUTs, 9,143 FFs, and 6 BRAM18 equivalents over the baseline report;
+the reported timing slack and approximate Fmax are unchanged in the current
+routed snapshot.
+
+\subsection{RQ5: Reproducibility}
+\label{subsec:rq5-reproducibility}
+
+RQ5 asks whether the reported results are independently reproducible. We
+evaluate this with two reproduction paths and a manifest coverage check.
+
+The command \texttt{uv run rvmt repro:quick} is recorded as PASS and runs 18
+lightweight checks spanning manifests, archive integrity, semantic provenance,
+local code-analysis fixtures, trace correctness, tracer visibility, controlled
+evasion comparison, cycle diagnostics, official-image summaries, attribution,
+repeatability, hardware-oracle separation, and recursive path/hash integrity.
+The Docker path, \texttt{uv run rvmt ndss:docker-full}, is also recorded as PASS
+inside the \texttt{linux-behavior} service with an isolated \texttt{uv}
+environment. All reported results are backed by SHA-256 verified files: the
+reproducibility manifest records 63 summary artifacts and 7 report rows, while
+the artifact-package manifest records 240 included files and references 6 raw
+artifact roots. The local raw-artifact archive contains 2,033 files
+(286,007,909 bytes); any manifest mismatch causes reproduction to fail with a
+clear error.
 
 \subsection{Discussion}
 \label{subsec:discussion}
 
-We identify three limitations. First, the current prototype uses a BRAM trace buffer for controlled workloads; production streaming throughput and DMA transport are left for future work. Second, cycle-level runtime overhead is not measured because the required live cycle-source path is not yet available on the board. Third, real malware validation is not evaluated; safe synthetic and malware-like workloads test trace behavior under controlled conditions, but malware-family accuracy and IOC coverage require separate study.
+The evaluation intentionally separates supported results from open production
+claims. First, the current prototype uses BRAM marker-window traces for
+controlled workloads; production streaming/DMA throughput remains a future
+transport study. Second, the artifact contains board UART runtime smoke and an
+FPGA trace-cycle marker-window measurement, but it does not claim cycle-level
+trace-off versus trace-on slowdown. Third, real malware validation is not
+evaluated; safe synthetic and malware-like workloads test trace behavior under
+controlled conditions, but malware-family accuracy and IOC coverage require
+separate study. The software-tracer visibility result is likewise bounded: the
+current artifact contains one complete anti-debug-like failure/reconstruction
+row, plus supporting reconstruction rows that do not claim software-tracer
+failure.

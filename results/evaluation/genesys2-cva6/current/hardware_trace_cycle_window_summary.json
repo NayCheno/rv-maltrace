@@ -1,0 +1,424 @@
+{
+  "acceptance_policy": {
+    "auxiliary": [
+      "UART process return code, when fully observed, must be consistent with the sample expectation.",
+      "UART return-code text is not required because the ILA trigger and BRAM marker records are the primary hardware evidence."
+    ],
+    "required": [
+      "BRAM summary PASS",
+      "exactly one begin MARKER and one end MARKER",
+      "positive marker_cycle_delta from the FPGA trace packet cycle field",
+      "no BRAM drops, wraps, full-ring condition, or sequence gaps"
+    ]
+  },
+  "accepted_repetitions": 5,
+  "bitstream": {
+    "path": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.bit",
+    "sha256": "04dbd5bf4b661427628bd2142e619c2b2526b7fd0598ffeb6df954fc5811b354",
+    "size_bytes": 11443738
+  },
+  "board": "Digilent Genesys2",
+  "claim_boundary": {
+    "hardware_trace_cycle_window_claimed": true,
+    "linux_perf_cycle_source_claimed": false,
+    "production_runtime_slowdown_claimed": false,
+    "trace_off_slowdown_claimed": false,
+    "user_rdcycle_source_claimed": false
+  },
+  "cpu": "CVA6 rv64gc sv39",
+  "cycle_domain": "FPGA trace packet cycle field, decoded from BRAM marker-window records",
+  "cycle_source": "rv_maltrace_fpga_trace_cycle_field",
+  "ltx": {
+    "path": "build/vivado/genesys2-cv64a6_imafdc_sv39-trace-marker/work-fpga/ariane_xilinx.ltx",
+    "sha256": "16360c1f20031509b61dafb4847ba638b85d1a758a1c10b96d2faacdb4ce7ee3",
+    "size_bytes": 180130
+  },
+  "marker_cycle_delta_stats": {
+    "count": 5,
+    "max": 281990,
+    "mean": 221843.8,
+    "median": 215134,
+    "min": 171750,
+    "pstdev": 43588.034222249575
+  },
+  "minimum_repetitions": 5,
+  "non_claims": [
+    "The cycle source is the RV-MalTrace FPGA trace packet cycle field, not Linux perf_event_open.",
+    "This summary measures marker-window cycle duration for controlled P0 workloads and does not by itself claim trace-off slowdown.",
+    "The P0 workloads are repository-authored safe synthetic workloads, not real malware."
+  ],
+  "repetitions": [
+    {
+      "acceptance_basis": [
+        "bram_marker_window_complete",
+        "uart_rc_not_observed_auxiliary"
+      ],
+      "accepted": true,
+      "artifacts": {
+        "bram_records": {
+          "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_01/bram_records.jsonl",
+          "sha256": "853b2e42184e333c35b55252b45fa5a963f1833dc831eba2374022055e15f3bd",
+          "size_bytes": 62089
+        },
+        "bram_summary": {
+          "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_01/bram_summary.json",
+          "sha256": "8e4be7eca491335ff9bc15227c3ff5b177055394d093467804fe0d965f64d4ff",
+          "size_bytes": 1030
+        },
+        "capture_csv": {
+          "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_01/capture.csv",
+          "sha256": "1b5c5308c46b7a0b5a94560d2ff41f95e271e25cc216fac5f26b4e086be1adca",
+          "size_bytes": 2095924
+        },
+        "capture_err_log": {
+          "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_01/capture.err.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        "capture_log": {
+          "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_01/capture.log",
+          "sha256": "9643e31796185105beaa7fb552d98526b002ef3a860b3f3a1d7dfc8e98fada12",
+          "size_bytes": 9621
+        },
+        "uart_log": {
+          "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_01/uart.log",
+          "sha256": "131e351c97153b9e3954edb2bf68f81671ab9871c79b146888b9e9c4f35fafd3",
+          "size_bytes": 608
+        }
+      },
+      "begin_cycle": 4122222080,
+      "begin_marker": "0xb0000a01",
+      "begin_marker_count": 1,
+      "begin_sequence": 0,
+      "bram_marker_window_complete": true,
+      "bram_ring": {
+        "captured_count": 82,
+        "dropped_count": 0,
+        "end_timestamp": 4122393830,
+        "event_count": 82,
+        "full": false,
+        "start_timestamp": 4122222080,
+        "wrap_count": 0
+      },
+      "end_cycle": 4122393830,
+      "end_marker": "0xe0000a01",
+      "end_marker_count": 1,
+      "end_sequence": 81,
+      "event_counts": {
+        "ARG_MEM": 20,
+        "MARKER": 2,
+        "PRIV": 38,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1,
+        "TRAP": 20
+      },
+      "marker_cycle_delta": 171750,
+      "marker_cycle_wrapped": false,
+      "repetition": "rep_01",
+      "sample_id": "hello_write",
+      "sequence_gaps": [],
+      "uart_rc": null,
+      "uart_rc_observed": false,
+      "uart_rc_required_for_acceptance": false
+    },
+    {
+      "acceptance_basis": [
+        "bram_marker_window_complete",
+        "uart_rc_not_observed_auxiliary"
+      ],
+      "accepted": true,
+      "artifacts": {
+        "bram_records": {
+          "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_02/bram_records.jsonl",
+          "sha256": "636c81ef01263ad2a4658ac77488ebd9b23aaa61eb3244eb258dd21366057504",
+          "size_bytes": 82008
+        },
+        "bram_summary": {
+          "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_02/bram_summary.json",
+          "sha256": "67fbcaf7d5a780a645770e79400dc534da0a1f05159fdf732ef532cafec13aa5",
+          "size_bytes": 1037
+        },
+        "capture_csv": {
+          "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_02/capture.csv",
+          "sha256": "9f0e5dd8208220ba8c9b64394330471f58c4b86ebf8dc5d36b954d3dcc9d81dc",
+          "size_bytes": 2095924
+        },
+        "capture_err_log": {
+          "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_02/capture.err.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        "capture_log": {
+          "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_02/capture.log",
+          "sha256": "7b8d407a8c9b447d03ac6ee22b43d5b2d1031aada1a817e0b1c287383721f0d7",
+          "size_bytes": 9281
+        },
+        "uart_log": {
+          "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_02/uart.log",
+          "sha256": "9c560f69bf7d8dad9feea813fb27abc01ab6475e9d7fbd367e29f0a622c82df2",
+          "size_bytes": 609
+        }
+      },
+      "begin_cycle": 1368892725,
+      "begin_marker": "0xb0000a01",
+      "begin_marker_count": 1,
+      "begin_sequence": 0,
+      "bram_marker_window_complete": true,
+      "bram_ring": {
+        "captured_count": 111,
+        "dropped_count": 0,
+        "end_timestamp": 1369153653,
+        "event_count": 111,
+        "full": false,
+        "start_timestamp": 1368892725,
+        "wrap_count": 0
+      },
+      "end_cycle": 1369153653,
+      "end_marker": "0xe0000a01",
+      "end_marker_count": 1,
+      "end_sequence": 110,
+      "event_counts": {
+        "ARG_MEM": 20,
+        "MARKER": 2,
+        "PRIV": 56,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1,
+        "TRAP": 31
+      },
+      "marker_cycle_delta": 260928,
+      "marker_cycle_wrapped": false,
+      "repetition": "rep_02",
+      "sample_id": "hello_write",
+      "sequence_gaps": [],
+      "uart_rc": null,
+      "uart_rc_observed": false,
+      "uart_rc_required_for_acceptance": false
+    },
+    {
+      "acceptance_basis": [
+        "bram_marker_window_complete",
+        "uart_rc_not_observed_auxiliary"
+      ],
+      "accepted": true,
+      "artifacts": {
+        "bram_records": {
+          "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_03/bram_records.jsonl",
+          "sha256": "4b890587d25bd81a6a3d0a5f9f7c1adc836f22c5b1a0d2f6fe6e1cf4f51e8fbd",
+          "size_bytes": 84034
+        },
+        "bram_summary": {
+          "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_03/bram_summary.json",
+          "sha256": "65f34ebb448d8ca667b3ed886b712ecbb445e5706b1cd8041bae3bcc76c9e4cd",
+          "size_bytes": 1037
+        },
+        "capture_csv": {
+          "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_03/capture.csv",
+          "sha256": "0eb8360e680d5436d2636626138be2489989fa5b04159c07233780b6d8ed99be",
+          "size_bytes": 2095924
+        },
+        "capture_err_log": {
+          "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_03/capture.err.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        "capture_log": {
+          "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_03/capture.log",
+          "sha256": "dbd319b3c96926056e0ae9887a18d7c5bbbcf3546b536044ad998e12bdf9f5a4",
+          "size_bytes": 9281
+        },
+        "uart_log": {
+          "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_03/uart.log",
+          "sha256": "8b4899ab19e63673dce12071da2fa27b4a8dfa0e760e6c60463b12bba727d176",
+          "size_bytes": 611
+        }
+      },
+      "begin_cycle": 2888409019,
+      "begin_marker": "0xb0000a01",
+      "begin_marker_count": 1,
+      "begin_sequence": 0,
+      "bram_marker_window_complete": true,
+      "bram_ring": {
+        "captured_count": 114,
+        "dropped_count": 0,
+        "end_timestamp": 2888691009,
+        "event_count": 114,
+        "full": false,
+        "start_timestamp": 2888409019,
+        "wrap_count": 0
+      },
+      "end_cycle": 2888691009,
+      "end_marker": "0xe0000a01",
+      "end_marker_count": 1,
+      "end_sequence": 113,
+      "event_counts": {
+        "ARG_MEM": 20,
+        "MARKER": 2,
+        "PRIV": 58,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1,
+        "TRAP": 32
+      },
+      "marker_cycle_delta": 281990,
+      "marker_cycle_wrapped": false,
+      "repetition": "rep_03",
+      "sample_id": "hello_write",
+      "sequence_gaps": [],
+      "uart_rc": null,
+      "uart_rc_observed": false,
+      "uart_rc_required_for_acceptance": false
+    },
+    {
+      "acceptance_basis": [
+        "bram_marker_window_complete",
+        "uart_rc_not_observed_auxiliary"
+      ],
+      "accepted": true,
+      "artifacts": {
+        "bram_records": {
+          "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_04/bram_records.jsonl",
+          "sha256": "829402fa6bd30acf046b901ab2b6136f31d407c13ff45e48e97ded83c46dc0e8",
+          "size_bytes": 62007
+        },
+        "bram_summary": {
+          "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_04/bram_summary.json",
+          "sha256": "fdd1907c2e4002a74dac3cd265e04b2698b83138bd541224047f1fbd899c65ae",
+          "size_bytes": 1026
+        },
+        "capture_csv": {
+          "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_04/capture.csv",
+          "sha256": "75276a23d312bc981c8a045756698f125734edb745b722db593b0a8bc815eba5",
+          "size_bytes": 2095924
+        },
+        "capture_err_log": {
+          "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_04/capture.err.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        "capture_log": {
+          "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_04/capture.log",
+          "sha256": "9a8f5444c4eeb0909e475920619fc6770a0bf79d36d80ebc181c1567013a8d18",
+          "size_bytes": 9281
+        },
+        "uart_log": {
+          "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_04/uart.log",
+          "sha256": "8a179f7eeeecb02ae41e5a0b814de585f66de04dc0eb633e06fd942a49c1e3cf",
+          "size_bytes": 611
+        }
+      },
+      "begin_cycle": 142775746,
+      "begin_marker": "0xb0000a01",
+      "begin_marker_count": 1,
+      "begin_sequence": 0,
+      "bram_marker_window_complete": true,
+      "bram_ring": {
+        "captured_count": 82,
+        "dropped_count": 0,
+        "end_timestamp": 142955163,
+        "event_count": 82,
+        "full": false,
+        "start_timestamp": 142775746,
+        "wrap_count": 0
+      },
+      "end_cycle": 142955163,
+      "end_marker": "0xe0000a01",
+      "end_marker_count": 1,
+      "end_sequence": 81,
+      "event_counts": {
+        "ARG_MEM": 20,
+        "MARKER": 2,
+        "PRIV": 38,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1,
+        "TRAP": 20
+      },
+      "marker_cycle_delta": 179417,
+      "marker_cycle_wrapped": false,
+      "repetition": "rep_04",
+      "sample_id": "hello_write",
+      "sequence_gaps": [],
+      "uart_rc": null,
+      "uart_rc_observed": false,
+      "uart_rc_required_for_acceptance": false
+    },
+    {
+      "acceptance_basis": [
+        "bram_marker_window_complete",
+        "uart_rc_not_observed_auxiliary"
+      ],
+      "accepted": true,
+      "artifacts": {
+        "bram_records": {
+          "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_05/bram_records.jsonl",
+          "sha256": "f31e15b0dcdc5528571f07f1b13025d92e8dcf17c4d8285200fb42a133d53ecc",
+          "size_bytes": 64097
+        },
+        "bram_summary": {
+          "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_05/bram_summary.json",
+          "sha256": "c56fb2f99ee023e410b90290a33ada6b3e66f9edec66e5425a795490f6d26490",
+          "size_bytes": 1030
+        },
+        "capture_csv": {
+          "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_05/capture.csv",
+          "sha256": "1134598ca4442717677133288ae4b8d87a4efa7df7aca2cc289eabe510bcf7c5",
+          "size_bytes": 2095924
+        },
+        "capture_err_log": {
+          "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_05/capture.err.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        "capture_log": {
+          "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_05/capture.log",
+          "sha256": "a8df702c75c0f65dc05fb5f1920ffc817d5b00af805140cea6dbef58eab9d8cb",
+          "size_bytes": 9281
+        },
+        "uart_log": {
+          "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_05/uart.log",
+          "sha256": "e196245c89bb67bfd8dbad2acb90528b12a47c434ee55e9dc75cc2605deed5c5",
+          "size_bytes": 608
+        }
+      },
+      "begin_cycle": 1667781826,
+      "begin_marker": "0xb0000a01",
+      "begin_marker_count": 1,
+      "begin_sequence": 0,
+      "bram_marker_window_complete": true,
+      "bram_ring": {
+        "captured_count": 85,
+        "dropped_count": 0,
+        "end_timestamp": 1667996960,
+        "event_count": 85,
+        "full": false,
+        "start_timestamp": 1667781826,
+        "wrap_count": 0
+      },
+      "end_cycle": 1667996960,
+      "end_marker": "0xe0000a01",
+      "end_marker_count": 1,
+      "end_sequence": 84,
+      "event_counts": {
+        "ARG_MEM": 20,
+        "MARKER": 2,
+        "PRIV": 40,
+        "SYSCALL_ENTRY": 1,
+        "SYSCALL_RET": 1,
+        "TRAP": 21
+      },
+      "marker_cycle_delta": 215134,
+      "marker_cycle_wrapped": false,
+      "repetition": "rep_05",
+      "sample_id": "hello_write",
+      "sequence_gaps": [],
+      "uart_rc": null,
+      "uart_rc_observed": false,
+      "uart_rc_required_for_acceptance": false
+    }
+  ],
+  "requested_repetitions": 5,
+  "run_root": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window",
+  "samples": [
+    "hello_write"
+  ],
+  "schema": "rvmt.genesys2.hardware_trace_cycle_window.v1",
+  "status": "PASS"
+}

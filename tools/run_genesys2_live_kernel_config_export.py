@@ -18,28 +18,27 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_RUN_ROOT = DEFAULT_LOG.parent
 
 
-EXPORT_COMMAND = (
-    "echo RVMT_LIVE_KERNEL_CONFIG_EXPORT_BEGIN; "
-    "id 2>&1 || true; "
-    "uname -a 2>&1 || true; "
-    "rm -f /tmp/rvmt_live_kernel_config.txt; "
-    "found=0; "
-    "for p in /proc/config.gz /boot/config-$(uname -r) /lib/modules/$(uname -r)/build/.config; do "
-    "if [ -e \"$p\" ] && [ \"$found\" = 0 ]; then "
-    "echo RVMT_KERNEL_CONFIG_FOUND $p; "
-    "if echo \"$p\" | grep -q '\\.gz$'; then zcat \"$p\" > /tmp/rvmt_live_kernel_config.txt 2>/dev/null; "
-    "else cat \"$p\" > /tmp/rvmt_live_kernel_config.txt 2>/dev/null; fi; "
-    "echo RVMT_KERNEL_CONFIG_CONTENT_BEGIN $p; "
-    "cat /tmp/rvmt_live_kernel_config.txt 2>/dev/null || true; "
-    "echo RVMT_KERNEL_CONFIG_CONTENT_END $p; "
-    "sha256sum /tmp/rvmt_live_kernel_config.txt 2>/dev/null | sed 's/^/RVMT_KERNEL_CONFIG_TEXT_SHA256 /' || true; "
-    "found=1; "
-    "else echo RVMT_KERNEL_CONFIG_MISSING $p; fi; "
-    "done; "
-    "ls -la /sys/bus/event_source/devices 2>&1 || true; "
-    "dmesg 2>&1 | grep -Ei 'SBI|PMU|perf|counter' | tail -40 || true; "
-    "echo RVMT_LIVE_KERNEL_CONFIG_EXPORT_DONE"
-)
+EXPORT_COMMANDS = [
+    "echo RVMT_LIVE_KERNEL_CONFIG_EXPORT_BEGIN",
+    "id 2>&1 || true",
+    "uname -a 2>&1 || true",
+    "rm -f /tmp/rvmt_live_kernel_config.txt",
+    (
+        "if [ -e /proc/config.gz ]; then "
+        "echo RVMT_KERNEL_CONFIG_FOUND /proc/config.gz; "
+        "zcat /proc/config.gz > /tmp/rvmt_live_kernel_config.txt 2>/dev/null; "
+        "else echo RVMT_KERNEL_CONFIG_MISSING /proc/config.gz; fi"
+    ),
+    "echo RVMT_KERNEL_CONFIG_MISSING /boot/config-$(uname -r)",
+    "echo RVMT_KERNEL_CONFIG_MISSING /lib/modules/$(uname -r)/build/.config",
+    "echo RVMT_KERNEL_CONFIG_CONTENT_BEGIN /proc/config.gz",
+    "cat /tmp/rvmt_live_kernel_config.txt 2>/dev/null || true",
+    "echo RVMT_KERNEL_CONFIG_CONTENT_END /proc/config.gz",
+    "sha256sum /tmp/rvmt_live_kernel_config.txt 2>/dev/null | sed 's/^/RVMT_KERNEL_CONFIG_TEXT_SHA256 /' || true",
+    "ls -la /sys/bus/event_source/devices 2>&1 || true",
+    "dmesg 2>&1 | grep -Ei 'SBI|PMU|perf|counter' | tail -40 || true",
+    "echo RVMT_LIVE_KERNEL_CONFIG_EXPORT_DONE",
+]
 
 
 def run(command: list[str], *, cwd: Path, dry_run: bool) -> None:
@@ -74,12 +73,15 @@ def main(argv: list[str] | None = None) -> int:
             "--pre-read",
             "0.2",
             "--between-read",
-            "0.5",
+            "30.0",
             "--post-read",
-            "8.0",
-            "--command-b64",
-            base64.b64encode(EXPORT_COMMAND.encode("utf-8")).decode("ascii"),
+            "60.0",
+            "--send-char-delay",
+            "0.004",
+            "--read-until-prompt",
         ]
+        for command in EXPORT_COMMANDS:
+            capture_cmd.extend(["--command-b64", base64.b64encode(command.encode("utf-8")).decode("ascii")])
         run(capture_cmd, cwd=ROOT, dry_run=args.dry_run)
     if args.dry_run:
         print(f"[DRY-RUN] would summarize {log} to {args.summary}")

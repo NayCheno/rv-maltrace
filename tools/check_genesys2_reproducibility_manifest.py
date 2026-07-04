@@ -65,6 +65,7 @@ REQUIRED_SUMMARY_IDS = {
     "cycle_source_probe",
     "counter_access_matrix",
     "cycle_source_diagnostics",
+    "hardware_trace_cycle_window",
     "sdcard_linux_manifest",
     "live_kernel_config_export",
     "sdcard_write_preflight",
@@ -229,6 +230,14 @@ def truthful_nonpass_summary(artifact_id: str, artifact: dict[str, Any]) -> bool
             and boundary.get("diagnostic_only") is True
         )
     if artifact_id == "live_kernel_config_export":
+        if artifact.get("status") == "PASS_LIVE_KERNEL_CONFIG_EXPORTED":
+            return (
+                artifact.get("schema") == "rvmt.genesys2.live_kernel_config_export.v1"
+                and boundary.get("live_kernel_config_export_claimed") is True
+                and boundary.get("source_level_kernel_config_claimed") is False
+                and boundary.get("board_cycle_source_claimed") is False
+                and boundary.get("cycle_level_overhead_claimed") is False
+            )
         return (
             artifact.get("schema") == "rvmt.genesys2.live_kernel_config_export.v1"
             and artifact.get("status")

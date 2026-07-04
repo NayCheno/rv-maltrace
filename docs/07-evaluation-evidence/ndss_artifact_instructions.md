@@ -45,11 +45,11 @@ build/ndss_artifacts/rv-maltrace-genesys2-cva6-current-raw-artifacts.zip
 SHA256:
 
 ```text
-d88dc671ca2ab90d72a6b5d6340a6726d98572a41988b9f1ca499e4fff6eac04
+9cce9f14f9dc7f2602f0f7ecab2fec6d16d284a396cfba861091ffefe6008f86
 ```
 
 `results/evaluation/genesys2-cva6/current/raw_artifact_release_manifest.json`
-records `file_count: 1998` and `size_bytes: 285238085` and is checked by:
+records `file_count: 2033` and `size_bytes: 286007909` and is checked by:
 
 ```powershell
 uv run python tools/check_genesys2_raw_artifact_release.py --root .
@@ -158,13 +158,12 @@ suites.
   block device, and observed SBI extensions are parsed from the UART log. Those
   fields must not be used as a Buildroot source/defconfig, OpenSBI source,
   kernel config, PMU/SBI PMU, or board cycle-source claim.
-- `live_kernel_config_export_summary.json` is the live board attempt to export
-  a readable kernel config. The current status is
-  `BLOCKED_LIVE_KERNEL_CONFIG_UNAVAILABLE`, with hashed COM7 UART evidence that
-  `/proc/config.gz`, `/boot/config-6.19.6`, and
-  `/lib/modules/6.19.6/build/.config` are absent. Do not create or cite
-  `live_kernel_config.txt` unless a real future board export writes it and
-  `tools/check_genesys2_live_kernel_config_export.py --require-pass` succeeds.
+- `live_kernel_config_export_summary.json` is the live board export of a
+  readable kernel config. The current status is
+  `PASS_LIVE_KERNEL_CONFIG_EXPORTED`, with hashed COM7 UART evidence that
+  `/proc/config.gz` was exported from Linux 6.19.6 and the required
+  config/PMU options are present. This proves the readable live config anchor;
+  it still does not prove a usable board cycle source or overhead result.
 
 ## Host-Only Work
 

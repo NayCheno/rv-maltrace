@@ -30,30 +30,31 @@
   "observed_identity": {
     "boot_directory_missing": true,
     "buildroot_version": "2026.02",
-    "cmdline": "earlycon console=ttyS0,115200n8",
+    "cmdline": "console=ttyS0,115200",
     "dtb_compatible": [
-      "eth,cva6-bare-dev"
+      "eth,ariane-bare-dev"
     ],
-    "dtb_identity_hash_line_count": 3,
+    "dtb_identity_hash_line_count": 4,
     "id": "uid=0(root) gid=0(root) groups=0(root),10(wheel)",
-    "kernel_config_export_missing": true,
+    "kernel_config_export_missing": false,
     "kernel_release": "6.19.6",
-    "proc_version": "Linux version 6.19.6 (root@buildkitsandbox) (riscv64-buildroot-linux-gnu-gcc.br_real (Buildroot 2026.02) 14.3.0, GNU ld (GNU Binutils) 2.44) #1 Tue Jun  9 06:02:04 UTC 2026",
-    "rootfs_identity_hash_line_count": 7,
+    "proc_version": "Linux version 6.19.6 (root@f26b3f1041d9) (riscv64-buildroot-linux-gnu-gcc.br_real (Buildroot 2026.02) 14.3.0, GNU ld (GNU Binutils) 2.44) #9 SMP Sat Jul  4 13:27:22 UTC 2026",
+    "rootfs_identity_hash_line_count": 6,
     "sbi_extensions_observed": [
       "DBCN",
       "FWFT",
+      "HSM",
       "IPI",
       "RFENCE",
       "TIME"
     ],
-    "uname_a": "Linux buildroot 6.19.6 #1 Tue Jun  9 06:02:04 UTC 2026 riscv64 GNU/Linux"
+    "uname_a": "Linux genesys2-cva6 6.19.6 #9 SMP Sat Jul  4 13:27:22 UTC 2026 riscv64 GNU/Linux"
   },
   "raw_uart_log": {
     "exists": true,
     "path": "results/board/genesys2_trace_validation/20260623-sdcard-linux-manifest/uart.log",
-    "sha256": "bfa560adc0870d43345716d172f8833eaba6396d88de97260fb9b385cd064ee5",
-    "size_bytes": 16780
+    "sha256": "4b21707585fdbc1f2bec6b8036e9be36ab7f064077cc3d184e176aa68af749e2",
+    "size_bytes": 15106
   },
   "schema": "rvmt.genesys2.sdcard_linux_manifest.v1",
   "scope": "live Genesys2/CVA6 SD-card Linux identity manifest captured over UART",
@@ -63,7 +64,7 @@
       "first_nonempty_line": "Filesystem           Type       1K-blocks      Used Available Use% Mounted on",
       "id": "block_inventory",
       "line_count": 16,
-      "sha256": "0342b997515706f1297522eaa558a888b4dc146f908e9173a4a0744d61de65e8"
+      "sha256": "95c97c2b473657b9611ecddff032c21035f946d63045a590cf05e5f9ee83c2db"
     },
     {
       "first_nonempty_line": "RVMT_BOOT_DIR_MISSING /boot",
@@ -72,16 +73,16 @@
       "sha256": "12a07ac67a83436b7c20ce0b19beaa3d8f4fdfc58e98c67378c8318d5c337984"
     },
     {
-      "first_nonempty_line": "RVMT_DTB_FILE 4b70cf601f7b2b772e125c0f76a9d1d53e15764d97fce8f8e33437087bcec1ad 18 /proc/device-tree/compatible",
+      "first_nonempty_line": "RVMT_DTB_FILE a2f5800196a279f2a043e29c009ebcee21492b3fb6ba9b8babd97bbb80527b28 20 /proc/device-tree/compatible",
       "id": "dtb_identity_hashes",
-      "line_count": 9,
-      "sha256": "01bdddd26d53a049674685512173fe5c2832fe350b78009acc26fcff610e40aa"
+      "line_count": 4,
+      "sha256": "1deeeeeea397a0ac909064b4faf58fb7f80e8de6729699094d43ed153634f0c3"
     },
     {
       "first_nonempty_line": "RVMT_DTB_VALUE_FILE /proc/device-tree/compatible",
       "id": "dtb_readable_identity",
-      "line_count": 22,
-      "sha256": "3d9abe4da3b4aea6865fadb02aa8124b89a3ef1d5b53f0cb2971f5357c0831af"
+      "line_count": 23,
+      "sha256": "033a733f2b7015f7e588dd45ed293057b05737c1b857f7ec67e38545dfd1edc0"
     },
     {
       "first_nonempty_line": "NAME=Buildroot",
@@ -96,28 +97,28 @@
       "sha256": "63631e3c8b8a4c348f5b1bf19488f0ff7833bea9bfedb4c80018385f93400819"
     },
     {
-      "first_nonempty_line": "RVMT_KERNEL_CONFIG_MISSING /proc/config.gz",
+      "first_nonempty_line": "RVMT_KERNEL_CONFIG_PATH /proc/config.gz",
       "id": "kernel_config_probe",
-      "line_count": 3,
-      "sha256": "a9a3486b805440b3cd1a8eeb98c9fbb3d84a8dbfdbfaf176ce52c034a54c30a2"
+      "line_count": 15,
+      "sha256": "5b522bf8d0e5833b1a593aff5252bea891ff59c5d2e587833a6caa5328244e15"
     },
     {
-      "first_nonempty_line": "earlycon console=ttyS0,115200n8",
+      "first_nonempty_line": "console=ttyS0,115200",
       "id": "proc_cmdline",
       "line_count": 1,
-      "sha256": "46321b7a7ab5a47be8dfd4d2ff3876e24166170087ea6d76e4f5b46926f5cf07"
+      "sha256": "dd5c6d75f07abba3f3423ef144d4638f0116d2e72d980d5efd4eb2b0532a2c8b"
     },
     {
       "first_nonempty_line": "processor\t: 0",
       "id": "proc_cpuinfo",
       "line_count": 9,
-      "sha256": "324675c12111045781bf680d5a1aebfee65536806e7a283cd32fa252d1ba8733"
+      "sha256": "af830af5bda6a8dcff4478d3d48d5dc76df80a3d793803be2ad7e53bc1363c71"
     },
     {
-      "first_nonempty_line": "rootfs / rootfs rw,size=503164k,nr_inodes=125791 0 0",
+      "first_nonempty_line": "rootfs / rootfs rw,size=498712k,nr_inodes=124678 0 0",
       "id": "proc_mounts",
       "line_count": 8,
-      "sha256": "1f504b72f69106aa16d5491b736c292b329249321bac538ea5c3b22fd89ead42"
+      "sha256": "4eae1e10a115342df8eeaef86a74834b48dcec2dd23163607dad15c06411de35"
     },
     {
       "first_nonempty_line": null,
@@ -126,28 +127,28 @@
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
-      "first_nonempty_line": "Linux version 6.19.6 (root@buildkitsandbox) (riscv64-buildroot-linux-gnu-gcc.br_real (Buildroot 2026.02) 14.3.0, GNU ld (GNU Binutils) 2.44) #1 Tue Jun  9 06:02:04 UTC 2026",
+      "first_nonempty_line": "Linux version 6.19.6 (root@f26b3f1041d9) (riscv64-buildroot-linux-gnu-gcc.br_real (Buildroot 2026.02) 14.3.0, GNU ld (GNU Binutils) 2.44) #9 SMP Sat Jul  4 13:27:22 UTC 2026",
       "id": "proc_version",
       "line_count": 1,
-      "sha256": "57755faa4919b2a0adfe67f348a4e59afdbf3d7c5540c73b1b2a4f4299d0c1bb"
+      "sha256": "fc7cf97444b46ffe33353a4fe9450c0f540563b3add209bf283a0688ce23a9f9"
     },
     {
-      "first_nonempty_line": "3d045aecebcb734c730fb6f7f41f3d17767112ab44372b0e80a8bc16ae3d1c4f  /bin/busybox",
+      "first_nonempty_line": "ed8806aed3f3ff1d6de1c413a75c5564a79fb8f1513c165a8cbf98633b94be38  /bin/busybox",
       "id": "rootfs_identity_hashes",
-      "line_count": 13,
-      "sha256": "d1343d2564fb62012de30b1b54c1930d49c67a5479c1f6ea110319bb62f38baf"
+      "line_count": 7,
+      "sha256": "46042495654ab74c2606786e628cf3b2501471168ff0bfb8eb75bd562b8f1364"
     },
     {
-      "first_nonempty_line": "[    0.000000] Linux version 6.19.6 (root@buildkitsandbox) (riscv64-buildroot-linux-gnu-gcc.br_real (Buildroot 2026.02) 14.3.0, GNU ld (GNU Binutils) 2.44) #1 Tue Jun  9 06:02:04 UTC 2026",
+      "first_nonempty_line": "Linux version 6.19.6 (root@f26b3f1041d9) (riscv64-buildroot-linux-gnu-gcc.br_real (Buildroot 2026.02) 14.3.0, GNU ld (GNU Binutils) 2.44) #9 SMP Sat Jul  4 13:27:22 UTC 2026",
       "id": "sbi_pmu_dmesg_probe",
-      "line_count": 18,
-      "sha256": "0351aa1e34172ba718c6f0fcd2457bae2013ed04ea09ef0745875afe4e6fb084"
+      "line_count": 22,
+      "sha256": "0941463f006b64eecabcb498683a87a2667c7f88f83d262c126fe2b14af63a90"
     },
     {
-      "first_nonempty_line": "Linux buildroot 6.19.6 #1 Tue Jun  9 06:02:04 UTC 2026 riscv64 GNU/Linux",
+      "first_nonempty_line": "Linux genesys2-cva6 6.19.6 #9 SMP Sat Jul  4 13:27:22 UTC 2026 riscv64 GNU/Linux",
       "id": "uname_a",
       "line_count": 1,
-      "sha256": "eb708a76574f3559020c02db064a838a1481d2dd9e1892e8b89afd4eaac3d094"
+      "sha256": "ba1d48cc1bf4752297731928bf39f508dcc110466a61b6f60d88ebfa1c18be32"
     },
     {
       "first_nonempty_line": "6.19.6",
@@ -170,42 +171,45 @@
     "buildroot_version_observed_from_live_image": true,
     "dev_mmc_or_sd_nodes_missing": true,
     "dtb_compatible": [
-      "eth,cva6-bare-dev"
+      "eth,ariane-bare-dev"
     ],
-    "dtb_cpu_isa_file_missing": true,
+    "dtb_cpu_isa_file_missing": false,
     "dtb_files_hashed": {
       "/proc/device-tree/compatible": {
-        "sha256": "4b70cf601f7b2b772e125c0f76a9d1d53e15764d97fce8f8e33437087bcec1ad",
-        "size_bytes": 18
+        "sha256": "a2f5800196a279f2a043e29c009ebcee21492b3fb6ba9b8babd97bbb80527b28",
+        "size_bytes": 20
+      },
+      "/proc/device-tree/cpus/cpu@0/riscv,isa": {
+        "sha256": "b2c570dfb23123f635760673b80a220e3f5eccaaa3a6cfe82508c2dbac27a4b6",
+        "size_bytes": 11
       },
       "/proc/device-tree/cpus/timebase-frequency": {
         "sha256": "af1128b0abda33d68771bf4d63aca5901c01609a317ab0f15c77f4b1e0d02f66",
         "size_bytes": 4
       },
       "/proc/device-tree/model": {
-        "sha256": "d73c22a29e5c7c3e756860787b484d5425fcb8174093bfb5af6e5ee4ab338e7a",
-        "size_bytes": 14
+        "sha256": "8631ceffc8bebf46c39d7154c9e28d8ae8012feb94bab58d2787a0fe72673353",
+        "size_bytes": 16
       }
     },
-    "dtb_files_missing": [
-      "/proc/device-tree/cpus/cpu@0/riscv,isa"
-    ],
-    "dtb_model": "eth,cva6-bare",
-    "dtb_readable_missing": [
-      "/proc/device-tree/cpus/cpu@0/riscv,isa"
-    ],
+    "dtb_files_missing": [],
+    "dtb_model": "eth,ariane-bare",
+    "dtb_readable_missing": [],
     "dtb_readable_values": {
       "/proc/device-tree/compatible": [
-        "eth,cva6-bare-dev"
+        "eth,ariane-bare-dev"
+      ],
+      "/proc/device-tree/cpus/cpu@0/riscv,isa": [
+        "rv64imafdc"
       ],
       "/proc/device-tree/cpus/timebase-frequency": [
         "\u0001}x@"
       ],
       "/proc/device-tree/model": [
-        "eth,cva6-bare"
+        "eth,ariane-bare"
       ]
     },
-    "kernel_build_timestamp": "Tue Jun  9 06:02:04 UTC 2026",
+    "kernel_build_timestamp": "SMP Sat Jul  4 13:27:22 UTC 2026",
     "kernel_config_candidate_paths": [
       "/boot/config-6.19.6",
       "/lib/modules/6.19.6/build/.config",
@@ -213,31 +217,36 @@
     ],
     "kernel_config_paths_missing": [
       "/boot/config-6.19.6",
-      "/lib/modules/6.19.6/build/.config",
+      "/lib/modules/6.19.6/build/.config"
+    ],
+    "kernel_config_paths_present": [
       "/proc/config.gz"
     ],
-    "kernel_config_paths_present": [],
     "kernel_release": "6.19.6",
-    "live_kernel_config_export_available": false,
-    "pmu_or_perf_dmesg_lines": [],
+    "live_kernel_config_export_available": true,
+    "pmu_or_perf_dmesg_lines": [
+      "riscv-pmu-sbi: SBI PMU extension is available",
+      "riscv-pmu-sbi: 16 firmware and 8 hardware counters",
+      "riscv-pmu-sbi: Perf sampling/filtering is not supported as sscof extension is not available"
+    ],
     "proc_partitions_empty": true,
     "proc_version": {
       "binutils_version": "2.44",
       "buildroot_version": "2026.02",
       "gcc_version": "14.3.0",
-      "kernel_build_timestamp": "Tue Jun  9 06:02:04 UTC 2026",
+      "kernel_build_timestamp": "SMP Sat Jul  4 13:27:22 UTC 2026",
       "kernel_release": "6.19.6",
-      "raw": "Linux version 6.19.6 (root@buildkitsandbox) (riscv64-buildroot-linux-gnu-gcc.br_real (Buildroot 2026.02) 14.3.0, GNU ld (GNU Binutils) 2.44) #1 Tue Jun  9 06:02:04 UTC 2026"
+      "raw": "Linux version 6.19.6 (root@f26b3f1041d9) (riscv64-buildroot-linux-gnu-gcc.br_real (Buildroot 2026.02) 14.3.0, GNU ld (GNU Binutils) 2.44) #9 SMP Sat Jul  4 13:27:22 UTC 2026"
     },
     "root_mount_kind": "rootfs",
     "root_mount_source": "rootfs",
     "rootfs_files_hashed": {
-      "/bin/busybox": "3d045aecebcb734c730fb6f7f41f3d17767112ab44372b0e80a8bc16ae3d1c4f",
+      "/bin/busybox": "ed8806aed3f3ff1d6de1c413a75c5564a79fb8f1513c165a8cbf98633b94be38",
       "/etc/inittab": "ad46146b6dd32b47213e5327f1bb2f962ef838a4b707ef7445fa2dbc9019b44f",
       "/etc/os-release": "a8dd3a4588ebace9427e705b612510d0a4046342ee509b6887eef20fc18765e7",
       "/init": "b2b964a5b67f90fece2c83dad0986ae44189fc1b7128c5ed9a38c0ca38e89c90",
-      "/linuxrc": "3d045aecebcb734c730fb6f7f41f3d17767112ab44372b0e80a8bc16ae3d1c4f",
-      "/sbin/init": "3d045aecebcb734c730fb6f7f41f3d17767112ab44372b0e80a8bc16ae3d1c4f"
+      "/linuxrc": "ed8806aed3f3ff1d6de1c413a75c5564a79fb8f1513c165a8cbf98633b94be38",
+      "/sbin/init": "ed8806aed3f3ff1d6de1c413a75c5564a79fb8f1513c165a8cbf98633b94be38"
     },
     "rootfs_files_missing": [
       "/etc/buildroot-release"
@@ -245,6 +254,7 @@
     "sbi_extensions_observed": [
       "DBCN",
       "FWFT",
+      "HSM",
       "IPI",
       "RFENCE",
       "TIME"

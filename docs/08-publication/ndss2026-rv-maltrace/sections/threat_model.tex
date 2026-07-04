@@ -29,5 +29,9 @@ outside our scope.
 \label{sec:threat-model:scope}
 
 We focus on controlled RISC-V Linux workloads.
-We do not evaluate production streaming throughput or cycle-level runtime
-overhead, which we leave for future work.
+We evaluate behavior reconstruction and observer-boundary evidence, not malware
+detection accuracy. We do not evaluate uncontrolled real malware, production
+streaming throughput, or cycle-level trace-off versus trace-on slowdown. These
+boundaries are summarized in Table~\ref{tab:scope}.
+
+\input{tables/scope}

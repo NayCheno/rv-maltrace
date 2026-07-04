@@ -138,6 +138,7 @@ results/evaluation/genesys2-cva6/current/*
 !results/evaluation/genesys2-cva6/current/cycle_source_probe_summary.json
 !results/evaluation/genesys2-cva6/current/cycle_source_diagnostics_summary.json
 !results/evaluation/genesys2-cva6/current/counter_access_matrix_summary.json
+!results/evaluation/genesys2-cva6/current/hardware_trace_cycle_window_summary.json
 !results/evaluation/genesys2-cva6/current/sdcard_linux_manifest.json
 !results/evaluation/genesys2-cva6/current/live_kernel_config_export_summary.json
 !results/evaluation/genesys2-cva6/current/linux_counter_path_preflight.json
@@ -158,6 +159,7 @@ results/evaluation/genesys2-cva6/current/*
 !results/evaluation/genesys2-cva6/current/official_image_hardware_oracle_differential_summary.json
 !results/evaluation/genesys2-cva6/current/trace_correctness_directed_summary.json
 !results/evaluation/genesys2-cva6/current/tracer_visibility_baseline_summary.json
+!results/evaluation/genesys2-cva6/current/evasion_comparison_summary.json
 !results/evaluation/genesys2-cva6/current/external_closure/
 results/evaluation/genesys2-cva6/current/external_closure/*
 !results/evaluation/genesys2-cva6/current/external_closure/**/

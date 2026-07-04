@@ -1,49 +1,69 @@
 {
-  "blocked_reason": "live board exposes zicntr/zihpm in /proc/cpuinfo but has no Linux perf event source, no observed SBI PMU extension, and prior user rdcycle probes trap as illegal instructions",
   "claim_boundary": {
     "board_cpu_declares_zicntr": true,
     "board_cpu_declares_zihpm": true,
     "board_cycle_source_claimed": false,
     "cycle_level_overhead_claimed": false,
     "diagnostic_only": true,
-    "linux_perf_event_source_observed": false,
+    "linux_perf_event_source_observed": true,
     "production_runtime_slowdown_claimed": false,
-    "sbi_pmu_extension_observed": false
+    "sbi_pmu_extension_observed": true
   },
   "diagnostics": {
-    "config_lines": [],
+    "config_lines": [
+      "CONFIG_KALLSYMS=y",
+      "# CONFIG_KALLSYMS_SELFTEST is not set",
+      "CONFIG_HAVE_PERF_EVENTS=y",
+      "CONFIG_PERF_EVENTS=y",
+      "CONFIG_HAVE_PERF_REGS=y",
+      "CONFIG_HAVE_PERF_USER_STACK_DUMP=y",
+      "CONFIG_RISCV_PMU=y",
+      "CONFIG_RISCV_PMU_LEGACY=y",
+      "CONFIG_RISCV_PMU_SBI=y"
+    ],
     "cpuinfo_has_zicntr": true,
     "cpuinfo_has_zihpm": true,
-    "cpuinfo_isa": "rv64imafdc_zicntr_zicsr_zifencei_zihpm_zaamo_zalrsc_zca_zcb_zcd_zbc_zbkb_zbkc_zbkx_zknd_zkne_zknh",
+    "cpuinfo_isa": "rv64imafdc_zicntr_zicsr_zifencei_zihpm_zaamo_zalrsc_zca_zcd",
     "dtb_perf_paths": [],
-    "dtb_pmu_compatible_values": [],
-    "dtb_pmu_node_observed": false,
+    "dtb_pmu_compatible_values": [
+      "riscv,pmu"
+    ],
+    "dtb_pmu_node_observed": true,
     "dtb_pmu_paths": [],
     "kernel": "6.19.6",
-    "kernel_config_accessible": false,
+    "kernel_config_accessible": true,
     "kernel_config_missing_paths": [
-      "/proc/config.gz",
       "/boot/config-6.19.6",
       "/lib/modules/6.19.6/build/.config"
     ],
-    "kernel_config_paths": [],
-    "kernel_config_perf_related": {},
+    "kernel_config_paths": [
+      "/proc/config.gz"
+    ],
+    "kernel_config_perf_related": {
+      "CONFIG_HAVE_PERF_EVENTS": "y",
+      "CONFIG_HAVE_PERF_REGS": "y",
+      "CONFIG_HAVE_PERF_USER_STACK_DUMP": "y",
+      "CONFIG_PERF_EVENTS": "y",
+      "CONFIG_RISCV_PMU": "y",
+      "CONFIG_RISCV_PMU_LEGACY": "y",
+      "CONFIG_RISCV_PMU_SBI": "y"
+    },
     "kernel_hw_perf_events_enabled": null,
     "kernel_module_dirs": [],
     "kernel_module_dirs_missing": [
       "/lib/modules/6.19.6"
     ],
-    "kernel_perf_events_enabled": null,
+    "kernel_perf_events_enabled": true,
     "kernel_perf_pmu_module_paths": [],
-    "kernel_riscv_pmu_enabled": null,
-    "kernel_riscv_pmu_sbi_enabled": null,
-    "linux_perf_event_sources_missing": true,
-    "linux_perf_event_sources_observed": false,
+    "kernel_riscv_pmu_enabled": true,
+    "kernel_riscv_pmu_sbi_enabled": true,
+    "linux_perf_event_sources_missing": false,
+    "linux_perf_event_sources_observed": true,
     "markers": {
       "begin": true,
       "done": true
     },
-    "perf_event_paranoid_path_exists": false,
+    "perf_event_paranoid_path_exists": true,
     "perf_lines": [
       "RVMT_SEND 'for p in /proc/config.gz /boot/config-$(uname -r) /lib/modules/$(uname -r)/build/.config; do if [ -e \"$p\" ]; then echo RVMT_KERNEL_CONFIG_PATH $p; if echo \"$p\" | grep -q \\'\\\\.gz$\\'; then zcat \"$p\"; else cat \"$p\"; fi | grep -E \\'^(# )?CONFIG_(PERF|HW_PERF|HAVE_PERF|GENERIC_PERF|RISCV.*PMU|RISCV_PMU|PMU|DEBUG_INFO|KALLSYMS)\\' || true; else echo RVMT_KERNEL_CONFIG_MISSING $p; fi; done'",
       "PERF|HW_PERF|HAVE_PERF|GENERIC_PERF|RISCV.*PMU|RISCV_PMU|PMU|DEBUG_INFO|KALLSYMS",
@@ -51,50 +71,84 @@
       "find /proc/device-tree -maxdepth 4 -iname '*perf*' -print 2>/dev/null | sed 's",
       "RVMT_SEND \"if [ -d /lib/modules/$(uname -r) ]; then echo RVMT_MODULE_DIR /lib/modules/$(uname -r); find /lib/modules/$(uname -r) -maxdepth 4 -type f 2>/dev/null | grep -Ei 'perf|pmu|riscv|counter' | sed 's/^/RVMT_MODULE_PATH /' || true; else echo RVMT_MODULE_DIR_MISSING /lib/modules/$(uname -r); fi\"",
       "Ei 'perf|pmu|riscv|counter' | sed 's/^/RVMT_MODULE_PATH /' || true; else echo RV",
+      "riscv-pmu-sbi: Perf sampling/filtering is not supported as sscof extension is not available",
+      "riscv-pmu-sbi: Perf sampling/filtering is not supported as sscof extension is not available",
       "RVMT_SEND 'dmesg 2>&1 | grep -i perf | tail -40 || true'",
-      "dmesg 2>&1 | grep -i perf | tail -40 || true"
+      "dmesg 2>&1 | grep -i perf | tail -40 || true",
+      "riscv-pmu-sbi: Perf sampling/filtering is not supported as sscof extension is not available",
+      "riscv-pmu-sbi: Perf sampling/filtering is not supported as sscof extension is not available"
     ],
     "pmu_lines": [
       "RVMT_SEND 'for p in /proc/config.gz /boot/config-$(uname -r) /lib/modules/$(uname -r)/build/.config; do if [ -e \"$p\" ]; then echo RVMT_KERNEL_CONFIG_PATH $p; if echo \"$p\" | grep -q \\'\\\\.gz$\\'; then zcat \"$p\"; else cat \"$p\"; fi | grep -E \\'^(# )?CONFIG_(PERF|HW_PERF|HAVE_PERF|GENERIC_PERF|RISCV.*PMU|RISCV_PMU|PMU|DEBUG_INFO|KALLSYMS)\\' || true; else echo RVMT_KERNEL_CONFIG_MISSING $p; fi; done'",
       "PERF|HW_PERF|HAVE_PERF|GENERIC_PERF|RISCV.*PMU|RISCV_PMU|PMU|DEBUG_INFO|KALLSYMS",
+      "lrwxrwxrwx    1 root     root             0 Jan  1 00:13 \u001b[1;36mcpu\u001b[m -> \u001b[1;34m../../../devices/platform/riscv-pmu-sbi/cpu\u001b[m",
       "RVMT_SEND \"find /proc/device-tree -maxdepth 4 -iname '*pmu*' -print 2>/dev/null | sed 's/^/RVMT_DTB_PMU_PATH /' || true\"",
       "find /proc/device-tree -maxdepth 4 -iname '*pmu*' -print 2>/dev/null | sed 's/",
       "RVMT_SEND 'for f in /proc/device-tree/pmu/compatible /proc/device-tree/soc/pmu/compatible /proc/device-tree/soc/pmu@0/compatible; do if [ -e \"$f\" ]; then echo RVMT_DTB_PMU_FILE $f; tr \\'\\\\000\\' \\'\\\\n\\' < \"$f\" | sed \\'s/^/RVMT_DTB_PMU_VALUE /\\'; else echo RVMT_DTB_PMU_MISSING $f; fi; done'",
       "for f in /proc/device-tree/pmu/compatible /proc/device-tree/soc/pmu/compatible",
       "/proc/device-tree/soc/pmu@0/compatible; do if [ -e \"$f\" ]; then echo RVMT_DTB_P",
-      "RVMT_DTB_PMU_MISSING /proc/device-tree/pmu/compatible",
+      "RVMT_DTB_PMU_FILE /proc/device-tree/pmu/compatible",
+      "RVMT_DTB_PMU_VALUE riscv,pmu",
       "RVMT_DTB_PMU_MISSING /proc/device-tree/soc/pmu/compatible",
       "RVMT_DTB_PMU_MISSING /proc/device-tree/soc/pmu@0/compatible",
       "RVMT_SEND \"if [ -d /lib/modules/$(uname -r) ]; then echo RVMT_MODULE_DIR /lib/modules/$(uname -r); find /lib/modules/$(uname -r) -maxdepth 4 -type f 2>/dev/null | grep -Ei 'perf|pmu|riscv|counter' | sed 's/^/RVMT_MODULE_PATH /' || true; else echo RVMT_MODULE_DIR_MISSING /lib/modules/$(uname -r); fi\"",
       "Ei 'perf|pmu|riscv|counter' | sed 's/^/RVMT_MODULE_PATH /' || true; else echo RV",
+      "riscv-pmu-sbi: SBI PMU extension is available",
+      "riscv-pmu-sbi: 16 firmware and 8 hardware counters",
+      "riscv-pmu-sbi: Perf sampling/filtering is not supported as sscof extension is not available",
       "RVMT_SEND 'dmesg 2>&1 | grep -i pmu | tail -40 || true'",
-      "dmesg 2>&1 | grep -i pmu | tail -40 || true"
+      "dmesg 2>&1 | grep -i pmu | tail -40 || true",
+      "riscv-pmu-sbi: SBI PMU extension is available",
+      "riscv-pmu-sbi: 16 firmware and 8 hardware counters",
+      "riscv-pmu-sbi: Perf sampling/filtering is not supported as sscof extension is not available",
+      "riscv-pmu-sbi: Perf sampling/filtering is not supported as sscof extension is not available",
+      "riscv-pmu-sbi: 16 firmware and 8 hardware counters",
+      "riscv-pmu-sbi: SBI PMU extension is available",
+      "riscv-pmu-sbi: 16 firmware and 8 hardware counters",
+      "riscv-pmu-sbi: Perf sampling/filtering is not supported as sscof extension is not available"
     ],
-    "previous_user_rdcycle_illegal_traps": [],
+    "previous_user_rdcycle_illegal_traps": [
+      "cycle_counter_s[212]: unhandled signal 4 code 0x1 at 0x000000000001015c in cycle_counter_smoke[15c,10000+1000]"
+    ],
     "root_shell": true,
     "sbi_lines": [
+      "lrwxrwxrwx    1 root     root             0 Jan  1 00:13 \u001b[1;36mcpu\u001b[m -> \u001b[1;34m../../../devices/platform/riscv-pmu-sbi/cpu\u001b[m",
       "RVMT_SEND 'dmesg 2>&1 | grep -i sbi | tail -40 || true'",
       "dmesg 2>&1 | grep -i sbi | tail -40 || true",
-      "[    0.000000] SBI specification v3.0 detected",
-      "[    0.000000] SBI implementation ID=0x1 Version=0x10007",
-      "[    0.000000] SBI TIME extension detected",
-      "[    0.000000] SBI IPI extension detected",
-      "[    0.000000] SBI RFENCE extension detected",
-      "[    0.000000] SBI DBCN extension detected",
-      "[    0.000000] SBI FWFT extension detected",
-      "[    0.369779] SBI misaligned access exception delegation ok"
+      "SBI specification v3.0 detected",
+      "SBI implementation ID=0x1 Version=0x10007",
+      "SBI TIME extension detected",
+      "SBI IPI extension detected",
+      "SBI RFENCE extension detected",
+      "SBI DBCN extension detected",
+      "SBI FWFT extension detected",
+      "SBI HSM extension detected",
+      "riscv: providing IPIs using SBI IPI extension",
+      "SBI misaligned access exception delegation ok",
+      "riscv-pmu-sbi: SBI PMU extension is available",
+      "riscv-pmu-sbi: 16 firmware and 8 hardware counters",
+      "riscv-pmu-sbi: Perf sampling/filtering is not supported as sscof extension is not available",
+      "riscv-pmu-sbi: SBI PMU extension is available",
+      "riscv-pmu-sbi: 16 firmware and 8 hardware counters",
+      "riscv-pmu-sbi: Perf sampling/filtering is not supported as sscof extension is not available",
+      "riscv-pmu-sbi: Perf sampling/filtering is not supported as sscof extension is not available",
+      "riscv-pmu-sbi: 16 firmware and 8 hardware counters",
+      "riscv: providing IPIs using SBI IPI extension",
+      "riscv-pmu-sbi: SBI PMU extension is available",
+      "riscv-pmu-sbi: 16 firmware and 8 hardware counters",
+      "riscv-pmu-sbi: Perf sampling/filtering is not supported as sscof extension is not available"
     ],
-    "sbi_pmu_extension_observed": false
+    "sbi_pmu_extension_observed": true
   },
   "enablement_preflight": {
-    "dtb_pmu_node_observed": false,
-    "kernel_config_accessible": false,
+    "dtb_pmu_node_observed": true,
+    "kernel_config_accessible": true,
     "kernel_hw_perf_events_enabled": null,
-    "kernel_perf_events_enabled": null,
-    "kernel_riscv_pmu_enabled": null,
-    "kernel_riscv_pmu_sbi_enabled": null,
-    "linux_perf_event_source_observed": false,
-    "perf_event_open_unavailable_observed": false,
+    "kernel_perf_events_enabled": true,
+    "kernel_riscv_pmu_enabled": true,
+    "kernel_riscv_pmu_sbi_enabled": true,
+    "linux_perf_event_source_observed": true,
+    "perf_event_open_unavailable_observed": true,
     "required_for_kernel_perf_cycle_path": [
       "Kernel must expose perf_event_open and /sys/bus/event_source/devices.",
       "Firmware/device tree must expose a RISC-V PMU path, typically through SBI PMU plus a PMU DT node or matching kernel driver.",
@@ -105,8 +159,8 @@
       "S-mode kernel policy must enable user cycle CSR access or provide an equivalent controlled export.",
       "The counter-access matrix must pass with monotonic-positive rdcycle rows."
     ],
-    "sbi_pmu_extension_observed": false,
-    "user_rdcycle_illegal_trap_observed": false
+    "sbi_pmu_extension_observed": true,
+    "user_rdcycle_illegal_trap_observed": true
   },
   "next_steps": [
     "Enable OpenSBI or kernel PMU/counter delegation for cycle counters, or add a board-specific SBI/kernel cycle export.",
@@ -121,14 +175,26 @@
     "A PASS diagnostic would only mean cycle-source infrastructure was observed, not that trace-on/off overhead was measured."
   ],
   "related_summaries": {
-    "counter_access_matrix": null,
-    "cycle_source_probe": null
+    "counter_access_matrix": {
+      "path": "results/evaluation/genesys2-cva6/current/counter_access_matrix_summary.json",
+      "schema": "rvmt.genesys2.counter_access_matrix.v1",
+      "sha256": "10c1fa4fa53c975f50b130047639773654a6c1611b99dac7c5a73768d3a98994",
+      "size_bytes": 6122,
+      "status": "BLOCKED_BOARD_CYCLE_COUNTER_UNAVAILABLE_NONCYCLE_TIME_AVAILABLE"
+    },
+    "cycle_source_probe": {
+      "path": "results/evaluation/genesys2-cva6/current/cycle_source_probe_summary.json",
+      "schema": "rvmt.genesys2.cycle_source_probe.v1",
+      "sha256": "db8901db883d5bc662d836b246132151d90019cd4fa89b60c54ab676fd075337",
+      "size_bytes": 2146,
+      "status": "BLOCKED_BOARD_KERNEL_PERF_CYCLES_UNAVAILABLE"
+    }
   },
   "run_log": {
     "path": "results/board/genesys2_trace_validation/20260623-cycle-source-diagnostics/uart.log",
-    "sha256": "01a166bcbeb63c05f8827602b854ae2e40cfc837bbbaff33375c67a7a19b9245",
-    "size_bytes": 9497
+    "sha256": "558204da21f70fc0d71d7d66af93df9dc202d111d5b3708bae901219134460c2",
+    "size_bytes": 11122
   },
   "schema": "rvmt.genesys2.cycle_source_diagnostics.v1",
-  "status": "BLOCKED_BOARD_KERNEL_PMU_AND_USER_CYCLE_UNAVAILABLE"
+  "status": "PASS"
 }

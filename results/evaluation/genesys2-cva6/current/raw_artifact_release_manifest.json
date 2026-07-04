@@ -1,11 +1,11 @@
 {
   "archive": {
     "exists": true,
-    "file_count": 1998,
+    "file_count": 2033,
     "format": "zip",
     "path": "build/ndss_artifacts/rv-maltrace-genesys2-cva6-current-raw-artifacts.zip",
-    "sha256": "d88dc671ca2ab90d72a6b5d6340a6726d98572a41988b9f1ca499e4fff6eac04",
-    "size_bytes": 285238085
+    "sha256": "9cce9f14f9dc7f2602f0f7ecab2fec6d16d284a396cfba861091ffefe6008f86",
+    "size_bytes": 286007909
   },
   "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",
   "claim_boundary": {
@@ -252,14 +252,14 @@
     {
       "path": "build/board/genesys2_counter_access_matrix/build_manifest.json",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "9858f8dc65a2c6fab3ae9248d578b5d36317ca67f4b153a6dd92d6d75e677573",
+      "sha256": "b911d632b0d8785ffb8e867952dee86746e4db5d54bf38349c300e69c819367f",
       "size_bytes": 1143
     },
     {
       "path": "build/board/genesys2_counter_access_matrix/counter_access_matrix.riscv64",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "979ab06cac0a0ed1693da3682deaea5bae2488f9d6c36cdc6daba0340f0a22e4",
-      "size_bytes": 540464
+      "sha256": "5ec26d4f3fecdddfd6b678bbe25fe91c757bf2c703c774b5afe1fb9b28bc3d66",
+      "size_bytes": 10168
     },
     {
       "path": "build/board/genesys2_cva6_p0_marker/file_open_read_write/build_manifest.json",
@@ -1690,58 +1690,82 @@
       "size_bytes": 4
     },
     {
+      "path": "results/board/genesys2_trace_validation/20260623-counter-access-matrix/rootfs_linker_probe.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "5c88ae625878c9dddfa174a4635bc784c8b043b2aa6876c01d8726f37787626b",
+      "size_bytes": 3970
+    },
+    {
       "path": "results/board/genesys2_trace_validation/20260623-counter-access-matrix/transfer.log",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "8fb6ba2c9751c6d2bb9a949455ec77ab763f7f0c6985917ab4505a7af35da3a8",
-      "size_bytes": 25836
+      "sha256": "f434f0144dc226b9d66ee5fcafe2295fab10bdc00904840f2289cbfc2dba6686",
+      "size_bytes": 8800
     },
     {
       "path": "results/board/genesys2_trace_validation/20260623-counter-access-matrix/uart.log",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "76b19d8a408055c81fc45503352ac31955f04f80d0d1fc1755522f5376f39dd4",
-      "size_bytes": 3102
+      "sha256": "477cae343444963c488d8fa1ddf81cd47aad41849f5987b6f2de79113c91be45",
+      "size_bytes": 3089
     },
     {
       "path": "results/board/genesys2_trace_validation/20260623-cycle-counter-smoke/transfer.log",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "a1c9ebd4644b097798273b88aaafd5662ea5e64c9cdafdc477b7654d761105f3",
-      "size_bytes": 1134
+      "sha256": "1cc56dbc7c103f6d43cabbccb292291a27436f500aa4226a871323325f85e89a",
+      "size_bytes": 1166
     },
     {
       "path": "results/board/genesys2_trace_validation/20260623-cycle-counter-smoke/uart.log",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "d8a4c656032c1cbe823035961361dd92aca0ff9d71d65ddb8540e52e9ef9158f",
-      "size_bytes": 1870
+      "sha256": "2bb893cd6f6a6ed7667c2fd156997eae7cdd2b7140ade908dd2e1844293972a5",
+      "size_bytes": 1623
     },
     {
       "path": "results/board/genesys2_trace_validation/20260623-cycle-source-diagnostics/uart.log",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "01a166bcbeb63c05f8827602b854ae2e40cfc837bbbaff33375c67a7a19b9245",
-      "size_bytes": 9497
+      "sha256": "558204da21f70fc0d71d7d66af93df9dc202d111d5b3708bae901219134460c2",
+      "size_bytes": 11122
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260623-cycle-source-probe/recover_after_transfer_timeout.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "137786b3e6d3eac3b88fa0f45e3cbf8de44a32412cf1c1db78efc4832047e1af",
+      "size_bytes": 193
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260623-cycle-source-probe/sysfs_perf_probe.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "824ce8f9f7c3b3e154e2048ad73ed10a4284989287fb50230db89f631dbc4164",
+      "size_bytes": 1525
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260623-cycle-source-probe/sysfs_perf_tree.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "afcf5d4d28384301ddd77436af58902906e25cc109486f931401989bea9077d8",
+      "size_bytes": 1827
     },
     {
       "path": "results/board/genesys2_trace_validation/20260623-cycle-source-probe/transfer.log",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "19ab8a7228fcbb49afa08ad7c654fcd0a882c7a4e15bad917606459bec51e56e",
-      "size_bytes": 1192
+      "sha256": "1b8ee35f3f0cfb4841022f8985a94a451e5d38476dcaff9dc6f2e443dc5b9623",
+      "size_bytes": 4277
     },
     {
       "path": "results/board/genesys2_trace_validation/20260623-cycle-source-probe/uart.log",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "9b3871dfd527b7f3601ab5eda62dfe85fe7678f28ac48a5da4820f3e5638edec",
-      "size_bytes": 583
+      "sha256": "700948f926f7e062fd0fd54cace693b76828ba3979658229ad4349f51faa89ff",
+      "size_bytes": 584
     },
     {
       "path": "results/board/genesys2_trace_validation/20260623-sdcard-linux-manifest/uart.log",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "bfa560adc0870d43345716d172f8833eaba6396d88de97260fb9b385cd064ee5",
-      "size_bytes": 16780
+      "sha256": "4b21707585fdbc1f2bec6b8036e9be36ab7f064077cc3d184e176aa68af749e2",
+      "size_bytes": 15106
     },
     {
       "path": "results/board/genesys2_trace_validation/20260624-live-kernel-config-export/uart.log",
       "root_id": "current_manifest_referenced_artifacts",
-      "sha256": "3f76126c0a85e1faea42514342efe864c65f29e405415738ef4efc36a0dbdf19",
-      "size_bytes": 2847
+      "sha256": "e9979e1b893a64f8a29bc2e323c0c2fe86c610cc7be269c0e374c0b231d65280",
+      "size_bytes": 61277
     },
     {
       "path": "results/board/genesys2_trace_validation/20260624-strict-sret-current-bitstream/hello_write/rep_02/bram_records.jsonl",
@@ -11788,6 +11812,192 @@
       "size_bytes": 1139
     },
     {
+      "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_01/bram_records.jsonl",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "853b2e42184e333c35b55252b45fa5a963f1833dc831eba2374022055e15f3bd",
+      "size_bytes": 62089
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_01/bram_summary.json",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "8e4be7eca491335ff9bc15227c3ff5b177055394d093467804fe0d965f64d4ff",
+      "size_bytes": 1030
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_01/capture.csv",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "1b5c5308c46b7a0b5a94560d2ff41f95e271e25cc216fac5f26b4e086be1adca",
+      "size_bytes": 2095924
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_01/capture.err.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_01/capture.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "9643e31796185105beaa7fb552d98526b002ef3a860b3f3a1d7dfc8e98fada12",
+      "size_bytes": 9621
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_01/uart.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "131e351c97153b9e3954edb2bf68f81671ab9871c79b146888b9e9c4f35fafd3",
+      "size_bytes": 608
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_02/bram_records.jsonl",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "636c81ef01263ad2a4658ac77488ebd9b23aaa61eb3244eb258dd21366057504",
+      "size_bytes": 82008
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_02/bram_summary.json",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "67fbcaf7d5a780a645770e79400dc534da0a1f05159fdf732ef532cafec13aa5",
+      "size_bytes": 1037
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_02/capture.csv",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "9f0e5dd8208220ba8c9b64394330471f58c4b86ebf8dc5d36b954d3dcc9d81dc",
+      "size_bytes": 2095924
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_02/capture.err.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_02/capture.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "7b8d407a8c9b447d03ac6ee22b43d5b2d1031aada1a817e0b1c287383721f0d7",
+      "size_bytes": 9281
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_02/uart.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "9c560f69bf7d8dad9feea813fb27abc01ab6475e9d7fbd367e29f0a622c82df2",
+      "size_bytes": 609
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_03/bram_records.jsonl",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "4b890587d25bd81a6a3d0a5f9f7c1adc836f22c5b1a0d2f6fe6e1cf4f51e8fbd",
+      "size_bytes": 84034
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_03/bram_summary.json",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "65f34ebb448d8ca667b3ed886b712ecbb445e5706b1cd8041bae3bcc76c9e4cd",
+      "size_bytes": 1037
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_03/capture.csv",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "0eb8360e680d5436d2636626138be2489989fa5b04159c07233780b6d8ed99be",
+      "size_bytes": 2095924
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_03/capture.err.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_03/capture.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "dbd319b3c96926056e0ae9887a18d7c5bbbcf3546b536044ad998e12bdf9f5a4",
+      "size_bytes": 9281
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_03/uart.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "8b4899ab19e63673dce12071da2fa27b4a8dfa0e760e6c60463b12bba727d176",
+      "size_bytes": 611
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_04/bram_records.jsonl",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "829402fa6bd30acf046b901ab2b6136f31d407c13ff45e48e97ded83c46dc0e8",
+      "size_bytes": 62007
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_04/bram_summary.json",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "fdd1907c2e4002a74dac3cd265e04b2698b83138bd541224047f1fbd899c65ae",
+      "size_bytes": 1026
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_04/capture.csv",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "75276a23d312bc981c8a045756698f125734edb745b722db593b0a8bc815eba5",
+      "size_bytes": 2095924
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_04/capture.err.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_04/capture.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "9a8f5444c4eeb0909e475920619fc6770a0bf79d36d80ebc181c1567013a8d18",
+      "size_bytes": 9281
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_04/uart.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "8a179f7eeeecb02ae41e5a0b814de585f66de04dc0eb633e06fd942a49c1e3cf",
+      "size_bytes": 611
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_05/bram_records.jsonl",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "f31e15b0dcdc5528571f07f1b13025d92e8dcf17c4d8285200fb42a133d53ecc",
+      "size_bytes": 64097
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_05/bram_summary.json",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "c56fb2f99ee023e410b90290a33ada6b3e66f9edec66e5425a795490f6d26490",
+      "size_bytes": 1030
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_05/capture.csv",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "1134598ca4442717677133288ae4b8d87a4efa7df7aca2cc289eabe510bcf7c5",
+      "size_bytes": 2095924
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_05/capture.err.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_05/capture.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "a8df702c75c0f65dc05fb5f1920ffc817d5b00af805140cea6dbef58eab9d8cb",
+      "size_bytes": 9281
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write/rep_05/uart.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "e196245c89bb67bfd8dbad2acb90528b12a47c434ee55e9dc75cc2605deed5c5",
+      "size_bytes": 608
+    },
+    {
+      "path": "results/board/genesys2_trace_validation/20260704-hardware-trace-cycle-window/hello_write_transfer.log",
+      "root_id": "current_manifest_referenced_artifacts",
+      "sha256": "c52b0ad9f31ade43b687d27ad740c32dc95da61fcecee8f3e7a278bd4297a80b",
+      "size_bytes": 10682
+    },
+    {
       "path": "results/demo/ccfa-p0-20260611/file_open_read_write/00_build/file_open_read_write.host",
       "root_id": "current_manifest_referenced_artifacts",
       "sha256": "465dc6fa6058b9a211e78d35d45e44f4410290f5e2231be6d5349fdf7631224b",
@@ -12018,10 +12228,10 @@
       "total_bytes": 232399
     },
     {
-      "file_count": 1973,
+      "file_count": 2008,
       "id": "current_manifest_referenced_artifacts",
       "role": "ignored local artifacts outside the canonical current evidence root that are referenced by current manifests and required by recursive path/hash checks",
-      "total_bytes": 515948994
+      "total_bytes": 526369905
     },
     {
       "file_count": 17,
@@ -12112,7 +12322,7 @@
   "schema": "rvmt.genesys2.raw_artifact_release.v1",
   "source_reproducibility_manifest": {
     "path": "results/evaluation/genesys2-cva6/current/reproducibility_manifest.json",
-    "sha256": "ea81015f9398ae93f49efee071904ce35c348fbfc96d9b2048679aad128abcc7"
+    "sha256": "7a8ff7a3297108fd0f34e1f6abd02c0e66b56cdf825de8c02fed9260af302bb4"
   },
   "status": "PASS_LOCAL_ARCHIVE_PRESENT",
   "validation_commands": [

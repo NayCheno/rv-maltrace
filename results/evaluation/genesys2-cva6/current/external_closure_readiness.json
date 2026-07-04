@@ -214,7 +214,7 @@
           "id": "pointer_string_readiness",
           "path": "results/evaluation/genesys2-cva6/current/pointer_string_readiness_summary.json",
           "schema": "rvmt.genesys2.pointer_string_readiness.v1",
-          "sha256": "966b676ea75e89f711f71e94b958abcd47d93996a4f7cd38fbd0fefddd5ec5b7",
+          "sha256": "ad7da31e35d2516ef02e1c4d634ba9f8568cb253da63f8ec5d7aca0d3039437d",
           "status": "PASS"
         },
         {

@@ -97,6 +97,7 @@ TASK_ALIASES = {
     "ndss:linux-counter-preflight": "ndss:linux-counter-preflight",
     "ndss:trace-correctness-directed": "ndss:trace-correctness-directed",
     "ndss:tracer-visibility-baseline": "ndss:tracer-visibility-baseline",
+    "ndss:evasion-comparison": "ndss:evasion-comparison",
     "ndss:local-code-analysis": "ndss:local-code-analysis",
     "ccfa": "repro:local",
     "ccfa:quick": "repro:quick",
@@ -260,6 +261,7 @@ DISPLAY_TASKS = [
     "ndss:linux-counter-preflight",
     "ndss:trace-correctness-directed",
     "ndss:tracer-visibility-baseline",
+    "ndss:evasion-comparison",
     "ndss:local-code-analysis",
     "docker:build",
     "toolchain:build",
@@ -1519,6 +1521,11 @@ def task_ndss_trace_correctness_directed(root: Path, env: dict[str, str], dry_ru
 def task_ndss_tracer_visibility_baseline(root: Path, env: dict[str, str], dry_run: bool) -> None:
     run([sys.executable, "tools/package_genesys2_tracer_visibility_baseline.py"], cwd=root, env=env, dry_run=dry_run)
     run([sys.executable, "tools/check_genesys2_tracer_visibility_baseline.py", "--root", str(root)], cwd=root, env=env, dry_run=dry_run)
+
+
+def task_ndss_evasion_comparison(root: Path, env: dict[str, str], dry_run: bool) -> None:
+    run([sys.executable, "tools/package_genesys2_evasion_comparison.py", "--root", str(root)], cwd=root, env=env, dry_run=dry_run)
+    run([sys.executable, "tools/check_genesys2_evasion_comparison.py", "--root", str(root)], cwd=root, env=env, dry_run=dry_run)
 
 
 def task_ndss_local_code_analysis(root: Path, env: dict[str, str], dry_run: bool) -> None:
@@ -4059,7 +4066,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
             "ndss:jtag-ram-boot-probe, "
             "ndss:host-latex, ndss:host-latex-runbook, ndss:cycle-smoke, ndss:cycle-source-probe, ndss:cycle-diagnostics, ndss:counter-access-matrix, "
             "ndss:sdcard-linux-manifest, ndss:boot-sdcard-image, ndss:sdcard-write-preflight, ndss:linux-rebuild-prep, ndss:live-kernel-config-export, ndss:linux-source-lock, ndss:linux-counter-preflight, "
-            "ndss:tracer-visibility-baseline, ndss:local-code-analysis, "
+            "ndss:tracer-visibility-baseline, ndss:evasion-comparison, ndss:local-code-analysis, "
             "vivado:check, bitstream:build, bitstream:build-trace, bitstream:build-trace-marker, "
             "bitstream:build-trace-marker-syscall, bitstream:build-trace-source-lines, sim:trace-unit, sim:cva6-smoke, "
             "sim:cva6-full-soc, sim:cva6-full-soc-tohost, sim:cva6-full-soc-rv64gc, sim:cva6-run, trace:view, binary:analyze, baremetal:build, "
@@ -4280,6 +4287,8 @@ def main(argv: list[str] | None = None) -> int:
                 task_ndss_trace_correctness_directed(root, env, args.dry_run)
             elif task == "ndss:tracer-visibility-baseline":
                 task_ndss_tracer_visibility_baseline(root, env, args.dry_run)
+            elif task == "ndss:evasion-comparison":
+                task_ndss_evasion_comparison(root, env, args.dry_run)
             elif task == "ndss:local-code-analysis":
                 task_ndss_local_code_analysis(root, env, args.dry_run)
             elif task == "docker:build":

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import base64
+import hashlib
 import sys
 import time
 from pathlib import Path
@@ -50,8 +51,15 @@ def read_until_token(ser: serial.Serial, seconds: float, handle, token: str) -> 
     raise TimeoutError(f"timed out waiting for serial prompt token {token!r}")
 
 
-def send_text(ser: serial.Serial, handle, text: str, *, post_read: float = 0.1, line_delay: float = 0.0) -> None:
-    if line_delay > 0:
+def write_limited(ser: serial.Serial, text: str, *, line_delay: float, char_delay: float) -> None:
+    if char_delay > 0:
+        for char in text:
+            ser.write(char.encode("utf-8"))
+            ser.flush()
+            time.sleep(char_delay)
+        if line_delay > 0:
+            time.sleep(line_delay)
+    elif line_delay > 0:
         for line in text.splitlines(keepends=True):
             ser.write(line.encode("utf-8"))
             ser.flush()
@@ -59,7 +67,19 @@ def send_text(ser: serial.Serial, handle, text: str, *, post_read: float = 0.1, 
     else:
         ser.write(text.encode("utf-8"))
         ser.flush()
-    read_for(ser, post_read, handle)
+
+
+def send_text(
+    ser: serial.Serial,
+    handle,
+    text: str,
+    *,
+    post_read: float = 0.1,
+    line_delay: float = 0.0,
+    char_delay: float = 0.0,
+) -> str:
+    write_limited(ser, text, line_delay=line_delay, char_delay=char_delay)
+    return read_for(ser, post_read, handle)
 
 
 def send_text_wait(
@@ -69,20 +89,13 @@ def send_text_wait(
     *,
     post_read: float,
     line_delay: float,
+    char_delay: float,
     prompt_token: str,
-) -> None:
-    if line_delay > 0:
-        for line in text.splitlines(keepends=True):
-            ser.write(line.encode("utf-8"))
-            ser.flush()
-            time.sleep(line_delay)
-    else:
-        ser.write(text.encode("utf-8"))
-        ser.flush()
+) -> str:
+    write_limited(ser, text, line_delay=line_delay, char_delay=char_delay)
     if prompt_token:
-        read_until_token(ser, post_read, handle, prompt_token)
-    else:
-        read_for(ser, post_read, handle)
+        return read_until_token(ser, post_read, handle, prompt_token)
+    return read_for(ser, post_read, handle)
 
 
 def wrap_base64(data: bytes, width: int = 76) -> list[str]:
@@ -102,6 +115,7 @@ def main() -> int:
     parser.add_argument("--chunk-read", type=float, default=0.05)
     parser.add_argument("--final-read", type=float, default=6.0)
     parser.add_argument("--line-delay", type=float, default=0.0)
+    parser.add_argument("--send-char-delay", type=float, default=0.0)
     parser.add_argument("--prompt-token", default="")
     parser.add_argument("--disable-echo", action="store_true")
     args = parser.parse_args()
@@ -113,6 +127,8 @@ def main() -> int:
         parser.error("--chunk-lines must be positive")
 
     data = source.read_bytes()
+    expected_sha256 = hashlib.sha256(data).hexdigest()
+    expected_size = len(data)
     lines = wrap_base64(data)
     target = args.target
     target_b64 = f"{target}.b64"
@@ -137,6 +153,7 @@ def main() -> int:
                 "stty -echo\r\n",
                 post_read=max(args.chunk_read, 1.0),
                 line_delay=args.line_delay,
+                char_delay=args.send_char_delay,
                 prompt_token=args.prompt_token,
             )
         for command in [
@@ -150,47 +167,78 @@ def main() -> int:
                 command,
                 post_read=max(args.chunk_read, 1.0),
                 line_delay=args.line_delay,
+                char_delay=args.send_char_delay,
                 prompt_token=args.prompt_token,
             )
 
-        for index in range(0, len(lines), args.chunk_lines):
-            chunk = lines[index : index + args.chunk_lines]
-            marker = f"RVMT_B64_{index // args.chunk_lines:05d}"
-            payload = (
-                f"cat >> {shell_quote(target_b64)} <<'{marker}'\n"
-                + "\n".join(chunk)
-                + f"\n{marker}\n"
-            )
-            emit(handle, f"\nRVMT_SEND_CHUNK index={index // args.chunk_lines} lines={len(chunk)}\n")
-            send_text_wait(
-                ser,
-                handle,
-                payload,
-                post_read=args.chunk_read,
-                line_delay=args.line_delay,
-                prompt_token=args.prompt_token,
-            )
+        try:
+            for index in range(0, len(lines), args.chunk_lines):
+                chunk = lines[index : index + args.chunk_lines]
+                marker = f"RVMT_B64_{index // args.chunk_lines:05d}"
+                payload = (
+                    f"cat >> {shell_quote(target_b64)} <<'{marker}'\n"
+                    + "\n".join(chunk)
+                    + f"\n{marker}\n"
+                )
+                emit(handle, f"\nRVMT_SEND_CHUNK index={index // args.chunk_lines} lines={len(chunk)}\n")
+                send_text_wait(
+                    ser,
+                    handle,
+                    payload,
+                    post_read=args.chunk_read,
+                    line_delay=args.line_delay,
+                    char_delay=args.send_char_delay,
+                    prompt_token=args.prompt_token,
+                )
+        except Exception:
+            ser.write(b"\x03\r\nstty echo\r\n")
+            ser.flush()
+            read_for(ser, 1.0, handle)
+            raise
 
         final_command = (
             f"base64 -d {shell_quote(target_b64)} > {shell_quote(target)} && "
             f"chmod +x {shell_quote(target)} && "
-            f"sha256sum {shell_quote(target)} && "
+            f"actual_sha=$(sha256sum {shell_quote(target)} | awk '{{print $1}}') && "
+            f"actual_size=$(wc -c < {shell_quote(target)} | tr -d ' ') && "
+            f"echo RVMT_TRANSFER_SHA256=$actual_sha && "
+            f"echo RVMT_TRANSFER_SIZE=$actual_size && "
             f"ls -l {shell_quote(target)} && "
-            f"rm -f {shell_quote(target_b64)}\r\n"
+            f"if [ \"$actual_sha\" = {shell_quote(expected_sha256)} ] && "
+            f"[ \"$actual_size\" = {shell_quote(str(expected_size))} ]; then "
+            "echo RVMT_TRANSFER_VERIFY=PASS; "
+            f"rm -f {shell_quote(target_b64)}; "
+            "else "
+            f"echo RVMT_TRANSFER_VERIFY=FAIL expected_sha256={expected_sha256} expected_size={expected_size}; "
+            "fi\r\n"
         )
         emit(handle, f"\nRVMT_SEND {final_command.strip()!r}\n")
-        send_text_wait(
+        final_output = send_text_wait(
             ser,
             handle,
             final_command,
             post_read=args.final_read,
             line_delay=args.line_delay,
+            char_delay=args.send_char_delay,
             prompt_token=args.prompt_token,
         )
+        transfer_verified = "RVMT_TRANSFER_VERIFY=PASS" in final_output
         if args.disable_echo:
             emit(handle, "\nRVMT_SEND 'stty echo'\n")
-            send_text(ser, handle, "stty echo\r\n", post_read=0.5, line_delay=args.line_delay)
+            send_text(
+                ser,
+                handle,
+                "stty echo\r\n",
+                post_read=0.5,
+                line_delay=args.line_delay,
+                char_delay=args.send_char_delay,
+            )
         handle.write("\nRVMT_SERIAL_BASE64_TRANSFER_DONE\n")
+        if not transfer_verified:
+            raise RuntimeError(
+                f"board transfer verification failed for {target}: "
+                f"expected sha256={expected_sha256} size={expected_size}"
+            )
     return 0
 
 

@@ -129,6 +129,7 @@ uv run python tools/check_genesys2_local_code_analysis_fixtures.py --root .
 uv run python tools/check_ccfa_evaluation_matrix.py --root .
 uv run python tools/check_baseline_alignment.py --root .
 uv run python tools/check_genesys2_tracer_visibility_baseline.py --root .
+uv run python tools/check_genesys2_evasion_comparison.py --root .
 uv run python tools/check_behavior_audit_metrics.py --root .
 uv run python tools/check_ccfa_case_study_manifest.py --root .
 uv run python tools/check_ccfa_current_quality.py --root .
@@ -140,6 +141,7 @@ uv run python tools/check_genesys2_bootrom_counter_delegation.py --root .
 uv run python tools/check_genesys2_cycle_source_probe.py --root .
 uv run python tools/check_genesys2_cycle_diagnostics.py --root .
 uv run python tools/check_genesys2_counter_access_matrix.py --root .
+uv run python tools/check_genesys2_hardware_trace_cycle_window.py --root .
 uv run python tools/check_genesys2_sdcard_linux_manifest.py --root .
 uv run python tools/check_genesys2_live_kernel_config_export.py --root .
 uv run python tools/check_genesys2_linux_rebuild_manifest.py --root .
@@ -295,14 +297,26 @@ strict-SRET smoke; the separate `p0_bram_trace_summary.json` now covers the
 full current-bitstream P0 cohort. Neither summary claims SD-card-image boot,
 overhead, production streaming, or real-malware validation.
 
+`tools/check_genesys2_hardware_trace_cycle_window.py` verifies
+`hardware_trace_cycle_window_summary.json`, the Option 1 hardware trace cycle
+window evidence. It accepts only BRAM marker-window records with exactly one
+begin marker and one end marker, a positive delta from the decoded FPGA trace
+packet `cycle` field, no BRAM drops/wrap/full condition, and no sequence gaps.
+UART return-code text is auxiliary because the ILA trigger and BRAM marker
+records are the primary hardware evidence. This summary claims only a hardware
+trace marker-window cycle measurement; it does not claim Linux perf, user
+`rdcycle`, trace-off slowdown, production runtime overhead, or real-malware
+validation.
+
 `tools/check_genesys2_live_kernel_config_export.py` verifies
 `live_kernel_config_export_summary.json`, the live UART attempt to export the
 kernel config from `/proc/config.gz`, `/boot/config-$(uname -r)`, or
 `/lib/modules/$(uname -r)/build/.config`. The current board summary is
-`BLOCKED_LIVE_KERNEL_CONFIG_UNAVAILABLE`: the board reached a root shell on
-Linux 6.19.6, but none of those paths exists. This is hashed board evidence for
-the missing live-config anchor, not a source-level defconfig substitute and not
-a cycle-source or overhead claim.
+`PASS_LIVE_KERNEL_CONFIG_EXPORTED`: `/proc/config.gz` was exported from Linux
+6.19.6 and the required config/PMU options are present. This is hashed board
+evidence for the readable live config and counter-option anchor, not a
+source-level defconfig substitute and not a usable cycle-source or overhead
+claim.
 
 `tools/check_genesys2_linux_rebuild_manifest.py` verifies
 `linux_rebuild_manifest.json`, the Docker-side Buildroot/OpenSBI rebuild
@@ -387,6 +401,13 @@ native/no-tracer, native/strace, qemu-user, and qemu-user-strace; validates
 all qemu/strace outputs as software oracles only. This is not Genesys2 board
 evidence, real-malware validation, malware-detection accuracy, or a hardware
 anti-analysis advantage claim.
+`tools/check_genesys2_evasion_comparison.py` verifies
+`evasion_comparison_summary.json`, the bounded comparison table tying that
+software baseline to current Genesys2 BRAM trace evidence. It requires exactly
+one complete software-tracer-fails/RV-MalTrace-reconstructs row
+(`anti_debug_like`, including hardware `ptrace`/`openat` and hardware ARG_MEM
+`/proc/self/status`) and keeps `process_chain` plus
+`dynamic_executable_memory` as supporting reconstruction rows only.
 `tools/check_genesys2_pointer_string_readiness.py` verifies
 `pointer_string_readiness_summary.json`, which turns the prefix/guardrail
 evidence into a future full-string contract requiring contiguous bytes from

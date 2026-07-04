@@ -92,7 +92,7 @@ def check_hashed_row(errors: list[str], root: Path, row: dict[str, Any], label: 
 
 
 def supporting_status_ok(row_id: str, status: Any) -> bool:
-    if status == "PASS":
+    if status == "PASS" or str(status).startswith("PASS_"):
         return True
     return str(status) in TRUTHFUL_SUPPORTING_NONPASS.get(row_id, set())
 

@@ -171,6 +171,7 @@
         "cycle_source_probe",
         "counter_access_matrix",
         "cycle_source_diagnostics",
+        "hardware_trace_cycle_window",
         "sdcard_linux_manifest",
         "sdcard_write_preflight",
         "linux_counter_path_preflight",
@@ -289,6 +290,7 @@
         "cycle_source_probe",
         "counter_access_matrix",
         "cycle_source_diagnostics",
+        "hardware_trace_cycle_window",
         "sdcard_linux_manifest",
         "sdcard_write_preflight",
         "linux_counter_path_preflight",
@@ -500,7 +502,7 @@
       "id": "pointer_string_readiness",
       "path": "results/evaluation/genesys2-cva6/current/pointer_string_readiness_summary.json",
       "schema": "rvmt.genesys2.pointer_string_readiness.v1",
-      "sha256": "966b676ea75e89f711f71e94b958abcd47d93996a4f7cd38fbd0fefddd5ec5b7",
+      "sha256": "ad7da31e35d2516ef02e1c4d634ba9f8568cb253da63f8ec5d7aca0d3039437d",
       "status": "PASS"
     },
     {
@@ -588,7 +590,7 @@
       "id": "external_closure_readiness",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_readiness.json",
       "schema": "rvmt.genesys2.external_closure_readiness.v1",
-      "sha256": "94091299e872762080cf14593159adc2ab671cd8d01c801bd6bc969a63c86fce",
+      "sha256": "bb4c7cfdb0bd2e38b76707fda88c6601081c49933920f0c04778441c939de23d",
       "status": "PASS"
     },
     {
@@ -604,7 +606,7 @@
       "id": "external_closure_plan",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_plan.json",
       "schema": "rvmt.genesys2.external_closure_plan.v1",
-      "sha256": "30472f34a2ea83c7392be753da04ac99d2fc13b9bb57c5f5bd9b63b20273e733",
+      "sha256": "a71b091c98aab766e267d622cda25e36c5f3c2d3c876594db36e45aa9ade51df",
       "status": "PASS"
     },
     {
@@ -612,7 +614,7 @@
       "id": "external_closure_preflight",
       "path": "results/evaluation/genesys2-cva6/current/external_closure_preflight.json",
       "schema": "rvmt.genesys2.external_closure_preflight.v1",
-      "sha256": "817d8dc5df1ab4671dfab2d77971f53789d80a373d9a24f3b263543457f21d97",
+      "sha256": "3d28c5da32558eaa2f8b4d6736abbf91340041da43f8a3b1c589ff4a6e445f26",
       "status": "PASS"
     },
     {
@@ -620,7 +622,7 @@
       "id": "external_operator_packet",
       "path": "results/evaluation/genesys2-cva6/current/external_operator_packet.json",
       "schema": "rvmt.genesys2.external_operator_packet.v1",
-      "sha256": "55ecce3e652a96ae9ed3287fdd6eb91fac63a0e98333ee5f9a2092824489efa5",
+      "sha256": "2c55883bd0d7377dbf7589406334a7e00f049d6878d93df9991c333245c50a11",
       "status": "PASS"
     },
     {
@@ -732,7 +734,7 @@
       "id": "review_closure_audit",
       "path": "results/evaluation/genesys2-cva6/current/review_closure_audit.json",
       "schema": "rvmt.genesys2.review_closure_audit.v1",
-      "sha256": "5560e4bd95c99b2bea0ea388fdf808e917c766d5f89217d13e95fd23038ccf25",
+      "sha256": "2c8d574dc116aa46a79884fa2ceb42fd3cf7e1bb659c08fbb52fcde35292c065",
       "status": "PASS"
     },
     {
@@ -748,7 +750,7 @@
       "id": "cycle_counter_smoke",
       "path": "results/evaluation/genesys2-cva6/current/cycle_counter_smoke_summary.json",
       "schema": "rvmt.genesys2.cycle_counter_smoke.v1",
-      "sha256": "788a2dc9eac15f1e59833d77e06a1f7f0ea316bfdf833b20c19e47888b0c377d",
+      "sha256": "a276f4314b41aac0e025e042fc910fa60d7535ed3ce020a1fc573e5f97bc1a00",
       "status": "BLOCKED_BOARD_RDCYCLE_UNAVAILABLE"
     },
     {
@@ -756,7 +758,7 @@
       "id": "cycle_source_probe",
       "path": "results/evaluation/genesys2-cva6/current/cycle_source_probe_summary.json",
       "schema": "rvmt.genesys2.cycle_source_probe.v1",
-      "sha256": "ccb195ca8f42c16b46d0a4566a5ca79b185f541ca15c397a1b3eaaa8a7acbd70",
+      "sha256": "db8901db883d5bc662d836b246132151d90019cd4fa89b60c54ab676fd075337",
       "status": "BLOCKED_BOARD_KERNEL_PERF_CYCLES_UNAVAILABLE"
     },
     {
@@ -764,7 +766,7 @@
       "id": "counter_access_matrix",
       "path": "results/evaluation/genesys2-cva6/current/counter_access_matrix_summary.json",
       "schema": "rvmt.genesys2.counter_access_matrix.v1",
-      "sha256": "a4b4444ec7d7119dc9c6f9f922e01e798d0554e9c557a027e90631f6f2a27eef",
+      "sha256": "10c1fa4fa53c975f50b130047639773654a6c1611b99dac7c5a73768d3a98994",
       "status": "BLOCKED_BOARD_CYCLE_COUNTER_UNAVAILABLE_NONCYCLE_TIME_AVAILABLE"
     },
     {
@@ -772,15 +774,23 @@
       "id": "cycle_source_diagnostics",
       "path": "results/evaluation/genesys2-cva6/current/cycle_source_diagnostics_summary.json",
       "schema": "rvmt.genesys2.cycle_source_diagnostics.v1",
-      "sha256": "267a9e35393fd297190f16865e0f0d87a7202017e2416d4c84815085185f390f",
-      "status": "BLOCKED_BOARD_KERNEL_PMU_AND_USER_CYCLE_UNAVAILABLE"
+      "sha256": "8fcf83b208fca4126ef97458696736c0884aff7c3664f9cada02acbbed77695c",
+      "status": "PASS"
+    },
+    {
+      "checker_command": "uv run python tools/check_genesys2_hardware_trace_cycle_window.py --root .",
+      "id": "hardware_trace_cycle_window",
+      "path": "results/evaluation/genesys2-cva6/current/hardware_trace_cycle_window_summary.json",
+      "schema": "rvmt.genesys2.hardware_trace_cycle_window.v1",
+      "sha256": "561a9015e577bfd4b15b4743779cef9e3f5bbd79b892804084954e5c22b896fa",
+      "status": "PASS"
     },
     {
       "checker_command": "uv run python tools/check_genesys2_sdcard_linux_manifest.py --root .",
       "id": "sdcard_linux_manifest",
       "path": "results/evaluation/genesys2-cva6/current/sdcard_linux_manifest.json",
       "schema": "rvmt.genesys2.sdcard_linux_manifest.v1",
-      "sha256": "4194adc31c9a709bb02623f8464058aa11108dcfe01d136e4b08ac5a871c205d",
+      "sha256": "1b1d71c5921624a2dd3218eb6db630ab08d768ef4337dd104c8dbab394244108",
       "status": "PASS"
     },
     {
@@ -788,8 +798,8 @@
       "id": "live_kernel_config_export",
       "path": "results/evaluation/genesys2-cva6/current/live_kernel_config_export_summary.json",
       "schema": "rvmt.genesys2.live_kernel_config_export.v1",
-      "sha256": "c41b741cbaa0e480a184a854d31a021be27534887d4e649937b8fa8125490b3c",
-      "status": "BLOCKED_LIVE_KERNEL_CONFIG_UNAVAILABLE"
+      "sha256": "665a67f54a56301feb5c59c6644efb87b10268f53750822a6aaa0436223f17c2",
+      "status": "PASS_LIVE_KERNEL_CONFIG_EXPORTED"
     },
     {
       "checker_command": "uv run python tools/check_genesys2_sdcard_write_preflight.py --root .",
@@ -804,8 +814,8 @@
       "id": "linux_counter_path_preflight",
       "path": "results/evaluation/genesys2-cva6/current/linux_counter_path_preflight.json",
       "schema": "rvmt.genesys2.linux_counter_path_preflight.v1",
-      "sha256": "45d57a64cdc7239c54455caa549d3d680f132cd288072fbb5f59dfb7a6cee1ed",
-      "status": "BLOCKED_SD_CARD_LINUX_SOURCE_MISSING"
+      "sha256": "1f5f6a3e45d2a98959bb66515042acad09481d3bfa6beaa9bfbe8369db40de81",
+      "status": "BLOCKED_BOARD_COUNTER_SOURCE_UNAVAILABLE_AFTER_REBUILD_PREFLIGHT"
     },
     {
       "checker_command": "uv run python tools/check_ndss_host_vivado_check.py --root .",
@@ -844,7 +854,7 @@
       "id": "official_image_workloads",
       "path": "results/evaluation/genesys2-cva6/current/official_image_workload_summary.json",
       "schema": "rvmt.genesys2.official_image_workloads.v1",
-      "sha256": "6b5c7b53622b8b61206da176236ef2ab782a0be18ce0e123d5b4f3cfbdd9b559",
+      "sha256": "e7402a70c051a81be9a4f7c6608199de4177c7b48f1568d6f850d15a8c9b5473",
       "status": "PASS"
     },
     {
@@ -876,7 +886,7 @@
       "id": "official_image_repeatability",
       "path": "results/evaluation/genesys2-cva6/current/official_image_repeatability_summary.json",
       "schema": "rvmt.genesys2.official_image_repeatability_drop_wrap.v1",
-      "sha256": "87ad7be5a15dbe68372ee5a6fe0add1f503a4975bcb89f00ed3ac05176527b45",
+      "sha256": "783694262d13813ad549a659bcac04b61df3700c5e6287631e066f6a77512fc7",
       "status": "PASS"
     },
     {

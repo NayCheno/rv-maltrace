@@ -10,9 +10,11 @@ Artifact root & Manifests and hashes & The draft uses \artifactroot as the curre
 Trace correctness & Directed tests & Syscall entry/return pairing, trap/retire separation, and event ordering are evaluated. \\
 Source labels & Reconstruction summaries & Fields identify whether they came from hardware trace, ELF metadata, runtime maps, or reference logs. \\
 Code attribution & Process/ELF summaries and local fixtures & ELF identity, PIE/ASLR load bias, dynamic objects, fork/exec, and stripped binaries are covered at target ELF/function level. \\
-Production streaming/DMA & Not evaluated & Throughput and interference measurements require a separate transport study. \\
+Software-tracer visibility & Tracer baseline and case-study trace & One controlled anti-debug-like row demonstrates software-tracer visibility or perturbation while \rvmt reconstructs the behavior; supporting rows do not claim tracer failure. \\
+Runtime perturbation & UART runtime smoke and FPGA trace-cycle marker windows & Current artifacts report coarse board runtime smoke and marker-window cycles, not cycle-level trace-off versus trace-on slowdown. \\
+Production streaming/DMA & Target and readiness summaries & BRAM/JTAG captures establish a future transport target but are not production streaming/DMA throughput evidence. \\
 JTAG RAM boot & Not evaluated & The current observed target does not expose a Vivado memory-control object. \\
-Real malware & Not evaluated & Safe malware-like workloads are not reported as uncontrolled real-malware validation. \\
+Real malware & Containment policy only & No payloads are stored or executed for paper evidence; safe malware-like workloads are not real-malware validation. \\
 \bottomrule
 \end{tabularx}
 \end{table*}

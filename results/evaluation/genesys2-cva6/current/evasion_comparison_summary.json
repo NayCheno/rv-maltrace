@@ -1,0 +1,592 @@
+{
+  "canonical_evidence_root": "results/evaluation/genesys2-cva6/current",
+  "case_rows": [
+    {
+      "artifacts": {
+        "baseline_logs": {
+          "path": "results/evaluation/genesys2-cva6/current/samples/anti_debug_like/baseline_logs.json",
+          "role": "software_baseline_logs",
+          "sha256": "e415d9f54f60bd3831bb0264b9209b715f8cad9652c6dc12b0e7ac5cad99f627",
+          "size_bytes": 7483
+        },
+        "behavior_audit_metrics": {
+          "path": "results/evaluation/genesys2-cva6/current/samples/anti_debug_like/behavior_audit_metrics.json",
+          "role": "behavior_audit_metrics",
+          "sha256": "22f694ae4456e18263f45088b09984a000f517b64edea77f689f8dcdba6666ab",
+          "size_bytes": 651
+        },
+        "behavior_graph": {
+          "path": "results/evaluation/genesys2-cva6/current/samples/anti_debug_like/behavior_graph.json",
+          "role": "behavior_graph",
+          "sha256": "8ecd9a18bdd536fb1f65b1cb63fdcd1a821881197b70c51558249cc5349d03bb",
+          "size_bytes": 634
+        },
+        "case_study_summary": {
+          "path": "results/evaluation/genesys2-cva6/current/samples/anti_debug_like/case_study_summary.json",
+          "role": "case_study_summary",
+          "sha256": "eb967c1925ba08848560746b64152522ef32d8a460f4ccebd8fa65e6410a8ded",
+          "size_bytes": 6219
+        }
+      },
+      "complete_software_failure_row": true,
+      "hardware_trace": {
+        "decoded_arg_mem_strings": [
+          {
+            "arg_index": 1,
+            "byte_count": 17,
+            "hardware_arg_mem": true,
+            "mem_last_seen": true,
+            "sequence_numbers": [
+              45,
+              46,
+              47
+            ],
+            "string": "/proc/self/status",
+            "syscall_id": "0x00000000000b29d9"
+          }
+        ],
+        "event_count": 62,
+        "event_counts": {
+          "ARG_MEM": 3,
+          "MARKER": 2,
+          "PRIV": 30,
+          "SYSCALL_ENTRY": 5,
+          "SYSCALL_RET": 5,
+          "TRAP": 17
+        },
+        "hardware_strings": [
+          "/proc/self/status"
+        ],
+        "max_unaccounted_drop": 0,
+        "sequence_gaps": [],
+        "syscall_entries": [
+          {
+            "a7": "0x0000000000000071",
+            "name": "clock_gettime",
+            "number": 113,
+            "pc": "0x0001013c",
+            "sequence_number": 4,
+            "syscall_id": "0x00000000000b29d7"
+          },
+          {
+            "a7": "0x0000000000000075",
+            "name": "ptrace",
+            "number": 117,
+            "pc": "0x00010154",
+            "sequence_number": 38,
+            "syscall_id": "0x00000000000b29d8"
+          },
+          {
+            "a7": "0x0000000000000038",
+            "name": "openat",
+            "number": 56,
+            "pc": "0x00010174",
+            "sequence_number": 43,
+            "syscall_id": "0x00000000000b29d9"
+          },
+          {
+            "a7": "0x000000000000003f",
+            "name": "read",
+            "number": 63,
+            "pc": "0x00010190",
+            "sequence_number": 51,
+            "syscall_id": "0x00000000000b29da"
+          },
+          {
+            "a7": "0x0000000000000039",
+            "name": "close",
+            "number": 57,
+            "pc": "0x0001019c",
+            "sequence_number": 56,
+            "syscall_id": "0x00000000000b29db"
+          }
+        ],
+        "syscall_names": [
+          "clock_gettime",
+          "ptrace",
+          "openat",
+          "read",
+          "close"
+        ],
+        "trace": {
+          "path": "results/board/genesys2_trace_validation/20260702-current-safe-surrogate-cohort/anti_debug_like/rep_01/bram_records.jsonl",
+          "role": "genesys2_bram_marker_window_trace",
+          "sha256": "e2fa91a958fec437f87e7e0a54d7f9a0e427d23e0934a6828fe4ad5dabc7c0f7",
+          "size_bytes": 42896
+        }
+      },
+      "paper_row": "anti-debug / tracer visibility",
+      "rvmt_reconstruction": {
+        "behavior_node": "anti_analysis_behavior_node",
+        "behavior_node_present": true,
+        "expected_hardware_strings": [
+          "/proc/self/status"
+        ],
+        "expected_hardware_strings_present": true,
+        "expected_syscalls": [
+          "clock_gettime",
+          "ptrace",
+          "openat",
+          "read",
+          "close"
+        ],
+        "expected_syscalls_present_in_hardware": true,
+        "hardware_strings": [
+          "/proc/self/status"
+        ],
+        "hardware_syscalls": [
+          "clock_gettime",
+          "ptrace",
+          "openat",
+          "read",
+          "close"
+        ],
+        "max_unaccounted_drop": 0,
+        "metric_pass": true,
+        "rvmt_reconstructs": true
+      },
+      "sample_id": "anti_debug_like",
+      "software_baseline": {
+        "anti_debug_host_strace_ptrace_failed": true,
+        "anti_debug_qemu_ptrace_unsupported": true,
+        "host_strace_ptrace_lines": [
+          "ptrace(PTRACE_TRACEME)            = -1 EPERM (Operation not permitted)"
+        ],
+        "host_strace_syscalls": {
+          "access": 1,
+          "arch_prctl": 1,
+          "brk": 1,
+          "clock_gettime": 2,
+          "close": 3,
+          "execve": 1,
+          "exit_group": 1,
+          "fstat": 2,
+          "mmap": 8,
+          "mprotect": 3,
+          "munmap": 1,
+          "openat": 3,
+          "pread64": 2,
+          "prlimit64": 1,
+          "ptrace": 1,
+          "read": 2,
+          "rseq": 1,
+          "set_robust_list": 1,
+          "set_tid_address": 1
+        },
+        "native_strace_visible_by_tracerpid_or_ptrace": true,
+        "qemu_strace_ptrace_lines": [
+          "ptrace(0,0,0,0,-4096,338604) = -1 errno=38 (Function not implemented)"
+        ],
+        "qemu_strace_syscalls": {
+          "brk": 5,
+          "clock_gettime": 2,
+          "close": 1,
+          "exit_group": 1,
+          "getrandom": 1,
+          "mprotect": 1,
+          "openat": 1,
+          "prlimit64": 1,
+          "ptrace": 1,
+          "read": 1,
+          "readlinkat": 1,
+          "set_robust_list": 1,
+          "set_tid_address": 1
+        },
+        "qemu_user_ptrace_unsupported_in_visibility_probe": true,
+        "software_tracer_fails": true
+      },
+      "status": "PASS_SOFTWARE_TRACER_FAILS_RVMT_RECONSTRUCTS",
+      "supporting_reconstruction_row": false
+    },
+    {
+      "artifacts": {
+        "baseline_logs": {
+          "path": "results/evaluation/genesys2-cva6/current/samples/process_chain/baseline_logs.json",
+          "role": "software_baseline_logs",
+          "sha256": "a5cdfbd8fef1944018bbdd4d0890c9a23732acc2117bd701ce5988b12482df60",
+          "size_bytes": 12627
+        },
+        "behavior_audit_metrics": {
+          "path": "results/evaluation/genesys2-cva6/current/samples/process_chain/behavior_audit_metrics.json",
+          "role": "behavior_audit_metrics",
+          "sha256": "2c50e026aaa1207922a0c4aa7198c68a16779ce44ca7624ab4d605ec413e0b60",
+          "size_bytes": 649
+        },
+        "behavior_graph": {
+          "path": "results/evaluation/genesys2-cva6/current/samples/process_chain/behavior_graph.json",
+          "role": "behavior_graph",
+          "sha256": "95bf19c4c246d334bb7243b8dda73e94b877d7929ca4584e6534aecbe0fa2546",
+          "size_bytes": 631
+        },
+        "case_study_summary": {
+          "path": "results/evaluation/genesys2-cva6/current/samples/process_chain/case_study_summary.json",
+          "role": "case_study_summary",
+          "sha256": "c5473ffad3ee1baccf6738437719a6456652221ce81dc51f872bb61d27ede492",
+          "size_bytes": 6132
+        }
+      },
+      "complete_software_failure_row": false,
+      "hardware_trace": {
+        "decoded_arg_mem_strings": [
+          {
+            "arg_index": 0,
+            "byte_count": 25,
+            "hardware_arg_mem": true,
+            "mem_last_seen": true,
+            "sequence_numbers": [
+              23,
+              24,
+              25,
+              26
+            ],
+            "string": "/path/that/does/not/exist",
+            "syscall_id": "0x00000000000ae23e"
+          },
+          {
+            "arg_index": 0,
+            "byte_count": 25,
+            "hardware_arg_mem": true,
+            "mem_last_seen": true,
+            "sequence_numbers": [
+              66,
+              67,
+              68,
+              69
+            ],
+            "string": "/path/that/does/not/exist",
+            "syscall_id": "0x00000000000ae23f"
+          }
+        ],
+        "event_count": 80,
+        "event_counts": {
+          "ARG_MEM": 8,
+          "MARKER": 2,
+          "PRIV": 40,
+          "SYSCALL_ENTRY": 4,
+          "SYSCALL_RET": 4,
+          "TRAP": 22
+        },
+        "hardware_strings": [
+          "/path/that/does/not/exist",
+          "/path/that/does/not/exist"
+        ],
+        "max_unaccounted_drop": 0,
+        "sequence_gaps": [],
+        "syscall_entries": [
+          {
+            "a7": "0x00000000000000dc",
+            "name": "clone",
+            "number": 220,
+            "pc": "0x00010144",
+            "sequence_number": 4,
+            "syscall_id": "0x00000000000ae23d"
+          },
+          {
+            "a7": "0x00000000000000dd",
+            "name": "execve",
+            "number": 221,
+            "pc": "0x00010160",
+            "sequence_number": 21,
+            "syscall_id": "0x00000000000ae23e"
+          },
+          {
+            "a7": "0x00000000000000dd",
+            "name": "execve",
+            "number": 221,
+            "pc": "0x00010160",
+            "sequence_number": 64,
+            "syscall_id": "0x00000000000ae23f"
+          },
+          {
+            "a7": "0x000000000000005f",
+            "name": "waitid",
+            "number": 95,
+            "pc": "0x00010180",
+            "sequence_number": 73,
+            "syscall_id": "0x00000000000ae240"
+          }
+        ],
+        "syscall_names": [
+          "clone",
+          "execve",
+          "execve",
+          "waitid"
+        ],
+        "trace": {
+          "path": "results/board/genesys2_trace_validation/20260702-current-safe-surrogate-cohort/process_chain/rep_01/bram_records.jsonl",
+          "role": "genesys2_bram_marker_window_trace",
+          "sha256": "b67b73c5e6a67876beeaa0d938ef57237fc2860c96b260e005f497dc24b63789",
+          "size_bytes": 56587
+        }
+      },
+      "paper_row": "direct syscall fork/exec chain",
+      "rvmt_reconstruction": {
+        "behavior_node": "has_execve",
+        "behavior_node_present": true,
+        "expected_hardware_strings": [],
+        "expected_hardware_strings_present": true,
+        "expected_syscalls": [
+          "clone",
+          "execve",
+          "waitid"
+        ],
+        "expected_syscalls_present_in_hardware": true,
+        "hardware_strings": [
+          "/path/that/does/not/exist",
+          "/path/that/does/not/exist"
+        ],
+        "hardware_syscalls": [
+          "clone",
+          "execve",
+          "execve",
+          "waitid"
+        ],
+        "max_unaccounted_drop": 0,
+        "metric_pass": true,
+        "rvmt_reconstructs": true
+      },
+      "sample_id": "process_chain",
+      "software_baseline": {
+        "anti_debug_host_strace_ptrace_failed": false,
+        "anti_debug_qemu_ptrace_unsupported": false,
+        "host_strace_ptrace_lines": [],
+        "host_strace_syscalls": {
+          "access": 3,
+          "arch_prctl": 3,
+          "brk": 3,
+          "clone": 2,
+          "close": 6,
+          "execve": 3,
+          "exit_group": 3,
+          "fstat": 6,
+          "mmap": 24,
+          "mprotect": 9,
+          "munmap": 3,
+          "openat": 6,
+          "pread64": 6,
+          "prlimit64": 3,
+          "read": 3,
+          "rseq": 3,
+          "set_robust_list": 3,
+          "set_tid_address": 3,
+          "waitid": 2
+        },
+        "native_strace_visible_by_tracerpid_or_ptrace": true,
+        "qemu_strace_ptrace_lines": [],
+        "qemu_strace_syscalls": {
+          "brk": 5,
+          "clone": 2,
+          "execve": 2,
+          "exit_group": 1,
+          "getrandom": 1,
+          "mprotect": 1,
+          "prlimit64": 1,
+          "readlinkat": 1,
+          "set_robust_list": 1,
+          "set_tid_address": 1,
+          "waitid": 2
+        },
+        "qemu_user_ptrace_unsupported_in_visibility_probe": true,
+        "software_tracer_fails": false
+      },
+      "status": "PASS_RVMT_RECONSTRUCTS_NO_SOFTWARE_FAILURE_DEMONSTRATED",
+      "supporting_reconstruction_row": true
+    },
+    {
+      "artifacts": {
+        "baseline_logs": {
+          "path": "results/evaluation/genesys2-cva6/current/samples/dynamic_executable_memory/baseline_logs.json",
+          "role": "software_baseline_logs",
+          "sha256": "05f633975adebd39c21c52809840ac47035e847e41c66788f5ff8925c9cc7676",
+          "size_bytes": 6613
+        },
+        "behavior_audit_metrics": {
+          "path": "results/evaluation/genesys2-cva6/current/samples/dynamic_executable_memory/behavior_audit_metrics.json",
+          "role": "behavior_audit_metrics",
+          "sha256": "a9434378c38c4dae3d8c8d6486ab2cd30f0d97b3d434601f0d2b86a44f2d43b9",
+          "size_bytes": 661
+        },
+        "behavior_graph": {
+          "path": "results/evaluation/genesys2-cva6/current/samples/dynamic_executable_memory/behavior_graph.json",
+          "role": "behavior_graph",
+          "sha256": "c7fa300cdd15b5b021de27ba0ee74180299eccb4a9777197027668dd9e52c1ca",
+          "size_bytes": 655
+        },
+        "case_study_summary": {
+          "path": "results/evaluation/genesys2-cva6/current/samples/dynamic_executable_memory/case_study_summary.json",
+          "role": "case_study_summary",
+          "sha256": "71b4c7638f01eff7962ff89a03c8f31bcdf7b1e0d8cb4ec7ad48d0431e581b60",
+          "size_bytes": 6362
+        }
+      },
+      "complete_software_failure_row": false,
+      "hardware_trace": {
+        "decoded_arg_mem_strings": [],
+        "event_count": 20,
+        "event_counts": {
+          "MARKER": 2,
+          "PRIV": 8,
+          "SYSCALL_ENTRY": 3,
+          "SYSCALL_RET": 3,
+          "TRAP": 4
+        },
+        "hardware_strings": [],
+        "max_unaccounted_drop": 0,
+        "sequence_gaps": [],
+        "syscall_entries": [
+          {
+            "a7": "0x00000000000000de",
+            "name": "mmap",
+            "number": 222,
+            "pc": "0x0001014c",
+            "sequence_number": 4,
+            "syscall_id": "0x00000000000b04fe"
+          },
+          {
+            "a7": "0x00000000000000e2",
+            "name": "mprotect",
+            "number": 226,
+            "pc": "0x00010168",
+            "sequence_number": 9,
+            "syscall_id": "0x00000000000b04ff"
+          },
+          {
+            "a7": "0x00000000000000d7",
+            "name": "munmap",
+            "number": 215,
+            "pc": "0x0001017c",
+            "sequence_number": 14,
+            "syscall_id": "0x00000000000b0500"
+          }
+        ],
+        "syscall_names": [
+          "mmap",
+          "mprotect",
+          "munmap"
+        ],
+        "trace": {
+          "path": "results/board/genesys2_trace_validation/20260702-current-safe-surrogate-cohort/dynamic_executable_memory/rep_01/bram_records.jsonl",
+          "role": "genesys2_bram_marker_window_trace",
+          "sha256": "3ca122ed65c11ee2461c44730ab7add8dd22ae0e9f9fc345f7abe044713ae228",
+          "size_bytes": 13545
+        }
+      },
+      "paper_row": "dynamic executable memory",
+      "rvmt_reconstruction": {
+        "behavior_node": "mmap_mprotect_behavior_node",
+        "behavior_node_present": true,
+        "expected_hardware_strings": [],
+        "expected_hardware_strings_present": true,
+        "expected_syscalls": [
+          "mmap",
+          "mprotect",
+          "munmap"
+        ],
+        "expected_syscalls_present_in_hardware": true,
+        "hardware_strings": [],
+        "hardware_syscalls": [
+          "mmap",
+          "mprotect",
+          "munmap"
+        ],
+        "max_unaccounted_drop": 0,
+        "metric_pass": true,
+        "rvmt_reconstructs": true
+      },
+      "sample_id": "dynamic_executable_memory",
+      "software_baseline": {
+        "anti_debug_host_strace_ptrace_failed": false,
+        "anti_debug_qemu_ptrace_unsupported": false,
+        "host_strace_ptrace_lines": [],
+        "host_strace_syscalls": {
+          "access": 1,
+          "arch_prctl": 1,
+          "brk": 1,
+          "close": 2,
+          "execve": 1,
+          "exit_group": 1,
+          "fstat": 2,
+          "mmap": 9,
+          "mprotect": 5,
+          "munmap": 2,
+          "openat": 2,
+          "pread64": 2,
+          "prlimit64": 1,
+          "read": 1,
+          "rseq": 1,
+          "set_robust_list": 1,
+          "set_tid_address": 1
+        },
+        "native_strace_visible_by_tracerpid_or_ptrace": true,
+        "qemu_strace_ptrace_lines": [],
+        "qemu_strace_syscalls": {
+          "brk": 5,
+          "exit_group": 1,
+          "getrandom": 1,
+          "mmap": 1,
+          "mprotect": 3,
+          "munmap": 1,
+          "prlimit64": 1,
+          "readlinkat": 1,
+          "set_robust_list": 1,
+          "set_tid_address": 1
+        },
+        "qemu_user_ptrace_unsupported_in_visibility_probe": true,
+        "software_tracer_fails": false
+      },
+      "status": "PASS_RVMT_RECONSTRUCTS_NO_SOFTWARE_FAILURE_DEMONSTRATED",
+      "supporting_reconstruction_row": true
+    }
+  ],
+  "claim_boundary": {
+    "complete_software_failure_rows_limited_to_listed_samples": true,
+    "controlled_safe_workloads_only": true,
+    "general_hardware_invisibility_claimed": false,
+    "malware_detection_accuracy_claimed": false,
+    "production_streaming_dma_throughput_claimed": false,
+    "qemu_and_strace_are_oracles_only": true,
+    "real_malware_validation_claimed": false
+  },
+  "non_claims": [
+    "Only anti_debug_like currently forms a complete software-tracer-fails/RVMT-reconstructs row.",
+    "process_chain and dynamic_executable_memory are supporting reconstruction rows; they do not demonstrate software tracer failure.",
+    "This summary does not claim real-malware validation, malware-family coverage, or malware detection accuracy."
+  ],
+  "schema": "rvmt.genesys2.evasion_comparison.v1",
+  "source_artifacts": {
+    "case_study_manifest": {
+      "path": "results/evaluation/genesys2-cva6/current/case_study_manifest.json",
+      "role": "case_study_manifest",
+      "sha256": "712d434b7e5f60a507c88c2bbb6d6d8eb535033508482e6a7eb95162706e684b",
+      "size_bytes": 12295
+    },
+    "safe_surrogate_bram_trace_summary": {
+      "path": "results/evaluation/genesys2-cva6/current/safe_surrogate_bram_trace_summary.json",
+      "role": "genesys2_safe_surrogate_bram_trace_summary",
+      "sha256": "abac75a6d47d691644b78864429d3921057f7872f9a992a2db111d1baa05f67b",
+      "size_bytes": 276021
+    },
+    "tracer_visibility_baseline": {
+      "path": "results/evaluation/genesys2-cva6/current/tracer_visibility_baseline_summary.json",
+      "role": "software_tracer_visibility_baseline",
+      "sha256": "9f2685ad56393a8f80bc3863613c246cad87e532cc056175284a732312b0f9dd",
+      "size_bytes": 6780
+    }
+  },
+  "status": "PASS_HARDWARE_BACKED_ANTI_DEBUG_EVASION_COMPARISON",
+  "summary": {
+    "complete_failure_samples": [
+      "anti_debug_like"
+    ],
+    "hardware_backed_software_failure_rows": 1,
+    "supporting_reconstruction_rows": 2,
+    "supporting_samples": [
+      "process_chain",
+      "dynamic_executable_memory"
+    ]
+  },
+  "validation_commands": [
+    "uv run python tools/package_genesys2_evasion_comparison.py --root .",
+    "uv run python tools/check_genesys2_evasion_comparison.py --root ."
+  ]
+}

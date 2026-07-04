@@ -91,9 +91,12 @@ def main() -> int:
             "--pre-read",
             "0.2",
             "--between-read",
-            "0.7",
+            "30.0",
             "--post-read",
-            "6.0",
+            "30.0",
+            "--send-char-delay",
+            "0.004",
+            "--read-until-prompt",
         ]
         for command in DIAGNOSTIC_COMMANDS:
             capture_cmd.extend(["--command-b64", base64.b64encode(command.encode("utf-8")).decode("ascii")])

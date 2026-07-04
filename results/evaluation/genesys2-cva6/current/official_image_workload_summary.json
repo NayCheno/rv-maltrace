@@ -27,15 +27,15 @@
     "sdcard_linux_manifest": {
       "exists": true,
       "path": "results/evaluation/genesys2-cva6/current/sdcard_linux_manifest.json",
-      "sha256": "4194adc31c9a709bb02623f8464058aa11108dcfe01d136e4b08ac5a871c205d",
-      "size_bytes": 10439
+      "sha256": "1b1d71c5921624a2dd3218eb6db630ab08d768ef4337dd104c8dbab394244108",
+      "size_bytes": 10834
     }
   },
   "blocked_reason": null,
   "board": "Digilent Genesys2",
   "busybox": {
     "path": "/bin/busybox",
-    "sha256": "3d045aecebcb734c730fb6f7f41f3d17767112ab44372b0e80a8bc16ae3d1c4f",
+    "sha256": "ed8806aed3f3ff1d6de1c413a75c5564a79fb8f1513c165a8cbf98633b94be38",
     "source": "results/evaluation/genesys2-cva6/current/sdcard_linux_manifest.json"
   },
   "claim_boundary": {

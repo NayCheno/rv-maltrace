@@ -111,7 +111,7 @@
     "summary": {
       "exists": true,
       "path": "results/evaluation/genesys2-cva6/current/official_image_workload_summary.json",
-      "sha256": "6b5c7b53622b8b61206da176236ef2ab782a0be18ce0e123d5b4f3cfbdd9b559",
+      "sha256": "e7402a70c051a81be9a4f7c6608199de4177c7b48f1568d6f850d15a8c9b5473",
       "size_bytes": 29547
     }
   },

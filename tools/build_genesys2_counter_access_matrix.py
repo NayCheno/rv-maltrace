@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from genesys2_experiment_common import HOSTED_STATIC_GCC_FLAGS, ProbeBuildSpec, build_probe_elf
+from genesys2_experiment_common import HOSTED_DYNAMIC_GCC_FLAGS, ProbeBuildSpec, build_probe_elf
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -13,7 +13,7 @@ DEFAULT_MANIFEST = DEFAULT_OUT_ROOT / "build_manifest.json"
 BUILD_SPEC = ProbeBuildSpec(
     schema="rvmt.genesys2.counter_access_matrix_build.v1",
     binary_name="counter_access_matrix.riscv64",
-    gcc_flags=HOSTED_STATIC_GCC_FLAGS,
+    gcc_flags=HOSTED_DYNAMIC_GCC_FLAGS,
     extra_manifest_fields={
         "probe_scope": "user-visible RISC-V counter CSRs and Linux clock_gettime sources",
     },

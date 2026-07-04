@@ -1,0 +1,24 @@
+\begin{table*}[t]
+\centering
+\caption{Runtime, cycle-window, and transport evidence boundaries.}
+\label{tab:runtime-transport-boundary}
+\scriptsize
+\begin{tabularx}{\textwidth}{p{0.20\textwidth}p{0.23\textwidth}p{0.32\textwidth}Y}
+\toprule
+Question & Evidence & Current result & Boundary \\
+\midrule
+Board runtime smoke &
+Runtime benchmark summary &
+96 board repetitions over 8 samples and 4 modes. Median UART-marker duration is 9s for \texttt{trace\_off}, \texttt{event\_only}, \texttt{bram\_ring}, and pointer-snapshot-disabled runs; median ratios versus \texttt{trace\_off} are 1.0. &
+UART wall-clock markers include shell scheduling and serial observation noise; this is not a cycle-level slowdown claim. \\
+Hardware marker-window cycles &
+Hardware cycle-window summary &
+5 accepted BRAM marker-window repetitions. The FPGA trace-packet cycle delta has median 215,134 cycles, with min 171,750 and max 281,990. &
+The cycle source is the \rvmt FPGA trace field; this does not compare trace-off versus trace-on execution. \\
+Production transport target &
+Streaming target and readiness summaries &
+130 accepted BRAM repetitions establish a future transport target: p99 event-byte rate is 0.0213 bytes/cycle and no BRAM drops or wraps are observed. &
+BRAM/JTAG is not substituted for streaming/DMA; host receiver losslessness, timing closure, and production throughput remain unclaimed. \\
+\bottomrule
+\end{tabularx}
+\end{table*}

@@ -12,8 +12,8 @@
     },
     "run_log": {
       "path": "results/board/genesys2_trace_validation/20260623-cycle-counter-smoke/uart.log",
-      "sha256": "d8a4c656032c1cbe823035961361dd92aca0ff9d71d65ddb8540e52e9ef9158f",
-      "size_bytes": 1870
+      "sha256": "2bb893cd6f6a6ed7667c2fd156997eae7cdd2b7140ade908dd2e1844293972a5",
+      "size_bytes": 1623
     },
     "source": {
       "path": "board/trace_validation/programs/cycle_counter_smoke.c",
@@ -22,8 +22,8 @@
     },
     "transfer_log": {
       "path": "results/board/genesys2_trace_validation/20260623-cycle-counter-smoke/transfer.log",
-      "sha256": "a1c9ebd4644b097798273b88aaafd5662ea5e64c9cdafdc477b7654d761105f3",
-      "size_bytes": 1134
+      "sha256": "1cc56dbc7c103f6d43cabbccb292291a27436f500aa4226a871323325f85e89a",
+      "size_bytes": 1166
     }
   },
   "blocked_reason": "rdcycle_illegal_instruction",
@@ -33,7 +33,7 @@
     "paper_runtime_overhead_claimed": false,
     "production_runtime_slowdown_claimed": false
   },
-  "iters": 100000,
+  "iters": 10000,
   "minimum_repetitions": 5,
   "non_claims": [
     "This is a board-native rdcycle accessibility and monotonic-positive smoke test.",

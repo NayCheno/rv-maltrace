@@ -16,6 +16,7 @@ FREESTANDING_GCC_FLAGS = (
     "-Wl,--build-id=none -Wl,-e,_start"
 )
 HOSTED_STATIC_GCC_FLAGS = "-O2 -static -s -Wall -Wextra -Wl,--build-id=none"
+HOSTED_DYNAMIC_GCC_FLAGS = "-O2 -s -Wall -Wextra -Wl,--build-id=none"
 
 
 @dataclass(frozen=True)
@@ -210,10 +211,18 @@ def transfer_binary(
             target,
             "--log",
             str(transfer_log),
+            "--chunk-lines",
+            "1",
             "--chunk-read",
-            "0.25",
+            "10.0",
             "--final-read",
             "3.0",
+            "--line-delay",
+            "0.01",
+            "--send-char-delay",
+            "0.001",
+            "--prompt-token",
+            "# ",
             "--disable-echo",
         ],
         cwd=root,
@@ -244,6 +253,9 @@ def capture_board_command(
             "0.2",
             "--post-read",
             post_read,
+            "--send-char-delay",
+            "0.004",
+            "--read-until-prompt",
             board_command,
         ],
         cwd=root,

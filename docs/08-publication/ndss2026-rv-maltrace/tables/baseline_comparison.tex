@@ -1,0 +1,36 @@
+\begin{table*}[t]
+\centering
+\caption{Reference and baseline routes used in the evaluation.}
+\label{tab:baseline-comparison}
+\scriptsize
+\begin{tabularx}{\textwidth}{p{0.17\textwidth}p{0.24\textwidth}p{0.24\textwidth}Y}
+\toprule
+Route & Role in evaluation & Evidence checked & Claim boundary \\
+\midrule
+\texttt{strace} &
+Native syscall reference &
+Host syscall logs are present and alignment checks pass &
+Validation oracle only; the tracer is software-visible and not reported as hardware recovery. \\
+QEMU-user+\texttt{strace} &
+RISC-V syscall reference under emulation &
+QEMU syscall transcripts are present and alignment checks pass &
+Emulator/reference route only; unsupported or perturbed syscalls are baseline observations. \\
+Source-equivalent sidecar &
+Source-label and behavior-graph reference &
+Repository source-line sidecar and behavior graph artifacts are present &
+Software instrumentation reference only; not a board-native source-line recovery claim. \\
+\rvmt event-only &
+Hardware syscall/control-event stream &
+Genesys2 BRAM/ILA event summaries are present &
+Hardware event path; pointer strings and fd/path semantics are outside this route. \\
+\rvmt companion semantics &
+Reference route for path and pointer semantics &
+Semantic-reconstruction summaries are present &
+Companion/reference evidence is labeled separately and never counted as hardware-derived fields. \\
+\rvmt pointer snapshot &
+Bounded-prefix hardware memory evidence &
+Pointer-snapshot guardrails are present and pass &
+Hardware \texttt{ARG\_MEM} route with prefix bounds; not a full memory dump. \\
+\bottomrule
+\end{tabularx}
+\end{table*}

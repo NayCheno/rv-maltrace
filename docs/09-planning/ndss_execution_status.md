@@ -58,8 +58,8 @@ experiment is marked PASS.
 
 - Raw artifact release candidate:
   `build/ndss_artifacts/rv-maltrace-genesys2-cva6-current-raw-artifacts.zip`
-  SHA256 `d88dc671ca2ab90d72a6b5d6340a6726d98572a41988b9f1ca499e4fff6eac04`,
-  file count 1998, size 285238085 bytes.
+  SHA256 `9cce9f14f9dc7f2602f0f7ecab2fec6d16d284a396cfba861091ffefe6008f86`,
+  file count 2033, size 286007909 bytes.
 - Host LaTeX skeleton build:
   `results/evaluation/genesys2-cva6/current/host_latex_build_summary.json`
   SHA256 `b5a30117261a9f58529ef93248adacf1b4607e49f9dec980767b3fe60438b135`;
@@ -187,7 +187,9 @@ experiment is marked PASS.
   been performed because the user is away from the card and no safe host target
   is currently available.
 - Genesys2 boot from the newly built SD image has not been captured.
-- Live kernel config export from the newly built board image remains blocked.
+- Live kernel config export now passes for the current board image via
+  `/proc/config.gz`; it remains a config anchor only, not a board cycle-source
+  or overhead claim.
 - PMU/SBI PMU, user `rdcycle`, kernel perf cycles, and cycle-level overhead
   remain unproved on board. Existing board summaries are truthful BLOCKED
   evidence only.

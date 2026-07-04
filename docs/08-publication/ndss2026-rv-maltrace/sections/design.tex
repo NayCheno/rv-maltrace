@@ -29,11 +29,13 @@ evidence is not widened by permissive timing rules.
 
 Our insight is that capturing events at instruction retirement observes
 committed behavior that cannot be rolled back or speculative.
-This ensures the trace is transparent to software: the workload cannot
-detect, evade, or interfere with the trace adapter.
-Because the adapter observes only committed architectural state, the
-target process has no mechanism to discover whether tracing is active
-or to alter its behavior based on trace presence.
+This places the observation point outside the target process and below
+software tracing APIs such as \texttt{ptrace} or \texttt{strace}.
+Because the adapter observes committed architectural state through the
+hardware trace path, user-space anti-debug checks do not directly observe
+the trace adapter in the way they observe software tracers. We still treat
+general hardware invisibility and trace-off slowdown as evaluation claims
+that require separate evidence.
 
 \subsection{Source-Labeled Reconstruction}
 \label{sec:design:labels}

@@ -4,9 +4,9 @@
     "build_dir": "/workspace/genesys2-cva6-linux-build/buildroot-output",
     "build_work_dir": "/workspace/genesys2-cva6-linux-build",
     "configure_requested": true,
-    "execute_requested": false,
+    "execute_requested": true,
     "expected_sha256": null,
-    "fetch_requested": true,
+    "fetch_requested": false,
     "repo_work_dir": "build/linux/genesys2-cva6",
     "source_dir": "/workspace/genesys2-cva6-linux-build/buildroot-2026.02",
     "url": "https://buildroot.org/downloads/buildroot-2026.02.tar.gz",
@@ -15,8 +15,8 @@
   "canonical_evaluation_root": "results/evaluation/genesys2-cva6/current",
   "claim_boundary": {
     "board_cycle_source_claimed": false,
-    "boot_payload_built": false,
-    "buildroot_or_opensbi_compiled": false,
+    "boot_payload_built": true,
+    "buildroot_or_opensbi_compiled": true,
     "docker_buildroot_preparation_executed": true,
     "genesys2_board_booted_from_this_image": false,
     "genesys2_sd_card_written": false,
@@ -34,6 +34,26 @@
       ],
       "cwd": "/workspace/genesys2-cva6-linux-build/buildroot-2026.02",
       "output_tail": "  GEN     /workspace/genesys2-cva6-linux-build/buildroot-output/Makefile\n#\n# configuration written to /workspace/genesys2-cva6-linux-build/buildroot-output/.config\n#\n",
+      "returncode": 0
+    },
+    {
+      "command": [
+        "make",
+        "O=/workspace/genesys2-cva6-linux-build/buildroot-output",
+        "-j8"
+      ],
+      "cwd": "/workspace/genesys2-cva6-linux-build/buildroot-2026.02",
+      "output_tail": "2-cva6-linux-build/buildroot-output/target CROSS_COMPILE=\"/workspace/genesys2-cva6-linux-build/buildroot-output/host/bin/riscv64-buildroot-linux-gnu-\" WERROR=0 REGENERATE_PARSERS=1 DEPMOD=/workspace/genesys2-cva6-linux-build/buildroot-output/host/sbin/depmod INSTALL_MOD_STRIP=1 -C /workspace/genesys2-cva6-linux-build/buildroot-output/build/linux-6.19.6 Image\nmake[1]: warning: jobserver unavailable: using -j1.  Add '+' to parent make rule.\nmake[1]: Entering directory '/workspace/genesys2-cva6-linux-build/buildroot-output/build/linux-6.19.6'\n  CALL    scripts/checksyscalls.sh\n  GZIP    usr/initramfs_inc_data\n  AS      usr/initramfs_data.o\n  AR      usr/built-in.a\n  AR      built-in.a\n  AR      vmlinux.a\n  LD      vmlinux.o\n  MODPOST vmlinux.symvers\n  UPD     include/generated/utsversion.h\n  CC      init/version-timestamp.o\n  KSYMS   .tmp_vmlinux0.kallsyms.S\n  AS      .tmp_vmlinux0.kallsyms.o\n  LD      .tmp_vmlinux1\n  NM      .tmp_vmlinux1.syms\n  KSYMS   .tmp_vmlinux1.kallsyms.S\n  AS      .tmp_vmlinux1.kallsyms.o\n  LD      .tmp_vmlinux2\n  NM      .tmp_vmlinux2.syms\n  KSYMS   .tmp_vmlinux2.kallsyms.S\n  AS      .tmp_vmlinux2.kallsyms.o\n  LD      vmlinux.unstripped\n  NM      System.map\n  SORTTAB vmlinux.unstripped\n  OBJCOPY vmlinux\n  GEN     modules.builtin.modinfo\n  GEN     modules.builtin\n  OBJCOPY arch/riscv/boot/Image\n  Kernel: arch/riscv/boot/Image is ready\nmake[1]: Leaving directory '/workspace/genesys2-cva6-linux-build/buildroot-output/build/linux-6.19.6'\n# Copy the kernel image(s) to its(their) final destination\n/usr/bin/install -m 0644 -D /workspace/genesys2-cva6-linux-build/buildroot-output/build/linux-6.19.6/arch/riscv/boot/Image /workspace/genesys2-cva6-linux-build/buildroot-output/images/Image\n# If there is a .ub file copy it to the final destination\ntest ! -f /workspace/genesys2-cva6-linux-build/buildroot-output/build/linux-6.19.6/arch/riscv/boot/Image.ub || cp /workspace/genesys2-cva6-linux-build/buildroot-output/build/linux-6.19.6/arch/riscv/boot/Image.ub /workspace/genesys2-cva6-linux-build/buildroot-output/images\n>>>   Generating filesystem image rootfs.tar\nmkdir -p /workspace/genesys2-cva6-linux-build/buildroot-output/images\nrm -rf /workspace/genesys2-cva6-linux-build/buildroot-output/build/buildroot-fs/tar\nmkdir -p /workspace/genesys2-cva6-linux-build/buildroot-output/build/buildroot-fs/tar\nrsync -auH --exclude=/THIS_IS_NOT_YOUR_ROOT_FILESYSTEM /workspace/genesys2-cva6-linux-build/buildroot-output/target/ /workspace/genesys2-cva6-linux-build/buildroot-output/build/buildroot-fs/tar/target\necho '#!/bin/sh' > /workspace/genesys2-cva6-linux-build/buildroot-output/build/buildroot-fs/tar/fakeroot\necho \"set -e\" >> /workspace/genesys2-cva6-linux-build/buildroot-output/build/buildroot-fs/tar/fakeroot\necho \"chown -h -R 0:0 /workspace/genesys2-cva6-linux-build/buildroot-output/build/buildroot-fs/tar/target\" >> /workspace/genesys2-cva6-linux-build/buildroot-output/build/buildroot-fs/tar/fakeroot\nPATH=\"/workspace/genesys2-cva6-linux-build/buildroot-output/host/bin:/workspace/genesys2-cva6-linux-build/buildroot-output/host/sbin:/tmp/rvmt-uv-env/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\" /workspace/genesys2-cva6-linux-build/buildroot-2026.02/support/scripts/mkusers /workspace/genesys2-cva6-linux-build/buildroot-output/build/buildroot-fs/full_users_table.txt /workspace/genesys2-cva6-linux-build/buildroot-output/build/buildroot-fs/tar/target >> /workspace/genesys2-cva6-linux-build/buildroot-output/build/buildroot-fs/tar/fakeroot\necho \"/workspace/genesys2-cva6-linux-build/buildroot-output/host/bin/makedevs -d /workspace/genesys2-cva6-linux-build/buildroot-output/build/buildroot-fs/full_devices_table.txt /workspace/genesys2-cva6-linux-build/buildroot-output/build/buildroot-fs/tar/target\" >> /workspace/genesys2-cva6-linux-build/buildroot-output/build/buildroot-fs/tar/fakeroot\nprintf '   \trm -rf /workspace/genesys2-cva6-linux-build/buildroot-output/build/buildroot-fs/tar/target/usr/lib/udev/hwdb.d/ /workspace/genesys2-cva6-linux-build/buildroot-output/build/buildroot-fs/tar/target/etc/udev/hwdb.d/\\n' >> /workspace/genesys2-cva6-linux-build/buildroot-output/build/buildroot-fs/tar/fakeroot\necho \"find /workspace/genesys2-cva6-linux-build/buildroot-output/build/buildroot-fs/tar/target/run/ -mindepth 1 -prune -print0 | xargs -0r rm -rf --\" >> /workspace/genesys2-cva6-linux-build/buildroot-output/build/buildroot-fs/tar/fakeroot\necho \"find /workspace/genesys2-cva6-linux-build/buildroot-output/build/buildroot-fs/tar/target/tmp/ -mindepth 1 -prune -print0 | xargs -0r rm -rf --\" >> /workspace/genesys2-cva6-linux-build/buildroot-output/build/buildroot-fs/tar/fakeroot\nprintf '   \\n' >> /workspace/genesys2-cva6-linux-build/buildroot-output/build/buildroot-fs/tar/fakeroot\nprintf '   \\n' >> /workspace/genesys2-cva6-linux-build/buildroot-output/build/buildroot-fs/tar/fakeroot\nprintf '   \t(cd /workspace/genesys2-cva6-linux-build/buildroot-output/build/buildroot-fs/tar/target; find -print0 | LC_ALL=C sort -z | tar  --pax-option=exthdr.name=%%d/PaxHeaders/%%f,atime:=0,ctime:=0 -cf /workspace/genesys2-cva6-linux-build/buildroot-output/images/rootfs.tar --null --xattrs-include='\\''*'\\'' --no-recursion -T - --numeric-owner)\\n' >> /workspace/genesys2-cva6-linux-build/buildroot-output/build/buildroot-fs/tar/fakeroot\nchmod a+x /workspace/genesys2-cva6-linux-build/buildroot-output/build/buildroot-fs/tar/fakeroot\nPATH=\"/workspace/genesys2-cva6-linux-build/buildroot-output/host/bin:/workspace/genesys2-cva6-linux-build/buildroot-output/host/sbin:/tmp/rvmt-uv-env/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\" FAKEROOTDONTTRYCHOWN=1 /workspace/genesys2-cva6-linux-build/buildroot-output/host/bin/fakeroot -- /workspace/genesys2-cva6-linux-build/buildroot-output/build/buildroot-fs/tar/fakeroot\nrootdir=/workspace/genesys2-cva6-linux-build/buildroot-output/build/buildroot-fs/tar/target\ntable='/workspace/genesys2-cva6-linux-build/buildroot-output/build/buildroot-fs/full_devices_table.txt'\n",
+      "returncode": 0
+    },
+    {
+      "command": [
+        "bash",
+        "-lc",
+        "\nset -euo pipefail\nrootfs_cpio=/workspace/genesys2-cva6-linux-build/buildroot-output/images/rootfs.cpio\nlinux_build=/workspace/genesys2-cva6-linux-build/buildroot-output/build/linux-6.19.6\nhost_prefix=/workspace/genesys2-cva6-linux-build/buildroot-output/host/bin/riscv64-buildroot-linux-gnu-\nif [ ! -f \"$rootfs_cpio\" ]; then\n  echo \"rootfs.cpio missing: $rootfs_cpio\" >&2\n  exit 11\nfi\nif [ ! -f \"$linux_build/.config\" ]; then\n  echo \"linux .config missing: $linux_build/.config\" >&2\n  exit 12\nfi\n\"$linux_build/scripts/config\" --file \"$linux_build/.config\" --enable BLK_DEV_INITRD\n\"$linux_build/scripts/config\" --file \"$linux_build/.config\" --set-str INITRAMFS_SOURCE \"$rootfs_cpio\"\nmake -C \"$linux_build\" ARCH=riscv CROSS_COMPILE=\"$host_prefix\" olddefconfig\nmake -C \"$linux_build\" ARCH=riscv CROSS_COMPILE=\"$host_prefix\" -j8 Image\ninstall -m 0644 -D \"$linux_build/arch/riscv/boot/Image\" \"/workspace/genesys2-cva6-linux-build/buildroot-output/images/Image\"\nmake O=/workspace/genesys2-cva6-linux-build/buildroot-output opensbi-rebuild\n"
+      ],
+      "cwd": "/workspace/genesys2-cva6-linux-build/buildroot-2026.02",
+      "output_tail": "net/ipv4/inet_fragment.o\n  AR      net/ipv6/built-in.a\n  CC      net/ipv4/ping.o\n  CC      net/ipv4/ip_tunnel_core.o\n  CC      net/ipv4/gre_offload.o\n  CC      net/ipv4/metrics.o\n  CC      net/ipv4/netlink.o\n  CC      net/ipv4/nexthop.o\n  CC      net/ipv4/udp_tunnel_stub.o\n  CC      net/ipv4/ip_tunnel.o\n  CC      net/ipv4/sysctl_net_ipv4.o\n  CC      net/ipv4/proc.o\n  CC      net/ipv4/tunnel4.o\n  CC      net/ipv4/inet_diag.o\n  CC      net/ipv4/tcp_diag.o\n  CC      net/ipv4/tcp_cubic.o\n  CC      net/ipv4/tcp_bpf.o\n  CC      net/ipv4/udp_bpf.o\n  AR      net/ipv4/built-in.a\n  AR      net/built-in.a\n  AR      built-in.a\n  AR      vmlinux.a\n  LD      vmlinux.o\n  MODPOST vmlinux.symvers\n  CC      .vmlinux.export.o\n  UPD     include/generated/utsversion.h\n  CC      init/version-timestamp.o\n  KSYMS   .tmp_vmlinux0.kallsyms.S\n  AS      .tmp_vmlinux0.kallsyms.o\n  LD      .tmp_vmlinux1\n  NM      .tmp_vmlinux1.syms\n  KSYMS   .tmp_vmlinux1.kallsyms.S\n  AS      .tmp_vmlinux1.kallsyms.o\n  LD      .tmp_vmlinux2\n  NM      .tmp_vmlinux2.syms\n  KSYMS   .tmp_vmlinux2.kallsyms.S\n  AS      .tmp_vmlinux2.kallsyms.o\n  LD      vmlinux.unstripped\n  NM      System.map\n  SORTTAB vmlinux.unstripped\n  OBJCOPY vmlinux\n  GEN     modules.builtin.modinfo\n  GEN     modules.builtin\n  OBJCOPY arch/riscv/boot/Image\n  Kernel: arch/riscv/boot/Image is ready\nmake: Leaving directory '/workspace/genesys2-cva6-linux-build/buildroot-output/build/linux-6.19.6'\nrm -f /workspace/genesys2-cva6-linux-build/buildroot-output/build/opensbi-1.7/.stamp_installed\nrm -f /workspace/genesys2-cva6-linux-build/buildroot-output/build/opensbi-1.7/.stamp_staging_installed\nrm -f /workspace/genesys2-cva6-linux-build/buildroot-output/build/opensbi-1.7/.stamp_target_installed\nrm -f /workspace/genesys2-cva6-linux-build/buildroot-output/build/opensbi-1.7/.stamp_images_installed\nrm -f /workspace/genesys2-cva6-linux-build/buildroot-output/build/opensbi-1.7/.stamp_host_installed\nrm -f /workspace/genesys2-cva6-linux-build/buildroot-output/build/opensbi-1.7/.stamp_built\n>>> opensbi 1.7 Building\nGIT_DIR=. PATH=\"/workspace/genesys2-cva6-linux-build/buildroot-output/host/bin:/workspace/genesys2-cva6-linux-build/buildroot-output/host/sbin:/tmp/rvmt-uv-env/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\" CROSS_COMPILE=/workspace/genesys2-cva6-linux-build/buildroot-output/host/bin/riscv64-buildroot-linux-gnu-  PLATFORM=generic FW_PAYLOAD_PATH=\"/workspace/genesys2-cva6-linux-build/buildroot-output/images/Image\" /usr/bin/make -j13 -C /workspace/genesys2-cva6-linux-build/buildroot-output/build/opensbi-1.7\nmake[1]: Entering directory '/workspace/genesys2-cva6-linux-build/buildroot-output/build/opensbi-1.7'\n AS        platform/generic/firmware/fw_payload.o\n ELF       platform/generic/firmware/fw_payload.elf\n OBJCOPY   platform/generic/firmware/fw_payload.bin\nmake[1]: Leaving directory '/workspace/genesys2-cva6-linux-build/buildroot-output/build/opensbi-1.7'\n>>> opensbi 1.7 Installing to staging directory\n/usr/bin/install -m 0644 -D /workspace/genesys2-cva6-linux-build/buildroot-output/build/opensbi-1.7/build/lib/libsbi.a /workspace/genesys2-cva6-linux-build/buildroot-output/host/riscv64-buildroot-linux-gnu/sysroot/usr/share/opensbi/libsbi.a\n>>> opensbi 1.7 Fixing libtool files\nfor la in $(find /workspace/genesys2-cva6-linux-build/buildroot-output/host/riscv64-buildroot-linux-gnu/sysroot/usr/lib* -name \"*.la\"); do \\\n\tcp -a \"${la}\" \"${la}.fixed\" && \\\n\t/usr/bin/sed -i -e \"s:/workspace/genesys2-cva6-linux-build/buildroot-output:@BASE_DIR@:g\" \\\n\t\t-e \"s:/workspace/genesys2-cva6-linux-build/buildroot-output/host/riscv64-buildroot-linux-gnu/sysroot:@STAGING_DIR@:g\" \\\n\t\t \\\n\t\t-e \"s:\\(['= ]\\)/usr:\\\\1@STAGING_DIR@/usr:g\" \\\n\t\t-e \"s:\\(['= ]\\)/lib:\\\\1@STAGING_DIR@/lib:g\" \\\n\t\t \\\n\t\t-e \"s:@STAGING_DIR@:/workspace/genesys2-cva6-linux-build/buildroot-output/host/riscv64-buildroot-linux-gnu/sysroot:g\" \\\n\t\t-e \"s:@BASE_DIR@:/workspace/genesys2-cva6-linux-build/buildroot-output:g\" \\\n\t\t\"${la}.fixed\" && \\\n\tif cmp -s \"${la}\" \"${la}.fixed\"; then \\\n\t\trm -f \"${la}.fixed\"; \\\n\telse \\\n\t\tmv \"${la}.fixed\" \"${la}\"; \\\n\tfi || exit 1; \\\ndone\n>>> opensbi 1.7 Installing to images directory\n/usr/bin/install -m 0644 -D /workspace/genesys2-cva6-linux-build/buildroot-output/build/opensbi-1.7/build/platform/generic/firmware/fw_dynamic.bin /workspace/genesys2-cva6-linux-build/buildroot-output/images/fw_dynamic.bin\n/usr/bin/install -m 0644 -D /workspace/genesys2-cva6-linux-build/buildroot-output/build/opensbi-1.7/build/platform/generic/firmware/fw_dynamic.elf /workspace/genesys2-cva6-linux-build/buildroot-output/images/fw_dynamic.elf\n/usr/bin/install -m 0644 -D /workspace/genesys2-cva6-linux-build/buildroot-output/build/opensbi-1.7/build/platform/generic/firmware/fw_jump.bin /workspace/genesys2-cva6-linux-build/buildroot-output/images/fw_jump.bin\n/usr/bin/install -m 0644 -D /workspace/genesys2-cva6-linux-build/buildroot-output/build/opensbi-1.7/build/platform/generic/firmware/fw_jump.elf /workspace/genesys2-cva6-linux-build/buildroot-output/images/fw_jump.elf\n/usr/bin/install -m 0644 -D /workspace/genesys2-cva6-linux-build/buildroot-output/build/opensbi-1.7/build/platform/generic/firmware/fw_payload.bin /workspace/genesys2-cva6-linux-build/buildroot-output/images/fw_payload.bin\n/usr/bin/install -m 0644 -D /workspace/genesys2-cva6-linux-build/buildroot-output/build/opensbi-1.7/build/platform/generic/firmware/fw_payload.elf /workspace/genesys2-cva6-linux-build/buildroot-output/images/fw_payload.elf\ncomm: /workspace/genesys2-cva6-linux-build/buildroot-output/build/opensbi-1.7/.files-list.before: No such file or directory\ncomm: /workspace/genesys2-cva6-linux-build/buildroot-output/build/opensbi-1.7/.files-list-staging.before: No such file or directory\ncomm: /workspace/genesys2-cva6-linux-build/buildroot-output/build/opensbi-1.7/.files-list-images.before: No such file or directory\ncomm: /workspace/genesys2-cva6-linux-build/buildroot-output/build/opensbi-1.7/.files-list-host.before: No such file or directory\n",
       "returncode": 0
     }
   ],
@@ -144,8 +164,8 @@
       "exists": true,
       "id": "generated_buildroot_defconfig",
       "path": "build/linux/genesys2-cva6/buildroot_defconfig.generated",
-      "sha256": "a7c52f80dc4d622dff6c8c79ddf13523f05c66173dbe0d311cb726fa69528bad",
-      "size_bytes": 1615
+      "sha256": "afafbd2320e02815fcbd7c05a9a4a9e1cb8071b086fe35cd8504253e56ff8435",
+      "size_bytes": 1645
     },
     {
       "exists": true,
@@ -166,35 +186,35 @@
       "exists": true,
       "id": "fw_payload_bin",
       "path": "build/linux/genesys2-cva6/images/fw_payload.bin",
-      "sha256": "93c96238bce483d6f8ac624d7521f74bb1728216a31deb66e9c5703973f9b08f",
-      "size_bytes": 20078600
+      "sha256": "9e2e97082bc52a33f15cb81aa36cf8c9091b44c627f9819b428420d51d934033",
+      "size_bytes": 34758664
     },
     {
       "exists": true,
       "id": "fw_payload_elf",
       "path": "build/linux/genesys2-cva6/images/fw_payload.elf",
-      "sha256": "be07830e7591e28dc960848df22991fe747c6061f26db6d450b94f1dd82bac92",
-      "size_bytes": 19697896
+      "sha256": "44959c3eaa1940bf66de0a9bda5abac4dff8df75270723be3e44e25b2a9f96eb",
+      "size_bytes": 34377960
     },
     {
       "exists": true,
       "id": "linux_image",
       "path": "build/linux/genesys2-cva6/images/Image",
-      "sha256": "210a8d9823eefa71c746a274510db1211e55c36347a9c4bac469e558d32aa8ab",
-      "size_bytes": 17981440
+      "sha256": "343cc1f36551016c23633a565d605735967b587d6c08ee70b66389fb516b62cb",
+      "size_bytes": 32661504
     },
     {
       "exists": true,
       "id": "rootfs_ext2",
       "path": "build/linux/genesys2-cva6/images/rootfs.ext2",
-      "sha256": "9ebe04aa2077a212949db35553a2fc571cd3b3935de5cdafac404771fa94d796",
+      "sha256": "d7db4d26728300c751862a3606aa3e8f05d877dddb89a50f9c8a22513c2005dc",
       "size_bytes": 536870912
     },
     {
       "exists": true,
       "id": "rootfs_cpio",
       "path": "build/linux/genesys2-cva6/images/rootfs.cpio",
-      "sha256": "f6c4a37b663ce70f982563b39d366abbe295bc2f6e75b77ee990f37651b1e582",
+      "sha256": "7060f7c9c9713b50406b71497ee584f929eca3e9f40ff0ce7ac923ae3e5e837c",
       "size_bytes": 36222976
     }
   ],
@@ -204,15 +224,15 @@
       "exists": true,
       "id": "buildroot_defconfig",
       "path": "board/genesys2-cva6/linux/buildroot_defconfig",
-      "sha256": "45ee8394aee9ffc4f35b9da484b5179a9595021914af66da59daac6727891bfe",
-      "size_bytes": 1595
+      "sha256": "564555ca87535da0a135ec04d2fa557f2f025f6070bb9ab1acd39fbdcdf60538",
+      "size_bytes": 1625
     },
     {
       "exists": true,
       "id": "linux_kernel_config",
       "path": "board/genesys2-cva6/linux/linux.config",
-      "sha256": "d171029c4aba5d875036edce20a505f3795382e578b5ff5e001f2e0b4ebbf5bd",
-      "size_bytes": 826
+      "sha256": "6226a182a278488b52ccb6ed5bfa2551095b4d0c64c1ff871981ca5fbd8df7ff",
+      "size_bytes": 890
     },
     {
       "exists": true,
@@ -236,7 +256,7 @@
       "size_bytes": 4703
     }
   ],
-  "status": "PASS_LINUX_REBUILD_PREPARED",
+  "status": "PASS_LINUX_PAYLOAD_BUILT",
   "validation_commands": [
     "uv run rvmt ndss:linux-rebuild-prep",
     "uv run python tools/check_genesys2_linux_rebuild_manifest.py --root .",

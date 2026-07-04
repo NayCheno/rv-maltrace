@@ -26,10 +26,10 @@ Hardware traces produce raw events: program counter values, branch targets, priv
 
 Table~\ref{tab:related_work} compares \rvmt with the closest prior systems. Prior work covers ARM and x86, targets user-space, kernel-space, or firmware, and provides varying levels of perturbation and semantic reconstruction. None combines RISC-V architecture, user-space target, hardware-assisted trace, and source-labeled behavior reconstruction on an open-source core.
 
-\begin{table}[t]
+\begin{table*}[t]
 \centering
-\small
-\begin{tabular}{l c c c c c c}
+\scriptsize
+\begin{tabularx}{\textwidth}{@{}p{0.14\textwidth}p{0.07\textwidth}p{0.09\textwidth}p{0.08\textwidth}p{0.11\textwidth}p{0.08\textwidth}Y@{}}
 \toprule
 \textbf{System} & \textbf{Arch.} & \textbf{Target} & \textbf{Perturb.} & \textbf{Sem. Rec.} & \textbf{Prov.} & \textbf{Open} \\
 \midrule
@@ -41,10 +41,10 @@ Intel PT & x86 & user/kernel & hw & partial & no & no \\
 \midrule
 \rvmt & RISC-V & user & hw & yes & yes & yes \\
 \bottomrule
-\end{tabular}
-\caption{Comparison of hardware-assisted tracing systems. Arch. = architecture; Target = target space (user, kernel, firmware); Perturb. = perturbation level; Sem. Rec. = semantic reconstruction; Prov. = provenance labeling; Open = open-source core and trace logic.}
+\end{tabularx}
+\caption{Related-work comparison. Arch. = architecture; Perturb. = perturbation level; Sem. Rec. = semantic reconstruction; Prov. = provenance labeling; Open = open-source core and trace logic.}
 \label{tab:related_work}
-\end{table}
+\end{table*}
 
 \subsection{Positioning}
 

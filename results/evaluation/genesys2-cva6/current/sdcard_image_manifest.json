@@ -16,9 +16,9 @@
   "image": {
     "path": "build/linux/genesys2-cva6/sdcard.img",
     "sector_size": 512,
-    "sha256": "be3bf82f7c0fea386e3d1748e8c5bf72c5849ffc1344b9820f60772d39c87c79",
-    "size_bytes": 558907904,
-    "total_lbas": 1091617
+    "sha256": "3972d782bc4bcfcf44e53d632352b9367d74a88d6e35bab2888b920e19f1848a",
+    "size_bytes": 573587968,
+    "total_lbas": 1120289
   },
   "non_claims": [
     "This manifest records a local image file only; it is not a physical SD-card write.",
@@ -31,21 +31,21 @@
       "bootrom_reads_entire_partition": true,
       "first_lba": 2048,
       "id": "boot_payload",
-      "last_lba": 41264,
-      "partition_bytes": 20079104,
+      "last_lba": 69936,
+      "partition_bytes": 34759168,
       "source_path": "build/linux/genesys2-cva6/images/fw_payload.bin",
-      "source_sha256": "93c96238bce483d6f8ac624d7521f74bb1728216a31deb66e9c5703973f9b08f",
-      "source_size_bytes": 20078600
+      "source_sha256": "9e2e97082bc52a33f15cb81aa36cf8c9091b44c627f9819b428420d51d934033",
+      "source_size_bytes": 34758664
     },
     {
       "bootrom_load_address": null,
       "bootrom_reads_entire_partition": false,
-      "first_lba": 43008,
+      "first_lba": 71680,
       "id": "rootfs_optional",
-      "last_lba": 1091583,
+      "last_lba": 1120255,
       "partition_bytes": 536870912,
       "source_path": "build/linux/genesys2-cva6/images/rootfs.ext2",
-      "source_sha256": "9ebe04aa2077a212949db35553a2fc571cd3b3935de5cdafac404771fa94d796",
+      "source_sha256": "d7db4d26728300c751862a3606aa3e8f05d877dddb89a50f9c8a22513c2005dc",
       "source_size_bytes": 536870912
     }
   ],

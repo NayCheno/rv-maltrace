@@ -10,10 +10,15 @@ transitions. RV-MalTrace achieves 288/288 source-label validation across 12
 sample artifacts, ensuring that every provenance-tagged field carries a correct
 source label. It attributes 108/108 key PC events to the target ELF/function
 level across 12 controlled workload artifacts and passes 6/6 dynamic-mapping edge
-cases covering PIE/ASLR, dynamic loading, fork/exec, and stripped binaries. All
-reported results are backed by a reproducible artifact package with SHA-256
-verified manifests.
+cases covering PIE/ASLR, dynamic loading, fork/exec, and stripped binaries. In a
+controlled anti-debug-like workload where software tracing is visible or perturbs
+\texttt{ptrace}, \rvmt still reconstructs the relevant syscall sequence and the
+hardware \texttt{ARG\_MEM} string \texttt{/proc/self/status}. We also report the
+available runtime and transport boundary evidence: board UART runtime smoke,
+hardware marker-window cycle measurements, and a BRAM-derived target for a
+future streaming/DMA transport. All reported results are backed by a reproducible
+artifact package with SHA-256 verified manifests.
 
 Future work includes production trace streaming, cycle-level overhead
-measurement, and real malware validation on the RISC-V platform. The current
-artifact package is rooted at \artifactroot.
+measurement against a trace-off baseline, and real malware validation on the
+RISC-V platform. The current artifact package is rooted at \artifactroot.
